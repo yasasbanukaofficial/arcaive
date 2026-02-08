@@ -7,23 +7,23 @@ import SectionHeader from "@/components/layout/SectionHeader";
 
 const features = [
   {
-    title: "Time Unfolded",
+    title: "Multi-Agent Swarm",
     description:
-      "Automate tasks and reclaim hours, your AI assistant turns routine into seconds so you can focus on growth.",
+      "Three specialized AI agents work in parallel — The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
     image:
       "https://framerusercontent.com/images/bgZEvWFyqIzjQSJmv4ytUskyjNc.jpg",
   },
   {
-    title: "Words That Flow",
+    title: "Auto-Apply Intelligence",
     description:
-      "Drafts, blogs, and emails written with clarity and speed — the elegance of language without the struggle.",
+      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper-tailored CVs — while you focus on interviews.",
     image:
       "https://framerusercontent.com/images/90SenaC5dxwhBj330jLiE7wnyjU.jpg",
   },
   {
-    title: "A Silent Guide",
+    title: "Real-Time Agent Flow",
     description:
-      "Always present to keep you focused — suggestions, reminders, and insights right when you need them.",
+      "Watch your AI agents 'think' in real-time through an interactive React Flow visualization — complete transparency in the discovery and refinement process.",
     image:
       "https://framerusercontent.com/images/UXYVZgG95Xo7GvB3Mj9Avi4ouU.jpg",
   },
@@ -38,9 +38,9 @@ export default function Features() {
       <div className="max-w-[1240px] mx-auto">
         <div className="mb-10 sm:mb-14 md:mb-20">
           <SectionHeader
-            label="Introducing"
-            title="Harness invisible power"
-            subtitle="to write faster, focus deeper, and save hours."
+            label="Core Features"
+            title="Autonomous agents working"
+            subtitle="for your career success."
           />
         </div>
 

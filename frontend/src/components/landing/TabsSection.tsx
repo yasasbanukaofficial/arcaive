@@ -10,30 +10,30 @@ import { container, item } from "@/components/animations/variants";
 
 const tabs = [
   {
-    id: "content",
-    label: "Content Creation",
+    id: "discovery",
+    label: "Job Discovery",
     title:
-      "Bring stories, posts, and ideas to life with words that flow naturally.",
+      "The Discovery Agent searches through APIs to find hidden job requirements and displays available positions with match scores.",
     image: "/images/hero-bg.png",
   },
   {
-    id: "coding",
-    label: "Coding Help",
+    id: "apply",
+    label: "Auto-Apply",
     title:
-      "Accelerate your development workflow with intelligent code suggestions.",
+      "AI Agent Bot automatically searches LinkedIn, Indeed, and other platforms, then applies to high-match jobs with tailored CVs.",
     image: "/images/hero-bg.png",
   },
   {
-    id: "research",
-    label: "Research & Insights",
-    title: "Distill complex information into actionable insights in seconds.",
+    id: "simulation",
+    label: "Mock Interviews",
+    title: "The Simulation Loop generates tough interview questions from a recruiter persona to stress-test your profile before the real thing.",
     image: "/images/hero-bg.png",
   },
   {
-    id: "focus",
-    label: "Focus & productivity",
+    id: "profile",
+    label: "Profile Sync",
     title:
-      "Organize your life and maintain peak performance with guided focus.",
+      "Semantic Profile Synchronization stores your experience as Atomic Achievements in a vector database for high-fidelity matching.",
     image: "/images/hero-bg.png",
   },
 ];
@@ -47,8 +47,8 @@ export default function TabsSection() {
       <div className="max-w-[1240px] mx-auto">
         <div className="mb-8 sm:mb-10 md:mb-12 text-left">
           <SectionHeader
-            label="Use cases"
-            title="Different paths to explore all guided by one silent companion."
+            label="Use Cases"
+            title="From discovery to application — fully automated by intelligent agents."
           />
         </div>
 

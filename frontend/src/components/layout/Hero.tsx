@@ -44,7 +44,7 @@ export default function Hero() {
       <div className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8">
         <div className="space-y-3 sm:space-y-4 host-grotesk">
           <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[4rem] tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] text-white">
-            <UnfoldText text="Where your career is automated" />
+            <UnfoldText text="Where your seeking is automated" />
           </h1>
 
           <p className="dm-sans-300 text-[0.75rem] sm:text-[0.8125rem] md:text-[1rem] lg:text-[1.2rem] text-white/70 max-w-xs sm:max-w-md md:max-w-2xl mx-auto leading-relaxed">
