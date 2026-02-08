@@ -9,8 +9,9 @@ const hostGrotesk = Host_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Message | Where thoughts become actions",
-  description: "An AI companion that whispers clarity, conjures ideas, and guides your every move.",
+  title: "INTEVIEW | Where your career is automated",
+  description:
+    "An AI companion that whispers clarity, conjures ideas, and guides your every move.",
 };
 
 export default function RootLayout({

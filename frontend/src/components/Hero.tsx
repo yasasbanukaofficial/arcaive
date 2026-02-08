@@ -4,70 +4,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-
-const UnfoldText = ({ text }: { text: string }) => {
-  const words = text.split(" ");
-
-  return (
-    <span className="inline-flex flex-wrap justify-center gap-x-[0.2em] overflow-visible">
-      {words.map((word, i) => (
-        <span
-          key={i}
-          className="inline-block overflow-hidden py-[0.06em] -my-[0.06em]"
-        >
-          <motion.span
-            initial={{ opacity: 0, filter: "blur(6px)", y: "100%" }}
-            animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-            transition={{
-              duration: 0.9,
-              delay: i * 0.06,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            className="inline-block"
-          >
-            {word}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  );
-};
-
-const UnfoldTextLetters = ({ text }: { text: string }) => {
-  const words = text.split(" ");
-  let letterIndex = 0;
-
-  return (
-    <span className="inline-flex flex-wrap justify-center gap-x-[0.25em]">
-      {words.map((word, wordIdx) => (
-        <span
-          key={wordIdx}
-          className="inline-flex"
-          style={{ whiteSpace: "nowrap" }}
-        >
-          {word.split("").map((letter, letterIdx) => {
-            const currentIndex = letterIndex++;
-            return (
-              <motion.span
-                key={letterIdx}
-                initial={{ opacity: 0, filter: "blur(6px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
-                transition={{
-                  duration: 0.7,
-                  delay: 1 + currentIndex * 0.02,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="inline-block"
-              >
-                {letter}
-              </motion.span>
-            );
-          })}
-        </span>
-      ))}
-    </span>
-  );
-};
+import UnfoldText from "@/components/ui/UnfoldText";
+import UnfoldTextLetters from "@/components/ui/UnfoldTextLetters";
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
@@ -108,7 +46,7 @@ export default function Hero() {
       <div className="relative z-10 text-center max-w-[1200px] px-6 mx-auto flex flex-col items-center gap-8">
         <div className="space-y-4 host-grotesk">
           <h1 className="text-[2.5rem] md:text-[4rem] tracking-[-0.04em] leading-[1.02] text-white">
-            <UnfoldText text="Where thoughts become actions." />
+            <UnfoldText text="Where your career is automated" />
           </h1>
 
           <p className="dm-sans-300 text-[0.8125rem] md:text-[1.2rem] text-white/70 max-w-2xl mx-auto leading-relaxed">
