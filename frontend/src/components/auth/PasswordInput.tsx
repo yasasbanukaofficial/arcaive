@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from "lucide-react";
 
 type Props = {
   value: string;
@@ -9,14 +9,19 @@ type Props = {
   placeholder?: string;
 };
 
-export default function PasswordInput({ value, onChange, name = 'password', placeholder = '••••••••' }: Props) {
+export default function PasswordInput({
+  value,
+  onChange,
+  name = "password",
+  placeholder = "••••••••",
+}: Props) {
   const [show, setShow] = useState(false);
 
   return (
     <div className="relative">
       <input
         name={name}
-        type={show ? 'text' : 'password'}
+        type={show ? "text" : "password"}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
@@ -27,7 +32,7 @@ export default function PasswordInput({ value, onChange, name = 'password', plac
         type="button"
         onClick={() => setShow(!show)}
         className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
-        aria-label={show ? 'Hide password' : 'Show password'}
+        aria-label={show ? "Hide password" : "Show password"}
       >
         {show ? <EyeOff size={18} /> : <Eye size={18} />}
       </button>

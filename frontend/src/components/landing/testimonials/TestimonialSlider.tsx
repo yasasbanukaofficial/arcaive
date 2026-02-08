@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import TestimonialCard from "./TestimonialCard";
 
 type Testimonial = {
@@ -29,23 +31,30 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
     <div className="relative">
       {/* Desktop: 3-column grid */}
       <div className="hidden lg:block">
-        <div className="grid grid-cols-3 gap-6 mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.12, 0.1)}
+          className="grid grid-cols-3 gap-6 mb-12"
+        >
           {[0, 1, 2].map((offset) => {
             const index = (currentIndex + offset) % testimonials.length;
             const item = testimonials[index];
             return (
-              <TestimonialCard
-                key={item.id}
-                quote={item.quote}
-                name={item.name}
-                role={item.role}
-                index={index}
-                total={testimonials.length}
-                mode="grid"
-              />
+              <motion.div key={item.id} variants={bounceIn}>
+                <TestimonialCard
+                  quote={item.quote}
+                  name={item.name}
+                  role={item.role}
+                  index={index}
+                  total={testimonials.length}
+                  mode="grid"
+                />
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Desktop arrows */}
         <div className="flex items-center justify-center gap-6">
@@ -68,23 +77,30 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
 
       {/* Tablet: 2-column grid */}
       <div className="hidden md:block lg:hidden">
-        <div className="grid grid-cols-2 gap-5 mb-10">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.15, 0.1)}
+          className="grid grid-cols-2 gap-5 mb-10"
+        >
           {[0, 1].map((offset) => {
             const index = (currentIndex + offset) % testimonials.length;
             const item = testimonials[index];
             return (
-              <TestimonialCard
-                key={item.id}
-                quote={item.quote}
-                name={item.name}
-                role={item.role}
-                index={index}
-                total={testimonials.length}
-                mode="grid"
-              />
+              <motion.div key={item.id} variants={bounceIn}>
+                <TestimonialCard
+                  quote={item.quote}
+                  name={item.name}
+                  role={item.role}
+                  index={index}
+                  total={testimonials.length}
+                  mode="grid"
+                />
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Tablet arrows */}
         <div className="flex items-center justify-center gap-5">

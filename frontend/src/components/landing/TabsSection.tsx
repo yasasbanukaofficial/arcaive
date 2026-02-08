@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SectionHeader from "@/components/layout/SectionHeader";
 import UnfoldText from "@/components/ui/UnfoldText";
-import { container, item } from "@/components/animations/variants";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 
 const tabs = [
   {
@@ -79,11 +79,11 @@ export default function TabsSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          variants={container}
+          variants={staggerContainer(0.2, 0.1)}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center min-h-0 lg:min-h-[400px]"
         >
           <motion.div
-            variants={item}
+            variants={bounceIn}
             className="relative aspect-[16/10] sm:aspect-[4/3] rounded-[20px] sm:rounded-[28px] md:rounded-[40px] overflow-hidden bg-white/[0.02] border border-white/5 group"
           >
             <AnimatePresence mode="wait">
@@ -105,11 +105,11 @@ export default function TabsSection() {
             </AnimatePresence>
           </motion.div>
 
-          <div>
+          <motion.div variants={bounceIn}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
-                variants={item}
+                variants={bounceIn}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -133,7 +133,7 @@ export default function TabsSection() {
                 </Link>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { item } from "@/components/animations/variants";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import {
   Hourglass,
   Feather,
@@ -63,14 +63,17 @@ export default function Benefits() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.12, 0.1)}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10"
+        >
           {benefits.map((b, i) => (
             <div key={i} className="border-r border-b border-white/10">
               <motion.div
-                variants={item}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
+                variants={bounceIn}
                 className="h-full"
               >
                 <BenefitsCard
@@ -81,7 +84,7 @@ export default function Benefits() {
               </motion.div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

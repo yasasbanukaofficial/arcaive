@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import HowItWorksVisual from "./HowItWorksVisual";
 import HowItWorksStepper from "./HowItWorksStepper";
 import SectionHeader from "@/components/layout/SectionHeader";
@@ -53,37 +55,61 @@ const HowItWorksSection: React.FC = () => {
           />
         </div>
 
-        <div className="hidden lg:grid lg:grid-cols-2 gap-32 items-center">
-          <HowItWorksVisual steps={steps} activeIndex={activeStep} />
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.2, 0.1)}
+          className="hidden lg:grid lg:grid-cols-2 gap-32 items-center"
+        >
+          <motion.div variants={bounceIn}>
+            <HowItWorksVisual steps={steps} activeIndex={activeStep} />
+          </motion.div>
 
-          <HowItWorksStepper
-            steps={steps}
-            activeIndex={activeStep}
-            onSelect={setActiveStep}
-          />
-        </div>
+          <motion.div variants={bounceIn}>
+            <HowItWorksStepper
+              steps={steps}
+              activeIndex={activeStep}
+              onSelect={setActiveStep}
+            />
+          </motion.div>
+        </motion.div>
 
-        <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-8 items-center">
-          <div className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.2, 0.1)}
+          className="hidden md:grid md:grid-cols-2 lg:hidden gap-8 items-center"
+        >
+          <motion.div variants={bounceIn} className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5">
             <img
               src={steps[activeStep].image}
               alt={steps[activeStep].title}
               className="w-full h-full object-cover grayscale brightness-[0.7]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
-          </div>
+          </motion.div>
 
-          <HowItWorksStepper
-            steps={steps}
-            activeIndex={activeStep}
-            onSelect={setActiveStep}
-          />
-        </div>
+          <motion.div variants={bounceIn}>
+            <HowItWorksStepper
+              steps={steps}
+              activeIndex={activeStep}
+              onSelect={setActiveStep}
+            />
+          </motion.div>
+        </motion.div>
 
         {/* Small devices: Stacked images + vertical step list */}
-        <div className="md:hidden">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.15, 0.1)}
+          className="md:hidden"
+        >
           {/* All images stacked vertically */}
-          <div className="flex flex-col gap-4 mb-8">
+          <motion.div variants={bounceIn} className="flex flex-col gap-4 mb-8">
             {/* Show only the default image until a step is clicked */}
             {(() => {
               const displayIndex = hasSelected ? activeStep : 0;
@@ -103,10 +129,10 @@ const HowItWorksSection: React.FC = () => {
                 </div>
               );
             })()}
-          </div>
+          </motion.div>
 
           {/* All steps listed vertically with left border */}
-          <div className="flex flex-col">
+          <motion.div variants={bounceIn} className="flex flex-col">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = activeStep === index;
@@ -141,8 +167,8 @@ const HowItWorksSection: React.FC = () => {
                 </div>
               );
             })}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

@@ -7,7 +7,11 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function AuthLayout({ title = "Welcome back", subtitle = "Continue your journey with your silent AI companion.", children, }: Props) {
+export default function AuthLayout({
+  title = "Welcome back",
+  subtitle = "Continue your journey with your silent AI companion.",
+  children,
+}: Props) {
   return (
     <div className="min-h-screen w-full bg-[#0a0c0d] text-gray-200 flex flex-col font-sans selection:bg-white/20">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -19,8 +23,12 @@ export default function AuthLayout({ title = "Welcome back", subtitle = "Continu
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-4 duration-1000">
           <header className="text-center mb-10">
-            <h1 className="text-4xl font-medium text-white mb-3 tracking-tight">{title}</h1>
-            <p className="text-gray-400 text-[15px] leading-relaxed">{subtitle}</p>
+            <h1 className="text-4xl font-medium text-white mb-3 tracking-tight">
+              {title}
+            </h1>
+            <p className="text-gray-400 text-[15px] leading-relaxed">
+              {subtitle}
+            </p>
           </header>
 
           <div className="space-y-6">{children}</div>
@@ -30,7 +38,9 @@ export default function AuthLayout({ title = "Welcome back", subtitle = "Continu
       <footer className="relative z-10 py-8 text-center border-t border-white/5">
         <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0 transition-all cursor-default">
           <div className="w-1 h-1 rounded-full bg-white"></div>
-          <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Harness Invisible Power</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] font-bold">
+            Harness Invisible Power
+          </span>
           <div className="w-1 h-1 rounded-full bg-white"></div>
         </div>
       </footer>

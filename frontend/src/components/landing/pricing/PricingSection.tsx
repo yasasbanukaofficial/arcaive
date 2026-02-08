@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import PricingCard from "./PricingCard";
 import SectionHeader from "@/components/layout/SectionHeader";
 
@@ -98,9 +99,17 @@ const PricingSection: React.FC = () => {
           </div>
         </div>
 
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.15, 0.1)}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
+        >
           {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} {...plan} isYearly={isYearly} />
+            <motion.div key={index} variants={bounceIn}>
+              <PricingCard {...plan} isYearly={isYearly} />
+            </motion.div>
           ))}
         </motion.div>
       </div>

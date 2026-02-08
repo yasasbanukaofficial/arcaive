@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import UnfoldText from "@/components/ui/UnfoldText";
 import UnfoldTextLetters from "@/components/ui/UnfoldTextLetters";
 
@@ -41,8 +42,13 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </motion.div>
 
-      <div className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8">
-        <div className="space-y-3 sm:space-y-4 host-grotesk">
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={staggerContainer(0.3, 0.5)}
+        className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8"
+      >
+        <motion.div variants={bounceIn} className="space-y-3 sm:space-y-4 host-grotesk">
           <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[4rem] tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] text-white">
             <UnfoldText text="Where your seeking is automated" />
           </h1>
@@ -53,13 +59,9 @@ export default function Hero() {
 A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies."
             />
           </p>
-        </div>
+        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-        >
+        <motion.div variants={bounceIn}>
           <Link
             href="/journey"
             className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-7 sm:px-8 md:px-10 py-3 sm:py-3.5 md:py-4 h-[44px] sm:h-[48px] md:h-[52px] rounded-full font-semibold text-[13px] sm:text-sm md:text-base hover:bg-[rgb(213,255,69)] transition-all active:scale-95 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/10"
@@ -67,12 +69,13 @@ A digital intelligence that uncovers hidden roles, aligns your achievements, and
             Begin Journey
           </Link>
         </motion.div>
-      </div>
+      </motion.div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2 }}
+        variants={bounceIn}
+        initial="hidden"
+        animate="show"
+        transition={{ delay: 2 }}
         className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 pointer-events-none"
       >
         <svg

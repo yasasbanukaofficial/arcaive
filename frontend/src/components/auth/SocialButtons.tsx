@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Github, Chrome } from 'lucide-react';
+import { Github, Chrome } from "lucide-react";
 
 export default function SocialButtons() {
   return (

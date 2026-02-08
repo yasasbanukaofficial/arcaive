@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { container, item } from "@/components/animations/variants";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Image from "next/image";
 import SectionHeader from "@/components/layout/SectionHeader";
 
@@ -48,13 +48,13 @@ export default function Features() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          variants={container}
+          variants={staggerContainer(0.15, 0.1)}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-5 md:gap-6"
         >
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              variants={item}
+              variants={bounceIn}
               className={`group relative overflow-hidden ${index === 2 ? "sm:col-span-2 md:col-span-1" : ""}`}
             >
               <div className="aspect-[16/10] sm:aspect-[9/8] relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] mb-4 sm:mb-5 md:mb-6 bg-[#111]">

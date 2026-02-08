@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import FAQItem from "./FAQItem";
 import SectionHeader from "@/components/layout/SectionHeader";
 
@@ -54,16 +56,23 @@ const FAQSection: React.FC = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-0 items-start">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.1, 0.1)}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-0 items-start"
+        >
           <div className="flex flex-col">
             {faqData.slice(0, 3).map((item, index) => (
-              <FAQItem
-                key={index}
-                question={item.question}
-                answer={item.answer}
-                isOpen={openIndex === index}
-                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-              />
+              <motion.div key={index} variants={bounceIn}>
+                <FAQItem
+                  question={item.question}
+                  answer={item.answer}
+                  isOpen={openIndex === index}
+                  onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+                />
+              </motion.div>
             ))}
           </div>
 
@@ -71,19 +80,20 @@ const FAQSection: React.FC = () => {
             {faqData.slice(3).map((item, index) => {
               const actualIndex = index + 3;
               return (
-                <FAQItem
-                  key={actualIndex}
-                  question={item.question}
-                  answer={item.answer}
-                  isOpen={openIndex === actualIndex}
-                  onClick={() =>
-                    setOpenIndex(openIndex === actualIndex ? -1 : actualIndex)
-                  }
-                />
+                <motion.div key={actualIndex} variants={bounceIn}>
+                  <FAQItem
+                    question={item.question}
+                    answer={item.answer}
+                    isOpen={openIndex === actualIndex}
+                    onClick={() =>
+                      setOpenIndex(openIndex === actualIndex ? -1 : actualIndex)
+                    }
+                  />
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
