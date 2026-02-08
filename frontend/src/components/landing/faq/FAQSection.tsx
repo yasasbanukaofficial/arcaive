@@ -41,7 +41,10 @@ const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20">
+    <section
+      id="faq"
+      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20"
+    >
       <div className="max-w-[1240px] mx-auto">
         <div className="mb-10 sm:mb-14 md:mb-20">
           <SectionHeader

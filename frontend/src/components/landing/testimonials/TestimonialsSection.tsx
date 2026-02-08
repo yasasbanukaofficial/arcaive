@@ -37,7 +37,10 @@ const testimonials = [
 
 const TestimonialsSection: React.FC = () => {
   return (
-    <div id="testimonials" className="bg-[#0a0a0a] text-[#f5f5f5] font-sans flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 selection:bg-white/20">
+    <div
+      id="testimonials"
+      className="bg-[#0a0a0a] text-[#f5f5f5] font-sans flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 selection:bg-white/20"
+    >
       <div className="max-w-[1240px] mx-auto w-full space-y-8 sm:space-y-12 md:space-y-16">
         <div className="mb-10 sm:mb-14 md:mb-20">
           <SectionHeader

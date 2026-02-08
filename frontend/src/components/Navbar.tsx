@@ -42,7 +42,8 @@ export default function Navbar() {
       if (e) e.preventDefault();
       setMobileMenuOpen(false);
 
-      const targetHash = href ?? (e && (e.currentTarget.getAttribute("href") || ""));
+      const targetHash =
+        href ?? (e && (e.currentTarget.getAttribute("href") || ""));
       const id = targetHash ? targetHash.replace("#", "") : "";
       if (!id) return;
 
