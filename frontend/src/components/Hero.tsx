@@ -41,13 +41,13 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </motion.div>
 
-      <div className="relative z-10 text-center max-w-[1200px] px-6 mx-auto flex flex-col items-center gap-8">
-        <div className="space-y-4 host-grotesk">
-          <h1 className="text-[2.5rem] md:text-[4rem] tracking-[-0.04em] leading-[1.02] text-white">
+      <div className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8">
+        <div className="space-y-3 sm:space-y-4 host-grotesk">
+          <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[4rem] tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] text-white">
             <UnfoldText text="Where your career is automated" />
           </h1>
 
-          <p className="dm-sans-300 text-[0.8125rem] md:text-[1.2rem] text-white/70 max-w-2xl mx-auto leading-relaxed">
+          <p className="dm-sans-300 text-[0.75rem] sm:text-[0.8125rem] md:text-[1rem] lg:text-[1.2rem] text-white/70 max-w-xs sm:max-w-md md:max-w-2xl mx-auto leading-relaxed">
             <UnfoldTextLetters text="An AI companion that whispers clarity, conjures ideas, and guides your every move." />
           </p>
         </div>
@@ -59,7 +59,7 @@ export default function Hero() {
         >
           <Link
             href="/journey"
-            className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-10 py-4 h-[52px] rounded-full font-semibold text-base hover:bg-[rgb(213,255,69)] transition-all active:scale-95 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/10"
+            className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-7 sm:px-8 md:px-10 py-3 sm:py-3.5 md:py-4 h-[44px] sm:h-[48px] md:h-[52px] rounded-full font-semibold text-[13px] sm:text-sm md:text-base hover:bg-[rgb(213,255,69)] transition-all active:scale-95 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/10"
           >
             Begin Journey
           </Link>

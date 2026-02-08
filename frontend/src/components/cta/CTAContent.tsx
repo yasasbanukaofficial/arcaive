@@ -12,8 +12,8 @@ const CTAContent: React.FC<CTAContentProps> = ({
   subtext,
 }) => {
   return (
-    <div className="max-w-md space-y-4">
-      <h2 className="text-2xl md:text-[40px] font-normal text-zinc-100 leading-[1.1] tracking-tight">
+    <div className="max-w-xs sm:max-w-sm md:max-w-md space-y-3 sm:space-y-4">
+      <h2 className="text-xl sm:text-2xl md:text-[32px] lg:text-[40px] font-normal text-zinc-100 leading-[1.15] sm:leading-[1.1] tracking-tight">
         {heading}
         {headingHighlight && (
           <>
@@ -24,7 +24,7 @@ const CTAContent: React.FC<CTAContentProps> = ({
         )}
       </h2>
 
-      <p className="text-[13px] md:text-sm text-zinc-400/90 max-w-[280px] leading-relaxed">
+      <p className="text-[11px] sm:text-[13px] md:text-sm text-zinc-400/90 max-w-[220px] sm:max-w-[260px] md:max-w-[280px] leading-relaxed">
         {subtext}
       </p>
     </div>

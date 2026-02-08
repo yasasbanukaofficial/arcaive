@@ -23,29 +23,29 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="fixed top-8 left-0 right-0 z-[100] px-6 flex justify-center pointer-events-none">
+    <div className="fixed top-4 sm:top-6 md:top-8 left-0 right-0 z-[100] px-4 sm:px-6 flex justify-center pointer-events-none">
       <motion.nav
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
         className={cn(
-          "pointer-events-auto flex items-center justify-between gap-10 px-6 py-2.5 rounded-full border border-white/5 transition-all duration-500",
+          "pointer-events-auto flex items-center justify-between gap-4 sm:gap-6 md:gap-10 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/5 transition-all duration-500 w-auto max-w-full",
           scrolled
             ? "bg-black/40 backdrop-blur-2xl shadow-2xl border-white/10"
             : "bg-white/[0.02] backdrop-blur-xl",
         )}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
           <Image
             width="20"
             height="20"
             alt="inteview-logo-png"
             src={"/images/icon.png"}
             unoptimized
-            className="transition-transform duration-500"
+            className="transition-transform duration-500 w-4 h-4 sm:w-5 sm:h-5"
           />
-          <span className="text-[14px] font-bold tracking-tight text-white">
+          <span className="text-[12px] sm:text-[14px] font-bold tracking-tight text-white">
             INTEVIEW
           </span>
         </Link>
@@ -66,7 +66,7 @@ export default function Navbar() {
         {/* CTA Button */}
         <Link
           href="/get-started"
-          className="bg-white text-[#0f0f0f] px-5 py-2 rounded-full text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
+          className="bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
         >
           Get Started
         </Link>

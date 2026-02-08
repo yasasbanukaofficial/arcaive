@@ -153,3 +153,12 @@
   font-weight: 300 !important;
   font-style: normal;
 }
+
+/* No scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -43,21 +43,22 @@ export default function TabsSection() {
   const activeContent = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section className="py-32 px-6 bg-[#0a0a0a]">
+    <section className="py-16 sm:py-20 md:py-32 px-4 sm:px-6 bg-[#0a0a0a]">
       <div className="max-w-[1240px] mx-auto">
-        <div className="mb-12 text-left">
+        <div className="mb-8 sm:mb-10 md:mb-12 text-left">
           <SectionHeader
             label="Use cases"
             title="Different paths to explore all guided by one silent companion."
           />
         </div>
 
-        <div className="flex flex-wrap gap-8 md:gap-12 mb-16 border-b border-white/5">
+        {/* Tabs: horizontally scrollable on mobile */}
+        <div className="flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 md:gap-12 mb-10 sm:mb-12 md:mb-16 border-b border-white/5 -mx-4 px-4 sm:mx-0 sm:px-0">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`pb-6 text-[11px] font-bold uppercase tracking-[0.2em] transition-all relative ${
+              className={`pb-4 sm:pb-5 md:pb-6 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all relative whitespace-nowrap flex-shrink-0 ${
                 activeTab === tab.id
                   ? "text-white"
                   : "text-white/30 hover:text-white/50"
@@ -80,11 +81,11 @@ export default function TabsSection() {
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
           variants={container}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center min-h-[400px]"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center min-h-0 lg:min-h-[400px]"
         >
           <motion.div
             variants={item}
-            className="relative aspect-[4/3] rounded-[40px] overflow-hidden bg-white/[0.02] border border-white/5 group"
+            className="relative aspect-[16/10] sm:aspect-[4/3] rounded-[20px] sm:rounded-[28px] md:rounded-[40px] overflow-hidden bg-white/[0.02] border border-white/5 group"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -114,20 +115,20 @@ export default function TabsSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="space-y-8"
+                className="space-y-5 sm:space-y-6 md:space-y-8"
               >
-                <div className="space-y-6">
-                  <div className="text-[10px] font-medium text-white/40 uppercase tracking-[0.3em]">
+                <div className="space-y-3 sm:space-y-4 md:space-y-6">
+                  <div className="text-[9px] sm:text-[10px] font-medium text-white/40 uppercase tracking-[0.3em]">
                     {activeContent.label}
                   </div>
-                  <h3 className="text-2xl md:text-[36px] font-medium leading-[1.2] tracking-tight text-white/90">
+                  <h3 className="text-xl sm:text-2xl md:text-[36px] font-medium leading-[1.2] tracking-tight text-white/90">
                     {activeContent.title}
                   </h3>
                 </div>
 
                 <Link
                   href="/get-started"
-                  className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-8 py-3 rounded-full text-[13px] font-bold hover:scale-[1.05] transition-all"
+                  className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-[12px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all"
                 >
                   Get started
                 </Link>

@@ -50,9 +50,12 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section id="benefits" className="py-24 px-6 bg-[#0a0a0a]">
+    <section
+      id="benefits"
+      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a]"
+    >
       <div className="max-w-[1240px] mx-auto">
-        <div className="mb-20">
+        <div className="mb-10 sm:mb-14 md:mb-20">
           <SectionHeader
             label="Benefits"
             title="Invisible power at your side"
@@ -60,7 +63,7 @@ export default function Benefits() {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-5 border-t border-l border-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10">
           {benefits.map((b, i) => (
             <div key={i} className="border-r border-b border-white/10">
               <motion.div

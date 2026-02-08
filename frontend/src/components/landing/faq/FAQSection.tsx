@@ -41,9 +41,9 @@ const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-24 px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20">
+    <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20">
       <div className="max-w-[1240px] mx-auto">
-        <div className="mb-20">
+        <div className="mb-10 sm:mb-14 md:mb-20">
           <SectionHeader
             label="FAQ"
             title="Your questions,"
@@ -51,7 +51,7 @@ const FAQSection: React.FC = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-0 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-0 items-start">
           <div className="flex flex-col">
             {faqData.slice(0, 3).map((item, index) => (
               <FAQItem
