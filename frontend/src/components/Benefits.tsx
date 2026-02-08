@@ -1,16 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { container, item } from "@/components/animations/variants";
+import { item } from "@/components/animations/variants";
 import {
   Hourglass,
   Feather,
   Target,
   BookOpen,
-  Users,
-  Shield,
+  Handshake,
+  ShieldCheck,
 } from "lucide-react";
 import SectionHeader from "@/components/layout/SectionHeader";
+import BenefitsCard from "@/components/ui/BenefitsCard";
 
 const benefits = [
   {
@@ -38,51 +39,46 @@ const benefits = [
   {
     title: "Always Available",
     description: "Your silent partner, ready to help whenever you need it.",
-    icon: Users,
+    icon: Handshake,
   },
   {
     title: "Built-in Trust",
     description: "Protected by design — your data, your ideas, always secure.",
-    icon: Shield,
+    icon: ShieldCheck,
   },
 ];
 
 export default function Benefits() {
   return (
-    <section id="benefits" className="py-32 px-6 bg-[#0a0a0a]">
+    <section id="benefits" className="py-24 px-6 bg-[#0a0a0a]">
       <div className="max-w-[1240px] mx-auto">
-        <SectionHeader
-          tag={"• Benefits"}
-          title={"Invisible power at your side"}
-          subtitle={"delivering tangible benefits every day."}
-          tagTracking={"tracking-[0.2em]"}
-        />
+        <div className="mb-20">
+          <SectionHeader
+            label="Benefits"
+            title="Invisible power at your side"
+            subtitle="delivering tangible benefits every day."
+          />
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={container}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-5 border-t border-l border-white/10">
           {benefits.map((b, i) => (
-            <motion.div
-              key={i}
-              variants={item}
-              className="bg-white/[0.02] border border-white/5 p-10 rounded-[32px] hover:bg-white/[0.04] transition-all duration-500 group"
-            >
-              <div className="w-12 h-12 rounded-2xl border border-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-all duration-500 bg-white/[0.01]">
-                <b.icon className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
-              </div>
-              <h3 className="text-xl md:text-2xl font-medium text-white mb-4 tracking-tight">
-                {b.title}
-              </h3>
-              <p className="text-white/40 font-medium leading-relaxed text-[15px]">
-                {b.description}
-              </p>
-            </motion.div>
+            <div key={i} className="border-r border-b border-white/10">
+              <motion.div
+                variants={item}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="h-full"
+              >
+                <BenefitsCard
+                  icon={b.icon}
+                  title={b.title}
+                  description={b.description}
+                />
+              </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

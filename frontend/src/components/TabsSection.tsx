@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Tag from "@/components/ui/Tag";
 import SectionHeader from "@/components/layout/SectionHeader";
 import UnfoldText from "@/components/ui/UnfoldText";
 import { container, item } from "@/components/animations/variants";
@@ -39,24 +38,20 @@ const tabs = [
   },
 ];
 
-// using shared UnfoldText from ui
-
 export default function TabsSection() {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const activeContent = tabs.find((t) => t.id === activeTab)!;
 
   return (
-    <section className="py-32 px-6 border-t border-white/5 bg-[#0a0a0a]">
+    <section className="py-32 px-6 bg-[#0a0a0a]">
       <div className="max-w-[1240px] mx-auto">
-        <SectionHeader
-          tag={"• Use cases"}
-          title={
-            <UnfoldText text="Different paths to explore all guided by one silent companion." />
-          }
-          tagTracking={"tracking-[0.3em]"}
-        />
+        <div className="mb-12 text-left">
+          <SectionHeader
+            label="Use cases"
+            title="Different paths to explore all guided by one silent companion."
+          />
+        </div>
 
-        {/* Tab Headers */}
         <div className="flex flex-wrap gap-8 md:gap-12 mb-16 border-b border-white/5">
           {tabs.map((tab) => (
             <button
@@ -80,7 +75,6 @@ export default function TabsSection() {
           ))}
         </div>
 
-        {/* Tab Content */}
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -123,11 +117,9 @@ export default function TabsSection() {
                 className="space-y-8"
               >
                 <div className="space-y-6">
-                  <Tag
-                    variant="inline"
-                    className="tracking-[0.3em]"
-                    label={activeContent.label}
-                  />
+                  <div className="text-[10px] font-medium text-white/40 uppercase tracking-[0.3em]">
+                    {activeContent.label}
+                  </div>
                   <h3 className="text-2xl md:text-[36px] font-medium leading-[1.2] tracking-tight text-white/90">
                     {activeContent.title}
                   </h3>

@@ -35,10 +35,9 @@ export default function Features() {
       <div className="max-w-[1240px] mx-auto">
         <div className="mb-20">
           <SectionHeader
-            tag={"• Introducing"}
-            title={"Harness invisible power "}
-            subtitle={"to write faster, focus deeper, and save hours."}
-            tagTracking={"tracking-[0.4em]"}
+            label="Introducing"
+            title="Harness invisible power"
+            subtitle="to write faster, focus deeper, and save hours."
           />
         </div>
 

@@ -20,7 +20,6 @@ export default function Hero() {
       ref={containerRef}
       className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Background */}
       <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
         <motion.div
           initial={{ opacity: 0 }}
@@ -42,7 +41,6 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </motion.div>
 
-      {/* Content */}
       <div className="relative z-10 text-center max-w-[1200px] px-6 mx-auto flex flex-col items-center gap-8">
         <div className="space-y-4 host-grotesk">
           <h1 className="text-[2.5rem] md:text-[4rem] tracking-[-0.04em] leading-[1.02] text-white">
@@ -68,7 +66,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator pinned to bottom */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
