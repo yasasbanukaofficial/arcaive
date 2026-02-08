@@ -4,11 +4,7 @@ import React, { useState } from "react";
 import HowItWorksVisual from "./HowItWorksVisual";
 import HowItWorksStepper from "./HowItWorksStepper";
 import SectionHeader from "@/components/layout/SectionHeader";
-import {
-  MessageSquare,
-  Sparkles,
-  CheckCircle2,
-} from "lucide-react";
+import { MessageSquare, Sparkles, CheckCircle2 } from "lucide-react";
 
 const steps = [
   {
@@ -41,10 +37,11 @@ const steps = [
 
 const HowItWorksSection: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [hasSelected, setHasSelected] = useState(false);
 
   return (
     <section
-      id="how-it-works"
+      id="howitworks"
       className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a]"
     >
       <div className="max-w-[1240px] mx-auto">
@@ -85,19 +82,32 @@ const HowItWorksSection: React.FC = () => {
           />
         </div>
 
-        {/* Small devices: Image + vertical step list with left border */}
+        {/* Small devices: Stacked images + vertical step list */}
         <div className="md:hidden">
-          {/* Active step image */}
-          <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-neutral-900/40 mb-8">
-            <img
-              src={steps[activeStep].image}
-              alt={steps[activeStep].title}
-              className="w-full h-full object-cover opacity-40 grayscale"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
+          {/* All images stacked vertically */}
+          <div className="flex flex-col gap-4 mb-8">
+            {/* Show only the default image until a step is clicked */}
+            {(() => {
+              const displayIndex = hasSelected ? activeStep : 0;
+              const step = steps[displayIndex];
+              return (
+                <div
+                  key={step.id}
+                  className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-neutral-900/40"
+                  style={{ transition: "opacity 0.3s ease" }}
+                >
+                  <img
+                    src={step.image}
+                    alt={step.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
+                </div>
+              );
+            })()}
           </div>
 
-          {/* All steps listed vertically with left border indicator */}
+          {/* All steps listed vertically with left border */}
           <div className="flex flex-col">
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -105,22 +115,31 @@ const HowItWorksSection: React.FC = () => {
               return (
                 <div
                   key={step.id}
-                  onClick={() => setActiveStep(index)}
-                  className={`pl-5 py-5 cursor-pointer transition-all border-l-2 ${
+                  onClick={() => {
+                    setActiveStep(index);
+                    setHasSelected(true);
+                  }}
+                  className={`relative flex flex-col gap-3 py-5 px-4 cursor-pointer border-l-2 transition-all ${
                     isActive
                       ? "border-white"
-                      : "border-white/[0.16] opacity-60 hover:opacity-80"
+                      : "border-white/10 hover:border-white/30"
                   }`}
                 >
-                  <div className="flex items-center gap-3 mb-1.5">
-                    <Icon size={20} strokeWidth={1.5} className="text-white" />
+                  {/* Icon and Title row */}
+                  <div className="flex items-center gap-3">
+                    <div className="text-white">
+                      <Icon size={20} strokeWidth={1.5} />
+                    </div>
                     <h3 className="text-[15px] font-medium tracking-tight text-white">
-                      {step.id} – {step.title}
+                      {step.id} — {step.title}
                     </h3>
                   </div>
-                  <p className="text-[13px] leading-relaxed text-gray-400 pl-8">
-                    {step.description}
-                  </p>
+                  {/* Description */}
+                  <div className="pl-8">
+                    <p className="text-[13px] leading-relaxed text-gray-400">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               );
             })}

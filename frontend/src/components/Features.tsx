@@ -32,7 +32,7 @@ const features = [
 export default function Features() {
   return (
     <section
-      id="about"
+      id="features"
       className="pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 bg-[#0a0a0a]"
     >
       <div className="max-w-[1240px] mx-auto">
