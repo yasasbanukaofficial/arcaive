@@ -26,7 +26,8 @@ const tabs = [
   {
     id: "simulation",
     label: "Mock Interviews",
-    title: "The Simulation Loop generates tough interview questions from a recruiter persona to stress-test your profile before the real thing.",
+    title:
+      "The Simulation Loop generates tough interview questions from a recruiter persona to stress-test your profile before the real thing.",
     image: "/images/hero-bg.png",
   },
   {

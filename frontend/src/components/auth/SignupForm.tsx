@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
+import { motion } from "framer-motion";
+import { bounceIn, staggerContainer } from "@/components/animations/variants";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -18,19 +20,28 @@ export default function SignupForm() {
   };
 
   return (
-    <>
-      <SocialButtons />
+    <motion.div variants={staggerContainer(0.12, 0.12)}>
+      <motion.div variants={bounceIn}>
+        <SocialButtons />
+      </motion.div>
 
-      <div className="relative flex items-center gap-4 py-2">
+      <motion.div
+        variants={bounceIn}
+        className="relative flex items-center gap-4 py-2"
+      >
         <div className="h-px flex-1 bg-white/5"></div>
         <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold">
           Or use email
         </span>
         <div className="h-px flex-1 bg-white/5"></div>
-      </div>
+      </motion.div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1.5">
+      <motion.form
+        onSubmit={handleSubmit}
+        variants={staggerContainer(0.08, 0)}
+        className="space-y-4"
+      >
+        <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400 ml-1">
             Full name
           </label>
@@ -42,9 +53,9 @@ export default function SignupForm() {
             className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
             required
           />
-        </div>
+        </motion.div>
 
-        <div className="space-y-1.5">
+        <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400 ml-1">
             Email Address
           </label>
@@ -56,9 +67,9 @@ export default function SignupForm() {
             className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
             required
           />
-        </div>
+        </motion.div>
 
-        <div className="space-y-1.5">
+        <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400">
             Password
           </label>
@@ -66,9 +77,9 @@ export default function SignupForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </div>
+        </motion.div>
 
-        <div className="space-y-1.5">
+        <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400">
             Confirm password
           </label>
@@ -77,29 +88,33 @@ export default function SignupForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             name="confirmPassword"
           />
-        </div>
+        </motion.div>
 
-        <button
-          type="submit"
-          className="w-full mt-4 bg-white text-black font-semibold py-3.5 rounded-full hover:bg-gray-200 transition-all flex items-center justify-center gap-2 group"
-        >
-          Create account
-          <ArrowRight
-            size={18}
-            className="group-hover:translate-x-0.5 transition-transform"
-          />
-        </button>
-      </form>
+        <motion.div variants={bounceIn}>
+          <button
+            type="submit"
+            className="w-full mt-4 bg-white text-black font-semibold py-3.5 rounded-full hover:bg-gray-200 transition-all flex items-center justify-center gap-2 group"
+          >
+            Create account
+            <ArrowRight
+              size={18}
+              className="group-hover:translate-x-0.5 transition-transform"
+            />
+          </button>
+        </motion.div>
+      </motion.form>
 
-      <p className="text-center text-sm text-gray-500 mt-8">
-        Already have an account?{" "}
-        <Link
-          href="/login"
-          className="text-white hover:underline decoration-white/30 underline-offset-4"
-        >
-          Sign in
-        </Link>
-      </p>
-    </>
+      <motion.div variants={bounceIn} className="text-center">
+        <p className="text-center text-sm text-gray-500 mt-8">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-white hover:underline decoration-white/30 underline-offset-4"
+          >
+            Sign in
+          </Link>
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }

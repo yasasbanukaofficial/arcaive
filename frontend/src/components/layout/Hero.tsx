@@ -48,7 +48,10 @@ export default function Hero() {
         variants={staggerContainer(0.3, 0.5)}
         className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8"
       >
-        <motion.div variants={bounceIn} className="space-y-3 sm:space-y-4 host-grotesk">
+        <motion.div
+          variants={bounceIn}
+          className="space-y-3 sm:space-y-4 host-grotesk"
+        >
           <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[4rem] tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] text-white">
             <UnfoldText text="Where your seeking is automated" />
           </h1>

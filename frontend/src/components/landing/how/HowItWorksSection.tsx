@@ -82,7 +82,10 @@ const HowItWorksSection: React.FC = () => {
           variants={staggerContainer(0.2, 0.1)}
           className="hidden md:grid md:grid-cols-2 lg:hidden gap-8 items-center"
         >
-          <motion.div variants={bounceIn} className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5">
+          <motion.div
+            variants={bounceIn}
+            className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5"
+          >
             <img
               src={steps[activeStep].image}
               alt={steps[activeStep].title}

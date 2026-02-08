@@ -72,10 +72,7 @@ export default function Benefits() {
         >
           {benefits.map((b, i) => (
             <div key={i} className="border-r border-b border-white/10">
-              <motion.div
-                variants={bounceIn}
-                className="h-full"
-              >
+              <motion.div variants={bounceIn} className="h-full">
                 <BenefitsCard
                   icon={b.icon}
                   title={b.title}

@@ -20,7 +20,10 @@ export const bounceIn: Variants = {
 };
 
 // Container that staggers children with custom delay
-export const staggerContainer = (staggerDelay: number = 0.1, initialDelay: number = 0): Variants => ({
+export const staggerContainer = (
+  staggerDelay: number = 0.1,
+  initialDelay: number = 0,
+): Variants => ({
   hidden: {
     opacity: 0,
   },

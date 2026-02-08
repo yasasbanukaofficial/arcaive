@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import { motion } from "framer-motion";
+import { staggerContainer } from "@/components/animations/variants";
 
 type Props = {
   title?: string;
@@ -21,7 +23,13 @@ export default function AuthLayout({
       </div>
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12">
-        <div className="w-full max-w-[420px] animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer(0.12, 0.12)}
+          className="w-full max-w-[420px]"
+        >
           <header className="text-center mb-10">
             <h1 className="text-4xl font-medium text-white mb-3 tracking-tight">
               {title}
@@ -32,7 +40,7 @@ export default function AuthLayout({
           </header>
 
           <div className="space-y-6">{children}</div>
-        </div>
+        </motion.div>
       </main>
 
       <footer className="relative z-10 py-8 text-center border-t border-white/5">

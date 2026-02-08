@@ -24,7 +24,10 @@ const FinalCTASection: React.FC = () => {
           />
         </motion.div>
 
-        <motion.div variants={bounceIn} className="relative z-10 h-full w-full flex flex-col justify-center px-5 sm:px-8 md:px-16">
+        <motion.div
+          variants={bounceIn}
+          className="relative z-10 h-full w-full flex flex-col justify-center px-5 sm:px-8 md:px-16"
+        >
           <CTAContent
             heading="Step into the future,"
             headingHighlight="guided by AI clarity"
