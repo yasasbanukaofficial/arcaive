@@ -13,14 +13,14 @@ const UnfoldText = ({ text }: { text: string }) => {
       {words.map((word, i) => (
         <span
           key={i}
-          className="inline-block overflow-hidden py-[0.1em] -my-[0.1em]"
+          className="inline-block overflow-hidden py-[0.06em] -my-[0.06em]"
         >
           <motion.span
-            initial={{ opacity: 0, filter: "blur(8px)", y: "100%" }}
+            initial={{ opacity: 0, filter: "blur(6px)", y: "100%" }}
             animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
             transition={{
-              duration: 1,
-              delay: i * 0.08,
+              duration: 0.9,
+              delay: i * 0.06,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="inline-block"
@@ -50,11 +50,11 @@ const UnfoldTextLetters = ({ text }: { text: string }) => {
             return (
               <motion.span
                 key={letterIdx}
-                initial={{ opacity: 0, filter: "blur(8px)", transform: "none" }}
-                animate={{ opacity: 1, filter: "blur(0px)", transform: "none" }}
+                initial={{ opacity: 0, filter: "blur(6px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{
-                  duration: 0.8,
-                  delay: 1.2 + currentIndex * 0.02,
+                  duration: 0.7,
+                  delay: 1 + currentIndex * 0.02,
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className="inline-block"
@@ -75,50 +75,43 @@ export default function Hero() {
     target: containerRef,
     offset: ["start start", "end start"],
   });
-
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-screen flex flex-col items-center justify-center pt-32 pb-20 overflow-hidden"
+      className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Background Image with Parallax */}
-      <motion.div
-        style={{ y: backgroundY, opacity: 1, willChange: "transform" }}
-        className="absolute inset-0 z-0"
-      >
-        {/* Image Container (full-bleed, no dark overlay) */}
+      {/* Background */}
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.5 }}
           className="absolute inset-0"
         >
           <div className="absolute inset-0">
             <Image
-              decoding="auto"
-              width="2912"
-              height="1632"
-              sizes="100vw"
               src="/images/lg-bg.png"
-              alt="bg-img-inteview"
+              alt=""
+              fill
+              className="object-cover object-center"
               unoptimized
-              className="block w-[100vw] h-[100vh] object-cover object-center"
-              style={{ display: "block", width: "100vw", height: "100vh" }}
+              sizes="100vw"
             />
           </div>
         </motion.div>
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 text-center max-w-[1200px] px-6 mx-auto flex flex-col items-center gap-16">
-        <div className="space-y-6">
-          <h1 className="text-[48px] md:text-[88px] font-bold tracking-[-0.04em] leading-[1] text-white">
+      <div className="relative z-10 text-center max-w-[1200px] px-6 mx-auto flex flex-col items-center gap-8">
+        <div className="space-y-4 host-grotesk">
+          <h1 className="text-[2.5rem] md:text-[4rem] tracking-[-0.04em] leading-[1.02] text-white">
             <UnfoldText text="Where thoughts become actions." />
           </h1>
 
-          <p className="text-lg md:text-xl text-white font-medium max-w-2xl mx-auto leading-relaxed tracking-tight">
+          <p className="dm-sans-300 text-[0.8125rem] md:text-[1.2rem] text-white/70 max-w-2xl mx-auto leading-relaxed">
             <UnfoldTextLetters text="An AI companion that whispers clarity, conjures ideas, and guides your every move." />
           </p>
         </div>
@@ -126,42 +119,45 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 1.5 }}
         >
           <Link
             href="/journey"
-            className="inline-flex items-center justify-center bg-[rgb(213,255,69)] text-[#0f0f0f] px-10 py-4 h-[52px] rounded-full font-bold text-base hover:scale-[1.03] transition-all active:scale-95 shadow-[0_0_0_0_rgba(213,255,69,0.2)] border-2 border-white/20 group"
+            className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-10 py-4 h-[52px] rounded-full font-semibold text-base hover:bg-[rgb(213,255,69)] transition-all active:scale-95 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/10"
           >
             Begin Journey
           </Link>
         </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="flex flex-col items-center gap-3 mt-8"
-        >
-          <svg
-            className="w-6 h-6 text-white/30"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 5v14m0 0l-7-7m7 7l7-7"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold">
-            Scroll to explore
-          </span>
-        </motion.div>
       </div>
+
+      {/* Scroll Indicator pinned to bottom */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2 }}
+        className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 pointer-events-none"
+      >
+        <svg
+          className="w-5 h-5 text-white/30"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 5v14m0 0l-7-7m7 7l7-7"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span
+          className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold"
+          style={{ pointerEvents: "auto" }}
+        >
+          Scroll to explore
+        </span>
+      </motion.div>
     </section>
   );
 }

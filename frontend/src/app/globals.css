@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -5,6 +6,12 @@
   --foreground: #ffffff;
   --muted: rgba(255, 255, 255, 0.5);
   --accent: #ffffff;
+  --font-host-grotesk:
+    "Host Grotesk", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  --font-dm-sans:
+    "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
 }
 
 @theme inline {
@@ -23,21 +30,25 @@
   body {
     background: var(--background);
     color: var(--foreground);
-    font-family: var(--font-host-grotesk), sans-serif;
+    font-family: var(--font-dm-sans), sans-serif;
+    font-weight: 300;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1 {
-    @apply tracking-[-0.04em] font-bold;
+    @apply tracking-[-0.04em];
+    font-family: var(--font-host-grotesk);
+    font-weight: 300;
   }
 
   h2 {
     @apply tracking-[-0.03em] font-medium;
   }
 
-  h3, h4 {
+  h3,
+  h4 {
     @apply tracking-[-0.02em] font-medium;
   }
 
@@ -83,7 +94,11 @@
     right: -10%;
     width: 60vw;
     height: 60vh;
-    background: radial-gradient(circle at center, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(37, 99, 235, 0.1) 0%,
+      transparent 70%
+    );
     filter: blur(120px);
   }
 
@@ -93,7 +108,11 @@
     left: -10%;
     width: 70vw;
     height: 70vh;
-    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+    background: radial-gradient(
+      circle at center,
+      rgba(139, 92, 246, 0.08) 0%,
+      transparent 70%
+    );
     filter: blur(140px);
   }
 
@@ -104,7 +123,33 @@
     transform: translate(-50%, -50%);
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 60%
+    );
     filter: blur(100px);
   }
+}
+
+/* Utility classes per requester */
+.host-grotesk {
+  font-family: var(--font-host-grotesk) !important;
+  font-optical-sizing: auto;
+  font-weight: 300 !important;
+  font-style: normal;
+}
+
+.dm-sans {
+  font-family: var(--font-dm-sans) !important;
+  font-optical-sizing: auto;
+  font-weight: 300 !important;
+  font-style: normal;
+}
+
+.dm-sans-300 {
+  font-family: var(--font-dm-sans) !important;
+  font-optical-sizing: auto;
+  font-weight: 300 !important;
+  font-style: normal;
 }
