@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Host_Grotesk } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
+import SmoothScroll from "@/components/animations/SmoothScroll";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
