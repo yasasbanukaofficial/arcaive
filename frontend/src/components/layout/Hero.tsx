@@ -18,7 +18,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden pt-20 sm:pt-24 md:pt-28 lg:pt-32"
     >
       <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
         <motion.div

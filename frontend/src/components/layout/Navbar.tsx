@@ -104,7 +104,7 @@ export default function Navbar() {
           </Link>
 
           {/* Nav Links - Desktop */}
-          <div className="hidden md:flex items-center gap-8 px-4">
+          <div className="hidden lg:flex items-center gap-8 px-4">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -117,10 +117,10 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Hamburger Menu Button - Mobile */}
+          {/* Hamburger Menu Button - Mobile & Tablet */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -133,7 +133,7 @@ export default function Navbar() {
           {/* CTA Button - Desktop */}
           <Link
             href="/get-started"
-            className="hidden md:inline-flex bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
+            className="hidden lg:inline-flex bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
           >
             Get Started
           </Link>
@@ -148,7 +148,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[110] bg-[#0a0a0a] md:hidden flex flex-col font-sans overflow-hidden"
+            className="fixed inset-0 z-[110] bg-[#0a0a0a] lg:hidden flex flex-col font-sans overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6">
