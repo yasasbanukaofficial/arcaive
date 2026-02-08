@@ -8,7 +8,7 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "I've tested countless AI tools, but this one feels different — less like software, more like a guide that clears the fog in my projects.",
+      "I've tested countless AI tools, but this one feels different less like software, more like a guide that clears the fog in my projects.",
     name: "Sophia M.",
     role: "Product Designer",
   },

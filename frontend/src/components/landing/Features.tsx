@@ -9,21 +9,21 @@ const features = [
   {
     title: "Multi-Agent Swarm",
     description:
-      "Three specialized AI agents work in parallel — The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
+      "Three specialized AI agents work in parallel. The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
     image:
       "https://framerusercontent.com/images/bgZEvWFyqIzjQSJmv4ytUskyjNc.jpg",
   },
   {
     title: "Auto-Apply Intelligence",
     description:
-      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper-tailored CVs — while you focus on interviews.",
+      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper tailored CVs while you focus on interviews.",
     image:
       "https://framerusercontent.com/images/90SenaC5dxwhBj330jLiE7wnyjU.jpg",
   },
   {
     title: "Real-Time Agent Flow",
     description:
-      "Watch your AI agents 'think' in real-time through an interactive React Flow visualization — complete transparency in the discovery and refinement process.",
+      "Watch your AI agents 'think' in real-time through an interactive React Flow visualization complete transparency in the discovery and refinement process.",
     image:
       "https://framerusercontent.com/images/UXYVZgG95Xo7GvB3Mj9Avi4ouU.jpg",
   },

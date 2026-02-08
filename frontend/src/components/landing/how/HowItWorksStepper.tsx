@@ -54,7 +54,7 @@ const HowItWorksStepper: React.FC<Props> = ({
                 <h3
                   className={`text-xl font-light tracking-tight transition-colors duration-500 mb-2 ${isActive ? "text-white" : "text-gray-600 group-hover:text-gray-400"}`}
                 >
-                  {step.id} — {step.title}
+                  {step.id}. {step.title}
                 </h3>
                 <p
                   className={`text-[15px] leading-relaxed max-w-sm transition-colors duration-500 ${isActive ? "text-gray-400" : "text-gray-700 group-hover:text-gray-500"}`}

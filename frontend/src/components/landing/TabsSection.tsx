@@ -52,7 +52,6 @@ export default function TabsSection() {
           />
         </div>
 
-        {/* Tabs: horizontally scrollable on mobile */}
         <div className="flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 md:gap-12 mb-10 sm:mb-12 md:mb-16 border-b border-white/5 -mx-4 px-4 sm:mx-0 sm:px-0">
           {tabs.map((tab) => (
             <button

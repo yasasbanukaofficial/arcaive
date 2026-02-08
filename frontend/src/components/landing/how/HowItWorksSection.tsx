@@ -53,7 +53,6 @@ const HowItWorksSection: React.FC = () => {
           />
         </div>
 
-        {/* Large devices: Original layout */}
         <div className="hidden lg:grid lg:grid-cols-2 gap-32 items-center">
           <HowItWorksVisual steps={steps} activeIndex={activeStep} />
 
@@ -64,7 +63,6 @@ const HowItWorksSection: React.FC = () => {
           />
         </div>
 
-        {/* Medium devices: side by side smaller */}
         <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-8 items-center">
           <div className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5">
             <img
@@ -131,7 +129,7 @@ const HowItWorksSection: React.FC = () => {
                       <Icon size={20} strokeWidth={1.5} />
                     </div>
                     <h3 className="text-[15px] font-medium tracking-tight text-white">
-                      {step.id} — {step.title}
+                      {step.id}. {step.title}
                     </h3>
                   </div>
                   {/* Description */}

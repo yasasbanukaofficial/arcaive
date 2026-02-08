@@ -11,7 +11,7 @@ const hostGrotesk = Host_Grotesk({
 export const metadata: Metadata = {
   title: "INTEVIEW | Where your career is automated",
   description:
-    "An AI companion that whispers clarity, conjures ideas, and guides your every move.",
+    "An engine that does the hard work for you while you relax. A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies.",
 };
 
 export default function RootLayout({

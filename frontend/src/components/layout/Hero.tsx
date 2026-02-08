@@ -48,7 +48,10 @@ export default function Hero() {
           </h1>
 
           <p className="dm-sans-300 text-[0.75rem] sm:text-[0.8125rem] md:text-[1rem] lg:text-[1.2rem] text-white/70 max-w-xs sm:max-w-md md:max-w-2xl mx-auto leading-relaxed">
-            <UnfoldTextLetters text="An AI companion that whispers clarity, conjures ideas, and guides your every move." />
+            <UnfoldTextLetters
+              text="An engine that does the hard work for you while you relax.
+A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies."
+            />
           </p>
         </div>
 
