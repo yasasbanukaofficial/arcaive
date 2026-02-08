@@ -50,16 +50,22 @@ export default function Footer() {
             </h5>
             <div className="flex flex-col gap-3 sm:gap-4 text-[13px] sm:text-[14px] font-medium text-white/40">
               <Link
-                href="#about"
-                className="hover:text-white transition-colors"
-              >
-                About
-              </Link>
-              <Link
                 href="#features"
                 className="hover:text-white transition-colors"
               >
                 Features
+              </Link>
+              <Link
+                href="#howitworks"
+                className="hover:text-white transition-colors"
+              >
+                How It Works
+              </Link>
+              <Link
+                href="#benefits"
+                className="hover:text-white transition-colors"
+              >
+                Benefits
               </Link>
               <Link
                 href="#testimonials"

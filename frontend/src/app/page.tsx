@@ -1,13 +1,13 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
-import Testimonials from "@/components/Testimonials";
-import HowItWorks from "@/components/HowItWorks";
+import TestimonialsSection from "@/components/landing/testimonials/TestimonialsSection";
+import HowItWorksSection from "@/components/landing/how/HowItWorksSection";
 import TabsSection from "@/components/TabsSection";
 import Benefits from "@/components/Benefits";
-import Pricing from "@/components/Pricing";
-import FAQ from "@/components/FAQ";
-import FinalCTA from "@/components/FinalCTA";
+import PricingSection from "@/components/landing/pricing/PricingSection";
+import FAQSection from "@/components/landing/faq/FAQSection";
+import FinalCTASection from "@/components/cta/FinalCTASection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -16,13 +16,13 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Features />
-      <Testimonials />
-      <HowItWorks />
+      <TestimonialsSection />
+      <HowItWorksSection />
       <TabsSection />
       <Benefits />
-      <Pricing />
-      <FAQ />
-      <FinalCTA />
+      <PricingSection />
+      <FAQSection />
+      <FinalCTASection />
       <Footer />
     </main>
   );
