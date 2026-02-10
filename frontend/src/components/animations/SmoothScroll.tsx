@@ -19,24 +19,19 @@ export default function SmoothScroll({
       infinite: false,
     });
 
-    // expose Lenis instance so other components can trigger programmatic smooth scroll
-    // (useful for hash/link navigation)
-    // @ts-ignore
     (window as any).lenis = lenis;
+
+    let rafId: number;
 
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
-      // cleanup Lenis and remove global reference
-      try {
-        // @ts-ignore
-        if ((window as any).lenis) delete (window as any).lenis;
-      } catch (e) {}
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
