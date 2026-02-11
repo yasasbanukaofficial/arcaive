@@ -25,17 +25,17 @@ import { fadeLeft, dashboardStagger } from "./animations";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
-  { name: "Chat", href: "/overview/chat", icon: MessageSquare },
-  { name: "Agents", href: "/overview/agents", icon: Bot },
-  { name: "Images", href: "/overview/images", icon: ImageIcon },
-  { name: "Videos", href: "/overview/videos", icon: Video },
+  { name: "Chat", href: "/chat", icon: MessageSquare },
+  { name: "Agents", href: "/agents", icon: Bot },
+  { name: "Images", href: "/images", icon: ImageIcon },
+  { name: "Videos", href: "/videos", icon: Video },
 ];
 
 const manageNav = [
-  { name: "Usage", href: "/dashboard/usage", icon: BarChart3 },
-  { name: "API Keys", href: "/dashboard/api-keys", icon: Key },
-  { name: "Logs", href: "/dashboard/logs", icon: FileText },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  { name: "Usage", href: "/usage", icon: BarChart3 },
+  { name: "API Keys", href: "/api-keys", icon: Key },
+  { name: "Logs", href: "/logs", icon: FileText },
+  { name: "Settings", href: "/settings", icon: Settings },
 ];
 
 export default function Sidebar() {
