@@ -153,7 +153,10 @@ export default function SettingsPage() {
       </motion.div>
 
       {/* Layout: sidebar nav + content */}
-      <motion.div variants={fadeUp} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+      <motion.div
+        variants={fadeUp}
+        className="flex flex-col lg:flex-row gap-6 lg:gap-8"
+      >
         {/* Left nav — desktop only */}
         <div className="w-60 shrink-0 hidden lg:block">
           <div className="sticky top-24">
