@@ -435,14 +435,16 @@ export default function CareerIntelligenceSection() {
             className="flex items-center gap-2 pt-2"
             style={{ borderTop: "1px solid var(--d-border-subtle)" }}
           >
-            <div className="flex-1">
+            <div
+              className="flex-1"
+              onKeyDown={(e: React.KeyboardEvent) => {
+                if (e.key === "Enter") handleAddAchievement();
+              }}
+            >
               <TextField
                 value={newAchievement}
                 onChange={(e) => setNewAchievement(e.target.value)}
                 placeholder="Add an achievement manually..."
-                onKeyDown={(e: React.KeyboardEvent) => {
-                  if (e.key === "Enter") handleAddAchievement();
-                }}
               />
             </div>
             <Button

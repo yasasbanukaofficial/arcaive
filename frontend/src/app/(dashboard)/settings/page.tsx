@@ -106,25 +106,60 @@ export default function SettingsPage() {
         </div>
       </motion.div>
 
+      {/* Mobile nav — rendered above the flex layout so it doesn't break the grid */}
+      <motion.div variants={fadeUp} className="lg:hidden mb-6">
+        <div
+          className="overflow-x-auto pb-2 -mx-1 px-1 rounded-xl"
+          style={{
+            backgroundColor: "var(--d-surface)",
+            border: "1px solid var(--d-border)",
+          }}
+        >
+          <div className="flex gap-1 p-1.5 min-w-max">
+            {(
+              [
+                "identity",
+                "career",
+                "agents",
+                "billing",
+                "notifications",
+              ] as SettingsSection[]
+            ).map((id) => {
+              const isActive = activeSection === id;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setActiveSection(id)}
+                  className="relative px-3 py-2 rounded-lg text-[12px] font-medium whitespace-nowrap transition-all duration-200"
+                  style={{
+                    backgroundColor: isActive
+                      ? "var(--d-surface-active)"
+                      : "transparent",
+                    color: isActive
+                      ? "var(--d-text-primary)"
+                      : "var(--d-text-muted)",
+                    border: isActive
+                      ? "1px solid var(--d-border)"
+                      : "1px solid transparent",
+                  }}
+                >
+                  {sectionTitles[id].title.split(" ")[0]}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </motion.div>
+
       {/* Layout: sidebar nav + content */}
-      <motion.div variants={fadeUp} className="flex gap-8">
-        {/* Left nav */}
+      <motion.div variants={fadeUp} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        {/* Left nav — desktop only */}
         <div className="w-60 shrink-0 hidden lg:block">
           <div className="sticky top-24">
             <SettingsNav
               activeSection={activeSection}
               onSectionChange={setActiveSection}
-            />
-          </div>
-        </div>
-
-        {/* Mobile nav */}
-        <div className="lg:hidden w-full mb-4">
-          <div className="overflow-x-auto pb-2 -mx-2 px-2">
-            <SettingsNav
-              activeSection={activeSection}
-              onSectionChange={setActiveSection}
-              className="flex flex-row gap-1 min-w-max space-y-0!"
             />
           </div>
         </div>

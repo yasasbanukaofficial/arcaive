@@ -39,11 +39,18 @@ const manageNav = [
 ];
 
 export default function Sidebar() {
-  const { collapsed, toggle } = useSidebar();
+  const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } = useSidebar();
   const { isDark } = useTheme();
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
+
+  // Close mobile sidebar on navigation
+  React.useEffect(() => {
+    if (isMobile) {
+      setMobileOpen(false);
+    }
+  }, [pathname, isMobile, setMobileOpen]);
 
   const renderNavItem = (
     item: { name: string; href: string; icon: React.ElementType },
@@ -96,16 +103,38 @@ export default function Sidebar() {
     );
   };
 
+  // On mobile: sidebar is 260px, slides in/out via translateX
+  // On desktop: sidebar uses collapse/expand width animation
+  const sidebarWidth = isMobile ? 260 : collapsed ? 72 : 260;
+
   return (
-    <motion.aside
-      animate={{ width: collapsed ? 72 : 260 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-2xl transition-colors duration-300"
-      style={{
-        backgroundColor: "var(--d-bg-alpha)",
-        borderRight: "1px solid var(--d-border-subtle)",
-      }}
-    >
+    <>
+      {/* Mobile backdrop overlay */}
+      <AnimatePresence>
+        {isMobile && mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+            onClick={() => setMobileOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.aside
+        animate={{
+          width: sidebarWidth,
+          x: isMobile ? (mobileOpen ? 0 : -260) : 0,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-2xl transition-colors duration-300"
+        style={{
+          backgroundColor: "var(--d-bg-alpha)",
+          borderRight: "1px solid var(--d-border-subtle)",
+        }}
+      >
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6 min-h-18">
         <div
@@ -182,29 +211,32 @@ export default function Sidebar() {
         className="px-3 pb-4 space-y-2 pt-4"
         style={{ borderTop: "1px solid var(--d-border-subtle)" }}
       >
-        <button
-          onClick={toggle}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 w-full"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
-          {collapsed ? (
-            <ChevronRight className="w-4.5 h-4.5" />
-          ) : (
-            <ChevronLeft className="w-4.5 h-4.5" />
-          )}
-          <AnimatePresence>
-            {!collapsed && (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="whitespace-nowrap"
-              >
-                Collapse
-              </motion.span>
+        {/* Hide collapse toggle on mobile — sidebar uses overlay instead */}
+        {!isMobile && (
+          <button
+            onClick={toggle}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 w-full"
+            style={{ color: "var(--d-text-tertiary)" }}
+          >
+            {collapsed ? (
+              <ChevronRight className="w-4.5 h-4.5" />
+            ) : (
+              <ChevronLeft className="w-4.5 h-4.5" />
             )}
-          </AnimatePresence>
-        </button>
+            <AnimatePresence>
+              {!collapsed && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="whitespace-nowrap"
+                >
+                  Collapse
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </button>
+        )}
 
         <button
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full"
@@ -226,5 +258,6 @@ export default function Sidebar() {
         </button>
       </div>
     </motion.aside>
+    </>
   );
 }

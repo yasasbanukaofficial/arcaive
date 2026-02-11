@@ -32,8 +32,8 @@ type LinkedAccount = {
 
 export default function UserIdentitySection() {
   // Profile state
-  const [fullName, setFullName] = useState("Yasindu Nethmina");
-  const [email, setEmail] = useState("yasindu@example.com");
+  const [fullName, setFullName] = useState("John Doe");
+  const [email, setEmail] = useState("john@example.com");
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 

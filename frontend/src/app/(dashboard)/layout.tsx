@@ -11,8 +11,12 @@ import {
 import { ThemeProvider, useTheme } from "@/components/dashboard/ThemeContext";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
-  const { collapsed } = useSidebar();
+  const { collapsed, isMobile } = useSidebar();
   const { theme } = useTheme();
+
+  // On mobile: no left margin (sidebar is an overlay)
+  // On desktop: margin follows sidebar width
+  const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
 
   return (
     <div
@@ -39,12 +43,12 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       <Sidebar />
 
       <motion.div
-        animate={{ marginLeft: collapsed ? 72 : 260 }}
+        animate={{ marginLeft }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="relative z-10 min-h-screen flex flex-col"
       >
         <TopBar />
-        <main className="flex-1 p-6 lg:p-8">{children}</main>
+        <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>
       </motion.div>
     </div>
   );

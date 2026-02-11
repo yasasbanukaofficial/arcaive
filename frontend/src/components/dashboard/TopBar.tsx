@@ -2,26 +2,45 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Search, Bell, Plus, ChevronDown } from "lucide-react";
+import { Search, Bell, Plus, ChevronDown, Menu } from "lucide-react";
 import { fadeUp } from "./animations";
 import ThemeToggle from "./ThemeToggle";
+import { useSidebar } from "./SidebarContext";
 
 export default function TopBar() {
+  const { setMobileOpen, isMobile } = useSidebar();
+
   return (
     <motion.header
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="flex items-center justify-between px-6 lg:px-8 py-4 border-b backdrop-blur-xl sticky top-0 z-40 transition-colors duration-300"
+      className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 border-b backdrop-blur-xl sticky top-0 z-40 transition-colors duration-300 gap-3"
       style={{
         borderColor: "var(--d-border-subtle)",
         backgroundColor: "var(--d-bg-alpha)",
       }}
     >
-      {/* Search */}
-      <div className="flex items-center gap-3 flex-1 max-w-md">
+      {/* Left side: hamburger + search */}
+      <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+        {/* Mobile hamburger */}
+        {isMobile && (
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 lg:hidden"
+            style={{
+              backgroundColor: "var(--d-surface)",
+              border: "1px solid var(--d-border)",
+            }}
+            aria-label="Open menu"
+          >
+            <Menu className="w-4 h-4" style={{ color: "var(--d-icon)" }} />
+          </button>
+        )}
+
+        {/* Search */}
         <div
-          className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl w-full group transition-all duration-300"
+          className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl w-full max-w-md group transition-all duration-300"
           style={{
             backgroundColor: "var(--d-surface)",
             border: "1px solid var(--d-border)",
