@@ -49,11 +49,17 @@ export default function ActiveAgents() {
           >
             Active Agents
           </h3>
-          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
+          <p
+            className="text-[12px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Currently running workflows
           </p>
         </div>
-        <button className="text-[12px] transition-colors" style={{ color: "var(--d-text-tertiary)" }}>
+        <button
+          className="text-[12px] transition-colors"
+          style={{ color: "var(--d-text-tertiary)" }}
+        >
           Manage
         </button>
       </div>
@@ -87,7 +93,10 @@ export default function ActiveAgents() {
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <p className="text-[13px] font-medium truncate" style={{ color: "var(--d-text-secondary)" }}>
+                <p
+                  className="text-[13px] font-medium truncate"
+                  style={{ color: "var(--d-text-secondary)" }}
+                >
                   {agent.name}
                 </p>
                 <div className="flex items-center gap-1">
@@ -111,20 +120,34 @@ export default function ActiveAgents() {
                   </span>
                 </div>
               </div>
-              <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--d-text-muted)" }}>
+              <p
+                className="text-[11px] mt-0.5 truncate"
+                style={{ color: "var(--d-text-muted)" }}
+              >
                 {agent.description}
               </p>
             </div>
 
             <div className="text-right flex-shrink-0">
-              <p className="text-[13px] font-medium" style={{ color: "var(--d-text-tertiary)" }}>
+              <p
+                className="text-[13px] font-medium"
+                style={{ color: "var(--d-text-tertiary)" }}
+              >
                 {agent.tasks}
               </p>
-              <p className="text-[10px]" style={{ color: "var(--d-text-ghost)" }}>tasks</p>
+              <p
+                className="text-[10px]"
+                style={{ color: "var(--d-text-ghost)" }}
+              >
+                tasks
+              </p>
             </div>
 
             <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1">
-              <MoreHorizontal className="w-4 h-4" style={{ color: "var(--d-text-muted)" }} />
+              <MoreHorizontal
+                className="w-4 h-4"
+                style={{ color: "var(--d-text-muted)" }}
+              />
             </button>
           </motion.div>
         ))}

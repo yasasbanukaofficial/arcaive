@@ -51,7 +51,10 @@ export default function WhatsNew() {
           >
             What&apos;s New
           </h3>
-          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
+          <p
+            className="text-[12px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Latest features & updates
           </p>
         </div>
@@ -81,7 +84,10 @@ export default function WhatsNew() {
                   {item.tag}
                 </span>
               </div>
-              <p className="text-[11px] leading-relaxed" style={{ color: "var(--d-text-muted)" }}>
+              <p
+                className="text-[11px] leading-relaxed"
+                style={{ color: "var(--d-text-muted)" }}
+              >
                 {item.description}
               </p>
             </div>

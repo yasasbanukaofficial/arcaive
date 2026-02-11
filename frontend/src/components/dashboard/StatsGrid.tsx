@@ -83,7 +83,10 @@ export default function StatsGrid() {
                   className={`w-9 h-9 rounded-xl border ${stat.borderColor} flex items-center justify-center`}
                   style={{ backgroundColor: "var(--d-surface-hover)" }}
                 >
-                  <Icon className="w-4 h-4" style={{ color: "var(--d-icon)" }} />
+                  <Icon
+                    className="w-4 h-4"
+                    style={{ color: "var(--d-icon)" }}
+                  />
                 </div>
                 <div
                   className={`flex items-center gap-1 text-[11px] font-medium ${
@@ -107,7 +110,10 @@ export default function StatsGrid() {
               >
                 {stat.value}
               </p>
-              <p className="text-[12px] font-medium" style={{ color: "var(--d-text-muted)" }}>
+              <p
+                className="text-[12px] font-medium"
+                style={{ color: "var(--d-text-muted)" }}
+              >
                 {stat.label}
               </p>
             </div>

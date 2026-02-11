@@ -165,26 +165,26 @@
 
 /* ─── Dashboard theme tokens ─── */
 .dashboard-theme {
-  /* Dark mode (default) */
-  --d-bg: #0a0a0a;
-  --d-bg-alpha: rgba(10, 10, 10, 0.6);
-  --d-surface: rgba(255, 255, 255, 0.02);
-  --d-surface-hover: rgba(255, 255, 255, 0.04);
-  --d-surface-active: rgba(255, 255, 255, 0.08);
-  --d-border: rgba(255, 255, 255, 0.05);
-  --d-border-hover: rgba(255, 255, 255, 0.08);
-  --d-border-subtle: rgba(255, 255, 255, 0.04);
-  --d-text-primary: rgba(255, 255, 255, 0.9);
-  --d-text-secondary: rgba(255, 255, 255, 0.7);
-  --d-text-tertiary: rgba(255, 255, 255, 0.4);
-  --d-text-muted: rgba(255, 255, 255, 0.2);
-  --d-text-ghost: rgba(255, 255, 255, 0.15);
-  --d-icon: rgba(255, 255, 255, 0.3);
-  --d-icon-hover: rgba(255, 255, 255, 0.6);
-  --d-kbd-bg: rgba(255, 255, 255, 0.04);
-  --d-selection: rgba(255, 255, 255, 0.1);
-  --d-glow-blue: rgba(37, 99, 235, 0.06);
-  --d-glow-purple: rgba(139, 92, 246, 0.04);
+  /* Dark mode (default) — pure black, bright text */
+  --d-bg: #000000;
+  --d-bg-alpha: rgba(0, 0, 0, 0.75);
+  --d-surface: rgba(255, 255, 255, 0.04);
+  --d-surface-hover: rgba(255, 255, 255, 0.06);
+  --d-surface-active: rgba(255, 255, 255, 0.10);
+  --d-border: rgba(255, 255, 255, 0.08);
+  --d-border-hover: rgba(255, 255, 255, 0.12);
+  --d-border-subtle: rgba(255, 255, 255, 0.06);
+  --d-text-primary: #ffffff;
+  --d-text-secondary: rgba(255, 255, 255, 0.80);
+  --d-text-tertiary: rgba(255, 255, 255, 0.50);
+  --d-text-muted: rgba(255, 255, 255, 0.30);
+  --d-text-ghost: rgba(255, 255, 255, 0.20);
+  --d-icon: rgba(255, 255, 255, 0.40);
+  --d-icon-hover: rgba(255, 255, 255, 0.70);
+  --d-kbd-bg: rgba(255, 255, 255, 0.06);
+  --d-selection: rgba(255, 255, 255, 0.14);
+  --d-glow-blue: rgba(37, 99, 235, 0.08);
+  --d-glow-purple: rgba(139, 92, 246, 0.06);
 
   color-scheme: dark;
   transition:
@@ -193,25 +193,25 @@
 }
 
 .dashboard-theme[data-theme="light"] {
-  --d-bg: #f8f8fa;
-  --d-bg-alpha: rgba(248, 248, 250, 0.8);
-  --d-surface: rgba(0, 0, 0, 0.02);
-  --d-surface-hover: rgba(0, 0, 0, 0.04);
-  --d-surface-active: rgba(0, 0, 0, 0.07);
-  --d-border: rgba(0, 0, 0, 0.06);
-  --d-border-hover: rgba(0, 0, 0, 0.1);
-  --d-border-subtle: rgba(0, 0, 0, 0.04);
-  --d-text-primary: rgba(0, 0, 0, 0.88);
-  --d-text-secondary: rgba(0, 0, 0, 0.65);
-  --d-text-tertiary: rgba(0, 0, 0, 0.4);
-  --d-text-muted: rgba(0, 0, 0, 0.22);
-  --d-text-ghost: rgba(0, 0, 0, 0.12);
-  --d-icon: rgba(0, 0, 0, 0.3);
-  --d-icon-hover: rgba(0, 0, 0, 0.6);
-  --d-kbd-bg: rgba(0, 0, 0, 0.04);
-  --d-selection: rgba(0, 0, 0, 0.08);
-  --d-glow-blue: rgba(37, 99, 235, 0.04);
-  --d-glow-purple: rgba(139, 92, 246, 0.03);
+  --d-bg: #ffffff;
+  --d-bg-alpha: rgba(255, 255, 255, 0.85);
+  --d-surface: rgba(0, 0, 0, 0.03);
+  --d-surface-hover: rgba(0, 0, 0, 0.05);
+  --d-surface-active: rgba(0, 0, 0, 0.08);
+  --d-border: rgba(0, 0, 0, 0.08);
+  --d-border-hover: rgba(0, 0, 0, 0.14);
+  --d-border-subtle: rgba(0, 0, 0, 0.06);
+  --d-text-primary: #000000;
+  --d-text-secondary: rgba(0, 0, 0, 0.75);
+  --d-text-tertiary: rgba(0, 0, 0, 0.50);
+  --d-text-muted: rgba(0, 0, 0, 0.30);
+  --d-text-ghost: rgba(0, 0, 0, 0.18);
+  --d-icon: rgba(0, 0, 0, 0.40);
+  --d-icon-hover: rgba(0, 0, 0, 0.70);
+  --d-kbd-bg: rgba(0, 0, 0, 0.05);
+  --d-selection: rgba(0, 0, 0, 0.10);
+  --d-glow-blue: rgba(37, 99, 235, 0.05);
+  --d-glow-purple: rgba(139, 92, 246, 0.04);
 
   color-scheme: light;
 }

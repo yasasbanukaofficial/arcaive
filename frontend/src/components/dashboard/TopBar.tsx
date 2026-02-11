@@ -27,7 +27,10 @@ export default function TopBar() {
             border: "1px solid var(--d-border)",
           }}
         >
-          <Search className="w-4 h-4 transition-colors" style={{ color: "var(--d-text-muted)" }} />
+          <Search
+            className="w-4 h-4 transition-colors"
+            style={{ color: "var(--d-text-muted)" }}
+          />
           <input
             type="text"
             placeholder="Search anything..."
@@ -81,9 +84,17 @@ export default function TopBar() {
             className="w-7 h-7 rounded-lg bg-linear-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center"
             style={{ border: "1px solid var(--d-border-hover)" }}
           >
-            <span className="text-[11px] font-bold" style={{ color: "var(--d-text-secondary)" }}>Y</span>
+            <span
+              className="text-[11px] font-bold"
+              style={{ color: "var(--d-text-secondary)" }}
+            >
+              Y
+            </span>
           </div>
-          <ChevronDown className="w-3 h-3 hidden sm:block" style={{ color: "var(--d-text-muted)" }} />
+          <ChevronDown
+            className="w-3 h-3 hidden sm:block"
+            style={{ color: "var(--d-text-muted)" }}
+          />
         </button>
       </div>
     </motion.header>

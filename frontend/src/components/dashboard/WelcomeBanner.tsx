@@ -38,7 +38,10 @@ export default function WelcomeBanner() {
             >
               Welcome back
             </h2>
-            <p className="text-[13px] leading-relaxed max-w-md" style={{ color: "var(--d-text-tertiary)" }}>
+            <p
+              className="text-[13px] leading-relaxed max-w-md"
+              style={{ color: "var(--d-text-tertiary)" }}
+            >
               Your AI agents have been busy. 3 new applications submitted and 2
               interviews scheduled while you were away.
             </p>

@@ -63,11 +63,17 @@ export default function ActivityFeed() {
           >
             Recent Activity
           </h3>
-          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
+          <p
+            className="text-[12px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Latest agent logs
           </p>
         </div>
-        <button className="text-[12px] transition-colors" style={{ color: "var(--d-text-tertiary)" }}>
+        <button
+          className="text-[12px] transition-colors"
+          style={{ color: "var(--d-text-tertiary)" }}
+        >
           View all
         </button>
       </div>
@@ -105,7 +111,11 @@ export default function ActivityFeed() {
                   className={`w-3.5 h-3.5 ${
                     activity.status === "warning" ? "text-amber-400/60" : ""
                   }`}
-                  style={activity.status !== "warning" ? { color: "var(--d-icon)" } : undefined}
+                  style={
+                    activity.status !== "warning"
+                      ? { color: "var(--d-icon)" }
+                      : undefined
+                  }
                 />
               </div>
 
@@ -116,12 +126,18 @@ export default function ActivityFeed() {
                 >
                   {activity.title}
                 </p>
-                <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--d-text-muted)" }}>
+                <p
+                  className="text-[11px] mt-0.5 truncate"
+                  style={{ color: "var(--d-text-muted)" }}
+                >
                   {activity.description}
                 </p>
               </div>
 
-              <span className="text-[10px] flex-shrink-0 mt-0.5" style={{ color: "var(--d-text-ghost)" }}>
+              <span
+                className="text-[10px] flex-shrink-0 mt-0.5"
+                style={{ color: "var(--d-text-ghost)" }}
+              >
                 {activity.time}
               </span>
             </motion.div>

@@ -24,19 +24,17 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500">
         <div
           className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[120px]"
-          style={{ background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)` }}
+          style={{
+            background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
+          }}
         />
         <div
           className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[140px]"
-          style={{ background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)` }}
+          style={{
+            background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
+          }}
         />
       </div>
-
-      {/* Noise overlay — hide in light mode */}
-      <div
-        className="fixed inset-0 pointer-events-none z-[9999] bg-[url('/images/noise.png')] bg-repeat transition-opacity duration-300"
-        style={{ opacity: theme === "dark" ? 0.02 : 0 }}
-      />
 
       <Sidebar />
 

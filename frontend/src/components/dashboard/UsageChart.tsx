@@ -29,14 +29,20 @@ export default function UsageChart() {
           >
             API Usage
           </h3>
-          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
+          <p
+            className="text-[12px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Last 7 days
           </p>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-blue-500/60" />
-            <span className="text-[11px]" style={{ color: "var(--d-text-muted)" }}>
+            <span
+              className="text-[11px]"
+              style={{ color: "var(--d-text-muted)" }}
+            >
               Total Requests
             </span>
           </div>
@@ -72,7 +78,10 @@ export default function UsageChart() {
                 </span>
               </div>
             </motion.div>
-            <span className="text-[10px] font-medium" style={{ color: "var(--d-text-muted)" }}>
+            <span
+              className="text-[10px] font-medium"
+              style={{ color: "var(--d-text-muted)" }}
+            >
               {days[i]}
             </span>
           </div>

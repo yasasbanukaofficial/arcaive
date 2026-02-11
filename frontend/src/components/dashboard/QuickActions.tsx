@@ -63,7 +63,10 @@ export default function QuickActions() {
           >
             Quick Actions
           </h3>
-          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
+          <p
+            className="text-[12px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Start from a template
           </p>
         </div>
@@ -102,16 +105,28 @@ export default function QuickActions() {
                     border: "1px solid var(--d-border)",
                   }}
                 >
-                  <Icon className="w-4 h-4" style={{ color: "var(--d-icon)" }} />
+                  <Icon
+                    className="w-4 h-4"
+                    style={{ color: "var(--d-icon)" }}
+                  />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--d-text-muted)" }}>
+                <span
+                  className="text-[10px] font-bold uppercase tracking-wider"
+                  style={{ color: "var(--d-text-muted)" }}
+                >
                   {template.tag}
                 </span>
               </div>
-              <h4 className="text-[13px] font-medium mb-1" style={{ color: "var(--d-text-secondary)" }}>
+              <h4
+                className="text-[13px] font-medium mb-1"
+                style={{ color: "var(--d-text-secondary)" }}
+              >
                 {template.title}
               </h4>
-              <p className="text-[11px] leading-relaxed" style={{ color: "var(--d-text-muted)" }}>
+              <p
+                className="text-[11px] leading-relaxed"
+                style={{ color: "var(--d-text-muted)" }}
+              >
                 {template.description}
               </p>
               <ArrowRight

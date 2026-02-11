@@ -115,7 +115,10 @@ export default function Sidebar() {
             border: "1px solid var(--d-border-hover)",
           }}
         >
-          <Sparkles className="w-4 h-4" style={{ color: "var(--d-text-secondary)" }} />
+          <Sparkles
+            className="w-4 h-4"
+            style={{ color: "var(--d-text-secondary)" }}
+          />
         </div>
         <AnimatePresence>
           {!collapsed && (
