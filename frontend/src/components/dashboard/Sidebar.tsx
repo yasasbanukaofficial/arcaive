@@ -20,6 +20,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
+import { useTheme } from "./ThemeContext";
 import { fadeLeft, dashboardStagger } from "./animations";
 
 const mainNav = [
@@ -39,6 +40,7 @@ const manageNav = [
 
 export default function Sidebar() {
   const { collapsed, toggle } = useSidebar();
+  const { isDark } = useTheme();
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
@@ -54,21 +56,28 @@ export default function Sidebar() {
       <motion.div key={item.name} variants={fadeLeft}>
         <Link
           href={item.href}
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 group relative ${
-            active
-              ? "bg-white/8 text-white"
-              : "text-white/40 hover:text-white/70 hover:bg-white/3"
-          }`}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 group relative"
+          style={{
+            backgroundColor: active ? "var(--d-surface-active)" : "transparent",
+            color: active ? "var(--d-text-primary)" : "var(--d-text-tertiary)",
+          }}
         >
           {active && (
             <motion.div
               layoutId="sidebar-active"
-              className="absolute inset-0 rounded-xl bg-white/8 border border-white/6"
+              className="absolute inset-0 rounded-xl"
+              style={{
+                backgroundColor: "var(--d-surface-active)",
+                border: "1px solid var(--d-border)",
+              }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
             />
           )}
           <Icon
-            className={`w-4.5 h-4.5 relative z-10 transition-colors duration-300 ${active ? "text-white" : "text-white/30 group-hover:text-white/60"}`}
+            className="w-4.5 h-4.5 relative z-10 transition-colors duration-300"
+            style={{
+              color: active ? "var(--d-text-primary)" : "var(--d-icon)",
+            }}
           />
           <AnimatePresence>
             {!collapsed && (
@@ -91,12 +100,22 @@ export default function Sidebar() {
     <motion.aside
       animate={{ width: collapsed ? 72 : 260 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-[#0a0a0a]/80 backdrop-blur-2xl border-r border-white/4"
+      className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-2xl transition-colors duration-300"
+      style={{
+        backgroundColor: "var(--d-bg-alpha)",
+        borderRight: "1px solid var(--d-border-subtle)",
+      }}
     >
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6 min-h-18">
-        <div className="w-8 h-8 rounded-lg bg-white/6 border border-white/8 flex items-center justify-center shrink-0">
-          <Sparkles className="w-4 h-4 text-white/80" />
+        <div
+          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+          style={{
+            backgroundColor: "var(--d-surface-active)",
+            border: "1px solid var(--d-border-hover)",
+          }}
+        >
+          <Sparkles className="w-4 h-4" style={{ color: "var(--d-text-secondary)" }} />
         </div>
         <AnimatePresence>
           {!collapsed && (
@@ -104,7 +123,8 @@ export default function Sidebar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-[15px] font-semibold tracking-tight text-white whitespace-nowrap"
+              className="text-[15px] font-semibold tracking-tight whitespace-nowrap"
+              style={{ color: "var(--d-text-primary)" }}
             >
               Inteview
             </motion.span>
@@ -121,14 +141,20 @@ export default function Sidebar() {
           className="space-y-1"
         >
           {!collapsed && (
-            <p className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+            <p
+              className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
+              style={{ color: "var(--d-text-muted)" }}
+            >
               Create
             </p>
           )}
           {mainNav.map(renderNavItem)}
         </motion.div>
 
-        <div className="my-4 border-t border-white/4" />
+        <div
+          className="my-4"
+          style={{ borderTop: "1px solid var(--d-border-subtle)" }}
+        />
 
         <motion.div
           initial="hidden"
@@ -137,7 +163,10 @@ export default function Sidebar() {
           className="space-y-1"
         >
           {!collapsed && (
-            <p className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
+            <p
+              className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
+              style={{ color: "var(--d-text-muted)" }}
+            >
               Manage
             </p>
           )}
@@ -146,10 +175,14 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom section */}
-      <div className="px-3 pb-4 space-y-2 border-t border-white/4 pt-4">
+      <div
+        className="px-3 pb-4 space-y-2 pt-4"
+        style={{ borderTop: "1px solid var(--d-border-subtle)" }}
+      >
         <button
           onClick={toggle}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-white/30 hover:text-white/60 hover:bg-white/3 transition-all duration-300 w-full"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 w-full"
+          style={{ color: "var(--d-text-tertiary)" }}
         >
           {collapsed ? (
             <ChevronRight className="w-4.5 h-4.5" />
@@ -170,7 +203,10 @@ export default function Sidebar() {
           </AnimatePresence>
         </button>
 
-        <button className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-white/30 hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full">
+        <button
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full"
+          style={{ color: "var(--d-text-tertiary)" }}
+        >
           <LogOut className="w-4.5 h-4.5" />
           <AnimatePresence>
             {!collapsed && (

@@ -49,21 +49,29 @@ export default function QuickActions() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl bg-white/2 border border-white/5 p-6 hover:border-white/8 transition-colors duration-300"
+      className="rounded-2xl p-6 transition-colors duration-300"
+      style={{
+        backgroundColor: "var(--d-surface)",
+        border: "1px solid var(--d-border)",
+      }}
     >
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-[15px] font-medium text-white/90 tracking-tight">
+          <h3
+            className="text-[15px] font-medium tracking-tight"
+            style={{ color: "var(--d-text-primary)" }}
+          >
             Quick Actions
           </h3>
-          <p className="text-[12px] text-white/30 mt-0.5">
+          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
             Start from a template
           </p>
         </div>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-1.5 text-[12px] text-white/30 hover:text-white/60 transition-colors"
+          className="flex items-center gap-1.5 text-[12px] transition-colors"
+          style={{ color: "var(--d-text-tertiary)" }}
         >
           <Plus className="w-3.5 h-3.5" />
           Create
@@ -83,23 +91,33 @@ export default function QuickActions() {
               key={template.title}
               variants={fadeUp}
               whileHover={{ y: -1, transition: { duration: 0.15 } }}
-              className={`group relative text-left p-4 rounded-xl bg-linear-to-br ${template.gradient} border border-white/4 hover:border-white/8 transition-all duration-300`}
+              className={`group relative text-left p-4 rounded-xl bg-linear-to-br ${template.gradient} transition-all duration-300`}
+              style={{ border: "1px solid var(--d-border-subtle)" }}
             >
               <div className="flex items-start justify-between mb-3">
-                <div className="w-8 h-8 rounded-lg bg-white/6 border border-white/6 flex items-center justify-center">
-                  <Icon className="w-4 h-4 text-white/50" />
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  style={{
+                    backgroundColor: "var(--d-surface-active)",
+                    border: "1px solid var(--d-border)",
+                  }}
+                >
+                  <Icon className="w-4 h-4" style={{ color: "var(--d-icon)" }} />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-white/20">
+                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "var(--d-text-muted)" }}>
                   {template.tag}
                 </span>
               </div>
-              <h4 className="text-[13px] font-medium text-white/80 mb-1">
+              <h4 className="text-[13px] font-medium mb-1" style={{ color: "var(--d-text-secondary)" }}>
                 {template.title}
               </h4>
-              <p className="text-[11px] text-white/25 leading-relaxed">
+              <p className="text-[11px] leading-relaxed" style={{ color: "var(--d-text-muted)" }}>
                 {template.description}
               </p>
-              <ArrowRight className="absolute bottom-4 right-4 w-3.5 h-3.5 text-white/0 group-hover:text-white/30 transition-all duration-300 -translate-x-1 group-hover:translate-x-0" />
+              <ArrowRight
+                className="absolute bottom-4 right-4 w-3.5 h-3.5 opacity-0 group-hover:opacity-50 transition-all duration-300 -translate-x-1 group-hover:translate-x-0"
+                style={{ color: "var(--d-text-tertiary)" }}
+              />
             </motion.button>
           );
         })}

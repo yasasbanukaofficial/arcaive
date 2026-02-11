@@ -11,7 +11,8 @@ export default function WelcomeBanner() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent border border-white/5 p-6 lg:p-8"
+      className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent p-6 lg:p-8 transition-colors duration-300"
+      style={{ border: "1px solid var(--d-border)" }}
     >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-bl from-blue-500/10 to-transparent blur-3xl pointer-events-none" />
@@ -22,15 +23,22 @@ export default function WelcomeBanner() {
           <motion.div
             animate={{ rotate: [0, 10, -10, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-12 h-12 rounded-2xl bg-white/6 border border-white/8 flex items-center justify-center shrink-0"
+            className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: "var(--d-surface-active)",
+              border: "1px solid var(--d-border-hover)",
+            }}
           >
             <Sparkles className="w-5 h-5 text-blue-400/60" />
           </motion.div>
           <div>
-            <h2 className="text-lg sm:text-xl font-medium text-white/90 tracking-tight mb-1">
+            <h2
+              className="text-lg sm:text-xl font-medium tracking-tight mb-1"
+              style={{ color: "var(--d-text-primary)" }}
+            >
               Welcome back
             </h2>
-            <p className="text-[13px] text-white/30 leading-relaxed max-w-md">
+            <p className="text-[13px] leading-relaxed max-w-md" style={{ color: "var(--d-text-tertiary)" }}>
               Your AI agents have been busy. 3 new applications submitted and 2
               interviews scheduled while you were away.
             </p>
@@ -40,7 +48,12 @@ export default function WelcomeBanner() {
         <motion.button
           whileHover={{ scale: 1.03, x: 2 }}
           whileTap={{ scale: 0.97 }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/6 border border-white/8 text-[13px] font-medium text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300 whitespace-nowrap"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 whitespace-nowrap"
+          style={{
+            backgroundColor: "var(--d-surface-active)",
+            border: "1px solid var(--d-border-hover)",
+            color: "var(--d-text-secondary)",
+          }}
         >
           View Summary
           <ArrowRight className="w-3.5 h-3.5" />

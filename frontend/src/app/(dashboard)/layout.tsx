@@ -8,20 +8,35 @@ import {
   SidebarProvider,
   useSidebar,
 } from "@/components/dashboard/SidebarContext";
+import { ThemeProvider, useTheme } from "@/components/dashboard/ThemeContext";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { collapsed } = useSidebar();
+  const { theme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
+    <div
+      className="dashboard-theme min-h-screen font-sans transition-colors duration-300"
+      data-theme={theme}
+      style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
+    >
       {/* Background glows — scoped to dashboard */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] bg-[radial-gradient(circle,rgba(37,99,235,0.06)_0%,transparent_70%)] blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] bg-[radial-gradient(circle,rgba(139,92,246,0.04)_0%,transparent_70%)] blur-[140px]" />
+      <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500">
+        <div
+          className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[120px]"
+          style={{ background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)` }}
+        />
+        <div
+          className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[140px]"
+          style={{ background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)` }}
+        />
       </div>
 
-      {/* Noise overlay */}
-      <div className="fixed inset-0 opacity-[0.02] pointer-events-none z-[9999] bg-[url('/images/noise.png')] bg-repeat" />
+      {/* Noise overlay — hide in light mode */}
+      <div
+        className="fixed inset-0 pointer-events-none z-[9999] bg-[url('/images/noise.png')] bg-repeat transition-opacity duration-300"
+        style={{ opacity: theme === "dark" ? 0.02 : 0 }}
+      />
 
       <Sidebar />
 
@@ -43,8 +58,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <DashboardShell>{children}</DashboardShell>
-    </SidebarProvider>
+    <ThemeProvider>
+      <SidebarProvider>
+        <DashboardShell>{children}</DashboardShell>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }

@@ -35,18 +35,25 @@ export default function ActiveAgents() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl bg-white/[0.02] border border-white/[0.05] p-6 hover:border-white/[0.08] transition-colors duration-300"
+      className="rounded-2xl p-6 transition-colors duration-300"
+      style={{
+        backgroundColor: "var(--d-surface)",
+        border: "1px solid var(--d-border)",
+      }}
     >
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h3 className="text-[15px] font-medium text-white/90 tracking-tight">
+          <h3
+            className="text-[15px] font-medium tracking-tight"
+            style={{ color: "var(--d-text-primary)" }}
+          >
             Active Agents
           </h3>
-          <p className="text-[12px] text-white/30 mt-0.5">
+          <p className="text-[12px] mt-0.5" style={{ color: "var(--d-text-muted)" }}>
             Currently running workflows
           </p>
         </div>
-        <button className="text-[12px] text-white/30 hover:text-white/60 transition-colors">
+        <button className="text-[12px] transition-colors" style={{ color: "var(--d-text-tertiary)" }}>
           Manage
         </button>
       </div>
@@ -62,15 +69,25 @@ export default function ActiveAgents() {
             key={agent.name}
             variants={fadeUp}
             whileHover={{ x: 2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.01] border border-white/[0.03] hover:border-white/[0.06] hover:bg-white/[0.02] transition-all duration-300 group cursor-pointer"
+            className="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 group cursor-pointer"
+            style={{
+              backgroundColor: "var(--d-surface)",
+              border: "1px solid var(--d-border-subtle)",
+            }}
           >
-            <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-lg flex-shrink-0">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+              style={{
+                backgroundColor: "var(--d-surface-hover)",
+                border: "1px solid var(--d-border)",
+              }}
+            >
               {agent.icon}
             </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <p className="text-[13px] font-medium text-white/70 truncate">
+                <p className="text-[13px] font-medium truncate" style={{ color: "var(--d-text-secondary)" }}>
                   {agent.name}
                 </p>
                 <div className="flex items-center gap-1">
@@ -94,20 +111,20 @@ export default function ActiveAgents() {
                   </span>
                 </div>
               </div>
-              <p className="text-[11px] text-white/20 mt-0.5 truncate">
+              <p className="text-[11px] mt-0.5 truncate" style={{ color: "var(--d-text-muted)" }}>
                 {agent.description}
               </p>
             </div>
 
             <div className="text-right flex-shrink-0">
-              <p className="text-[13px] font-medium text-white/50">
+              <p className="text-[13px] font-medium" style={{ color: "var(--d-text-tertiary)" }}>
                 {agent.tasks}
               </p>
-              <p className="text-[10px] text-white/15">tasks</p>
+              <p className="text-[10px]" style={{ color: "var(--d-text-ghost)" }}>tasks</p>
             </div>
 
             <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1">
-              <MoreHorizontal className="w-4 h-4 text-white/20" />
+              <MoreHorizontal className="w-4 h-4" style={{ color: "var(--d-text-muted)" }} />
             </button>
           </motion.div>
         ))}

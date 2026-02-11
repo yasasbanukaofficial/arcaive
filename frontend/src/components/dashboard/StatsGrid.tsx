@@ -66,7 +66,11 @@ export default function StatsGrid() {
             key={stat.label}
             variants={fadeUp}
             whileHover={{ y: -2, transition: { duration: 0.2 } }}
-            className={`relative group rounded-2xl bg-white/2 border border-white/5 p-5 overflow-hidden transition-colors duration-300 hover:border-white/8`}
+            className="relative group rounded-2xl p-5 overflow-hidden transition-colors duration-300"
+            style={{
+              backgroundColor: "var(--d-surface)",
+              border: "1px solid var(--d-border)",
+            }}
           >
             {/* Subtle gradient bg */}
             <div
@@ -76,9 +80,10 @@ export default function StatsGrid() {
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <div
-                  className={`w-9 h-9 rounded-xl bg-white/4 border ${stat.borderColor} flex items-center justify-center`}
+                  className={`w-9 h-9 rounded-xl border ${stat.borderColor} flex items-center justify-center`}
+                  style={{ backgroundColor: "var(--d-surface-hover)" }}
                 >
-                  <Icon className="w-4 h-4 text-white/40" />
+                  <Icon className="w-4 h-4" style={{ color: "var(--d-icon)" }} />
                 </div>
                 <div
                   className={`flex items-center gap-1 text-[11px] font-medium ${
@@ -96,10 +101,13 @@ export default function StatsGrid() {
                 </div>
               </div>
 
-              <p className="text-2xl font-semibold text-white tracking-tight mb-1">
+              <p
+                className="text-2xl font-semibold tracking-tight mb-1"
+                style={{ color: "var(--d-text-primary)" }}
+              >
                 {stat.value}
               </p>
-              <p className="text-[12px] text-white/30 font-medium">
+              <p className="text-[12px] font-medium" style={{ color: "var(--d-text-muted)" }}>
                 {stat.label}
               </p>
             </div>
