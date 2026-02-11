@@ -24,11 +24,11 @@ import { useTheme } from "./ThemeContext";
 import { fadeLeft, dashboardStagger } from "./animations";
 
 const mainNav = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Chat", href: "/dashboard/chat", icon: MessageSquare },
-  { name: "Agents", href: "/dashboard/agents", icon: Bot },
-  { name: "Images", href: "/dashboard/images", icon: ImageIcon },
-  { name: "Videos", href: "/dashboard/videos", icon: Video },
+  { name: "Overview", href: "/overview", icon: LayoutDashboard },
+  { name: "Chat", href: "/overview/chat", icon: MessageSquare },
+  { name: "Agents", href: "/overview/agents", icon: Bot },
+  { name: "Images", href: "/overview/images", icon: ImageIcon },
+  { name: "Videos", href: "/overview/videos", icon: Video },
 ];
 
 const manageNav = [
