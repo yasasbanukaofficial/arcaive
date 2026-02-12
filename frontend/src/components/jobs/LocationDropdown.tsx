@@ -101,7 +101,7 @@ export default function LocationDropdown({
         <div
           className="absolute left-0 top-full mt-2 w-full rounded-xl z-50 max-h-[320px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
           style={{
-            backgroundColor: "rgba(10, 10, 15, 0.95)",
+            backgroundColor: "var(--d-surface)",
             border: "1px solid var(--d-border)",
             boxShadow: "0 12px 40px rgba(2,6,23,0.18)",
             backdropFilter: "blur(8px)",
