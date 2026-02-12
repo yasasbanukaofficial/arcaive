@@ -1,12 +1,12 @@
-# 🤖 INTEVIEW: The Sovereign Career Intelligence Platform
+# 🤖 ARCAIVE: The Sovereign Career Intelligence Platform
 
-**INTEVIEW** is the world's first autonomous career intelligence engine that orchestrates the entire discovery-to-application lifecycle. Unlike simple CV builders, INTEVIEW deploys a multi-agent swarm to analyze market trends, simulate recruiter personas, and autonomously generate hyper-tailored application packages.
+**ARCAIVE** is the world's first autonomous career intelligence engine that orchestrates the entire discovery-to-application lifecycle. Unlike simple CV builders, ARCAIVE deploys a multi-agent swarm to analyze market trends, simulate recruiter personas, and autonomously generate hyper-tailored application packages.
 
 ---
 
 ## 🚀 The Hook
 
-**Stop hunting for jobs. Let your agents do the work.** INTEVIEW uses a "Human-in-the-loop" agentic workflow, visualized via **React Flow**, allowing users to watch their AI agents "think," research, and apply in real-time.
+**Stop hunting for jobs. Let your agents do the work.** ARCAIVE uses a "Human-in-the-loop" agentic workflow, visualized via **React Flow**, allowing users to watch their AI agents "think," research, and apply in real-time.
 
 ---
 
@@ -20,14 +20,14 @@
 | **Chroma**             | Vector DB        | Stores "Skill Embeddings" for mathematical JD matching.         |
 | **LangChain4j**        | AI Orchestration | Java-native AI integration for professional environments.       |
 | **OpenRouter**         | LLM Gateway      | Unified access to GPT-4o and Claude 3.5 Sonnet.                 |
-| **Livekit**            | Inteview Audio   | Powers the real-time simulation loop voice sessions.            |
+| **Livekit**            | Arcaive Audio   | Powers the real-time simulation loop voice sessions.            |
 | **Lemon Squeezy**      | Payments         | Handles global tax/VAT (MoR) so developers can focus on code.   |
 
 ---
 
 ## 🧠 Core Agentic Architecture
 
-The heart of INTEVIEW is a **Multi-Agent Refinement Swarm** that handles the heavy lifting of professional self-presentation.
+The heart of ARCAIVE is a **Multi-Agent Refinement Swarm** that handles the heavy lifting of professional self-presentation.
 
 ### 1. The Discovery Agent 🔍
 
@@ -41,15 +41,15 @@ Uses `Serper.dev` and Job APIs (LinkedIn, Indeed) to find "hidden" requirements 
 
 ### 3. The Auto-Apply Bot 🤖
 
-For **Inteview** tier users, this bot handles the tedious form-filling and submission process, logging every action in real-time.
+For **Arcaive** tier users, this bot handles the tedious form-filling and submission process, logging every action in real-time.
 
 ---
 
 ## 💎 Monetization & Feature Gating
 
-INTEVIEW implements a sophisticated multi-tier logic using **Spring Security** and **Lemon Squeezy** webhooks.
+ARCAIVE implements a sophisticated multi-tier logic using **Spring Security** and **Lemon Squeezy** webhooks.
 
-| Feature                      | Explorer (Free) | Inteview ($19/mo) |
+| Feature                      | Explorer (Free) | Arcaive ($19/mo) |
 | ---------------------------- | --------------- | ----------------- |
 | CV Analysis                  | Basic           | Advanced (Atomic) |
 | Shadow Applications          | 3 / month       | Unlimited         |
@@ -62,7 +62,7 @@ INTEVIEW implements a sophisticated multi-tier logic using **Spring Security** a
 
 ## 🏆 The "Lead Engineer" Highlight: The Simulation Loop
 
-Our flagship feature is the **Mock-Recruiter Stress Test**. Before an application is finalized, a "Simulation Agent" acting as a Hiring Manager generates 5 high-pressure Inteview questions based on the specific Job Description.
+Our flagship feature is the **Mock-Recruiter Stress Test**. Before an application is finalized, a "Simulation Agent" acting as a Hiring Manager generates 5 high-pressure Arcaive questions based on the specific Job Description.
 
 > **The SaaS Twist:** This feature serves as a conversion catalyst. When an Explorer user attempts to access it, they are met with a seamless "Upgrade via Lemon Squeezy" modal—demonstrating a complete understanding of the SaaS conversion funnel.
 

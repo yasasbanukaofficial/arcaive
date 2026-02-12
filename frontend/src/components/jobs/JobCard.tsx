@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Bookmark, MapPin, Sparkles, ExternalLink } from "lucide-react";
+import { MapPin, Sparkles, ExternalLink } from "lucide-react";
 import type { JobListing } from "@/@types/jobs";
 
 const ACCENT_COLORS = [
@@ -96,7 +96,7 @@ export default function JobCard({ job }: JobCardProps) {
         }}
       />
 
-      <div className="relative z-10 flex items-center justify-between mb-4">
+      <div className="relative z-10 flex items-center justify-start mb-4">
         <span
           className="text-[12px] font-medium px-3 py-1.5 rounded-lg"
           style={{
@@ -107,23 +107,9 @@ export default function JobCard({ job }: JobCardProps) {
         >
           {job.postedDate}
         </span>
-        <button
-          className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors duration-200"
-          style={{
-            backgroundColor: job.bookmarked
-              ? "var(--d-surface-active)"
-              : "transparent",
-            color: job.bookmarked ? "var(--d-text-primary)" : "var(--d-icon)",
-          }}
-        >
-          <Bookmark
-            className="w-4 h-4"
-            fill={job.bookmarked ? "currentColor" : "none"}
-          />
-        </button>
       </div>
 
-      <div className="relative z-10 flex items-start justify-between mb-3">
+      <div className="relative z-10 flex items-center justify-between mb-3">
         <div className="flex-1 min-w-0">
           <p
             className="text-[12px] font-medium mb-1"
@@ -138,15 +124,26 @@ export default function JobCard({ job }: JobCardProps) {
             {job.title}
           </h3>
         </div>
-        <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ml-3 text-[16px] font-bold"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-            border: "1px solid var(--d-border)",
-            color: "var(--d-text-tertiary)",
-          }}
-        >
-          {job.companyLogo}
+        <div className="flex flex-col items-end ml-3 gap-2 shrink-0 -translate-y-1">
+          <span
+            className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded"
+            style={{
+              backgroundColor: "var(--d-surface-hover)",
+              color: "var(--d-text-ghost)",
+            }}
+          >
+            {job.source}
+          </span>
+          <div
+            className="w-11 h-11 rounded-xl flex items-center justify-center text-[16px] font-bold"
+            style={{
+              backgroundColor: "var(--d-surface-hover)",
+              border: "1px solid var(--d-border)",
+              color: "var(--d-text-tertiary)",
+            }}
+          >
+            {job.companyLogo}
+          </div>
         </div>
       </div>
 
@@ -266,18 +263,6 @@ export default function JobCard({ job }: JobCardProps) {
           Details
           <ExternalLink className="w-3.5 h-3.5" />
         </motion.button>
-      </div>
-
-      <div className="absolute top-5 right-14 z-10">
-        <span
-          className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-            color: "var(--d-text-ghost)",
-          }}
-        >
-          {job.source}
-        </span>
       </div>
     </div>
   );

@@ -87,13 +87,13 @@ export default function Navbar() {
             <Image
               width="20"
               height="20"
-              alt="inteview-logo-png"
+              alt="arcaive-logo-png"
               src={"/images/icon.png"}
               unoptimized
               className="transition-transform duration-500 w-4 h-4 sm:w-5 sm:h-5"
             />
             <span className="text-[12px] sm:text-[14px] font-bold tracking-tight text-white">
-              INTEVIEW
+              ARCAIVE
             </span>
           </Link>
           <div className="hidden lg:flex items-center gap-8 px-4">
@@ -141,13 +141,13 @@ export default function Navbar() {
                 <Image
                   width="20"
                   height="20"
-                  alt="inteview-logo-png"
+                  alt="arcaive-logo-png"
                   src={"/images/icon.png"}
                   unoptimized
                   className="w-5 h-5"
                 />
                 <span className="text-white text-lg font-bold tracking-tight">
-                  INTEVIEW
+                  ARCAIVE
                 </span>
               </Link>
               <button

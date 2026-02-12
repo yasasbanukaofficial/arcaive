@@ -9,7 +9,7 @@ const hostGrotesk = Host_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "INTEVIEW | Where your career is automated",
+  title: "ARCAIVE | Where your career is automated",
   description:
     "An engine that does the hard work for you while you relax. A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies.",
 };

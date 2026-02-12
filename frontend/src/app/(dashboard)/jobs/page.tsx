@@ -202,6 +202,8 @@ const DUMMY_JOBS: JobListing[] = [
 export default function JobsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
+  const [experienceLevel, setExperienceLevel] = useState("");
+  const [salaryRangeFilter, setSalaryRangeFilter] = useState("");
 
   const [selectedSchedules, setSelectedSchedules] = useState<WorkSchedule[]>([
     "Full time",
@@ -244,6 +246,25 @@ export default function JobsPage() {
       jobs = jobs.filter((j) => j.location.toLowerCase().includes(loc));
     }
 
+    if (experienceLevel.trim()) {
+      jobs = jobs.filter((j) => j.experienceLevel === experienceLevel);
+    }
+
+    if (salaryRangeFilter.trim()) {
+      jobs = jobs.filter((j) => {
+        const salaryNum = parseInt(j.salary.replace(/[^0-9]/g, "")) || 0;
+        if (salaryRangeFilter === "0-2000") return salaryNum <= 2000;
+        if (salaryRangeFilter === "2000-5000")
+          return salaryNum > 2000 && salaryNum <= 5000;
+        if (salaryRangeFilter === "5000-10000")
+          return salaryNum > 5000 && salaryNum <= 10000;
+        if (salaryRangeFilter === "10000-20000")
+          return salaryNum > 10000 && salaryNum <= 20000;
+        if (salaryRangeFilter === "20000+") return salaryNum > 20000;
+        return true;
+      });
+    }
+
     return jobs;
   }, [searchQuery, locationQuery]);
 
@@ -275,6 +296,10 @@ export default function JobsPage() {
           onQueryChange={setSearchQuery}
           location={locationQuery}
           onLocationChange={setLocationQuery}
+          experience={experienceLevel}
+          onExperienceChange={setExperienceLevel}
+          salaryRange={salaryRangeFilter}
+          onSalaryRangeChange={setSalaryRangeFilter}
         />
       </motion.div>
       <div className="flex gap-6 items-start">

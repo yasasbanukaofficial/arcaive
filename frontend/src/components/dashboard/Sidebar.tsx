@@ -154,7 +154,7 @@ export default function Sidebar() {
                 className="text-[17px] font-semibold tracking-tight whitespace-nowrap"
                 style={{ color: "var(--d-text-primary)" }}
               >
-                Inteview
+                Arcaive
               </motion.span>
             )}
           </AnimatePresence>

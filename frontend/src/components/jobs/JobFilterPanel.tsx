@@ -12,8 +12,22 @@ interface FilterCheckboxProps {
 }
 
 function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === " " || e.key === "Enter") {
+      e.preventDefault();
+      onChange();
+    }
+  };
+
   return (
-    <label className="flex items-center gap-3 py-2 cursor-pointer group">
+    <div
+      role="checkbox"
+      aria-checked={checked}
+      tabIndex={0}
+      onClick={onChange}
+      onKeyDown={handleKeyDown}
+      className="flex items-center gap-3 py-2 cursor-pointer group outline-none"
+    >
       <div
         className="w-5 h-5 rounded-md flex items-center justify-center transition-all duration-200 shrink-0"
         style={{
@@ -45,7 +59,7 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
       >
         {label}
       </span>
-    </label>
+    </div>
   );
 }
 
