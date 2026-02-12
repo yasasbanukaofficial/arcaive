@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import Sidebar from "@/components/dashboard/Sidebar";
 import TopBar from "@/components/dashboard/TopBar";
 import {
@@ -13,8 +14,10 @@ import { ThemeProvider, useTheme } from "@/components/dashboard/ThemeContext";
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { collapsed, isMobile } = useSidebar();
   const { theme } = useTheme();
+  const pathname = usePathname();
 
   const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
+  const isWorkflowPage = pathname === "/workflow";
 
   return (
     <div
@@ -45,7 +48,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         className="relative z-10 min-h-screen flex flex-col"
       >
         <TopBar />
-        <main className="flex-1 p-5 sm:p-8 lg:p-10">{children}</main>
+        <main className={`flex-1 ${isWorkflowPage ? "" : "p-5 sm:p-8 lg:p-10"}`}>{children}</main>
       </motion.div>
     </div>
   );
