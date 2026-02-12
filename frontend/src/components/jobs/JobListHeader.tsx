@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpDown, SlidersHorizontal } from "lucide-react";
+import DropdownMenu from "@/components/ui/DropdownMenu";
 import type { SortOption } from "@/@types/jobs";
 
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
@@ -77,21 +78,11 @@ export default function JobListHeader({
             Sort by:
           </span>
           <div className="relative">
-            <select
+            <DropdownMenu
+              options={SORT_OPTIONS}
               value={sortBy}
-              onChange={(e) => onSortChange(e.target.value as SortOption)}
-              className="appearance-none bg-transparent text-[13px] font-semibold pr-5 cursor-pointer outline-none"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              {SORT_OPTIONS.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </select>
-            <ArrowUpDown
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none"
-              style={{ color: "var(--d-icon)" }}
+              onChange={(v) => onSortChange(v)}
+              buttonClassName="text-[13px] font-semibold"
             />
           </div>
         </div>
