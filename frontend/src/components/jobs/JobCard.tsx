@@ -241,7 +241,10 @@ export default function JobCard({ job }: JobCardProps) {
             {job.salary}
           </p>
           <div className="flex items-center gap-1.5 mt-1">
-            <MapPin className="w-3.5 h-3.5" style={{ color: "var(--d-icon)" }} />
+            <MapPin
+              className="w-3.5 h-3.5"
+              style={{ color: "var(--d-icon)" }}
+            />
             <span
               className="text-[12px]"
               style={{ color: "var(--d-text-muted)" }}

@@ -222,7 +222,9 @@ export default function JobsPage() {
     "Indeed",
     "Glassdoor",
   ]);
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([1200, 20000]);
+  const [salaryRange, setSalaryRange] = useState<[number, number]>([
+    1200, 20000,
+  ]);
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
   // ─── Sort state ────────────────────────────────────────
@@ -303,17 +305,17 @@ export default function JobsPage() {
             </motion.div>
             <motion.div variants={fadeUp} className="mt-5">
               <JobFilterPanel
-              selectedSchedules={selectedSchedules}
-              onToggleSchedule={toggleSchedule}
-              selectedTypes={selectedTypes}
-              onToggleType={toggleType}
-              selectedSources={selectedSources}
-              onToggleSource={toggleSource}
-              salaryRange={salaryRange}
-              onSalaryRangeChange={setSalaryRange}
-              collapsed={filtersCollapsed}
-              onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
-            />
+                selectedSchedules={selectedSchedules}
+                onToggleSchedule={toggleSchedule}
+                selectedTypes={selectedTypes}
+                onToggleType={toggleType}
+                selectedSources={selectedSources}
+                onToggleSource={toggleSource}
+                salaryRange={salaryRange}
+                onSalaryRangeChange={setSalaryRange}
+                collapsed={filtersCollapsed}
+                onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
+              />
             </motion.div>
           </div>
         </motion.div>
@@ -330,9 +332,7 @@ export default function JobsPage() {
             />
           </motion.div>
 
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             <AnimatePresence mode="popLayout">
               {filteredJobs.map((job) => (
                 <motion.div

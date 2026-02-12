@@ -70,7 +70,10 @@ export default function JobListHeader({
 
         {/* Sort dropdown */}
         <div className="flex items-center gap-2">
-          <span className="text-[12px] font-medium" style={{ color: "var(--d-text-muted)" }}>
+          <span
+            className="text-[12px] font-medium"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             Sort by:
           </span>
           <div className="relative">

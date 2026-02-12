@@ -36,7 +36,10 @@ export default function JobSearchBar({
     >
       {/* Search input */}
       <div className="flex items-center gap-3 flex-1 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
-        <Search className="w-4.5 h-4.5 shrink-0" style={{ color: "var(--d-icon)" }} />
+        <Search
+          className="w-4.5 h-4.5 shrink-0"
+          style={{ color: "var(--d-icon)" }}
+        />
         <input
           type="text"
           placeholder="Job title, keyword, or company"
@@ -55,7 +58,10 @@ export default function JobSearchBar({
 
       {/* Location */}
       <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[200px]">
-        <MapPin className="w-4.5 h-4.5 shrink-0" style={{ color: "var(--d-icon)" }} />
+        <MapPin
+          className="w-4.5 h-4.5 shrink-0"
+          style={{ color: "var(--d-icon)" }}
+        />
         <input
           type="text"
           placeholder="Work location"
@@ -77,9 +83,15 @@ export default function JobSearchBar({
         className="flex items-center gap-2.5 px-5 py-3.5 rounded-xl text-[14px] font-medium transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[160px]"
         style={{ color: "var(--d-text-tertiary)" }}
       >
-        <Briefcase className="w-4.5 h-4.5 shrink-0" style={{ color: "var(--d-icon)" }} />
+        <Briefcase
+          className="w-4.5 h-4.5 shrink-0"
+          style={{ color: "var(--d-icon)" }}
+        />
         <span>Experience</span>
-        <ChevronDown className="w-4 h-4 ml-auto" style={{ color: "var(--d-icon)" }} />
+        <ChevronDown
+          className="w-4 h-4 ml-auto"
+          style={{ color: "var(--d-icon)" }}
+        />
       </button>
 
       {/* Divider */}
@@ -93,9 +105,15 @@ export default function JobSearchBar({
         className="flex items-center gap-2.5 px-5 py-3.5 rounded-xl text-[14px] font-medium transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[150px]"
         style={{ color: "var(--d-text-tertiary)" }}
       >
-        <DollarSign className="w-4.5 h-4.5 shrink-0" style={{ color: "var(--d-icon)" }} />
+        <DollarSign
+          className="w-4.5 h-4.5 shrink-0"
+          style={{ color: "var(--d-icon)" }}
+        />
         <span>Per month</span>
-        <ChevronDown className="w-4 h-4 ml-auto" style={{ color: "var(--d-icon)" }} />
+        <ChevronDown
+          className="w-4 h-4 ml-auto"
+          style={{ color: "var(--d-icon)" }}
+        />
       </button>
     </motion.div>
   );

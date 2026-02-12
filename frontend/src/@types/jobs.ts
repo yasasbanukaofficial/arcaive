@@ -48,4 +48,9 @@ export interface JobFilters {
   sources: JobSource[];
 }
 
-export type SortOption = "last_updated" | "match_score" | "salary_high" | "salary_low" | "date_newest";
+export type SortOption =
+  | "last_updated"
+  | "match_score"
+  | "salary_high"
+  | "salary_low"
+  | "date_newest";

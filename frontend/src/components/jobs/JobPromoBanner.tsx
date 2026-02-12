@@ -43,8 +43,12 @@ export default function JobPromoBanner() {
           <br />
           <span className="text-blue-400/70">AI Discovery</span>
         </h3>
-        <p className="text-[13px] leading-relaxed mb-5" style={{ color: "var(--d-text-muted)" }}>
-          Our agents scan 50+ sources daily to surface the roles you'd thrive in.
+        <p
+          className="text-[13px] leading-relaxed mb-5"
+          style={{ color: "var(--d-text-muted)" }}
+        >
+          Our agents scan 50+ sources daily to surface the roles you'd thrive
+          in.
         </p>
       </div>
 
