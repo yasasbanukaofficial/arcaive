@@ -15,6 +15,7 @@ import JobFilterPanel from "@/components/jobs/JobFilterPanel";
 import JobListHeader from "@/components/jobs/JobListHeader";
 import JobCard from "@/components/jobs/JobCard";
 import JobPromoBanner from "@/components/jobs/JobPromoBanner";
+import { matchesLocation } from "@/utils/locationUtils";
 
 const DUMMY_JOBS: JobListing[] = [
   {
@@ -240,8 +241,7 @@ export default function JobsPage() {
     }
 
     if (locationQuery.trim()) {
-      const loc = locationQuery.toLowerCase();
-      jobs = jobs.filter((j) => j.location.toLowerCase().includes(loc));
+      jobs = jobs.filter((j) => matchesLocation(j.location, locationQuery));
     }
 
     if (experienceLevel.trim()) {
@@ -264,7 +264,7 @@ export default function JobsPage() {
     }
 
     return jobs;
-  }, [searchQuery, locationQuery]);
+  }, [searchQuery, locationQuery, experienceLevel, salaryRangeFilter]);
 
   const toggleSchedule = (s: WorkSchedule) =>
     setSelectedSchedules((prev) =>

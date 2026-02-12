@@ -19,14 +19,98 @@ export default function LocationDropdown({
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   const locationOptions = React.useMemo(() => {
-    const options = countries.map((country) => ({
-      label: country.name.common,
-      value: country.name.common,
-      flag: country.flag,
-    }));
-    options.sort((a, b) => a.label.localeCompare(b.label));
-    options.unshift({ label: "Remote", value: "Remote", flag: "🌍" });
-    options.unshift({ label: "Any Location", value: "", flag: "🗺️" });
+    const options: Array<{
+      label: string;
+      value: string;
+      flag: string;
+      type: string;
+    }> = [];
+
+    options.push({
+      label: "Any Location",
+      value: "",
+      flag: "🗺️",
+      type: "special",
+    });
+    options.push({
+      label: "Remote",
+      value: "Remote",
+      flag: "🌍",
+      type: "special",
+    });
+
+    const popularCities = [
+      {
+        label: "San Francisco, CA",
+        value: "San Francisco, CA",
+        flag: "🇺🇸",
+        type: "city",
+      },
+      {
+        label: "New York, NY",
+        value: "New York, NY",
+        flag: "🇺🇸",
+        type: "city",
+      },
+      {
+        label: "Los Angeles, CA",
+        value: "Los Angeles, CA",
+        flag: "🇺🇸",
+        type: "city",
+      },
+      { label: "Chicago, IL", value: "Chicago, IL", flag: "🇺🇸", type: "city" },
+      { label: "Seattle, WA", value: "Seattle, WA", flag: "🇺🇸", type: "city" },
+      { label: "Boston, MA", value: "Boston, MA", flag: "🇺🇸", type: "city" },
+      { label: "Austin, TX", value: "Austin, TX", flag: "🇺🇸", type: "city" },
+      { label: "Toronto, CA", value: "Toronto, CA", flag: "🇨🇦", type: "city" },
+      {
+        label: "Vancouver, BC",
+        value: "Vancouver, BC",
+        flag: "🇨🇦",
+        type: "city",
+      },
+      { label: "London, UK", value: "London, UK", flag: "🇬🇧", type: "city" },
+    ];
+
+    options.push(...popularCities);
+
+    const topCountries = [
+      {
+        label: "United States",
+        value: "United States",
+        flag: "🇺🇸",
+        type: "country",
+      },
+      { label: "Canada", value: "Canada", flag: "🇨🇦", type: "country" },
+      {
+        label: "United Kingdom",
+        value: "United Kingdom",
+        flag: "🇬🇧",
+        type: "country",
+      },
+      { label: "Germany", value: "Germany", flag: "🇩🇪", type: "country" },
+      { label: "France", value: "France", flag: "🇫🇷", type: "country" },
+      { label: "Australia", value: "Australia", flag: "🇦🇺", type: "country" },
+      { label: "India", value: "India", flag: "🇮🇳", type: "country" },
+      { label: "Singapore", value: "Singapore", flag: "🇸🇬", type: "country" },
+    ];
+
+    options.push(...topCountries);
+
+    const otherCountries = countries
+      .filter(
+        (country) => !topCountries.some((t) => t.label === country.name.common),
+      )
+      .map((country) => ({
+        label: country.name.common,
+        value: country.name.common,
+        flag: country.flag,
+        type: "country",
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+    options.push(...otherCountries);
+
     return options;
   }, []);
 
@@ -87,7 +171,7 @@ export default function LocationDropdown({
       <input
         ref={inputRef}
         type="text"
-        placeholder="Work location"
+        placeholder="Any Location"
         value={search}
         onChange={handleInputChange}
         onFocus={handleFocus}
