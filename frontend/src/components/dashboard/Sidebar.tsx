@@ -9,7 +9,7 @@ import {
   MessageSquare,
   Bot,
   Image as ImageIcon,
-  Video,
+  Briefcase,
   Key,
   Settings,
   BarChart3,
@@ -28,7 +28,7 @@ const mainNav = [
   { name: "Chat", href: "/chat", icon: MessageSquare },
   { name: "Agents", href: "/agents", icon: Bot },
   { name: "Images", href: "/images", icon: ImageIcon },
-  { name: "Videos", href: "/videos", icon: Video },
+  { name: "Jobs", href: "/jobs", icon: Briefcase },
 ];
 
 const manageNav = [
@@ -64,7 +64,7 @@ export default function Sidebar() {
       <motion.div key={item.name} variants={fadeLeft}>
         <Link
           href={item.href}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 group relative"
+          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 group relative"
           style={{
             backgroundColor: active ? "var(--d-surface-active)" : "transparent",
             color: active ? "var(--d-text-primary)" : "var(--d-text-tertiary)",
@@ -82,7 +82,7 @@ export default function Sidebar() {
             />
           )}
           <Icon
-            className="w-4.5 h-4.5 relative z-10 transition-colors duration-300"
+            className="w-5 h-5 relative z-10 transition-colors duration-300"
             style={{
               color: active ? "var(--d-text-primary)" : "var(--d-icon)",
             }}
@@ -139,14 +139,14 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="flex items-center gap-3 px-5 py-6 min-h-18">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
             style={{
               backgroundColor: "var(--d-surface-active)",
               border: "1px solid var(--d-border-hover)",
             }}
           >
             <Sparkles
-              className="w-4 h-4"
+              className="w-5 h-5"
               style={{ color: "var(--d-text-secondary)" }}
             />
           </div>
@@ -156,7 +156,7 @@ export default function Sidebar() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-[15px] font-semibold tracking-tight whitespace-nowrap"
+                className="text-[17px] font-semibold tracking-tight whitespace-nowrap"
                 style={{ color: "var(--d-text-primary)" }}
               >
                 Inteview
@@ -175,7 +175,7 @@ export default function Sidebar() {
           >
             {!collapsed && (
               <p
-                className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
+                className="px-3 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.2em]"
                 style={{ color: "var(--d-text-muted)" }}
               >
                 Create
@@ -216,13 +216,13 @@ export default function Sidebar() {
           {!isMobile && (
             <button
               onClick={toggle}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-300 w-full"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 w-full"
               style={{ color: "var(--d-text-tertiary)" }}
             >
               {collapsed ? (
-                <ChevronRight className="w-4.5 h-4.5" />
+                <ChevronRight className="w-5 h-5" />
               ) : (
-                <ChevronLeft className="w-4.5 h-4.5" />
+                <ChevronLeft className="w-5 h-5" />
               )}
               <AnimatePresence>
                 {!collapsed && (
@@ -240,10 +240,10 @@ export default function Sidebar() {
           )}
 
           <button
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full"
+            className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full"
             style={{ color: "var(--d-text-tertiary)" }}
           >
-            <LogOut className="w-4.5 h-4.5" />
+            <LogOut className="w-5 h-5" />
             <AnimatePresence>
               {!collapsed && (
                 <motion.span

@@ -49,29 +49,29 @@ export default function ActivityFeed() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-6 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-300"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h3
-            className="text-[15px] font-medium tracking-tight"
+            className="text-[17px] font-medium tracking-tight"
             style={{ color: "var(--d-text-primary)" }}
           >
             Recent Activity
           </h3>
           <p
-            className="text-[12px] mt-0.5"
+            className="text-[13px] mt-0.5"
             style={{ color: "var(--d-text-muted)" }}
           >
             Latest agent logs
           </p>
         </div>
         <button
-          className="text-[12px] transition-colors"
+          className="text-[13px] transition-colors"
           style={{ color: "var(--d-text-tertiary)" }}
         >
           View all
@@ -90,10 +90,10 @@ export default function ActivityFeed() {
             <motion.div
               key={i}
               variants={fadeUp}
-              className="flex items-start gap-3 p-3 rounded-xl transition-colors duration-200 group cursor-pointer"
+              className="flex items-start gap-3.5 p-3.5 rounded-xl transition-colors duration-200 group cursor-pointer"
             >
               <div
-                className={`w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center ${
+                className={`w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center ${
                   activity.status === "warning"
                     ? "bg-amber-500/10 border border-amber-500/10"
                     : ""
@@ -108,7 +108,7 @@ export default function ActivityFeed() {
                 }
               >
                 <Icon
-                  className={`w-3.5 h-3.5 ${
+                  className={`w-4 h-4 ${
                     activity.status === "warning" ? "text-amber-400/60" : ""
                   }`}
                   style={
@@ -121,13 +121,13 @@ export default function ActivityFeed() {
 
               <div className="flex-1 min-w-0">
                 <p
-                  className="text-[13px] font-medium transition-colors truncate"
+                  className="text-[14px] font-medium transition-colors truncate"
                   style={{ color: "var(--d-text-secondary)" }}
                 >
                   {activity.title}
                 </p>
                 <p
-                  className="text-[11px] mt-0.5 truncate"
+                  className="text-[12px] mt-0.5 truncate"
                   style={{ color: "var(--d-text-muted)" }}
                 >
                   {activity.description}
@@ -135,7 +135,7 @@ export default function ActivityFeed() {
               </div>
 
               <span
-                className="text-[10px] flex-shrink-0 mt-0.5"
+                className="text-[11px] flex-shrink-0 mt-0.5"
                 style={{ color: "var(--d-text-ghost)" }}
               >
                 {activity.time}

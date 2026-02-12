@@ -72,7 +72,7 @@ export default function SettingsNav({
   return (
     <nav className={`space-y-1 ${className}`}>
       <p
-        className="px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-[0.2em]"
+        className="px-3 pb-2 pt-1 text-[11px] font-bold uppercase tracking-[0.2em]"
         style={{ color: "var(--d-text-muted)" }}
       >
         Settings
@@ -87,7 +87,7 @@ export default function SettingsNav({
             key={item.id}
             type="button"
             onClick={() => onSectionChange(item.id)}
-            className="relative flex items-start gap-3 w-full px-3 py-2.5 rounded-xl text-left transition-all duration-200 group"
+            className="relative flex items-start gap-3 w-full px-3 py-3 rounded-xl text-left transition-all duration-200 group"
             style={{
               backgroundColor: isActive
                 ? "var(--d-surface-active)"
@@ -107,7 +107,7 @@ export default function SettingsNav({
             )}
 
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
+              className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
               style={{
                 backgroundColor: isActive
                   ? "var(--d-surface-hover)"
@@ -118,7 +118,7 @@ export default function SettingsNav({
               }}
             >
               <Icon
-                className="w-4 h-4 transition-colors duration-200"
+                className="w-5 h-5 transition-colors duration-200"
                 style={{
                   color: isActive
                     ? "var(--d-text-primary)"
@@ -129,7 +129,7 @@ export default function SettingsNav({
 
             <div className="relative z-10 min-w-0 flex-1">
               <span
-                className="block text-[13px] font-medium leading-snug transition-colors duration-200"
+                className="block text-[14px] font-medium leading-snug transition-colors duration-200"
                 style={{
                   color: isActive
                     ? "var(--d-text-primary)"
@@ -139,7 +139,7 @@ export default function SettingsNav({
                 {item.label}
               </span>
               <span
-                className="block text-[11px] leading-relaxed mt-0.5 transition-colors duration-200"
+                className="block text-[12px] leading-relaxed mt-0.5 transition-colors duration-200"
                 style={{
                   color: isActive
                     ? "var(--d-text-muted)"

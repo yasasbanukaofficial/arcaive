@@ -49,22 +49,22 @@ export default function QuickActions() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-6 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-300"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h3
-            className="text-[15px] font-medium tracking-tight"
+            className="text-[17px] font-medium tracking-tight"
             style={{ color: "var(--d-text-primary)" }}
           >
             Quick Actions
           </h3>
           <p
-            className="text-[12px] mt-0.5"
+            className="text-[13px] mt-0.5"
             style={{ color: "var(--d-text-muted)" }}
           >
             Start from a template
@@ -73,7 +73,7 @@ export default function QuickActions() {
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-1.5 text-[12px] transition-colors"
+          className="flex items-center gap-1.5 text-[13px] transition-colors"
           style={{ color: "var(--d-text-tertiary)" }}
         >
           <Plus className="w-3.5 h-3.5" />
@@ -85,7 +85,7 @@ export default function QuickActions() {
         initial="hidden"
         animate="show"
         variants={dashboardStagger(0.06, 0.15)}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-3"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
         {templates.map((template) => {
           const Icon = template.icon;
@@ -94,37 +94,37 @@ export default function QuickActions() {
               key={template.title}
               variants={fadeUp}
               whileHover={{ y: -1, transition: { duration: 0.15 } }}
-              className={`group relative text-left p-4 rounded-xl bg-linear-to-br ${template.gradient} transition-all duration-300`}
+              className={`group relative text-left p-5 rounded-xl bg-linear-to-br ${template.gradient} transition-all duration-300`}
               style={{ border: "1px solid var(--d-border-subtle)" }}
             >
               <div className="flex items-start justify-between mb-3">
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center"
                   style={{
                     backgroundColor: "var(--d-surface-active)",
                     border: "1px solid var(--d-border)",
                   }}
                 >
                   <Icon
-                    className="w-4 h-4"
+                    className="w-5 h-5"
                     style={{ color: "var(--d-icon)" }}
                   />
                 </div>
                 <span
-                  className="text-[10px] font-bold uppercase tracking-wider"
+                  className="text-[11px] font-bold uppercase tracking-wider"
                   style={{ color: "var(--d-text-muted)" }}
                 >
                   {template.tag}
                 </span>
               </div>
               <h4
-                className="text-[13px] font-medium mb-1"
+                className="text-[14px] font-medium mb-1"
                 style={{ color: "var(--d-text-secondary)" }}
               >
                 {template.title}
               </h4>
               <p
-                className="text-[11px] leading-relaxed"
+                className="text-[12px] leading-relaxed"
                 style={{ color: "var(--d-text-muted)" }}
               >
                 {template.description}

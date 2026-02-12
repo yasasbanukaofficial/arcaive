@@ -14,23 +14,23 @@ export default function UsageChart() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-6 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-300"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-7">
         <div>
           <h3
-            className="text-[15px] font-medium tracking-tight"
+            className="text-[17px] font-medium tracking-tight"
             style={{ color: "var(--d-text-primary)" }}
           >
             API Usage
           </h3>
           <p
-            className="text-[12px] mt-0.5"
+            className="text-[13px] mt-0.5"
             style={{ color: "var(--d-text-muted)" }}
           >
             Last 7 days
@@ -38,9 +38,9 @@ export default function UsageChart() {
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-blue-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-500/60" />
             <span
-              className="text-[11px]"
+              className="text-[12px]"
               style={{ color: "var(--d-text-muted)" }}
             >
               Total Requests
@@ -54,7 +54,7 @@ export default function UsageChart() {
         initial="hidden"
         animate="show"
         variants={dashboardStagger(0.06, 0.3)}
-        className="flex items-end gap-3 h-45 px-2"
+        className="flex items-end gap-4 h-52 px-3"
       >
         {data.map((value, i) => (
           <div key={i} className="flex-1 flex flex-col items-center gap-2">
@@ -67,7 +67,7 @@ export default function UsageChart() {
               {/* Tooltip */}
               <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                 <span
-                  className="text-[11px] font-medium backdrop-blur-md px-2 py-1 rounded-md whitespace-nowrap"
+                  className="text-[12px] font-medium backdrop-blur-md px-2.5 py-1.5 rounded-md whitespace-nowrap"
                   style={{
                     color: "var(--d-text-primary)",
                     backgroundColor: "var(--d-surface-active)",
@@ -79,7 +79,7 @@ export default function UsageChart() {
               </div>
             </motion.div>
             <span
-              className="text-[10px] font-medium"
+              className="text-[12px] font-medium"
               style={{ color: "var(--d-text-muted)" }}
             >
               {days[i]}

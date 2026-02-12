@@ -35,29 +35,29 @@ export default function ActiveAgents() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-6 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-300"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h3
-            className="text-[15px] font-medium tracking-tight"
+            className="text-[17px] font-medium tracking-tight"
             style={{ color: "var(--d-text-primary)" }}
           >
             Active Agents
           </h3>
           <p
-            className="text-[12px] mt-0.5"
+            className="text-[13px] mt-0.5"
             style={{ color: "var(--d-text-muted)" }}
           >
             Currently running workflows
           </p>
         </div>
         <button
-          className="text-[12px] transition-colors"
+          className="text-[13px] transition-colors"
           style={{ color: "var(--d-text-tertiary)" }}
         >
           Manage
@@ -75,14 +75,14 @@ export default function ActiveAgents() {
             key={agent.name}
             variants={fadeUp}
             whileHover={{ x: 2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 group cursor-pointer"
+            className="flex items-center gap-3.5 p-3.5 rounded-xl transition-all duration-300 group cursor-pointer"
             style={{
               backgroundColor: "var(--d-surface)",
               border: "1px solid var(--d-border-subtle)",
             }}
           >
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+              className="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
               style={{
                 backgroundColor: "var(--d-surface-hover)",
                 border: "1px solid var(--d-border)",
@@ -94,7 +94,7 @@ export default function ActiveAgents() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <p
-                  className="text-[13px] font-medium truncate"
+                  className="text-[14px] font-medium truncate"
                   style={{ color: "var(--d-text-secondary)" }}
                 >
                   {agent.name}
@@ -121,7 +121,7 @@ export default function ActiveAgents() {
                 </div>
               </div>
               <p
-                className="text-[11px] mt-0.5 truncate"
+                className="text-[12px] mt-0.5 truncate"
                 style={{ color: "var(--d-text-muted)" }}
               >
                 {agent.description}
@@ -130,13 +130,13 @@ export default function ActiveAgents() {
 
             <div className="text-right flex-shrink-0">
               <p
-                className="text-[13px] font-medium"
+                className="text-[15px] font-medium"
                 style={{ color: "var(--d-text-tertiary)" }}
               >
                 {agent.tasks}
               </p>
               <p
-                className="text-[10px]"
+                className="text-[11px]"
                 style={{ color: "var(--d-text-ghost)" }}
               >
                 tasks

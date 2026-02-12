@@ -78,26 +78,26 @@ export default function SettingsPage() {
       <motion.div variants={fadeUp} className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
+            className="w-12 h-12 rounded-xl flex items-center justify-center"
             style={{
               backgroundColor: "var(--d-surface-active)",
               border: "1px solid var(--d-border)",
             }}
           >
             <Settings
-              className="w-5 h-5"
+              className="w-6 h-6"
               style={{ color: "var(--d-text-tertiary)" }}
             />
           </div>
           <div>
             <h1
-              className="text-[22px] font-bold tracking-tight"
+              className="text-[26px] font-bold tracking-tight"
               style={{ color: "var(--d-text-primary)" }}
             >
               Settings
             </h1>
             <p
-              className="text-[13px] mt-0.5"
+              className="text-[15px] mt-1"
               style={{ color: "var(--d-text-muted)" }}
             >
               Configure your account, agents, and preferences
@@ -131,7 +131,7 @@ export default function SettingsPage() {
                   key={id}
                   type="button"
                   onClick={() => setActiveSection(id)}
-                  className="relative px-3 py-2 rounded-lg text-[12px] font-medium whitespace-nowrap transition-all duration-200"
+                  className="relative px-4 py-2.5 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-200"
                   style={{
                     backgroundColor: isActive
                       ? "var(--d-surface-active)"
@@ -155,7 +155,7 @@ export default function SettingsPage() {
       {/* Layout: sidebar nav + content */}
       <motion.div
         variants={fadeUp}
-        className="flex flex-col lg:flex-row gap-6 lg:gap-8"
+        className="flex flex-col lg:flex-row gap-8 lg:gap-10"
       >
         {/* Left nav — desktop only */}
         <div className="w-60 shrink-0 hidden lg:block">
@@ -180,13 +180,13 @@ export default function SettingsPage() {
               className="mb-6"
             >
               <h2
-                className="text-[18px] font-semibold tracking-tight mb-1"
+                className="text-[20px] font-semibold tracking-tight mb-1.5"
                 style={{ color: "var(--d-text-primary)" }}
               >
                 {title}
               </h2>
               <p
-                className="text-[13px]"
+                className="text-[14px]"
                 style={{ color: "var(--d-text-muted)" }}
               >
                 {description}
