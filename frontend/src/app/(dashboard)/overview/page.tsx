@@ -19,19 +19,13 @@ export default function DashboardPage() {
       variants={dashboardStagger(0.1, 0.05)}
       className="space-y-8 max-w-[1600px] mx-auto"
     >
-      {/* Welcome banner */}
       <motion.div variants={fadeUp}>
         <WelcomeBanner />
       </motion.div>
-
-      {/* Stats overview */}
       <motion.div variants={fadeUp}>
         <StatsGrid />
       </motion.div>
-
-      {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left — wider column */}
         <div className="lg:col-span-2 space-y-8">
           <motion.div variants={fadeUp}>
             <UsageChart />
@@ -43,8 +37,6 @@ export default function DashboardPage() {
             <WhatsNew />
           </motion.div>
         </div>
-
-        {/* Right — sidebar column */}
         <div className="space-y-8">
           <motion.div variants={fadeUp}>
             <ActiveAgents />

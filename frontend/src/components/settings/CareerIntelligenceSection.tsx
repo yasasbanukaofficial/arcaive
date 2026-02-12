@@ -25,8 +25,6 @@ import type {
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
 
-// ─── Achievement Item ────────────────────────────────────────────────
-
 type Achievement = {
   id: string;
   text: string;
@@ -112,15 +110,12 @@ function AchievementItem({
       }}
     >
       <div className="flex items-start gap-2.5">
-        {/* Drag handle */}
         <div
           className="mt-0.5 shrink-0 cursor-grab opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           style={{ color: "var(--d-text-ghost)" }}
         >
           <GripVertical className="w-3.5 h-3.5" />
         </div>
-
-        {/* Content */}
         <div className="flex-1 min-w-0">
           {isEditing ? (
             <div className="space-y-2">
@@ -154,8 +149,6 @@ function AchievementItem({
               >
                 {achievement.text}
               </p>
-
-              {/* Skill tags */}
               {achievement.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   <AnimatePresence mode="popLayout">
@@ -178,8 +171,6 @@ function AchievementItem({
                   </AnimatePresence>
                 </div>
               )}
-
-              {/* Inline tag add */}
               <div className="mt-2">
                 <TagInput
                   tags={achievement.tags}
@@ -193,8 +184,6 @@ function AchievementItem({
             </>
           )}
         </div>
-
-        {/* Source badge */}
         <div className="shrink-0 flex items-center gap-1.5">
           {achievement.source === "ai" && (
             <Badge
@@ -206,8 +195,6 @@ function AchievementItem({
             </Badge>
           )}
         </div>
-
-        {/* Action buttons */}
         {!isEditing && !disabled && (
           <div className="shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <button
@@ -259,15 +246,11 @@ function AchievementItem({
   );
 }
 
-// ─── Main Component ──────────────────────────────────────────────────
-
 export default function CareerIntelligenceSection() {
-  // File upload state
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatus>("idle");
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // Achievements state
   const [achievements, setAchievements] = useState<Achievement[]>([
     {
       id: "1",
@@ -290,7 +273,6 @@ export default function CareerIntelligenceSection() {
   ]);
   const [newAchievement, setNewAchievement] = useState("");
 
-  // Target roles state
   const [targetRoles, setTargetRoles] = useState<string[]>([
     "Senior Backend Engineer",
     "Tech Lead",
@@ -301,7 +283,6 @@ export default function CareerIntelligenceSection() {
     if (newFiles.length > 0) {
       setUploadStatus("uploading");
       setUploadProgress(0);
-      // Simulate upload + AI parsing
       for (let i = 0; i <= 100; i += 5) {
         await new Promise((r) => setTimeout(r, 80));
         setUploadProgress(i);
@@ -362,7 +343,6 @@ export default function CareerIntelligenceSection() {
         show: { opacity: 1, transition: { staggerChildren: 0.08 } },
       }}
     >
-      {/* CV / Resume Upload */}
       <Card
         title="CV / Resume Management"
         description="Upload your resume for AI-powered achievement extraction by the Ingestion Agent."
@@ -386,15 +366,12 @@ export default function CareerIntelligenceSection() {
           hint="Supported formats: PDF, DOCX. Max size: 10 MB."
         />
       </Card>
-
-      {/* Atomic Achievement Manager */}
       <Card
         title="Atomic Achievement Manager"
         description="Individual bullet points extracted from your resume. Edit or remove inaccuracies before storing in the Vector DB."
         icon={<Trophy className="w-4 h-4" />}
       >
         <div className="space-y-3">
-          {/* Achievement list */}
           <div className="space-y-2 max-h-100 overflow-y-auto pr-1">
             <AnimatePresence mode="popLayout">
               {achievements.map((achievement) => (
@@ -429,8 +406,6 @@ export default function CareerIntelligenceSection() {
               </div>
             )}
           </div>
-
-          {/* Add manually */}
           <div
             className="flex items-center gap-2 pt-2"
             style={{ borderTop: "1px solid var(--d-border-subtle)" }}
@@ -459,8 +434,6 @@ export default function CareerIntelligenceSection() {
           </div>
         </div>
       </Card>
-
-      {/* Target Roles */}
       <Card
         title="Target Roles"
         description="Roles you're targeting — used by the Discovery Agent to match you with relevant positions."

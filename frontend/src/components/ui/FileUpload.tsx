@@ -157,8 +157,6 @@ export default function FileUpload({
           {label}
         </label>
       )}
-
-      {/* Drop zone */}
       <motion.div
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -250,8 +248,6 @@ export default function FileUpload({
           </div>
         </div>
       </motion.div>
-
-      {/* Uploading / Status indicator */}
       {status !== "idle" && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
@@ -348,8 +344,6 @@ export default function FileUpload({
           </div>
         </motion.div>
       )}
-
-      {/* File list */}
       <AnimatePresence mode="popLayout">
         {files.map((f, i) => (
           <motion.div

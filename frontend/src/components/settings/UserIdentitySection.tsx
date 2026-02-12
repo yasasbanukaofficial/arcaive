@@ -31,24 +31,20 @@ type LinkedAccount = {
 };
 
 export default function UserIdentitySection() {
-  // Profile state
   const [fullName, setFullName] = useState("John Doe");
   const [email, setEmail] = useState("john@example.com");
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
-  // Password state
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  // MFA state
   const [mfaEnabled, setMfaEnabled] = useState(false);
   const [mfaMethod, setMfaMethod] = useState("app");
 
-  // Linked accounts state
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([
     {
       provider: "google",
@@ -73,7 +69,6 @@ export default function UserIdentitySection() {
 
   const handleProfileSave = async () => {
     setProfileSaving(true);
-    // TODO: API call
     await new Promise((r) => setTimeout(r, 800));
     setProfileSaving(false);
     setProfileSaved(true);
@@ -97,7 +92,6 @@ export default function UserIdentitySection() {
     }
 
     setPasswordSaving(true);
-    // TODO: API call
     await new Promise((r) => setTimeout(r, 800));
     setPasswordSaving(false);
     setCurrentPassword("");
@@ -129,7 +123,6 @@ export default function UserIdentitySection() {
         show: { opacity: 1, transition: { staggerChildren: 0.08 } },
       }}
     >
-      {/* Full Name & Email */}
       <Card
         title="Profile Information"
         description="Your primary contact details used across the platform."
@@ -183,8 +176,6 @@ export default function UserIdentitySection() {
           />
         </div>
       </Card>
-
-      {/* Password Management */}
       <Card
         title="Password Management"
         description="Update your password regularly for better security."
@@ -264,8 +255,6 @@ export default function UserIdentitySection() {
               }
             />
           </div>
-
-          {/* Password strength indicator */}
           {newPassword.length > 0 && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -327,8 +316,6 @@ export default function UserIdentitySection() {
           )}
         </div>
       </Card>
-
-      {/* Multi-Factor Authentication */}
       <Card
         title="Multi-Factor Authentication"
         description="Add an extra layer of security to protect your account."
@@ -384,7 +371,6 @@ export default function UserIdentitySection() {
                         border: "1px solid rgba(59, 130, 246, 0.1)",
                       }}
                     >
-                      {/* QR Code placeholder */}
                       <div
                         className="w-24 h-24 rounded-xl shrink-0 flex items-center justify-center"
                         style={{
@@ -472,8 +458,6 @@ export default function UserIdentitySection() {
           </AnimatePresence>
         </div>
       </Card>
-
-      {/* Linked Accounts */}
       <Card
         title="Linked Accounts"
         description="Connect external accounts to pull project data and enable OAuth sign-in."

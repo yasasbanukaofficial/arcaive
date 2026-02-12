@@ -11,16 +11,12 @@ import TextArea from "@/components/ui/TextArea";
 import Badge from "@/components/ui/Badge";
 
 export default function AgentConfigSection() {
-  // Auto-Apply threshold
   const [applyThreshold, setApplyThreshold] = useState(75);
 
-  // Agent persona
   const [personaId, setPersonaId] = useState("bold");
 
-  // Model selection
   const [useGpt4o, setUseGpt4o] = useState(true);
 
-  // Blacklist
   const [blacklist, setBlacklist] = useState(
     "Palantir\nClearview AI\ncrypto trading",
   );
@@ -56,7 +52,6 @@ export default function AgentConfigSection() {
         show: { opacity: 1, transition: { staggerChildren: 0.08 } },
       }}
     >
-      {/* Auto-Apply Threshold */}
       <Card
         title="Auto-Apply Threshold"
         description="Set the minimum Match Score required for the Auto-Apply Agent Bot to automatically submit an application on your behalf."
@@ -79,8 +74,6 @@ export default function AgentConfigSection() {
                   : "Low threshold — more applications will be auto-submitted. Review frequently."
             }
           />
-
-          {/* Visual indicator */}
           <div className="flex items-center gap-3 pt-1">
             <div className="flex gap-1">
               {[20, 40, 60, 80, 100].map((mark) => (
@@ -109,8 +102,6 @@ export default function AgentConfigSection() {
           </div>
         </div>
       </Card>
-
-      {/* Agent Persona */}
       <Card
         title="Agent Persona"
         description="Select the tone and voice used by the Refinement Swarm when tailoring your application materials."
@@ -124,8 +115,6 @@ export default function AgentConfigSection() {
           hint="This affects how your cover letters and application responses are written."
         />
       </Card>
-
-      {/* Model Selection */}
       <Card
         title="Model Selection"
         description="Choose which LLM powers your agents. Available on the Strategist tier."
@@ -182,8 +171,6 @@ export default function AgentConfigSection() {
           </motion.div>
         </div>
       </Card>
-
-      {/* Blacklisted Keywords / Companies */}
       <Card
         title="Blacklisted Keywords & Companies"
         description="Companies or terms the Discovery Agent should ignore when scanning for job matches."

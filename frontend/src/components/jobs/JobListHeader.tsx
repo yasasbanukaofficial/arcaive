@@ -51,7 +51,6 @@ export default function JobListHeader({
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Show filter toggle when collapsed */}
         {filtersCollapsed && (
           <motion.button
             initial={{ opacity: 0, scale: 0.9 }}
@@ -68,8 +67,6 @@ export default function JobListHeader({
             Filters
           </motion.button>
         )}
-
-        {/* Sort dropdown */}
         <div className="flex items-center gap-2">
           <span
             className="text-[12px] font-medium"

@@ -1,6 +1,5 @@
 import type { Variants } from "framer-motion";
 
-// Bounce-in animation for individual items
 export const bounceIn: Variants = {
   hidden: {
     opacity: 0,
@@ -19,7 +18,6 @@ export const bounceIn: Variants = {
   },
 };
 
-// Container that staggers children with custom delay
 export const staggerContainer = (
   staggerDelay: number = 0.1,
   initialDelay: number = 0,
@@ -36,7 +34,6 @@ export const staggerContainer = (
   },
 });
 
-// Legacy support - keeping old variants for backward compatibility
 export const item: Variants = {
   hidden: {
     opacity: 0,

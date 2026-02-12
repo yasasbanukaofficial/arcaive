@@ -122,7 +122,6 @@ export default function TagInput({
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value;
-      // If user pastes comma-separated values, split them
       if (val.includes(",")) {
         const parts = val.split(",");
         parts.forEach((part) => {
@@ -144,11 +143,9 @@ export default function TagInput({
   }, [disabled]);
 
   const handleBlur = useCallback(() => {
-    // Delay to allow suggestion click to register
     setTimeout(() => {
       setIsFocused(false);
       setShowSuggestions(false);
-      // Auto-add whatever is in the input on blur
       if (inputValue.trim()) {
         addTag(inputValue);
       }
@@ -183,8 +180,6 @@ export default function TagInput({
           )}
         </div>
       )}
-
-      {/* Main container */}
       <div className="relative">
         <div
           onClick={handleContainerClick}
@@ -203,7 +198,6 @@ export default function TagInput({
             boxShadow: isFocused ? "0 0 0 2px rgba(59, 130, 246, 0.08)" : "none",
           }}
         >
-          {/* Tags */}
           <AnimatePresence mode="popLayout">
             {tags.map((tag, index) => (
               <motion.span
@@ -233,8 +227,6 @@ export default function TagInput({
               </motion.span>
             ))}
           </AnimatePresence>
-
-          {/* Input */}
           {!atLimit && !disabled && (
             <input
               ref={inputRef}
@@ -255,8 +247,6 @@ export default function TagInput({
               style={{ color: "var(--d-text-primary)" }}
             />
           )}
-
-          {/* Visual add hint when empty */}
           {tags.length === 0 && !isFocused && !disabled && (
             <div
               className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
@@ -266,8 +256,6 @@ export default function TagInput({
             </div>
           )}
         </div>
-
-        {/* Suggestions dropdown */}
         <AnimatePresence>
           {showSuggestions && filteredSuggestions.length > 0 && (
             <motion.div

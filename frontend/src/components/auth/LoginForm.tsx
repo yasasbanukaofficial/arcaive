@@ -13,7 +13,6 @@ export default function LoginForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: add login logic
     console.log("login", { email, password });
   };
 

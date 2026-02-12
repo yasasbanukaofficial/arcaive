@@ -38,7 +38,6 @@ export default function Card({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Header */}
       {(title || actions) && (
         <div
           className={`flex items-start justify-between gap-4 px-6 pt-5 ${
@@ -121,8 +120,6 @@ export default function Card({
           </div>
         </div>
       )}
-
-      {/* Body */}
       {!collapsed && (
         <motion.div
           initial={collapsible ? { opacity: 0, height: 0 } : undefined}

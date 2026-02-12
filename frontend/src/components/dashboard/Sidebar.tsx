@@ -46,7 +46,6 @@ export default function Sidebar() {
 
   const isActive = (href: string) => pathname === href;
 
-  // Close mobile sidebar on navigation
   React.useEffect(() => {
     if (isMobile) {
       setMobileOpen(false);
@@ -104,13 +103,10 @@ export default function Sidebar() {
     );
   };
 
-  // On mobile: sidebar is 260px, slides in/out via translateX
-  // On desktop: sidebar uses collapse/expand width animation
   const sidebarWidth = isMobile ? 260 : collapsed ? 72 : 260;
 
   return (
     <>
-      {/* Mobile backdrop overlay */}
       <AnimatePresence>
         {isMobile && mobileOpen && (
           <motion.div
@@ -136,7 +132,6 @@ export default function Sidebar() {
           borderRight: "1px solid var(--d-border-subtle)",
         }}
       >
-        {/* Logo */}
         <div className="flex items-center gap-3 px-5 py-6 min-h-18">
           <div
             className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
@@ -164,8 +159,6 @@ export default function Sidebar() {
             )}
           </AnimatePresence>
         </div>
-
-        {/* Main nav */}
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
           <motion.div
             initial="hidden"
@@ -206,13 +199,10 @@ export default function Sidebar() {
             {manageNav.map(renderNavItem)}
           </motion.div>
         </nav>
-
-        {/* Bottom section */}
         <div
           className="px-3 pb-4 space-y-2 pt-4"
           style={{ borderTop: "1px solid var(--d-border-subtle)" }}
         >
-          {/* Hide collapse toggle on mobile — sidebar uses overlay instead */}
           {!isMobile && (
             <button
               onClick={toggle}

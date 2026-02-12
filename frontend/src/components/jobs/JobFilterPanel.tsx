@@ -128,7 +128,6 @@ function SalaryRangeSlider({ range, onChange }: SalaryRangeSliderProps) {
         className="relative h-2 rounded-full"
         style={{ backgroundColor: "var(--d-surface-hover)" }}
       >
-        {/* Active range fill */}
         <div
           className="absolute h-full rounded-full"
           style={{
@@ -137,7 +136,6 @@ function SalaryRangeSlider({ range, onChange }: SalaryRangeSliderProps) {
             backgroundColor: "var(--d-border-hover)",
           }}
         />
-        {/* Min thumb */}
         <div
           onPointerDown={handlePointerDown("min")}
           className="absolute top-1/2 w-4.5 h-4.5 rounded-full cursor-grab active:cursor-grabbing touch-none z-10"
@@ -149,7 +147,6 @@ function SalaryRangeSlider({ range, onChange }: SalaryRangeSliderProps) {
             boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
           }}
         />
-        {/* Max thumb */}
         <div
           onPointerDown={handlePointerDown("max")}
           className="absolute top-1/2 w-4.5 h-4.5 rounded-full cursor-grab active:cursor-grabbing touch-none z-10"
@@ -166,7 +163,6 @@ function SalaryRangeSlider({ range, onChange }: SalaryRangeSliderProps) {
   );
 }
 
-// ─── Main filter panel ───
 const WORK_SCHEDULES: WorkSchedule[] = [
   "Full time",
   "Part time",
@@ -218,7 +214,6 @@ export default function JobFilterPanel({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Header */}
       <div className="flex items-center justify-between">
         <h3
           className="text-[16px] font-semibold tracking-tight"
@@ -237,8 +232,6 @@ export default function JobFilterPanel({
           <ChevronLeft className="w-4 h-4" />
         </button>
       </div>
-
-      {/* Working Schedule */}
       <div>
         <p
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
@@ -257,8 +250,6 @@ export default function JobFilterPanel({
           ))}
         </div>
       </div>
-
-      {/* Employment Type */}
       <div>
         <p
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
@@ -277,8 +268,6 @@ export default function JobFilterPanel({
           ))}
         </div>
       </div>
-
-      {/* Source */}
       <div>
         <p
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
@@ -297,8 +286,6 @@ export default function JobFilterPanel({
           ))}
         </div>
       </div>
-
-      {/* Salary Range */}
       <div>
         <p
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"

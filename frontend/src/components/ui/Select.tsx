@@ -83,7 +83,6 @@ export default function Select({
       )}
 
       <div className="relative">
-        {/* Trigger button */}
         <button
           type="button"
           disabled={disabled}
@@ -128,8 +127,6 @@ export default function Select({
             />
           </motion.div>
         </button>
-
-        {/* Dropdown menu */}
         <AnimatePresence>
           {open && (
             <motion.div

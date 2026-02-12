@@ -14,8 +14,6 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   const { collapsed, isMobile } = useSidebar();
   const { theme } = useTheme();
 
-  // On mobile: no left margin (sidebar is an overlay)
-  // On desktop: margin follows sidebar width
   const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
 
   return (
@@ -24,7 +22,6 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       data-theme={theme}
       style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
     >
-      {/* Background glows — scoped to dashboard */}
       <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500">
         <div
           className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[120px]"

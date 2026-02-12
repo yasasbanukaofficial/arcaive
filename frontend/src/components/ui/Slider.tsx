@@ -94,7 +94,6 @@ export default function Slider({
           ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}
         `}
       >
-        {/* Track background */}
         <div
           className="absolute inset-x-0 h-1.5 rounded-full"
           style={{
@@ -102,8 +101,6 @@ export default function Slider({
             border: "1px solid var(--d-border)",
           }}
         />
-
-        {/* Active fill */}
         <div
           className="absolute left-0 h-1.5 rounded-full transition-[width] duration-75 ease-out"
           style={{
@@ -111,8 +108,6 @@ export default function Slider({
             background: "linear-gradient(90deg, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.6))",
           }}
         />
-
-        {/* Thumb */}
         <div
           className="absolute w-4 h-4 rounded-full -translate-x-1/2 transition-[left] duration-75 ease-out"
           style={{
@@ -121,8 +116,6 @@ export default function Slider({
             boxShadow: "0 1px 4px rgba(0,0,0,0.25), 0 0 0 2px rgba(59, 130, 246, 0.2)",
           }}
         />
-
-        {/* Invisible native range for accessibility */}
         <input
           type="range"
           min={min}

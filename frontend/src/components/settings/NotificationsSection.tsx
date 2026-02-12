@@ -17,21 +17,17 @@ import Button from "@/components/ui/Button";
 import { useTheme } from "@/components/dashboard/ThemeContext";
 
 export default function NotificationsSection() {
-  // Alert preferences
   const [alertJobMatch, setAlertJobMatch] = useState(true);
   const [alertAutoApply, setAlertAutoApply] = useState(true);
   const [alertSimulation, setAlertSimulation] = useState(false);
 
-  // Data privacy
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
 
-  // Theme
   const { theme, toggleTheme, isDark } = useTheme();
 
   const handleDeleteAllData = () => {
     if (deleteConfirmText === "DELETE") {
-      // TODO: API call to wipe Neon + Chroma
       setShowDeleteConfirm(false);
       setDeleteConfirmText("");
     }
@@ -47,7 +43,6 @@ export default function NotificationsSection() {
         show: { opacity: 1, transition: { staggerChildren: 0.08 } },
       }}
     >
-      {/* Alert Preferences */}
       <Card
         title="Alert Preferences"
         description="Choose which notifications you'd like to receive."
@@ -88,8 +83,6 @@ export default function NotificationsSection() {
           </CardRow>
         </div>
       </Card>
-
-      {/* Theme Toggle */}
       <Card
         title="Theme"
         description="Customize the look and feel of your dashboard."
@@ -143,8 +136,6 @@ export default function NotificationsSection() {
           </div>
         </CardRow>
       </Card>
-
-      {/* Data Privacy */}
       <Card
         title="Data Privacy"
         description="Manage your stored data across all connected databases."

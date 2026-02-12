@@ -34,7 +34,6 @@ export default function JobSearchBar({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Search input */}
       <div className="flex items-center gap-3 flex-1 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
         <Search
           className="w-4.5 h-4.5 shrink-0"
@@ -49,14 +48,10 @@ export default function JobSearchBar({
           style={{ color: "var(--d-text-primary)" }}
         />
       </div>
-
-      {/* Divider */}
       <div
         className="hidden sm:block w-px self-stretch my-2"
         style={{ backgroundColor: "var(--d-border-subtle)" }}
       />
-
-      {/* Location */}
       <div className="flex items-center gap-3 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[200px]">
         <MapPin
           className="w-4.5 h-4.5 shrink-0"
@@ -71,14 +66,10 @@ export default function JobSearchBar({
           style={{ color: "var(--d-text-primary)" }}
         />
       </div>
-
-      {/* Divider */}
       <div
         className="hidden sm:block w-px self-stretch my-2"
         style={{ backgroundColor: "var(--d-border-subtle)" }}
       />
-
-      {/* Experience dropdown placeholder */}
       <button
         className="flex items-center gap-2.5 px-5 py-3.5 rounded-xl text-[14px] font-medium transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[160px]"
         style={{ color: "var(--d-text-tertiary)" }}
@@ -93,14 +84,10 @@ export default function JobSearchBar({
           style={{ color: "var(--d-icon)" }}
         />
       </button>
-
-      {/* Divider */}
       <div
         className="hidden sm:block w-px self-stretch my-2"
         style={{ backgroundColor: "var(--d-border-subtle)" }}
       />
-
-      {/* Salary dropdown placeholder */}
       <button
         className="flex items-center gap-2.5 px-5 py-3.5 rounded-xl text-[14px] font-medium transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[150px]"
         style={{ color: "var(--d-text-tertiary)" }}

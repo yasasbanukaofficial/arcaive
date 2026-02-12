@@ -21,9 +21,7 @@ export default function TopBar() {
         backgroundColor: "var(--d-bg-alpha)",
       }}
     >
-      {/* Left side: hamburger + search */}
       <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-        {/* Mobile hamburger */}
         {isMobile && (
           <button
             onClick={() => setMobileOpen(true)}
@@ -37,8 +35,6 @@ export default function TopBar() {
             <Menu className="w-5 h-5" style={{ color: "var(--d-icon)" }} />
           </button>
         )}
-
-        {/* Search */}
         <div
           className="flex items-center gap-3 px-4 py-2.5 rounded-xl w-full max-w-lg group transition-all duration-300"
           style={{
@@ -68,8 +64,6 @@ export default function TopBar() {
           </kbd>
         </div>
       </div>
-
-      {/* Actions */}
       <div className="flex items-center gap-2">
         <motion.button
           whileHover={{ scale: 1.05 }}

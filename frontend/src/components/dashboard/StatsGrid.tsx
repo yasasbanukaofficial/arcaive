@@ -72,7 +72,6 @@ export default function StatsGrid() {
               border: "1px solid var(--d-border)",
             }}
           >
-            {/* Subtle gradient bg */}
             <div
               className={`absolute inset-0 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
             />

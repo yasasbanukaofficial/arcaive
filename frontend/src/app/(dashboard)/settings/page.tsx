@@ -74,7 +74,6 @@ export default function SettingsPage() {
       variants={dashboardStagger(0.08, 0.1)}
       className="max-w-7xl mx-auto"
     >
-      {/* Page header */}
       <motion.div variants={fadeUp} className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div
@@ -105,8 +104,6 @@ export default function SettingsPage() {
           </div>
         </div>
       </motion.div>
-
-      {/* Mobile nav — rendered above the flex layout so it doesn't break the grid */}
       <motion.div variants={fadeUp} className="lg:hidden mb-6">
         <div
           className="overflow-x-auto pb-2 -mx-1 px-1 rounded-xl"
@@ -151,13 +148,10 @@ export default function SettingsPage() {
           </div>
         </div>
       </motion.div>
-
-      {/* Layout: sidebar nav + content */}
       <motion.div
         variants={fadeUp}
         className="flex flex-col lg:flex-row gap-8 lg:gap-10"
       >
-        {/* Left nav — desktop only */}
         <div className="w-60 shrink-0 hidden lg:block">
           <div className="sticky top-24">
             <SettingsNav
@@ -166,10 +160,7 @@ export default function SettingsPage() {
             />
           </div>
         </div>
-
-        {/* Main content */}
         <div className="flex-1 min-w-0">
-          {/* Section header */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
@@ -193,8 +184,6 @@ export default function SettingsPage() {
               </p>
             </motion.div>
           </AnimatePresence>
-
-          {/* Section content */}
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${activeSection}`}

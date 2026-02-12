@@ -1,6 +1,5 @@
 import type { Variants } from "framer-motion";
 
-// Fade up animation for dashboard elements
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: {
@@ -10,7 +9,6 @@ export const fadeUp: Variants = {
   },
 };
 
-// Fade in from left (sidebar items)
 export const fadeLeft: Variants = {
   hidden: { opacity: 0, x: -16 },
   show: {
@@ -20,7 +18,6 @@ export const fadeLeft: Variants = {
   },
 };
 
-// Scale-in for cards
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.96 },
   show: {
@@ -30,7 +27,6 @@ export const scaleIn: Variants = {
   },
 };
 
-// Stagger container for dashboard grids
 export const dashboardStagger = (
   staggerDelay: number = 0.08,
   initialDelay: number = 0.1,
@@ -45,7 +41,6 @@ export const dashboardStagger = (
   },
 });
 
-// Slide in from right for panels
 export const slideRight: Variants = {
   hidden: { opacity: 0, x: 24 },
   show: {
@@ -55,7 +50,6 @@ export const slideRight: Variants = {
   },
 };
 
-// Bar chart animation
 export const barGrow: Variants = {
   hidden: { scaleY: 0, originY: 1 },
   show: {
@@ -64,7 +58,6 @@ export const barGrow: Variants = {
   },
 };
 
-// Pulse glow for active indicators
 export const pulseGlow: Variants = {
   hidden: { opacity: 0, scale: 0.8 },
   show: {
@@ -74,7 +67,6 @@ export const pulseGlow: Variants = {
   },
 };
 
-// Sidebar expand
 export const sidebarVariants: Variants = {
   collapsed: { width: 72 },
   expanded: { width: 260 },

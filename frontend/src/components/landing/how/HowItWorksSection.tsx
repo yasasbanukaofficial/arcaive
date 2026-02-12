@@ -102,8 +102,6 @@ const HowItWorksSection: React.FC = () => {
             />
           </motion.div>
         </motion.div>
-
-        {/* Small devices: Stacked images + vertical step list */}
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -111,9 +109,7 @@ const HowItWorksSection: React.FC = () => {
           variants={staggerContainer(0.15, 0.1)}
           className="md:hidden"
         >
-          {/* All images stacked vertically */}
           <motion.div variants={bounceIn} className="flex flex-col gap-4 mb-8">
-            {/* Show only the default image until a step is clicked */}
             {(() => {
               const displayIndex = hasSelected ? activeStep : 0;
               const step = steps[displayIndex];
@@ -133,8 +129,6 @@ const HowItWorksSection: React.FC = () => {
               );
             })()}
           </motion.div>
-
-          {/* All steps listed vertically with left border */}
           <motion.div variants={bounceIn} className="flex flex-col">
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -152,7 +146,6 @@ const HowItWorksSection: React.FC = () => {
                       : "border-white/10 hover:border-white/30"
                   }`}
                 >
-                  {/* Icon and Title row */}
                   <div className="flex items-center gap-3">
                     <div className="text-white">
                       <Icon size={20} strokeWidth={1.5} />
@@ -161,7 +154,6 @@ const HowItWorksSection: React.FC = () => {
                       {step.id}. {step.title}
                     </h3>
                   </div>
-                  {/* Description */}
                   <div className="pl-8">
                     <p className="text-[13px] leading-relaxed text-gray-400">
                       {step.description}

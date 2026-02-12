@@ -16,7 +16,6 @@ export default function JobPromoBanner() {
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Decorative glow */}
       <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl bg-blue-500/10 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full blur-3xl bg-purple-500/8 pointer-events-none" />
 

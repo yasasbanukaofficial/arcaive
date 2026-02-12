@@ -33,7 +33,6 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 
   const toggle = () => setCollapsed((c) => !c);
 
-  // Listen for viewport changes
   useEffect(() => {
     const mql = window.matchMedia("(max-width: 1023px)");
     const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
@@ -47,7 +46,6 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     return () => mql.removeEventListener("change", handleChange);
   }, []);
 
-  // Close mobile sidebar on route change (body scroll lock helper)
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";

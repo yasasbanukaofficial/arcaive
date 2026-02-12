@@ -14,7 +14,6 @@ export default function WelcomeBanner() {
       className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent p-8 lg:p-10 transition-colors duration-300"
       style={{ border: "1px solid var(--d-border)" }}
     >
-      {/* Background decoration */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-bl from-blue-500/10 to-transparent blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-linear-to-t from-purple-500/8 to-transparent blur-3xl pointer-events-none" />
 

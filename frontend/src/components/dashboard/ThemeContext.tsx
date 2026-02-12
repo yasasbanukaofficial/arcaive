@@ -27,7 +27,6 @@ export const useTheme = () => useContext(ThemeContext);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
 
-  // Hydrate from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("dashboard-theme") as Theme | null;
     if (stored === "light" || stored === "dark") {
@@ -35,7 +34,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Persist to localStorage
   useEffect(() => {
     localStorage.setItem("dashboard-theme", theme);
   }, [theme]);

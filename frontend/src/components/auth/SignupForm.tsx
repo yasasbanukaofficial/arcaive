@@ -15,7 +15,6 @@ export default function SignupForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: add signup logic
     console.log("signup", { name, email, password, confirmPassword });
   };
 

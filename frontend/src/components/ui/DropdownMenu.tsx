@@ -61,7 +61,10 @@ export default function DropdownMenu<T extends string | number>({
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      focusedIndexRef.current = Math.min(focusedIndexRef.current + 1, options.length - 1);
+      focusedIndexRef.current = Math.min(
+        focusedIndexRef.current + 1,
+        options.length - 1,
+      );
       return;
     }
 
@@ -81,7 +84,10 @@ export default function DropdownMenu<T extends string | number>({
   };
 
   return (
-    <div ref={rootRef} className={`relative inline-block text-left ${className}`}>
+    <div
+      ref={rootRef}
+      className={`relative inline-block text-left ${className}`}
+    >
       <button
         ref={btnRef}
         type="button"
@@ -97,8 +103,13 @@ export default function DropdownMenu<T extends string | number>({
           boxShadow: "0 8px 24px rgba(2,6,23,0.12)",
         }}
       >
-        <span className="text-[13px] font-semibold truncate">{current.label}</span>
-        <ArrowUpDown className="w-4 h-4 ml-1" style={{ color: "var(--d-icon)" }} />
+        <span className="text-[13px] font-semibold truncate">
+          {current.label}
+        </span>
+        <ArrowUpDown
+          className="w-4 h-4 ml-1"
+          style={{ color: "var(--d-icon)" }}
+        />
       </button>
 
       {open && (
@@ -125,12 +136,16 @@ export default function DropdownMenu<T extends string | number>({
                   setOpen(false);
                 }}
                 className={`text-left px-4 py-3 transition-colors duration-150 ${
-                  opt.value === value ? "bg-[var(--d-surface-active)] text-[var(--d-text-primary)]" : "hover:bg-[var(--d-surface-hover)]"
+                  opt.value === value
+                    ? "bg-[var(--d-surface-active)] text-[var(--d-text-primary)]"
+                    : "hover:bg-[var(--d-surface-hover)]"
                 }`}
                 style={{ color: "var(--d-text-secondary)" }}
                 onMouseEnter={() => (focusedIndexRef.current = idx)}
               >
-                <span className="block text-[14px] font-medium">{opt.label}</span>
+                <span className="block text-[14px] font-medium">
+                  {opt.label}
+                </span>
               </button>
             ))}
           </div>

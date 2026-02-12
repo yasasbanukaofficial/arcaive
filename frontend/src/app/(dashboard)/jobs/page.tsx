@@ -16,7 +16,6 @@ import JobListHeader from "@/components/jobs/JobListHeader";
 import JobCard from "@/components/jobs/JobCard";
 import JobPromoBanner from "@/components/jobs/JobPromoBanner";
 
-// ─── Dummy data ───────────────────────────────────────────
 const DUMMY_JOBS: JobListing[] = [
   {
     id: "1",
@@ -201,11 +200,9 @@ const DUMMY_JOBS: JobListing[] = [
 ];
 
 export default function JobsPage() {
-  // ─── Search state ──────────────────────────────────────
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
 
-  // ─── Filter state ──────────────────────────────────────
   const [selectedSchedules, setSelectedSchedules] = useState<WorkSchedule[]>([
     "Full time",
     "Part time",
@@ -227,14 +224,11 @@ export default function JobsPage() {
   ]);
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
-  // ─── Sort state ────────────────────────────────────────
   const [sortBy, setSortBy] = useState<SortOption>("last_updated");
 
-  // ─── Filter + search logic (UI only, simple) ──────────
   const filteredJobs = useMemo(() => {
     let jobs = [...DUMMY_JOBS];
 
-    // Text search
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       jobs = jobs.filter(
@@ -245,7 +239,6 @@ export default function JobsPage() {
       );
     }
 
-    // Location search
     if (locationQuery.trim()) {
       const loc = locationQuery.toLowerCase();
       jobs = jobs.filter((j) => j.location.toLowerCase().includes(loc));
@@ -254,7 +247,6 @@ export default function JobsPage() {
     return jobs;
   }, [searchQuery, locationQuery]);
 
-  // ─── Toggle helpers ────────────────────────────────────
   const toggleSchedule = (s: WorkSchedule) =>
     setSelectedSchedules((prev) =>
       prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
@@ -277,7 +269,6 @@ export default function JobsPage() {
       variants={dashboardStagger(0.08, 0.05)}
       className="max-w-[1600px] mx-auto space-y-6"
     >
-      {/* Search bar */}
       <motion.div variants={fadeUp}>
         <JobSearchBar
           query={searchQuery}
@@ -286,10 +277,7 @@ export default function JobsPage() {
           onLocationChange={setLocationQuery}
         />
       </motion.div>
-
-      {/* Main content: filters + job grid */}
       <div className="flex gap-6 items-start">
-        {/* Left: promo banner + filters */}
         <motion.div
           animate={{
             width: filtersCollapsed ? 0 : 280,
@@ -319,8 +307,6 @@ export default function JobsPage() {
             </motion.div>
           </div>
         </motion.div>
-
-        {/* Right: job listings */}
         <div className="flex-1 min-w-0">
           <motion.div variants={fadeUp}>
             <JobListHeader
@@ -348,8 +334,6 @@ export default function JobsPage() {
               ))}
             </AnimatePresence>
           </div>
-
-          {/* Empty state */}
           {filteredJobs.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
