@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { fadeUp } from "@/components/dashboard/animations";
 
 export default function JobPromoBanner() {
@@ -20,17 +20,11 @@ export default function JobPromoBanner() {
       <div className="absolute bottom-0 left-0 w-24 h-24 rounded-full blur-3xl bg-purple-500/8 pointer-events-none" />
 
       <div className="relative z-10">
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-          style={{
-            backgroundColor: "var(--d-surface-active)",
-            border: "1px solid var(--d-border-hover)",
-          }}
-        >
-          <Sparkles className="w-6 h-6 text-blue-400/60" />
-        </motion.div>
+        <img
+          src="/images/icon.png"
+          alt="Arcaive"
+          className="w-10 h-10 object-contain mb-5"
+        />
 
         <h3
           className="text-[18px] font-semibold tracking-tight leading-snug mb-2.5"

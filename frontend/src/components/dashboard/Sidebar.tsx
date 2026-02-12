@@ -8,7 +8,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Bot,
-  Image as ImageIcon,
+  Zap,
   Briefcase,
   Key,
   Settings,
@@ -16,7 +16,7 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
+  // Sparkles removed — using Image instead
   LogOut,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -27,7 +27,7 @@ const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
   { name: "Chat", href: "/chat", icon: MessageSquare },
   { name: "Agents", href: "/agents", icon: Bot },
-  { name: "Images", href: "/images", icon: ImageIcon },
+  { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
 ];
 
@@ -140,9 +140,10 @@ export default function Sidebar() {
               border: "1px solid var(--d-border-hover)",
             }}
           >
-            <Sparkles
-              className="w-5 h-5"
-              style={{ color: "var(--d-text-secondary)" }}
+            <img
+              src="/images/icon.png"
+              alt="Arcaive"
+              className="w-5 h-5 object-contain"
             />
           </div>
           <AnimatePresence>

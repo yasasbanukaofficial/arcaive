@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { fadeUp } from "./animations";
 
 export default function WelcomeBanner() {
@@ -19,17 +19,11 @@ export default function WelcomeBanner() {
 
       <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-            style={{
-              backgroundColor: "var(--d-surface-active)",
-              border: "1px solid var(--d-border-hover)",
-            }}
-          >
-            <Sparkles className="w-6 h-6 text-blue-400/60" />
-          </motion.div>
+          <img
+            src="/images/icon.png"
+            alt="Arcaive"
+            className="w-10 h-10 object-contain shrink-0"
+          />
           <div>
             <h2
               className="text-xl sm:text-2xl font-medium tracking-tight mb-1.5"
