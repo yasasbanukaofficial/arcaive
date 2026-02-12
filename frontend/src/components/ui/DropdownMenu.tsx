@@ -116,12 +116,12 @@ export default function DropdownMenu<T extends string | number>({
         <div
           role="listbox"
           tabIndex={-1}
-          className="absolute right-0 mt-2 w-64 rounded-xl z-50 overflow-hidden"
+          className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-full sm:w-64 rounded-xl z-50 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
           style={{
-            backgroundColor: "var(--d-surface)",
+            backgroundColor: "rgba(10, 10, 15, 0.95)",
             border: "1px solid var(--d-border)",
             boxShadow: "0 12px 40px rgba(2,6,23,0.18)",
-            backdropFilter: "blur(6px)",
+            backdropFilter: "blur(8px)",
           }}
           onKeyDown={onKeyDown}
         >

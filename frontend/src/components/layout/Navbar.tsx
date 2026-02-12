@@ -61,8 +61,7 @@ export default function Navbar() {
 
         try {
           history.replaceState(null, "", `#${id}`);
-        } catch (e) {
-        }
+        } catch (e) {}
       }
     } catch (err) {
       setMobileMenuOpen(false);

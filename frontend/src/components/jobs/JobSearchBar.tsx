@@ -30,11 +30,12 @@ export default function JobSearchBar({
 }: JobSearchBarProps) {
   const experienceOptions = [
     { label: "Any Experience", value: "" },
-    { label: "Junior level", value: "Junior level" },
-    { label: "Middle level", value: "Middle level" },
-    { label: "Senior level", value: "Senior level" },
-    { label: "Lead", value: "Lead" },
-    { label: "Director", value: "Director" },
+    { label: "No experience", value: "No experience" },
+    { label: "6 months - 1 year", value: "6 months - 1 year" },
+    { label: "1 - 2 years", value: "1 - 2 years" },
+    { label: "2 - 4 years", value: "2 - 4 years" },
+    { label: "4 - 6 years", value: "4 - 6 years" },
+    { label: "6+ years", value: "6+ years" },
   ];
 
   const salaryOptions = [
@@ -79,7 +80,7 @@ export default function JobSearchBar({
         className="hidden sm:block w-px self-stretch my-2"
         style={{ backgroundColor: "var(--d-border-subtle)" }}
       />
-      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl min-w-[160px]">
+      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl sm:min-w-[160px]">
         <Briefcase
           className="w-4.5 h-4.5 shrink-0"
           style={{ color: "var(--d-icon)" }}
@@ -95,7 +96,7 @@ export default function JobSearchBar({
         className="hidden sm:block w-px self-stretch my-2"
         style={{ backgroundColor: "var(--d-border-subtle)" }}
       />
-      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl min-w-[150px]">
+      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl sm:min-w-[150px]">
         <DollarSign
           className="w-4.5 h-4.5 shrink-0"
           style={{ color: "var(--d-icon)" }}

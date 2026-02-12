@@ -13,11 +13,12 @@ export type EmploymentType =
   | "Shift method";
 
 export type ExperienceLevel =
-  | "Junior level"
-  | "Middle level"
-  | "Senior level"
-  | "Lead"
-  | "Director";
+  | "No experience"
+  | "6 months - 1 year"
+  | "1 - 2 years"
+  | "2 - 4 years"
+  | "4 - 6 years"
+  | "6+ years";
 
 export type JobSource = "LinkedIn" | "Serper" | "Indeed" | "Glassdoor";
 

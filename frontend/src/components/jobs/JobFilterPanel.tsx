@@ -63,120 +63,6 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
   );
 }
 
-const MIN_SALARY = 0;
-const MAX_SALARY = 20000;
-const STEP = 100;
-
-interface SalaryRangeSliderProps {
-  range: [number, number];
-  onChange: (range: [number, number]) => void;
-}
-
-function SalaryRangeSlider({ range, onChange }: SalaryRangeSliderProps) {
-  const trackRef = React.useRef<HTMLDivElement>(null);
-
-  const getPercent = (value: number) =>
-    ((value - MIN_SALARY) / (MAX_SALARY - MIN_SALARY)) * 100;
-
-  const getValueFromX = (clientX: number) => {
-    if (!trackRef.current) return 0;
-    const rect = trackRef.current.getBoundingClientRect();
-    const percent = Math.max(
-      0,
-      Math.min(1, (clientX - rect.left) / rect.width),
-    );
-    const raw = MIN_SALARY + percent * (MAX_SALARY - MIN_SALARY);
-    return Math.round(raw / STEP) * STEP;
-  };
-
-  const handlePointerDown =
-    (thumb: "min" | "max") => (e: React.PointerEvent) => {
-      e.preventDefault();
-      const target = e.currentTarget as HTMLElement;
-      target.setPointerCapture(e.pointerId);
-
-      const onMove = (ev: PointerEvent) => {
-        const val = getValueFromX(ev.clientX);
-        if (thumb === "min") {
-          onChange([Math.min(val, range[1] - STEP), range[1]]);
-        } else {
-          onChange([range[0], Math.max(val, range[0] + STEP)]);
-        }
-      };
-
-      const onUp = () => {
-        target.removeEventListener("pointermove", onMove);
-        target.removeEventListener("pointerup", onUp);
-      };
-
-      target.addEventListener("pointermove", onMove);
-      target.addEventListener("pointerup", onUp);
-    };
-
-  const leftPercent = getPercent(range[0]);
-  const rightPercent = getPercent(range[1]);
-
-  return (
-    <div className="mt-2">
-      <div className="flex items-center justify-between mb-3">
-        <span
-          className="text-[13px] font-semibold"
-          style={{ color: "var(--d-text-secondary)" }}
-        >
-          {"$"}
-          {range[0].toLocaleString()}
-        </span>
-        <span className="text-[11px]" style={{ color: "var(--d-text-ghost)" }}>
-          —
-        </span>
-        <span
-          className="text-[13px] font-semibold"
-          style={{ color: "var(--d-text-secondary)" }}
-        >
-          {"$"}
-          {range[1].toLocaleString()}
-        </span>
-      </div>
-      <div
-        ref={trackRef}
-        className="relative h-2 rounded-full"
-        style={{ backgroundColor: "var(--d-surface-hover)" }}
-      >
-        <div
-          className="absolute h-full rounded-full"
-          style={{
-            left: `${leftPercent}%`,
-            right: `${100 - rightPercent}%`,
-            backgroundColor: "var(--d-border-hover)",
-          }}
-        />
-        <div
-          onPointerDown={handlePointerDown("min")}
-          className="absolute top-1/2 w-4.5 h-4.5 rounded-full cursor-grab active:cursor-grabbing touch-none z-10"
-          style={{
-            left: `${leftPercent}%`,
-            backgroundColor: "var(--d-text-primary)",
-            border: "2px solid var(--d-border-hover)",
-            transform: "translate(-50%, -50%)",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
-          }}
-        />
-        <div
-          onPointerDown={handlePointerDown("max")}
-          className="absolute top-1/2 w-4.5 h-4.5 rounded-full cursor-grab active:cursor-grabbing touch-none z-10"
-          style={{
-            left: `${rightPercent}%`,
-            backgroundColor: "var(--d-text-primary)",
-            border: "2px solid var(--d-border-hover)",
-            transform: "translate(-50%, -50%)",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
 const WORK_SCHEDULES: WorkSchedule[] = [
   "Full time",
   "Part time",
@@ -202,8 +88,6 @@ interface JobFiltersProps {
   onToggleType: (t: EmploymentType) => void;
   selectedSources: JobSource[];
   onToggleSource: (s: JobSource) => void;
-  salaryRange: [number, number];
-  onSalaryRangeChange: (range: [number, number]) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
 }
@@ -215,8 +99,6 @@ export default function JobFilterPanel({
   onToggleType,
   selectedSources,
   onToggleSource,
-  salaryRange,
-  onSalaryRangeChange,
   collapsed,
   onToggleCollapse,
 }: JobFiltersProps) {
@@ -299,15 +181,6 @@ export default function JobFilterPanel({
             />
           ))}
         </div>
-      </div>
-      <div>
-        <p
-          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          Salary range
-        </p>
-        <SalaryRangeSlider range={salaryRange} onChange={onSalaryRangeChange} />
       </div>
     </div>
   );

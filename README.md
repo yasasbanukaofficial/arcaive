@@ -20,7 +20,7 @@
 | **Chroma**             | Vector DB        | Stores "Skill Embeddings" for mathematical JD matching.         |
 | **LangChain4j**        | AI Orchestration | Java-native AI integration for professional environments.       |
 | **OpenRouter**         | LLM Gateway      | Unified access to GPT-4o and Claude 3.5 Sonnet.                 |
-| **Livekit**            | Arcaive Audio   | Powers the real-time simulation loop voice sessions.            |
+| **Livekit**            | Arcaive Audio    | Powers the real-time simulation loop voice sessions.            |
 | **Lemon Squeezy**      | Payments         | Handles global tax/VAT (MoR) so developers can focus on code.   |
 
 ---
@@ -49,7 +49,7 @@ For **Arcaive** tier users, this bot handles the tedious form-filling and submis
 
 ARCAIVE implements a sophisticated multi-tier logic using **Spring Security** and **Lemon Squeezy** webhooks.
 
-| Feature                      | Explorer (Free) | Arcaive ($19/mo) |
+| Feature                      | Explorer (Free) | Arcaive ($19/mo)  |
 | ---------------------------- | --------------- | ----------------- |
 | CV Analysis                  | Basic           | Advanced (Atomic) |
 | Shadow Applications          | 3 / month       | Unlimited         |

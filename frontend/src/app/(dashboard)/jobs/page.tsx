@@ -25,8 +25,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "San Francisco, CA",
     salary: "$250/hr",
     postedDate: "20 May, 2025",
-    tags: ["Part time", "Senior level", "Distant", "Project work"],
-    experienceLevel: "Senior level",
+    tags: ["Part time", "6+ years", "Distant", "Project work"],
+    experienceLevel: "6+ years",
     workSchedule: "Part time",
     employmentType: "Distant",
     matchScore: 92,
@@ -45,8 +45,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "California, CA",
     salary: "$150/hr",
     postedDate: "4 Feb, 2025",
-    tags: ["Full time", "Junior level", "Distant", "Flexible Schedule"],
-    experienceLevel: "Junior level",
+    tags: ["Full time", "No experience", "Distant", "Flexible Schedule"],
+    experienceLevel: "No experience",
     workSchedule: "Full time",
     employmentType: "Flexible Schedule",
     matchScore: 78,
@@ -65,8 +65,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "New York, NY",
     salary: "$260/hr",
     postedDate: "29 Jan, 2025",
-    tags: ["Part time", "Senior level", "Full Day", "Shift work"],
-    experienceLevel: "Senior level",
+    tags: ["Part time", "4 - 6 years", "Full Day", "Shift work"],
+    experienceLevel: "4 - 6 years",
     workSchedule: "Part time",
     employmentType: "Full Day",
     matchScore: 65,
@@ -85,8 +85,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "California, CA",
     salary: "$120/hr",
     postedDate: "11 Apr, 2025",
-    tags: ["Full time", "Middle level", "Distant", "Project work"],
-    experienceLevel: "Middle level",
+    tags: ["Full time", "1 - 2 years", "Distant", "Project work"],
+    experienceLevel: "1 - 2 years",
     workSchedule: "Full time",
     employmentType: "Distant",
     matchScore: 85,
@@ -105,8 +105,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "New York, NY",
     salary: "$300/hr",
     postedDate: "2 Apr, 2025",
-    tags: ["Part time", "Senior level"],
-    experienceLevel: "Senior level",
+    tags: ["Part time", "2 - 4 years"],
+    experienceLevel: "2 - 4 years",
     workSchedule: "Part time",
     employmentType: "Full Day",
     matchScore: 71,
@@ -126,7 +126,7 @@ const DUMMY_JOBS: JobListing[] = [
     salary: "$140/hr",
     postedDate: "18 Jan, 2025",
     tags: ["Part time", "Distant"],
-    experienceLevel: "Middle level",
+    experienceLevel: "6 months - 1 year",
     workSchedule: "Part time",
     employmentType: "Distant",
     matchScore: 88,
@@ -145,8 +145,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "Remote",
     salary: "$280/hr",
     postedDate: "5 Mar, 2025",
-    tags: ["Full time", "Senior level", "Distant", "Flexible Schedule"],
-    experienceLevel: "Senior level",
+    tags: ["Full time", "6+ years", "Distant", "Flexible Schedule"],
+    experienceLevel: "6+ years",
     workSchedule: "Full time",
     employmentType: "Flexible Schedule",
     matchScore: 94,
@@ -165,8 +165,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "Toronto, CA",
     salary: "$220/hr",
     postedDate: "12 Feb, 2025",
-    tags: ["Full time", "Lead", "Distant", "Project work"],
-    experienceLevel: "Lead",
+    tags: ["Full time", "4 - 6 years", "Distant", "Project work"],
+    experienceLevel: "4 - 6 years",
     workSchedule: "Full time",
     employmentType: "Distant",
     matchScore: 82,
@@ -185,8 +185,8 @@ const DUMMY_JOBS: JobListing[] = [
     location: "San Francisco, CA",
     salary: "$310/hr",
     postedDate: "22 Mar, 2025",
-    tags: ["Full time", "Senior level", "Full Day"],
-    experienceLevel: "Senior level",
+    tags: ["Full time", "6+ years", "Full Day"],
+    experienceLevel: "6+ years",
     workSchedule: "Full time",
     employmentType: "Full Day",
     matchScore: 96,
@@ -221,9 +221,7 @@ export default function JobsPage() {
     "Indeed",
     "Glassdoor",
   ]);
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([
-    1200, 20000,
-  ]);
+
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
   const [sortBy, setSortBy] = useState<SortOption>("last_updated");
@@ -324,8 +322,6 @@ export default function JobsPage() {
                 onToggleType={toggleType}
                 selectedSources={selectedSources}
                 onToggleSource={toggleSource}
-                salaryRange={salaryRange}
-                onSalaryRangeChange={setSalaryRange}
                 collapsed={filtersCollapsed}
                 onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
               />
