@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/components/dashboard/animations";
 import type {
@@ -263,8 +263,29 @@ export default function JobsPage() {
       });
     }
 
+    const parseSalary = (s: string) => parseInt(s.replace(/[^0-9]/g, "")) || 0;
+    const parseDate = (d: string) => new Date(d).getTime();
+
+    switch (sortBy) {
+      case "match_score":
+        jobs.sort((a, b) => b.matchScore - a.matchScore);
+        break;
+      case "salary_high":
+        jobs.sort((a, b) => parseSalary(b.salary) - parseSalary(a.salary));
+        break;
+      case "salary_low":
+        jobs.sort((a, b) => parseSalary(a.salary) - parseSalary(b.salary));
+        break;
+      case "date_newest":
+        jobs.sort((a, b) => parseDate(b.postedDate) - parseDate(a.postedDate));
+        break;
+      case "last_updated":
+      default:
+        break;
+    }
+
     return jobs;
-  }, [searchQuery, locationQuery, experienceLevel, salaryRangeFilter]);
+  }, [searchQuery, locationQuery, experienceLevel, salaryRangeFilter, sortBy]);
 
   const toggleSchedule = (s: WorkSchedule) =>
     setSelectedSchedules((prev) =>
