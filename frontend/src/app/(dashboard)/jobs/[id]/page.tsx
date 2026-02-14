@@ -242,7 +242,7 @@ export default function JobDetailsPage() {
           {/* Company + Title */}
           <div className="flex items-start gap-5 mb-6">
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-[28px] shrink-0"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-[20px] sm:text-[28px] shrink-0"
               style={{
                 backgroundColor: "var(--d-surface-hover)",
                 border: "1px solid var(--d-border)",
