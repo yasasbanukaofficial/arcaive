@@ -69,14 +69,17 @@ export default function JobCard({ job }: JobCardProps) {
             {job.source}
           </span>
           <div
-            className="w-11 h-11 rounded-xl flex items-center justify-center text-[16px] font-bold"
+            className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden"
             style={{
               backgroundColor: "var(--d-surface-hover)",
               border: "1px solid var(--d-border)",
-              color: "var(--d-text-tertiary)",
             }}
           >
-            {job.companyLogo}
+            <img
+              src={job.companyLogo}
+              alt={job.company}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>

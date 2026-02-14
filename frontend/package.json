@@ -17,6 +17,7 @@
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "simple-api-responser": "^1.0.2",
     "tailwind-merge": "^3.4.0",
     "world-countries": "^5.1.0"
   },
