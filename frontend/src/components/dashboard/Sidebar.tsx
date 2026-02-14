@@ -84,9 +84,7 @@ export default function Sidebar() {
             <div
               className="absolute inset-0 rounded-xl"
               style={{
-                backgroundColor: isDark
-                  ? "var(--d-surface-active)"
-                  : "#000000",
+                backgroundColor: isDark ? "var(--d-surface-active)" : "#000000",
                 border: isDark ? "1px solid var(--d-border)" : "none",
               }}
             />
