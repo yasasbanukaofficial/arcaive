@@ -3,33 +3,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_WHATS_NEW } from "@/app/data/dashboard";
 
-const whatsNew = [
-  {
-    icon: "✨",
-    title: "Multi-Agent Swarm v2",
-    description: "Our most intelligent orchestration yet.",
-    tag: "New",
-  },
-  {
-    icon: "🖼️",
-    title: "Visual Resume Builder",
-    description: "State-of-the-art template generation.",
-    tag: "Beta",
-  },
-  {
-    icon: "🎬",
-    title: "Interview Simulator 3.0",
-    description: "Now with real-time video analysis.",
-    tag: "New",
-  },
-  {
-    icon: "🔊",
-    title: "Voice Practice Mode",
-    description: "Practice verbal responses with AI feedback.",
-    tag: "Coming Soon",
-  },
-];
+const whatsNew = DUMMY_WHATS_NEW;
 
 export default function WhatsNew() {
   return (

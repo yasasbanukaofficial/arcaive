@@ -4,8 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { fadeUp } from "./animations";
+import Button from "@/components/ui/Button";
+import { useTheme } from "./ThemeContext";
 
 export default function WelcomeBanner() {
+  const { isDark } = useTheme();
   return (
     <motion.div
       variants={fadeUp}
@@ -39,19 +42,15 @@ export default function WelcomeBanner() {
           </div>
         </div>
 
-        <motion.button
-          whileHover={{ scale: 1.03, x: 2 }}
-          whileTap={{ scale: 0.97 }}
-          className="flex items-center gap-2.5 px-6 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 whitespace-nowrap"
-          style={{
-            backgroundColor: "var(--d-surface-active)",
-            border: "1px solid var(--d-border-hover)",
-            color: "var(--d-text-secondary)",
-          }}
+        <Button
+          variant="secondary"
+          size="lg"
+          icon={<ArrowRight className="w-4 h-4" />}
+          iconPosition="right"
+          className="whitespace-nowrap"
         >
           View Summary
-          <ArrowRight className="w-4 h-4" />
-        </motion.button>
+        </Button>
       </div>
     </motion.div>
   );

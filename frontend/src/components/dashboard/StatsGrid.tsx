@@ -2,54 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  Zap,
-  Users,
-  Clock,
-} from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_STATS } from "@/app/data/dashboard";
 
-const stats = [
-  {
-    label: "Total API Requests",
-    value: "12,847",
-    change: "+14.2%",
-    trending: "up" as const,
-    icon: Activity,
-    color: "from-blue-500/20 to-blue-600/5",
-    borderColor: "border-blue-500/10",
-  },
-  {
-    label: "Active Agents",
-    value: "6",
-    change: "+2",
-    trending: "up" as const,
-    icon: Zap,
-    color: "from-amber-500/20 to-amber-600/5",
-    borderColor: "border-amber-500/10",
-  },
-  {
-    label: "Applications Sent",
-    value: "342",
-    change: "+28.5%",
-    trending: "up" as const,
-    icon: Users,
-    color: "from-emerald-500/20 to-emerald-600/5",
-    borderColor: "border-emerald-500/10",
-  },
-  {
-    label: "Avg Response Time",
-    value: "1.2s",
-    change: "-8.3%",
-    trending: "down" as const,
-    icon: Clock,
-    color: "from-purple-500/20 to-purple-600/5",
-    borderColor: "border-purple-500/10",
-  },
-];
+const stats = DUMMY_STATS;
 
 export default function StatsGrid() {
   return (

@@ -4,30 +4,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Bot, Zap, Pause, MoreHorizontal } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_AGENTS } from "@/app/data/dashboard";
 
-const agents = [
-  {
-    name: "Recruiter Agent",
-    description: "Screening roles & scoring fit",
-    status: "active" as const,
-    tasks: 24,
-    icon: "🎯",
-  },
-  {
-    name: "Resume Agent",
-    description: "Tailoring CVs for applications",
-    status: "active" as const,
-    tasks: 18,
-    icon: "📄",
-  },
-  {
-    name: "Interview Prep",
-    description: "Generating mock questions",
-    status: "paused" as const,
-    tasks: 7,
-    icon: "🎤",
-  },
-];
+const agents = DUMMY_AGENTS;
 
 export default function ActiveAgents() {
   return (

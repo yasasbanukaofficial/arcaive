@@ -3,9 +3,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp, barGrow, dashboardStagger } from "./animations";
+import { USAGE_DAYS, USAGE_DATA } from "@/app/data/dashboard";
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const data = [72, 56, 63, 48, 38, 34, 42];
+const days = USAGE_DAYS;
+const data = USAGE_DATA;
 const maxVal = Math.max(...data);
 
 export default function UsageChart() {

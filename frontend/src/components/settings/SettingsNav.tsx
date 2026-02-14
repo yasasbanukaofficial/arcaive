@@ -10,6 +10,7 @@ import {
   Bell,
   type LucideIcon,
 } from "lucide-react";
+import { useTheme } from "@/components/dashboard/ThemeContext";
 
 export type SettingsSection =
   | "identity"
@@ -69,6 +70,7 @@ export default function SettingsNav({
   onSectionChange,
   className = "",
 }: SettingsNavProps) {
+  const { isDark } = useTheme();
   return (
     <nav className={`space-y-1 ${className}`}>
       <p
@@ -90,7 +92,9 @@ export default function SettingsNav({
             className="relative flex items-start gap-3 w-full px-3 py-3 rounded-xl text-left transition-all duration-200 group"
             style={{
               backgroundColor: isActive
-                ? "var(--d-surface-active)"
+                ? isDark
+                  ? "var(--d-surface-active)"
+                  : "#000000"
                 : "transparent",
             }}
           >
@@ -99,8 +103,10 @@ export default function SettingsNav({
                 layoutId="settings-nav-active"
                 className="absolute inset-0 rounded-xl"
                 style={{
-                  backgroundColor: "var(--d-surface-active)",
-                  border: "1px solid var(--d-border)",
+                  backgroundColor: isDark
+                    ? "var(--d-surface-active)"
+                    : "#000000",
+                  border: isDark ? "1px solid var(--d-border)" : "none",
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
@@ -110,10 +116,14 @@ export default function SettingsNav({
               className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
               style={{
                 backgroundColor: isActive
-                  ? "var(--d-surface-hover)"
+                  ? isDark
+                    ? "var(--d-surface-hover)"
+                    : "rgba(255,255,255,0.1)"
                   : "transparent",
                 border: isActive
-                  ? "1px solid var(--d-border)"
+                  ? isDark
+                    ? "1px solid var(--d-border)"
+                    : "1px solid rgba(255,255,255,0.2)"
                   : "1px solid transparent",
               }}
             >
@@ -121,7 +131,9 @@ export default function SettingsNav({
                 className="w-5 h-5 transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? "var(--d-text-primary)"
+                    ? isDark
+                      ? "var(--d-text-primary)"
+                      : "#ffffff"
                     : "var(--d-text-muted)",
                 }}
               />
@@ -132,7 +144,9 @@ export default function SettingsNav({
                 className="block text-[14px] font-medium leading-snug transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? "var(--d-text-primary)"
+                    ? isDark
+                      ? "var(--d-text-primary)"
+                      : "#ffffff"
                     : "var(--d-text-tertiary)",
                 }}
               >
@@ -142,7 +156,9 @@ export default function SettingsNav({
                 className="block text-[12px] leading-relaxed mt-0.5 transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? "var(--d-text-muted)"
+                    ? isDark
+                      ? "var(--d-text-muted)"
+                      : "rgba(255,255,255,0.7)"
                     : "var(--d-text-ghost)",
                 }}
               >

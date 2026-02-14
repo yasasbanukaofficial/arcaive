@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "white";
 type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonProps = {
@@ -18,6 +18,10 @@ type ButtonProps = {
   iconPosition?: "left" | "right";
   fullWidth?: boolean;
   className?: string;
+  style?: React.CSSProperties;
+  backgroundColor?: string;
+  textColor?: string;
+  borderColor?: string;
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -52,6 +56,12 @@ function getVariantStyles(variant: ButtonVariant): React.CSSProperties {
         color: "var(--d-text-tertiary)",
         border: "1px solid transparent",
       };
+    case "white":
+      return {
+        backgroundColor: "#ffffff",
+        color: "#000000",
+        border: "1px solid var(--d-border)",
+      };
     default:
       return {};
   }
@@ -78,6 +88,12 @@ function getHoverStyles(variant: ButtonVariant): React.CSSProperties {
         backgroundColor: "var(--d-surface)",
         borderColor: "var(--d-border)",
       };
+    case "white":
+      return {
+        backgroundColor: "#f5f5f5",
+        color: "#000000",
+        borderColor: "var(--d-border-hover)",
+      };
     default:
       return {};
   }
@@ -95,9 +111,28 @@ export default function Button({
   iconPosition = "left",
   fullWidth = false,
   className = "",
+  style: customStyle,
+  backgroundColor,
+  textColor,
+  borderColor,
 }: ButtonProps) {
   const baseStyle = getVariantStyles(variant);
   const hoverStyle = getHoverStyles(variant);
+
+  // Allow custom style overrides
+  const finalBaseStyle = {
+    ...baseStyle,
+    ...(backgroundColor && { backgroundColor }),
+    ...(textColor && { color: textColor }),
+    ...(borderColor && { border: `1px solid ${borderColor}` }),
+    ...customStyle,
+  };
+
+  const finalHoverStyle = {
+    ...hoverStyle,
+    ...(backgroundColor && { backgroundColor }),
+    ...(textColor && { color: textColor }),
+  };
 
   return (
     <motion.button
@@ -115,15 +150,15 @@ export default function Button({
         ${fullWidth ? "w-full" : ""}
         ${className}
       `}
-      style={baseStyle}
+      style={finalBaseStyle}
       onMouseEnter={(e) => {
         if (!disabled && !loading) {
-          Object.assign(e.currentTarget.style, hoverStyle);
+          Object.assign(e.currentTarget.style, finalHoverStyle);
         }
       }}
       onMouseLeave={(e) => {
         if (!disabled && !loading) {
-          Object.assign(e.currentTarget.style, baseStyle);
+          Object.assign(e.currentTarget.style, finalBaseStyle);
         }
       }}
     >

@@ -2,46 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Bot, FileText, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_ACTIVITIES } from "@/app/data/dashboard";
 
-const activities = [
-  {
-    icon: Bot,
-    title: "Resume Agent completed tailoring",
-    description: "Tailored CV for Senior Frontend role at Stripe",
-    time: "2 min ago",
-    status: "success" as const,
-  },
-  {
-    icon: Send,
-    title: "Auto-apply submitted",
-    description: "Application sent to Google — ML Engineer",
-    time: "15 min ago",
-    status: "success" as const,
-  },
-  {
-    icon: AlertCircle,
-    title: "API rate limit warning",
-    description: "Approaching daily limit — 92% usage",
-    time: "1 hr ago",
-    status: "warning" as const,
-  },
-  {
-    icon: FileText,
-    title: "Cover letter generated",
-    description: "For Product Designer position at Figma",
-    time: "3 hrs ago",
-    status: "success" as const,
-  },
-  {
-    icon: CheckCircle2,
-    title: "Interview prep completed",
-    description: "Mock interview for System Design round",
-    time: "5 hrs ago",
-    status: "success" as const,
-  },
-];
+const activities = DUMMY_ACTIVITIES;
 
 export default function ActivityFeed() {
   return (

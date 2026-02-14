@@ -67,8 +67,16 @@ export default function Sidebar() {
           href={item.href}
           className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-colors duration-150 group relative"
           style={{
-            backgroundColor: active ? "var(--d-surface-active)" : "transparent",
-            color: active ? "var(--d-text-primary)" : "var(--d-text-tertiary)",
+            backgroundColor: active
+              ? isDark
+                ? "var(--d-surface-active)"
+                : "#000000"
+              : "transparent",
+            color: active
+              ? isDark
+                ? "var(--d-text-primary)"
+                : "#ffffff"
+              : "var(--d-text-tertiary)",
           }}
         >
           {/* Instant active indicator — no layoutId, no traveling */}
@@ -76,15 +84,21 @@ export default function Sidebar() {
             <div
               className="absolute inset-0 rounded-xl"
               style={{
-                backgroundColor: "var(--d-surface-active)",
-                border: "1px solid var(--d-border)",
+                backgroundColor: isDark
+                  ? "var(--d-surface-active)"
+                  : "#000000",
+                border: isDark ? "1px solid var(--d-border)" : "none",
               }}
             />
           )}
           <Icon
             className="w-5 h-5 relative z-10 transition-colors duration-150"
             style={{
-              color: active ? "var(--d-text-primary)" : "var(--d-icon)",
+              color: active
+                ? isDark
+                  ? "var(--d-text-primary)"
+                  : "#ffffff"
+                : "var(--d-icon)",
             }}
           />
           {!collapsed && (
@@ -134,17 +148,11 @@ export default function Sidebar() {
         }}
       >
         <div className="flex items-center gap-3 px-5 py-6 min-h-18">
-          <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-            style={{
-              backgroundColor: "var(--d-surface-active)",
-              border: "1px solid var(--d-border-hover)",
-            }}
-          >
+          <div className="w-9 h-9 flex items-center justify-center shrink-0">
             <img
               src="/images/icon.png"
               alt="Arcaive"
-              className="w-5 h-5 object-contain"
+              className="w-7 h-7 object-contain"
             />
           </div>
           <span

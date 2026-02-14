@@ -132,15 +132,9 @@ export default function SettingsPage() {
                   onClick={() => setActiveSection(id)}
                   className="relative px-4 py-2.5 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-200"
                   style={{
-                    backgroundColor: isActive
-                      ? "var(--d-surface-active)"
-                      : "transparent",
-                    color: isActive
-                      ? "var(--d-text-primary)"
-                      : "var(--d-text-muted)",
-                    border: isActive
-                      ? "1px solid var(--d-border)"
-                      : "1px solid transparent",
+                    backgroundColor: isActive ? "#000000" : "transparent",
+                    color: isActive ? "#ffffff" : "var(--d-text-muted)",
+                    border: "1px solid transparent",
                   }}
                 >
                   {sectionTitles[id].title.split(" ")[0]}

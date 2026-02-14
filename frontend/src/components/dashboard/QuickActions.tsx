@@ -2,46 +2,12 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import {
-  Bot,
-  FileText,
-  MessageSquare,
-  Sparkles,
-  ArrowRight,
-  Plus,
-} from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_QUICK_ACTIONS } from "@/app/data/dashboard";
+import Button from "@/components/ui/Button";
 
-const templates = [
-  {
-    title: "Resume Builder",
-    description: "AI-powered resume tailoring for specific job descriptions",
-    icon: FileText,
-    gradient: "from-blue-500/10 to-cyan-500/5",
-    tag: "Popular",
-  },
-  {
-    title: "Mock Interview",
-    description: "Practice with AI interviewers and get instant feedback",
-    icon: MessageSquare,
-    gradient: "from-purple-500/10 to-pink-500/5",
-    tag: "New",
-  },
-  {
-    title: "Auto Apply",
-    description: "Let our agents find and apply to matching roles for you",
-    icon: Bot,
-    gradient: "from-amber-500/10 to-orange-500/5",
-    tag: "Template",
-  },
-  {
-    title: "Cover Letter",
-    description: "Generate tailored cover letters in seconds with AI",
-    icon: Sparkles,
-    gradient: "from-emerald-500/10 to-teal-500/5",
-    tag: "Template",
-  },
-];
+const templates = DUMMY_QUICK_ACTIONS;
 
 export default function QuickActions() {
   return (
@@ -68,20 +34,14 @@ export default function QuickActions() {
             Start from a template
           </p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{
-            type: "tween",
-            duration: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="flex items-center gap-1.5 text-[13px] transition-colors"
-          style={{ color: "var(--d-text-tertiary)" }}
+        <Button
+          variant="ghost"
+          size="sm"
+          icon={<Plus className="w-3.5 h-3.5" />}
+          iconPosition="left"
         >
-          <Plus className="w-3.5 h-3.5" />
           Create
-        </motion.button>
+        </Button>
       </div>
 
       <motion.div

@@ -1,84 +1,18 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, Sparkles, ExternalLink } from "lucide-react";
 import type { JobListing } from "@/@types/jobs";
-
-const ACCENT_COLORS = [
-  {
-    bg: "rgba(59,130,246,0.06)",
-    border: "rgba(59,130,246,0.12)",
-    dot: "rgba(59,130,246,0.7)",
-  },
-  {
-    bg: "rgba(16,185,129,0.06)",
-    border: "rgba(16,185,129,0.12)",
-    dot: "rgba(16,185,129,0.7)",
-  },
-  {
-    bg: "rgba(139,92,246,0.06)",
-    border: "rgba(139,92,246,0.12)",
-    dot: "rgba(139,92,246,0.7)",
-  },
-  {
-    bg: "rgba(245,158,11,0.06)",
-    border: "rgba(245,158,11,0.12)",
-    dot: "rgba(245,158,11,0.7)",
-  },
-  {
-    bg: "rgba(236,72,153,0.06)",
-    border: "rgba(236,72,153,0.12)",
-    dot: "rgba(236,72,153,0.7)",
-  },
-  {
-    bg: "rgba(20,184,166,0.06)",
-    border: "rgba(20,184,166,0.12)",
-    dot: "rgba(20,184,166,0.7)",
-  },
-];
-
-function hashStringToIndex(str: string, max: number) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash) % max;
-}
-
-function getMatchColor(score: number) {
-  if (score >= 85)
-    return {
-      text: "text-emerald-400",
-      bg: "rgba(16,185,129,0.1)",
-      border: "rgba(16,185,129,0.2)",
-    };
-  if (score >= 70)
-    return {
-      text: "text-blue-400",
-      bg: "rgba(59,130,246,0.1)",
-      border: "rgba(59,130,246,0.2)",
-    };
-  if (score >= 50)
-    return {
-      text: "text-amber-400",
-      bg: "rgba(245,158,11,0.1)",
-      border: "rgba(245,158,11,0.2)",
-    };
-  return {
-    text: "text-zinc-400",
-    bg: "rgba(161,161,170,0.1)",
-    border: "rgba(161,161,170,0.2)",
-  };
-}
+import { getAccentForCompany, getMatchColor } from "@/utils/jobColors";
 
 interface JobCardProps {
   job: JobListing;
 }
 
 export default function JobCard({ job }: JobCardProps) {
-  const accent =
-    ACCENT_COLORS[hashStringToIndex(job.company, ACCENT_COLORS.length)];
+  const accent = getAccentForCompany(job.company);
   const matchColor = getMatchColor(job.matchScore);
 
   return (
@@ -166,18 +100,7 @@ export default function JobCard({ job }: JobCardProps) {
       <div className="relative z-10 mb-4">
         <div className="flex items-center justify-between mb-1.5">
           <div className="flex items-center gap-1.5">
-            <Sparkles
-              className="w-3 h-3"
-              style={{
-                color: matchColor.text.replace("text-", "").includes("emerald")
-                  ? "rgb(52,211,153)"
-                  : matchColor.text.includes("blue")
-                    ? "rgb(96,165,250)"
-                    : matchColor.text.includes("amber")
-                      ? "rgb(251,191,36)"
-                      : "rgb(161,161,170)",
-              }}
-            />
+            <Sparkles className="w-3 h-3" style={{ color: matchColor.text }} />
             <span
               className="text-[13px] font-semibold"
               style={{ color: "var(--d-text-secondary)" }}
@@ -250,24 +173,26 @@ export default function JobCard({ job }: JobCardProps) {
             </span>
           </div>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{
-            type: "tween",
-            duration: 0.15,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-[background-color,border-color,color] duration-150"
-          style={{
-            backgroundColor: "var(--d-surface-active)",
-            border: "1px solid var(--d-border-hover)",
-            color: "var(--d-text-secondary)",
-          }}
-        >
-          Details
-          <ExternalLink className="w-3.5 h-3.5" />
-        </motion.button>
+        <Link href={`/jobs/${job.id}`}>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{
+              type: "tween",
+              duration: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-[background-color,border-color,color] duration-150"
+            style={{
+              backgroundColor: "var(--d-surface-active)",
+              border: "1px solid var(--d-border-hover)",
+              color: "var(--d-text-secondary)",
+            }}
+          >
+            Details
+            <ExternalLink className="w-3.5 h-3.5" />
+          </motion.button>
+        </Link>
       </div>
     </div>
   );
