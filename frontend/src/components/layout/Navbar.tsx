@@ -7,6 +7,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import Logo from "@/components/ui/Logo";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -82,19 +83,16 @@ export default function Navbar() {
               : "bg-white/[0.02] backdrop-blur-xl",
           )}
         >
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
-            <Image
-              width="20"
-              height="20"
-              alt="arcaive-logo-png"
-              src={"/images/icon.png"}
-              unoptimized
-              className="transition-transform duration-500 w-4 h-4 sm:w-5 sm:h-5"
-            />
-            <span className="text-[12px] sm:text-[14px] font-bold tracking-tight text-white">
-              ARCAIVE
-            </span>
-          </Link>
+          <Logo
+            href="/"
+            size={20}
+            textSize="text-[12px] sm:text-[14px]"
+            textColor="white"
+            textClassName="font-bold"
+            imageClassName="w-4 h-4 sm:w-5 sm:h-5"
+            className="gap-2 sm:gap-2.5"
+            useNextImage
+          />
           <div className="hidden lg:flex items-center gap-8 px-4">
             {navItems.map((item) => (
               <Link

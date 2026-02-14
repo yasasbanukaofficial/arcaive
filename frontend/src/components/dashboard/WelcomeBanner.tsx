@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { fadeUp } from "./animations";
 import Button from "@/components/ui/Button";
 import { useTheme } from "./ThemeContext";
+import Logo from "@/components/ui/Logo";
 
 export default function WelcomeBanner() {
   const { isDark } = useTheme();
@@ -20,11 +21,7 @@ export default function WelcomeBanner() {
 
       <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
-          <img
-            src="/images/icon.png"
-            alt="Arcaive"
-            className="w-10 h-10 object-contain shrink-0"
-          />
+          <Logo size={40} showText={false} imageClassName="shrink-0" />
           <div>
             <h2
               className="text-xl sm:text-2xl font-medium tracking-tight mb-1.5"

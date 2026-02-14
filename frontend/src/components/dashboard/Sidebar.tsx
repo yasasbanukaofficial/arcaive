@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
+import Logo from "@/components/ui/Logo";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
@@ -145,24 +146,22 @@ export default function Sidebar() {
           borderRight: "1px solid var(--d-border-subtle)",
         }}
       >
-        <div className="flex items-center gap-3 px-5 py-6 min-h-18">
-          <div className="w-9 h-9 flex items-center justify-center shrink-0">
-            <img
-              src="/images/icon.png"
-              alt="Arcaive"
-              className="w-7 h-7 object-contain"
-            />
-          </div>
-          <span
-            className="text-[17px] font-semibold tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-200"
+        <div className="px-5 py-6 min-h-18">
+          <div
+            className="transition-opacity duration-200"
             style={{
-              color: "var(--d-text-primary)",
               opacity: collapsed ? 0 : 1,
               width: collapsed ? 0 : "auto",
             }}
           >
-            Arcaive
-          </span>
+            <Logo
+              size={28}
+              textSize="text-[17px]"
+              showText={!collapsed}
+              textColor="var(--d-text-primary)"
+              className="gap-3"
+            />
+          </div>
         </div>
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
           <div className="space-y-1">
