@@ -46,10 +46,8 @@ const templates = [
 export default function QuickActions() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -71,8 +69,13 @@ export default function QuickActions() {
           </p>
         </div>
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{
+            type: "tween",
+            duration: 0.15,
+            ease: [0.22, 1, 0.36, 1],
+          }}
           className="flex items-center gap-1.5 text-[13px] transition-colors"
           style={{ color: "var(--d-text-tertiary)" }}
         >
@@ -82,9 +85,7 @@ export default function QuickActions() {
       </div>
 
       <motion.div
-        initial="hidden"
-        animate="show"
-        variants={dashboardStagger(0.06, 0.15)}
+        variants={dashboardStagger(0.04, 0)}
         className="grid grid-cols-1 sm:grid-cols-2 gap-4"
       >
         {templates.map((template) => {
@@ -93,8 +94,7 @@ export default function QuickActions() {
             <motion.button
               key={template.title}
               variants={fadeUp}
-              whileHover={{ y: -1, transition: { duration: 0.15 } }}
-              className={`group relative text-left p-5 rounded-xl bg-linear-to-br ${template.gradient} transition-all duration-300`}
+              className={`group relative text-left p-5 rounded-xl bg-linear-to-br ${template.gradient} transition-all duration-200 hover:-translate-y-0.5`}
               style={{ border: "1px solid var(--d-border-subtle)" }}
             >
               <div className="flex items-start justify-between mb-3">
@@ -130,7 +130,7 @@ export default function QuickActions() {
                 {template.description}
               </p>
               <ArrowRight
-                className="absolute bottom-4 right-4 w-3.5 h-3.5 opacity-0 group-hover:opacity-50 transition-all duration-300 -translate-x-1 group-hover:translate-x-0"
+                className="absolute bottom-4 right-4 w-3.5 h-3.5 opacity-0 group-hover:opacity-50 transition-all duration-200 -translate-x-1 group-hover:translate-x-0"
                 style={{ color: "var(--d-text-tertiary)" }}
               />
             </motion.button>

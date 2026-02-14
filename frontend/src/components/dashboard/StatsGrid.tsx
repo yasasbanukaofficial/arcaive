@@ -54,9 +54,7 @@ const stats = [
 export default function StatsGrid() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.08, 0.2)}
+      variants={dashboardStagger(0.04, 0)}
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
     >
       {stats.map((stat) => {

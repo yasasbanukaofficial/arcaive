@@ -306,7 +306,7 @@ export default function JobsPage() {
     <motion.div
       initial="hidden"
       animate="show"
-      variants={dashboardStagger(0.08, 0.05)}
+      variants={dashboardStagger(0.04, 0.02)}
       className="max-w-[1600px] mx-auto space-y-6"
     >
       <motion.div variants={fadeUp}>
@@ -322,14 +322,16 @@ export default function JobsPage() {
         />
       </motion.div>
       <div className="flex gap-6 items-start">
-        <motion.div
-          animate={{
+        <div
+          className="hidden lg:flex flex-col gap-6 shrink-0 overflow-hidden"
+          style={{
             width: filtersCollapsed ? 0 : 280,
             opacity: filtersCollapsed ? 0 : 1,
             marginRight: filtersCollapsed ? -24 : 0,
+            transition:
+              "width 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1), margin-right 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+            willChange: "width, opacity, margin-right",
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="hidden lg:flex flex-col gap-6 shrink-0 overflow-hidden"
         >
           <div className="w-[280px]">
             <motion.div variants={fadeUp}>
@@ -348,7 +350,7 @@ export default function JobsPage() {
               />
             </motion.div>
           </div>
-        </motion.div>
+        </div>
         <div className="flex-1 min-w-0">
           <motion.div variants={fadeUp}>
             <JobListHeader
@@ -365,11 +367,11 @@ export default function JobsPage() {
               {filteredJobs.map((job) => (
                 <motion.div
                   key={job.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.96 }}
+                  layout="position"
+                  initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <JobCard job={job} />
                 </motion.div>

@@ -16,7 +16,7 @@ export default function DashboardPage() {
     <motion.div
       initial="hidden"
       animate="show"
-      variants={dashboardStagger(0.1, 0.05)}
+      variants={dashboardStagger(0.04, 0.02)}
       className="space-y-8 max-w-[1600px] mx-auto"
     >
       <motion.div variants={fadeUp}>

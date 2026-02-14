@@ -46,10 +46,8 @@ const activities = [
 export default function ActivityFeed() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -78,12 +76,7 @@ export default function ActivityFeed() {
         </button>
       </div>
 
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={dashboardStagger(0.06, 0.2)}
-        className="space-y-1"
-      >
+      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-1">
         {activities.map((activity, i) => {
           const Icon = activity.icon;
           return (

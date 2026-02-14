@@ -16,7 +16,6 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  // Sparkles removed — using Image instead
   LogOut,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -63,7 +62,7 @@ export default function Sidebar() {
       <motion.div key={item.name} variants={fadeLeft}>
         <Link
           href={item.href}
-          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 group relative"
+          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 group relative"
           style={{
             backgroundColor: active ? "var(--d-surface-active)" : "transparent",
             color: active ? "var(--d-text-primary)" : "var(--d-text-tertiary)",
@@ -77,11 +76,15 @@ export default function Sidebar() {
                 backgroundColor: "var(--d-surface-active)",
                 border: "1px solid var(--d-border)",
               }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              transition={{
+                type: "tween",
+                duration: 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
             />
           )}
           <Icon
-            className="w-5 h-5 relative z-10 transition-colors duration-300"
+            className="w-5 h-5 relative z-10 transition-colors duration-200"
             style={{
               color: active ? "var(--d-text-primary)" : "var(--d-icon)",
             }}
@@ -92,6 +95,7 @@ export default function Sidebar() {
                 initial={{ opacity: 0, width: 0 }}
                 animate={{ opacity: 1, width: "auto" }}
                 exit={{ opacity: 0, width: 0 }}
+                transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
                 className="relative z-10 whitespace-nowrap overflow-hidden"
               >
                 {item.name}
@@ -113,21 +117,24 @@ export default function Sidebar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
             className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileOpen(false)}
           />
         )}
       </AnimatePresence>
 
-      <motion.aside
-        animate={{
-          width: sidebarWidth,
-          x: isMobile ? (mobileOpen ? 0 : -260) : 0,
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-2xl transition-colors duration-300"
+      <aside
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-md transition-all duration-300"
         style={{
+          width: sidebarWidth,
+          transform: isMobile
+            ? mobileOpen
+              ? "translateX(0)"
+              : "translateX(-260px)"
+            : "translateX(0)",
+          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "width, transform",
           backgroundColor: "var(--d-bg-alpha)",
           borderRight: "1px solid var(--d-border-subtle)",
         }}
@@ -146,25 +153,22 @@ export default function Sidebar() {
               className="w-5 h-5 object-contain"
             />
           </div>
-          <AnimatePresence>
-            {!collapsed && (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-[17px] font-semibold tracking-tight whitespace-nowrap"
-                style={{ color: "var(--d-text-primary)" }}
-              >
-                Arcaive
-              </motion.span>
-            )}
-          </AnimatePresence>
+          <span
+            className="text-[17px] font-semibold tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-200"
+            style={{
+              color: "var(--d-text-primary)",
+              opacity: collapsed ? 0 : 1,
+              width: collapsed ? 0 : "auto",
+            }}
+          >
+            Arcaive
+          </span>
         </div>
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
           <motion.div
             initial="hidden"
             animate="show"
-            variants={dashboardStagger(0.05, 0.15)}
+            variants={dashboardStagger(0.03, 0.05)}
             className="space-y-1"
           >
             {!collapsed && (
@@ -186,7 +190,7 @@ export default function Sidebar() {
           <motion.div
             initial="hidden"
             animate="show"
-            variants={dashboardStagger(0.05, 0.3)}
+            variants={dashboardStagger(0.03, 0.12)}
             className="space-y-1"
           >
             {!collapsed && (
@@ -207,7 +211,7 @@ export default function Sidebar() {
           {!isMobile && (
             <button
               onClick={toggle}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 w-full"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 w-full"
               style={{ color: "var(--d-text-tertiary)" }}
             >
               {collapsed ? (
@@ -215,41 +219,35 @@ export default function Sidebar() {
               ) : (
                 <ChevronLeft className="w-5 h-5" />
               )}
-              <AnimatePresence>
-                {!collapsed && (
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="whitespace-nowrap"
-                  >
-                    Collapse
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              <span
+                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
+                style={{
+                  opacity: collapsed ? 0 : 1,
+                  width: collapsed ? 0 : "auto",
+                }}
+              >
+                Collapse
+              </span>
             </button>
           )}
 
           <button
-            className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-300 w-full"
+            className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
             style={{ color: "var(--d-text-tertiary)" }}
           >
             <LogOut className="w-5 h-5" />
-            <AnimatePresence>
-              {!collapsed && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="whitespace-nowrap"
-                >
-                  Log out
-                </motion.span>
-              )}
-            </AnimatePresence>
+            <span
+              className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
+              style={{
+                opacity: collapsed ? 0 : 1,
+                width: collapsed ? 0 : "auto",
+              }}
+            >
+              Log out
+            </span>
           </button>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 }

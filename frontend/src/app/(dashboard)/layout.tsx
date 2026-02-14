@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/dashboard/Sidebar";
 import TopBar from "@/components/dashboard/TopBar";
@@ -42,14 +41,21 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
 
       <Sidebar />
 
-      <motion.div
-        animate={{ marginLeft }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      <div
         className="relative z-10 min-h-screen flex flex-col"
+        style={{
+          marginLeft,
+          transition: "margin-left 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "margin-left",
+        }}
       >
         <TopBar />
-        <main className={`flex-1 ${isWorkflowPage ? "" : "p-5 sm:p-8 lg:p-10"}`}>{children}</main>
-      </motion.div>
+        <main
+          className={`flex-1 ${isWorkflowPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
+        >
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

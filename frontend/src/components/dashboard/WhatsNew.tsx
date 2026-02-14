@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { fadeUp } from "./animations";
+import { fadeUp, dashboardStagger } from "./animations";
 
 const whatsNew = [
   {
@@ -34,10 +34,8 @@ const whatsNew = [
 export default function WhatsNew() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -60,15 +58,15 @@ export default function WhatsNew() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {whatsNew.map((item, i) => (
+      <motion.div
+        variants={dashboardStagger(0.04, 0)}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+      >
+        {whatsNew.map((item) => (
           <motion.div
             key={item.title}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 + i * 0.08, duration: 0.4 }}
-            whileHover={{ y: -1, transition: { duration: 0.15 } }}
-            className="flex items-start gap-3.5 p-4 rounded-xl transition-all duration-300 cursor-pointer group"
+            variants={fadeUp}
+            className="flex items-start gap-3.5 p-4 rounded-xl transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
             style={{ border: "1px solid var(--d-border-subtle)" }}
           >
             <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
@@ -93,7 +91,7 @@ export default function WhatsNew() {
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

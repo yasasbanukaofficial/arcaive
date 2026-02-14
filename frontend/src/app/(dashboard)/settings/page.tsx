@@ -13,6 +13,8 @@ import BillingSection from "@/components/settings/BillingSection";
 import NotificationsSection from "@/components/settings/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/components/dashboard/animations";
 
+const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const sectionTitles: Record<
   SettingsSection,
   { title: string; description: string }
@@ -71,7 +73,7 @@ export default function SettingsPage() {
     <motion.div
       initial="hidden"
       animate="show"
-      variants={dashboardStagger(0.08, 0.1)}
+      variants={dashboardStagger(0.04, 0.02)}
       className="max-w-7xl mx-auto"
     >
       <motion.div variants={fadeUp} className="mb-8">
@@ -164,10 +166,10 @@ export default function SettingsPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.18, ease: smoothEase }}
               className="mb-6"
             >
               <h2
@@ -189,8 +191,8 @@ export default function SettingsPage() {
               key={`content-${activeSection}`}
               initial="hidden"
               animate="show"
-              exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-              variants={dashboardStagger(0.06, 0.05)}
+              exit={{ opacity: 0, y: -4, transition: { duration: 0.12 } }}
+              variants={dashboardStagger(0.03, 0.02)}
             >
               {renderSection(activeSection)}
             </motion.div>

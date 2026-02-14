@@ -8,8 +8,6 @@ import { fadeUp } from "./animations";
 export default function WelcomeBanner() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
       className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent p-8 lg:p-10 transition-colors duration-300"
       style={{ border: "1px solid var(--d-border)" }}

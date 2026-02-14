@@ -11,10 +11,8 @@ const maxVal = Math.max(...data);
 export default function UsageChart() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -48,9 +46,7 @@ export default function UsageChart() {
         </div>
       </div>
       <motion.div
-        initial="hidden"
-        animate="show"
-        variants={dashboardStagger(0.06, 0.3)}
+        variants={dashboardStagger(0.04, 0)}
         className="flex items-end gap-4 h-52 px-3"
       >
         {data.map((value, i) => (
@@ -60,8 +56,8 @@ export default function UsageChart() {
               className="w-full relative group cursor-pointer"
               style={{ height: `${(value / maxVal) * 100}%` }}
             >
-              <div className="absolute inset-0 rounded-lg bg-linear-to-t from-blue-500/40 to-blue-400/10 group-hover:from-blue-500/60 group-hover:to-blue-400/20 transition-all duration-300" />
-              <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              <div className="absolute inset-0 rounded-lg bg-linear-to-t from-blue-500/40 to-blue-400/10 group-hover:from-blue-500/60 group-hover:to-blue-400/20 transition-all duration-200" />
+              <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none">
                 <span
                   className="text-[12px] font-medium backdrop-blur-md px-2.5 py-1.5 rounded-md whitespace-nowrap"
                   style={{

@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Bot, Zap, Pause, MoreHorizontal } from "lucide-react";
-import { fadeUp, dashboardStagger, pulseGlow } from "./animations";
+import { fadeUp, dashboardStagger } from "./animations";
 
 const agents = [
   {
@@ -32,10 +32,8 @@ const agents = [
 export default function ActiveAgents() {
   return (
     <motion.div
-      initial="hidden"
-      animate="show"
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-300"
+      className="rounded-2xl p-7 transition-colors duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -64,18 +62,12 @@ export default function ActiveAgents() {
         </button>
       </div>
 
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={dashboardStagger(0.08, 0.15)}
-        className="space-y-3"
-      >
+      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-3">
         {agents.map((agent) => (
           <motion.div
             key={agent.name}
             variants={fadeUp}
-            whileHover={{ x: 2, transition: { duration: 0.15 } }}
-            className="flex items-center gap-3.5 p-3.5 rounded-xl transition-all duration-300 group cursor-pointer"
+            className="flex items-center gap-3.5 p-3.5 rounded-xl transition-all duration-200 group cursor-pointer hover:translate-x-0.5"
             style={{
               backgroundColor: "var(--d-surface)",
               border: "1px solid var(--d-border-subtle)",
@@ -101,15 +93,7 @@ export default function ActiveAgents() {
                 </p>
                 <div className="flex items-center gap-1">
                   {agent.status === "active" ? (
-                    <motion.span
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                      className="w-1.5 h-1.5 rounded-full bg-emerald-400"
-                    />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   ) : (
                     <Pause className="w-2.5 h-2.5 text-amber-400/60" />
                   )}
@@ -143,7 +127,7 @@ export default function ActiveAgents() {
               </p>
             </div>
 
-            <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1">
+            <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 p-1">
               <MoreHorizontal
                 className="w-4 h-4"
                 style={{ color: "var(--d-text-muted)" }}
