@@ -1,0 +1,106 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import { fadeUp, dashboardStagger } from "./animations";
+import { DUMMY_ACTIVITIES } from "@/app/data/dashboard";
+
+const activities = DUMMY_ACTIVITIES;
+
+export default function ActivityFeed() {
+  return (
+    <motion.div
+      variants={fadeUp}
+      className="rounded-2xl p-7 transition-colors duration-200"
+      style={{
+        backgroundColor: "var(--d-surface)",
+        border: "1px solid var(--d-border)",
+      }}
+    >
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3
+            className="text-[17px] font-medium tracking-tight"
+            style={{ color: "var(--d-text-primary)" }}
+          >
+            Recent Activity
+          </h3>
+          <p
+            className="text-[13px] mt-0.5"
+            style={{ color: "var(--d-text-muted)" }}
+          >
+            Latest agent logs
+          </p>
+        </div>
+        <button
+          className="text-[13px] transition-colors"
+          style={{ color: "var(--d-text-tertiary)" }}
+        >
+          View all
+        </button>
+      </div>
+
+      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-1">
+        {activities.map((activity, i) => {
+          const Icon = activity.icon;
+          return (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              className="flex items-start gap-3.5 p-3.5 rounded-xl transition-colors duration-200 group cursor-pointer"
+            >
+              <div
+                className={`w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center ${
+                  activity.status === "warning"
+                    ? "bg-amber-500/10 border border-amber-500/10"
+                    : ""
+                }`}
+                style={
+                  activity.status !== "warning"
+                    ? {
+                        backgroundColor: "var(--d-surface-hover)",
+                        border: "1px solid var(--d-border)",
+                      }
+                    : undefined
+                }
+              >
+                <Icon
+                  className={`w-4 h-4 ${
+                    activity.status === "warning" ? "text-amber-400/60" : ""
+                  }`}
+                  style={
+                    activity.status !== "warning"
+                      ? { color: "var(--d-icon)" }
+                      : undefined
+                  }
+                />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p
+                  className="text-[14px] font-medium transition-colors truncate"
+                  style={{ color: "var(--d-text-secondary)" }}
+                >
+                  {activity.title}
+                </p>
+                <p
+                  className="text-[12px] mt-0.5 truncate"
+                  style={{ color: "var(--d-text-muted)" }}
+                >
+                  {activity.description}
+                </p>
+              </div>
+
+              <span
+                className="text-[11px] flex-shrink-0 mt-0.5"
+                style={{ color: "var(--d-text-ghost)" }}
+              >
+                {activity.time}
+              </span>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </motion.div>
+  );
+}

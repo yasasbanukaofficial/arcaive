@@ -27,6 +27,10 @@
     @apply border-white/5;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background: var(--background);
     color: var(--foreground);
@@ -99,7 +103,9 @@
       rgba(37, 99, 235, 0.1) 0%,
       transparent 70%
     );
-    filter: blur(120px);
+    filter: blur(80px);
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .glow-purple {
@@ -113,14 +119,16 @@
       rgba(139, 92, 246, 0.08) 0%,
       transparent 70%
     );
-    filter: blur(140px);
+    filter: blur(80px);
+    will-change: transform;
+    transform: translateZ(0);
   }
 
   .glow-center {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(0);
     width: 100vw;
     height: 100vh;
     background: radial-gradient(
@@ -128,7 +136,8 @@
       rgba(255, 255, 255, 0.02) 0%,
       transparent 60%
     );
-    filter: blur(100px);
+    filter: blur(80px);
+    will-change: transform;
   }
 }
 
@@ -161,4 +170,127 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* ─── Dashboard theme tokens ─── */
+.dashboard-theme {
+  /* Dark mode (default) — pure black, bright text */
+  --d-bg: #000000;
+  --d-bg-alpha: rgba(0, 0, 0, 0.75);
+  --d-surface: rgba(255, 255, 255, 0.04);
+  --d-surface-hover: rgba(255, 255, 255, 0.06);
+  --d-surface-active: rgba(255, 255, 255, 0.1);
+  --d-border: rgba(255, 255, 255, 0.08);
+  --d-border-hover: rgba(255, 255, 255, 0.12);
+  --d-border-subtle: rgba(255, 255, 255, 0.06);
+  --d-text-primary: #ffffff;
+  --d-text-secondary: rgba(255, 255, 255, 0.8);
+  --d-text-tertiary: rgba(255, 255, 255, 0.5);
+  --d-text-muted: rgba(255, 255, 255, 0.3);
+  --d-text-ghost: rgba(255, 255, 255, 0.2);
+  --d-icon: rgba(255, 255, 255, 0.4);
+  --d-icon-hover: rgba(255, 255, 255, 0.7);
+  --d-kbd-bg: rgba(255, 255, 255, 0.06);
+  --d-selection: rgba(255, 255, 255, 0.14);
+  --d-glow-blue: rgba(37, 99, 235, 0.08);
+  --d-glow-purple: rgba(139, 92, 246, 0.06);
+  --d-dropdown-bg: rgba(8, 8, 12, 0.97);
+
+  /* ── Accent palette (per-company tints) ── */
+  --accent-blue-bg: rgba(59, 130, 246, 0.06);
+  --accent-blue-border: rgba(59, 130, 246, 0.12);
+  --accent-blue-dot: rgba(59, 130, 246, 0.7);
+  --accent-emerald-bg: rgba(16, 185, 129, 0.06);
+  --accent-emerald-border: rgba(16, 185, 129, 0.12);
+  --accent-emerald-dot: rgba(16, 185, 129, 0.7);
+  --accent-violet-bg: rgba(139, 92, 246, 0.06);
+  --accent-violet-border: rgba(139, 92, 246, 0.12);
+  --accent-violet-dot: rgba(139, 92, 246, 0.7);
+  --accent-amber-bg: rgba(245, 158, 11, 0.06);
+  --accent-amber-border: rgba(245, 158, 11, 0.12);
+  --accent-amber-dot: rgba(245, 158, 11, 0.7);
+  --accent-pink-bg: rgba(236, 72, 153, 0.06);
+  --accent-pink-border: rgba(236, 72, 153, 0.12);
+  --accent-pink-dot: rgba(236, 72, 153, 0.7);
+  --accent-teal-bg: rgba(20, 184, 166, 0.06);
+  --accent-teal-border: rgba(20, 184, 166, 0.12);
+  --accent-teal-dot: rgba(20, 184, 166, 0.7);
+
+  /* ── Match-score colors ── */
+  --match-excellent-text: rgb(52, 211, 153);
+  --match-excellent-bg: rgba(16, 185, 129, 0.1);
+  --match-excellent-border: rgba(16, 185, 129, 0.2);
+  --match-good-text: rgb(96, 165, 250);
+  --match-good-bg: rgba(59, 130, 246, 0.1);
+  --match-good-border: rgba(59, 130, 246, 0.2);
+  --match-partial-text: rgb(251, 191, 36);
+  --match-partial-bg: rgba(245, 158, 11, 0.1);
+  --match-partial-border: rgba(245, 158, 11, 0.2);
+  --match-low-text: rgb(161, 161, 170);
+  --match-low-bg: rgba(161, 161, 170, 0.1);
+  --match-low-border: rgba(161, 161, 170, 0.2);
+
+  color-scheme: dark;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.dashboard-theme[data-theme="light"] {
+  --d-bg: #ffffff;
+  --d-bg-alpha: rgba(255, 255, 255, 0.85);
+  --d-surface: #ffffff;
+  --d-surface-hover: rgba(0, 0, 0, 0.04);
+  --d-surface-active: rgba(0, 0, 0, 0.07);
+  --d-border: rgba(0, 0, 0, 0.08);
+  --d-border-hover: rgba(0, 0, 0, 0.14);
+  --d-border-subtle: rgba(0, 0, 0, 0.06);
+  --d-text-primary: #1a1a1a;
+  --d-text-secondary: #2a2a2a;
+  --d-text-tertiary: #3a3a3a;
+  --d-text-muted: #4a4a4a;
+  --d-text-ghost: #5a5a5a;
+  --d-icon: #3a3a3a;
+  --d-icon-hover: #1a1a1a;
+  --d-kbd-bg: rgba(0, 0, 0, 0.05);
+  --d-selection: rgba(0, 0, 0, 0.1);
+  --d-glow-blue: rgba(37, 99, 235, 0.05);
+  --d-glow-purple: rgba(139, 92, 246, 0.04);
+  --d-dropdown-bg: #ffffff;
+
+  /* ── Accent palette (light-mode overrides) ── */
+  --accent-blue-bg: rgba(59, 130, 246, 0.08);
+  --accent-blue-border: rgba(59, 130, 246, 0.15);
+  --accent-blue-dot: rgba(59, 130, 246, 0.8);
+  --accent-emerald-bg: rgba(16, 185, 129, 0.08);
+  --accent-emerald-border: rgba(16, 185, 129, 0.15);
+  --accent-emerald-dot: rgba(16, 185, 129, 0.8);
+  --accent-violet-bg: rgba(139, 92, 246, 0.08);
+  --accent-violet-border: rgba(139, 92, 246, 0.15);
+  --accent-violet-dot: rgba(139, 92, 246, 0.8);
+  --accent-amber-bg: rgba(245, 158, 11, 0.08);
+  --accent-amber-border: rgba(245, 158, 11, 0.15);
+  --accent-amber-dot: rgba(245, 158, 11, 0.8);
+  --accent-pink-bg: rgba(236, 72, 153, 0.08);
+  --accent-pink-border: rgba(236, 72, 153, 0.15);
+  --accent-pink-dot: rgba(236, 72, 153, 0.8);
+  --accent-teal-bg: rgba(20, 184, 166, 0.08);
+  --accent-teal-border: rgba(20, 184, 166, 0.15);
+  --accent-teal-dot: rgba(20, 184, 166, 0.8);
+
+  /* ── Match-score colors (light-mode) ── */
+  --match-excellent-text: rgb(5, 150, 105);
+  --match-excellent-bg: rgba(16, 185, 129, 0.1);
+  --match-excellent-border: rgba(16, 185, 129, 0.2);
+  --match-good-text: rgb(37, 99, 235);
+  --match-good-bg: rgba(59, 130, 246, 0.1);
+  --match-good-border: rgba(59, 130, 246, 0.2);
+  --match-partial-text: rgb(217, 119, 6);
+  --match-partial-bg: rgba(245, 158, 11, 0.1);
+  --match-partial-border: rgba(245, 158, 11, 0.2);
+  --match-low-text: rgb(113, 113, 122);
+  --match-low-bg: rgba(161, 161, 170, 0.1);
+  --match-low-border: rgba(161, 161, 170, 0.2);
+
+  color-scheme: light;
 }

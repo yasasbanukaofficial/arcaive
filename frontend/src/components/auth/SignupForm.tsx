@@ -6,6 +6,7 @@ import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
+import Button from "@/components/ui/Button";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
@@ -15,7 +16,6 @@ export default function SignupForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: add signup logic
     console.log("signup", { name, email, password, confirmPassword });
   };
 
@@ -91,16 +91,17 @@ export default function SignupForm() {
         </motion.div>
 
         <motion.div variants={bounceIn}>
-          <button
+          <Button
             type="submit"
-            className="w-full mt-4 bg-white text-black font-semibold py-3.5 rounded-full hover:bg-gray-200 transition-all flex items-center justify-center gap-2 group"
+            variant="white"
+            size="lg"
+            fullWidth
+            icon={<ArrowRight size={18} />}
+            iconPosition="right"
+            className="mt-4 font-semibold py-3.5 rounded-full"
           >
             Create account
-            <ArrowRight
-              size={18}
-              className="group-hover:translate-x-0.5 transition-transform"
-            />
-          </button>
+          </Button>
         </motion.div>
       </motion.form>
 

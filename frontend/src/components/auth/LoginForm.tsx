@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Button from "@/components/ui/Button";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion } from "framer-motion";
@@ -13,7 +14,6 @@ export default function LoginForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: add login logic
     console.log("login", { email, password });
   };
 
@@ -72,16 +72,17 @@ export default function LoginForm() {
         </motion.div>
 
         <motion.div variants={bounceIn}>
-          <button
+          <Button
             type="submit"
-            className="w-full mt-4 bg-white text-black font-semibold py-3.5 rounded-full hover:bg-gray-200 transition-all flex items-center justify-center gap-2 group"
+            variant="white"
+            size="lg"
+            fullWidth
+            icon={<ArrowRight size={18} />}
+            iconPosition="right"
+            className="mt-4 font-semibold py-3.5 rounded-full"
           >
             Sign In
-            <ArrowRight
-              size={18}
-              className="group-hover:translate-x-0.5 transition-transform"
-            />
-          </button>
+          </Button>
         </motion.div>
       </motion.form>
 

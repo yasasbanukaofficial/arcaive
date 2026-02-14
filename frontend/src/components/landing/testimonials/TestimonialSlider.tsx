@@ -29,7 +29,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
 
   return (
     <div className="relative">
-      {/* Desktop: 3-column grid */}
       <div className="hidden lg:block">
         <motion.div
           initial="hidden"
@@ -55,8 +54,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
             );
           })}
         </motion.div>
-
-        {/* Desktop arrows */}
         <div className="flex items-center justify-center gap-6">
           <button
             onClick={prevSlide}
@@ -74,8 +71,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
           </button>
         </div>
       </div>
-
-      {/* Tablet: 2-column grid */}
       <div className="hidden md:block lg:hidden">
         <motion.div
           initial="hidden"
@@ -101,8 +96,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
             );
           })}
         </motion.div>
-
-        {/* Tablet arrows */}
         <div className="flex items-center justify-center gap-5">
           <button
             onClick={prevSlide}
@@ -120,8 +113,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
           </button>
         </div>
       </div>
-
-      {/* Mobile: Carousel */}
       <div className="md:hidden relative">
         <div className="overflow-hidden relative mb-6">
           <div
@@ -142,8 +133,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
             ))}
           </div>
         </div>
-
-        {/* Mobile arrows */}
         <div className="flex items-center justify-center gap-5 mb-6">
           <button
             onClick={prevSlide}
@@ -160,8 +149,6 @@ const TestimonialSlider: React.FC<Props> = ({ testimonials }) => {
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
-
-        {/* Mobile dots */}
         <div className="flex justify-center gap-2">
           {testimonials.map((_, i) => (
             <button
