@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import Button from "@/components/ui/Button";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion } from "framer-motion";

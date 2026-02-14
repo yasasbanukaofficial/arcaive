@@ -13,7 +13,7 @@ import {
   Key,
   Settings,
   BarChart3,
-  FileText,
+  CreditCard,
   ChevronLeft,
   ChevronRight,
   LogOut,
@@ -33,7 +33,7 @@ const mainNav = [
 const manageNav = [
   { name: "Usage", href: "/usage", icon: BarChart3 },
   { name: "API Keys", href: "/api-keys", icon: Key },
-  { name: "Logs", href: "/logs", icon: FileText },
+  { name: "Billing", href: "/billing", icon: CreditCard },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
