@@ -20,19 +20,19 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="dashboard-theme min-h-screen font-sans transition-colors duration-300"
+      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth"
       data-theme={theme}
       style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
     >
-      <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500">
+      <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500 will-change-auto">
         <div
-          className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[120px]"
+          className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[80px]"
           style={{
             background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
           }}
         />
         <div
-          className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[140px]"
+          className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[80px]"
           style={{
             background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
           }}

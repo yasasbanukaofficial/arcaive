@@ -162,7 +162,7 @@ export default function LocationDropdown({
   return (
     <div
       ref={rootRef}
-      className="relative flex items-center gap-3 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-[200px]"
+      className="relative flex items-center gap-3 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)] min-w-0 sm:min-w-[160px] lg:min-w-[200px]"
     >
       <MapPin
         className="w-4.5 h-4.5 shrink-0"
@@ -183,12 +183,11 @@ export default function LocationDropdown({
 
       {open && filteredOptions.length > 0 && (
         <div
-          className="absolute left-0 top-full mt-2 w-full rounded-xl z-50 max-h-[320px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
+          className="absolute left-0 top-full mt-2 w-full min-w-[220px] rounded-xl z-50 max-h-[320px] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
           style={{
-            backgroundColor: "var(--d-surface)",
+            backgroundColor: "var(--d-dropdown-bg)",
             border: "1px solid var(--d-border)",
-            boxShadow: "0 12px 40px rgba(2,6,23,0.18)",
-            backdropFilter: "blur(8px)",
+            boxShadow: "0 8px 32px rgba(2,6,23,0.28)",
           }}
         >
           <div className="flex flex-col">
@@ -196,7 +195,7 @@ export default function LocationDropdown({
               <button
                 key={opt.value}
                 onClick={() => handleSelect(opt.value)}
-                className="text-left px-4 py-3 transition-colors duration-150 hover:bg-[var(--d-surface-hover)] flex items-center gap-3"
+                className="text-left px-4 py-2.5 transition-colors duration-100 hover:bg-[var(--d-surface-hover)] flex items-center gap-3"
                 style={{ color: "var(--d-text-secondary)" }}
               >
                 <span className="text-[16px]">{opt.flag}</span>

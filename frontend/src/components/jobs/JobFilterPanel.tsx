@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Check } from "lucide-react";
 import type { WorkSchedule, EmploymentType, JobSource } from "@/@types/jobs";
 
@@ -29,27 +28,20 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
       className="flex items-center gap-3 py-2 cursor-pointer group outline-none"
     >
       <div
-        className="w-5 h-5 rounded-md flex items-center justify-center transition-all duration-200 shrink-0"
+        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-[background-color,border-color] duration-150 ease-out"
         style={{
           backgroundColor: checked ? "var(--d-surface-active)" : "transparent",
           border: `1.5px solid ${checked ? "var(--d-border-hover)" : "var(--d-border)"}`,
         }}
       >
-        <AnimatePresence>
-          {checked && (
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <Check
-                className="w-3.5 h-3.5"
-                style={{ color: "var(--d-text-primary)" }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <Check
+          className="w-3.5 h-3.5 transition-[opacity,transform] duration-150 ease-out"
+          style={{
+            color: "var(--d-text-primary)",
+            opacity: checked ? 1 : 0,
+            transform: checked ? "scale(1)" : "scale(0.5)",
+          }}
+        />
       </div>
       <span
         className="text-[13px] font-medium transition-colors duration-200"

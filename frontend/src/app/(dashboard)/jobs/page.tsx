@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { dashboardStagger, fadeUp } from "@/components/dashboard/animations";
+import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import type {
   JobListing,
   WorkSchedule,

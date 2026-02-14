@@ -26,10 +26,17 @@ export default function DropdownMenu<T extends string | number>({
   const [open, setOpen] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
+  const panelRef = React.useRef<HTMLDivElement | null>(null);
   const focusedIndexRef = React.useRef<number>(-1);
+
+  const [panelPos, setPanelPos] = React.useState<{
+    top: number;
+    left: number;
+  }>({ top: 0, left: 0 });
 
   const current = options.find((o) => o.value === value) ?? options[0];
 
+  // Close on outside click
   React.useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!rootRef.current) return;
@@ -39,8 +46,54 @@ export default function DropdownMenu<T extends string | number>({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
+  // Position the panel using fixed coordinates clamped to viewport
   React.useEffect(() => {
-    if (!open) focusedIndexRef.current = -1;
+    if (!open) {
+      focusedIndexRef.current = -1;
+      return;
+    }
+
+    const reposition = () => {
+      const btn = btnRef.current;
+      const panel = panelRef.current;
+      if (!btn || !panel) return;
+
+      const btnRect = btn.getBoundingClientRect();
+      const panelWidth = panel.offsetWidth;
+      const panelHeight = panel.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const pad = 12; // minimum distance from viewport edge
+
+      // Vertical: prefer below the button, flip above if not enough room
+      let top = btnRect.bottom + 6;
+      if (top + panelHeight > vh - pad && btnRect.top - panelHeight - 6 > pad) {
+        top = btnRect.top - panelHeight - 6;
+      }
+      top = Math.max(pad, Math.min(top, vh - panelHeight - pad));
+
+      // Horizontal: start aligned with button left, clamp to viewport
+      let left = btnRect.left;
+      if (left + panelWidth > vw - pad) {
+        left = vw - panelWidth - pad;
+      }
+      left = Math.max(pad, left);
+
+      setPanelPos({ top, left });
+    };
+
+    // Position after first paint so panel dimensions are available
+    const frame = requestAnimationFrame(reposition);
+
+    // Reposition on scroll / resize so it stays anchored
+    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", reposition);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", reposition, true);
+      window.removeEventListener("resize", reposition);
+    };
   }, [open]);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -114,14 +167,16 @@ export default function DropdownMenu<T extends string | number>({
 
       {open && (
         <div
+          ref={panelRef}
           role="listbox"
           tabIndex={-1}
-          className="absolute left-0 sm:right-0 sm:left-auto mt-2 w-full sm:w-64 rounded-xl z-50 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
+          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] rounded-xl z-[9999] max-h-[300px] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
           style={{
-            backgroundColor: "var(--d-surface)",
+            top: panelPos.top,
+            left: panelPos.left,
+            backgroundColor: "var(--d-dropdown-bg)",
             border: "1px solid var(--d-border)",
-            boxShadow: "0 12px 40px rgba(2,6,23,0.18)",
-            backdropFilter: "blur(8px)",
+            boxShadow: "0 8px 32px rgba(2,6,23,0.28)",
           }}
           onKeyDown={onKeyDown}
         >
@@ -135,7 +190,7 @@ export default function DropdownMenu<T extends string | number>({
                   onChange(opt.value);
                   setOpen(false);
                 }}
-                className={`text-left px-4 py-3 transition-colors duration-150 ${
+                className={`text-left px-4 py-2.5 transition-colors duration-100 ease-out ${
                   opt.value === value
                     ? "bg-[var(--d-surface-active)] text-[var(--d-text-primary)]"
                     : "hover:bg-[var(--d-surface-hover)]"

@@ -46,67 +46,83 @@ export default function JobSearchBar({
     { label: "$10000 - $20000", value: "10000-20000" },
     { label: "$20000+", value: "20000+" },
   ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-      className="rounded-2xl p-2 flex flex-col sm:flex-row items-stretch gap-2"
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      className="rounded-2xl p-2"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
-      <div className="flex items-center gap-3 flex-1 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
-        <Search
-          className="w-4.5 h-4.5 shrink-0"
-          style={{ color: "var(--d-icon)" }}
+      <div className="flex flex-col lg:flex-row items-stretch gap-2">
+        {/* Row 1 on mobile/tablet: Search input + Location */}
+        <div className="flex flex-col sm:flex-row items-stretch gap-2 flex-1 min-w-0">
+          <div className="flex items-center gap-3 flex-1 min-w-0 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
+            <Search
+              className="w-4.5 h-4.5 shrink-0"
+              style={{ color: "var(--d-icon)" }}
+            />
+            <input
+              type="text"
+              placeholder="Job title, keyword, or company"
+              value={query}
+              onChange={(e) => onQueryChange(e.target.value)}
+              className="bg-transparent outline-none w-full text-[14px] font-medium placeholder:text-[var(--d-text-ghost)]"
+              style={{ color: "var(--d-text-primary)" }}
+            />
+          </div>
+
+          <div
+            className="hidden sm:block w-px self-stretch my-2 shrink-0"
+            style={{ backgroundColor: "var(--d-border-subtle)" }}
+          />
+
+          <LocationDropdown value={location} onChange={onLocationChange} />
+        </div>
+
+        {/* Separator between the two groups – only visible on lg when everything is one row */}
+        <div
+          className="hidden lg:block w-px self-stretch my-2 shrink-0"
+          style={{ backgroundColor: "var(--d-border-subtle)" }}
         />
-        <input
-          type="text"
-          placeholder="Job title, keyword, or company"
-          value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-          className="bg-transparent outline-none w-full text-[14px] font-medium placeholder:text-[var(--d-text-ghost)]"
-          style={{ color: "var(--d-text-primary)" }}
-        />
-      </div>
-      <div
-        className="hidden sm:block w-px self-stretch my-2"
-        style={{ backgroundColor: "var(--d-border-subtle)" }}
-      />
-      <LocationDropdown value={location} onChange={onLocationChange} />
-      <div
-        className="hidden sm:block w-px self-stretch my-2"
-        style={{ backgroundColor: "var(--d-border-subtle)" }}
-      />
-      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl sm:min-w-[160px]">
-        <Briefcase
-          className="w-4.5 h-4.5 shrink-0"
-          style={{ color: "var(--d-icon)" }}
-        />
-        <Dropdown
-          options={experienceOptions}
-          value={experience}
-          onChange={onExperienceChange}
-          buttonClassName="text-[13px] font-semibold"
-        />
-      </div>
-      <div
-        className="hidden sm:block w-px self-stretch my-2"
-        style={{ backgroundColor: "var(--d-border-subtle)" }}
-      />
-      <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl sm:min-w-[150px]">
-        <DollarSign
-          className="w-4.5 h-4.5 shrink-0"
-          style={{ color: "var(--d-icon)" }}
-        />
-        <Dropdown
-          options={salaryOptions}
-          value={salaryRange}
-          onChange={onSalaryRangeChange}
-          buttonClassName="text-[13px] font-semibold"
-        />
+
+        {/* Row 2 on mobile/tablet: Experience + Salary filters */}
+        <div className="flex flex-row items-stretch gap-2">
+          <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl min-w-0 flex-1 sm:flex-initial sm:min-w-[140px] lg:min-w-[160px]">
+            <Briefcase
+              className="w-4.5 h-4.5 shrink-0"
+              style={{ color: "var(--d-icon)" }}
+            />
+            <Dropdown
+              options={experienceOptions}
+              value={experience}
+              onChange={onExperienceChange}
+              buttonClassName="text-[13px] font-semibold"
+            />
+          </div>
+
+          <div
+            className="w-px self-stretch my-2 shrink-0"
+            style={{ backgroundColor: "var(--d-border-subtle)" }}
+          />
+
+          <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl min-w-0 flex-1 sm:flex-initial sm:min-w-[130px] lg:min-w-[150px]">
+            <DollarSign
+              className="w-4.5 h-4.5 shrink-0"
+              style={{ color: "var(--d-icon)" }}
+            />
+            <Dropdown
+              options={salaryOptions}
+              value={salaryRange}
+              onChange={onSalaryRangeChange}
+              buttonClassName="text-[13px] font-semibold"
+            />
+          </div>
+        </div>
       </div>
     </motion.div>
   );

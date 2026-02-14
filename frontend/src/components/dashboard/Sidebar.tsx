@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
-import { fadeLeft, dashboardStagger } from "./animations";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
@@ -36,6 +35,10 @@ const manageNav = [
   { name: "Logs", href: "/logs", icon: FileText },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
+
+const CLOSE_DURATION_MS = 250;
+const CLOSE_DURATION_S = CLOSE_DURATION_MS / 1000;
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Sidebar() {
   const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } =
@@ -53,57 +56,47 @@ export default function Sidebar() {
 
   const renderNavItem = (
     item: { name: string; href: string; icon: React.ElementType },
-    index: number,
+    _index: number,
   ) => {
     const Icon = item.icon;
     const active = isActive(item.href);
 
     return (
-      <motion.div key={item.name} variants={fadeLeft}>
+      <div key={item.name}>
         <Link
           href={item.href}
-          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 group relative"
+          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-colors duration-150 group relative"
           style={{
             backgroundColor: active ? "var(--d-surface-active)" : "transparent",
             color: active ? "var(--d-text-primary)" : "var(--d-text-tertiary)",
           }}
         >
+          {/* Instant active indicator — no layoutId, no traveling */}
           {active && (
-            <motion.div
-              layoutId="sidebar-active"
+            <div
               className="absolute inset-0 rounded-xl"
               style={{
                 backgroundColor: "var(--d-surface-active)",
                 border: "1px solid var(--d-border)",
               }}
-              transition={{
-                type: "tween",
-                duration: 0.2,
-                ease: [0.22, 1, 0.36, 1],
-              }}
             />
           )}
           <Icon
-            className="w-5 h-5 relative z-10 transition-colors duration-200"
+            className="w-5 h-5 relative z-10 transition-colors duration-150"
             style={{
               color: active ? "var(--d-text-primary)" : "var(--d-icon)",
             }}
           />
-          <AnimatePresence>
-            {!collapsed && (
-              <motion.span
-                initial={{ opacity: 0, width: 0 }}
-                animate={{ opacity: 1, width: "auto" }}
-                exit={{ opacity: 0, width: 0 }}
-                transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 whitespace-nowrap overflow-hidden"
-              >
-                {item.name}
-              </motion.span>
-            )}
-          </AnimatePresence>
+          {!collapsed && (
+            <span
+              className="relative z-10 whitespace-nowrap overflow-hidden transition-opacity duration-150"
+              style={{ opacity: collapsed ? 0 : 1 }}
+            >
+              {item.name}
+            </span>
+          )}
         </Link>
-      </motion.div>
+      </div>
     );
   };
 
@@ -111,13 +104,14 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Backdrop overlay — synced with sidebar slide duration */}
       <AnimatePresence>
         {isMobile && mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: CLOSE_DURATION_S, ease: "easeOut" }}
             className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileOpen(false)}
           />
@@ -125,7 +119,7 @@ export default function Sidebar() {
       </AnimatePresence>
 
       <aside
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-md transition-all duration-300"
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-md"
         style={{
           width: sidebarWidth,
           transform: isMobile
@@ -133,8 +127,8 @@ export default function Sidebar() {
               ? "translateX(0)"
               : "translateX(-260px)"
             : "translateX(0)",
-          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-          willChange: "width, transform",
+          transition: `transform ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")}), width ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")})`,
+          willChange: "transform, width",
           backgroundColor: "var(--d-bg-alpha)",
           borderRight: "1px solid var(--d-border-subtle)",
         }}
@@ -165,12 +159,7 @@ export default function Sidebar() {
           </span>
         </div>
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={dashboardStagger(0.03, 0.05)}
-            className="space-y-1"
-          >
+          <div className="space-y-1">
             {!collapsed && (
               <p
                 className="px-3 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.2em]"
@@ -180,19 +169,14 @@ export default function Sidebar() {
               </p>
             )}
             {mainNav.map(renderNavItem)}
-          </motion.div>
+          </div>
 
           <div
             className="my-4"
             style={{ borderTop: "1px solid var(--d-border-subtle)" }}
           />
 
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={dashboardStagger(0.03, 0.12)}
-            className="space-y-1"
-          >
+          <div className="space-y-1">
             {!collapsed && (
               <p
                 className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
@@ -202,7 +186,7 @@ export default function Sidebar() {
               </p>
             )}
             {manageNav.map(renderNavItem)}
-          </motion.div>
+          </div>
         </nav>
         <div
           className="px-3 pb-4 space-y-2 pt-4"

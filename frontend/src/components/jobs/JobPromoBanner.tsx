@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { fadeUp } from "@/components/dashboard/animations";
+import { fadeUp } from "@/components/animations/animations";
 
 export default function JobPromoBanner() {
   return (
@@ -48,7 +48,8 @@ export default function JobPromoBanner() {
       <motion.button
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
-        className="relative z-10 flex items-center gap-2.5 px-5 py-3 rounded-xl text-[13px] font-semibold w-fit transition-all duration-200"
+        transition={{ type: "tween", duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="relative z-10 flex items-center gap-2.5 px-5 py-3 rounded-xl text-[13px] font-semibold w-fit transition-[background-color,border-color,color] duration-150 ease-out"
         style={{
           backgroundColor: "var(--d-surface-active)",
           border: "1px solid var(--d-border-hover)",

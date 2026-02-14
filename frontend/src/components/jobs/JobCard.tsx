@@ -83,14 +83,14 @@ export default function JobCard({ job }: JobCardProps) {
 
   return (
     <div
-      className="group relative rounded-2xl p-6 transition-all duration-300 cursor-pointer hover:-translate-y-0.5"
+      className="group relative rounded-2xl p-6 cursor-pointer hover:-translate-y-0.5 transition-[transform,border-color] duration-200 ease-out"
       style={{
         backgroundColor: "var(--d-surface)",
         border: `1px solid var(--d-border)`,
       }}
     >
       <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
         style={{
           background: `linear-gradient(135deg, ${accent.bg}, transparent)`,
         }}
@@ -199,7 +199,7 @@ export default function JobCard({ job }: JobCardProps) {
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${job.matchScore}%` }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="h-full rounded-full"
             style={{
               backgroundColor: matchColor.border,
@@ -251,9 +251,14 @@ export default function JobCard({ job }: JobCardProps) {
           </div>
         </div>
         <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{
+            type: "tween",
+            duration: 0.15,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-[background-color,border-color,color] duration-150"
           style={{
             backgroundColor: "var(--d-surface-active)",
             border: "1px solid var(--d-border-hover)",
