@@ -9,38 +9,25 @@ import Select from "@/components/ui/Select";
 import Toggle from "@/components/ui/Toggle";
 import TextArea from "@/components/ui/TextArea";
 import Badge from "@/components/ui/Badge";
+import type { AgentConfigData } from "@/app/data/settings";
 
-export default function AgentConfigSection() {
-  const [applyThreshold, setApplyThreshold] = useState(75);
+type AgentConfigSectionProps = {
+  data: AgentConfigData;
+};
 
-  const [personaId, setPersonaId] = useState("bold");
+export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
+  const [applyThreshold, setApplyThreshold] = useState(data.applyThreshold);
 
-  const [useGpt4o, setUseGpt4o] = useState(true);
+  const [personaId, setPersonaId] = useState(data.personaId);
 
-  const [blacklist, setBlacklist] = useState(
-    "Palantir\nClearview AI\ncrypto trading",
-  );
+  const [useGpt4o, setUseGpt4o] = useState(data.useGpt4o);
 
-  const personaOptions = [
-    {
-      value: "bold",
-      label: "Bold & Innovative",
-      description: "Highlights leadership and creative problem-solving",
-      icon: <Zap className="w-4 h-4" />,
-    },
-    {
-      value: "conservative",
-      label: "Conservative & Academic",
-      description: "Formal tone with emphasis on research and methodology",
-      icon: <Info className="w-4 h-4" />,
-    },
-    {
-      value: "direct",
-      label: "Direct & Concise",
-      description: "Straight-to-the-point with minimal fluff",
-      icon: <Gauge className="w-4 h-4" />,
-    },
-  ];
+  const [blacklist, setBlacklist] = useState(data.blacklist);
+
+  const personaOptions = data.personaOptions.map((option) => ({
+    ...option,
+    icon: option.icon,
+  }));
 
   return (
     <motion.div
@@ -109,7 +96,10 @@ export default function AgentConfigSection() {
       >
         <Select
           label="Communication Tone"
-          options={personaOptions}
+          options={personaOptions.map((option) => ({
+            ...option,
+            icon: option.icon ? <option.icon className="w-4 h-4" /> : undefined,
+          }))}
           value={personaId}
           onChange={setPersonaId}
           hint="This affects how your cover letters and application responses are written."

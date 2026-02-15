@@ -16,12 +16,7 @@ import Card, { CardRow } from "@/components/ui/Card";
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-
-type PlanFeature = {
-  name: string;
-  active: boolean;
-  strategistOnly?: boolean;
-};
+import type { BillingData, PlanFeature, Invoice } from "@/app/data/settings";
 
 function FeatureCheckItem({ feature }: { feature: PlanFeature }) {
   return (
@@ -64,13 +59,6 @@ function FeatureCheckItem({ feature }: { feature: PlanFeature }) {
     </div>
   );
 }
-
-type Invoice = {
-  id: string;
-  date: string;
-  amount: string;
-  status: "paid" | "pending";
-};
 
 function InvoiceRow({ invoice }: { invoice: Invoice }) {
   return (
@@ -139,44 +127,17 @@ function InvoiceRow({ invoice }: { invoice: Invoice }) {
   );
 }
 
-export default function BillingSection() {
+type BillingSectionProps = {
+  data: BillingData;
+};
+
+export default function BillingSection({ data }: BillingSectionProps) {
   const [isYearly, setIsYearly] = useState(false);
-  const currentPlan = "Explorer";
+  const currentPlan = data.currentPlan;
 
-  const features: PlanFeature[] = [
-    { name: "AI Resume Parsing", active: true },
-    { name: "Achievement Extraction", active: true },
-    { name: "Discovery Agent (10 matches/day)", active: true },
-    { name: "Unlimited Applications", active: false, strategistOnly: true },
-    { name: "Simulation Loop", active: false, strategistOnly: true },
-    {
-      name: "Model Selection (GPT-4o / Claude)",
-      active: false,
-      strategistOnly: true,
-    },
-    { name: "Priority Agent Processing", active: false, strategistOnly: true },
-  ];
+  const features = data.features;
 
-  const invoices: Invoice[] = [
-    {
-      id: "INV-2026-001",
-      date: "Jan 1, 2026",
-      amount: "$19.00",
-      status: "paid",
-    },
-    {
-      id: "INV-2025-012",
-      date: "Dec 1, 2025",
-      amount: "$19.00",
-      status: "paid",
-    },
-    {
-      id: "INV-2025-011",
-      date: "Nov 1, 2025",
-      amount: "$19.00",
-      status: "paid",
-    },
-  ];
+  const invoices = data.invoices;
 
   return (
     <motion.div
@@ -265,13 +226,13 @@ export default function BillingSection() {
                   className="text-[13px] font-medium"
                   style={{ color: "var(--d-text-secondary)" }}
                 >
-                  •••• •••• •••• 4242
+                  •••• •••• •••• {data.paymentMethod.last4}
                 </p>
                 <p
                   className="text-[12px]"
                   style={{ color: "var(--d-text-muted)" }}
                 >
-                  Expires 12/2027
+                  Expires {data.paymentMethod.expiry}
                 </p>
               </div>
             </div>

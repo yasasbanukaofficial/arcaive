@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import type {
@@ -18,10 +18,29 @@ import { matchesLocation } from "@/utils/locationUtils";
 import { DUMMY_JOBS } from "@/app/data/jobs";
 
 export default function JobsPage() {
+  const [jobList, setJobList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
   const [experienceLevel, setExperienceLevel] = useState("");
   const [salaryRangeFilter, setSalaryRangeFilter] = useState("");
+
+  useEffect(() => {
+    async function fetchJobData() {
+      try {
+        const response = await fetch("/api/jobs");
+        const result = await response.json();
+        if (result.success) {
+          setJobList(result.data);
+        }
+      } catch (err) {
+        console.error("Fetch failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJobData();
+  }, []);
 
   const [selectedSchedules, setSelectedSchedules] = useState<WorkSchedule[]>([
     "Full time",
@@ -45,7 +64,7 @@ export default function JobsPage() {
   const [sortBy, setSortBy] = useState<SortOption>("last_updated");
 
   const filteredJobs = useMemo(() => {
-    let jobs = [...DUMMY_JOBS];
+    let jobs = jobList.length > 0 ? [...jobList] : [...DUMMY_JOBS];
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -102,7 +121,14 @@ export default function JobsPage() {
     }
 
     return jobs;
-  }, [searchQuery, locationQuery, experienceLevel, salaryRangeFilter, sortBy]);
+  }, [
+    jobList,
+    searchQuery,
+    locationQuery,
+    experienceLevel,
+    salaryRangeFilter,
+    sortBy,
+  ]);
 
   const toggleSchedule = (s: WorkSchedule) =>
     setSelectedSchedules((prev) =>
