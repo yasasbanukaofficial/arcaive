@@ -15,11 +15,20 @@ import Card, { CardRow } from "@/components/ui/Card";
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import { useTheme } from "@/components/dashboard/ThemeContext";
+import type { NotificationsData } from "@/app/data/settings";
 
-export default function NotificationsSection() {
-  const [alertJobMatch, setAlertJobMatch] = useState(true);
-  const [alertAutoApply, setAlertAutoApply] = useState(true);
-  const [alertSimulation, setAlertSimulation] = useState(false);
+type NotificationsSectionProps = {
+  data: NotificationsData;
+};
+
+export default function NotificationsSection({
+  data,
+}: NotificationsSectionProps) {
+  const [alertJobMatch, setAlertJobMatch] = useState(data.alerts.jobMatch);
+  const [alertAutoApply, setAlertAutoApply] = useState(data.alerts.autoApply);
+  const [alertSimulation, setAlertSimulation] = useState(
+    data.alerts.simulation,
+  );
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");

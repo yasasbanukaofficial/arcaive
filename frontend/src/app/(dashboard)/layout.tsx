@@ -9,6 +9,7 @@ import {
   useSidebar,
 } from "@/components/dashboard/SidebarContext";
 import { ThemeProvider, useTheme } from "@/components/dashboard/ThemeContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   const { collapsed, isMobile } = useSidebar();
@@ -65,11 +66,14 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const queryClient = new QueryClient();
   return (
     <ThemeProvider>
-      <SidebarProvider>
-        <DashboardShell>{children}</DashboardShell>
-      </SidebarProvider>
+      <QueryClientProvider client={queryClient}>
+        <SidebarProvider>
+          <DashboardShell>{children}</DashboardShell>
+        </SidebarProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

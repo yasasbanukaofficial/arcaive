@@ -12,62 +12,77 @@ import AgentConfigSection from "@/components/settings/AgentConfigSection";
 import BillingSection from "@/components/settings/BillingSection";
 import NotificationsSection from "@/components/settings/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/components/dashboard/animations";
+import {
+  initialUserIdentityData,
+  initialCareerIntelligenceData,
+  initialAgentConfigData,
+  initialBillingData,
+  initialNotificationsData,
+  UserIdentityData,
+} from "@/app/data/settings";
+import { useUser } from "@/hooks/useUser";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
-const sectionTitles: Record<
-  SettingsSection,
-  { title: string; description: string }
-> = {
-  identity: {
-    title: "Identity & Authentication",
-    description:
-      "Manage your profile, password, multi-factor authentication, and linked accounts.",
-  },
-  career: {
-    title: "Career Intelligence",
-    description:
-      "Upload your resume, manage achievements, and define target roles for the Discovery Agent.",
-  },
-  agents: {
-    title: "Agent Configuration",
-    description:
-      "Fine-tune your AI agents — thresholds, persona, model selection, and filters.",
-  },
-  billing: {
-    title: "Subscription & Billing",
-    description:
-      "View your plan, manage payment methods, and download invoices.",
-  },
-  notifications: {
-    title: "Notifications & System",
-    description:
-      "Configure alerts, theme preferences, and data privacy options.",
-  },
-};
-
-function renderSection(section: SettingsSection) {
-  switch (section) {
-    case "identity":
-      return <UserIdentitySection />;
-    case "career":
-      return <CareerIntelligenceSection />;
-    case "agents":
-      return <AgentConfigSection />;
-    case "billing":
-      return <BillingSection />;
-    case "notifications":
-      return <NotificationsSection />;
-    default:
-      return null;
-  }
-}
 
 export default function SettingsPage() {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("identity");
+  const { data: user, isLoading, error } = useUser();
+
+  const sectionTitles: Record<
+    SettingsSection,
+    { title: string; description: string }
+  > = {
+    identity: {
+      title: "Identity & Authentication",
+      description:
+        "Manage your profile, password, multi-factor authentication, and linked accounts.",
+    },
+    career: {
+      title: "Career Intelligence",
+      description:
+        "Upload your resume, manage achievements, and define target roles for the Discovery Agent.",
+    },
+    agents: {
+      title: "Agent Configuration",
+      description:
+        "Fine-tune your AI agents — thresholds, persona, model selection, and filters.",
+    },
+    billing: {
+      title: "Subscription & Billing",
+      description:
+        "View your plan, manage payment methods, and download invoices.",
+    },
+    notifications: {
+      title: "Notifications & System",
+      description:
+        "Configure alerts, theme preferences, and data privacy options.",
+    },
+  };
 
   const { title, description } = sectionTitles[activeSection];
+
+  if (isLoading) return <div>Loading User Data...</div>;
+  if (error || !user) return <div>Error loading profile.</div>;
+
+  function renderSection(section: SettingsSection) {
+    switch (section) {
+      case "identity":
+        return <UserIdentitySection data={user} />;
+      case "career":
+        return (
+          <CareerIntelligenceSection data={initialCareerIntelligenceData} />
+        );
+      case "agents":
+        return <AgentConfigSection data={initialAgentConfigData} />;
+      case "billing":
+        return <BillingSection data={initialBillingData} />;
+      case "notifications":
+        return <NotificationsSection data={initialNotificationsData} />;
+      default:
+        return null;
+    }
+  }
 
   return (
     <motion.div
@@ -129,7 +144,10 @@ export default function SettingsPage() {
                 <button
                   key={id}
                   type="button"
-                  onClick={() => setActiveSection(id)}
+                  onClick={() => {
+                    setActiveSection(id);
+                    console.log(id);
+                  }}
                   className="relative px-4 py-2.5 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-200"
                   style={{
                     backgroundColor: isActive ? "#000000" : "transparent",

@@ -13,6 +13,7 @@ import {
   Check,
   Unlink,
   Link as LinkIcon,
+  LucideIcon,
 } from "lucide-react";
 import Card, { CardRow } from "@/components/ui/Card";
 import TextField from "@/components/ui/TextField";
@@ -21,18 +22,23 @@ import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
+import type { UserIdentityData, LinkedAccount } from "@/app/data/settings";
 
-type LinkedAccount = {
-  provider: "google" | "github" | "linkedin";
-  label: string;
-  icon: React.ReactNode;
-  connected: boolean;
-  email?: string;
+const iconMap: Record<string, LucideIcon> = {
+  google: Chrome,
+  github: Github,
+  linkedin: Linkedin,
 };
 
-export default function UserIdentitySection() {
-  const [fullName, setFullName] = useState("John Doe");
-  const [email, setEmail] = useState("john@example.com");
+type UserIdentitySectionProps = {
+  data: UserIdentityData;
+};
+
+export default function UserIdentitySection({
+  data,
+}: UserIdentitySectionProps) {
+  const [fullName, setFullName] = useState(data.profile.fullName);
+  const [email, setEmail] = useState(data.profile.email);
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
@@ -42,30 +48,12 @@ export default function UserIdentitySection() {
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  const [mfaEnabled, setMfaEnabled] = useState(false);
-  const [mfaMethod, setMfaMethod] = useState("app");
+  const [mfaEnabled, setMfaEnabled] = useState(data.mfa.enabled);
+  const [mfaMethod, setMfaMethod] = useState(data.mfa.method);
 
-  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([
-    {
-      provider: "google",
-      label: "Google",
-      icon: <Chrome className="w-4 h-4" />,
-      connected: true,
-      email: "yasindu@gmail.com",
-    },
-    {
-      provider: "github",
-      label: "GitHub",
-      icon: <Github className="w-4 h-4" />,
-      connected: false,
-    },
-    {
-      provider: "linkedin",
-      label: "LinkedIn",
-      icon: <Linkedin className="w-4 h-4" />,
-      connected: false,
-    },
-  ]);
+  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>(
+    data.linkedAccounts,
+  );
 
   const handleProfileSave = async () => {
     setProfileSaving(true);
@@ -356,7 +344,7 @@ export default function UserIdentitySection() {
                       },
                     ]}
                     value={mfaMethod}
-                    onChange={setMfaMethod}
+                    onChange={(value) => setMfaMethod(value as "app" | "sms")}
                     hint="Authenticator apps are generally more secure than SMS."
                   />
 
@@ -382,7 +370,7 @@ export default function UserIdentitySection() {
                           {Array.from({ length: 16 }).map((_, i) => (
                             <div
                               key={i}
-                              className="rounded-[2px]"
+                              className="rounded-xs"
                               style={{
                                 backgroundColor:
                                   Math.random() > 0.4
@@ -464,74 +452,77 @@ export default function UserIdentitySection() {
         icon={<LinkIcon className="w-4 h-4" />}
       >
         <div className="space-y-1">
-          {linkedAccounts.map((account) => (
-            <div
-              key={account.provider}
-              className="flex items-center justify-between gap-4 py-3.5"
-              style={{
-                borderBottom: "1px solid var(--d-border-subtle)",
-              }}
-            >
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200"
-                  style={{
-                    backgroundColor: account.connected
-                      ? "var(--d-surface-active)"
-                      : "var(--d-surface)",
-                    border: `1px solid ${
-                      account.connected
-                        ? "var(--d-border-hover)"
-                        : "var(--d-border)"
-                    }`,
-                    color: account.connected
-                      ? "var(--d-text-secondary)"
-                      : "var(--d-text-muted)",
-                  }}
-                >
-                  {account.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="text-[13px] font-medium"
-                      style={{ color: "var(--d-text-secondary)" }}
-                    >
-                      {account.label}
-                    </span>
-                    {account.connected && (
-                      <Badge variant="green" size="sm">
-                        Connected
-                      </Badge>
+          {linkedAccounts.map((account) => {
+            const Icon = iconMap[account.provider];
+            return (
+              <div
+                key={account.provider}
+                className="flex items-center justify-between gap-4 py-3.5"
+                style={{
+                  borderBottom: "1px solid var(--d-border-subtle)",
+                }}
+              >
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200"
+                    style={{
+                      backgroundColor: account.connected
+                        ? "var(--d-surface-active)"
+                        : "var(--d-surface)",
+                      border: `1px solid ${
+                        account.connected
+                          ? "var(--d-border-hover)"
+                          : "var(--d-border)"
+                      }`,
+                      color: account.connected
+                        ? "var(--d-text-secondary)"
+                        : "var(--d-text-muted)",
+                    }}
+                  >
+                    {Icon && <Icon className="w-4 h-4" />}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="text-[13px] font-medium"
+                        style={{ color: "var(--d-text-secondary)" }}
+                      >
+                        {account.label}
+                      </span>
+                      {account.connected && (
+                        <Badge variant="green" size="sm">
+                          Connected
+                        </Badge>
+                      )}
+                    </div>
+                    {account.connected && account.email && (
+                      <p
+                        className="text-[12px] mt-0.5 truncate"
+                        style={{ color: "var(--d-text-muted)" }}
+                      >
+                        {account.email}
+                      </p>
                     )}
                   </div>
-                  {account.connected && account.email && (
-                    <p
-                      className="text-[12px] mt-0.5 truncate"
-                      style={{ color: "var(--d-text-muted)" }}
-                    >
-                      {account.email}
-                    </p>
-                  )}
                 </div>
-              </div>
 
-              <Button
-                variant={account.connected ? "ghost" : "secondary"}
-                size="sm"
-                onClick={() => toggleLinkedAccount(account.provider)}
-                icon={
-                  account.connected ? (
-                    <Unlink className="w-3.5 h-3.5" />
-                  ) : (
-                    <LinkIcon className="w-3.5 h-3.5" />
-                  )
-                }
-              >
-                {account.connected ? "Disconnect" : "Connect"}
-              </Button>
-            </div>
-          ))}
+                <Button
+                  variant={account.connected ? "ghost" : "secondary"}
+                  size="sm"
+                  onClick={() => toggleLinkedAccount(account.provider)}
+                  icon={
+                    account.connected ? (
+                      <Unlink className="w-3.5 h-3.5" />
+                    ) : (
+                      <LinkIcon className="w-3.5 h-3.5" />
+                    )
+                  }
+                >
+                  {account.connected ? "Disconnect" : "Connect"}
+                </Button>
+              </div>
+            );
+          })}
 
           <p
             className="text-[12px] pt-3"

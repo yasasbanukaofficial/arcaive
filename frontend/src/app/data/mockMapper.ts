@@ -1,3 +1,6 @@
+import { Chrome } from "lucide-react";
+import { UserIdentityData } from "./settings";
+
 export function mapToJobListing(mock: any) {
   let safeTags: string[] = [];
   try {
@@ -31,5 +34,27 @@ export function mapToJobListing(mock: any) {
     source: "LinkedIn",
     bookmarked: false,
     description: mock.description || "",
+  };
+}
+
+export function mapToUser(mock: any): UserIdentityData {
+  return {
+    profile: {
+      fullName: mock.name,
+      email: mock.email,
+    },
+    mfa: {
+      enabled: true,
+      method: (mock.mfa_method === "sms" ? "sms" : "app") as "sms" | "app",
+    },
+    linkedAccounts: [
+      {
+        provider: "google",
+        label: "Google",
+        icon: Chrome,
+        connected: true,
+        email: mock.email,
+      },
+    ],
   };
 }

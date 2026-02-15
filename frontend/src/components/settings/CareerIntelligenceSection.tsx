@@ -24,13 +24,7 @@ import type {
 } from "@/components/ui/FileUpload";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-
-type Achievement = {
-  id: string;
-  text: string;
-  tags: string[];
-  source: "ai" | "manual";
-};
+import type { CareerIntelligenceData, Achievement } from "@/app/data/settings";
 
 type AchievementItemProps = {
   achievement: Achievement;
@@ -38,6 +32,7 @@ type AchievementItemProps = {
   onDelete: (id: string) => void;
   onTagsChange: (id: string, tags: string[]) => void;
   disabled?: boolean;
+  skillSuggestions: string[];
 };
 
 function AchievementItem({
@@ -46,6 +41,7 @@ function AchievementItem({
   onDelete,
   onTagsChange,
   disabled = false,
+  skillSuggestions,
 }: AchievementItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(achievement.text);
@@ -72,29 +68,6 @@ function AchievementItem({
       handleCancel();
     }
   };
-
-  const skillSuggestions = [
-    "Python",
-    "TypeScript",
-    "JavaScript",
-    "React",
-    "Next.js",
-    "Node.js",
-    "AWS",
-    "Docker",
-    "Kubernetes",
-    "PostgreSQL",
-    "Redis",
-    "GraphQL",
-    "REST API",
-    "CI/CD",
-    "Terraform",
-    "Go",
-    "Rust",
-    "Java",
-    "Machine Learning",
-    "LLM",
-  ];
 
   return (
     <motion.div
@@ -246,37 +219,23 @@ function AchievementItem({
   );
 }
 
-export default function CareerIntelligenceSection() {
+type CareerIntelligenceSectionProps = {
+  data: CareerIntelligenceData;
+};
+
+export default function CareerIntelligenceSection({
+  data,
+}: CareerIntelligenceSectionProps) {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [uploadStatus, setUploadStatus] = useState<FileUploadStatus>("idle");
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const [achievements, setAchievements] = useState<Achievement[]>([
-    {
-      id: "1",
-      text: "Led migration of monolithic Java application to microservices architecture, reducing deployment time by 73%.",
-      tags: ["Java", "Microservices", "Docker", "Kubernetes"],
-      source: "ai",
-    },
-    {
-      id: "2",
-      text: "Built real-time analytics pipeline processing 2M+ events/day using Kafka and Flink.",
-      tags: ["Kafka", "Apache Flink", "Python", "AWS"],
-      source: "ai",
-    },
-    {
-      id: "3",
-      text: "Designed and implemented OAuth 2.0 + OIDC authentication layer for multi-tenant SaaS platform.",
-      tags: ["OAuth", "Security", "Node.js"],
-      source: "manual",
-    },
-  ]);
+  const [achievements, setAchievements] = useState<Achievement[]>(
+    data.achievements,
+  );
   const [newAchievement, setNewAchievement] = useState("");
 
-  const [targetRoles, setTargetRoles] = useState<string[]>([
-    "Senior Backend Engineer",
-    "Tech Lead",
-  ]);
+  const [targetRoles, setTargetRoles] = useState<string[]>(data.targetRoles);
 
   const handleFileUpload = useCallback(async (newFiles: UploadedFile[]) => {
     setFiles(newFiles);
@@ -317,21 +276,8 @@ export default function CareerIntelligenceSection() {
     setNewAchievement("");
   };
 
-  const roleSuggestions = [
-    "Senior Backend Engineer",
-    "Tech Lead",
-    "Staff Engineer",
-    "Principal Engineer",
-    "Engineering Manager",
-    "Solutions Architect",
-    "DevOps Engineer",
-    "Senior Frontend Engineer",
-    "Full-Stack Developer",
-    "Platform Engineer",
-    "Site Reliability Engineer",
-    "Data Engineer",
-    "ML Engineer",
-  ];
+  const roleSuggestions = data.roleSuggestions;
+  const skillSuggestions = data.skillSuggestions;
 
   return (
     <motion.div
@@ -381,6 +327,7 @@ export default function CareerIntelligenceSection() {
                   onEdit={handleEditAchievement}
                   onDelete={handleDeleteAchievement}
                   onTagsChange={handleTagsChange}
+                  skillSuggestions={skillSuggestions}
                 />
               ))}
             </AnimatePresence>

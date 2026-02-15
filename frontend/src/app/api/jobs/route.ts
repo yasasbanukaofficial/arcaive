@@ -10,19 +10,18 @@ export async function GET(req: NextRequest) {
     const response = await fetch(MOCK_JOBS);
 
     if (!response.ok) {
-      return NextResponse.json(error("Error when fetching mock data!", 404));
+      return NextResponse.json(error("Error when fetching job data!", 404));
     }
 
     const rawData = await response.json();
 
-    // Transform the array
     const mappedData: JobListing[] = rawData.map(mapToJobListing);
 
     return NextResponse.json(
-      success(mappedData, "Job Listing Fetched and Mapped Successfully", 200),
+      success(mappedData, "Job Listing Fetched Successfully", 200),
     );
   } catch (err) {
-    console.error("Mapping Exception:", err);
+    console.error("Exception:", err);
     return NextResponse.json(error("Failed to process job data", 500));
   }
 }
