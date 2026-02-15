@@ -6,7 +6,7 @@ import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import PricingCard from "./PricingCard";
 import SectionHeader from "@/components/layout/SectionHeader";
 
-const PricingSection: React.FC = () => {
+const PricingSection = () => {
   const [isYearly, setIsYearly] = useState(false);
 
   const pricingPlans = [

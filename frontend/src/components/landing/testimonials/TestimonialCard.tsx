@@ -11,14 +11,14 @@ type Props = {
   mode?: "grid" | "carousel";
 };
 
-const TestimonialCard: React.FC<Props> = ({
+const TestimonialCard = ({
   quote,
   name,
   role,
   index,
   total,
   mode = "carousel",
-}) => {
+}: Props) => {
   return (
     <div
       className={`${

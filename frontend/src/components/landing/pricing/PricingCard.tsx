@@ -15,7 +15,7 @@ type Props = {
   isYearly?: boolean;
 };
 
-const PricingCard: React.FC<Props> = ({
+const PricingCard = ({
   plan,
   price,
   description,
@@ -23,7 +23,7 @@ const PricingCard: React.FC<Props> = ({
   features,
   popular = false,
   isYearly = false,
-}) => {
+}: Props) => {
   const displayPrice =
     typeof price === "number"
       ? isYearly

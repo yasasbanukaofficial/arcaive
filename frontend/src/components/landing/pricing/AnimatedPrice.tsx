@@ -7,7 +7,7 @@ type Props = {
   value: React.ReactNode;
 };
 
-const AnimatedPrice: React.FC<Props> = ({ value }) => {
+const AnimatedPrice = ({ value }: Props) => {
   return (
     <motion.span
       key={String(value)}

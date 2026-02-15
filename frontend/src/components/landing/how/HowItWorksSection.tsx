@@ -37,7 +37,7 @@ const steps = [
   },
 ];
 
-const HowItWorksSection: React.FC = () => {
+const HowItWorksSection = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [hasSelected, setHasSelected] = useState(false);
 

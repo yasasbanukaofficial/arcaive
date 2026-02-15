@@ -6,7 +6,7 @@ interface CTAButtonProps {
   href: string;
 }
 
-const CTAButton: React.FC<CTAButtonProps> = ({ text, href }) => {
+const CTAButton = ({ text, href }: CTAButtonProps) => {
   return (
     <div className="pt-1.5 sm:pt-2">
       <Link

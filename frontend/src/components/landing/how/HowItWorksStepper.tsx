@@ -16,11 +16,11 @@ type Props = {
   onSelect: (index: number) => void;
 };
 
-const HowItWorksStepper: React.FC<Props> = ({
+const HowItWorksStepper = ({
   steps,
   activeIndex,
   onSelect,
-}) => {
+}: Props) => {
   return (
     <div className="flex flex-col relative">
       <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-white/5" />

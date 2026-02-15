@@ -16,7 +16,7 @@ type Props = {
   activeIndex: number;
 };
 
-const HowItWorksVisual: React.FC<Props> = ({ steps, activeIndex }) => {
+const HowItWorksVisual = ({ steps, activeIndex }: Props) => {
   const step = steps[activeIndex];
 
   return (

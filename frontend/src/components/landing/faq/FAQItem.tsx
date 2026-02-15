@@ -11,7 +11,7 @@ type Props = {
   onClick: () => void;
 };
 
-const FAQItem: React.FC<Props> = ({ question, answer, isOpen, onClick }) => {
+const FAQItem = ({ question, answer, isOpen, onClick }: Props) => {
   return (
     <div className="border-b border-white/10">
       <button

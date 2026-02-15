@@ -7,7 +7,7 @@ import CTABackground from "./CTABackground";
 import CTAContent from "./CTAContent";
 import CTAButton from "./CTAButton";
 
-const FinalCTASection: React.FC = () => {
+const FinalCTASection = () => {
   return (
     <div className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] flex items-center justify-center">
       <motion.section

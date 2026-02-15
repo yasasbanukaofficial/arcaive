@@ -6,11 +6,11 @@ interface CTAContentProps {
   subtext: string;
 }
 
-const CTAContent: React.FC<CTAContentProps> = ({
+const CTAContent = ({
   heading,
   headingHighlight,
   subtext,
-}) => {
+}: CTAContentProps) => {
   return (
     <div className="max-w-xs sm:max-w-sm md:max-w-md space-y-3 sm:space-y-4">
       <h2 className="text-xl sm:text-2xl md:text-[32px] lg:text-[40px] font-normal text-zinc-100 leading-[1.15] sm:leading-[1.1] tracking-tight">

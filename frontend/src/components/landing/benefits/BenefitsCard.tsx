@@ -8,7 +8,7 @@ type Props = {
   description: string;
 };
 
-const BenefitsCard: React.FC<Props> = ({ icon: Icon, title, description }) => {
+const BenefitsCard = ({ icon: Icon, title, description }: Props) => {
   return (
     <div className="group relative p-6 sm:p-8 md:p-8 lg:p-10 bg-[#121212]/50 border border-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden h-full">
       <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

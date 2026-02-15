@@ -35,7 +35,7 @@ const testimonials = [
   },
 ];
 
-const TestimonialsSection: React.FC = () => {
+const TestimonialsSection = () => {
   return (
     <div
       id="testimonials"

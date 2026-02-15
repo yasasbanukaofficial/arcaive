@@ -5,10 +5,10 @@ interface CTABackgroundProps {
   imageAlt: string;
 }
 
-const CTABackground: React.FC<CTABackgroundProps> = ({
+const CTABackground = ({
   imageUrl,
   imageAlt,
-}) => {
+}: CTABackgroundProps) => {
   return (
     <>
       <div className="absolute inset-0 z-0">
