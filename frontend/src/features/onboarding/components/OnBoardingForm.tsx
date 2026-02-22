@@ -18,7 +18,7 @@ export default function OnBoardingForm() {
     e.preventDefault();
     console.log("onboarding", { githubLink, linkedinLink, resumeFiles });
     // todo: save the links and resume to the user profile
-    router.push("/jobs");
+    router.push("/subscription");
   };
   return (
     <motion.form
