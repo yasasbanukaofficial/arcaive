@@ -11,7 +11,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import SectionHeader from "@/components/layout/SectionHeader";
-import BenefitsCard from "@/components/landing/benefits/BenefitsCard";
+import BenefitsCard from "@/features/landing/components/benefits/BenefitsCard";
 
 const benefits = [
   {

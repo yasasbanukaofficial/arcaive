@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { SubscriptionPlan } from "@/@types/subscription";
 import Button from "@/components/ui/Button";
-import { useTheme } from "@/components/dashboard/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 interface SubscriptionCardProps {
   plan: SubscriptionPlan;

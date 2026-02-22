@@ -10,7 +10,7 @@ import {
   Bell,
   type LucideIcon,
 } from "lucide-react";
-import { useTheme } from "@/components/dashboard/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export type SettingsSection =
   | "identity"

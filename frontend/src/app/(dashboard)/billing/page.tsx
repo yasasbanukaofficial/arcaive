@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import BillingPage from "@/components/billing/BillingPage";
+import BillingPage from "@/features/billing/components/BillingPage";
 import {
   MOCK_USER_SUBSCRIPTION,
   MOCK_PLANS,

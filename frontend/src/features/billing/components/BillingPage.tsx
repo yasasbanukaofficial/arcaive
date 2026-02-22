@@ -2,17 +2,17 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import CurrentSubscription from "@/components/billing/CurrentSubscription";
-import SubscriptionCard from "@/components/billing/SubscriptionCard";
-import BillingHistorySection from "@/components/billing/BillingHistorySection";
-import PaymentMethods from "@/components/billing/PaymentMethods";
+import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
+import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
+import BillingHistorySection from "@/features/billing/components/BillingHistorySection";
+import PaymentMethods from "@/features/billing/components/PaymentMethods";
 import {
   UserSubscription,
   SubscriptionPlan,
   BillingHistory,
   PaymentMethod,
 } from "@/@types/subscription";
-import { useTheme } from "@/components/dashboard/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 interface BillingPageProps {
   userSubscription: UserSubscription;

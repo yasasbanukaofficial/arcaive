@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { fadeUp } from "@/components/dashboard/animations";
+import { fadeUp } from "@/features/dashboard/components/animations";
 
 type CardProps = {
   title?: string;

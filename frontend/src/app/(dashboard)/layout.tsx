@@ -2,13 +2,13 @@
 
 import React from "react";
 import { usePathname } from "next/navigation";
-import Sidebar from "@/components/dashboard/Sidebar";
-import TopBar from "@/components/dashboard/TopBar";
+import Sidebar from "@/features/dashboard/components/Sidebar";
+import TopBar from "@/features/dashboard/components/TopBar";
 import {
   SidebarProvider,
   useSidebar,
-} from "@/components/dashboard/SidebarContext";
-import { ThemeProvider, useTheme } from "@/components/dashboard/ThemeContext";
+} from "@/features/dashboard/components/SidebarContext";
+import { ThemeProvider, useTheme } from "@/features/dashboard/components/ThemeContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {

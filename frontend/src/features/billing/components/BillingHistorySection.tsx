@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Download, Clock, CheckCircle, XCircle } from "lucide-react";
 import { BillingHistory } from "@/@types/subscription";
-import { useTheme } from "@/components/dashboard/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import Button from "@/components/ui/Button";
 
 interface BillingHistoryProps {

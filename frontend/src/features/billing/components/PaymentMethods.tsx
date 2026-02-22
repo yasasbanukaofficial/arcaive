@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { CreditCard, Plus, Trash2 } from "lucide-react";
 import { PaymentMethod } from "@/@types/subscription";
-import { useTheme } from "@/components/dashboard/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import Button from "@/components/ui/Button";
 
 interface PaymentMethodsProps {

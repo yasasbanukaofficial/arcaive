@@ -6,14 +6,14 @@ export default function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/chat/:path*",
-    "/agents/:path*",
-    "/workflows/:path*",
-    "/jobs/:path*",
-    "/billing/:path*",
-    "/settings/:path*",
-    "/analytics/:path*",
-    "/developers/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico|images|public|$).*)",
+    // "/chat/:path*",
+    // "/agents/:path*",
+    // "/workflows/:path*",
+    // "/jobs/:path*",
+    // "/billing/:path*",
+    // "/settings/:path*",
+    // "/analytics/:path*",
+    // "/developers/:path*",
+    // "/((?!api|_next/static|_next/image|favicon.ico|images|public|$).*)",
   ],
 };

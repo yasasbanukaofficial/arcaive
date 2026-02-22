@@ -9,11 +9,11 @@ import type {
   JobSource,
   SortOption,
 } from "@/@types/jobs";
-import JobSearchBar from "@/components/jobs/JobSearchBar";
-import JobFilterPanel from "@/components/jobs/JobFilterPanel";
-import JobListHeader from "@/components/jobs/JobListHeader";
-import JobCard from "@/components/jobs/JobCard";
-import JobPromoBanner from "@/components/jobs/JobPromoBanner";
+import JobSearchBar from "@/features/jobs/components/JobSearchBar";
+import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
+import JobListHeader from "@/features/jobs/components/JobListHeader";
+import JobCard from "@/features/jobs/components/JobCard";
+import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
 import { matchesLocation } from "@/utils/locationUtils";
 import { DUMMY_JOBS } from "@/app/data/jobs";
 
