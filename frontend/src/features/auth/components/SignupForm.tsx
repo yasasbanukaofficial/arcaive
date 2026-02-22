@@ -7,16 +7,19 @@ import PasswordInput from "./PasswordInput";
 import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
 
 export default function SignupForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("signup", { name, email, password, confirmPassword });
+    router.push("/onboarding");
   };
 
   return (
