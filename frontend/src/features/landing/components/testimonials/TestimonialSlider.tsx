@@ -31,9 +31,9 @@ const TestimonialSlider = ({ testimonials }: Props) => {
     <div className="relative">
       <div className="hidden lg:block">
         <motion.div
+          key={currentIndex}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
+          animate="show"
           variants={staggerContainer(0.12, 0.1)}
           className="grid grid-cols-3 gap-6 mb-12"
         >
@@ -73,9 +73,9 @@ const TestimonialSlider = ({ testimonials }: Props) => {
       </div>
       <div className="hidden md:block lg:hidden">
         <motion.div
+          key={currentIndex}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
+          animate="show"
           variants={staggerContainer(0.15, 0.1)}
           className="grid grid-cols-2 gap-5 mb-10"
         >
