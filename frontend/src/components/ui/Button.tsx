@@ -119,7 +119,6 @@ export default function Button({
   const baseStyle = getVariantStyles(variant);
   const hoverStyle = getHoverStyles(variant);
 
-  // Allow custom style overrides
   const finalBaseStyle = {
     ...baseStyle,
     ...(backgroundColor && { backgroundColor }),
@@ -144,7 +143,7 @@ export default function Button({
       className={`
         inline-flex items-center justify-center font-medium
         transition-all duration-200
-        disabled:opacity-40 disabled:cursor-not-allowed
+        disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20
         ${sizeStyles[size]}
         ${fullWidth ? "w-full" : ""}

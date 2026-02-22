@@ -58,7 +58,7 @@ export default function TabsSection() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`pb-4 sm:pb-5 md:pb-6 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all relative whitespace-nowrap flex-shrink-0 ${
+              className={`cursor-pointer pb-4 sm:pb-5 md:pb-6 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all relative whitespace-nowrap flex-shrink-0 ${
                 activeTab === tab.id
                   ? "text-white"
                   : "text-white/30 hover:text-white/50"
@@ -121,7 +121,7 @@ export default function TabsSection() {
                   <div className="text-[9px] sm:text-[10px] font-medium text-white/40 uppercase tracking-[0.3em]">
                     {activeContent.label}
                   </div>
-                  <h3 className="text-xl sm:text-2xl md:text-[36px] font-medium leading-[1.2] tracking-tight text-white/90">
+                  <h3 className="text-xl sm:text-2xl md:text-[36px] font-normal leading-[1.2] tracking-tight text-white/90">
                     {activeContent.title}
                   </h3>
                 </div>

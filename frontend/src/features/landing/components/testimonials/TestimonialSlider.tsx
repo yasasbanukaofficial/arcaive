@@ -57,14 +57,14 @@ const TestimonialSlider = ({ testimonials }: Props) => {
         <div className="flex items-center justify-center gap-6">
           <button
             onClick={prevSlide}
-            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Previous"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Next"
           >
             <ArrowRight className="w-5 h-5" />
