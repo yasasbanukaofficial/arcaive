@@ -5,16 +5,19 @@ import Button from "@/components/ui/Button";
 import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { useRouter } from "next/navigation";
+import FileUpload, { UploadedFile } from "@/components/ui/FileUpload";
 
 export default function OnBoardingForm() {
   const [githubLink, setGithubLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
+  const [resumeFiles, setResumeFiles] = useState<UploadedFile[]>([]);
+
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("onboarding", { githubLink, linkedinLink });
-    // todo: save the links to the user profile
+    console.log("onboarding", { githubLink, linkedinLink, resumeFiles });
+    // todo: save the links and resume to the user profile
     router.push("/jobs");
   };
   return (
@@ -61,6 +64,18 @@ export default function OnBoardingForm() {
             required
           />
         </div>
+      </motion.div>
+
+      <motion.div variants={bounceIn} className="space-y-1.5">
+        <FileUpload
+          label="CV/Resume"
+          accept=".pdf,.doc,.docx"
+          maxSizeMB={5}
+          files={resumeFiles}
+          onFilesChange={setResumeFiles}
+          multiple={false}
+          hint="PDF, DOCX, DOC files only, max 5MB"
+        />
       </motion.div>
 
       <motion.div variants={bounceIn}>

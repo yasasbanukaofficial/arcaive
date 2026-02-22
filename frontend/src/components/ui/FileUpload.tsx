@@ -169,7 +169,7 @@ export default function FileUpload({
             ? "rgba(59, 130, 246, 0.4)"
             : error
               ? "rgba(239, 68, 68, 0.4)"
-              : undefined,
+              : "rgba(255, 255, 255, 0.1)",
         }}
         transition={{ duration: 0.15 }}
         className={`
@@ -180,12 +180,12 @@ export default function FileUpload({
         style={{
           backgroundColor: isDragging
             ? "rgba(59, 130, 246, 0.04)"
-            : "var(--d-surface)",
+            : "rgba(255, 255, 255, 0.03)",
           border: error
             ? "1.5px dashed rgba(239, 68, 68, 0.4)"
             : isDragging
               ? "1.5px dashed rgba(59, 130, 246, 0.4)"
-              : "1.5px dashed var(--d-border-hover)",
+              : "1.5px dashed rgba(255, 255, 255, 0.1)",
         }}
       >
         <input
