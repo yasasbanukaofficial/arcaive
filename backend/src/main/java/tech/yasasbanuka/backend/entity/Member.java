@@ -1,10 +1,8 @@
 package tech.yasasbanuka.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import tech.yasasbanuka.backend.dto.MemberTier;
 
 import java.net.URL;
 import java.util.List;
@@ -21,5 +19,14 @@ public class Member {
     private String username;
     private String email;
     private String hashedPassword;
+
+    @ElementCollection
     private List<URL> links;
+
+    @Enumerated(EnumType.STRING)
+    private MemberTier tier = MemberTier.STARTER;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subscription_id", referencedColumnName = "id")
+    private Subscription subscription;
 }

@@ -36,4 +36,9 @@ public class MemberDTO {
 
     @Nullable
     private List<URL> socialLinks;
+
+    @Nullable
+    private String memberTier;
+    @Nullable
+    private String subscriptionId;
 }
