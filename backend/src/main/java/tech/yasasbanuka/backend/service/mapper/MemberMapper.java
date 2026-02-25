@@ -13,6 +13,8 @@ public interface MemberMapper {
     @Mapping(source = "email", target = "memberEmail")
     @Mapping(target = "password", ignore = true)
     @Mapping(source = "links", target = "socialLinks")
+    @Mapping(source = "tier", target = "memberTier")
+    @Mapping(source = "subscription.id", target = "subscriptionId")
     MemberDTO toDTO(Member member);
 
     @Mapping(source = "memberId", target = "id")
@@ -21,6 +23,8 @@ public interface MemberMapper {
     @Mapping(source = "memberEmail", target = "email")
     @Mapping(source = "password", target = "hashedPassword")
     @Mapping(source = "socialLinks", target = "links")
+    @Mapping(source = "memberTier", target = "tier")
+    @Mapping(source = "subscriptionId", target = "subscription.id")
     Member toEntity(MemberDTO member);
 
     @InheritConfiguration(name = "toEntity")

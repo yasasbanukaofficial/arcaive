@@ -20,7 +20,7 @@ public class SubscriptionDTO {
     @Nullable
     private UUID subscriptionId;
 
-    @NotBlank(message = "Lemon Squeezy ID is required for synchronization")
+    @NotBlank(message = "Provider ID is required for synchronization")
     private String providerId;
 
     @NotBlank(message = "Subscription status must be defined")
