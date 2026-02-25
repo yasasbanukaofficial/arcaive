@@ -13,12 +13,10 @@ import BillingSection from "@/features/settings/components/BillingSection";
 import NotificationsSection from "@/features/settings/components/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
-  initialMemberIdentityData,
   initialCareerIntelligenceData,
   initialAgentConfigData,
   initialBillingData,
   initialNotificationsData,
-  MemberIdentityData,
 } from "@/app/data/settings";
 import { useMember } from "@/hooks/useMember";
 

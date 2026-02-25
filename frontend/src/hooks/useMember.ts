@@ -2,9 +2,10 @@
 import { useQuery } from "@tanstack/react-query";
 
 const MEMBER_DATA_URL = process.env.NEXT_PUBLIC_MEMBER_DATA_URL!;
+const MEMBER_ID = process.env.NEXT_PUBLIC_MEMBER_ID!;
 
 const fetchMembers = async () => {
-  const response = await fetch(`${MEMBER_DATA_URL}/api/v1/customers/48af44d3-b69d-4ad6-bd56-7aee8846e130`);
+  const response = await fetch(`${MEMBER_DATA_URL}/api/v1/customers/${MEMBER_ID}`);
   if (!response.ok) {
     throw new Error("Error when fetching member data from API");
   }
