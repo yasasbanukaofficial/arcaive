@@ -13,5 +13,5 @@ import java.sql.Timestamp;
 public class ExceptionResponse {
     private int statusCode;
     private String message;
-    private long timeStamp;
+    private String timeStamp;
 }

@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.exception.AlreadyExistsException;
+import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
@@ -22,27 +24,27 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDTO createMember(MemberDTO memberDTO) {
         if(memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new AlreadyExistsException("Email already exists");
         }
         return memberMapper.toDTO(memberRepo.save(memberMapper.toEntity(memberDTO)));
     }
 
     @Override
     public MemberDTO updateMember(MemberDTO memberDTO) {
-        Member existingMember = memberRepo.findById(memberDTO.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member existingMember = memberRepo.findById(memberDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         memberMapper.updateMember(memberDTO, existingMember);
         return memberMapper.toDTO(memberRepo.save(existingMember));
     }
 
     @Override
     public void deleteMember(UUID memberId) {
-        Member existingMember = memberRepo.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member existingMember = memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         memberRepo.deleteById(memberId);
     }
 
     @Override
     public MemberDTO getMember(UUID memberId) {
-        return memberMapper.toDTO(memberRepo.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found")));
+        return memberMapper.toDTO(memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found")));
     }
 
     @Override

@@ -13,7 +13,6 @@ import java.util.UUID;
 @Data
 @Builder
 public class MemberDTO {
-
     @Nullable
     private UUID memberId;
 

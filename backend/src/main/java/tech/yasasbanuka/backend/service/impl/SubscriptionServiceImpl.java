@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.SubscriptionDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.repo.SubscriptionRepo;
 import tech.yasasbanuka.backend.service.SubscriptionService;
-import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionDTO createSubscription(SubscriptionDTO subscriptionDTO) {
-        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         Subscription subscriptionAsEntity = subscriptionMapper.toEntity(subscriptionDTO);
 
         existingMember.setSubscription(subscriptionAsEntity);
@@ -36,8 +36,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionDTO updateSubscription(SubscriptionDTO subscriptionDTO) {
-        Subscription existingSubscription = subscriptionRepo.findById(subscriptionDTO.getSubscriptionId()).orElseThrow(() -> new RuntimeException("Subscription not found"));
-        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
+        Subscription existingSubscription = subscriptionRepo.findById(subscriptionDTO.getSubscriptionId()).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
+        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
 
         existingMember.setSubscription(existingSubscription);
         existingSubscription.setMember(existingMember);
@@ -50,16 +50,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void deleteSubscription(UUID subscriptionId) {
-        Subscription existingSubscription = subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new RuntimeException("Subscription not found"));
+        Subscription existingSubscription = subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
         if(memberRepo.existsById(existingSubscription.getMember().getId())) {
-            throw new RuntimeException("Member Not found");
+            throw new ResourceNotFoundException("Member Not found");
         }
         subscriptionRepo.deleteById(existingSubscription.getId());
     }
 
     @Override
     public SubscriptionDTO getSubscription(UUID subscriptionId) {
-        return subscriptionMapper.toDto(subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new RuntimeException("Subscription not found")));
+        return subscriptionMapper.toDto(subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found")));
     }
 
     @Override

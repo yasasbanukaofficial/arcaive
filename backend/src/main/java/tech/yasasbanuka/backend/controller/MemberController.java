@@ -28,8 +28,9 @@ public class MemberController {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMember(memberId)), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<APIResponse<MemberDTO>> updateMember(@RequestBody @Valid MemberDTO member){
+    @PutMapping("/{memberId}")
+    public ResponseEntity<APIResponse<MemberDTO>> updateMember(@PathVariable UUID memberId ,@RequestBody @Valid MemberDTO member){
+        member.setMemberId(memberId);
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Member updated successfully", memberservice.updateMember(member)), HttpStatus.OK);
     }
 

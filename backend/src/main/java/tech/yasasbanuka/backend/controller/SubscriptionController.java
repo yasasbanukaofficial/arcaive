@@ -1,6 +1,7 @@
 package tech.yasasbanuka.backend.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/subscriptions")
 @CrossOrigin(origins = "http://localhost:8080")
+@RequiredArgsConstructor
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
-
-    public SubscriptionController(SubscriptionService subscriptionService) {
-        this.subscriptionService = subscriptionService;
-    }
 
     @GetMapping
     public ResponseEntity<APIResponse<List<SubscriptionDTO>>> getAllSubscriptions() {
@@ -31,8 +29,9 @@ public class SubscriptionController {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched subscription successfully", subscriptionService.getSubscription(subscriptionId)), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<APIResponse<SubscriptionDTO>> updateSubscription(@RequestBody @Valid SubscriptionDTO subscription) {
+    @PutMapping("/{subscriptionId}")
+    public ResponseEntity<APIResponse<SubscriptionDTO>> updateSubscription(@PathVariable UUID subscriptionId, @RequestBody @Valid SubscriptionDTO subscription) {
+        subscription.setSubscriptionId(subscriptionId);
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscription updated successfully", subscriptionService.updateSubscription(subscription)), HttpStatus.OK);
     }
 
