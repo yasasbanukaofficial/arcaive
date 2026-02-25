@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 public class SubscriptionDTO {
     @Nullable
-    private UUID subscriptionID;
+    private UUID subscriptionId;
 
     @NotBlank(message = "Lemon Squeezy ID is required for synchronization")
     private String providerId;
@@ -26,7 +26,7 @@ public class SubscriptionDTO {
     @NotBlank(message = "Subscription status must be defined")
     @Pattern(regexp = "^(active|on_trial|cancelled|past_due|unpaid|expired)$",
             message = "Invalid subscription status")
-    private String status;
+    private String subscriptionStatus;
 
     @NotBlank(message = "Variant ID is required to identify the plan")
     private String variantId;
@@ -34,8 +34,9 @@ public class SubscriptionDTO {
     @NotNull(message = "Renewal date must be provided")
     private Instant renewsAt;
 
+    @NotNull(message = "Subscription end date must be provided")
     private Instant endsAt;
 
-    @NotBlank(message = "Member reference is required")
+    @NotNull(message = "Member reference is required")
     private UUID memberId;
 }

@@ -12,9 +12,9 @@ import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import java.util.List;
 import java.util.UUID;
 
-@Service
 @RequiredArgsConstructor
 @Transactional
+@Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
     private final MemberMapper memberMapper;
@@ -24,8 +24,7 @@ public class MemberServiceImpl implements MemberService {
         if(memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
             throw new RuntimeException("Email already exists");
         }
-        Member memberEntity = memberMapper.toEntity(memberDTO);
-        return memberMapper.toDTO(memberRepo.save(memberEntity));
+        return memberMapper.toDTO(memberRepo.save(memberMapper.toEntity(memberDTO)));
     }
 
     @Override
