@@ -32,7 +32,7 @@ export default function BillingPageWrapper() {
 
   return (
     <BillingPage
-      userSubscription={MOCK_MEMBER_SUBSCRIPTION}
+      memberSubscription={MOCK_MEMBER_SUBSCRIPTION}
       availablePlans={MOCK_PLANS}
       billingHistory={MOCK_BILLING_HISTORY}
       paymentMethods={MOCK_PAYMENT_METHODS}

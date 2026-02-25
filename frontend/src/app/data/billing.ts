@@ -1,11 +1,11 @@
 import type {
   PaymentMethod,
   BillingHistory,
-  UserSubscription,
+  MemberSubscription,
   SubscriptionPlan,
 } from "@/@types/subscription";
 
-export const MOCK_MEMBER_SUBSCRIPTION: UserSubscription = {
+export const MOCK_MEMBER_SUBSCRIPTION: MemberSubscription = {
   currentPlan: "free",
   billingPeriod: "month",
   renewalDate: "2026-03-14",

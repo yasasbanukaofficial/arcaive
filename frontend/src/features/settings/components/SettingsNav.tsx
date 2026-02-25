@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  User,
+  Shield as MemberIcon,
   Brain,
   Cpu,
   CreditCard,
@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
     id: "identity",
     label: "Identity & Auth",
     description: "Profile, password, MFA",
-    icon: User,
+    icon: MemberIcon,
   },
   {
     id: "career",

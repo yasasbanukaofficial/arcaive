@@ -7,7 +7,7 @@ import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import BillingHistorySection from "@/features/billing/components/BillingHistorySection";
 import PaymentMethods from "@/features/billing/components/PaymentMethods";
 import {
-  UserSubscription,
+  MemberSubscription,
   SubscriptionPlan,
   BillingHistory,
   PaymentMethod,
@@ -15,7 +15,7 @@ import {
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 interface BillingPageProps {
-  userSubscription: UserSubscription;
+  memberSubscription: MemberSubscription;
   availablePlans: SubscriptionPlan[];
   billingHistory: BillingHistory[];
   paymentMethods: PaymentMethod[];
@@ -33,7 +33,7 @@ const fadeUp = {
 };
 
 export default function BillingPage({
-  userSubscription,
+  memberSubscription,
   availablePlans,
   billingHistory,
   paymentMethods,
@@ -45,7 +45,7 @@ export default function BillingPage({
 }: BillingPageProps) {
   const { isDark } = useTheme();
   const [selectedPeriod, setSelectedPeriod] = useState<"month" | "year">(
-    userSubscription.billingPeriod,
+    memberSubscription.billingPeriod,
   );
 
   const filteredPlans = availablePlans.filter(
@@ -55,7 +55,7 @@ export default function BillingPage({
   const currentPlan =
     availablePlans.find(
       (plan) =>
-        plan.id === userSubscription.currentPlan &&
+        plan.id === memberSubscription.currentPlan &&
         plan.billingPeriod === selectedPeriod,
     ) || filteredPlans.find((p) => p.id === "free");
 
@@ -77,7 +77,7 @@ export default function BillingPage({
         <div className="space-y-6">
           {currentPlan && (
             <CurrentSubscription
-              subscription={userSubscription}
+              subscription={memberSubscription}
               plan={currentPlan}
               onManage={onManageSubscription}
             />
@@ -170,7 +170,7 @@ export default function BillingPage({
                   key={`${plan.id}-${plan.billingPeriod}`}
                   plan={plan}
                   isCurrentPlan={
-                    plan.id === userSubscription.currentPlan &&
+                    plan.id === memberSubscription.currentPlan &&
                     plan.billingPeriod === selectedPeriod
                   }
                   onSelect={onUpgrade}

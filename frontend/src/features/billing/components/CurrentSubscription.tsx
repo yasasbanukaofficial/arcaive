@@ -3,12 +3,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, TrendingUp, AlertCircle } from "lucide-react";
-import { UserSubscription, SubscriptionPlan } from "@/@types/subscription";
+import { MemberSubscription, SubscriptionPlan } from "@/@types/subscription";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import Button from "@/components/ui/Button";
 
 interface CurrentSubscriptionProps {
-  subscription: UserSubscription;
+  subscription: MemberSubscription;
   plan: SubscriptionPlan;
   onManage: () => void;
 }

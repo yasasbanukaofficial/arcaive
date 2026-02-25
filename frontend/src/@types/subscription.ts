@@ -11,7 +11,7 @@ export interface SubscriptionPlan {
   maxJobs?: number;
 }
 
-export interface UserSubscription {
+export interface MemberSubscription {
   currentPlan: PlanType;
   billingPeriod: "month" | "year";
   renewalDate: string;
