@@ -2,14 +2,14 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { dashboardStagger, fadeUp } from "@/components/dashboard/animations";
-import WelcomeBanner from "@/components/dashboard/WelcomeBanner";
-import StatsGrid from "@/components/dashboard/StatsGrid";
-import UsageChart from "@/components/dashboard/UsageChart";
-import QuickActions from "@/components/dashboard/QuickActions";
-import ActiveAgents from "@/components/dashboard/ActiveAgents";
-import ActivityFeed from "@/components/dashboard/ActivityFeed";
-import WhatsNew from "@/components/dashboard/WhatsNew";
+import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
+import WelcomeBanner from "@/features/dashboard/components/WelcomeBanner";
+import StatsGrid from "@/features/dashboard/components/StatsGrid";
+import UsageChart from "@/features/dashboard/components/UsageChart";
+import QuickActions from "@/features/dashboard/components/QuickActions";
+import ActiveAgents from "@/features/dashboard/components/ActiveAgents";
+import ActivityFeed from "@/features/dashboard/components/ActivityFeed";
+import WhatsNew from "@/features/dashboard/components/WhatsNew";
 
 export default function DashboardPage() {
   return (

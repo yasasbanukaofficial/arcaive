@@ -5,13 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Settings } from "lucide-react";
 import SettingsNav, {
   type SettingsSection,
-} from "@/components/settings/SettingsNav";
-import UserIdentitySection from "@/components/settings/UserIdentitySection";
-import CareerIntelligenceSection from "@/components/settings/CareerIntelligenceSection";
-import AgentConfigSection from "@/components/settings/AgentConfigSection";
-import BillingSection from "@/components/settings/BillingSection";
-import NotificationsSection from "@/components/settings/NotificationsSection";
-import { fadeUp, dashboardStagger } from "@/components/dashboard/animations";
+} from "@/features/settings/components/SettingsNav";
+import UserIdentitySection from "@/features/settings/components/UserIdentitySection";
+import CareerIntelligenceSection from "@/features/settings/components/CareerIntelligenceSection";
+import AgentConfigSection from "@/features/settings/components/AgentConfigSection";
+import BillingSection from "@/features/settings/components/BillingSection";
+import NotificationsSection from "@/features/settings/components/NotificationsSection";
+import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
   initialUserIdentityData,
   initialCareerIntelligenceData,

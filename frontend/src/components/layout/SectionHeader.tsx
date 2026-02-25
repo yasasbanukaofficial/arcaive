@@ -8,7 +8,7 @@ type Props = {
   subtitle?: string;
 };
 
-const SectionHeader: React.FC<Props> = ({ label, title, subtitle }) => (
+const SectionHeader = ({ label, title, subtitle }: Props) => (
   <div className="space-y-3 sm:space-y-4 max-w-2xl mb-8 sm:mb-10 md:mb-12">
     <div className="flex items-center gap-2 text-[9px] sm:text-[10px] font-medium text-white/40 uppercase tracking-[0.2em]">
       <span className="w-1 h-1 rounded-full bg-white/40" />
