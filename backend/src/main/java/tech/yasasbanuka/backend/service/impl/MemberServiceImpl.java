@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(UUID memberId) {
-        Member existingMember = memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         memberRepo.deleteById(memberId);
     }
 

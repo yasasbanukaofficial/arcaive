@@ -50,11 +50,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void deleteSubscription(UUID subscriptionId) {
-        Subscription existingSubscription = subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
-        if(memberRepo.existsById(existingSubscription.getMember().getId())) {
-            throw new ResourceNotFoundException("Member Not found");
-        }
-        subscriptionRepo.deleteById(existingSubscription.getId());
+        subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
+        subscriptionRepo.deleteById(subscriptionId);
     }
 
     @Override

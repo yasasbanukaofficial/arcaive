@@ -15,7 +15,10 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String providerId;
-    private String status;
+
+    @Builder.Default
+    private String status = "inactive";
+    
     private String variantId;
     private Instant renewsAt;
     private Instant endsAt;
