@@ -35,7 +35,7 @@ const faqData = [
   {
     question: "How can I get support if I have issues?",
     answer:
-      "Our support team is available via live chat and email. Pro users get priority response times, while Enterprise customers have access to a dedicated account manager.",
+      "Our support team is available via live chat and email. Pro members get priority response times, while Enterprise customers have access to a dedicated account manager.",
   },
 ];
 

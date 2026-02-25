@@ -3,7 +3,7 @@
 import React from "react";
 import BillingPage from "@/features/billing/components/BillingPage";
 import {
-  MOCK_USER_SUBSCRIPTION,
+  MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
   MOCK_BILLING_HISTORY,
   MOCK_PAYMENT_METHODS,
@@ -32,7 +32,7 @@ export default function BillingPageWrapper() {
 
   return (
     <BillingPage
-      userSubscription={MOCK_USER_SUBSCRIPTION}
+      userSubscription={MOCK_MEMBER_SUBSCRIPTION}
       availablePlans={MOCK_PLANS}
       billingHistory={MOCK_BILLING_HISTORY}
       paymentMethods={MOCK_PAYMENT_METHODS}

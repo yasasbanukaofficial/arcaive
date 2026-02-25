@@ -1,7 +1,3 @@
-/**
- * Centralized settings data for all settings sections
- */
-
 import {
   Chrome,
   Github,
@@ -9,12 +5,9 @@ import {
   Zap,
   Info,
   Gauge,
-  Smartphone,
-  Mail,
   LucideIcon,
 } from "lucide-react";
 
-// ===== User Identity Section Data =====
 export type LinkedAccount = {
   provider: "google" | "github" | "linkedin";
   label: string;
@@ -23,23 +16,35 @@ export type LinkedAccount = {
   email?: string;
 };
 
-export type UserIdentityData = {
-  profile: {
-    fullName: string;
-    email: string;
-  };
-  mfa: {
-    enabled: boolean;
-    method: "app" | "sms";
-  };
-  linkedAccounts: LinkedAccount[];
+export type MemberDTO = {
+  memberId?: string | null;
+  memberFullName: string;
+  memberUsername: string;
+  memberEmail: string;
+  password: string;
+  socialLinks?: string[] | null;
+  memberTier?: string | null;
+  subscriptionId?: string | null;
 };
 
-export const initialUserIdentityData: UserIdentityData = {
-  profile: {
-    fullName: "John Doe",
-    email: "john@example.com",
-  },
+export type MemberIdentityData = MemberDTO & {
+  mfa: {
+    enabled: boolean;
+    method: "sms" | "app";
+  };
+  linkedAccounts: LinkedAccount[]; 
+};
+
+export const initialMemberIdentityData: MemberIdentityData = {
+  memberId: null,
+  memberFullName: "John Doe",
+  memberUsername: "johndoe",
+  memberEmail: "john@example.com",
+  password: "", 
+  socialLinks: [],
+  memberTier: "Free",
+  subscriptionId: null,
+
   mfa: {
     enabled: false,
     method: "app",
@@ -67,7 +72,6 @@ export const initialUserIdentityData: UserIdentityData = {
   ],
 };
 
-// ===== Career Intelligence Section Data =====
 export type Achievement = {
   id: string;
   text: string;
@@ -143,7 +147,6 @@ export const initialCareerIntelligenceData: CareerIntelligenceData = {
   ],
 };
 
-// ===== Agent Configuration Section Data =====
 export type PersonaOption = {
   value: string;
   label: string;
@@ -186,7 +189,6 @@ export const initialAgentConfigData: AgentConfigData = {
   blacklist: "Palantir\nClearview AI\ncrypto trading",
 };
 
-// ===== Billing Section Data =====
 export type PlanFeature = {
   name: string;
   active: boolean;
@@ -251,7 +253,6 @@ export const initialBillingData: BillingData = {
   },
 };
 
-// ===== Notifications Section Data =====
 export type NotificationAlerts = {
   jobMatch: boolean;
   autoApply: boolean;

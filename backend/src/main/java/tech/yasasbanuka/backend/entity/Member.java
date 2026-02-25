@@ -27,6 +27,12 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberTier tier = MemberTier.STARTER;
 
+    @Embedded
+    private Mfa mfa;
+
+    @ElementCollection
+    private List<LinkedAccount> linkedAccounts;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id", referencedColumnName = "id")
     private Subscription subscription;

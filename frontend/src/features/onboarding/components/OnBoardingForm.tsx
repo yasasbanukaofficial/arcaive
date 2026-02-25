@@ -17,7 +17,7 @@ export default function OnBoardingForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("onboarding", { githubLink, linkedinLink, resumeFiles });
-    // todo: save the links and resume to the user profile
+    // todo: save the links and resume to the member profile
     router.push("/subscription");
   };
   return (

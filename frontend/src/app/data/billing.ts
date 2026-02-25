@@ -5,7 +5,7 @@ import type {
   SubscriptionPlan,
 } from "@/@types/subscription";
 
-export const MOCK_USER_SUBSCRIPTION: UserSubscription = {
+export const MOCK_MEMBER_SUBSCRIPTION: UserSubscription = {
   currentPlan: "free",
   billingPeriod: "month",
   renewalDate: "2026-03-14",

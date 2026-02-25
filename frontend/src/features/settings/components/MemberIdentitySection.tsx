@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -22,7 +22,7 @@ import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
-import type { UserIdentityData, LinkedAccount } from "@/app/data/settings";
+import type { MemberIdentityData, LinkedAccount } from "@/app/data/settings";
 
 const iconMap: Record<string, LucideIcon> = {
   google: Chrome,
@@ -30,15 +30,19 @@ const iconMap: Record<string, LucideIcon> = {
   linkedin: Linkedin,
 };
 
-type UserIdentitySectionProps = {
-  data: UserIdentityData;
+type MemberIdentitySectionProps = {
+  data: MemberIdentityData;
+  isLoading?: boolean;
+  error?: Error | null;
 };
 
-export default function UserIdentitySection({
+export default function MemberIdentitySection({
   data,
-}: UserIdentitySectionProps) {
-  const [fullName, setFullName] = useState(data.profile.fullName);
-  const [email, setEmail] = useState(data.profile.email);
+  isLoading,
+  error,
+}: MemberIdentitySectionProps) {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
@@ -48,12 +52,32 @@ export default function UserIdentitySection({
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
-  const [mfaEnabled, setMfaEnabled] = useState(data.mfa.enabled);
-  const [mfaMethod, setMfaMethod] = useState(data.mfa.method);
+  const [mfaEnabled, setMfaEnabled] = useState(false);
+  const [mfaMethod, setMfaMethod] = useState<"app" | "sms">("app");
 
-  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>(
-    data.linkedAccounts,
-  );
+  const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setFullName(data.memberFullName || "");
+      setEmail(data.memberEmail || "");
+      setMfaEnabled(data.mfa?.enabled ?? false);
+      setMfaMethod(data.mfa?.method ?? "app");
+      setLinkedAccounts(data.linkedAccounts ?? []);
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return <div className="p-8 text-center">Loading Member Data...</div>;
+  }
+
+  if (error || !data) {
+    return (
+      <div className="p-8 text-center text-red-200">
+        {error ? "Error loading settings." : "No member data found."}
+      </div>
+    );
+  }
 
   const handleProfileSave = async () => {
     setProfileSaving(true);
@@ -94,7 +118,7 @@ export default function UserIdentitySection({
           ? {
               ...acc,
               connected: !acc.connected,
-              email: !acc.connected ? `user@${provider}.com` : undefined,
+              email: !acc.connected ? `member@${provider}.com` : undefined,
             }
           : acc,
       ),

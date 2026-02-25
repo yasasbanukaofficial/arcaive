@@ -1,5 +1,5 @@
 import { Chrome } from "lucide-react";
-import { UserIdentityData } from "./settings";
+import { MemberIdentityData } from "./settings";
 
 export function mapToJobListing(mock: any) {
   let safeTags: string[] = [];
@@ -37,7 +37,7 @@ export function mapToJobListing(mock: any) {
   };
 }
 
-export function mapToUser(mock: any): UserIdentityData {
+export function mapToMember(mock: any): MemberIdentityData {
   return {
     profile: {
       fullName: mock.name,

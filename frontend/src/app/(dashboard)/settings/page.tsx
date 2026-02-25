@@ -6,28 +6,28 @@ import { Settings } from "lucide-react";
 import SettingsNav, {
   type SettingsSection,
 } from "@/features/settings/components/SettingsNav";
-import UserIdentitySection from "@/features/settings/components/UserIdentitySection";
+import MemberIdentitySection from "@/features/settings/components/MemberIdentitySection";
 import CareerIntelligenceSection from "@/features/settings/components/CareerIntelligenceSection";
 import AgentConfigSection from "@/features/settings/components/AgentConfigSection";
 import BillingSection from "@/features/settings/components/BillingSection";
 import NotificationsSection from "@/features/settings/components/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
-  initialUserIdentityData,
+  initialMemberIdentityData,
   initialCareerIntelligenceData,
   initialAgentConfigData,
   initialBillingData,
   initialNotificationsData,
-  UserIdentityData,
+  MemberIdentityData,
 } from "@/app/data/settings";
-import { useUser } from "@/hooks/useUser";
+import { useMember } from "@/hooks/useMember";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function SettingsPage() {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("identity");
-  const { data: user, isLoading, error } = useUser();
+  const { data: member, isLoading, error } = useMember();
 
   const sectionTitles: Record<
     SettingsSection,
@@ -62,13 +62,10 @@ export default function SettingsPage() {
 
   const { title, description } = sectionTitles[activeSection];
 
-  if (isLoading) return <div>Loading User Data...</div>;
-  if (error || !user) return <div>Error loading profile.</div>;
-
   function renderSection(section: SettingsSection) {
     switch (section) {
       case "identity":
-        return <UserIdentitySection data={user} />;
+        return <MemberIdentitySection data={member} isLoading={isLoading} error={error} />;
       case "career":
         return (
           <CareerIntelligenceSection data={initialCareerIntelligenceData} />

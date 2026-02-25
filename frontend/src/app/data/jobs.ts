@@ -39,7 +39,7 @@ export const DUMMY_JOBS: JobListing[] = [
     source: "Serper",
     bookmarked: true,
     description:
-      "Work with the Material Design team to shape user experiences across Google products.",
+      "Work with the Material Design team to shape member experiences across Google products.",
   },
   {
     id: "3",
@@ -79,7 +79,7 @@ export const DUMMY_JOBS: JobListing[] = [
     source: "LinkedIn",
     bookmarked: false,
     description:
-      "Redesign the core user experience for Twitter's next-generation platform.",
+      "Redesign the core member experience for Twitter's next-generation platform.",
   },
   {
     id: "5",

@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/customers")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http:localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
     private final MemberService memberservice;
     @GetMapping

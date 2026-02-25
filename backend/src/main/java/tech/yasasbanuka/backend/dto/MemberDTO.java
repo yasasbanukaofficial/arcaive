@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import tech.yasasbanuka.backend.entity.LinkedAccount;
 
 import java.net.URL;
 import java.util.List;
@@ -35,6 +36,12 @@ public class MemberDTO {
 
     @Nullable
     private List<URL> socialLinks;
+
+    @Nullable
+    private MfaDTO mfaDTO;
+
+    @Nullable
+    private List<LinkedAccount> linkedAccounts;
 
     @Nullable
     private String memberTier;
