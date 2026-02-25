@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class SubscriptionDTO {
     private UUID subscriptionId;
 
     @NotBlank(message = "Provider ID is required for synchronization")
+    @Size(max = 100, message = "Provider ID cannot exceed 100 characters")
     private String providerId;
 
     @NotBlank(message = "Subscription status must be defined")
@@ -29,6 +31,7 @@ public class SubscriptionDTO {
     private String subscriptionStatus;
 
     @NotBlank(message = "Variant ID is required to identify the plan")
+    @Size(max = 100, message = "Variant ID cannot exceed 100 characters")
     private String variantId;
 
     @NotNull(message = "Renewal date must be provided")

@@ -3,7 +3,10 @@ package tech.yasasbanuka.backend.service.mapper;
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.MemberTier;
+import tech.yasasbanuka.backend.dto.MfaDTO;
 import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.Mfa;
 
 @Mapper(config = CentralConfig.class)
 public interface MemberMapper {
@@ -23,9 +26,14 @@ public interface MemberMapper {
     @Mapping(source = "memberEmail", target = "email")
     @Mapping(source = "password", target = "hashedPassword")
     @Mapping(source = "socialLinks", target = "links")
-    @Mapping(source = "memberTier", target = "tier")
-    @Mapping(source = "subscriptionId", target = "subscription.id")
+    @Mapping(source = "memberTier", target = "tier", defaultValue = "STARTER")
+    @Mapping(source ="subscriptionId", target = "subscription.id")
     Member toEntity(MemberDTO member);
+
+    MfaDTO mfaToMfaDto(Mfa mfa);
+    @Mapping(source = "enabled", target = "enabled", defaultValue = "false")
+    @Mapping(source = "method", target = "method", defaultValue = "email")
+    Mfa mfaDtoToMfa(MfaDTO mfaDTO);
 
     @InheritConfiguration(name = "toEntity")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

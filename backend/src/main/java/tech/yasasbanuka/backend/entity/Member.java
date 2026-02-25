@@ -23,9 +23,8 @@ public class Member {
     @ElementCollection
     private List<URL> links;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MemberTier tier = MemberTier.STARTER;
+    private MemberTier tier;
 
     @Embedded
     private Mfa mfa;

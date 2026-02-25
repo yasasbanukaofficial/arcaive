@@ -16,8 +16,7 @@ public class Subscription {
     private UUID id;
     private String providerId;
 
-    @Builder.Default
-    private String status = "inactive";
+    private String status;
     
     private String variantId;
     private Instant renewsAt;

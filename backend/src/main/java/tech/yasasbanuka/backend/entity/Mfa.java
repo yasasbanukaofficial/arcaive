@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;

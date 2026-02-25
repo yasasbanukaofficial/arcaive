@@ -13,8 +13,8 @@ public interface SubscriptionMapper {
     SubscriptionDTO toDto(Subscription subscription);
 
     @Mapping(source = "subscriptionId", target = "id")
-    @Mapping(source = "subscriptionStatus", target = "status")
     @Mapping(target = "member", ignore = true)
+    @Mapping(source = "subscriptionStatus", target = "status", defaultValue = "inactive")
     Subscription toEntity(SubscriptionDTO subscriptionDTO);
 
     @InheritConfiguration(name = "toEntity")

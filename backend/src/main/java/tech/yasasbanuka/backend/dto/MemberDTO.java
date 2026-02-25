@@ -38,10 +38,10 @@ public class MemberDTO {
     private List<URL> socialLinks;
 
     @Nullable
-    private MfaDTO mfaDTO;
+    private MfaDTO mfa;
 
     @Nullable
-    private List<LinkedAccount> linkedAccounts;
+    private List<LinkedAccountDTO> linkedAccounts;
 
     @Nullable
     private String memberTier;
