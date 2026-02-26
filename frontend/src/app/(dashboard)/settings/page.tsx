@@ -18,7 +18,7 @@ import {
   initialBillingData,
   initialNotificationsData,
 } from "@/app/data/settings";
-import { useMember } from "@/hooks/useMember";
+import { useMember } from "@/features/settings/hooks/useMember";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
