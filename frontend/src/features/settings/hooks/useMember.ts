@@ -1,21 +1,16 @@
 "use client";
+import { apiInstance } from "@/api/api";
 import { useQuery } from "@tanstack/react-query";
 
-const MEMBER_DATA_URL = process.env.NEXT_PUBLIC_MEMBER_DATA_URL!;
-const MEMBER_ID = process.env.NEXT_PUBLIC_MEMBER_ID!;
+const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members/${process.env.NEXT_PUBLIC_MEMBER_ID}`!;
 
-const fetchMembers = async () => {
-  const response = await fetch(`${MEMBER_DATA_URL}/api/v1/customers/${MEMBER_ID}`);
-  if (!response.ok) {
-    throw new Error("Error when fetching member data from API");
-  }
-  const result = await response.json();
-  return result.data;
+const customerAPI = {
+  get: async() => (await apiInstance({ baseURL: MEMBER_DATA_URL})).data.data
 };
 
-export function useMember() {
+export function useMemberSettings() {
   return useQuery({
-    queryKey: ["member"],
-    queryFn: fetchMembers,
+    queryKey: ["member", "settings"],
+    queryFn: customerAPI.get,
   });
 }

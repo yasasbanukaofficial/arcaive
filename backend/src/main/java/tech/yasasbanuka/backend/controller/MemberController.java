@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {

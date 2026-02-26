@@ -18,14 +18,14 @@ import {
   initialBillingData,
   initialNotificationsData,
 } from "@/app/data/settings";
-import { useMember } from "@/features/settings/hooks/useMember";
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function SettingsPage() {
   const [activeSection, setActiveSection] =
     useState<SettingsSection>("identity");
-  const { data: member, isLoading, error } = useMember();
+  const { data: member, isLoading, error } = useMemberSettings();
 
   const sectionTitles: Record<
     SettingsSection,
