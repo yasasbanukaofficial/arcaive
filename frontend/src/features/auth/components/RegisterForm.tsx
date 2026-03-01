@@ -9,14 +9,30 @@ import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { registerAction } from "../action";
+import { useToast } from "@/components/ui/Toast";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const { addToast } = useToast();
   const [state, formAction, isPending] = useActionState(registerAction, {});
 
   useEffect(() => {
-    if (state.success) router.push("/login");
-  }, [state.success]);
+    if (state.success) {
+      addToast({
+        type: "success",
+        title: "Account created",
+        description: "Your account has been created successfully. Redirecting to login...",
+      });
+      setTimeout(() => router.push("/login"), 1500);
+    }
+    if (state.error) {
+      addToast({
+        type: "error",
+        title: "Registration failed",
+        description: state.error,
+      });
+    }
+  }, [state]);
 
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
@@ -40,10 +56,6 @@ export default function RegisterForm() {
         className="space-y-4"
         action={formAction}
       >
-        {state.error && (
-          <p className="text-sm text-red-400 px-1">{state.error}</p>
-        )}
-
         <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400 ml-1">
             Full name
