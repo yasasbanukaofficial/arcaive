@@ -3,6 +3,8 @@ package tech.yasasbanuka.backend.exception;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -82,6 +84,25 @@ public class GlobalException {
                 .statusCode(HttpStatus.CONFLICT.value())
                 .timeStamp(Instant.now().toString())
                 .message(ex.getMessage())
+                .build();
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionResponse handleBadCredentials(BadCredentialsException ex) {
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .message("Invalid email or password")
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionResponse handleAccessDenied(AccessDeniedException ex) {
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .message("You do not have permission to access this resource")
+                .timeStamp(Instant.now().toString())
                 .build();
     }
 

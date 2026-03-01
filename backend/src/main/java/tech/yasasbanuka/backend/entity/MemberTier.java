@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.entity;
 
 public enum MemberTier {
     STARTER("Basic package"),

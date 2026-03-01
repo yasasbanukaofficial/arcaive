@@ -3,7 +3,6 @@ package tech.yasasbanuka.backend.service.mapper;
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.MemberDTO;
-import tech.yasasbanuka.backend.dto.MemberTier;
 import tech.yasasbanuka.backend.dto.MfaDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Mfa;

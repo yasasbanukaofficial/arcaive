@@ -2,7 +2,6 @@ package tech.yasasbanuka.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import tech.yasasbanuka.backend.dto.MemberTier;
 
 import java.net.URL;
 import java.util.List;
