@@ -2,7 +2,6 @@ package tech.yasasbanuka.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import tech.yasasbanuka.backend.dto.MemberTier;
 
 import java.net.URL;
 import java.util.List;
@@ -25,10 +24,6 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberTier tier;
-
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private Role role = Role.MEMBER;
 
     @Embedded
     private Mfa mfa;

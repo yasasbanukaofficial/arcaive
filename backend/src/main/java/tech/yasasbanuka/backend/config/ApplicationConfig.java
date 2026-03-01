@@ -24,7 +24,7 @@ public class ApplicationConfig {
                 .map(user -> new User(
                         user.getUsername(),
                         user.getHashedPassword(),
-                        List.of(new SimpleGrantedAuthority("ROLE_ " + user.getRole().name()))
+                        List.of(new SimpleGrantedAuthority("ROLE_ " + user.getTier().name()))
                 )).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 

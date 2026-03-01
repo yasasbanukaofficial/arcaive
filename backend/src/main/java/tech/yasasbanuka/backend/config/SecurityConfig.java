@@ -19,7 +19,7 @@ import tech.yasasbanuka.backend.util.JwtAuthFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
-    private JwtAuthFilter jwtAuthFilter;
+    private final JwtAuthFilter jwtAuthFilter;
     private final PasswordEncoder passwordEncoder;
 
     @Bean

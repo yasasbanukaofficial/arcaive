@@ -3,7 +3,6 @@ package tech.yasasbanuka.backend.service.mapper;
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.MemberDTO;
-import tech.yasasbanuka.backend.dto.MemberTier;
 import tech.yasasbanuka.backend.dto.MfaDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Mfa;
@@ -28,7 +27,6 @@ public interface MemberMapper {
     @Mapping(source = "socialLinks", target = "links")
     @Mapping(source = "memberTier", target = "tier", defaultValue = "STARTER")
     @Mapping(source ="subscriptionId", target = "subscription.id")
-    @Mapping(target = "role", ignore = true)
     Member toEntity(MemberDTO member);
 
     MfaDTO mfaToMfaDto(Mfa mfa);
