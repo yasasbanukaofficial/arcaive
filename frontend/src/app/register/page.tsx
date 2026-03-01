@@ -1,14 +1,14 @@
 import React from "react";
 import AuthLayout from "@/features/auth/components/AuthLayout";
-import SignupForm from "@/features/auth/components/SignupForm";
+import RegisterForm from "@/features/auth/components/RegisterForm";
 
-export default function SignupPage() {
+export default function RegisterPage() {
   return (
     <AuthLayout
       title="Create account"
       subtitle="Start your free trial and harness invisible power."
     >
-      <SignupForm />
+      <RegisterForm />
     </AuthLayout>
   );
 }

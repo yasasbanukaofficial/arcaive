@@ -81,7 +81,7 @@ export default function LoginForm() {
             iconPosition="right"
             className="mt-4 font-semibold py-3.5 rounded-full"
           >
-            Sign In
+            Login
           </Button>
         </motion.div>
       </motion.form>
@@ -90,7 +90,7 @@ export default function LoginForm() {
         <p className="text-center text-sm text-gray-500 mt-8">
           Don't have an account?{" "}
           <Link
-            href="/signup"
+            href="/register"
             className="text-white hover:underline decoration-white/30 underline-offset-4"
           >
             Create one for free

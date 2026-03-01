@@ -21,7 +21,7 @@ export type LinkedAccount = {
   email?: string;
 };
 
-export type MemberDTO = {
+export type Member = {
   memberId?: string | null;
   memberFullName: string;
   memberUsername: string;
@@ -32,7 +32,7 @@ export type MemberDTO = {
   subscriptionId?: string | null;
 };
 
-export type MemberIdentityData = MemberDTO & {
+export type MemberIdentityData = Member & {
   mfa: MultifactorMethod;
   linkedAccounts: LinkedAccount[]; 
 };

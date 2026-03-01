@@ -35,13 +35,12 @@ public class AuthServiceImpl {
         return new AuthResponseDTO(token);
     }
 
-    public String register(MemberDTO memberDTO) {
+    public void register(MemberDTO memberDTO) {
         if (memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
             throw new AlreadyExistsException("This email already exists, try login!");
         }
         Member newUser = memberMapper.toEntity(memberDTO);
         newUser.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
         memberRepo.save(newUser);
-        return "User registered successfully!";
     }
 }

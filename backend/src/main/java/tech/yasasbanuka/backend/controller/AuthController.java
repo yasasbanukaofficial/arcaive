@@ -13,16 +13,17 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class AuthController {
     private final AuthServiceImpl authService;
 
-    @PostMapping("signup")
+    @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberDTO memberDTO) {
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "User created successfully", authService.register(memberDTO)));
+        authService.register(memberDTO);
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "User created successfully", null));
     }
 
-    @PostMapping("signin")
+    @PostMapping("login")
     public ResponseEntity<APIResponse<AuthResponseDTO>> loginUser(@RequestBody @Valid AuthDTO authDTO) {
         return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", authService.authenticate(authDTO)));
     }
