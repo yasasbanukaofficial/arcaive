@@ -26,6 +26,10 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberTier tier;
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Role role = Role.MEMBER;
+
     @Embedded
     private Mfa mfa;
 
