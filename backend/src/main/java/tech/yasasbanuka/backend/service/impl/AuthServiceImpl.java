@@ -26,12 +26,13 @@ public class AuthServiceImpl {
     private final MemberMapper memberMapper;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
-        Member member = memberRepo.findByEmail(authDTO.getMemberEmail())
-                .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getMemberEmail()));
-        if (!passwordEncoder.matches(authDTO.getMemberPassword(), member.getHashedPassword())) {
-            throw new BadCredentialsException("This email doesn't exist: " + authDTO.getMemberEmail());
+        System.out.println(authDTO.getEmail());
+        Member member = memberRepo.findByEmail(authDTO.getEmail())
+                .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getEmail()));
+        if (!passwordEncoder.matches(authDTO.getPassword(), member.getHashedPassword())) {
+            throw new BadCredentialsException("This email doesn't exist: " + authDTO.getEmail());
         }
-        String token = jwtUtil.generateToken(authDTO.getMemberEmail());
+        String token = jwtUtil.generateToken(authDTO.getEmail());
         return new AuthResponseDTO(token);
     }
 

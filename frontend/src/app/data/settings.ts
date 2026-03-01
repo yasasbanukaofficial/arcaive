@@ -37,42 +37,10 @@ export type MemberIdentityData = Member & {
   linkedAccounts: LinkedAccount[]; 
 };
 
-export const initialMemberIdentityData: MemberIdentityData = {
-  memberId: null,
-  memberFullName: "John Doe",
-  memberUsername: "johndoe",
-  memberEmail: "john@example.com",
-  password: "", 
-  socialLinks: [],
-  memberTier: "Free",
-  subscriptionId: null,
-
-  mfa: {
-    enabled: false,
-    method: "app",
-  },
-  linkedAccounts: [
-    {
-      provider: "google",
-      label: "Google",
-      icon: Chrome,
-      connected: true,
-      email: "yasindu@gmail.com",
-    },
-    {
-      provider: "github",
-      label: "GitHub",
-      icon: Github,
-      connected: false,
-    },
-    {
-      provider: "linkedin",
-      label: "LinkedIn",
-      icon: Linkedin,
-      connected: false,
-    },
-  ],
-};
+export type AuthMember = {
+  email: string,
+  password: string,
+}
 
 export type Achievement = {
   id: string;

@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -7,15 +8,34 @@ import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
+import { loginAction } from "../action";
+import { useToast } from "@/components/ui/Toast";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
+  const {addToast} = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [state, formAction, isPending] = useActionState(loginAction, {});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("login", { email, password });
-  };
+  useEffect(() => {
+    if(state.success) {
+      setTimeout(() => router.push("/overview"), 1500);
+      addToast({
+        type: "success",
+        title: "Login Successfully",
+        description: "Welcome back! You have logged in successfully."
+      })
+    }
+    if (state.error) {
+      addToast({
+        type: "error",
+        title: "Registration failed",
+        description: state.error,
+      });
+    }
+  }, [state]);
 
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
@@ -35,7 +55,7 @@ export default function LoginForm() {
       </motion.div>
 
       <motion.form
-        onSubmit={handleSubmit}
+        action={formAction}
         variants={staggerContainer(0.08, 0)}
         className="space-y-4"
       >
@@ -44,6 +64,7 @@ export default function LoginForm() {
             Email Address
           </label>
           <input
+            name="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -66,6 +87,7 @@ export default function LoginForm() {
             </Link>
           </div>
           <PasswordInput
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

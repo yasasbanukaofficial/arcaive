@@ -1,8 +1,9 @@
 import { apiInstance } from "@/api/api";
-import { Member } from "@/app/data/settings";
+import { AuthMember, Member } from "@/app/data/settings";
 
 const AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`!;
 
 export const authAPI = {
-  register: async(payload: Member) => (await apiInstance({method: 'POST', baseURL: `${AUTH_URL}/register`, data: payload})).data.data
+  register: async(payload: Member) => (await apiInstance({method: 'POST', baseURL: `${AUTH_URL}/register`, data: payload})).data.data,
+  login: async(payload: AuthMember) => (await apiInstance({method: 'POST', baseURL: `${AUTH_URL}/login`, data: payload})).data.data
 };
