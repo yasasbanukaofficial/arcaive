@@ -21,17 +21,17 @@ export default function LoginForm() {
 
   useEffect(() => {
     if(state.success) {
-      setTimeout(() => router.push("/overview"), 1500);
       addToast({
         type: "success",
         title: "Login Successfully",
         description: "Welcome back! You have logged in successfully."
       })
+      setTimeout(() => router.push("/overview"), 1500);
     }
     if (state.error) {
       addToast({
         type: "error",
-        title: "Registration failed",
+        title: "Login failed",
         description: state.error,
       });
     }
@@ -102,8 +102,9 @@ export default function LoginForm() {
             icon={<ArrowRight size={18} />}
             iconPosition="right"
             className="mt-4 font-semibold py-3.5 rounded-full"
+            disabled={isPending}
           >
-            Login
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </motion.div>
       </motion.form>

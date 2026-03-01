@@ -43,12 +43,11 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
       email,
       password,
     });
-    localStorage.setItem('token', response.accessToken)
     return { success: true };
   } catch (err: unknown) {
     const message =
       (err as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message ?? "Registration failed";
+        ?.message ?? "Login failed";
     return { error: message };
   }
 }

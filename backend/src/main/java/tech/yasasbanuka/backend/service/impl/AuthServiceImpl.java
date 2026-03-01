@@ -26,7 +26,6 @@ public class AuthServiceImpl {
     private final MemberMapper memberMapper;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
-        System.out.println(authDTO.getEmail());
         Member member = memberRepo.findByEmail(authDTO.getEmail())
                 .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getEmail()));
         if (!passwordEncoder.matches(authDTO.getPassword(), member.getHashedPassword())) {

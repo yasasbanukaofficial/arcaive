@@ -1,7 +1,9 @@
 package tech.yasasbanuka.backend.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.AuthDTO;
@@ -24,7 +26,17 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<APIResponse<AuthResponseDTO>> loginUser(@RequestBody @Valid AuthDTO authDTO) {
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", authService.authenticate(authDTO)));
+    public ResponseEntity<APIResponse<AuthResponseDTO>> loginUser(@RequestBody @Valid AuthDTO authDTO, HttpServletResponse response) {
+        String token = authService.authenticate(authDTO).getAccessToken();
+        ResponseCookie cookie = ResponseCookie.from("access_token", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(60*15)
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", null));
     }
 }
