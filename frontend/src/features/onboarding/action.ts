@@ -2,6 +2,7 @@
 import { Member, SocialLinks } from "@/app/data/settings"
 import { authAPI } from "../auth/api/authAPI"
 import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 
 export type FormState = {
     error?: string,
@@ -17,6 +18,9 @@ export async function onBoardMember(_prevState: FormState, formData: FormData): 
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get('access_token')?.value;
+        if(token == undefined) {
+            redirect("/login");
+        }
         await authAPI.onboard(socialLinks as SocialLinks, token as string)
         return { success: true }
     } catch (error: unknown) {

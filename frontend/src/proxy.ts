@@ -7,7 +7,7 @@ export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   if (!token) {
-    return NextResponse.redirect(new URL("/404", req.url));
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   if(token && (pathname == "/register"  || pathname == "/login" || pathname == "/onboarding")) {
