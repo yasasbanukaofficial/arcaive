@@ -5,10 +5,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.AuthDTO;
 import tech.yasasbanuka.backend.dto.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.SocialLinksDTO;
 import tech.yasasbanuka.backend.service.impl.AuthServiceImpl;
 import tech.yasasbanuka.backend.util.APIResponse;
 
@@ -22,21 +25,19 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberDTO memberDTO) {
         authService.register(memberDTO);
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "User created successfully", null));
+        return ResponseEntity.ok(new APIResponse<>(true, 201, "User created successfully", null));
     }
 
     @PostMapping("login")
-    public ResponseEntity<APIResponse<AuthResponseDTO>> loginUser(@RequestBody @Valid AuthDTO authDTO, HttpServletResponse response) {
+    public ResponseEntity<APIResponse<String>> loginUser(@RequestBody @Valid AuthDTO authDTO) {
         String token = authService.authenticate(authDTO).getAccessToken();
-        ResponseCookie cookie = ResponseCookie.from("access_token", token)
-                .httpOnly(true)
-                .secure(true)
-                .sameSite("Lax")
-                .path("/")
-                .maxAge(60*15)
-                .build();
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", token));
+    }
 
-        response.addHeader("Set-Cookie", cookie.toString());
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", null));
+    @PutMapping("login")
+    public ResponseEntity<APIResponse<String>> updateSocialLinks(@RequestBody @Valid SocialLinksDTO socialLinksDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        System.out.println(socialLinksDTO);
+        authService.updateLinks(socialLinksDTO, userDetails.getUsername());
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "Links are updated successfully", null));
     }
 }

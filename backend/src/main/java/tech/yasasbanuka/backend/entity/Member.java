@@ -20,7 +20,7 @@ public class Member {
     private String hashedPassword;
 
     @ElementCollection
-    private List<URL> links;
+    private List<String> links;
 
     @Enumerated(EnumType.STRING)
     private MemberTier tier;

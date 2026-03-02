@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.AuthDTO;
 import tech.yasasbanuka.backend.dto.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.SocialLinksDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.MemberTier;
 import tech.yasasbanuka.backend.entity.Mfa;
@@ -16,6 +17,9 @@ import tech.yasasbanuka.backend.exception.EmailNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +46,11 @@ public class AuthServiceImpl {
         Member newUser = memberMapper.toEntity(memberDTO);
         newUser.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
         memberRepo.save(newUser);
+    }
+
+    public void updateLinks(SocialLinksDTO socialLinksDTO, String username) {
+        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username doesn't exist"));
+        member.setLinks(List.of(socialLinksDTO.getGithubURL(), socialLinksDTO.getLinkedinURL()));
+        memberRepo.save(member);
     }
 }

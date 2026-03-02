@@ -26,7 +26,7 @@ export default function LoginForm() {
         title: "Login Successfully",
         description: "Welcome back! You have logged in successfully."
       })
-      setTimeout(() => router.push("/overview"), 1500);
+      setTimeout(() => router.push("/onboarding"), 1500);
     }
     if (state.error) {
       addToast({

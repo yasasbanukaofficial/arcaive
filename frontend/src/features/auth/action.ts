@@ -7,6 +7,22 @@ export type FormState = {
   success?: boolean;
 };
 
+function extractErrorMessage(err: unknown, fallback: string): string {
+  if (err && typeof err === "object") {
+    const axiosErr = err as {
+      response?: { data?: { message?: string; error?: string } };
+      message?: string;
+    };
+    return (
+      axiosErr.response?.data?.message ||
+      axiosErr.response?.data?.error ||
+      axiosErr.message ||
+      fallback
+    );
+  }
+  return fallback;
+}
+
 export async function registerAction(
   _prevState: FormState,
   formData: FormData,
@@ -29,10 +45,7 @@ export async function registerAction(
     });
     return { success: true };
   } catch (err: unknown) {
-    const message =
-      (err as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message ?? "Registration failed";
-    return { error: message };
+    return { error: extractErrorMessage(err, "Registration failed. Please try again.") };
   }
 }
 
@@ -43,7 +56,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
   try {
     const response = await authAPI.login({ email, password });
     
-    const token = response.data?.accessToken; 
+    const token = response.data; 
 
     if (token) {
       const cookieStore = await cookies();
@@ -57,9 +70,6 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
     }
     return { error: "Token not found in response" };
   } catch (err: unknown) {
-    const message =
-      (err as { response?: { data?: { message?: string } } })?.response?.data
-        ?.message ?? "Login failed";
-    return { error: message };
+    return { error: extractErrorMessage(err, "Login failed. Please check your credentials.") };
   }
 }

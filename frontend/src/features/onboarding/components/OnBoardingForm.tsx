@@ -1,28 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { ArrowRight, Github, Linkedin } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { useRouter } from "next/navigation";
 import FileUpload, { UploadedFile } from "@/components/ui/FileUpload";
+import { onBoardMember } from "../action";
+import { useToast } from "@/components/ui/Toast";
 
 export default function OnBoardingForm() {
+  const router = useRouter();
+  const { addToast } = useToast();
   const [githubLink, setGithubLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
   const [resumeFiles, setResumeFiles] = useState<UploadedFile[]>([]);
+  const [state, formAction, isPending] = useActionState(onBoardMember, {});
 
-  const router = useRouter();
+  useEffect(() => {
+    if (state.success) {
+      addToast({
+        type: "success",
+        title: "Profile completed",
+        description: "Your profile has been set up. Redirecting to dashboard...",
+      });
+      setTimeout(() => router.push("/overview"), 1500);
+    }
+    if (state.error) {
+      addToast({
+        type: "error",
+        title: "Onboarding failed",
+        description: state.error,
+      });
+    }
+  }, [state]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("onboarding", { githubLink, linkedinLink, resumeFiles });
-    // todo: save the links and resume to the member profile
-    router.push("/subscription");
-  };
   return (
     <motion.form
-      onSubmit={handleSubmit}
+      action={formAction}
       variants={staggerContainer(0.08, 0)}
       className="space-y-4"
     >
@@ -36,6 +51,7 @@ export default function OnBoardingForm() {
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
           />
           <input
+            name="githubLink"
             type="text"
             value={githubLink}
             onChange={(e) => setGithubLink(e.target.value)}
@@ -56,6 +72,7 @@ export default function OnBoardingForm() {
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"
           />
           <input
+            name="linkedinLink"
             type="text"
             value={linkedinLink}
             onChange={(e) => setLinkedinLink(e.target.value)}
@@ -87,8 +104,9 @@ export default function OnBoardingForm() {
           icon={<ArrowRight size={18} />}
           iconPosition="right"
           className="mt-4 font-semibold py-3.5 rounded-full"
+          disabled={isPending}
         >
-          Complete Profile
+          {isPending ? "Completing..." : "Complete Profile"}
         </Button>
       </motion.div>
     </motion.form>

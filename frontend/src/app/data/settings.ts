@@ -21,26 +21,34 @@ export type LinkedAccount = {
   email?: string;
 };
 
+export type SocialLinks = {
+  githubLink?: string | null;
+  linkedinLink?: string | null;
+};
+
 export type Member = {
   memberId?: string | null;
-  memberFullName: string;
-  memberUsername: string;
-  memberEmail: string;
-  password: string;
-  socialLinks?: string[] | null;
+  memberFullName?: string;
+  memberUsername?: string;
+  memberEmail?: string;
+  password?: string;
+  socialLinks?: {
+    githubLink?: string | null;
+    linkedinLink?: string | null;
+  } | null;
   memberTier?: string | null;
   subscriptionId?: string | null;
 };
 
 export type MemberIdentityData = Member & {
   mfa: MultifactorMethod;
-  linkedAccounts: LinkedAccount[]; 
+  linkedAccounts: LinkedAccount[];
 };
 
 export type AuthMember = {
-  email: string,
-  password: string,
-}
+  email: string;
+  password: string;
+};
 
 export type Achievement = {
   id: string;
