@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.dto.SocialLinksDTO;
 import tech.yasasbanuka.backend.service.impl.AuthServiceImpl;
 import tech.yasasbanuka.backend.util.APIResponse;
+import tech.yasasbanuka.backend.util.JwtUtil;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -21,6 +23,7 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @CrossOrigin(origins = "http://localhost:3000/")
 public class AuthController {
     private final AuthServiceImpl authService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberDTO memberDTO) {
@@ -35,9 +38,11 @@ public class AuthController {
     }
 
     @PutMapping("login")
-    public ResponseEntity<APIResponse<String>> updateSocialLinks(@RequestBody @Valid SocialLinksDTO socialLinksDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<APIResponse<String>> updateSocialLinks(@RequestBody @Valid SocialLinksDTO socialLinksDTO, HttpServletRequest request) {
         System.out.println(socialLinksDTO);
-        authService.updateLinks(socialLinksDTO, userDetails.getUsername());
+        String authHeader = request.getHeader("Authorization");
+        String token = authHeader.substring(7);
+        authService.updateLinks(socialLinksDTO, jwtUtil.extractEmail(token));
         return ResponseEntity.ok(new APIResponse<>(true, 200, "Links are updated successfully", null));
     }
 }

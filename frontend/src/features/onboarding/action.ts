@@ -10,8 +10,8 @@ export type FormState = {
 
 export async function onBoardMember(_prevState: FormState, formData: FormData): Promise<FormState> {
     const socialLinks = {
-        githubLink: formData.get("githubLink") as string,
-        linkedinLink: formData.get("linkedinLink") as string,
+        githubURL: formData.get("githubLink") as string,
+        linkedinURL: formData.get("linkedinLink") as string,
     }
 
     try {

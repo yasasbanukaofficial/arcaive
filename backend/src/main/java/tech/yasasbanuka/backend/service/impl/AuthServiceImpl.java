@@ -48,9 +48,9 @@ public class AuthServiceImpl {
         memberRepo.save(newUser);
     }
 
-    public void updateLinks(SocialLinksDTO socialLinksDTO, String username) {
-        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username doesn't exist"));
-        member.setLinks(List.of(socialLinksDTO.getGithubURL(), socialLinksDTO.getLinkedinURL()));
+    public void updateLinks(SocialLinksDTO socialLinksDTO, String email) {
+        Member member = memberRepo.findByEmail(email).orElseThrow(() -> new EmailNotFoundException("Email doesn't exist"));
+        member.setLinks(new ArrayList<>(List.of(socialLinksDTO.getGithubURL(), socialLinksDTO.getLinkedinURL())));
         memberRepo.save(member);
     }
 }
