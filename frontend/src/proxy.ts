@@ -1,19 +1,33 @@
+"use server";
 import { NextRequest, NextResponse } from "next/server";
+import { URL } from "node:url";
 
 export default function proxy(req: NextRequest) {
-  return NextResponse.redirect(new URL("/", req.url));
+  const token = req.cookies.get("access_token")?.value;
+  const { pathname } = req.nextUrl;
+
+  if (!token) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if(token && (pathname == "/register"  || pathname == "/login" || pathname == "/onboarding")) {
+    return NextResponse.redirect(new URL("/overview", req.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // "/chat/:path*",
-    // "/agents/:path*",
-    // "/workflows/:path*",
-    // "/jobs/:path*",
-    // "/billing/:path*",
-    // "/settings/:path*",
-    // "/analytics/:path*",
-    // "/developers/:path*",
-    // "/((?!api|_next/static|_next/image|favicon.ico|images|public|$).*)",
+    "/overview/:path*",
+    "/chat/:path*",
+    "/agents/:path*",
+    "/workflow/:path*",
+    "/jobs/:path*",
+    "/billing/:path*",
+    "/settings/:path*",
+    "/analytics/:path*",
+    "/developers/:path*",
+    "/onboarding/:path*",
   ],
 };

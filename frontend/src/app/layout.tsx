@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Host_Grotesk } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/animations/SmoothScroll";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const hostGrotesk = Host_Grotesk({
   variable: "--font-host-grotesk",
@@ -24,15 +25,17 @@ export default function RootLayout({
       <body
         className={`${hostGrotesk.variable} antialiased selection:bg-white/20 relative`}
       >
-        <SmoothScroll>
-          <div className="bg-glows">
-            <div className="glow-blue" />
-            <div className="glow-purple" />
-            <div className="glow-center" />
-          </div>
-          <div className="noise-overlay" />
-          {children}
-        </SmoothScroll>
+        <ToastProvider>
+          <SmoothScroll>
+            <div className="bg-glows">
+              <div className="glow-blue" />
+              <div className="glow-purple" />
+              <div className="glow-center" />
+            </div>
+            <div className="noise-overlay" />
+            {children}
+          </SmoothScroll>
+        </ToastProvider>
       </body>
     </html>
   );

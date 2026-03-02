@@ -336,7 +336,7 @@ export default function MemberIdentitySection({
         <div className="space-y-5">
           <CardRow
             label="Enable MFA"
-            description="Require a second factor when signing in to your account."
+            description="Require a second factor when loging in to your account."
           >
             <Toggle checked={mfaEnabled} onChange={setMfaEnabled} size="md" />
           </CardRow>

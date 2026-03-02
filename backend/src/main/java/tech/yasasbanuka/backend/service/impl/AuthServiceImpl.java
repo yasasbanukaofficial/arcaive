@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.AuthDTO;
 import tech.yasasbanuka.backend.dto.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.SocialLinksDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.MemberTier;
 import tech.yasasbanuka.backend.entity.Mfa;
@@ -16,6 +17,9 @@ import tech.yasasbanuka.backend.exception.EmailNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,22 +30,27 @@ public class AuthServiceImpl {
     private final MemberMapper memberMapper;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
-        Member member = memberRepo.findByEmail(authDTO.getMemberEmail())
-                .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getMemberEmail()));
-        if (!passwordEncoder.matches(authDTO.getMemberPassword(), member.getHashedPassword())) {
-            throw new BadCredentialsException("This email doesn't exist: " + authDTO.getMemberEmail());
+        Member member = memberRepo.findByEmail(authDTO.getEmail())
+                .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getEmail()));
+        if (!passwordEncoder.matches(authDTO.getPassword(), member.getHashedPassword())) {
+            throw new BadCredentialsException("This email doesn't exist: " + authDTO.getEmail());
         }
-        String token = jwtUtil.generateToken(authDTO.getMemberEmail());
+        String token = jwtUtil.generateToken(authDTO.getEmail());
         return new AuthResponseDTO(token);
     }
 
-    public String register(MemberDTO memberDTO) {
+    public void register(MemberDTO memberDTO) {
         if (memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
             throw new AlreadyExistsException("This email already exists, try login!");
         }
         Member newUser = memberMapper.toEntity(memberDTO);
         newUser.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
         memberRepo.save(newUser);
-        return "User registered successfully!";
+    }
+
+    public void updateLinks(SocialLinksDTO socialLinksDTO, String email) {
+        Member member = memberRepo.findByEmail(email).orElseThrow(() -> new EmailNotFoundException("Email doesn't exist"));
+        member.setLinks(new ArrayList<>(List.of(socialLinksDTO.getGithubURL(), socialLinksDTO.getLinkedinURL())));
+        memberRepo.save(member);
     }
 }

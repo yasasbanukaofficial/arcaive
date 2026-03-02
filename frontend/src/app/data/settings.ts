@@ -21,57 +21,33 @@ export type LinkedAccount = {
   email?: string;
 };
 
-export type MemberDTO = {
+export type SocialLinks = {
+  githubLink?: string | null;
+  linkedinLink?: string | null;
+};
+
+export type Member = {
   memberId?: string | null;
-  memberFullName: string;
-  memberUsername: string;
-  memberEmail: string;
-  password: string;
-  socialLinks?: string[] | null;
+  memberFullName?: string;
+  memberUsername?: string;
+  memberEmail?: string;
+  password?: string;
+  socialLinks?: {
+    githubLink?: string | null;
+    linkedinLink?: string | null;
+  } | null;
   memberTier?: string | null;
   subscriptionId?: string | null;
 };
 
-export type MemberIdentityData = MemberDTO & {
+export type MemberIdentityData = Member & {
   mfa: MultifactorMethod;
-  linkedAccounts: LinkedAccount[]; 
+  linkedAccounts: LinkedAccount[];
 };
 
-export const initialMemberIdentityData: MemberIdentityData = {
-  memberId: null,
-  memberFullName: "John Doe",
-  memberUsername: "johndoe",
-  memberEmail: "john@example.com",
-  password: "", 
-  socialLinks: [],
-  memberTier: "Free",
-  subscriptionId: null,
-
-  mfa: {
-    enabled: false,
-    method: "app",
-  },
-  linkedAccounts: [
-    {
-      provider: "google",
-      label: "Google",
-      icon: Chrome,
-      connected: true,
-      email: "yasindu@gmail.com",
-    },
-    {
-      provider: "github",
-      label: "GitHub",
-      icon: Github,
-      connected: false,
-    },
-    {
-      provider: "linkedin",
-      label: "LinkedIn",
-      icon: Linkedin,
-      connected: false,
-    },
-  ],
+export type AuthMember = {
+  email: string;
+  password: string;
 };
 
 export type Achievement = {

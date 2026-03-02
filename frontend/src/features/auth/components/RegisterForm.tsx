@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import SocialButtons from "./SocialButtons";
@@ -8,19 +8,31 @@ import { motion } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import { registerAction } from "../action";
+import { useToast } from "@/components/ui/Toast";
 
-export default function SignupForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+export default function RegisterForm() {
   const router = useRouter();
+  const { addToast } = useToast();
+  const [state, formAction, isPending] = useActionState(registerAction, {});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("signup", { name, email, password, confirmPassword });
-    router.push("/onboarding");
-  };
+  useEffect(() => {
+    if (state.success) {
+      addToast({
+        type: "success",
+        title: "Account created",
+        description: "Your account has been created successfully. Redirecting to login...",
+      });
+      setTimeout(() => router.push("/login"), 1500);
+    }
+    if (state.error) {
+      addToast({
+        type: "error",
+        title: "Registration failed",
+        description: state.error,
+      });
+    }
+  }, [state]);
 
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
@@ -40,18 +52,17 @@ export default function SignupForm() {
       </motion.div>
 
       <motion.form
-        onSubmit={handleSubmit}
         variants={staggerContainer(0.08, 0)}
         className="space-y-4"
+        action={formAction}
       >
         <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400 ml-1">
             Full name
           </label>
           <input
+            name="memberFullName"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
             className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
             required
@@ -63,9 +74,8 @@ export default function SignupForm() {
             Email Address
           </label>
           <input
+            name="memberEmail"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="name@company.com"
             className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
             required
@@ -76,21 +86,14 @@ export default function SignupForm() {
           <label className="text-[13px] font-medium text-gray-400">
             Password
           </label>
-          <PasswordInput
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <PasswordInput name="memberPassword" />
         </motion.div>
 
         <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400">
             Confirm password
           </label>
-          <PasswordInput
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            name="confirmPassword"
-          />
+          <PasswordInput name="confirmPassword" />
         </motion.div>
 
         <motion.div variants={bounceIn}>
@@ -102,8 +105,9 @@ export default function SignupForm() {
             icon={<ArrowRight size={18} />}
             iconPosition="right"
             className="mt-4 font-semibold py-3.5 rounded-full"
+            disabled={isPending}
           >
-            Create account
+            {isPending ? "Creating..." : "Create account"}
           </Button>
         </motion.div>
       </motion.form>
@@ -115,7 +119,7 @@ export default function SignupForm() {
             href="/login"
             className="text-white hover:underline decoration-white/30 underline-offset-4"
           >
-            Sign in
+            Login
           </Link>
         </p>
       </motion.div>
