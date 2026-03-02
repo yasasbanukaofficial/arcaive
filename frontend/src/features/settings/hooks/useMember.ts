@@ -5,6 +5,6 @@ import { customerAPI } from "../api/customerAPI";
 export function useMemberSettings() {
   return useQuery({
     queryKey: ["member", "settings"],
-    queryFn: customerAPI.get,
+    queryFn: () => customerAPI.get(),
   });
 }

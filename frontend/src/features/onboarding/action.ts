@@ -1,8 +1,7 @@
 'use server'
 import { Member, SocialLinks } from "@/app/data/settings"
 import { authAPI } from "../auth/api/authAPI"
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { getToken } from "@/utils/auth"
 
 export type FormState = {
     error?: string,
@@ -16,12 +15,8 @@ export async function onBoardMember(_prevState: FormState, formData: FormData): 
     }
 
     try {
-        const cookieStore = await cookies();
-        const token = cookieStore.get('access_token')?.value;
-        if(token == undefined) {
-            redirect("/login");
-        }
-        await authAPI.onboard(socialLinks as SocialLinks, token as string)
+        const token = await getToken();
+        await authAPI.onboard(socialLinks as SocialLinks, token)
         return { success: true }
     } catch (error: unknown) {
         if (error && typeof error === "object") {
