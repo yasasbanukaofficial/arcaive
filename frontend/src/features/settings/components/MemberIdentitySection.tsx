@@ -54,6 +54,8 @@ export default function MemberIdentitySection({
 
   const [mfaEnabled, setMfaEnabled] = useState(false);
   const [mfaMethod, setMfaMethod] = useState<"app" | "sms">("app");
+  const [mfaSaving, setMfaSaving] = useState(false);
+  const [mfaSaved, setMfaSaved] = useState(false);
 
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
 
@@ -116,6 +118,14 @@ export default function MemberIdentitySection({
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+  };
+
+  const handleMfaSave = async () => {
+    setMfaSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setMfaSaving(false);
+    setMfaSaved(true);
+    setTimeout(() => setMfaSaved(false), 2000);
   };
 
   const toggleLinkedAccount = (provider: string) => {
@@ -339,6 +349,33 @@ export default function MemberIdentitySection({
         title="Multi-Factor Authentication"
         description="Add an extra layer of security to protect your account."
         icon={<Shield className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {mfaSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleMfaSave}
+              loading={mfaSaving}
+              disabled={mfaSaving}
+            >
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <div className="space-y-5">
           <CardRow

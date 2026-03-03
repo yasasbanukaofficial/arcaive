@@ -13,6 +13,7 @@ import {
   GripVertical,
   Sparkles,
   CheckCircle,
+  Check,
 } from "lucide-react";
 import Card from "@/components/ui/Card";
 import TextField from "@/components/ui/TextField";
@@ -237,6 +238,24 @@ export default function CareerIntelligenceSection({
 
   const [targetRoles, setTargetRoles] = useState<string[]>(data.targetRoles);
 
+  const [achievementsSaving, setAchievementsSaving] = useState(false);
+  const [achievementsSaved, setAchievementsSaved] = useState(false);
+  const [targetRolesSaving, setTargetRolesSaving] = useState(false);
+  const [targetRolesSaved, setTargetRolesSaved] = useState(false);
+  const [cvSaving, setCvSaving] = useState(false);
+  const [cvSaved, setCvSaved] = useState(false);
+
+  const makeSaveHandler = (
+    setSaving: (v: boolean) => void,
+    setSaved: (v: boolean) => void,
+  ) => async () => {
+    setSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
   const handleFileUpload = useCallback(async (newFiles: UploadedFile[]) => {
     setFiles(newFiles);
     if (newFiles.length > 0) {
@@ -293,6 +312,27 @@ export default function CareerIntelligenceSection({
         title="CV / Resume Management"
         description="Upload your resume for AI-powered achievement extraction by the Ingestion Agent."
         icon={<FileText className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {cvSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setCvSaving, setCvSaved)} loading={cvSaving} disabled={cvSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <FileUpload
           label="Resume File"
@@ -316,6 +356,27 @@ export default function CareerIntelligenceSection({
         title="Atomic Achievement Manager"
         description="Individual bullet points extracted from your resume. Edit or remove inaccuracies before storing in the Vector DB."
         icon={<Trophy className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {achievementsSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setAchievementsSaving, setAchievementsSaved)} loading={achievementsSaving} disabled={achievementsSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <div className="space-y-3">
           <div className="space-y-2 max-h-100 overflow-y-auto pr-1">
@@ -385,6 +446,27 @@ export default function CareerIntelligenceSection({
         title="Target Roles"
         description="Roles you're targeting — used by the Discovery Agent to match you with relevant positions."
         icon={<Target className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {targetRolesSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setTargetRolesSaving, setTargetRolesSaved)} loading={targetRolesSaving} disabled={targetRolesSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <TagInput
           label="Job Titles"

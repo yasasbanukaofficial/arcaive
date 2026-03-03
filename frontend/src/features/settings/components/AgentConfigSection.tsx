@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Cpu, Gauge, Theater, Zap, Ban, Info } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Cpu, Gauge, Theater, Zap, Ban, Info, Check } from "lucide-react";
 import Card, { CardRow } from "@/components/ui/Card";
 import Slider from "@/components/ui/Slider";
 import Select from "@/components/ui/Select";
 import Toggle from "@/components/ui/Toggle";
 import TextArea from "@/components/ui/TextArea";
 import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 import type { AgentConfigData } from "@/features/settings/types";
 
 type AgentConfigSectionProps = {
@@ -23,6 +24,26 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
   const [useGpt4o, setUseGpt4o] = useState(data.useGpt4o);
 
   const [blacklist, setBlacklist] = useState(data.blacklist);
+
+  const [thresholdSaving, setThresholdSaving] = useState(false);
+  const [thresholdSaved, setThresholdSaved] = useState(false);
+  const [personaSaving, setPersonaSaving] = useState(false);
+  const [personaSaved, setPersonaSaved] = useState(false);
+  const [modelSaving, setModelSaving] = useState(false);
+  const [modelSaved, setModelSaved] = useState(false);
+  const [blacklistSaving, setBlacklistSaving] = useState(false);
+  const [blacklistSaved, setBlacklistSaved] = useState(false);
+
+  const makeSaveHandler = (
+    setSaving: (v: boolean) => void,
+    setSaved: (v: boolean) => void,
+  ) => async () => {
+    setSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
   const personaOptions = data.personaOptions.map((option) => ({
     ...option,
@@ -43,6 +64,27 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
         title="Auto-Apply Threshold"
         description="Set the minimum Match Score required for the Auto-Apply Agent Bot to automatically submit an application on your behalf."
         icon={<Gauge className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {thresholdSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setThresholdSaving, setThresholdSaved)} loading={thresholdSaving} disabled={thresholdSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <div className="space-y-4">
           <Slider
@@ -93,6 +135,27 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
         title="Agent Persona"
         description="Select the tone and voice used by the Refinement Swarm when tailoring your application materials."
         icon={<Theater className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {personaSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setPersonaSaving, setPersonaSaved)} loading={personaSaving} disabled={personaSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <Select
           label="Communication Tone"
@@ -109,6 +172,27 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
         title="Model Selection"
         description="Choose which LLM powers your agents. Available on the Strategist tier."
         icon={<Cpu className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {modelSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setModelSaving, setModelSaved)} loading={modelSaving} disabled={modelSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <div className="space-y-4">
           <CardRow
@@ -165,6 +249,27 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
         title="Blacklisted Keywords & Companies"
         description="Companies or terms the Discovery Agent should ignore when scanning for job matches."
         icon={<Ban className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {blacklistSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={makeSaveHandler(setBlacklistSaving, setBlacklistSaved)} loading={blacklistSaving} disabled={blacklistSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <TextArea
           label="Blacklist"

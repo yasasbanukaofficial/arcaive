@@ -10,6 +10,7 @@ import {
   Trash2,
   Sun,
   Moon,
+  Check,
 } from "lucide-react";
 import Card, { CardRow } from "@/components/ui/Card";
 import Toggle from "@/components/ui/Toggle";
@@ -32,6 +33,17 @@ export default function NotificationsSection({
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
+
+  const [alertsSaving, setAlertsSaving] = useState(false);
+  const [alertsSaved, setAlertsSaved] = useState(false);
+
+  const handleAlertsSave = async () => {
+    setAlertsSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setAlertsSaving(false);
+    setAlertsSaved(true);
+    setTimeout(() => setAlertsSaved(false), 2000);
+  };
 
   const { theme, toggleTheme, isDark } = useTheme();
 
@@ -56,6 +68,27 @@ export default function NotificationsSection({
         title="Alert Preferences"
         description="Choose which notifications you'd like to receive."
         icon={<Bell className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {alertsSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button variant="primary" size="sm" onClick={handleAlertsSave} loading={alertsSaving} disabled={alertsSaving}>
+              Save Changes
+            </Button>
+          </div>
+        }
       >
         <div className="space-y-1">
           <CardRow
