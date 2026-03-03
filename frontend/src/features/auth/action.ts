@@ -1,7 +1,6 @@
 'use server'
 import { cookies } from "next/headers";
 import { authAPI } from "./api/authAPI";
-import { extractErrorMessage } from "@/utils/errors";
 
 export type FormState = {
   error?: string;
@@ -30,7 +29,8 @@ export async function registerAction(
     });
     return { success: true };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "We couldn't create your account right now. Please try again.", "register") };
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "We couldn't create your account right now. Please try again." };
   }
 }
 
@@ -56,6 +56,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
     }
     return { error: "Login succeeded but no session token was returned. Please try again." };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "Login failed. Please check your credentials.", "login") };
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "Login failed. Please check your credentials." };
   }
 }

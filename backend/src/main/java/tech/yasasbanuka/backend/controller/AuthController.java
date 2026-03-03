@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,21 +29,21 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberDTO memberDTO) {
         authService.register(memberDTO);
-        return ResponseEntity.ok(new APIResponse<>(true, 201, "User created successfully", null));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new APIResponse<>(true, 201, "Account created successfully. Please sign in.", null));
     }
 
     @PostMapping("login")
     public ResponseEntity<APIResponse<String>> loginUser(@RequestBody @Valid AuthDTO authDTO) {
         String token = authService.authenticate(authDTO).getAccessToken();
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "User logged in successfully", token));
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "Signed in successfully.", token));
     }
 
-    @PutMapping("login")
+    @PutMapping("onboard")
     public ResponseEntity<APIResponse<String>> updateSocialLinks(@RequestBody @Valid SocialLinksDTO socialLinksDTO, HttpServletRequest request) {
-        System.out.println(socialLinksDTO);
         String authHeader = request.getHeader("Authorization");
         String token = authHeader.substring(7);
         authService.updateLinks(socialLinksDTO, jwtUtil.extractEmail(token));
-        return ResponseEntity.ok(new APIResponse<>(true, 200, "Links are updated successfully", null));
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "Profile links updated successfully.", null));
     }
 }

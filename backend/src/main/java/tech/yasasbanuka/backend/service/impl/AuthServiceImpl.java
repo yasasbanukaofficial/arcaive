@@ -31,9 +31,9 @@ public class AuthServiceImpl {
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         Member member = memberRepo.findByEmail(authDTO.getEmail())
-                .orElseThrow(() -> new EmailNotFoundException("User not found with email: " + authDTO.getEmail()));
+                .orElseThrow(() -> new EmailNotFoundException("No account found with this email address."));
         if (!passwordEncoder.matches(authDTO.getPassword(), member.getHashedPassword())) {
-            throw new BadCredentialsException("This email doesn't exist: " + authDTO.getEmail());
+            throw new BadCredentialsException("Incorrect password.");
         }
         String token = jwtUtil.generateToken(authDTO.getEmail());
         return new AuthResponseDTO(token);
@@ -41,7 +41,7 @@ public class AuthServiceImpl {
 
     public void register(MemberDTO memberDTO) {
         if (memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
-            throw new AlreadyExistsException("This email already exists, try login!");
+            throw new AlreadyExistsException("An account with this email already exists. Please sign in instead.");
         }
         Member newUser = memberMapper.toEntity(memberDTO);
         newUser.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
@@ -49,7 +49,8 @@ public class AuthServiceImpl {
     }
 
     public void updateLinks(SocialLinksDTO socialLinksDTO, String email) {
-        Member member = memberRepo.findByEmail(email).orElseThrow(() -> new EmailNotFoundException("Email doesn't exist"));
+        Member member = memberRepo.findByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException("No account found for the current session. Please log in again."));
         member.setLinks(new ArrayList<>(List.of(socialLinksDTO.getGithubURL(), socialLinksDTO.getLinkedinURL())));
         memberRepo.save(member);
     }

@@ -25,7 +25,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionDTO createSubscription(SubscriptionDTO subscriptionDTO) {
-        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId())
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found. Please ensure the account exists before creating a subscription."));
         Subscription subscriptionAsEntity = subscriptionMapper.toEntity(subscriptionDTO);
 
         existingMember.setSubscription(subscriptionAsEntity);
@@ -36,8 +37,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public SubscriptionDTO updateSubscription(SubscriptionDTO subscriptionDTO) {
-        Subscription existingSubscription = subscriptionRepo.findById(subscriptionDTO.getSubscriptionId()).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
-        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        Subscription existingSubscription = subscriptionRepo.findById(subscriptionDTO.getSubscriptionId())
+                .orElseThrow(() -> new ResourceNotFoundException("Subscription not found. It may have been cancelled or removed."));
+        Member existingMember = memberRepo.findById(subscriptionDTO.getMemberId())
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found. Please ensure the account exists."));
 
         existingMember.setSubscription(existingSubscription);
         existingSubscription.setMember(existingMember);
@@ -50,13 +53,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void deleteSubscription(UUID subscriptionId) {
-        subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found"));
+        subscriptionRepo.findById(subscriptionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subscription not found. It may have already been cancelled."));
         subscriptionRepo.deleteById(subscriptionId);
     }
 
     @Override
     public SubscriptionDTO getSubscription(UUID subscriptionId) {
-        return subscriptionMapper.toDto(subscriptionRepo.findById(subscriptionId).orElseThrow(() -> new ResourceNotFoundException("Subscription not found")));
+        return subscriptionMapper.toDto(subscriptionRepo.findById(subscriptionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Subscription not found. Please check the ID and try again.")));
     }
 
     @Override

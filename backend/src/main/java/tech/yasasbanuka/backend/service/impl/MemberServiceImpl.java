@@ -24,27 +24,30 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDTO createMember(MemberDTO memberDTO) {
         if(memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
-            throw new AlreadyExistsException("Email already exists");
+            throw new AlreadyExistsException("An account with this email already exists.");
         }
         return memberMapper.toDTO(memberRepo.save(memberMapper.toEntity(memberDTO)));
     }
 
     @Override
     public MemberDTO updateMember(MemberDTO memberDTO) {
-        Member existingMember = memberRepo.findById(memberDTO.getMemberId()).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        Member existingMember = memberRepo.findById(memberDTO.getMemberId())
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found. The account may have been deleted."));
         memberMapper.updateMember(memberDTO, existingMember);
         return memberMapper.toDTO(memberRepo.save(existingMember));
     }
 
     @Override
     public void deleteMember(UUID memberId) {
-        memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        memberRepo.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found. The account may have already been deleted."));
         memberRepo.deleteById(memberId);
     }
 
     @Override
     public MemberDTO getMember(UUID memberId) {
-        return memberMapper.toDTO(memberRepo.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member not found")));
+        return memberMapper.toDTO(memberRepo.findById(memberId)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found. Please check the ID and try again.")));
     }
 
     @Override

@@ -24,7 +24,7 @@ export const authAPI = {
     return (
       await apiInstance({
         method: "PUT",
-        baseURL: `${AUTH_URL}/login`,
+        baseURL: `${AUTH_URL}/onboard`,
         headers: { Authorization: `Bearer ${token}` },
         data: payload,
       })
