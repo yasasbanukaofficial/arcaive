@@ -35,7 +35,7 @@ public class AuthServiceImpl {
         if (!passwordEncoder.matches(authDTO.getPassword(), member.getHashedPassword())) {
             throw new BadCredentialsException("Incorrect password.");
         }
-        String token = jwtUtil.generateToken(authDTO.getEmail());
+        String token = jwtUtil.generateToken(member.getUsername());
         return new AuthResponseDTO(token);
     }
 
