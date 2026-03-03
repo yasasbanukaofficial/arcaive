@@ -23,15 +23,15 @@ export default function LoginForm() {
     if(state.success) {
       addToast({
         type: "success",
-        title: "Login Successfully",
-        description: "Welcome back! You have logged in successfully."
+        title: "Signed in",
+        description: "Welcome back! Redirecting you to your dashboard..."
       })
       setTimeout(() => router.push("/onboarding"), 1500);
     }
     if (state.error) {
       addToast({
         type: "error",
-        title: "Login failed",
+        title: "Sign in failed",
         description: state.error,
       });
     }

@@ -68,13 +68,15 @@ export default function MemberIdentitySection({
   }, [data]);
 
   if (isLoading) {
-    return <div className="p-8 text-center">Loading Member Data...</div>;
+    return <div className="p-8 text-center text-gray-400">Loading your profile...</div>;
   }
 
   if (error || !data) {
     return (
-      <div className="p-8 text-center text-red-200">
-        {error ? "Error loading settings." : "No member data found."}
+      <div className="p-8 text-center text-red-300">
+        {error
+          ? "We couldn't load your settings. Please refresh the page."
+          : "Your profile could not be found. Please try logging in again."}
       </div>
     );
   }

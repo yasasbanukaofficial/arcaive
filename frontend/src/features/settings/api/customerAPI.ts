@@ -1,4 +1,3 @@
-'use server'
 import { apiInstance } from "@/api/api";
 import { getToken } from "@/utils/auth";
 

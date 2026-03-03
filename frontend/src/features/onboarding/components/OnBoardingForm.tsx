@@ -22,14 +22,14 @@ export default function OnBoardingForm() {
       addToast({
         type: "success",
         title: "Profile completed",
-        description: "Your profile has been set up. Redirecting to dashboard...",
+        description: "Your profile has been set up. Redirecting to your dashboard...",
       });
       setTimeout(() => router.push("/overview"), 1500);
     }
     if (state.error) {
       addToast({
         type: "error",
-        title: "Onboarding failed",
+        title: "Profile setup failed",
         description: state.error,
       });
     }

@@ -1,27 +1,12 @@
 'use server'
 import { cookies } from "next/headers";
 import { authAPI } from "./api/authAPI";
+import { extractErrorMessage } from "@/utils/errors";
 
 export type FormState = {
   error?: string;
   success?: boolean;
 };
-
-function extractErrorMessage(err: unknown, fallback: string): string {
-  if (err && typeof err === "object") {
-    const axiosErr = err as {
-      response?: { data?: { message?: string; error?: string } };
-      message?: string;
-    };
-    return (
-      axiosErr.response?.data?.message ||
-      axiosErr.response?.data?.error ||
-      axiosErr.message ||
-      fallback
-    );
-  }
-  return fallback;
-}
 
 export async function registerAction(
   _prevState: FormState,
@@ -45,7 +30,7 @@ export async function registerAction(
     });
     return { success: true };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "Registration failed. Please try again.") };
+    return { error: extractErrorMessage(err, "We couldn't create your account right now. Please try again.", "register") };
   }
 }
 
@@ -69,8 +54,8 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
       });
       return { success: true };
     }
-    return { error: "Token not found in response" };
+    return { error: "Login succeeded but no session token was returned. Please try again." };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "Login failed. Please check your credentials.") };
+    return { error: extractErrorMessage(err, "Login failed. Please check your credentials.", "login") };
   }
 }
