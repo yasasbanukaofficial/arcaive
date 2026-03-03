@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import tech.yasasbanuka.backend.controller.OauthController;
 import tech.yasasbanuka.backend.util.JwtAuthFilter;
 
 @Configuration
@@ -22,6 +23,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
     private final PasswordEncoder passwordEncoder;
+    private final OauthController oauthController;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -29,8 +31,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
                                 .anyRequest().authenticated())
+                .oauth2Login(oauth -> oauth.successHandler(oauthController))
                 .sessionManagement(
-                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .authenticationProvider(daoAuthenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
