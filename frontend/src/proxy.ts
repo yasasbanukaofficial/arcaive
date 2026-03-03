@@ -10,7 +10,7 @@ export default function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/not-found", req.url));
   }
 
-  if(token && (pathname == "/register"  || pathname == "/login" || pathname == "/onboarding")) {
+  if(token && (pathname == "/register"  || pathname == "/login")) {
     return NextResponse.redirect(new URL("/overview", req.url));
   }
 

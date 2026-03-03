@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.util.APIResponse;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +28,14 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<APIResponse<MemberDTO>> getMember(Authentication authentication){
-        String username = authentication.getName();
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(username)), HttpStatus.OK);
+        OAuth2User oAuth2User = (OAuth2User) Objects.requireNonNull(authentication.getPrincipal(), "OAuth2Principal is null");
+        String login = oAuth2User.getAttribute("login");
+        String email = oAuth2User.getAttribute("email");
+
+        String identifier = (login != null) ? login :
+                (email != null && email.contains("@")) ? email.split("@")[0] :
+                        oAuth2User.getName();
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(identifier)), HttpStatus.OK);
     }
 
     @PutMapping("/{memberId}")

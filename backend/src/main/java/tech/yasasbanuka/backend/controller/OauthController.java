@@ -43,7 +43,7 @@ public class OauthController implements AuthenticationSuccessHandler {
         String email = oAuth2User.getAttribute("email");
         String username = switch (provider) {
             case "github" -> (String) oAuth2User.getAttribute("login");
-            case "google" -> (String) oAuth2User.getAttribute("email");
+            case "google" -> email != null ? email.split("@")[0] : (String) oAuth2User.getAttribute("email");
             default -> (String) oAuth2User.getAttribute("sub");
         };
 
