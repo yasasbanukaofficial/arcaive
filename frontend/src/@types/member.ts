@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-
 export type MultifactorMethod = {
   enabled: boolean;
   method: "sms" | "app";
@@ -8,7 +6,6 @@ export type MultifactorMethod = {
 export type LinkedAccount = {
   provider: "google" | "github" | "linkedin";
   label: string;
-  icon: LucideIcon;
   connected: boolean;
   email?: string;
 };
