@@ -12,4 +12,5 @@ public class LinkedAccount {
     private String label;
     private boolean connected;
     private String email;
+    private String url;
 }

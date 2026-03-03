@@ -6,7 +6,6 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import tech.yasasbanuka.backend.entity.LinkedAccount;
 
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +32,6 @@ public class MemberDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
-    @Nullable
-    private List<URL> socialLinks;
 
     @Nullable
     private MfaDTO mfa;

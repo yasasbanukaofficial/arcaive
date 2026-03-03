@@ -1,6 +1,4 @@
 'use server'
-import { Member, SocialLinks } from "@/@types/member"
-import { authAPI } from "../auth/api/authAPI"
 import { getToken } from "@/utils/auth"
 
 export type FormState = {
@@ -8,15 +6,9 @@ export type FormState = {
     success?: boolean
 }
 
-export async function onBoardMember(_prevState: FormState, formData: FormData): Promise<FormState> {
-    const socialLinks = {
-        githubURL: formData.get("githubLink") as string,
-        linkedinURL: formData.get("linkedinLink") as string,
-    }
-
+export async function onBoardMember(_prevState: FormState, _formData: FormData): Promise<FormState> {
     try {
-        const token = await getToken();
-        await authAPI.onboard(socialLinks as SocialLinks, token)
+        await getToken();
         return { success: true }
     } catch (err: unknown) {
         const msg = (err as any)?.response?.data?.message;

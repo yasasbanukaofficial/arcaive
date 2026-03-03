@@ -8,11 +8,7 @@ export type LinkedAccount = {
   label: string;
   connected: boolean;
   email?: string;
-};
-
-export type SocialLinks = {
-  githubLink?: string | null;
-  linkedinLink?: string | null;
+  url?: string;
 };
 
 export type Member = {
@@ -21,10 +17,6 @@ export type Member = {
   memberUsername?: string;
   memberEmail?: string;
   password?: string;
-  socialLinks?: {
-    githubLink?: string | null;
-    linkedinLink?: string | null;
-  } | null;
   memberTier?: string | null;
   subscriptionId?: string | null;
 };
