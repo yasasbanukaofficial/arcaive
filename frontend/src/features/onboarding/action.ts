@@ -1,5 +1,5 @@
 'use server'
-import { Member, SocialLinks } from "@/app/data/settings"
+import { Member, SocialLinks } from "@/@types/member"
 import { authAPI } from "../auth/api/authAPI"
 import { getToken } from "@/utils/auth"
 

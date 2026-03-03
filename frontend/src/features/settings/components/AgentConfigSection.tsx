@@ -9,7 +9,7 @@ import Select from "@/components/ui/Select";
 import Toggle from "@/components/ui/Toggle";
 import TextArea from "@/components/ui/TextArea";
 import Badge from "@/components/ui/Badge";
-import type { AgentConfigData } from "@/app/data/settings";
+import type { AgentConfigData } from "@/features/settings/types";
 
 type AgentConfigSectionProps = {
   data: AgentConfigData;

@@ -1,5 +1,5 @@
 import { apiInstance } from "@/api/api";
-import { AuthMember, Member, SocialLinks } from "@/app/data/settings";
+import { AuthMember, Member, SocialLinks } from "@/@types/member";
 
 const AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`!;
 

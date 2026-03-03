@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
-import { MOCK_PLANS } from "@/app/data/billing";
+import { MOCK_PLANS } from "@/features/billing/constants/mockData";
 import { Check } from "lucide-react";
 
 const PLANS = MOCK_PLANS

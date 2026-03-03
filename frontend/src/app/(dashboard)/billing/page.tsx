@@ -7,7 +7,7 @@ import {
   MOCK_PLANS,
   MOCK_BILLING_HISTORY,
   MOCK_PAYMENT_METHODS,
-} from "@/app/data/billing";
+} from "@/features/billing/constants/mockData";
 
 export default function BillingPageWrapper() {
   const handleUpgrade = (planId: string) => {

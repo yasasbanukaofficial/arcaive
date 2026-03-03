@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp, dashboardStagger } from "./animations";
-import { DUMMY_ACTIVITIES } from "@/app/data/dashboard";
+import { DUMMY_ACTIVITIES } from "@/features/dashboard/constants/mockData";
 
 const activities = DUMMY_ACTIVITIES;
 

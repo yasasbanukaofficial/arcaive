@@ -22,7 +22,7 @@ import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
-import type { MemberIdentityData, LinkedAccount } from "@/app/data/settings";
+import type { MemberIdentityData, LinkedAccount } from "@/@types/member";
 
 const iconMap: Record<string, LucideIcon> = {
   google: Chrome,

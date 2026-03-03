@@ -24,7 +24,7 @@ import type {
 } from "@/components/ui/FileUpload";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import type { CareerIntelligenceData, Achievement } from "@/app/data/settings";
+import type { CareerIntelligenceData, Achievement } from "@/features/settings/types";
 
 type AchievementItemProps = {
   achievement: Achievement;

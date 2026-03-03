@@ -14,8 +14,8 @@ import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
 import JobListHeader from "@/features/jobs/components/JobListHeader";
 import JobCard from "@/features/jobs/components/JobCard";
 import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
-import { matchesLocation } from "@/utils/locationUtils";
-import { DUMMY_JOBS } from "@/app/data/jobs";
+import { matchesLocation } from "@/utils/location";
+import { DUMMY_JOBS } from "@/features/jobs/constants/mockData";
 
 export default function JobsPage() {
   const [jobList, setJobList] = useState([]);

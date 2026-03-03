@@ -1,68 +1,8 @@
-import {
-  Chrome,
-  Github,
-  Linkedin,
-  Zap,
-  Info,
-  Gauge,
-  LucideIcon,
-} from "lucide-react";
-
-export type MultifactorMethod = {
-  enabled: boolean;
-  method: "sms" | "app";
-};
-
-export type LinkedAccount = {
-  provider: "google" | "github" | "linkedin";
-  label: string;
-  icon: LucideIcon;
-  connected: boolean;
-  email?: string;
-};
-
-export type SocialLinks = {
-  githubLink?: string | null;
-  linkedinLink?: string | null;
-};
-
-export type Member = {
-  memberId?: string | null;
-  memberFullName?: string;
-  memberUsername?: string;
-  memberEmail?: string;
-  password?: string;
-  socialLinks?: {
-    githubLink?: string | null;
-    linkedinLink?: string | null;
-  } | null;
-  memberTier?: string | null;
-  subscriptionId?: string | null;
-};
-
-export type MemberIdentityData = Member & {
-  mfa: MultifactorMethod;
-  linkedAccounts: LinkedAccount[];
-};
-
-export type AuthMember = {
-  email: string;
-  password: string;
-};
-
-export type Achievement = {
-  id: string;
-  text: string;
-  tags: string[];
-  source: "ai" | "manual";
-};
-
-export type CareerIntelligenceData = {
-  achievements: Achievement[];
-  targetRoles: string[];
-  roleSuggestions: string[];
-  skillSuggestions: string[];
-};
+import { Zap, Info, Gauge } from "lucide-react";
+import type { CareerIntelligenceData } from "../types/career";
+import type { AgentConfigData } from "../types/agent";
+import type { BillingData } from "../types/billing";
+import type { NotificationsData } from "../types/notifications";
 
 export const initialCareerIntelligenceData: CareerIntelligenceData = {
   achievements: [
@@ -125,21 +65,6 @@ export const initialCareerIntelligenceData: CareerIntelligenceData = {
   ],
 };
 
-export type PersonaOption = {
-  value: string;
-  label: string;
-  description: string;
-  icon: LucideIcon;
-};
-
-export type AgentConfigData = {
-  applyThreshold: number;
-  personaId: string;
-  personaOptions: PersonaOption[];
-  useGpt4o: boolean;
-  blacklist: string;
-};
-
 export const initialAgentConfigData: AgentConfigData = {
   applyThreshold: 75,
   personaId: "bold",
@@ -165,29 +90,6 @@ export const initialAgentConfigData: AgentConfigData = {
   ],
   useGpt4o: true,
   blacklist: "Palantir\nClearview AI\ncrypto trading",
-};
-
-export type PlanFeature = {
-  name: string;
-  active: boolean;
-  strategistOnly?: boolean;
-};
-
-export type Invoice = {
-  id: string;
-  date: string;
-  amount: string;
-  status: "paid" | "pending";
-};
-
-export type BillingData = {
-  currentPlan: string;
-  features: PlanFeature[];
-  invoices: Invoice[];
-  paymentMethod: {
-    last4: string;
-    expiry: string;
-  };
 };
 
 export const initialBillingData: BillingData = {
@@ -229,16 +131,6 @@ export const initialBillingData: BillingData = {
     last4: "4242",
     expiry: "12/2027",
   },
-};
-
-export type NotificationAlerts = {
-  jobMatch: boolean;
-  autoApply: boolean;
-  simulation: boolean;
-};
-
-export type NotificationsData = {
-  alerts: NotificationAlerts;
 };
 
 export const initialNotificationsData: NotificationsData = {

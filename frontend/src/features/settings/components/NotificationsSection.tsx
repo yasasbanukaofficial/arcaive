@@ -15,7 +15,7 @@ import Card, { CardRow } from "@/components/ui/Card";
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
-import type { NotificationsData } from "@/app/data/settings";
+import type { NotificationsData } from "@/features/settings/types";
 
 type NotificationsSectionProps = {
   data: NotificationsData;

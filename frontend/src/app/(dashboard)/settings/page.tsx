@@ -17,7 +17,7 @@ import {
   initialAgentConfigData,
   initialBillingData,
   initialNotificationsData,
-} from "@/app/data/settings";
+} from "@/features/settings/constants/initialData";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
