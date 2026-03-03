@@ -8,7 +8,7 @@ export const customerAPI = {
     const token = await getToken();
     return (
       await apiInstance({
-        baseURL: MEMBER_DATA_URL,
+        baseURL: `${MEMBER_DATA_URL}/me`,
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true
       })

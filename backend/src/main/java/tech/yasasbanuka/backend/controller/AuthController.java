@@ -1,17 +1,12 @@
 package tech.yasasbanuka.backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.AuthDTO;
-import tech.yasasbanuka.backend.dto.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.dto.SocialLinksDTO;
 import tech.yasasbanuka.backend.service.impl.AuthServiceImpl;
@@ -43,7 +38,7 @@ public class AuthController {
     public ResponseEntity<APIResponse<String>> updateSocialLinks(@RequestBody @Valid SocialLinksDTO socialLinksDTO, HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         String token = authHeader.substring(7);
-        authService.updateLinks(socialLinksDTO, jwtUtil.extractEmail(token));
+        authService.updateLinks(socialLinksDTO, jwtUtil.extractUsername(token));
         return ResponseEntity.ok(new APIResponse<>(true, 200, "Profile links updated successfully.", null));
     }
 }

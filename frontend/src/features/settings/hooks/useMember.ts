@@ -6,5 +6,7 @@ export function useMemberSettings() {
   return useQuery({
     queryKey: ["member", "settings"],
     queryFn: () => customerAPI.get(),
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false
   });
 }

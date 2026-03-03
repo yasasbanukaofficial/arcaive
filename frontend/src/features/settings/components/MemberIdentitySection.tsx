@@ -58,6 +58,8 @@ export default function MemberIdentitySection({
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
 
   useEffect(() => {
+    console.log(data);
+    
     if (data) {
       setFullName(data.memberFullName || "");
       setEmail(data.memberEmail || "");
@@ -68,15 +70,18 @@ export default function MemberIdentitySection({
   }, [data]);
 
   if (isLoading) {
-    return <div className="p-8 text-center text-gray-400">Loading your profile...</div>;
+    return (
+      <div className="p-20 flex flex-col items-center justify-center space-y-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <p className="text-[14px] text-gray-400">Loading profile data...</p>
+      </div>
+    );
   }
 
   if (error || !data) {
     return (
       <div className="p-8 text-center text-red-300">
-        {error
-          ? "We couldn't load your settings. Please refresh the page."
-          : "Your profile could not be found. Please try logging in again."}
+        {error ? "Error loading settings." : "Profile not found."}
       </div>
     );
   }

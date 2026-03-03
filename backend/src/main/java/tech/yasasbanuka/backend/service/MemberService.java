@@ -10,5 +10,6 @@ public interface MemberService {
     MemberDTO updateMember(MemberDTO member);
     void deleteMember(UUID memberId);
     MemberDTO getMember(UUID memberId);
+    MemberDTO getMemberByUsername(String username);
     List<MemberDTO> getAllMembers();
 }

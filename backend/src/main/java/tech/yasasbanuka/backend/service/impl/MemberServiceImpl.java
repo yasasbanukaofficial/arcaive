@@ -51,6 +51,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO getMemberByUsername(String username) {
+        return memberMapper.toDTO(memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username)));
+    }
+
+    @Override
     public List<MemberDTO> getAllMembers() {
         return memberRepo.findAll().stream().map(memberMapper::toDTO).toList();
     }
