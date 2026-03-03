@@ -1,10 +1,12 @@
 package tech.yasasbanuka.backend.controller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import tech.yasasbanuka.backend.entity.MemberTier;
 import tech.yasasbanuka.backend.entity.Mfa;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.mapper.MemberMapper;
+import tech.yasasbanuka.backend.util.JwtUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,14 +28,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class OauthController implements AuthenticationSuccessHandler {
     private final MemberService memberService;
-    private final tech.yasasbanuka.backend.util.JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
+    private final MemberMapper memberMapper;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) Objects.requireNonNull(authentication.getPrincipal(), "OAuth2Principal is null");
-        System.out.println(oAuth2User);
         String provider = "unknown";
-        if (authentication instanceof org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken token) {
+        if (authentication instanceof OAuth2AuthenticationToken token) {
             provider = token.getAuthorizedClientRegistrationId();
         }
 
@@ -49,12 +53,6 @@ public class OauthController implements AuthenticationSuccessHandler {
             default -> "";
         };
 
-        System.out.println("Provider: " + provider);
-        System.out.println("Full Name: " + fullName);
-        System.out.println("Email: " + email);
-        System.out.println("Username: " + username);
-        System.out.println("Social URL: " + socialUrl);
-
         MemberDTO member = MemberDTO.builder()
                 .memberUsername(username)
                 .memberFullName(fullName)
@@ -63,17 +61,22 @@ public class OauthController implements AuthenticationSuccessHandler {
                         .provider(provider)
                         .label(provider.equals("github") ? "Github" : "Google")
                         .connected(true)
-                        .email(null)
+                        .email(email)
                         .url(socialUrl)
                         .build()
                 ))
                 .memberTier(String.valueOf(MemberTier.STARTER))
                 .build();
 
-        memberService.createMember(member);
+        Member memberEntity = memberMapper.toEntity(memberService.createMember(member));
+        String token = jwtUtil.generateToken(memberEntity.getUsername());
+        Cookie cookie = new Cookie("access_token", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24 * 7);
+        response.addCookie(cookie);
 
-        String token = jwtUtil.generateToken(member.getMemberUsername());
-
-        response.sendRedirect("http://localhost:3000?token=" + token);
+        response.sendRedirect("http://localhost:3000/overview");
     }
 }

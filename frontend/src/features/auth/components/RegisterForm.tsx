@@ -15,6 +15,7 @@ export default function RegisterForm() {
   const router = useRouter();
   const { addToast } = useToast();
   const [state, formAction, isPending] = useActionState(registerAction, {});
+  const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
   useEffect(() => {
     if (state.success) {
@@ -37,7 +38,7 @@ export default function RegisterForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.div variants={bounceIn}>
-        <SocialButtons />
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`}/>
       </motion.div>
 
       <motion.div
