@@ -8,6 +8,7 @@ import java.util.UUID;
 public interface MemberService {
     MemberDTO createMember(MemberDTO member);
     MemberDTO updateMember(MemberDTO member);
+    MemberDTO updateMemberByUsername(String username, MemberDTO memberDTO);
     void deleteMember(UUID memberId);
     MemberDTO getMember(UUID memberId);
     MemberDTO getMemberByUsername(String username);

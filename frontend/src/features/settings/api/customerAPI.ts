@@ -14,4 +14,17 @@ export const customerAPI = {
       })
     ).data.data;
   },
+  update: async (payload: any) => {
+    const token = await getToken();
+    if(!token) throw new Error("No authentication token found")
+    return (
+      await apiInstance({
+        method: "PUT",
+        baseURL: `${MEMBER_DATA_URL}/me`,
+        headers: {Authorization: `Bearer ${token}`, "Content-Type": 'application/json'},
+        withCredentials: true,
+        data: payload
+      })
+    ).data.data
+  }
 };

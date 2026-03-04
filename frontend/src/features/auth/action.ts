@@ -48,7 +48,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
       cookieStore.set('access_token', token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: 'lax',
+          sameSite: 'strict',
           path: '/', 
           maxAge: 60 * 60 * 24 * 7
       });

@@ -20,16 +20,14 @@ public class MemberDTO {
     @Size(max = 100)
     private String memberFullName;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 20)
+    @Nullable
     private String memberUsername;
 
     @Email(message = "Please provide a valid email address (ex:-john@xyz.com)")
     @NotBlank(message = "Email is required")
     private String memberEmail;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Nullable
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

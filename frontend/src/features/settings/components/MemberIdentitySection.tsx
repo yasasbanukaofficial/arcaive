@@ -23,6 +23,8 @@ import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
 import type { MemberIdentityData, LinkedAccount } from "@/@types/member";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { customerAPI } from "../api/customerAPI";
 
 const iconMap: Record<string, LucideIcon> = {
   google: Chrome,
@@ -58,10 +60,20 @@ export default function MemberIdentitySection({
   const [mfaSaved, setMfaSaved] = useState(false);
 
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
+  const queryClient = useQueryClient();
+
+
+  const profileMutation = useMutation({
+    mutationFn: async (payload: { memberFullName: string; memberEmail: string }) =>
+      await customerAPI.update(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["member"] });
+      setProfileSaved(true);
+      setTimeout(() => setProfileSaved(false), 3000);
+    },
+  });
 
   useEffect(() => {
-    console.log(data);
-    
     if (data) {
       setFullName(data.memberFullName || "");
       setEmail(data.memberEmail || "");
@@ -89,11 +101,10 @@ export default function MemberIdentitySection({
   }
 
   const handleProfileSave = async () => {
-    setProfileSaving(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setProfileSaving(false);
-    setProfileSaved(true);
-    setTimeout(() => setProfileSaved(false), 2000);
+    profileMutation.mutate({
+      memberFullName: fullName,
+      memberEmail: email,
+    });
   };
 
   const handlePasswordChange = async () => {
@@ -176,8 +187,8 @@ export default function MemberIdentitySection({
               variant="primary"
               size="sm"
               onClick={handleProfileSave}
-              loading={profileSaving}
-              disabled={profileSaving}
+              loading={profileMutation.isPending}
+              disabled={profileMutation.isPending}
             >
               Save Changes
             </Button>
@@ -520,11 +531,11 @@ export default function MemberIdentitySection({
         icon={<LinkIcon className="w-4 h-4" />}
       >
         <div className="space-y-1">
-          {linkedAccounts.map((account) => {
+          {linkedAccounts.map((account, i) => {
             const Icon = iconMap[account.provider];
             return (
               <div
-                key={account.provider}
+                key={`${account.provider}-${i}`}
                 className="flex items-center justify-between gap-4 py-3.5"
                 style={{
                   borderBottom: "1px solid var(--d-border-subtle)",

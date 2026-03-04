@@ -38,6 +38,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO updateMemberByUsername(String username, MemberDTO memberDTO) {
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + memberDTO.getMemberUsername()));
+        memberMapper.updateMember(memberDTO, existingMember);
+        return memberMapper.toDTO(memberRepo.save(existingMember));
+    }
+
+    @Override
     public void deleteMember(UUID memberId) {
         memberRepo.findById(memberId)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found. The account may have already been deleted."));

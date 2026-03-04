@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,20 +29,13 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<APIResponse<MemberDTO>> getMember(Authentication authentication){
-        OAuth2User oAuth2User = (OAuth2User) Objects.requireNonNull(authentication.getPrincipal(), "OAuth2Principal is null");
-        String login = oAuth2User.getAttribute("login");
-        String email = oAuth2User.getAttribute("email");
-
-        String identifier = (login != null) ? login :
-                (email != null && email.contains("@")) ? email.split("@")[0] :
-                        oAuth2User.getName();
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(identifier)), HttpStatus.OK);
+        String username = authentication.getName();
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(username)), HttpStatus.OK);
     }
 
-    @PutMapping("/{memberId}")
-    public ResponseEntity<APIResponse<MemberDTO>> updateMember(@PathVariable UUID memberId ,@RequestBody @Valid MemberDTO member){
-        member.setMemberId(memberId);
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Member updated successfully", memberservice.updateMember(member)), HttpStatus.OK);
+    @PutMapping("/me")
+    public ResponseEntity<APIResponse<MemberDTO>> updateMember(Authentication authentication, @RequestBody @Valid MemberDTO member){
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Member updated successfully", memberservice.updateMemberByUsername(authentication.getName(), member)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{memberId}")
