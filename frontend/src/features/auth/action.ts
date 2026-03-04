@@ -60,3 +60,30 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
     return { error: msg || "Login failed. Please check your credentials." };
   }
 }
+
+export async function forgotPasswordAction(
+  _prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  const email = formData.get("email") as string;
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      return { success: true };
+    }
+
+    const data = await res.json().catch(() => ({}));
+    const msg = (data as any)?.message || (data as any)?.error;
+    return { error: msg || "We couldn't process that request right now. Please try again." };
+  } catch (err: unknown) {
+    const msg = (err as any)?.message;
+    return { error: msg || "We couldn't process that request right now. Please try again." };
+  }
+}
