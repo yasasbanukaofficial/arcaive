@@ -39,7 +39,6 @@ public class OauthController implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
     private final MemberMapper memberMapper;
     private final OAuth2AuthorizedClientService authorizedClientService;
-    private RestClient restClient;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -101,7 +100,7 @@ public class OauthController implements AuthenticationSuccessHandler {
 
     private String fetchPrimaryEmailFromGithub(String oAuthAccessToken) {
         String apiUrl = "https://api.github.com";
-        restClient = RestClient.builder().baseUrl(apiUrl).build();
+        RestClient restClient = RestClient.builder().baseUrl(apiUrl).build();
         List<Map<String, Object>> emails = restClient.get()
                 .uri("/user/emails")
                 .header("Authorization", "Bearer " + oAuthAccessToken)
