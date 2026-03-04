@@ -16,6 +16,7 @@ public interface MemberMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(source = "tier", target = "memberTier")
     @Mapping(source = "subscription.id", target = "subscriptionId")
+    @Mapping(source = "linkedAccounts", target = "linkedAccounts")
     MemberDTO toDTO(Member member);
 
     @Mapping(source = "memberId", target = "id")
@@ -25,6 +26,7 @@ public interface MemberMapper {
     @Mapping(source = "password", target = "hashedPassword")
     @Mapping(source = "memberTier", target = "tier", defaultValue = "STARTER")
     @Mapping(source ="subscriptionId", target = "subscription.id")
+    @Mapping(source = "linkedAccounts", target = "linkedAccounts")
     Member toEntity(MemberDTO member);
 
     MfaDTO mfaToMfaDto(Mfa mfa);

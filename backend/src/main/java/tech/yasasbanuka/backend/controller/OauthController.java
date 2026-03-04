@@ -6,8 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -16,13 +14,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestTemplate;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.MemberTier;
-import tech.yasasbanuka.backend.entity.Mfa;
-import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
@@ -44,7 +39,7 @@ public class OauthController implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) Objects.requireNonNull(authentication.getPrincipal(), "OAuth2Principal is null");
         String provider = "unknown";
-        String oAuthAccessToken = null;
+        String oAuthAccessToken = "";
 
         if (authentication instanceof OAuth2AuthenticationToken token) {
             provider = token.getAuthorizedClientRegistrationId();
@@ -57,7 +52,7 @@ public class OauthController implements AuthenticationSuccessHandler {
 
         String fullName = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
-        if(email == null) email = fetchPrimaryEmailFromGithub(oAuthAccessToken);
+        if (email == null) email = fetchPrimaryEmailFromGithub(oAuthAccessToken);
 
         String username = switch (provider) {
             case "github" -> (String) oAuth2User.getAttribute("login");
@@ -105,7 +100,8 @@ public class OauthController implements AuthenticationSuccessHandler {
                 .uri("/user/emails")
                 .header("Authorization", "Bearer " + oAuthAccessToken)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(new ParameterizedTypeReference<>() {
+                });
 
         if (emails == null) return null;
         return emails.stream()
