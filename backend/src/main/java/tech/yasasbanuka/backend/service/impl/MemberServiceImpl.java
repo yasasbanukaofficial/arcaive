@@ -57,6 +57,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO getMemberByEmail(String email) {
+        return memberMapper.toDTO(memberRepo.findByEmail(email)
+                .orElse(null));
+    }
+
+    @Override
     public List<MemberDTO> getAllMembers() {
         return memberRepo.findAll().stream().map(memberMapper::toDTO).toList();
     }

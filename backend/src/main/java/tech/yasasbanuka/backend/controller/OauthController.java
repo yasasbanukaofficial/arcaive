@@ -18,6 +18,7 @@ import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.MemberTier;
+import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
@@ -66,30 +67,48 @@ public class OauthController implements AuthenticationSuccessHandler {
             default -> "";
         };
 
-        MemberDTO member = MemberDTO.builder()
-                .memberUsername(username)
-                .memberFullName(fullName)
-                .memberEmail(email)
-                .linkedAccounts(List.of(LinkedAccountDTO.builder()
+        MemberDTO existingMember = memberService.getMemberByEmail(email);
+        if (existingMember != null) {
+            List<LinkedAccountDTO> existingAccounts = existingMember.getLinkedAccounts();
+            if (existingAccounts != null) {
+                existingAccounts.add(LinkedAccountDTO.builder()
                         .provider(provider)
                         .label(provider.equals("github") ? "Github" : "Google")
                         .connected(true)
                         .email(email)
                         .url(socialUrl)
                         .build()
-                ))
-                .memberTier(String.valueOf(MemberTier.STARTER))
-                .build();
+                );
+            }
+            existingMember.setLinkedAccounts(existingAccounts);
+            memberService.updateMember(existingMember);
+        } else {
+            existingMember = MemberDTO.builder()
+                    .memberUsername(username)
+                    .memberFullName(fullName)
+                    .memberEmail(email)
+                    .linkedAccounts(List.of(LinkedAccountDTO.builder()
+                            .provider(provider)
+                            .label(provider.equals("github") ? "Github" : "Google")
+                            .connected(true)
+                            .email(email)
+                            .url(socialUrl)
+                            .build()
+                    ))
+                    .memberTier(String.valueOf(MemberTier.STARTER))
+                    .build();
+            memberService.createMember(existingMember);
+        }
 
-        Member memberEntity = memberMapper.toEntity(memberService.createMember(member));
+        Member memberEntity = memberMapper.toEntity(existingMember);
         String token = jwtUtil.generateToken(memberEntity.getUsername());
         Cookie cookie = new Cookie("access_token", token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(cookie);
 
+        response.addCookie(cookie);
         response.sendRedirect("http://localhost:3000/overview");
     }
 
