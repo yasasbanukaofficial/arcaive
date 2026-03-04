@@ -18,6 +18,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [state, formAction, isPending] = useActionState(loginAction, {});
+  const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
   useEffect(() => {
     if(state.success) {
@@ -40,7 +41,7 @@ export default function LoginForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.div variants={bounceIn}>
-        <SocialButtons />
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`}/>
       </motion.div>
 
       <motion.div

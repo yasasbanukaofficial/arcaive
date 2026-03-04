@@ -6,12 +6,13 @@ export default function proxy(req: NextRequest) {
   const token = req.cookies.get("access_token")?.value;
   const { pathname } = req.nextUrl;
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/not-found", req.url));
-  }
-
-  if(token && (pathname == "/register"  || pathname == "/login")) {
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+  
+  if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/overview", req.url));
+  }
+  if (!token && !isAuthPage) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   return NextResponse.next();
@@ -28,6 +29,8 @@ export const config = {
     "/settings/:path*",
     "/analytics/:path*",
     "/developers/:path*",
-    "/onboarding/:path*",
+    "/onboarding",
+    "/register",
+    "/login"
   ],
 };

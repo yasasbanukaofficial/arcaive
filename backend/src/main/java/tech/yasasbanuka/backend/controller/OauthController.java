@@ -5,11 +5,18 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestTemplate;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.entity.Member;
@@ -22,6 +29,7 @@ import tech.yasasbanuka.backend.util.JwtUtil;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -30,17 +38,28 @@ public class OauthController implements AuthenticationSuccessHandler {
     private final MemberService memberService;
     private final JwtUtil jwtUtil;
     private final MemberMapper memberMapper;
+    private final OAuth2AuthorizedClientService authorizedClientService;
+    private RestClient restClient;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) Objects.requireNonNull(authentication.getPrincipal(), "OAuth2Principal is null");
         String provider = "unknown";
+        String oAuthAccessToken = null;
+
         if (authentication instanceof OAuth2AuthenticationToken token) {
             provider = token.getAuthorizedClientRegistrationId();
+            OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
+                    token.getAuthorizedClientRegistrationId(),
+                    authentication.getName()
+            );
+            oAuthAccessToken = authorizedClient.getAccessToken().getTokenValue();
         }
 
         String fullName = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
+        if(email == null) email = fetchPrimaryEmailFromGithub(oAuthAccessToken);
+
         String username = switch (provider) {
             case "github" -> (String) oAuth2User.getAttribute("login");
             case "google" -> email != null ? email.split("@")[0] : (String) oAuth2User.getAttribute("email");
@@ -79,4 +98,22 @@ public class OauthController implements AuthenticationSuccessHandler {
 
         response.sendRedirect("http://localhost:3000/overview");
     }
+
+    private String fetchPrimaryEmailFromGithub(String oAuthAccessToken) {
+        String apiUrl = "https://api.github.com";
+        restClient = RestClient.builder().baseUrl(apiUrl).build();
+        List<Map<String, Object>> emails = restClient.get()
+                .uri("/user/emails")
+                .header("Authorization", "Bearer " + oAuthAccessToken)
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+
+        if (emails == null) return null;
+        return emails.stream()
+                .filter(e -> Boolean.TRUE.equals(e.get("primary")))
+                .map(e -> (String) e.get("email"))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
