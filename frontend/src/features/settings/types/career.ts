@@ -1,7 +1,7 @@
 export type Achievement = {
   id: string;
-  competencyTerm: string;
-  competencyDescription: string;
+  qualificationTerm: string;
+  qualificationDescription: string;
   source: "ai" | "manual";
 };
 

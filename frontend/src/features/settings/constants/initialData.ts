@@ -1,47 +1,8 @@
 import { Zap, Info, Gauge } from "lucide-react";
-import type { CareerIntelligenceData } from "../types/career";
 import type { AgentConfigData } from "../types/agent";
 import type { BillingData } from "../types/billing";
 import type { NotificationsData } from "../types/notifications";
 
-export const initialCareerIntelligenceData: CareerIntelligenceData = {
-  achievements: [
-    {
-      id: "1",
-      competencyTerm: "Cloud-Native Microservices Architecture",
-      competencyDescription: "Able to decompose monolithic systems into independently deployable microservices using containerization (Docker) and orchestration (Kubernetes), significantly reducing deployment cycles and improving scalability.",
-      source: "ai",
-    },
-    {
-      id: "2",
-      competencyTerm: "Real-Time Data Pipeline Engineering",
-      competencyDescription: "Able to design and operate high-throughput, event-driven data pipelines using distributed streaming platforms (e.g., Apache Kafka, Apache Flink) to process millions of events per day for real-time analytics.",
-      source: "ai",
-    },
-    {
-      id: "3",
-      competencyTerm: "Identity & Access Management",
-      competencyDescription: "Able to architect and implement production-grade authentication and authorization flows (OAuth 2.0, OpenID Connect) for multi-tenant SaaS environments, ensuring secure user isolation and compliance.",
-      source: "manual",
-    },
-  ],
-  targetRoles: ["Senior Backend Engineer", "Tech Lead"],
-  roleSuggestions: [
-    "Senior Backend Engineer",
-    "Tech Lead",
-    "Staff Engineer",
-    "Principal Engineer",
-    "Engineering Manager",
-    "Solutions Architect",
-    "DevOps Engineer",
-    "Senior Frontend Engineer",
-    "Full-Stack Developer",
-    "Platform Engineer",
-    "Site Reliability Engineer",
-    "Data Engineer",
-    "ML Engineer",
-  ],
-};
 
 export const initialAgentConfigData: AgentConfigData = {
   applyThreshold: 75,

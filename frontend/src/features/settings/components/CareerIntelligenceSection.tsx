@@ -29,7 +29,7 @@ import { useToast } from "@/components/ui/Toast";
 
 type AchievementItemProps = {
   achievement: Achievement;
-  onEdit: (id: string, updates: { competencyTerm: string; competencyDescription: string }) => void;
+  onEdit: (id: string, updates: { qualificationTerm: string; qualificationDescription: string }) => void;
   onDelete: (id: string) => void;
   disabled?: boolean;
 };
@@ -41,25 +41,25 @@ function AchievementItem({
   disabled = false,
 }: AchievementItemProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editTerm, setEditTerm] = useState(achievement.competencyTerm);
-  const [editDesc, setEditDesc] = useState(achievement.competencyDescription);
+  const [editTerm, setEditTerm] = useState(achievement.qualificationTerm);
+  const [editDesc, setEditDesc] = useState(achievement.qualificationDescription);
 
   const handleSave = () => {
     if (editTerm.trim()) {
       onEdit(achievement.id, {
-        competencyTerm: editTerm.trim(),
-        competencyDescription: editDesc.trim(),
+        qualificationTerm: editTerm.trim(),
+        qualificationDescription: editDesc.trim(),
       });
     } else {
-      setEditTerm(achievement.competencyTerm);
-      setEditDesc(achievement.competencyDescription);
+      setEditTerm(achievement.qualificationTerm);
+      setEditDesc(achievement.qualificationDescription);
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setEditTerm(achievement.competencyTerm);
-    setEditDesc(achievement.competencyDescription);
+    setEditTerm(achievement.qualificationTerm);
+    setEditDesc(achievement.qualificationDescription);
     setIsEditing(false);
   };
 
@@ -80,7 +80,7 @@ function AchievementItem({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Header: competency term + source badge + actions */}
+      {/* Header: qualification term + source badge + actions */}
       <div
         className="flex items-center justify-between gap-3 px-4 py-3"
         style={{ borderBottom: "1px solid var(--d-border-subtle)" }}
@@ -113,26 +113,21 @@ function AchievementItem({
                 border: "1px solid var(--d-border-hover)",
                 color: "var(--d-text-primary)",
               }}
-              placeholder="Competency term..."
+              placeholder="Qualification term..."
             />
           ) : (
             <h4
               className="text-[13px] font-semibold truncate"
               style={{ color: "var(--d-text-primary)" }}
-              title={achievement.competencyTerm}
+              title={achievement.qualificationTerm}
             >
-              {achievement.competencyTerm}
+              {achievement.qualificationTerm}
             </h4>
           )}
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
-          {achievement.source === "ai" && (
-            <Badge variant="purple" size="sm" icon={<Sparkles className="w-2.5 h-2.5" />}>
-              AI
-            </Badge>
-          )}
           {!isEditing && !disabled && (
-            <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex items-center gap-0.5">
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
@@ -146,7 +141,7 @@ function AchievementItem({
                   e.currentTarget.style.backgroundColor = "transparent";
                   e.currentTarget.style.color = "var(--d-text-muted)";
                 }}
-                aria-label="Edit competency"
+                aria-label="Edit qualification"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </button>
@@ -163,11 +158,17 @@ function AchievementItem({
                   e.currentTarget.style.backgroundColor = "transparent";
                   e.currentTarget.style.color = "var(--d-text-muted)";
                 }}
-                aria-label="Delete competency"
+                aria-label="Delete qualification"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
             </div>
+          )}
+
+          {achievement.source === "ai" && (
+            <Badge variant="purple" size="sm" icon={<Sparkles className="w-2.5 h-2.5" />}>
+              AI
+            </Badge>
           )}
         </div>
       </div>
@@ -181,7 +182,7 @@ function AchievementItem({
                 className="block text-[11px] font-medium uppercase tracking-wider mb-1.5"
                 style={{ color: "var(--d-text-muted)" }}
               >
-                Competency Description
+                Qualification Description
               </label>
               <textarea
                 value={editDesc}
@@ -206,7 +207,7 @@ function AchievementItem({
           </div>
         ) : (
           <>
-            {/* Competency description — dark theme */}
+            {/* Qualification description — dark theme */}
             <div
               className="rounded-xl px-3.5 py-2.5"
               style={{
@@ -218,7 +219,7 @@ function AchievementItem({
                 className="text-[13px] leading-relaxed font-medium"
                 style={{ color: "rgba(255,255,255,0.88)" }}
               >
-                {achievement.competencyDescription}
+                {achievement.qualificationDescription}
               </p>
             </div>
           </>
@@ -300,13 +301,13 @@ export default function CareerIntelligenceSection({
       }
 
       const extracted: Achievement[] = result.achievements.map((a: any, i: any) => {
-        const term = a.competencyTerm
-          || (a.techStack?.length ? a.techStack.slice(0, 3).join(", ") + " Development" : "Technical Competency");
-        const desc = a.competencyDescription || a.achievement || "";
+        const term = a.qualificationTerm || a.competencyTerm
+          || (a.techStack?.length ? a.techStack.slice(0, 3).join(", ") + " Development" : "Technical Qualification");
+        const desc = a.qualificationDescription || a.competencyDescription || a.achievement || "";
         return {
           id: `ai-${Date.now()}-${i}`,
-          competencyTerm: term,
-          competencyDescription: desc,
+          qualificationTerm: term,
+          qualificationDescription: desc,
           source: "ai" as const,
         };
       });
@@ -333,7 +334,7 @@ export default function CareerIntelligenceSection({
   }, [addToast]);
 
   const handleEditAchievement = useCallback(
-    (id: string, updates: { competencyTerm: string; competencyDescription: string }) => {
+    (id: string, updates: { qualificationTerm: string; qualificationDescription: string }) => {
       setAchievements((prev) =>
         prev.map((a) => (a.id === id ? { ...a, ...updates } : a)),
       );
@@ -352,8 +353,8 @@ export default function CareerIntelligenceSection({
       ...prev,
       {
         id,
-        competencyTerm: "Custom Competency",
-        competencyDescription: newAchievement.trim(),
+        qualificationTerm: "Custom Qualification",
+        qualificationDescription: newAchievement.trim(),
         source: "manual",
       },
     ]);
@@ -374,30 +375,21 @@ export default function CareerIntelligenceSection({
     >
       <Card
         title="CV / Resume Management"
-        description="Upload your resume for AI-powered competency extraction by the Ingestion Agent."
+        description="Upload resume for AI qualification extraction."
         icon={<FileText className="w-4 h-4" />}
-        actions={
-          <div className="flex items-center gap-2">
-            <AnimatePresence>
-              {cvSaved && (
-                <motion.span
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 8 }}
-                  className="flex items-center gap-1 text-[12px] font-medium"
-                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
-                >
-                  <Check className="w-3.5 h-3.5" />
-                  Saved
-                </motion.span>
-              )}
-            </AnimatePresence>
-            <Button variant="primary" size="sm" onClick={makeSaveHandler(setCvSaving, setCvSaved)} loading={cvSaving} disabled={cvSaving}>
-              Save Changes
-            </Button>
-          </div>
-        }
       >
+        <div className="mb-3">
+          <span
+            className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold"
+            style={{
+              backgroundColor: "rgba(139, 92, 246, 0.08)",
+              color: "rgba(139, 92, 246, 0.95)",
+              border: "1px solid rgba(139, 92, 246, 0.12)",
+            }}
+          >
+            Privacy: Used for extraction only and it will be not stored or used.
+          </span>
+        </div>
         <FileUpload
           label="Resume File"
           accept=".pdf,.doc,.docx"
@@ -419,8 +411,8 @@ export default function CareerIntelligenceSection({
         />
       </Card>
       <Card
-        title="Competency Manager"
-        description="Technical competencies extracted from your resume, mapped to industry-standard job requirement terms for vector matching."
+        title="Qualification Manager"
+        description="Manage qualifications generated from your resume."
         icon={<Trophy className="w-4 h-4" />}
         actions={
           <div className="flex items-center gap-2">
@@ -508,7 +500,7 @@ export default function CareerIntelligenceSection({
       </Card>
       <Card
         title="Target Roles"
-        description="Roles you're targeting — used by the Discovery Agent to match you with relevant positions."
+        description="Job titles you target for matching."
         icon={<Target className="w-4 h-4" />}
         actions={
           <div className="flex items-center gap-2">

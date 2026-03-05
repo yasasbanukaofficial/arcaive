@@ -3,18 +3,13 @@ package tech.yasasbanuka.backend.service.impl;
 import dev.langchain4j.agentic.AgenticServices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.pdfbox.Loader;
-import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tech.yasasbanuka.backend.Model;
+import tech.yasasbanuka.backend.config.Model;
 import tech.yasasbanuka.backend.agents.CVAchievementAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
-import tech.yasasbanuka.backend.dto.AtomicAchievementDTO;
 import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
@@ -28,8 +23,6 @@ import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 

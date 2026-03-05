@@ -13,7 +13,6 @@ import BillingSection from "@/features/settings/components/BillingSection";
 import NotificationsSection from "@/features/settings/components/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
-  initialCareerIntelligenceData,
   initialAgentConfigData,
   initialBillingData,
   initialNotificationsData,
@@ -67,7 +66,9 @@ export default function SettingsPage() {
         return <MemberIdentitySection data={member} isLoading={isLoading} error={error} />;
       case "career":
         return (
-          <CareerIntelligenceSection data={initialCareerIntelligenceData} />
+          <CareerIntelligenceSection
+            data={{ achievements: [], targetRoles: [], roleSuggestions: [] }}
+          />
         );
       case "agents":
         return <AgentConfigSection data={initialAgentConfigData} />;

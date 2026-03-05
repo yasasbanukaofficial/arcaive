@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend;
+package tech.yasasbanuka.backend.config;
 
 import dev.langchain4j.model.openai.OpenAiChatModel;
 

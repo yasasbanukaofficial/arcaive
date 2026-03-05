@@ -32,8 +32,8 @@ export type AuthMember = {
 };
 
 export type AtomicAchievement = {
-  competencyTerm: string;
-  competencyDescription: string;
+  qualificationTerm: string;
+  qualificationDescription: string;
 };
 
 export type AtomicSkillResponseDTO = {
