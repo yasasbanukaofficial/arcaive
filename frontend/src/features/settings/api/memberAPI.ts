@@ -12,7 +12,7 @@ export const memberAPI = {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
-    );
+    ).data.data;
   },
   extractMember: async (payload: File) => {
     const formData = new FormData();

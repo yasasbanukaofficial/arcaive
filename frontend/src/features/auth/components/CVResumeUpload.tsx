@@ -9,6 +9,7 @@ import {
   Zap,
 } from "lucide-react";
 import { memberAPI } from "@/features/settings/api/memberAPI";
+import { useToast } from "@/components/ui/Toast";
 
 type UploadStage = "idle" | "uploading" | "analyzing" | "done";
 
@@ -38,6 +39,7 @@ function formatFileSize(bytes: number): string {
 }
 
 export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
+  const { addToast } = useToast();
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<CVUploadedFile | null>(null);
   const [stage, setStage] = useState<UploadStage>("idle");
@@ -80,7 +82,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
             ai += Math.random() * 1.5 + 0.5;
             if (ai >= 95) {
               ai = 95;
-              clearProgress(); // Hold here until API resolves
+              clearProgress();
             }
             setProgress(Math.round(ai));
           }, 120);
@@ -110,11 +112,25 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
       runUploadFlow();
 
       try {
-        const extractedMember = await memberAPI.extractMember(f);
-        completeFlow(extractedMember ?? undefined);
-      } catch {
-        completeFlow();
+      const data = await memberAPI.extractMember(f);
+      
+      if (!data || (!data.memberFullName && !data.memberEmail)) {
+        throw new Error("Not a valid CV");
       }
+
+      completeFlow(data);
+    } catch (error) {
+      clearProgress();
+      setStage("idle");
+      setFile(null);
+      setProgress(0);
+      if (inputRef.current) inputRef.current.value = "";
+      addToast({
+        type: "error",
+        title: "Invalid CV",
+        description: "We couldn't extract info from this file. Please ensure it's a valid CV.",
+      });
+    }
     },
     [runUploadFlow, completeFlow]
   );

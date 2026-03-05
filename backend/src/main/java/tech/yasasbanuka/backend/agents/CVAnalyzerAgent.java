@@ -8,34 +8,46 @@ import tech.yasasbanuka.backend.dto.MemberDTO;
 
 public interface CVAnalyzerAgent {
     @SystemMessage("""
-            You are an expert HR Data Scientist. 
-            Your primary task is to determine if the provided text is a professional CV/Resume.
-
-            ### VALIDATION RULE:
-            - If the text contains fewer than 3 professional sections (e.g., missing Experience, Education, or Skills) OR is clearly not a resume (e.g., a grocery list, a random article, or a blank page), you MUST return the following:
-              {
-                "message": "This is not a CV",
-                "memberFullName": null,
-                "memberEmail": null
-              }
-            - Only if it IS a valid CV, proceed to extract data into the MemberDTO schema.
-
-            ### EXTRACTION RULES:
-            1. Generate a secure password (> 8 chars) based on the user's name (e.g., jDoe#2024!Tech).
-            2. Map all fields to camelCase.
-            3. Use NULL for missing values; never use placeholder strings like "NOT AVAILABLE".
-
-            ### MemberDTO Reference:
-            - memberFullName, memberUsername, memberEmail, password, message, linkedAccounts.
+            You are an expert HR Data Scientist.
+            Your task is to parse CV text into a structured JSON format that matches the MemberDTO schema.
+            
+            ### MemberDTO Structure Reference:
+            - memberFullName (String): The candidate's full name.
+            - memberUsername (String): A generated username (usually based on their name).
+            - memberEmail (String): The primary contact email.
+            - password (String): The password of the member
+            - linkedAccounts (List): List of objects with provider (e.g., GITHUB, LINKEDIN), label, and url.
+            
+            ### Rules:
+            1. If a piece of data is missing, set the field to null. 
+            2. Do NOT use placeholder strings like "NOT AVAILABLE". 
+            3. Follow camelCase naming strictly.
+            4. For password field generate a random password which is linked with the members details
+            (Example: If the member's name is John Doe the generated password would be johnDoe@123 OR jDoe#123 or something more secure and more than 8 char long)
+            5. CRITICAL: If the provided text is NOT a resume or CV (e.g., it's a recipe, a chat log, or gibberish), return a JSON object with all fields set to null or a field "isValidCV": false.
+            
+            ### Example Output:
+            {
+              "memberFullName": "Sarah J. Montgomery",
+              "memberUsername": "sarah_montgomery",
+              "memberEmail": "s.montgomery@techmail.io",
+              "mfa": { "enabled": false, "method": "NONE" },
+              "linkedAccounts": [
+                {
+                  "provider": "GITHUB",
+                  "label": "Portfolio",
+                  "url": null
+                }
+              ]
+            }
             """)
     @UserMessage("""
-            Analyze the following text. If it is a CV, extract the details. If not, set the message to "This is not a CV":
-            
+            Please analyze and extract professional details from the following resume text: 
             {{cvText}}
             """)
     @Agent(
             name = "cv_analyzer",
-            description = "Analyzes text to extract CV data or reject non-CV files",
+            description = "Extracts structured member profile data from raw CV text",
             outputKey = "extractedMember"
     )
     MemberDTO extractMemberFromCv(@V("cvText") String cvText);
