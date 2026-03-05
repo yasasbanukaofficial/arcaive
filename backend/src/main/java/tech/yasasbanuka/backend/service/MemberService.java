@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.dto.MfaDTO;
@@ -19,4 +20,6 @@ public interface MemberService {
     void changePassword(String username, String currentPassword, String newPassword);
     MemberDTO updateMfaByUsername(String username, MfaDTO mfa);
     MemberDTO updateLinkedAccountsByUsername(String username, List<LinkedAccountDTO> linkedAccounts);
+
+    MemberDTO extractMemberDetails(MultipartFile file);
 }

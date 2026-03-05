@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.dto.ChangePasswordDTO;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
@@ -31,6 +32,11 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberDTO>> getMember(Authentication authentication){
         String username = authentication.getName();
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(username)), HttpStatus.OK);
+    }
+
+    @PostMapping("/upload-cv")
+    public ResponseEntity<APIResponse<MemberDTO>> extractMemberDetails(@RequestParam("file") MultipartFile file){
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Member created successfully", memberservice.extractMemberDetails(file)), HttpStatus.CREATED);
     }
 
     @PutMapping("/me")

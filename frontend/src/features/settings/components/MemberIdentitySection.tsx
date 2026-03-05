@@ -24,7 +24,7 @@ import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
 import type { MemberIdentityData, LinkedAccount } from "@/@types/member";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { customerAPI } from "../api/customerAPI";
+import { memberAPI } from "../api/memberAPI";
 
 const iconMap: Record<string, LucideIcon> = {
   google: Chrome,
@@ -63,7 +63,7 @@ export default function MemberIdentitySection({
 
   const profileMutation = useMutation({
     mutationFn: async (payload: { memberFullName: string; memberEmail: string }) =>
-      await customerAPI.update(payload),
+      await memberAPI.update(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
       setProfileSaved(true);
@@ -73,7 +73,7 @@ export default function MemberIdentitySection({
 
   const passwordMutation = useMutation({
     mutationFn: async (payload: { currentPassword: string; newPassword: string }) =>
-      await customerAPI.changePassword(payload),
+      await memberAPI.changePassword(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
       setCurrentPassword("");
@@ -90,7 +90,7 @@ export default function MemberIdentitySection({
 
   const mfaMutation = useMutation({
     mutationFn: async (payload: { enabled: boolean; method: string }) =>
-      await customerAPI.updateMfa(payload),
+      await memberAPI.updateMfa(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
       setMfaSaved(true);
@@ -100,7 +100,7 @@ export default function MemberIdentitySection({
 
   const linkedAccountMutation = useMutation({
     mutationFn: async (payload: LinkedAccount[]) =>
-      await customerAPI.updateLinkedAccounts(payload),
+      await memberAPI.updateLinkedAccounts(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
     },

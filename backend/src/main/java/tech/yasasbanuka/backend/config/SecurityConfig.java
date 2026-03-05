@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.cors(Customizer.withDefaults()).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/api/v1/auth/**").permitAll()
+                        auth -> auth.requestMatchers("/api/v1/auth/**", "/api/v1/members/upload-cv").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2Login(oauth -> oauth.successHandler(oauthController))
                 .sessionManagement(

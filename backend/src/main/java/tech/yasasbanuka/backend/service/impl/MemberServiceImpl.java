@@ -1,10 +1,18 @@
 package tech.yasasbanuka.backend.service.impl;
 
+import dev.langchain4j.agentic.AgenticServices;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import tech.yasasbanuka.backend.Model;
+import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.dto.MfaDTO;
@@ -15,7 +23,10 @@ import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
+import tech.yasasbanuka.backend.util.PDFTextExtract;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,10 +37,11 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final PDFTextExtract pdfTextExtract;
 
     @Override
     public MemberDTO createMember(MemberDTO memberDTO) {
-        if(memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
+        if (memberRepo.existsByEmail(memberDTO.getMemberEmail())) {
             throw new AlreadyExistsException("An account with this email already exists.");
         }
         return memberMapper.toDTO(memberRepo.save(memberMapper.toEntity(memberDTO)));
@@ -105,6 +117,7 @@ public class MemberServiceImpl implements MemberService {
         existingMember.setHashedPassword(passwordEncoder.encode(newPassword));
         memberRepo.save(existingMember);
     }
+
     @Override
     public MemberDTO updateMfaByUsername(String username, MfaDTO mfa) {
         Member existingMember = memberRepo.findByUsername(username)
@@ -128,6 +141,17 @@ public class MemberServiceImpl implements MemberService {
                 ).toList()
         );
         return memberMapper.toDTO(memberRepo.save(existingMember));
+    }
+
+    @Override
+    public MemberDTO extractMemberDetails(MultipartFile file) {
+        String extractedText = pdfTextExtract.extract(file);
+        CVAnalyzerAgent cvAnalyzerAgent = AgenticServices
+                .agentBuilder(CVAnalyzerAgent.class)
+                .chatModel(Model.getModel())
+                .outputKey("extractedMember")
+                .build();
+        return cvAnalyzerAgent.extractMemberFromCv(extractedText);
     }
 
 }

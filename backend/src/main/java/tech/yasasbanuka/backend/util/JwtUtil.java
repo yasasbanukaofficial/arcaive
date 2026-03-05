@@ -36,7 +36,7 @@ public class JwtUtil {
         }
     }
 
-    public String extractUsername(String token) {
+    public String extractMembername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .build()
