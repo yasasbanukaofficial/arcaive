@@ -32,8 +32,8 @@ export type AuthMember = {
 };
 
 export type AtomicAchievement = {
-  achievement: string;
-  techStack: string[];
+  competencyTerm: string;
+  competencyDescription: string;
 };
 
 export type AtomicSkillResponseDTO = {

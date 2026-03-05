@@ -5,14 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
   Trophy,
-  Tag,
   Target,
   Pencil,
   Trash2,
   Plus,
   Sparkles,
-  CheckCircle,
   Check,
+  BookOpen,
 } from "lucide-react";
 import Card from "@/components/ui/Card";
 import TextField from "@/components/ui/TextField";
@@ -30,45 +29,42 @@ import { useToast } from "@/components/ui/Toast";
 
 type AchievementItemProps = {
   achievement: Achievement;
-  onEdit: (id: string, text: string) => void;
+  onEdit: (id: string, updates: { competencyTerm: string; competencyDescription: string }) => void;
   onDelete: (id: string) => void;
-  onTagsChange: (id: string, tags: string[]) => void;
   disabled?: boolean;
-  skillSuggestions: string[];
 };
 
 function AchievementItem({
   achievement,
   onEdit,
   onDelete,
-  onTagsChange,
   disabled = false,
-  skillSuggestions,
 }: AchievementItemProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(achievement.text);
+  const [editTerm, setEditTerm] = useState(achievement.competencyTerm);
+  const [editDesc, setEditDesc] = useState(achievement.competencyDescription);
 
   const handleSave = () => {
-    if (editText.trim()) {
-      onEdit(achievement.id, editText.trim());
+    if (editTerm.trim()) {
+      onEdit(achievement.id, {
+        competencyTerm: editTerm.trim(),
+        competencyDescription: editDesc.trim(),
+      });
     } else {
-      setEditText(achievement.text);
+      setEditTerm(achievement.competencyTerm);
+      setEditDesc(achievement.competencyDescription);
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setEditText(achievement.text);
+    setEditTerm(achievement.competencyTerm);
+    setEditDesc(achievement.competencyDescription);
     setIsEditing(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSave();
-    } else if (e.key === "Escape") {
-      handleCancel();
-    }
+    if (e.key === "Escape") handleCancel();
   };
 
   return (
@@ -84,84 +80,122 @@ function AchievementItem({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Top bar: source badge + actions */}
+      {/* Header: competency term + source badge + actions */}
       <div
-        className="flex items-center justify-between px-4 py-2.5"
+        className="flex items-center justify-between gap-3 px-4 py-3"
         style={{ borderBottom: "1px solid var(--d-border-subtle)" }}
       >
-        <div className="flex items-center gap-2">
-          {achievement.source === "ai" ? (
-            <Badge
-              variant="purple"
-              size="sm"
-              icon={<Sparkles className="w-2.5 h-2.5" />}
-            >
-              AI Generated
-            </Badge>
-          ) : (
-            <Badge variant="default" size="sm" icon={<Pencil className="w-2.5 h-2.5" />}>
-              Manual
-            </Badge>
-          )}
-        </div>
-        {!isEditing && !disabled && (
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
-              style={{ color: "var(--d-text-muted)" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--d-surface-hover)";
-                e.currentTarget.style.color = "var(--d-text-secondary)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--d-text-muted)";
-              }}
-              aria-label="Edit achievement"
-            >
-              <Pencil className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => onDelete(achievement.id)}
-              className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
-              style={{ color: "var(--d-text-muted)" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
-                e.currentTarget.style.color = "rgba(239, 68, 68, 0.7)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--d-text-muted)";
-              }}
-              aria-label="Delete achievement"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-            </button>
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div
+            className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+            style={{
+              backgroundColor: achievement.source === "ai"
+                ? "rgba(139, 92, 246, 0.1)"
+                : "var(--d-surface-active)",
+              border: `1px solid ${achievement.source === "ai" ? "rgba(139, 92, 246, 0.15)" : "var(--d-border)"}`,
+            }}
+          >
+            {achievement.source === "ai" ? (
+              <Sparkles className="w-3.5 h-3.5" style={{ color: "rgba(139, 92, 246, 0.8)" }} />
+            ) : (
+              <BookOpen className="w-3.5 h-3.5" style={{ color: "var(--d-text-tertiary)" }} />
+            )}
           </div>
-        )}
-      </div>
-
-      {/* Body: text + tags */}
-      <div className="px-4 py-3 space-y-3">
-        {isEditing ? (
-          <div className="space-y-2">
-            <textarea
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
+          {isEditing ? (
+            <input
+              value={editTerm}
+              onChange={(e) => setEditTerm(e.target.value)}
               onKeyDown={handleKeyDown}
               autoFocus
-              rows={3}
-              className="w-full rounded-lg px-3 py-2 text-[13px] leading-relaxed outline-none transition-all duration-200 resize-none focus:ring-2 focus:ring-blue-500/20"
+              className="flex-1 rounded-lg px-2.5 py-1 text-[13px] font-semibold outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/20"
               style={{
                 backgroundColor: "var(--d-bg)",
                 border: "1px solid var(--d-border-hover)",
                 color: "var(--d-text-primary)",
               }}
+              placeholder="Competency term..."
             />
-            <div className="flex items-center gap-2">
+          ) : (
+            <h4
+              className="text-[13px] font-semibold truncate"
+              style={{ color: "var(--d-text-primary)" }}
+              title={achievement.competencyTerm}
+            >
+              {achievement.competencyTerm}
+            </h4>
+          )}
+        </div>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {achievement.source === "ai" && (
+            <Badge variant="purple" size="sm" icon={<Sparkles className="w-2.5 h-2.5" />}>
+              AI
+            </Badge>
+          )}
+          {!isEditing && !disabled && (
+            <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
+                style={{ color: "var(--d-text-muted)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "var(--d-surface-hover)";
+                  e.currentTarget.style.color = "var(--d-text-secondary)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "var(--d-text-muted)";
+                }}
+                aria-label="Edit competency"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => onDelete(achievement.id)}
+                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
+                style={{ color: "var(--d-text-muted)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
+                  e.currentTarget.style.color = "rgba(239, 68, 68, 0.7)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "var(--d-text-muted)";
+                }}
+                aria-label="Delete competency"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="px-4 py-3 space-y-3">
+        {isEditing ? (
+          <div className="space-y-3" onKeyDown={handleKeyDown}>
+            <div>
+              <label
+                className="block text-[11px] font-medium uppercase tracking-wider mb-1.5"
+                style={{ color: "var(--d-text-muted)" }}
+              >
+                Competency Description
+              </label>
+              <textarea
+                value={editDesc}
+                onChange={(e) => setEditDesc(e.target.value)}
+                rows={3}
+                className="w-full rounded-lg px-3 py-2 text-[13px] leading-relaxed outline-none transition-all duration-200 resize-none focus:ring-2 focus:ring-blue-500/20"
+                style={{
+                  backgroundColor: "var(--d-bg)",
+                  border: "1px solid var(--d-border-hover)",
+                  color: "var(--d-text-primary)",
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-2 pt-1">
               <Button variant="primary" size="sm" onClick={handleSave}>
                 Save
               </Button>
@@ -172,48 +206,20 @@ function AchievementItem({
           </div>
         ) : (
           <>
-            <p
-              className="text-[13px] leading-relaxed"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              {achievement.text}
-            </p>
-
-            {/* Tags section */}
+            {/* Competency description — dark theme */}
             <div
-              className="pt-2.5"
-              style={{ borderTop: "1px solid var(--d-border-subtle)" }}
+              className="rounded-xl px-3.5 py-2.5"
+              style={{
+                background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
             >
-              {achievement.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  <AnimatePresence mode="popLayout">
-                    {achievement.tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="blue"
-                        size="sm"
-                        removable={!disabled}
-                        onRemove={() =>
-                          onTagsChange(
-                            achievement.id,
-                            achievement.tags.filter((t) => t !== tag),
-                          )
-                        }
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </AnimatePresence>
-                </div>
-              )}
-              <TagInput
-                tags={achievement.tags}
-                onChange={(newTags) => onTagsChange(achievement.id, newTags)}
-                placeholder="Add skill tag..."
-                suggestions={skillSuggestions}
-                disabled={disabled}
-                variant="blue"
-              />
+              <p
+                className="text-[13px] leading-relaxed font-medium"
+                style={{ color: "rgba(255,255,255,0.88)" }}
+              >
+                {achievement.competencyDescription}
+              </p>
             </div>
           </>
         )}
@@ -293,12 +299,17 @@ export default function CareerIntelligenceSection({
         throw new Error("No achievements found");
       }
 
-      const extracted: Achievement[] = result.achievements.map((a: any, i: any) => ({
-        id: `ai-${Date.now()}-${i}`,
-        text: a.achievement,
-        tags: a.techStack ?? [],
-        source: "ai",
-      }));
+      const extracted: Achievement[] = result.achievements.map((a: any, i: any) => {
+        const term = a.competencyTerm
+          || (a.techStack?.length ? a.techStack.slice(0, 3).join(", ") + " Development" : "Technical Competency");
+        const desc = a.competencyDescription || a.achievement || "";
+        return {
+          id: `ai-${Date.now()}-${i}`,
+          competencyTerm: term,
+          competencyDescription: desc,
+          source: "ai" as const,
+        };
+      });
 
       setAchievements((prev) => [
         ...extracted,
@@ -321,20 +332,17 @@ export default function CareerIntelligenceSection({
     }
   }, [addToast]);
 
-  const handleEditAchievement = useCallback((id: string, text: string) => {
-    setAchievements((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, text } : a)),
-    );
-  }, []);
+  const handleEditAchievement = useCallback(
+    (id: string, updates: { competencyTerm: string; competencyDescription: string }) => {
+      setAchievements((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, ...updates } : a)),
+      );
+    },
+    [],
+  );
 
   const handleDeleteAchievement = useCallback((id: string) => {
     setAchievements((prev) => prev.filter((a) => a.id !== id));
-  }, []);
-
-  const handleTagsChange = useCallback((id: string, tags: string[]) => {
-    setAchievements((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, tags } : a)),
-    );
   }, []);
 
   const handleAddAchievement = () => {
@@ -342,13 +350,17 @@ export default function CareerIntelligenceSection({
     const id = Date.now().toString();
     setAchievements((prev) => [
       ...prev,
-      { id, text: newAchievement.trim(), tags: [], source: "manual" },
+      {
+        id,
+        competencyTerm: "Custom Competency",
+        competencyDescription: newAchievement.trim(),
+        source: "manual",
+      },
     ]);
     setNewAchievement("");
   };
 
   const roleSuggestions = data.roleSuggestions;
-  const skillSuggestions = data.skillSuggestions;
 
   return (
     <motion.div
@@ -362,7 +374,7 @@ export default function CareerIntelligenceSection({
     >
       <Card
         title="CV / Resume Management"
-        description="Upload your resume for AI-powered achievement extraction by the Ingestion Agent."
+        description="Upload your resume for AI-powered competency extraction by the Ingestion Agent."
         icon={<FileText className="w-4 h-4" />}
         actions={
           <div className="flex items-center gap-2">
@@ -397,9 +409,9 @@ export default function CareerIntelligenceSection({
             uploadStatus === "uploading"
               ? "AI is analyzing your resume..."
               : uploadStatus === "success"
-                ? `Resume analyzed — ${achievements.filter((a) => a.source === "ai").length} achievement${achievements.filter((a) => a.source === "ai").length === 1 ? "" : "s"} extracted!`
+                ? `Resume analyzed — ${achievements.filter((a) => a.source === "ai").length} competenc${achievements.filter((a) => a.source === "ai").length === 1 ? "y" : "ies"} extracted!`
                 : uploadStatus === "error"
-                  ? "Failed to extract achievements. Please try again."
+                  ? "Failed to extract competencies. Please try again."
                   : undefined
           }
           progress={uploadProgress}
@@ -407,8 +419,8 @@ export default function CareerIntelligenceSection({
         />
       </Card>
       <Card
-        title="Atomic Achievement Manager"
-        description="Individual bullet points extracted from your resume. Edit or remove inaccuracies before storing in the Vector DB."
+        title="Competency Manager"
+        description="Technical competencies extracted from your resume, mapped to industry-standard job requirement terms for vector matching."
         icon={<Trophy className="w-4 h-4" />}
         actions={
           <div className="flex items-center gap-2">
@@ -441,8 +453,6 @@ export default function CareerIntelligenceSection({
                   achievement={achievement}
                   onEdit={handleEditAchievement}
                   onDelete={handleDeleteAchievement}
-                  onTagsChange={handleTagsChange}
-                  skillSuggestions={skillSuggestions}
                 />
               ))}
             </AnimatePresence>
@@ -463,7 +473,7 @@ export default function CareerIntelligenceSection({
                   className="text-[13px]"
                   style={{ color: "var(--d-text-muted)" }}
                 >
-                  No achievements yet. Upload a resume or add manually.
+                  No competencies yet. Upload a resume or add manually.
                 </p>
               </div>
             )}
