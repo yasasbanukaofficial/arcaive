@@ -45,18 +45,16 @@ export default function MemberIdentitySection({
 }: MemberIdentitySectionProps) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [profileSaving, setProfileSaving] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordSaved, setPasswordSaved] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
   const [mfaEnabled, setMfaEnabled] = useState(false);
   const [mfaMethod, setMfaMethod] = useState<"app" | "sms">("app");
-  const [mfaSaving, setMfaSaving] = useState(false);
   const [mfaSaved, setMfaSaved] = useState(false);
 
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
@@ -73,12 +71,49 @@ export default function MemberIdentitySection({
     },
   });
 
+  const passwordMutation = useMutation({
+    mutationFn: async (payload: { currentPassword: string; newPassword: string }) =>
+      await customerAPI.changePassword(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["member"] });
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setPasswordSaved(true);
+      setTimeout(() => setPasswordSaved(false), 3000);
+    },
+    onError: (err: any) => {
+      const msg = err?.response?.data?.message;
+      setPasswordError(msg || "Failed to update password. Please try again.");
+    },
+  });
+
+  const mfaMutation = useMutation({
+    mutationFn: async (payload: { enabled: boolean; method: string }) =>
+      await customerAPI.updateMfa(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["member"] });
+      setMfaSaved(true);
+      setTimeout(() => setMfaSaved(false), 3000);
+    },
+  });
+
+  const linkedAccountMutation = useMutation({
+    mutationFn: async (payload: LinkedAccount[]) =>
+      await customerAPI.updateLinkedAccounts(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["member"] });
+    },
+  });
+
   useEffect(() => {
     if (data) {
       setFullName(data.memberFullName || "");
       setEmail(data.memberEmail || "");
       setMfaEnabled(data.mfa?.enabled ?? false);
-      setMfaMethod(data.mfa?.method ?? "app");
+      setMfaMethod(
+        ((data.mfa?.method as string) === "authenticator" ? "app" : (data.mfa?.method as "app" | "sms")) ?? "app"
+      );
       setLinkedAccounts(data.linkedAccounts ?? []);
     }
   }, [data]);
@@ -109,8 +144,9 @@ export default function MemberIdentitySection({
 
   const handlePasswordChange = async () => {
     setPasswordError("");
+    const hasPassword = data.password != null;
 
-    if (!currentPassword) {
+    if (hasPassword && !currentPassword) {
       setPasswordError("Current password is required");
       return;
     }
@@ -122,35 +158,36 @@ export default function MemberIdentitySection({
       setPasswordError("Passwords do not match");
       return;
     }
+    if (hasPassword && newPassword === currentPassword) {
+      setPasswordError("New password cannot be the same as your current password");
+      return;
+    }
 
-    setPasswordSaving(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setPasswordSaving(false);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
+    passwordMutation.mutate({
+      currentPassword: hasPassword ? currentPassword : "",
+      newPassword,
+    });
   };
 
   const handleMfaSave = async () => {
-    setMfaSaving(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setMfaSaving(false);
-    setMfaSaved(true);
-    setTimeout(() => setMfaSaved(false), 2000);
+    mfaMutation.mutate({
+      enabled: mfaEnabled,
+      method: mfaMethod === "app" ? "authenticator" : mfaMethod,
+    });
   };
 
   const toggleLinkedAccount = (provider: string) => {
-    setLinkedAccounts((prev) =>
-      prev.map((acc) =>
-        acc.provider === provider
-          ? {
-              ...acc,
-              connected: !acc.connected,
-              email: !acc.connected ? `member@${provider}.com` : undefined,
-            }
-          : acc,
-      ),
+    const newAccounts = linkedAccounts.map((acc) =>
+      acc.provider === provider
+        ? {
+            ...acc,
+            connected: !acc.connected,
+            email: !acc.connected ? `member@${provider}.com` : undefined,
+          }
+        : acc,
     );
+    setLinkedAccounts(newAccounts);
+    linkedAccountMutation.mutate(newAccounts);
   };
 
   return (
@@ -221,20 +258,36 @@ export default function MemberIdentitySection({
         description="Update your password regularly for better security."
         icon={<KeyRound className="w-4 h-4" />}
         actions={
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handlePasswordChange}
-            loading={passwordSaving}
-            disabled={
-              passwordSaving ||
-              !currentPassword ||
-              !newPassword ||
-              !confirmPassword
-            }
-          >
-            Update Password
-          </Button>
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {passwordSaved && (
+                <motion.span
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 8 }}
+                  className="flex items-center gap-1 text-[12px] font-medium"
+                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                >
+                  <Check className="w-3.5 h-3.5" />
+                  Saved
+                </motion.span>
+              )}
+            </AnimatePresence>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handlePasswordChange}
+              loading={passwordMutation.isPending}
+              disabled={
+                passwordMutation.isPending ||
+                (data.password != null && !currentPassword) ||
+                !newPassword ||
+                !confirmPassword
+              }
+            >
+              Update Password
+            </Button>
+          </div>
         }
       >
         <div className="space-y-4">
@@ -253,17 +306,19 @@ export default function MemberIdentitySection({
             </motion.div>
           )}
 
-          <PasswordField
-            label="Current Password"
-            name="current_password"
-            value={currentPassword}
-            onChange={(e) => {
-              setCurrentPassword(e.target.value);
-              setPasswordError("");
-            }}
-            placeholder="Enter current password"
-            autoComplete="current-password"
-          />
+          {data.password != null && (
+            <PasswordField
+              label="Current Password"
+              name="current_password"
+              value={currentPassword}
+              onChange={(e) => {
+                setCurrentPassword(e.target.value);
+                setPasswordError("");
+              }}
+              placeholder="Enter current password"
+              autoComplete="current-password"
+            />
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <PasswordField
@@ -380,8 +435,8 @@ export default function MemberIdentitySection({
               variant="primary"
               size="sm"
               onClick={handleMfaSave}
-              loading={mfaSaving}
-              disabled={mfaSaving}
+              loading={mfaMutation.isPending}
+              disabled={mfaMutation.isPending}
             >
               Save Changes
             </Button>
@@ -589,6 +644,8 @@ export default function MemberIdentitySection({
                   variant={account.connected ? "ghost" : "secondary"}
                   size="sm"
                   onClick={() => toggleLinkedAccount(account.provider)}
+                  loading={linkedAccountMutation.isPending}
+                  disabled={linkedAccountMutation.isPending}
                   icon={
                     account.connected ? (
                       <Unlink className="w-3.5 h-3.5" />

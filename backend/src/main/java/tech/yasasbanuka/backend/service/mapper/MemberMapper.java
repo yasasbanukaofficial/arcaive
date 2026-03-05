@@ -13,7 +13,7 @@ public interface MemberMapper {
     @Mapping(source = "fullName", target = "memberFullName")
     @Mapping(source = "username", target = "memberUsername")
     @Mapping(source = "email", target = "memberEmail")
-    @Mapping(target = "password", ignore = true)
+    @Mapping(expression = "java(member.getHashedPassword() != null ? \"\" : null)", target = "password")
     @Mapping(source = "tier", target = "memberTier")
     @Mapping(source = "subscription.id", target = "subscriptionId")
     @Mapping(source = "linkedAccounts", target = "linkedAccounts")
@@ -36,5 +36,6 @@ public interface MemberMapper {
 
     @InheritConfiguration(name = "toEntity")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "hashedPassword", ignore = true)
     void updateMember(MemberDTO memberDTO, @MappingTarget Member member);
 }

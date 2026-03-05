@@ -107,8 +107,8 @@ public class OauthController implements AuthenticationSuccessHandler {
         cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 7);
-
         response.addCookie(cookie);
+
         response.sendRedirect("http://localhost:3000/overview");
     }
 

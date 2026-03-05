@@ -52,6 +52,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
           path: '/', 
           maxAge: 60 * 60 * 24 * 7
       });
+
       return { success: true };
     }
     return { error: "Login succeeded but no session token was returned. Please try again." };

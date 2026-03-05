@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { staggerContainer } from "@/components/animations/variants";
+import { usePathname } from "next/navigation";
 
 type Props = {
   title?: string;
@@ -14,6 +15,7 @@ export default function AuthLayout({
   subtitle = "Continue your journey with your silent AI companion.",
   children,
 }: Props) {
+  const pathname = usePathname();
   return (
     <div className="min-h-screen w-full bg-[#0a0c0d] text-gray-200 flex flex-col font-sans selection:bg-white/20">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -24,9 +26,9 @@ export default function AuthLayout({
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12">
         <motion.div
+          key={pathname}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
+          animate="show"
           variants={staggerContainer(0.12, 0.12)}
           className="w-full max-w-[420px]"
         >

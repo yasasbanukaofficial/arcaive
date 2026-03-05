@@ -101,6 +101,16 @@ public class GlobalException {
                 .build();
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleIllegalArgument(IllegalArgumentException ex) {
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionResponse handleDataIntegrity(DataIntegrityViolationException ex) {

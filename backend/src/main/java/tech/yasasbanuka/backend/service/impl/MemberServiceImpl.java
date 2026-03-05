@@ -2,8 +2,13 @@ package tech.yasasbanuka.backend.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.MfaDTO;
+import tech.yasasbanuka.backend.entity.LinkedAccount;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
@@ -20,6 +25,7 @@ import java.util.UUID;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
     private final MemberMapper memberMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public MemberDTO createMember(MemberDTO memberDTO) {
@@ -34,6 +40,9 @@ public class MemberServiceImpl implements MemberService {
         Member existingMember = memberRepo.findById(memberDTO.getMemberId())
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found. The account may have been deleted."));
         memberMapper.updateMember(memberDTO, existingMember);
+        if (memberDTO.getPassword() != null && !memberDTO.getPassword().isBlank()) {
+            existingMember.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
+        }
         return memberMapper.toDTO(memberRepo.save(existingMember));
     }
 
@@ -42,6 +51,9 @@ public class MemberServiceImpl implements MemberService {
         Member existingMember = memberRepo.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + memberDTO.getMemberUsername()));
         memberMapper.updateMember(memberDTO, existingMember);
+        if (memberDTO.getPassword() != null && !memberDTO.getPassword().isBlank()) {
+            existingMember.setHashedPassword(passwordEncoder.encode(memberDTO.getPassword()));
+        }
         return memberMapper.toDTO(memberRepo.save(existingMember));
     }
 
@@ -74,4 +86,48 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberDTO> getAllMembers() {
         return memberRepo.findAll().stream().map(memberMapper::toDTO).toList();
     }
+
+    @Override
+    public void changePassword(String username, String currentPassword, String newPassword) {
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+        if (existingMember.getHashedPassword() != null) {
+            if (currentPassword == null || currentPassword.isBlank()) {
+                throw new BadCredentialsException("Current password is required.");
+            }
+            if (!passwordEncoder.matches(currentPassword, existingMember.getHashedPassword())) {
+                throw new BadCredentialsException("Current password is incorrect.");
+            }
+            if (passwordEncoder.matches(newPassword, existingMember.getHashedPassword())) {
+                throw new IllegalArgumentException("New password cannot be the same as your current password.");
+            }
+        }
+        existingMember.setHashedPassword(passwordEncoder.encode(newPassword));
+        memberRepo.save(existingMember);
+    }
+    @Override
+    public MemberDTO updateMfaByUsername(String username, MfaDTO mfa) {
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+        existingMember.setMfa(memberMapper.mfaDtoToMfa(mfa));
+        return memberMapper.toDTO(memberRepo.save(existingMember));
+    }
+
+    @Override
+    public MemberDTO updateLinkedAccountsByUsername(String username, List<LinkedAccountDTO> linkedAccounts) {
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+        existingMember.setLinkedAccounts(
+                linkedAccounts.stream().map(dto -> LinkedAccount.builder()
+                        .provider(dto.getProvider())
+                        .label(dto.getLabel())
+                        .connected(dto.isConnected())
+                        .email(dto.getEmail())
+                        .url(dto.getUrl())
+                        .build()
+                ).toList()
+        );
+        return memberMapper.toDTO(memberRepo.save(existingMember));
+    }
+
 }

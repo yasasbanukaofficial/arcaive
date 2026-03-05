@@ -7,10 +7,11 @@ export default function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
-  
+
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/overview", req.url));
   }
+
   if (!token && !isAuthPage) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -29,7 +30,6 @@ export const config = {
     "/settings/:path*",
     "/analytics/:path*",
     "/developers/:path*",
-    "/onboarding",
     "/register",
     "/login"
   ],

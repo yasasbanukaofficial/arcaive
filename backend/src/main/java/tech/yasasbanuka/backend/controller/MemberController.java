@@ -1,19 +1,19 @@
 package tech.yasasbanuka.backend.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+import tech.yasasbanuka.backend.dto.ChangePasswordDTO;
+import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.MfaDTO;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.util.APIResponse;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -48,4 +48,21 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberDTO>> createMember(@RequestBody @Valid MemberDTO member){
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Member created successfully", memberservice.createMember(member)), HttpStatus.CREATED);
     }
+
+    @PatchMapping("/me/password")
+    public ResponseEntity<APIResponse<Void>> changePassword(Authentication authentication, @RequestBody @Valid ChangePasswordDTO dto){
+        memberservice.changePassword(authentication.getName(), dto.getCurrentPassword(), dto.getNewPassword());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Password updated successfully", null), HttpStatus.OK);
+    }
+
+    @PatchMapping("/me/mfa")
+    public ResponseEntity<APIResponse<MemberDTO>> updateMfa(Authentication authentication, @RequestBody @Valid MfaDTO mfa){
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "MFA settings updated successfully", memberservice.updateMfaByUsername(authentication.getName(), mfa)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/me/linked-accounts")
+    public ResponseEntity<APIResponse<MemberDTO>> updateLinkedAccounts(Authentication authentication, @RequestBody List<LinkedAccountDTO> linkedAccounts){
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Linked accounts updated successfully", memberservice.updateLinkedAccountsByUsername(authentication.getName(), linkedAccounts)), HttpStatus.OK);
+    }
+
 }

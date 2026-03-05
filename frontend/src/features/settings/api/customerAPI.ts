@@ -26,5 +26,44 @@ export const customerAPI = {
         data: payload
       })
     ).data.data
-  }
+  },
+  changePassword: async (payload: { currentPassword: string; newPassword: string }) => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/password`,
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        withCredentials: true,
+        data: payload,
+      })
+    ).data;
+  },
+  updateMfa: async (payload: { enabled: boolean; method: string }) => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/mfa`,
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        withCredentials: true,
+        data: payload,
+      })
+    ).data.data;
+  },
+  updateLinkedAccounts: async (payload: any[]) => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/linked-accounts`,
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        withCredentials: true,
+        data: payload,
+      })
+    ).data.data;
+  },
 };

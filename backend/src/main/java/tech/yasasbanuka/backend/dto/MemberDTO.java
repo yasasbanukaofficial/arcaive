@@ -1,6 +1,5 @@
 package tech.yasasbanuka.backend.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -28,7 +27,6 @@ public class MemberDTO {
     private String memberEmail;
 
     @Nullable
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Nullable
