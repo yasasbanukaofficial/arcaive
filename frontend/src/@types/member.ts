@@ -30,3 +30,13 @@ export type AuthMember = {
   email: string;
   password: string;
 };
+
+export type AtomicAchievement = {
+  achievement: string;
+  techStack: string[];
+};
+
+export type AtomicSkillResponseDTO = {
+  message?: string | null;
+  achievements: AtomicAchievement[];
+};

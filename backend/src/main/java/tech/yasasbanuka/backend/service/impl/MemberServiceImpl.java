@@ -12,7 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.Model;
+import tech.yasasbanuka.backend.agents.CVAchievementAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
+import tech.yasasbanuka.backend.dto.AtomicAchievementDTO;
+import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
 import tech.yasasbanuka.backend.dto.MfaDTO;
@@ -151,7 +154,18 @@ public class MemberServiceImpl implements MemberService {
                 .chatModel(Model.getModel())
                 .outputKey("extractedMember")
                 .build();
-        return cvAnalyzerAgent.extractMemberFromCv(extractedText);
+        return cvAnalyzerAgent.extractMemberFromCV(extractedText);
+    }
+
+    @Override
+    public AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file) {
+        String extractedText = pdfTextExtract.extract(file);
+        CVAchievementAgent cvAchievementAgent = AgenticServices
+                .agentBuilder(CVAchievementAgent.class)
+                .chatModel(Model.getModel())
+                .outputKey("atomicSkills")
+                .build();
+        return cvAchievementAgent.extract(extractedText);
     }
 
 }

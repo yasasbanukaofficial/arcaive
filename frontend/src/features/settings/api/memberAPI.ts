@@ -1,5 +1,6 @@
 import { apiInstance } from "@/api/api";
 import { getToken } from "@/utils/auth";
+import { AtomicSkillResponseDTO } from "@/@types/member";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
 
@@ -16,11 +17,28 @@ export const memberAPI = {
   },
   extractMember: async (payload: File) => {
     const formData = new FormData();
-    formData.append('file', payload)
+    formData.append("file", payload);
     return (
       await apiInstance({
         method: "POST",
         baseURL: `${MEMBER_DATA_URL}/upload-cv`,
+        withCredentials: true,
+        data: formData,
+      })
+    ).data.data;
+  },
+  extractAtomicSkills: async (
+    payload: File,
+  ) => {
+    const token = await getToken();
+    const formData = new FormData();
+    formData.append("file", payload);
+    return (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${MEMBER_DATA_URL}/upload-cv/skills`,
+        headers: { Authorization: `Bearer ${token}` },
+
         withCredentials: true,
         data: formData,
       })

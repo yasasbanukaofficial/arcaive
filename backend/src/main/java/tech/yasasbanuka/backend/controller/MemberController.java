@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.dto.ChangePasswordDTO;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.MemberDTO;
@@ -37,6 +38,11 @@ public class MemberController {
     @PostMapping("/upload-cv")
     public ResponseEntity<APIResponse<MemberDTO>> extractMemberDetails(@RequestParam("file") MultipartFile file){
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Member created successfully", memberservice.extractMemberDetails(file)), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/upload-cv/skills")
+    public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(@RequestParam("file") MultipartFile file){
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Skills extracted successfully", memberservice.extractAtomicSkillsFromCV(file)), HttpStatus.CREATED);
     }
 
     @PutMapping("/me")
