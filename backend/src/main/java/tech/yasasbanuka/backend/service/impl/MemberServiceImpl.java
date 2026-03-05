@@ -1,13 +1,13 @@
 package tech.yasasbanuka.backend.service.impl;
 
 import dev.langchain4j.agentic.AgenticServices;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tech.yasasbanuka.backend.config.Model;
 import tech.yasasbanuka.backend.agents.CVAchievementAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
@@ -34,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
+    private final OpenAiChatModel openAiChatModel;
 
     @Override
     public MemberDTO createMember(MemberDTO memberDTO) {
@@ -144,7 +145,7 @@ public class MemberServiceImpl implements MemberService {
         String extractedText = pdfTextExtract.extract(file);
         CVAnalyzerAgent cvAnalyzerAgent = AgenticServices
                 .agentBuilder(CVAnalyzerAgent.class)
-                .chatModel(Model.getModel())
+                .chatModel(openAiChatModel)
                 .outputKey("extractedMember")
                 .build();
         return cvAnalyzerAgent.extractMemberFromCV(extractedText);
@@ -155,7 +156,7 @@ public class MemberServiceImpl implements MemberService {
         String extractedText = pdfTextExtract.extract(file);
         CVAchievementAgent cvAchievementAgent = AgenticServices
                 .agentBuilder(CVAchievementAgent.class)
-                .chatModel(Model.getModel())
+                .chatModel(openAiChatModel)
                 .outputKey("atomicSkills")
                 .build();
         return cvAchievementAgent.extract(extractedText);
