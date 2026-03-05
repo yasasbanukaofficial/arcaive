@@ -10,7 +10,7 @@ import lombok.*;
 public class LinkedAccount {
     private String provider;
     private String label;
-    private String iconKey;
     private boolean connected;
     private String email;
+    private String url;
 }

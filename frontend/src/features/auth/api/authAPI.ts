@@ -1,5 +1,5 @@
 import { apiInstance } from "@/api/api";
-import { AuthMember, Member, SocialLinks } from "@/app/data/settings";
+import { AuthMember, Member } from "@/@types/member";
 
 const AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`!;
 
@@ -20,14 +20,5 @@ export const authAPI = {
         data: payload,
       })
     ).data,
-  onboard: async (payload: SocialLinks, token: string) => {
-    return (
-      await apiInstance({
-        method: "PUT",
-        baseURL: `${AUTH_URL}/login`,
-        headers: { Authorization: `Bearer ${token}` },
-        data: payload,
-      })
-    ).data;
-  },
+
 };

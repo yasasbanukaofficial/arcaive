@@ -18,20 +18,21 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [state, formAction, isPending] = useActionState(loginAction, {});
+  const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
   useEffect(() => {
     if(state.success) {
       addToast({
         type: "success",
-        title: "Login Successfully",
-        description: "Welcome back! You have logged in successfully."
+        title: "Signed in",
+        description: "Welcome back! Redirecting you to your dashboard...",
       })
-      setTimeout(() => router.push("/onboarding"), 1500);
+      setTimeout(() => router.push("/overview"), 1500);
     }
     if (state.error) {
       addToast({
         type: "error",
-        title: "Login failed",
+        title: "Sign in failed",
         description: state.error,
       });
     }
@@ -40,7 +41,7 @@ export default function LoginForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.div variants={bounceIn}>
-        <SocialButtons />
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`}/>
       </motion.div>
 
       <motion.div
@@ -80,7 +81,7 @@ export default function LoginForm() {
               Password
             </label>
             <Link
-              href="#"
+              href="/forgot-password"
               className="text-[12px] text-emerald-500/80 hover:text-emerald-400 transition-colors"
             >
               Forgot password?

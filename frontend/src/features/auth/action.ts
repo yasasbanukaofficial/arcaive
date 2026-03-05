@@ -7,22 +7,6 @@ export type FormState = {
   success?: boolean;
 };
 
-function extractErrorMessage(err: unknown, fallback: string): string {
-  if (err && typeof err === "object") {
-    const axiosErr = err as {
-      response?: { data?: { message?: string; error?: string } };
-      message?: string;
-    };
-    return (
-      axiosErr.response?.data?.message ||
-      axiosErr.response?.data?.error ||
-      axiosErr.message ||
-      fallback
-    );
-  }
-  return fallback;
-}
-
 export async function registerAction(
   _prevState: FormState,
   formData: FormData,
@@ -45,7 +29,8 @@ export async function registerAction(
     });
     return { success: true };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "Registration failed. Please try again.") };
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "We couldn't create your account right now. Please try again." };
   }
 }
 
@@ -63,14 +48,43 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
       cookieStore.set('access_token', token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: 'lax',
+          sameSite: 'strict',
           path: '/', 
           maxAge: 60 * 60 * 24 * 7
       });
+
       return { success: true };
     }
-    return { error: "Token not found in response" };
+    return { error: "Login succeeded but no session token was returned. Please try again." };
   } catch (err: unknown) {
-    return { error: extractErrorMessage(err, "Login failed. Please check your credentials.") };
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "Login failed. Please check your credentials." };
+  }
+}
+
+export async function forgotPasswordAction(
+  _prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  const email = formData.get("email") as string;
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      return { success: true };
+    }
+
+    const data = await res.json().catch(() => ({}));
+    const msg = (data as any)?.message || (data as any)?.error;
+    return { error: msg || "We couldn't process that request right now. Please try again." };
+  } catch (err: unknown) {
+    const msg = (err as any)?.message;
+    return { error: msg || "We couldn't process that request right now. Please try again." };
   }
 }

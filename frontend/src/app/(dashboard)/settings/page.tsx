@@ -13,12 +13,12 @@ import BillingSection from "@/features/settings/components/BillingSection";
 import NotificationsSection from "@/features/settings/components/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
-  initialCareerIntelligenceData,
   initialAgentConfigData,
   initialBillingData,
   initialNotificationsData,
-} from "@/app/data/settings";
+} from "@/features/settings/constants/initialData";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
+import { memberAPI } from "@/features/settings/api/memberAPI";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -66,7 +66,9 @@ export default function SettingsPage() {
         return <MemberIdentitySection data={member} isLoading={isLoading} error={error} />;
       case "career":
         return (
-          <CareerIntelligenceSection data={initialCareerIntelligenceData} />
+          <CareerIntelligenceSection
+            data={{ achievements: [], targetRoles: [], roleSuggestions: [] }}
+          />
         );
       case "agents":
         return <AgentConfigSection data={initialAgentConfigData} />;

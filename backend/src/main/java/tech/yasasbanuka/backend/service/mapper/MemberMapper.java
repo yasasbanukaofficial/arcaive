@@ -13,10 +13,10 @@ public interface MemberMapper {
     @Mapping(source = "fullName", target = "memberFullName")
     @Mapping(source = "username", target = "memberUsername")
     @Mapping(source = "email", target = "memberEmail")
-    @Mapping(target = "password", ignore = true)
-    @Mapping(source = "links", target = "socialLinks")
+    @Mapping(expression = "java(member.getHashedPassword() != null ? \"\" : null)", target = "password")
     @Mapping(source = "tier", target = "memberTier")
     @Mapping(source = "subscription.id", target = "subscriptionId")
+    @Mapping(source = "linkedAccounts", target = "linkedAccounts")
     MemberDTO toDTO(Member member);
 
     @Mapping(source = "memberId", target = "id")
@@ -24,9 +24,9 @@ public interface MemberMapper {
     @Mapping(source = "memberUsername", target = "username")
     @Mapping(source = "memberEmail", target = "email")
     @Mapping(source = "password", target = "hashedPassword")
-    @Mapping(source = "socialLinks", target = "links")
     @Mapping(source = "memberTier", target = "tier", defaultValue = "STARTER")
     @Mapping(source ="subscriptionId", target = "subscription.id")
+    @Mapping(source = "linkedAccounts", target = "linkedAccounts")
     Member toEntity(MemberDTO member);
 
     MfaDTO mfaToMfaDto(Mfa mfa);
@@ -36,5 +36,6 @@ public interface MemberMapper {
 
     @InheritConfiguration(name = "toEntity")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "hashedPassword", ignore = true)
     void updateMember(MemberDTO memberDTO, @MappingTarget Member member);
 }

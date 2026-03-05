@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
-import { DUMMY_STATS } from "@/app/data/dashboard";
+import { DUMMY_STATS } from "@/features/dashboard/constants/mockData";
 
 const stats = DUMMY_STATS;
 

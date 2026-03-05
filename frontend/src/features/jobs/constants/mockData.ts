@@ -183,7 +183,6 @@ export const DUMMY_JOBS: JobListing[] = [
   },
 ];
 
-/** Look up a single job by ID. Returns `undefined` if not found. */
 export function getJobById(id: string): JobListing | undefined {
   return DUMMY_JOBS.find((j) => j.id === id);
 }

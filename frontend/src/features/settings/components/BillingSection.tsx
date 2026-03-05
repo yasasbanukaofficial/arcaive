@@ -16,7 +16,7 @@ import Card, { CardRow } from "@/components/ui/Card";
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import type { BillingData, PlanFeature, Invoice } from "@/app/data/settings";
+import type { BillingData, PlanFeature, Invoice } from "@/features/settings/types";
 
 function FeatureCheckItem({ feature }: { feature: PlanFeature }) {
   return (

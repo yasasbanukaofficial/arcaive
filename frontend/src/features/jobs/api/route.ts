@@ -1,5 +1,5 @@
 import { JobListing } from "@/@types/jobs";
-import { mapToJobListing } from "@/app/data/mockMapper";
+import { mapToJobListing } from "@/features/jobs/utils/mockMapper";
 import { NextRequest, NextResponse } from "next/server";
 import { error, success } from "simple-api-responser";
 

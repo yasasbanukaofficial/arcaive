@@ -32,7 +32,7 @@ export default function Card({
   return (
     <motion.div
       variants={fadeUp}
-      className={`rounded-2xl overflow-hidden transition-colors duration-300 ${className}`}
+      className={`rounded-2xl transition-colors duration-300 ${className}`}
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",

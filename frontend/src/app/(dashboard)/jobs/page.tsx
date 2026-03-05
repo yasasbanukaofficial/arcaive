@@ -14,10 +14,12 @@ import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
 import JobListHeader from "@/features/jobs/components/JobListHeader";
 import JobCard from "@/features/jobs/components/JobCard";
 import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
-import { matchesLocation } from "@/utils/locationUtils";
-import { DUMMY_JOBS } from "@/app/data/jobs";
+import { matchesLocation } from "@/utils/location";
+import { DUMMY_JOBS } from "@/features/jobs/constants/mockData";
+import { useToast } from "@/components/ui/Toast";
 
 export default function JobsPage() {
+  const { addToast } = useToast();
   const [jobList, setJobList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,9 +34,21 @@ export default function JobsPage() {
         const result = await response.json();
         if (result.success) {
           setJobList(result.data);
+        } else {
+          addToast({
+            type: "error",
+            title: "Couldn't load jobs",
+            description: "We had trouble fetching job listings. Showing cached results instead.",
+          });
+          setJobList(DUMMY_JOBS as any);
         }
       } catch (err) {
-        console.error("Fetch failed:", err);
+        addToast({
+          type: "error",
+          title: "No connection",
+          description: "Unable to reach the job service. Showing cached results instead.",
+        });
+        setJobList(DUMMY_JOBS as any);
       } finally {
         setLoading(false);
       }

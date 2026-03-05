@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp, barGrow, dashboardStagger } from "./animations";
-import { USAGE_DAYS, USAGE_DATA } from "@/app/data/dashboard";
+import { USAGE_DAYS, USAGE_DATA } from "@/features/dashboard/constants/mockData";
 
 const days = USAGE_DAYS;
 const data = USAGE_DATA;

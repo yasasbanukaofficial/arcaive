@@ -22,8 +22,8 @@ export default function PasswordInput({
       <input
         name={name}
         type={show ? "text" : "password"}
-        value={value}
-        onChange={onChange}
+        value={value ?? ""}
+        onChange={onChange ?? (() => {})}
         placeholder={placeholder}
         className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
         required

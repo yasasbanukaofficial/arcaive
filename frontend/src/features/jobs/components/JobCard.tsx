@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, Sparkles, ExternalLink } from "lucide-react";
 import type { JobListing } from "@/@types/jobs";
-import { getAccentForCompany, getMatchColor } from "@/utils/jobColors";
+import { getAccentForCompany, getMatchColor } from "@/styles/jobColors";
 
 interface JobCardProps {
   job: JobListing;

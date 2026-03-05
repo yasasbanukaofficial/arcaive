@@ -17,9 +17,9 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    public String generateToken(String email) {
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256).compact();
     }
@@ -36,7 +36,7 @@ public class JwtUtil {
         }
     }
 
-    public String extractEmail(String token) {
+    public String extractMembername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .build()

@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Plus } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
-import { DUMMY_QUICK_ACTIONS } from "@/app/data/dashboard";
+import { DUMMY_QUICK_ACTIONS } from "@/features/dashboard/constants/mockData";
 import Button from "@/components/ui/Button";
 
 const templates = DUMMY_QUICK_ACTIONS;

@@ -18,12 +18,11 @@ public class LinkedAccountDTO {
     @Size(max = 100, message = "Label cannot exceed 100 characters")
     private String label;
 
-    @Size(max = 50, message = "Icon key cannot exceed 50 characters")
-    private String iconKey;
-
     private boolean connected;
 
     @Email(message = "Please provide a valid email address")
     @Size(max = 100, message = "Email cannot exceed 100 characters")
     private String email;
+
+    private String url;
 }

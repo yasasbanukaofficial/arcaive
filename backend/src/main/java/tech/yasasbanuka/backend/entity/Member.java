@@ -3,7 +3,6 @@ package tech.yasasbanuka.backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,9 +17,6 @@ public class Member {
     private String username;
     private String email;
     private String hashedPassword;
-
-    @ElementCollection
-    private List<String> links;
 
     @Enumerated(EnumType.STRING)
     private MemberTier tier;

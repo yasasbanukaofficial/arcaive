@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Bot, Zap, Pause, MoreHorizontal } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
-import { DUMMY_AGENTS } from "@/app/data/dashboard";
+import { DUMMY_AGENTS } from "@/features/dashboard/constants/mockData";
 
 const agents = DUMMY_AGENTS;
 

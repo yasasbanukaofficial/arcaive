@@ -23,12 +23,12 @@ import {
   Check,
 } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
-import { getJobById } from "@/app/data/jobs";
+import { getJobById } from "@/features/jobs/constants/mockData";
 import {
   getAccentForCompany,
   getMatchColor,
   getSourceIcon,
-} from "@/utils/jobColors";
+} from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
 
 /* ── Detail info row (unique to this page) ── */
