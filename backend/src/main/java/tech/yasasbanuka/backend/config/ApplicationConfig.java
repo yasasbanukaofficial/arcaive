@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.config;
 
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,14 +34,5 @@ public class ApplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public static OpenAiChatModel openAiChatModel() {
-        return OpenAiChatModel.builder()
-                .modelName("arcee-ai/trinity-large-preview:free")
-                .apiKey("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")
-                .baseUrl("https://openrouter.ai/api/v1")
-                .build();
     }
 }
