@@ -69,17 +69,22 @@ public class OauthController implements AuthenticationSuccessHandler {
         if (existingMember != null) {
             List<LinkedAccountDTO> existingAccounts = existingMember.getLinkedAccounts();
             if (existingAccounts != null) {
-                existingAccounts.add(LinkedAccountDTO.builder()
-                        .provider(provider)
-                        .label(provider.equals("github") ? "Github" : "Google")
-                        .connected(true)
-                        .email(email)
-                        .url(socialUrl)
-                        .build()
-                );
+                String finalProvider = provider;
+                boolean alreadyLinked = existingAccounts.stream()
+                        .anyMatch(acc -> finalProvider.equals(acc.getProvider()));
+                if (!alreadyLinked) {
+                    existingAccounts.add(LinkedAccountDTO.builder()
+                            .provider(provider)
+                            .label(provider.equals("github") ? "Github" : "Google")
+                            .connected(true)
+                            .email(email)
+                            .url(socialUrl)
+                            .build()
+                    );
+                    existingMember.setLinkedAccounts(existingAccounts);
+                    memberService.updateMember(existingMember);
+                }
             }
-            existingMember.setLinkedAccounts(existingAccounts);
-            memberService.updateMember(existingMember);
         } else {
             existingMember = MemberInternalDTO.builder()
                     .memberUsername(username)
