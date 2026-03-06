@@ -39,4 +39,5 @@ export type AtomicAchievement = {
 export type AtomicSkillResponseDTO = {
   message?: string | null;
   achievements: AtomicAchievement[];
+  targetRoles?: string[];
 };

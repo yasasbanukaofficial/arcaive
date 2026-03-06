@@ -14,4 +14,5 @@ import java.util.List;
 public class AtomicSkillResponseDTO {
     private String message;
     private List<AtomicAchievementDTO> achievements;
+    private List<String> targetRoles;
 }

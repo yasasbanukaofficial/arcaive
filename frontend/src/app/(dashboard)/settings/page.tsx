@@ -18,7 +18,6 @@ import {
   initialNotificationsData,
 } from "@/features/settings/constants/initialData";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
-import { memberAPI } from "@/features/settings/api/memberAPI";
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 

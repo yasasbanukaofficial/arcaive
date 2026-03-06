@@ -6,7 +6,7 @@ import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
 
-public interface CVAchievementAgent {
+public interface CareerIntelligenceAgent {
     @SystemMessage("""
             You are a Senior Technical Recruiter and Career Intelligence Architect.
             Your task is to transform a developer's raw CV data into "Technical Qualification Units"
@@ -43,7 +43,7 @@ public interface CVAchievementAgent {
             → qualificationTerm: "Multi-Model LLM Orchestration & Agentic Design"
             → qualificationDescription: "Able to architect sophisticated, model-agnostic AI engines using
                LangChain4j and OpenRouter to dynamically route tasks across diverse Large Language Models,
-               optimizing for both performance and cost-efficiency."
+               optimizing for both performance and cost efficiency."
 
             RAW INPUT: "Worked with frontend, AI, and design teams to build agentic workflows."
             → qualificationTerm: "Cross-Functional System Orchestration & Stakeholder Collaboration"
@@ -57,14 +57,29 @@ public interface CVAchievementAgent {
                using JWT, refresh token rotation, and RBAC to enforce secure, granular access control
                across distributed services."
 
-                  ### OUTPUT SCHEMA (strict JSON — no extra fields, no deviation):
+                  ### TARGET ROLE INFERENCE:
+            Based on the full CV — including job titles held, projects built, skills demonstrated, and career trajectory —
+            infer 3 to 7 specific job titles this candidate is most suited for and likely targeting.
+            Think like a career counsellor: what roles would a recruiter immediately shortlist this person for?
+
+            TARGET ROLE RULES:
+            - Use real, searchable job titles as they appear on LinkedIn or job boards.
+            - Use industry-standard capitalization (e.g., "Software Engineer", "Machine Learning Engineer", "DevOps Engineer").
+            - Cover both current-level and one-step-up roles to reflect realistic ambitions.
+            - Include specialised variants where relevant (e.g., "Backend Engineer (Java)", "Full-Stack Developer (React/Spring)").
+            - Maximum 7 roles; minimum 3.
+
+            ### OUTPUT SCHEMA (strict JSON — no extra fields, no deviation):
                   {
-                     "message": null,
                      "achievements": [
                         {
                            "qualificationTerm": "<2-6 word recruiter-style job requirement keyword>",
                            "qualificationDescription": "<Professional Able to... or Experienced in... statement>"
                         }
+                     ],
+                     "targetRoles": [
+                        "<Job Title 1>",
+                        "<Job Title 2>"
                      ]
                   }
 
@@ -83,6 +98,7 @@ public interface CVAchievementAgent {
                  tool for that domain and state it as "such as <X>".
 
             ### GLOBAL RULES:
+            - Both achievements AND targetRoles MUST always be present in the output (use empty arrays only if text is not a CV).
             - Extract every distinct technical activity — do not collapse unrelated skills into one entry.
             - Analyze ALL projects in the CV (e.g., TalkForms, Arcaive, Mini Model Mapper, etc.).
             - Every qualification MUST be something a recruiter would search for in a candidate database.

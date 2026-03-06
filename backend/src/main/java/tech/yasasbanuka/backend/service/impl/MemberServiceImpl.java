@@ -8,7 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tech.yasasbanuka.backend.agents.CVAchievementAgent;
+import tech.yasasbanuka.backend.agents.CareerIntelligenceAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
@@ -154,12 +154,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file) {
         String extractedText = pdfTextExtract.extract(file);
-        CVAchievementAgent cvAchievementAgent = AgenticServices
-                .agentBuilder(CVAchievementAgent.class)
+        CareerIntelligenceAgent careerIntelligenceAgent = AgenticServices
+                .agentBuilder(CareerIntelligenceAgent.class)
                 .chatModel(openAiChatModel)
                 .outputKey("atomicSkills")
                 .build();
-        return cvAchievementAgent.extract(extractedText);
+        return careerIntelligenceAgent.extract(extractedText);
     }
 
 }
