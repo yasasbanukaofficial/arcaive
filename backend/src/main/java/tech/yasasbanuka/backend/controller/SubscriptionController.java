@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.yasasbanuka.backend.dto.SubscriptionDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.util.APIResponse;
 
@@ -20,19 +22,18 @@ public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @GetMapping
-    public ResponseEntity<APIResponse<List<SubscriptionDTO>>> getAllSubscriptions() {
+    public ResponseEntity<APIResponse<List<SubscriptionResponseDTO>>> getAllSubscriptions() {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched all subscriptions successfully", subscriptionService.getAllSubscriptions()), HttpStatus.OK);
     }
 
     @GetMapping("/{subscriptionId}")
-    public ResponseEntity<APIResponse<SubscriptionDTO>> getSubscription(@PathVariable UUID subscriptionId) {
+    public ResponseEntity<APIResponse<SubscriptionResponseDTO>> getSubscription(@PathVariable UUID subscriptionId) {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched subscription successfully", subscriptionService.getSubscription(subscriptionId)), HttpStatus.OK);
     }
 
     @PutMapping("/{subscriptionId}")
-    public ResponseEntity<APIResponse<SubscriptionDTO>> updateSubscription(@PathVariable UUID subscriptionId, @RequestBody @Valid SubscriptionDTO subscription) {
-        subscription.setSubscriptionId(subscriptionId);
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscription updated successfully", subscriptionService.updateSubscription(subscription)), HttpStatus.OK);
+    public ResponseEntity<APIResponse<SubscriptionResponseDTO>> updateSubscription(@PathVariable UUID subscriptionId, @RequestBody @Valid SubscriptionUpdateRequestDTO dto) {
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscription updated successfully", subscriptionService.updateSubscription(subscriptionId, dto)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{subscriptionId}")
@@ -42,8 +43,7 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse<SubscriptionDTO>> createSubscription(@RequestBody @Valid SubscriptionDTO subscription) {
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Subscription created successfully", subscriptionService.createSubscription(subscription)), HttpStatus.CREATED);
+    public ResponseEntity<APIResponse<SubscriptionResponseDTO>> createSubscription(@RequestBody @Valid SubscriptionCreateRequestDTO dto) {
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Subscription created successfully", subscriptionService.createSubscription(dto)), HttpStatus.CREATED);
     }
-
 }

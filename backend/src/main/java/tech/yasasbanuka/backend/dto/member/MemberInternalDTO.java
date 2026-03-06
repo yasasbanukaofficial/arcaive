@@ -1,40 +1,30 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.member;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import tech.yasasbanuka.backend.entity.LinkedAccount;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor @NoArgsConstructor
 @Data
 @Builder
-public class MemberDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberInternalDTO {
     @Nullable
     private UUID memberId;
-
-    @NotBlank(message = "Full name is required")
-    @Size(max = 100)
     private String memberFullName;
-
-    @Nullable
     private String memberUsername;
-
-    @Email(message = "Please provide a valid email address (ex:-john@xyz.com)")
-    @NotBlank(message = "Email is required")
     private String memberEmail;
-
     @Nullable
     private String password;
-
     @Nullable
-    private MfaDTO mfa;
-
+    private MfaUpdateRequestDTO mfa;
     @Nullable
     private List<LinkedAccountDTO> linkedAccounts;
-
     @Nullable
     private String memberTier;
     @Nullable

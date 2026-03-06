@@ -16,7 +16,7 @@ export type Member = {
   memberFullName?: string;
   memberUsername?: string;
   memberEmail?: string;
-  password?: string;
+  hasPassword?: boolean;
   memberTier?: string | null;
   subscriptionId?: string | null;
 };

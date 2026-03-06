@@ -1,16 +1,19 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.member;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
-public class MfaDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class MfaUpdateRequestDTO {
     @NotNull(message = "MFA enabled status must be specified")
     private Boolean enabled;
 

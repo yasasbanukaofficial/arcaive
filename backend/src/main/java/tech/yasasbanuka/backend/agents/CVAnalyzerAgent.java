@@ -4,8 +4,8 @@ import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
-import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
-import tech.yasasbanuka.backend.dto.MemberDTO;
+import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
+import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
 
 public interface CVAnalyzerAgent {
     @SystemMessage("""
@@ -51,5 +51,5 @@ public interface CVAnalyzerAgent {
             description = "Extracts structured member profile data from raw CV text",
             outputKey = "extractedMember"
     )
-    MemberDTO extractMemberFromCV(@V("cvText") String cvText);
+    MemberInternalDTO extractMemberFromCV(@V("cvText") String cvText);
 }

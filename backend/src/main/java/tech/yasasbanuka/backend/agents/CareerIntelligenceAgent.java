@@ -4,7 +4,7 @@ import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
-import tech.yasasbanuka.backend.dto.AtomicSkillResponseDTO;
+import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 
 public interface CareerIntelligenceAgent {
     @SystemMessage("""

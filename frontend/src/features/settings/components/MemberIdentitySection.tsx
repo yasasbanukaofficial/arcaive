@@ -144,7 +144,7 @@ export default function MemberIdentitySection({
 
   const handlePasswordChange = async () => {
     setPasswordError("");
-    const hasPassword = data.password != null;
+    const hasPassword = data.hasPassword === true;
 
     if (hasPassword && !currentPassword) {
       setPasswordError("Current password is required");
@@ -280,7 +280,7 @@ export default function MemberIdentitySection({
               loading={passwordMutation.isPending}
               disabled={
                 passwordMutation.isPending ||
-                (data.password != null && !currentPassword) ||
+                (data.hasPassword && !currentPassword) ||
                 !newPassword ||
                 !confirmPassword
               }
@@ -306,7 +306,7 @@ export default function MemberIdentitySection({
             </motion.div>
           )}
 
-          {data.password != null && (
+          {data.hasPassword && (
             <PasswordField
               label="Current Password"
               name="current_password"

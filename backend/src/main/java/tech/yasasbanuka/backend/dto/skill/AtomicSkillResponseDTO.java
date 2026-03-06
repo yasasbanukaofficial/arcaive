@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.skill;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

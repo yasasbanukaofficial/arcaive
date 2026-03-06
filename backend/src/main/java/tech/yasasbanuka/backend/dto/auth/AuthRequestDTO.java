@@ -1,13 +1,16 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class AuthDTO {
-
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthRequestDTO {
     @Email(message = "Please provide a valid email address")
     @NotBlank(message = "Email is required")
     private String email;

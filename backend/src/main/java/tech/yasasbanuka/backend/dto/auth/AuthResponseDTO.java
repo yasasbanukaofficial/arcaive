@@ -1,12 +1,10 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.auth;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class AuthResponseDTO {
     private String accessToken;
 }
