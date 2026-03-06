@@ -1,6 +1,5 @@
 import type { Variants } from "framer-motion";
 
-// Smoother easing curve — fast deceleration for a "snappy but smooth" feel
 const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 export const fadeUp: Variants = {

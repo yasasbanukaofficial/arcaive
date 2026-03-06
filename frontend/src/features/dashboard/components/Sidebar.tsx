@@ -80,7 +80,6 @@ export default function Sidebar() {
               : "var(--d-text-tertiary)",
           }}
         >
-          {/* Instant active indicator — no layoutId, no traveling */}
           {active && (
             <div
               className="absolute inset-0 rounded-xl"
@@ -117,7 +116,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Backdrop overlay — synced with sidebar slide duration */}
       <AnimatePresence>
         {isMobile && mobileOpen && (
           <motion.div

@@ -5,29 +5,45 @@ import { ArrowRight } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import CVResumeUpload, { ExtractedMember } from "./CVResumeUpload";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { registerAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
+import { useFormik } from "formik";
+import { registerSchema } from "@/utils/validationSchemas";
 
 export default function RegisterForm() {
   const router = useRouter();
   const { addToast } = useToast();
   const [state, formAction, isPending] = useActionState(registerAction, {});
-  const [autoName, setAutoName] = React.useState("");
-  const [autoEmail, setAutoEmail] = React.useState("");
-  const [autoPassword, setAutoPassword] = React.useState("");
-  const [autoConfirmPassword, setAutoConfirmPassword] = React.useState("");
   const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
+  const formik = useFormik({
+    initialValues: {
+      memberFullName: "",
+      memberEmail: "",
+      memberPassword: "",
+      confirmPassword: "",
+    },
+    validationSchema: registerSchema,
+    onSubmit: (values) => {
+      const fd = new FormData();
+      fd.append("memberFullName", values.memberFullName);
+      fd.append("memberEmail", values.memberEmail);
+      fd.append("memberPassword", values.memberPassword);
+      fd.append("confirmPassword", values.confirmPassword);
+      formAction(fd);
+    },
+  });
+
   const handleExtracted = (data: ExtractedMember) => {
-    if (data.memberFullName) setAutoName(data.memberFullName);
-    if (data.memberEmail) setAutoEmail(data.memberEmail);
+    if (data.memberFullName) formik.setFieldValue("memberFullName", data.memberFullName);
+    if (data.memberEmail) formik.setFieldValue("memberEmail", data.memberEmail);
     if (data.password) {
-      setAutoPassword(data.password);
-      setAutoConfirmPassword(data.password);
+      formik.setFieldValue("memberPassword", data.password);
+      formik.setFieldValue("confirmPassword", data.password);
     }
   };
 
@@ -52,7 +68,7 @@ export default function RegisterForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.div variants={bounceIn}>
-        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`}/>
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </motion.div>
 
       <motion.div
@@ -69,7 +85,7 @@ export default function RegisterForm() {
       <motion.form
         variants={staggerContainer(0.08, 0)}
         className="space-y-4"
-        action={formAction}
+        onSubmit={formik.handleSubmit}
       >
         <motion.div variants={bounceIn} className="space-y-1.5">
           <label className="text-[13px] font-medium text-gray-400 ml-1">
@@ -79,11 +95,28 @@ export default function RegisterForm() {
             name="memberFullName"
             type="text"
             placeholder="Your name"
-            value={autoName}
-            onChange={(e) => setAutoName(e.target.value)}
-            className="w-full bg-white/3 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
-            required
+            value={formik.values.memberFullName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+              formik.touched.memberFullName && formik.errors.memberFullName
+                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+                : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+            }`}
           />
+          <AnimatePresence>
+            {formik.touched.memberFullName && formik.errors.memberFullName && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                className="text-[12px] mt-1 ml-1 text-red-400/90"
+              >
+                {formik.errors.memberFullName}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         <motion.div variants={bounceIn} className="space-y-1.5">
@@ -94,11 +127,28 @@ export default function RegisterForm() {
             name="memberEmail"
             type="email"
             placeholder="name@company.com"
-            value={autoEmail}
-            onChange={(e) => setAutoEmail(e.target.value)}
-            className="w-full bg-white/3 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
-            required
+            value={formik.values.memberEmail}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+              formik.touched.memberEmail && formik.errors.memberEmail
+                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+                : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+            }`}
           />
+          <AnimatePresence>
+            {formik.touched.memberEmail && formik.errors.memberEmail && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                className="text-[12px] mt-1 ml-1 text-red-400/90"
+              >
+                {formik.errors.memberEmail}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         <motion.div variants={bounceIn} className="space-y-1.5">
@@ -107,8 +157,10 @@ export default function RegisterForm() {
           </label>
           <PasswordInput
             name="memberPassword"
-            value={autoPassword}
-            onChange={(e) => setAutoPassword(e.target.value)}
+            value={formik.values.memberPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.memberPassword && formik.errors.memberPassword ? formik.errors.memberPassword : undefined}
           />
         </motion.div>
 
@@ -118,8 +170,10 @@ export default function RegisterForm() {
           </label>
           <PasswordInput
             name="confirmPassword"
-            value={autoConfirmPassword}
-            onChange={(e) => setAutoConfirmPassword(e.target.value)}
+            value={formik.values.confirmPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : undefined}
           />
         </motion.div>
 

@@ -25,27 +25,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(error("Failed to process job data", 500));
   }
 }
-
-// For real backend req handling
-// export async function GET(req: NextRequest) {
-//   try {
-//     const response = await fetch(MOCK_JOBS, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     if (!response.ok) {
-//       return NextResponse.json(error("Error when fetching data!", 404));
-//     }
-//     const data = await response.json();
-//     return NextResponse.json(
-//       success(data, "Job Listing Fetched Successfully", 200),
-//     );
-//   } catch (err) {
-//     console.error("Fetch Exception:", err);
-//     return NextResponse.json(
-//       error("Failed to connect to job data service", 500),
-//     );
-//   }
-// }

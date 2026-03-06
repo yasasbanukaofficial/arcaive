@@ -31,7 +31,6 @@ import {
 } from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
 
-/* ── Detail info row (unique to this page) ── */
 function InfoRow({
   icon: Icon,
   label,
@@ -70,7 +69,6 @@ function InfoRow({
   );
 }
 
-/* ── Main Page ── */
 export default function JobDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -133,7 +131,6 @@ export default function JobDetailsPage() {
       variants={dashboardStagger(0.05, 0.02)}
       className="max-w-300 mx-auto space-y-6"
     >
-      {/* ── Back button ── */}
       <motion.div variants={fadeUp}>
         <motion.button
           whileHover={{ x: -3 }}
@@ -152,7 +149,6 @@ export default function JobDetailsPage() {
         </motion.button>
       </motion.div>
 
-      {/* ── Header card ── */}
       <motion.div
         variants={fadeUp}
         className="relative rounded-2xl p-8 overflow-hidden"
@@ -161,7 +157,6 @@ export default function JobDetailsPage() {
           border: "1px solid var(--d-border)",
         }}
       >
-        {/* Accent glow */}
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
@@ -170,7 +165,6 @@ export default function JobDetailsPage() {
         />
 
         <div className="relative z-10">
-          {/* Top row: source + date + actions */}
           <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
             <div className="flex items-center gap-3">
               <span
@@ -239,7 +233,6 @@ export default function JobDetailsPage() {
             </div>
           </div>
 
-          {/* Company + Title */}
           <div className="flex items-start gap-5 mb-6">
             <div
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-[20px] sm:text-[28px] shrink-0"
@@ -292,7 +285,6 @@ export default function JobDetailsPage() {
             </div>
           </div>
 
-          {/* Tags */}
           <div className="flex flex-wrap gap-2">
             {job.tags.map((tag) => (
               <span
@@ -311,11 +303,8 @@ export default function JobDetailsPage() {
         </div>
       </motion.div>
 
-      {/* ── Content grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ── Left: Main content ── */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Match score card */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6 overflow-hidden"
@@ -357,7 +346,6 @@ export default function JobDetailsPage() {
               </div>
             </div>
 
-            {/* Progress bar */}
             <div
               className="h-2.5 rounded-full overflow-hidden mb-4"
               style={{ backgroundColor: "var(--d-surface-hover)" }}
@@ -375,7 +363,6 @@ export default function JobDetailsPage() {
               />
             </div>
 
-            {/* Why you match */}
             <div className="flex items-start gap-3">
               <CheckCircle2
                 className="w-4 h-4 mt-0.5 shrink-0"
@@ -398,7 +385,6 @@ export default function JobDetailsPage() {
             </div>
           </motion.div>
 
-          {/* Description */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -421,7 +407,6 @@ export default function JobDetailsPage() {
             </p>
           </motion.div>
 
-          {/* Apply CTA */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -469,9 +454,7 @@ export default function JobDetailsPage() {
           </motion.div>
         </div>
 
-        {/* ── Right: Sidebar ── */}
         <div className="space-y-6">
-          {/* Job details card */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -522,7 +505,6 @@ export default function JobDetailsPage() {
             </div>
           </motion.div>
 
-          {/* Company card */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -578,7 +560,6 @@ export default function JobDetailsPage() {
             </motion.button>
           </motion.div>
 
-          {/* Source badge card */}
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"

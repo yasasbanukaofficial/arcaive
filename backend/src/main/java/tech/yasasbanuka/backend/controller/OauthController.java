@@ -14,11 +14,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
-import tech.yasasbanuka.backend.dto.LinkedAccountDTO;
-import tech.yasasbanuka.backend.dto.MemberDTO;
-import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.dto.member.LinkedAccountDTO;
+import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
 import tech.yasasbanuka.backend.entity.MemberTier;
-import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
@@ -67,7 +65,7 @@ public class OauthController implements AuthenticationSuccessHandler {
             default -> "";
         };
 
-        MemberDTO existingMember = memberService.getMemberByEmail(email);
+        MemberInternalDTO existingMember = memberService.getMemberInternalByEmail(email);
         if (existingMember != null) {
             List<LinkedAccountDTO> existingAccounts = existingMember.getLinkedAccounts();
             if (existingAccounts != null) {
@@ -83,7 +81,7 @@ public class OauthController implements AuthenticationSuccessHandler {
             existingMember.setLinkedAccounts(existingAccounts);
             memberService.updateMember(existingMember);
         } else {
-            existingMember = MemberDTO.builder()
+            existingMember = MemberInternalDTO.builder()
                     .memberUsername(username)
                     .memberFullName(fullName)
                     .memberEmail(email)
@@ -97,11 +95,13 @@ public class OauthController implements AuthenticationSuccessHandler {
                     ))
                     .memberTier(String.valueOf(MemberTier.STARTER))
                     .build();
-            memberService.createMember(existingMember);
+            memberService.createMemberInternal(existingMember);
         }
 
-        Member memberEntity = memberMapper.toEntity(existingMember);
-        String token = jwtUtil.generateToken(memberEntity.getUsername());
+        String memberUsername = existingMember.getMemberUsername() != null
+                ? existingMember.getMemberUsername()
+                : username;
+        String token = jwtUtil.generateToken(memberUsername);
         Cookie cookie = new Cookie("access_token", token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
@@ -129,5 +129,4 @@ public class OauthController implements AuthenticationSuccessHandler {
                 .findFirst()
                 .orElse(null);
     }
-
 }

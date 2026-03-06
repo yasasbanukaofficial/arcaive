@@ -1,10 +1,10 @@
 import { apiInstance } from "@/api/api";
-import { AuthMember, Member } from "@/@types/member";
+import { AuthMember, MemberCreateRequest } from "@/@types/member";
 
 const AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`!;
 
 export const authAPI = {
-  register: async (payload: Member) =>
+  register: async (payload: MemberCreateRequest) =>
     (
       await apiInstance({
         method: "POST",

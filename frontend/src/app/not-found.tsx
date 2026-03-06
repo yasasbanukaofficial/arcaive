@@ -9,7 +9,6 @@ import { bounceIn, staggerContainer } from "@/components/animations/variants";
 export default function NotFound() {
   return (
     <main className="relative min-h-screen w-full bg-[#0a0a0a] text-white overflow-hidden flex flex-col items-center justify-center">
-      {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/not-found.jpg"
@@ -19,19 +18,15 @@ export default function NotFound() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Layered overlays for depth */}
         <div className="absolute inset-0 bg-black/60" />
         <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
         <div className="absolute inset-0 bg-linear-to-b from-[#0a0a0a] via-transparent to-transparent" />
       </div>
 
-      {/* Noise grain overlay */}
       <div className="absolute inset-0 z-1 opacity-[0.035] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 pointer-events-none" />
 
-      {/* Glow orb */}
       <div className="absolute z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 rounded-full bg-white/5 blur-[120px] pointer-events-none" />
 
-      {/* Content */}
       <motion.div
         initial="hidden"
         animate="show"
@@ -39,7 +34,6 @@ export default function NotFound() {
         className="relative z-10 flex flex-col items-center text-center px-6 max-w-2xl mx-auto"
       >
 
-        {/* 404 */}
         <motion.p
           variants={bounceIn}
           className="text-[11px] uppercase tracking-[0.3em] font-semibold text-white/40 mb-4"
@@ -62,7 +56,6 @@ export default function NotFound() {
           This page doesn't exist, or it was moved somewhere.
         </motion.p>
 
-        {/* Actions */}
         <motion.div
           variants={bounceIn}
           className="flex flex-col sm:flex-row items-center gap-3"
@@ -83,7 +76,6 @@ export default function NotFound() {
         </motion.div>
       </motion.div>
 
-      {/* Bottom brand mark */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

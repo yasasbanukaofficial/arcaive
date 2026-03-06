@@ -16,7 +16,7 @@ export type Member = {
   memberFullName?: string;
   memberUsername?: string;
   memberEmail?: string;
-  password?: string;
+  hasPassword?: boolean;
   memberTier?: string | null;
   subscriptionId?: string | null;
 };
@@ -24,6 +24,13 @@ export type Member = {
 export type MemberIdentityData = Member & {
   mfa: MultifactorMethod;
   linkedAccounts: LinkedAccount[];
+};
+
+export type MemberCreateRequest = {
+  memberFullName: string;
+  memberEmail: string;
+  memberUsername?: string;
+  password: string;
 };
 
 export type AuthMember = {

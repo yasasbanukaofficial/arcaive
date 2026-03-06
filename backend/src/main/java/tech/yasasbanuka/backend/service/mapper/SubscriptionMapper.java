@@ -2,7 +2,9 @@ package tech.yasasbanuka.backend.service.mapper;
 
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
-import tech.yasasbanuka.backend.dto.SubscriptionDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
 import tech.yasasbanuka.backend.entity.Subscription;
 
 @Mapper(config = CentralConfig.class)
@@ -10,14 +12,16 @@ public interface SubscriptionMapper {
     @Mapping(source = "id", target = "subscriptionId")
     @Mapping(source = "status", target = "subscriptionStatus")
     @Mapping(source = "member.id", target = "memberId")
-    SubscriptionDTO toDto(Subscription subscription);
+    SubscriptionResponseDTO toResponseDTO(Subscription subscription);
 
-    @Mapping(source = "subscriptionId", target = "id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", ignore = true)
     @Mapping(source = "subscriptionStatus", target = "status", defaultValue = "inactive")
-    Subscription toEntity(SubscriptionDTO subscriptionDTO);
+    Subscription createRequestToEntity(SubscriptionCreateRequestDTO dto);
 
-    @InheritConfiguration(name = "toEntity")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "member", ignore = true)
+    @Mapping(source = "subscriptionStatus", target = "status")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateSubscription(SubscriptionDTO subscriptionDTO, @MappingTarget Subscription subscription);
+    void updateRequestToEntity(SubscriptionUpdateRequestDTO dto, @MappingTarget Subscription subscription);
 }

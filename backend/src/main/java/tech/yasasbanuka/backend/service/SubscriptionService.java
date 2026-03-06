@@ -1,14 +1,16 @@
 package tech.yasasbanuka.backend.service;
 
-import tech.yasasbanuka.backend.dto.SubscriptionDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface SubscriptionService {
-    SubscriptionDTO createSubscription(SubscriptionDTO subscriptionDTO);
-    SubscriptionDTO updateSubscription(SubscriptionDTO subscriptionDTO);
+    SubscriptionResponseDTO createSubscription(SubscriptionCreateRequestDTO dto);
+    SubscriptionResponseDTO updateSubscription(UUID subscriptionId, SubscriptionUpdateRequestDTO dto);
     void deleteSubscription(UUID subscriptionId);
-    SubscriptionDTO getSubscription(UUID subscriptionId);
-    List<SubscriptionDTO> getAllSubscriptions();
+    SubscriptionResponseDTO getSubscription(UUID subscriptionId);
+    List<SubscriptionResponseDTO> getAllSubscriptions();
 }

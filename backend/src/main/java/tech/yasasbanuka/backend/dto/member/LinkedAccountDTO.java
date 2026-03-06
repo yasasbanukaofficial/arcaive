@@ -1,14 +1,17 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.member;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LinkedAccountDTO {
     @NotBlank(message = "Provider is required")
     @Size(max = 50, message = "Provider name cannot exceed 50 characters")

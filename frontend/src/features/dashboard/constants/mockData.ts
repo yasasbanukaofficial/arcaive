@@ -12,7 +12,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-/* ── Active Agents ── */
 export interface AgentData {
   name: string;
   description: string;
@@ -45,7 +44,6 @@ export const DUMMY_AGENTS: AgentData[] = [
   },
 ];
 
-/* ── Activity Feed ── */
 export interface ActivityData {
   icon: LucideIcon;
   title: string;
@@ -92,7 +90,6 @@ export const DUMMY_ACTIVITIES: ActivityData[] = [
   },
 ];
 
-/* ── Stats Grid ── */
 export interface StatData {
   label: string;
   value: string;
@@ -142,11 +139,9 @@ export const DUMMY_STATS: StatData[] = [
   },
 ];
 
-/* ── Usage Chart ── */
 export const USAGE_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export const USAGE_DATA = [72, 56, 63, 48, 38, 34, 42];
 
-/* ── What's New ── */
 export interface WhatsNewItem {
   icon: string;
   title: string;
@@ -181,7 +176,6 @@ export const DUMMY_WHATS_NEW: WhatsNewItem[] = [
   },
 ];
 
-/* ── Quick Actions ── */
 export interface QuickActionTemplate {
   title: string;
   description: string;

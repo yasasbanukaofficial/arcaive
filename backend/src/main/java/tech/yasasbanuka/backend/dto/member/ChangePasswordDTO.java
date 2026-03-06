@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.dto;
+package tech.yasasbanuka.backend.dto.member;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChangePasswordDTO {
     @Nullable
     private String currentPassword;
