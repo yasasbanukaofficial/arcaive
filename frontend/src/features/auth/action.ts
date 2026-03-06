@@ -91,9 +91,14 @@ export async function forgotPasswordAction(
 }
 
 export async function logoutAction(): Promise<void> {
-  const cookieStore = await cookies();
+  try {
+    await authAPI.logout();
+  } catch (err: unknown) {
+    console.error("authAPI.logout failed:", err);
+  }
 
-  const cookieOptions = {
+  const cookieStore = await cookies();
+  const expire = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict" as const,
@@ -101,18 +106,10 @@ export async function logoutAction(): Promise<void> {
     maxAge: 0,
   };
 
-  // Delete JWT cookie set by form login (Next.js server action)
-  cookieStore.set("access_token", "", cookieOptions);
+  cookieStore.set("access_token", "", expire);
+  cookieStore.set("access_token", "", { ...expire, secure: true });  // OAuth variant (always Secure)
+  cookieStore.set("JSESSIONID", "", { ...expire, httpOnly: true });
 
-  // Delete JWT cookie set by OAuth backend redirect (HttpOnly, Secure, Path=/)
-  // We delete with both secure=true and secure=false to cover both environments
-  cookieStore.set("access_token", "", {
-    ...cookieOptions,
-    secure: true,
-  });
-
-  // Spring Security session cookies that may be present from OAuth flow
-  cookieStore.set("JSESSIONID", "", { ...cookieOptions, httpOnly: true });
-
+  // 3. Redirect — the client-side layout effect handles localStorage/sessionStorage cleanup.
   redirect("/login");
 }

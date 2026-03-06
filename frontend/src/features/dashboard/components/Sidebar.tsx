@@ -222,6 +222,10 @@ export default function Sidebar() {
           <form action={logoutAction}>
             <button
               type="submit"
+              onClick={() => {
+                localStorage.clear();
+                sessionStorage.clear();
+              }}
               className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
               style={{ color: "var(--d-text-tertiary)" }}
             >
