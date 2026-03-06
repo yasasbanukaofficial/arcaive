@@ -21,6 +21,7 @@ import {
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
 import Logo from "@/components/ui/Logo";
+import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
@@ -218,21 +219,24 @@ export default function Sidebar() {
             </button>
           )}
 
-          <button
-            className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
-            style={{ color: "var(--d-text-tertiary)" }}
-          >
-            <LogOut className="w-5 h-5" />
-            <span
-              className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
-              style={{
-                opacity: collapsed ? 0 : 1,
-                width: collapsed ? 0 : "auto",
-              }}
+          <form action={logoutAction}>
+            <button
+              type="submit"
+              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
+              style={{ color: "var(--d-text-tertiary)" }}
             >
-              Log out
-            </span>
-          </button>
+              <LogOut className="w-5 h-5" />
+              <span
+                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
+                style={{
+                  opacity: collapsed ? 0 : 1,
+                  width: collapsed ? 0 : "auto",
+                }}
+              >
+                Log out
+              </span>
+            </button>
+          </form>
         </div>
       </aside>
     </>

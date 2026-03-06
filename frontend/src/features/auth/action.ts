@@ -1,4 +1,5 @@
 'use server'
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { authAPI } from "./api/authAPI";
 
@@ -87,4 +88,31 @@ export async function forgotPasswordAction(
     const msg = (err as any)?.message;
     return { error: msg || "We couldn't process that request right now. Please try again." };
   }
+}
+
+export async function logoutAction(): Promise<void> {
+  const cookieStore = await cookies();
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict" as const,
+    path: "/",
+    maxAge: 0,
+  };
+
+  // Delete JWT cookie set by form login (Next.js server action)
+  cookieStore.set("access_token", "", cookieOptions);
+
+  // Delete JWT cookie set by OAuth backend redirect (HttpOnly, Secure, Path=/)
+  // We delete with both secure=true and secure=false to cover both environments
+  cookieStore.set("access_token", "", {
+    ...cookieOptions,
+    secure: true,
+  });
+
+  // Spring Security session cookies that may be present from OAuth flow
+  cookieStore.set("JSESSIONID", "", { ...cookieOptions, httpOnly: true });
+
+  redirect("/login");
 }

@@ -117,7 +117,7 @@ export default function Navbar() {
             )}
           </button>
           <Link
-            href="/get-started"
+            href="/register"
             className="hidden lg:inline-flex bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
           >
             Get Started
