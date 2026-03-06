@@ -65,13 +65,12 @@ Scours LinkedIn, Indeed, and private APIs using `Serper.dev` to rank opportuniti
 
 ## 💎 Feature Tiers
 
-| Capability | Explorer (Free) | Arcaive ($19/mo) |
+| Capability | Explorer (Free) | Scan Out ($19/mo) |
 | :--- | :---: | :---: |
 | **CV Analysis** | Basic | Advanced (Atomic) |
-| **Shadow Applications** | 3 / month | Unlimited |
-| **LLM Model** | Standard | Claude 3.5 Sonnet |
+| **Shadow Applications** | 10 / month | Unlimited |
 | **Simulation Loop** | ❌ | ✅ |
-| **Auto-Apply Bot** | ❌ | ✅ |
+| **Auto-Apply Bot** | 5 / month | Unlimited |
 | **Flow Visualization** | ❌ | ✅ |
 
 
