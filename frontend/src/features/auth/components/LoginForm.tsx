@@ -1,32 +1,43 @@
 "use client";
 
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { loginAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
+import { useFormik } from "formik";
+import { loginSchema } from "@/utils/validationSchemas";
 
 export default function LoginForm() {
   const router = useRouter();
-  const {addToast} = useToast();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { addToast } = useToast();
   const [state, formAction, isPending] = useActionState(loginAction, {});
   const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      const fd = new FormData();
+      fd.append("email", values.email);
+      fd.append("password", values.password);
+      formAction(fd);
+    },
+  });
+
   useEffect(() => {
-    if(state.success) {
+    if (state.success) {
       addToast({
         type: "success",
         title: "Signed in",
         description: "Welcome back! Redirecting you to your dashboard...",
-      })
+      });
       setTimeout(() => router.push("/overview"), 1500);
     }
     if (state.error) {
@@ -41,7 +52,7 @@ export default function LoginForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.div variants={bounceIn}>
-        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`}/>
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </motion.div>
 
       <motion.div
@@ -56,7 +67,7 @@ export default function LoginForm() {
       </motion.div>
 
       <motion.form
-        action={formAction}
+        onSubmit={formik.handleSubmit}
         variants={staggerContainer(0.08, 0)}
         className="space-y-4"
       >
@@ -67,12 +78,29 @@ export default function LoginForm() {
           <input
             name="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="name@company.com"
-            className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
-            required
+            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+              formik.touched.email && formik.errors.email
+                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+                : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+            }`}
           />
+          <AnimatePresence>
+            {formik.touched.email && formik.errors.email && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                className="text-[12px] mt-1 ml-1 text-red-400/90"
+              >
+                {formik.errors.email}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         <motion.div variants={bounceIn} className="space-y-1.5">
@@ -89,8 +117,10 @@ export default function LoginForm() {
           </div>
           <PasswordInput
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
           />
         </motion.div>
 

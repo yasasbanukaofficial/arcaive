@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type PasswordFieldProps = {
   label?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   name?: string;
   placeholder?: string;
   required?: boolean;
@@ -21,6 +23,7 @@ export default function PasswordField({
   label,
   value,
   onChange,
+  onBlur,
   name = "password",
   placeholder = "••••••••",
   required = false,
@@ -78,6 +81,7 @@ export default function PasswordField({
             e.currentTarget.style.borderColor = error
               ? "rgba(239, 68, 68, 0.4)"
               : "var(--d-border)";
+            onBlur?.(e);
           }}
         />
         <button
@@ -113,9 +117,19 @@ export default function PasswordField({
           )}
         </button>
       </div>
-      {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            className="text-[12px] ml-0.5 text-red-400/80"
+          >
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
       {hint && !error && (
         <p
           className="text-[12px] ml-0.5"

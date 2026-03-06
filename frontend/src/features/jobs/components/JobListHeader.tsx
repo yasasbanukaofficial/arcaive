@@ -30,11 +30,8 @@ export default function JobListHeader({
   onToggleFilters,
 }: JobListHeaderProps) {
   return (
-    // Stack on very small screens, row on sm and above.
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-      {/* Left: title + count */}
       <div className="flex items-center gap-3 min-w-0">
-        {/* Title: allow wrapping on xs, truncate on sm+; min-w-0 on parent enables truncation */}
         <h2
           className="text-[15px] sm:text-[17px] md:text-[20px] lg:text-[22px] font-semibold tracking-tight break-words sm:truncate min-w-0"
           style={{ color: "var(--d-text-primary)" }}
@@ -57,7 +54,6 @@ export default function JobListHeader({
         </span>
       </div>
 
-      {/* Right: controls */}
       <div className="flex items-center gap-2 justify-end flex-shrink-0">
         {filtersCollapsed && (
           <motion.button
@@ -74,7 +70,6 @@ export default function JobListHeader({
             aria-label="Toggle filters"
           >
             <SlidersHorizontal className="w-4 h-4" />
-            {/* Hide the text on very small screens to save space */}
             <span className="hidden sm:inline">Filters</span>
           </motion.button>
         )}
@@ -91,7 +86,6 @@ export default function JobListHeader({
               options={SORT_OPTIONS}
               value={sortBy}
               onChange={(v) => onSortChange(v)}
-              // smaller button text on xs, slightly larger on sm+
               buttonClassName="text-[12px] sm:text-[13px] font-semibold"
             />
           </div>

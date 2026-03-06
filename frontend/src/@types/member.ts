@@ -26,6 +26,13 @@ export type MemberIdentityData = Member & {
   linkedAccounts: LinkedAccount[];
 };
 
+export type MemberCreateRequest = {
+  memberFullName: string;
+  memberEmail: string;
+  memberUsername?: string;
+  password: string;
+};
+
 export type AuthMember = {
   email: string;
   password: string;

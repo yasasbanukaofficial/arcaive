@@ -1,26 +1,37 @@
 "use client";
 
-import React, { useState, useEffect, useActionState } from "react";
+import React, { useEffect, useActionState } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
 import { forgotPasswordAction } from "../action";
+import { useFormik } from "formik";
+import { forgotPasswordSchema } from "@/utils/validationSchemas";
 
 export default function ForgotPasswordForm() {
   const { addToast } = useToast();
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [state, formAction, isPending] = useActionState(forgotPasswordAction, {});
+
+  const formik = useFormik({
+    initialValues: { email: "" },
+    validationSchema: forgotPasswordSchema,
+    onSubmit: (values) => {
+      const fd = new FormData();
+      fd.append("email", values.email);
+      formAction(fd);
+    },
+  });
 
   useEffect(() => {
     if (state.success) {
       addToast({
         type: "success",
         title: "Reset link sent",
-        description: `If an account exists for ${email}, a reset link has been sent.`,
+        description: `If an account exists for ${formik.values.email}, a reset link has been sent.`,
       });
       setTimeout(() => router.push("/login"), 1500);
     }
@@ -32,7 +43,7 @@ export default function ForgotPasswordForm() {
   return (
     <motion.div variants={staggerContainer(0.12, 0.12)}>
       <motion.form
-        action={formAction}
+        onSubmit={formik.handleSubmit}
         variants={staggerContainer(0.08, 0)}
         className="space-y-4"
       >
@@ -43,12 +54,29 @@ export default function ForgotPasswordForm() {
           <input
             name="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="name@company.com"
-            className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/40 transition-all"
-            required
+            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+              formik.touched.email && formik.errors.email
+                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+                : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+            }`}
           />
+          <AnimatePresence>
+            {formik.touched.email && formik.errors.email && (
+              <motion.p
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                className="text-[12px] mt-1 ml-1 text-red-400/90"
+              >
+                {formik.errors.email}
+              </motion.p>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         <motion.div variants={bounceIn}>

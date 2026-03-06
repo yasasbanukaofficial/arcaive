@@ -59,7 +59,6 @@ export default function JobSearchBar({
       }}
     >
       <div className="flex flex-col lg:flex-row items-stretch gap-2">
-        {/* Row 1 on mobile/tablet: Search input + Location */}
         <div className="flex flex-col sm:flex-row items-stretch gap-2 flex-1 min-w-0">
           <div className="flex items-center gap-3 flex-1 min-w-0 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
             <Search
@@ -84,13 +83,11 @@ export default function JobSearchBar({
           <LocationDropdown value={location} onChange={onLocationChange} />
         </div>
 
-        {/* Separator between the two groups – only visible on lg when everything is one row */}
         <div
           className="hidden lg:block w-px self-stretch my-2 shrink-0"
           style={{ backgroundColor: "var(--d-border-subtle)" }}
         />
 
-        {/* Row 2 on mobile/tablet: Experience + Salary filters */}
         <div className="flex flex-row items-stretch gap-2">
           <div className="flex items-center gap-2.5 px-3 py-1 rounded-xl min-w-0 flex-1 sm:flex-initial sm:min-w-[140px] lg:min-w-[160px]">
             <Briefcase

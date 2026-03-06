@@ -25,6 +25,8 @@ import Badge from "@/components/ui/Badge";
 import type { MemberIdentityData, LinkedAccount } from "@/@types/member";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { memberAPI } from "../api/memberAPI";
+import { useFormik } from "formik";
+import { profileSchema, passwordChangeSchema } from "@/utils/validationSchemas";
 
 const iconMap: Record<string, LucideIcon> = {
   google: Chrome,
@@ -43,20 +45,11 @@ export default function MemberIdentitySection({
   isLoading,
   error,
 }: MemberIdentitySectionProps) {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
   const [profileSaved, setProfileSaved] = useState(false);
-
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordSaved, setPasswordSaved] = useState(false);
-  const [passwordError, setPasswordError] = useState("");
-
   const [mfaEnabled, setMfaEnabled] = useState(false);
   const [mfaMethod, setMfaMethod] = useState<"app" | "sms">("app");
   const [mfaSaved, setMfaSaved] = useState(false);
-
   const [linkedAccounts, setLinkedAccounts] = useState<LinkedAccount[]>([]);
   const queryClient = useQueryClient();
 
@@ -76,15 +69,13 @@ export default function MemberIdentitySection({
       await memberAPI.changePassword(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
+      passwordFormik.resetForm();
       setPasswordSaved(true);
       setTimeout(() => setPasswordSaved(false), 3000);
     },
     onError: (err: any) => {
       const msg = err?.response?.data?.message;
-      setPasswordError(msg || "Failed to update password. Please try again.");
+      passwordFormik.setStatus(msg || "Failed to update password. Please try again.");
     },
   });
 
@@ -106,10 +97,43 @@ export default function MemberIdentitySection({
     },
   });
 
+  const profileFormik = useFormik({
+    initialValues: { fullName: "", email: "" },
+    validationSchema: profileSchema,
+    enableReinitialize: false,
+    onSubmit: (values) => {
+      profileMutation.mutate({
+        memberFullName: values.fullName,
+        memberEmail: values.email,
+      });
+    },
+  });
+
+  const passwordFormik = useFormik({
+    initialValues: { currentPassword: "", newPassword: "", confirmPassword: "" },
+    validationSchema: passwordChangeSchema(data?.hasPassword === true),
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: (values) => {
+      passwordFormik.setStatus(undefined);
+      const hasPassword = data?.hasPassword === true;
+      if (hasPassword && values.newPassword === values.currentPassword) {
+        passwordFormik.setStatus("New password cannot be the same as your current password");
+        return;
+      }
+      passwordMutation.mutate({
+        currentPassword: hasPassword ? values.currentPassword : "",
+        newPassword: values.newPassword,
+      });
+    },
+  });
+
   useEffect(() => {
     if (data) {
-      setFullName(data.memberFullName || "");
-      setEmail(data.memberEmail || "");
+      profileFormik.setValues({
+        fullName: data.memberFullName || "",
+        email: data.memberEmail || "",
+      });
       setMfaEnabled(data.mfa?.enabled ?? false);
       setMfaMethod(
         ((data.mfa?.method as string) === "authenticator" ? "app" : (data.mfa?.method as "app" | "sms")) ?? "app"
@@ -134,40 +158,6 @@ export default function MemberIdentitySection({
       </div>
     );
   }
-
-  const handleProfileSave = async () => {
-    profileMutation.mutate({
-      memberFullName: fullName,
-      memberEmail: email,
-    });
-  };
-
-  const handlePasswordChange = async () => {
-    setPasswordError("");
-    const hasPassword = data.hasPassword === true;
-
-    if (hasPassword && !currentPassword) {
-      setPasswordError("Current password is required");
-      return;
-    }
-    if (newPassword.length < 8) {
-      setPasswordError("New password must be at least 8 characters");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPasswordError("Passwords do not match");
-      return;
-    }
-    if (hasPassword && newPassword === currentPassword) {
-      setPasswordError("New password cannot be the same as your current password");
-      return;
-    }
-
-    passwordMutation.mutate({
-      currentPassword: hasPassword ? currentPassword : "",
-      newPassword,
-    });
-  };
 
   const handleMfaSave = async () => {
     mfaMutation.mutate({
@@ -223,9 +213,9 @@ export default function MemberIdentitySection({
             <Button
               variant="primary"
               size="sm"
-              onClick={handleProfileSave}
+              onClick={() => profileFormik.handleSubmit()}
               loading={profileMutation.isPending}
-              disabled={profileMutation.isPending}
+              disabled={profileMutation.isPending || !profileFormik.isValid}
             >
               Save Changes
             </Button>
@@ -236,20 +226,24 @@ export default function MemberIdentitySection({
           <TextField
             label="Full Name"
             name="full_name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            value={profileFormik.values.fullName}
+            onChange={(e) => profileFormik.setFieldValue("fullName", e.target.value)}
+            onBlur={() => profileFormik.setFieldTouched("fullName", true)}
             placeholder="Your full name"
             required
+            error={profileFormik.touched.fullName && profileFormik.errors.fullName ? profileFormik.errors.fullName : undefined}
           />
           <TextField
             label="Email Address"
             name="email_addr"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={profileFormik.values.email}
+            onChange={(e) => profileFormik.setFieldValue("email", e.target.value)}
+            onBlur={() => profileFormik.setFieldTouched("email", true)}
             placeholder="name@company.com"
             required
             hint="This is your primary login email"
+            error={profileFormik.touched.email && profileFormik.errors.email ? profileFormik.errors.email : undefined}
           />
         </div>
       </Card>
@@ -276,13 +270,12 @@ export default function MemberIdentitySection({
             <Button
               variant="primary"
               size="sm"
-              onClick={handlePasswordChange}
+              onClick={() => passwordFormik.handleSubmit()}
               loading={passwordMutation.isPending}
               disabled={
                 passwordMutation.isPending ||
-                (data.hasPassword && !currentPassword) ||
-                !newPassword ||
-                !confirmPassword
+                !passwordFormik.isValid ||
+                !passwordFormik.dirty
               }
             >
               Update Password
@@ -291,32 +284,37 @@ export default function MemberIdentitySection({
         }
       >
         <div className="space-y-4">
-          {passwordError && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-xl px-4 py-2.5 text-[13px] font-medium"
-              style={{
-                backgroundColor: "rgba(239, 68, 68, 0.06)",
-                border: "1px solid rgba(239, 68, 68, 0.15)",
-                color: "rgba(239, 68, 68, 0.8)",
-              }}
-            >
-              {passwordError}
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {passwordFormik.status && (
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                className="rounded-xl px-4 py-2.5 text-[13px] font-medium"
+                style={{
+                  backgroundColor: "rgba(239, 68, 68, 0.06)",
+                  border: "1px solid rgba(239, 68, 68, 0.15)",
+                  color: "rgba(239, 68, 68, 0.8)",
+                }}
+              >
+                {passwordFormik.status}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {data.hasPassword && (
             <PasswordField
               label="Current Password"
               name="current_password"
-              value={currentPassword}
+              value={passwordFormik.values.currentPassword}
               onChange={(e) => {
-                setCurrentPassword(e.target.value);
-                setPasswordError("");
+                passwordFormik.setFieldValue("currentPassword", e.target.value);
+                passwordFormik.setStatus(undefined);
               }}
+              onBlur={() => passwordFormik.setFieldTouched("currentPassword", true)}
               placeholder="Enter current password"
               autoComplete="current-password"
+              error={passwordFormik.touched.currentPassword && passwordFormik.errors.currentPassword ? passwordFormik.errors.currentPassword : undefined}
             />
           )}
 
@@ -324,33 +322,32 @@ export default function MemberIdentitySection({
             <PasswordField
               label="New Password"
               name="new_password"
-              value={newPassword}
+              value={passwordFormik.values.newPassword}
               onChange={(e) => {
-                setNewPassword(e.target.value);
-                setPasswordError("");
+                passwordFormik.setFieldValue("newPassword", e.target.value);
+                passwordFormik.setStatus(undefined);
               }}
+              onBlur={() => passwordFormik.setFieldTouched("newPassword", true)}
               placeholder="Enter new password"
               hint="Minimum 8 characters"
               autoComplete="new-password"
+              error={passwordFormik.touched.newPassword && passwordFormik.errors.newPassword ? passwordFormik.errors.newPassword : undefined}
             />
             <PasswordField
               label="Confirm New Password"
               name="confirm_password"
-              value={confirmPassword}
+              value={passwordFormik.values.confirmPassword}
               onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                setPasswordError("");
+                passwordFormik.setFieldValue("confirmPassword", e.target.value);
+                passwordFormik.setStatus(undefined);
               }}
+              onBlur={() => passwordFormik.setFieldTouched("confirmPassword", true)}
               placeholder="Repeat new password"
               autoComplete="new-password"
-              error={
-                confirmPassword && newPassword !== confirmPassword
-                  ? "Passwords don't match"
-                  : undefined
-              }
+              error={passwordFormik.touched.confirmPassword && passwordFormik.errors.confirmPassword ? passwordFormik.errors.confirmPassword : undefined}
             />
           </div>
-          {newPassword.length > 0 && (
+          {passwordFormik.values.newPassword.length > 0 && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -367,16 +364,16 @@ export default function MemberIdentitySection({
                   className="text-[12px] font-semibold"
                   style={{
                     color:
-                      newPassword.length >= 12
+                      passwordFormik.values.newPassword.length >= 12
                         ? "rgba(34, 197, 94, 0.8)"
-                        : newPassword.length >= 8
+                        : passwordFormik.values.newPassword.length >= 8
                           ? "rgba(234, 179, 8, 0.8)"
                           : "rgba(239, 68, 68, 0.8)",
                   }}
                 >
-                  {newPassword.length >= 12
+                  {passwordFormik.values.newPassword.length >= 12
                     ? "Strong"
-                    : newPassword.length >= 8
+                    : passwordFormik.values.newPassword.length >= 8
                       ? "Medium"
                       : "Weak"}
                 </span>
@@ -389,9 +386,9 @@ export default function MemberIdentitySection({
                   initial={{ width: 0 }}
                   animate={{
                     width:
-                      newPassword.length >= 12
+                      passwordFormik.values.newPassword.length >= 12
                         ? "100%"
-                        : newPassword.length >= 8
+                        : passwordFormik.values.newPassword.length >= 8
                           ? "60%"
                           : "30%",
                   }}
@@ -399,9 +396,9 @@ export default function MemberIdentitySection({
                   className="h-full rounded-full"
                   style={{
                     background:
-                      newPassword.length >= 12
+                      passwordFormik.values.newPassword.length >= 12
                         ? "linear-gradient(90deg, rgba(34, 197, 94, 0.5), rgba(34, 197, 94, 0.8))"
-                        : newPassword.length >= 8
+                        : passwordFormik.values.newPassword.length >= 8
                           ? "linear-gradient(90deg, rgba(234, 179, 8, 0.4), rgba(234, 179, 8, 0.7))"
                           : "linear-gradient(90deg, rgba(239, 68, 68, 0.4), rgba(239, 68, 68, 0.7))",
                   }}

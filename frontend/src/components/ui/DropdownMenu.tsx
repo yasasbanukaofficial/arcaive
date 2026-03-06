@@ -36,7 +36,6 @@ export default function DropdownMenu<T extends string | number>({
 
   const current = options.find((o) => o.value === value) ?? options[0];
 
-  // Close on outside click
   React.useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
       if (!rootRef.current) return;
@@ -46,7 +45,6 @@ export default function DropdownMenu<T extends string | number>({
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
-  // Position the panel using fixed coordinates clamped to viewport
   React.useEffect(() => {
     if (!open) {
       focusedIndexRef.current = -1;
@@ -63,16 +61,14 @@ export default function DropdownMenu<T extends string | number>({
       const panelHeight = panel.offsetHeight;
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const pad = 12; // minimum distance from viewport edge
+      const pad = 12;
 
-      // Vertical: prefer below the button, flip above if not enough room
       let top = btnRect.bottom + 6;
       if (top + panelHeight > vh - pad && btnRect.top - panelHeight - 6 > pad) {
         top = btnRect.top - panelHeight - 6;
       }
       top = Math.max(pad, Math.min(top, vh - panelHeight - pad));
 
-      // Horizontal: start aligned with button left, clamp to viewport
       let left = btnRect.left;
       if (left + panelWidth > vw - pad) {
         left = vw - panelWidth - pad;
@@ -82,10 +78,8 @@ export default function DropdownMenu<T extends string | number>({
       setPanelPos({ top, left });
     };
 
-    // Position after first paint so panel dimensions are available
     const frame = requestAnimationFrame(reposition);
 
-    // Reposition on scroll / resize so it stays anchored
     window.addEventListener("scroll", reposition, true);
     window.addEventListener("resize", reposition);
 
