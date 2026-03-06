@@ -8,6 +8,7 @@ import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
+// Single stagger on form only — no nested stagger wrappers
 import { loginAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
@@ -50,7 +51,7 @@ export default function LoginForm() {
   }, [state]);
 
   return (
-    <motion.div variants={staggerContainer(0.12, 0.12)}>
+    <>
       <motion.div variants={bounceIn}>
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </motion.div>
@@ -151,6 +152,6 @@ export default function LoginForm() {
           </Link>
         </p>
       </motion.div>
-    </motion.div>
+    </>
   );
 }

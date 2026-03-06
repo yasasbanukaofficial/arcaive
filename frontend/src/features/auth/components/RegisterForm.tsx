@@ -66,7 +66,7 @@ export default function RegisterForm() {
   }, [state]);
 
   return (
-    <motion.div variants={staggerContainer(0.12, 0.12)}>
+    <>
       <motion.div variants={bounceIn}>
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </motion.div>
@@ -83,7 +83,7 @@ export default function RegisterForm() {
       </motion.div>
 
       <motion.form
-        variants={staggerContainer(0.08, 0)}
+        variants={staggerContainer(0.025, 0)}
         className="space-y-4"
         onSubmit={formik.handleSubmit}
       >
@@ -216,6 +216,6 @@ export default function RegisterForm() {
           </Link>
         </p>
       </motion.div>
-    </motion.div>
+    </>
   );
 }
