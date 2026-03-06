@@ -12,6 +12,8 @@ import {
   Sparkles,
   Check,
   BookOpen,
+  X,
+  CheckCheck,
 } from "lucide-react";
 import Card from "@/components/ui/Card";
 import TextField from "@/components/ui/TextField";
@@ -26,6 +28,7 @@ import Badge from "@/components/ui/Badge";
 import type { CareerIntelligenceData, Achievement } from "@/features/settings/types";
 import { memberAPI } from "@/features/settings/api/memberAPI";
 import { useToast } from "@/components/ui/Toast";
+import { COMMON_ROLE_SUGGESTIONS } from "@/features/settings/constants/roleSuggestions";
 
 type AchievementItemProps = {
   achievement: Achievement;
@@ -80,7 +83,6 @@ function AchievementItem({
         border: "1px solid var(--d-border)",
       }}
     >
-      {/* Header: qualification term + source badge + actions */}
       <div
         className="flex items-center justify-between gap-3 px-4 py-3"
         style={{ borderBottom: "1px solid var(--d-border-subtle)" }}
@@ -173,7 +175,6 @@ function AchievementItem({
         </div>
       </div>
 
-      {/* Body */}
       <div className="px-4 py-3 space-y-3">
         {isEditing ? (
           <div className="space-y-3" onKeyDown={handleKeyDown}>
@@ -207,7 +208,6 @@ function AchievementItem({
           </div>
         ) : (
           <>
-            {/* Qualification description — dark theme */}
             <div
               className="rounded-xl px-3.5 py-2.5"
               style={{
@@ -248,6 +248,7 @@ export default function CareerIntelligenceSection({
   const [newAchievement, setNewAchievement] = useState("");
 
   const [targetRoles, setTargetRoles] = useState<string[]>(data.targetRoles);
+  const [aiSuggestedRoles, setAiSuggestedRoles] = useState<string[]>([]);
 
   const [achievementsSaving, setAchievementsSaving] = useState(false);
   const [achievementsSaved, setAchievementsSaved] = useState(false);
@@ -298,6 +299,17 @@ export default function CareerIntelligenceSection({
 
       if (!result?.achievements?.length) {
         throw new Error("No achievements found");
+      }
+
+      if (result.targetRoles?.length) {
+        setTargetRoles((prev) => {
+          const prevSet = new Set(prev.map((r: string) => r.toLowerCase()));
+          const fresh = (result.targetRoles as string[]).filter(
+            (r) => !prevSet.has(r.toLowerCase()),
+          );
+          setAiSuggestedRoles(fresh);
+          return prev;
+        });
       }
 
       const extracted: Achievement[] = result.achievements.map((a: any, i: any) => {
@@ -361,7 +373,31 @@ export default function CareerIntelligenceSection({
     setNewAchievement("");
   };
 
-  const roleSuggestions = data.roleSuggestions;
+  const acceptAiRole = (role: string) => {
+    setTargetRoles((prev) =>
+      prev.includes(role) ? prev : [...prev, role],
+    );
+    setAiSuggestedRoles((prev) => prev.filter((r) => r !== role));
+  };
+
+  const dismissAiRole = (role: string) => {
+    setAiSuggestedRoles((prev) => prev.filter((r) => r !== role));
+  };
+
+  const acceptAllAiRoles = () => {
+    setTargetRoles((prev) => {
+      const existing = new Set(prev.map((r) => r.toLowerCase()));
+      return [...prev, ...aiSuggestedRoles.filter((r) => !existing.has(r.toLowerCase()))];
+    });
+    setAiSuggestedRoles([]);
+  };
+
+  const roleSuggestions = Array.from(
+    new Set([
+      ...COMMON_ROLE_SUGGESTIONS,
+      ...(data.roleSuggestions ?? []),
+    ]),
+  );
 
   return (
     <motion.div
@@ -401,7 +437,7 @@ export default function CareerIntelligenceSection({
             uploadStatus === "uploading"
               ? "AI is analyzing your resume..."
               : uploadStatus === "success"
-                ? `Resume analyzed — ${achievements.filter((a) => a.source === "ai").length} competenc${achievements.filter((a) => a.source === "ai").length === 1 ? "y" : "ies"} extracted!`
+                ? `Resume analyzed — ${achievements.filter((a) => a.source === "ai").length} competenc${achievements.filter((a) => a.source === "ai").length === 1 ? "y" : "ies"} & ${targetRoles.length} target role${targetRoles.length === 1 ? "" : "s"} extracted!`
                 : uploadStatus === "error"
                   ? "Failed to extract competencies. Please try again."
                   : undefined
@@ -524,6 +560,106 @@ export default function CareerIntelligenceSection({
           </div>
         }
       >
+        {aiSuggestedRoles.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            className="mb-4 rounded-2xl p-3.5"
+            style={{
+              background: "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(139,92,246,0.04) 100%)",
+              border: "1px solid rgba(139,92,246,0.18)",
+            }}
+          >
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" style={{ color: "rgba(139,92,246,0.8)" }} />
+                <span className="text-[12px] font-semibold" style={{ color: "rgba(139,92,246,0.9)" }}>
+                  AI Suggested Roles
+                </span>
+                <span
+                  className="px-1.5 py-0.5 rounded-full text-[10px] font-bold"
+                  style={{
+                    backgroundColor: "rgba(139,92,246,0.15)",
+                    color: "rgba(139,92,246,0.9)",
+                  }}
+                >
+                  {aiSuggestedRoles.length}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={acceptAllAiRoles}
+                className="flex cursor-pointer items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors duration-150"
+                style={{
+                  backgroundColor: "rgba(139,92,246,0.15)",
+                  color: "rgba(139,92,246,0.9)",
+                  border: "1px solid rgba(139,92,246,0.2)",
+                }}
+              >
+                <CheckCheck className="w-3 h-3" />
+                Add All
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <AnimatePresence mode="popLayout">
+                {aiSuggestedRoles.map((role) => (
+                  <motion.div
+                    key={role}
+                    layout
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    className="flex items-center gap-1.5 pl-2.5 pr-1 py-1 rounded-xl text-[12px] font-medium"
+                    style={{
+                      backgroundColor: "rgba(139,92,246,0.1)",
+                      border: "1px solid rgba(139,92,246,0.2)",
+                      color: "rgba(139,92,246,0.9)",
+                    }}
+                  >
+                    <span>{role}</span>
+                    <div className="flex items-center gap-0.5 ml-0.5">
+                      <button
+                        type="button"
+                        onClick={() => acceptAiRole(role)}
+                        className="w-5 h-5 rounded-md flex items-center justify-center transition-colors duration-150"
+                        style={{ color: "rgba(139,92,246,0.7)" }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "rgba(139,92,246,0.2)";
+                          e.currentTarget.style.color = "rgba(139,92,246,1)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = "rgba(139,92,246,0.7)";
+                        }}
+                        title="Add to Target Roles"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => dismissAiRole(role)}
+                        className="w-5 h-5 rounded-md flex items-center justify-center transition-colors duration-150"
+                        style={{ color: "rgba(139,92,246,0.5)" }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = "rgba(239,68,68,0.1)";
+                          e.currentTarget.style.color = "rgba(239,68,68,0.7)";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = "rgba(139,92,246,0.5)";
+                        }}
+                        title="Dismiss"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
         <TagInput
           label="Job Titles"
           tags={targetRoles}
