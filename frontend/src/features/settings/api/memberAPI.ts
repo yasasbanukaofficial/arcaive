@@ -1,6 +1,5 @@
 import { apiInstance } from "@/api/api";
 import { getToken } from "@/utils/auth";
-import { AtomicSkillResponseDTO } from "@/@types/member";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -9,24 +9,22 @@ import {
   Clock,
   Briefcase,
   Calendar,
-  Sparkles,
   ExternalLink,
   Bookmark,
   BookmarkCheck,
   Share2,
   Building2,
   DollarSign,
-  TrendingUp,
-  CheckCircle2,
   Globe,
   Copy,
   Check,
+  Wifi,
+  Loader2,
 } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
-import { getJobById } from "@/features/jobs/constants/mockData";
+import type { JobListing } from "@/@types/jobs";
 import {
   getAccentForCompany,
-  getMatchColor,
   getSourceIcon,
 } from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
@@ -69,18 +67,55 @@ function InfoRow({
   );
 }
 
+function formatSalary(job: JobListing): string {
+  if (job.salary) return job.salary;
+  if (job.minSalary != null && job.maxSalary != null) {
+    const period = job.salaryPeriod ? `/${job.salaryPeriod}` : "";
+    return `$${job.minSalary.toLocaleString()} - $${job.maxSalary.toLocaleString()}${period}`;
+  }
+  if (job.minSalary != null) return `From $${job.minSalary.toLocaleString()}`;
+  if (job.maxSalary != null) return `Up to $${job.maxSalary.toLocaleString()}`;
+  return "Not specified";
+}
+
 export default function JobDetailsPage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
 
-  const [bookmarked, setBookmarked] = useState<boolean | null>(null);
+  const [bookmarked, setBookmarked] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
+  const [job, setJob] = useState<JobListing | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const job = getJobById(id);
+  useEffect(() => {
+    async function fetchJob() {
+      try {
+        const response = await fetch("/api/jobs");
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          const found = result.data.find((j: JobListing) => j.id === id);
+          setJob(found || null);
+        }
+      } catch (err) {
+        console.error("Failed to fetch job:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchJob();
+  }, [id]);
 
-  const isBookmarked =
-    bookmarked !== null ? bookmarked : (job?.bookmarked ?? false);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-32">
+        <Loader2
+          className="w-8 h-8 animate-spin"
+          style={{ color: "var(--d-text-muted)" }}
+        />
+      </div>
+    );
+  }
 
   if (!job) {
     return (
@@ -116,13 +151,18 @@ export default function JobDetailsPage() {
   }
 
   const accent = getAccentForCompany(job.company);
-  const matchColor = getMatchColor(job.matchScore);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 2000);
   };
+
+  const tags = [
+    job.employmentType,
+    ...(job.isRemote ? ["Remote"] : []),
+    ...(job.employmentTypes?.filter((t) => t !== "FULLTIME" && t !== job.employmentType) || []),
+  ].filter(Boolean);
 
   return (
     <motion.div
@@ -175,7 +215,7 @@ export default function JobDetailsPage() {
                   color: accent.dot,
                 }}
               >
-                {getSourceIcon(job.source)} {job.source}
+                {getSourceIcon(job.publisher)} {job.publisher}
               </span>
               <span
                 className="text-[12px] font-medium px-3 py-1.5 rounded-lg"
@@ -186,8 +226,21 @@ export default function JobDetailsPage() {
                 }}
               >
                 <Calendar className="w-3 h-3 inline-block mr-1.5 -mt-px" />
-                {job.postedDate}
+                {job.postedAt}
               </span>
+              {job.isRemote && (
+                <span
+                  className="text-[12px] font-medium px-3 py-1.5 rounded-lg flex items-center gap-1.5"
+                  style={{
+                    backgroundColor: "var(--d-surface-hover)",
+                    border: "1px solid var(--d-border-subtle)",
+                    color: "var(--accent-emerald-dot)",
+                  }}
+                >
+                  <Wifi className="w-3 h-3" />
+                  Remote
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <motion.button
@@ -211,20 +264,20 @@ export default function JobDetailsPage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setBookmarked(!isBookmarked)}
+                onClick={() => setBookmarked(!bookmarked)}
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
                 style={{
-                  backgroundColor: isBookmarked
+                  backgroundColor: bookmarked
                     ? "rgba(245,158,11,0.1)"
                     : "var(--d-surface-hover)",
-                  border: isBookmarked
+                  border: bookmarked
                     ? "1px solid rgba(245,158,11,0.2)"
                     : "1px solid var(--d-border-subtle)",
-                  color: isBookmarked ? "rgb(251,191,36)" : "var(--d-icon)",
+                  color: bookmarked ? "rgb(251,191,36)" : "var(--d-icon)",
                 }}
-                title={isBookmarked ? "Remove bookmark" : "Bookmark"}
+                title={bookmarked ? "Remove bookmark" : "Bookmark"}
               >
-                {isBookmarked ? (
+                {bookmarked ? (
                   <BookmarkCheck className="w-4 h-4" />
                 ) : (
                   <Bookmark className="w-4 h-4" />
@@ -235,13 +288,24 @@ export default function JobDetailsPage() {
 
           <div className="flex items-start gap-5 mb-6">
             <div
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-[20px] sm:text-[28px] shrink-0"
+              className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden"
               style={{
                 backgroundColor: "var(--d-surface-hover)",
                 border: "1px solid var(--d-border)",
               }}
             >
-              {job.companyLogo}
+              {job.companyLogo ? (
+                <img
+                  src={job.companyLogo}
+                  alt={job.company}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <Building2
+                  className="w-6 h-6 sm:w-8 sm:h-8"
+                  style={{ color: "var(--d-icon)" }}
+                />
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p
@@ -267,26 +331,30 @@ export default function JobDetailsPage() {
                   />
                   {job.location}
                 </span>
-                <span
-                  className="w-1 h-1 rounded-full"
-                  style={{ backgroundColor: "var(--d-border)" }}
-                />
-                <span
-                  className="flex items-center gap-1.5 text-[13px] font-semibold"
-                  style={{ color: "var(--d-text-primary)" }}
-                >
-                  <DollarSign
-                    className="w-3.5 h-3.5"
-                    style={{ color: "var(--d-icon)" }}
-                  />
-                  {job.salary}
-                </span>
+                {(job.salary || job.minSalary || job.maxSalary) && (
+                  <>
+                    <span
+                      className="w-1 h-1 rounded-full"
+                      style={{ backgroundColor: "var(--d-border)" }}
+                    />
+                    <span
+                      className="flex items-center gap-1.5 text-[13px] font-semibold"
+                      style={{ color: "var(--d-text-primary)" }}
+                    >
+                      <DollarSign
+                        className="w-3.5 h-3.5"
+                        style={{ color: "var(--d-icon)" }}
+                      />
+                      {formatSalary(job)}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {job.tags.map((tag) => (
+            {tags.map((tag) => (
               <span
                 key={tag}
                 className="text-[12px] font-medium px-3 py-1.5 rounded-lg"
@@ -305,86 +373,6 @@ export default function JobDetailsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <motion.div
-            variants={fadeUp}
-            className="rounded-2xl p-6 overflow-hidden"
-            style={{
-              backgroundColor: matchColor.bg,
-              border: `1px solid ${matchColor.border}`,
-            }}
-          >
-            <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-              <div className="flex items-center gap-2.5">
-                <Sparkles
-                  className="w-5 h-5"
-                  style={{ color: matchColor.text }}
-                />
-                <span
-                  className="text-[16px] font-semibold"
-                  style={{ color: "var(--d-text-primary)" }}
-                >
-                  AI Match Score
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className="text-[28px] font-bold tracking-tight"
-                  style={{ color: matchColor.text }}
-                >
-                  {job.matchScore}%
-                </span>
-                <span
-                  className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-lg"
-                  style={{
-                    backgroundColor: matchColor.bg,
-                    border: `1px solid ${matchColor.border}`,
-                    color: matchColor.text,
-                  }}
-                >
-                  {matchColor.label}
-                </span>
-              </div>
-            </div>
-
-            <div
-              className="h-2.5 rounded-full overflow-hidden mb-4"
-              style={{ backgroundColor: "var(--d-surface-hover)" }}
-            >
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${job.matchScore}%` }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="h-full rounded-full"
-                style={{ backgroundColor: matchColor.text }}
-              />
-            </div>
-
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                className="w-4 h-4 mt-0.5 shrink-0"
-                style={{ color: matchColor.text }}
-              />
-              <div>
-                <p
-                  className="text-[11px] font-semibold uppercase tracking-wider mb-1"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
-                  Why you match
-                </p>
-                <p
-                  className="text-[14px] leading-relaxed"
-                  style={{ color: "var(--d-text-secondary)" }}
-                >
-                  {job.whyYouMatch}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -407,6 +395,72 @@ export default function JobDetailsPage() {
             </p>
           </motion.div>
 
+          {job.applyOptions && job.applyOptions.length > 0 && (
+            <motion.div
+              variants={fadeUp}
+              className="rounded-2xl p-6"
+              style={{
+                backgroundColor: "var(--d-surface)",
+                border: "1px solid var(--d-border)",
+              }}
+            >
+              <h2
+                className="text-[17px] font-semibold tracking-tight mb-4"
+                style={{ color: "var(--d-text-primary)" }}
+              >
+                Apply Options
+              </h2>
+              <div className="space-y-3">
+                {job.applyOptions
+                  .filter((opt, i, arr) =>
+                    arr.findIndex((o) => o.applyLink === opt.applyLink) === i
+                  )
+                  .slice(0, 5)
+                  .map((opt, i) => (
+                    <a
+                      key={i}
+                      href={opt.applyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-3.5 rounded-xl transition-colors duration-150 hover:opacity-90 group"
+                      style={{
+                        backgroundColor: "var(--d-surface-hover)",
+                        border: "1px solid var(--d-border-subtle)",
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-[16px]">
+                          {getSourceIcon(opt.publisher)}
+                        </span>
+                        <span
+                          className="text-[13px] font-medium"
+                          style={{ color: "var(--d-text-secondary)" }}
+                        >
+                          {opt.publisher}
+                        </span>
+                        {opt.isDirect && (
+                          <span
+                            className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded"
+                            style={{
+                              backgroundColor: "var(--accent-emerald-bg)",
+                              color: "var(--accent-emerald-dot)",
+                              border: "1px solid var(--accent-emerald-border)",
+                            }}
+                          >
+                            Direct
+                          </span>
+                        )}
+                      </div>
+                      <ExternalLink
+                        className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                        style={{ color: "var(--d-icon)" }}
+                      />
+                    </a>
+                  ))}
+              </div>
+            </motion.div>
+          )}
+
           <motion.div
             variants={fadeUp}
             className="rounded-2xl p-6"
@@ -427,25 +481,31 @@ export default function JobDetailsPage() {
                   className="text-[13px]"
                   style={{ color: "var(--d-text-muted)" }}
                 >
-                  Apply directly through {job.source} or let your AI agent
-                  handle it
+                  Apply directly through {job.publisher}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Button
-                  variant="white"
-                  size="lg"
-                  icon={<ExternalLink className="w-3.5 h-3.5" />}
-                  iconPosition="right"
-                  className="font-semibold"
+                <a
+                  href={job.applyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Apply Now
-                </Button>
+                  <Button
+                    variant="white"
+                    size="lg"
+                    icon={<ExternalLink className="w-3.5 h-3.5" />}
+                    iconPosition="right"
+                    className="font-semibold"
+                  >
+                    Apply Now
+                  </Button>
+                </a>
                 <Button
                   variant="secondary"
                   size="lg"
                   icon={<Share2 className="w-3.5 h-3.5" />}
                   iconPosition="left"
+                  onClick={handleCopyLink}
                 >
                   Share
                 </Button>
@@ -480,27 +540,27 @@ export default function JobDetailsPage() {
               className="space-y-0 divide-y"
               style={{ borderColor: "var(--d-border-subtle)" }}
             >
-              <InfoRow icon={DollarSign} label="Salary" value={job.salary} />
+              <InfoRow icon={DollarSign} label="Salary" value={formatSalary(job)} />
               <InfoRow icon={MapPin} label="Location" value={job.location} />
-              <InfoRow
-                icon={Clock}
-                label="Work Schedule"
-                value={job.workSchedule}
-              />
               <InfoRow
                 icon={Briefcase}
                 label="Employment Type"
                 value={job.employmentType}
               />
               <InfoRow
-                icon={TrendingUp}
-                label="Experience Level"
-                value={job.experienceLevel}
+                icon={Wifi}
+                label="Work Mode"
+                value={job.isRemote ? "Remote" : "On-site"}
+              />
+              <InfoRow
+                icon={Globe}
+                label="Country"
+                value={job.country}
               />
               <InfoRow
                 icon={Calendar}
-                label="Posted Date"
-                value={job.postedDate}
+                label="Posted"
+                value={job.postedAt}
               />
             </div>
           </motion.div>
@@ -521,13 +581,24 @@ export default function JobDetailsPage() {
             </h2>
             <div className="flex items-center gap-4 mb-4">
               <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center text-[24px]"
+                className="w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden"
                 style={{
                   backgroundColor: "var(--d-surface-hover)",
                   border: "1px solid var(--d-border)",
                 }}
               >
-                {job.companyLogo}
+                {job.companyLogo ? (
+                  <img
+                    src={job.companyLogo}
+                    alt={job.company}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Building2
+                    className="w-6 h-6"
+                    style={{ color: "var(--d-icon)" }}
+                  />
+                )}
               </div>
               <div>
                 <p
@@ -545,19 +616,42 @@ export default function JobDetailsPage() {
                 </p>
               </div>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-colors"
-              style={{
-                backgroundColor: "var(--d-surface-hover)",
-                border: "1px solid var(--d-border)",
-                color: "var(--d-text-secondary)",
-              }}
-            >
-              <Building2 className="w-3.5 h-3.5" />
-              View Company Profile
-            </motion.button>
+            {job.companyWebsite && (
+              <a
+                href={job.companyWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-colors"
+                  style={{
+                    backgroundColor: "var(--d-surface-hover)",
+                    border: "1px solid var(--d-border)",
+                    color: "var(--d-text-secondary)",
+                  }}
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  Visit Website
+                </motion.button>
+              </a>
+            )}
+            {!job.companyWebsite && (
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-colors"
+                style={{
+                  backgroundColor: "var(--d-surface-hover)",
+                  border: "1px solid var(--d-border)",
+                  color: "var(--d-text-secondary)",
+                }}
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                View Company Profile
+              </motion.button>
+            )}
           </motion.div>
 
           <motion.div
@@ -581,13 +675,13 @@ export default function JobDetailsPage() {
                 border: `1px solid ${accent.border}`,
               }}
             >
-              <span className="text-[20px]">{getSourceIcon(job.source)}</span>
+              <span className="text-[20px]">{getSourceIcon(job.publisher)}</span>
               <div>
                 <p
                   className="text-[14px] font-semibold"
                   style={{ color: accent.dot }}
                 >
-                  {job.source}
+                  {job.publisher}
                 </p>
                 <p
                   className="text-[11px]"

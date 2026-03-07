@@ -4,10 +4,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import type {
-  WorkSchedule,
-  EmploymentType,
-  JobSource,
   SortOption,
+  JobListing,
 } from "@/@types/jobs";
 import JobSearchBar from "@/features/jobs/components/JobSearchBar";
 import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
@@ -15,17 +13,14 @@ import JobListHeader from "@/features/jobs/components/JobListHeader";
 import JobCard from "@/features/jobs/components/JobCard";
 import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
 import { matchesLocation } from "@/utils/location";
-import { DUMMY_JOBS } from "@/features/jobs/constants/mockData";
 import { useToast } from "@/components/ui/Toast";
 
 export default function JobsPage() {
   const { addToast } = useToast();
-  const [jobList, setJobList] = useState([]);
+  const [jobList, setJobList] = useState<JobListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
-  const [experienceLevel, setExperienceLevel] = useState("");
-  const [salaryRangeFilter, setSalaryRangeFilter] = useState("");
 
   useEffect(() => {
     async function fetchJobData() {
@@ -38,17 +33,15 @@ export default function JobsPage() {
           addToast({
             type: "error",
             title: "Couldn't load jobs",
-            description: "We had trouble fetching job listings. Showing cached results instead.",
+            description: "We had trouble fetching job listings. Please try again later.",
           });
-          setJobList(DUMMY_JOBS as any);
         }
       } catch (err) {
         addToast({
           type: "error",
           title: "No connection",
-          description: "Unable to reach the job service. Showing cached results instead.",
+          description: "Unable to reach the job service. Please try again later.",
         });
-        setJobList(DUMMY_JOBS as any);
       } finally {
         setLoading(false);
       }
@@ -56,21 +49,15 @@ export default function JobsPage() {
     fetchJobData();
   }, []);
 
-  const [selectedSchedules, setSelectedSchedules] = useState<WorkSchedule[]>([
-    "Full time",
-    "Part time",
-    "Project work",
+  const [selectedEmploymentTypes, setSelectedEmploymentTypes] = useState<string[]>([
+    "FULLTIME",
+    "PARTTIME",
+    "CONTRACTOR",
+    "INTERN",
   ]);
-  const [selectedTypes, setSelectedTypes] = useState<EmploymentType[]>([
-    "Full Day",
-    "Flexible Schedule",
-    "Distant",
-  ]);
-  const [selectedSources, setSelectedSources] = useState<JobSource[]>([
-    "LinkedIn",
-    "Serper",
-    "Indeed",
-    "Glassdoor",
+  const [selectedRemote, setSelectedRemote] = useState<string[]>([
+    "remote",
+    "onsite",
   ]);
 
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
@@ -78,7 +65,7 @@ export default function JobsPage() {
   const [sortBy, setSortBy] = useState<SortOption>("last_updated");
 
   const filteredJobs = useMemo(() => {
-    let jobs = jobList.length > 0 ? [...jobList] : [...DUMMY_JOBS];
+    let jobs = [...jobList];
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -86,7 +73,8 @@ export default function JobsPage() {
         (j) =>
           j.title.toLowerCase().includes(q) ||
           j.company.toLowerCase().includes(q) ||
-          j.tags.some((t) => t.toLowerCase().includes(q)),
+          j.publisher.toLowerCase().includes(q) ||
+          j.description.toLowerCase().includes(q),
       );
     }
 
@@ -94,40 +82,29 @@ export default function JobsPage() {
       jobs = jobs.filter((j) => matchesLocation(j.location, locationQuery));
     }
 
-    if (experienceLevel.trim()) {
-      jobs = jobs.filter((j) => j.experienceLevel === experienceLevel);
+    if (selectedEmploymentTypes.length > 0) {
+      jobs = jobs.filter((j) =>
+        j.employmentTypes.some((t) => selectedEmploymentTypes.includes(t)),
+      );
     }
 
-    if (salaryRangeFilter.trim()) {
-      jobs = jobs.filter((j) => {
-        const salaryNum = parseInt(j.salary.replace(/[^0-9]/g, "")) || 0;
-        if (salaryRangeFilter === "0-2000") return salaryNum <= 2000;
-        if (salaryRangeFilter === "2000-5000")
-          return salaryNum > 2000 && salaryNum <= 5000;
-        if (salaryRangeFilter === "5000-10000")
-          return salaryNum > 5000 && salaryNum <= 10000;
-        if (salaryRangeFilter === "10000-20000")
-          return salaryNum > 10000 && salaryNum <= 20000;
-        if (salaryRangeFilter === "20000+") return salaryNum > 20000;
-        return true;
-      });
+    if (selectedRemote.length > 0 && selectedRemote.length < 2) {
+      if (selectedRemote.includes("remote")) {
+        jobs = jobs.filter((j) => j.isRemote);
+      } else {
+        jobs = jobs.filter((j) => !j.isRemote);
+      }
     }
-
-    const parseSalary = (s: string) => parseInt(s.replace(/[^0-9]/g, "")) || 0;
-    const parseDate = (d: string) => new Date(d).getTime();
 
     switch (sortBy) {
-      case "match_score":
-        jobs.sort((a, b) => b.matchScore - a.matchScore);
-        break;
       case "salary_high":
-        jobs.sort((a, b) => parseSalary(b.salary) - parseSalary(a.salary));
+        jobs.sort((a, b) => (b.maxSalary ?? 0) - (a.maxSalary ?? 0));
         break;
       case "salary_low":
-        jobs.sort((a, b) => parseSalary(a.salary) - parseSalary(b.salary));
+        jobs.sort((a, b) => (a.minSalary ?? Infinity) - (b.minSalary ?? Infinity));
         break;
       case "date_newest":
-        jobs.sort((a, b) => parseDate(b.postedDate) - parseDate(a.postedDate));
+        jobs.sort((a, b) => b.postedAtTimestamp - a.postedAtTimestamp);
         break;
       case "last_updated":
       default:
@@ -139,24 +116,19 @@ export default function JobsPage() {
     jobList,
     searchQuery,
     locationQuery,
-    experienceLevel,
-    salaryRangeFilter,
+    selectedEmploymentTypes,
+    selectedRemote,
     sortBy,
   ]);
 
-  const toggleSchedule = (s: WorkSchedule) =>
-    setSelectedSchedules((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
-    );
-
-  const toggleType = (t: EmploymentType) =>
-    setSelectedTypes((prev) =>
+  const toggleEmploymentType = (t: string) =>
+    setSelectedEmploymentTypes((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
     );
 
-  const toggleSource = (s: JobSource) =>
-    setSelectedSources((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
+  const toggleRemote = (r: string) =>
+    setSelectedRemote((prev) =>
+      prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r],
     );
 
   return (
@@ -172,10 +144,6 @@ export default function JobsPage() {
           onQueryChange={setSearchQuery}
           location={locationQuery}
           onLocationChange={setLocationQuery}
-          experience={experienceLevel}
-          onExperienceChange={setExperienceLevel}
-          salaryRange={salaryRangeFilter}
-          onSalaryRangeChange={setSalaryRangeFilter}
         />
       </motion.div>
       <div className="flex gap-6 items-start">
@@ -196,12 +164,10 @@ export default function JobsPage() {
             </motion.div>
             <motion.div variants={fadeUp} className="mt-5">
               <JobFilterPanel
-                selectedSchedules={selectedSchedules}
-                onToggleSchedule={toggleSchedule}
-                selectedTypes={selectedTypes}
-                onToggleType={toggleType}
-                selectedSources={selectedSources}
-                onToggleSource={toggleSource}
+                selectedEmploymentTypes={selectedEmploymentTypes}
+                onToggleEmploymentType={toggleEmploymentType}
+                selectedRemote={selectedRemote}
+                onToggleRemote={toggleRemote}
                 collapsed={filtersCollapsed}
                 onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
               />

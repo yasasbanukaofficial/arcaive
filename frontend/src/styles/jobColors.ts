@@ -1,5 +1,3 @@
-import type { JobSource } from "@/@types/jobs";
-
 export interface AccentColor {
   bg: string;
   border: string;
@@ -39,43 +37,6 @@ export const ACCENT_COLORS: AccentColor[] = [
   },
 ];
 
-export interface MatchColor {
-  text: string;
-  bg: string;
-  border: string;
-  label: string;
-}
-
-export function getMatchColor(score: number): MatchColor {
-  if (score >= 85)
-    return {
-      text: "var(--match-excellent-text)",
-      bg: "var(--match-excellent-bg)",
-      border: "var(--match-excellent-border)",
-      label: "Excellent Match",
-    };
-  if (score >= 70)
-    return {
-      text: "var(--match-good-text)",
-      bg: "var(--match-good-bg)",
-      border: "var(--match-good-border)",
-      label: "Good Match",
-    };
-  if (score >= 50)
-    return {
-      text: "var(--match-partial-text)",
-      bg: "var(--match-partial-bg)",
-      border: "var(--match-partial-border)",
-      label: "Partial Match",
-    };
-  return {
-    text: "var(--match-low-text)",
-    bg: "var(--match-low-bg)",
-    border: "var(--match-low-border)",
-    label: "Low Match",
-  };
-}
-
 export function hashStringToIndex(str: string, max: number): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -88,15 +49,11 @@ export function getAccentForCompany(company: string): AccentColor {
   return ACCENT_COLORS[hashStringToIndex(company, ACCENT_COLORS.length)];
 }
 
-export function getSourceIcon(source: JobSource): string {
-  switch (source) {
-    case "LinkedIn":
-      return "🔗";
-    case "Serper":
-      return "🔍";
-    case "Indeed":
-      return "📋";
-    case "Glassdoor":
-      return "🚪";
+export function getSourceIcon(publisher: string): string {
+  const lower = publisher.toLowerCase();
+  if (lower.includes("linkedin")) return "🔗";
+  if (lower.includes("indeed")) return "📋";
+  if (lower.includes("glassdoor")) return "🚪";
+  if (lower.includes("google")) return "🔍";
+  return "🌐";
   }
-}

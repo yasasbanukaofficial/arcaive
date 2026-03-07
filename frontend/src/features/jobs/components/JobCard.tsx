@@ -3,17 +3,33 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MapPin, Sparkles, ExternalLink } from "lucide-react";
+import { MapPin, ExternalLink, Wifi, Building2 } from "lucide-react";
 import type { JobListing } from "@/@types/jobs";
-import { getAccentForCompany, getMatchColor } from "@/styles/jobColors";
+import { getAccentForCompany, getSourceIcon } from "@/styles/jobColors";
 
 interface JobCardProps {
   job: JobListing;
 }
 
+function formatSalary(job: JobListing): string {
+  if (job.salary) return job.salary;
+  if (job.minSalary != null && job.maxSalary != null) {
+    const period = job.salaryPeriod ? `/${job.salaryPeriod}` : "";
+    return `$${job.minSalary.toLocaleString()} - $${job.maxSalary.toLocaleString()}${period}`;
+  }
+  if (job.minSalary != null) return `From $${job.minSalary.toLocaleString()}`;
+  if (job.maxSalary != null) return `Up to $${job.maxSalary.toLocaleString()}`;
+  return "Salary not specified";
+}
+
 export default function JobCard({ job }: JobCardProps) {
   const accent = getAccentForCompany(job.company);
-  const matchColor = getMatchColor(job.matchScore);
+
+  const tags = [
+    job.employmentType,
+    ...(job.isRemote ? ["Remote"] : []),
+    ...(job.employmentTypes?.filter((t) => t !== "FULLTIME" && t !== job.employmentType) || []),
+  ].filter(Boolean);
 
   return (
     <div
@@ -39,7 +55,7 @@ export default function JobCard({ job }: JobCardProps) {
             color: accent.dot,
           }}
         >
-          {job.postedDate}
+          {job.postedAt}
         </span>
       </div>
 
@@ -66,7 +82,7 @@ export default function JobCard({ job }: JobCardProps) {
               color: "var(--d-text-ghost)",
             }}
           >
-            {job.source}
+            {getSourceIcon(job.publisher)} {job.publisher}
           </span>
           <div
             className="w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden"
@@ -75,17 +91,24 @@ export default function JobCard({ job }: JobCardProps) {
               border: "1px solid var(--d-border)",
             }}
           >
-            <img
-              src={job.companyLogo}
-              alt={job.company}
-              className="w-full h-full object-cover"
-            />
+            {job.companyLogo ? (
+              <img
+                src={job.companyLogo}
+                alt={job.company}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <Building2
+                className="w-5 h-5"
+                style={{ color: "var(--d-icon)" }}
+              />
+            )}
           </div>
         </div>
       </div>
 
       <div className="relative z-10 flex flex-wrap gap-1.5 mb-4">
-        {job.tags.slice(0, 4).map((tag) => (
+        {tags.slice(0, 4).map((tag) => (
           <span
             key={tag}
             className="text-[11px] font-medium px-2.5 py-1 rounded-md"
@@ -100,60 +123,17 @@ export default function JobCard({ job }: JobCardProps) {
         ))}
       </div>
 
-      <div className="relative z-10 mb-4">
-        <div className="flex items-center justify-between mb-1.5">
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3 h-3" style={{ color: matchColor.text }} />
-            <span
-              className="text-[13px] font-semibold"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              {job.matchScore}% Match
-            </span>
-          </div>
+      {job.isRemote && (
+        <div className="relative z-10 flex items-center gap-1.5 mb-3">
+          <Wifi className="w-3.5 h-3.5" style={{ color: "var(--accent-emerald-dot)" }} />
           <span
-            className="text-[11px]"
-            style={{ color: "var(--d-text-muted)" }}
+            className="text-[12px] font-medium"
+            style={{ color: "var(--accent-emerald-dot)" }}
           >
-            AI Score
+            Remote
           </span>
         </div>
-        <div
-          className="h-2 rounded-full overflow-hidden"
-          style={{ backgroundColor: "var(--d-surface-hover)" }}
-        >
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${job.matchScore}%` }}
-            transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="h-full rounded-full"
-            style={{
-              backgroundColor: matchColor.border,
-            }}
-          />
-        </div>
-      </div>
-
-      <div
-        className="relative z-10 rounded-xl p-3.5 mb-4"
-        style={{
-          backgroundColor: matchColor.bg,
-          border: `1px solid ${matchColor.border}`,
-        }}
-      >
-        <p
-          className="text-[11px] font-semibold uppercase tracking-wider mb-1"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          Why you match
-        </p>
-        <p
-          className="text-[12px] leading-relaxed"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
-          {job.whyYouMatch}
-        </p>
-      </div>
+      )}
 
       <div className="relative z-10 flex items-center justify-between">
         <div>
@@ -161,7 +141,7 @@ export default function JobCard({ job }: JobCardProps) {
             className="text-[17px] font-semibold tracking-tight"
             style={{ color: "var(--d-text-primary)" }}
           >
-            {job.salary}
+            {formatSalary(job)}
           </p>
           <div className="flex items-center gap-1.5 mt-1">
             <MapPin
@@ -176,7 +156,7 @@ export default function JobCard({ job }: JobCardProps) {
             </span>
           </div>
         </div>
-        <Link href={`/jobs/${job.id}`}>
+        <Link href={`/jobs/${encodeURIComponent(job.id)}`}>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
