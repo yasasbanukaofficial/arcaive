@@ -58,6 +58,9 @@ export default function JobsPage() {
     "remote",
     "onsite",
   ]);
+  const [filterHasSalary, setFilterHasSalary] = useState(false);
+  const [salaryMin, setSalaryMin] = useState(0);
+  const [salaryMax, setSalaryMax] = useState(300000);
 
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
@@ -110,6 +113,19 @@ export default function JobsPage() {
         break;
     }
 
+    // Salary filters
+    if (filterHasSalary) {
+      jobs = jobs.filter((j) => j.salary || j.minSalary != null || j.maxSalary != null);
+    }
+
+    if (salaryMin > 0 || salaryMax < 300000) {
+      jobs = jobs.filter((j) => {
+        const jMin = j.minSalary ?? 0;
+        const jMax = j.maxSalary ?? j.minSalary ?? 0;
+        return jMax >= salaryMin && jMin <= salaryMax;
+      });
+    }
+
     return jobs;
   }, [
     jobList,
@@ -118,6 +134,9 @@ export default function JobsPage() {
     selectedEmploymentTypes,
     selectedRemote,
     sortBy,
+    filterHasSalary,
+    salaryMin,
+    salaryMax,
   ]);
 
   const toggleEmploymentType = (t: string) =>
@@ -169,6 +188,12 @@ export default function JobsPage() {
                 onToggleRemote={toggleRemote}
                 collapsed={filtersCollapsed}
                 onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
+                salaryMin={salaryMin}
+                salaryMax={salaryMax}
+                onSalaryMinChange={(v) => setSalaryMin(v)}
+                onSalaryMaxChange={(v) => setSalaryMax(v)}
+                filterHasSalary={filterHasSalary}
+                onToggleHasSalary={() => setFilterHasSalary((p) => !p)}
               />
             </motion.div>
           </div>

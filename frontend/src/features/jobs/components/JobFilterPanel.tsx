@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ChevronLeft, Check } from "lucide-react";
+import Slider from "@/components/ui/Slider";
 
 interface FilterCheckboxProps {
   label: string;
@@ -59,6 +60,10 @@ const EMPLOYMENT_TYPES: { label: string; value: string }[] = [
   { label: "Part-time", value: "PARTTIME" },
   { label: "Contractor", value: "CONTRACTOR" },
   { label: "Intern", value: "INTERN" },
+  { label: "Temporary", value: "TEMPORARY" },
+  { label: "Freelance", value: "FREELANCE" },
+  { label: "Apprenticeship", value: "APPRENTICESHIP" },
+  { label: "Volunteer", value: "VOLUNTEER" },
 ];
 
 const REMOTE_OPTIONS: { label: string; value: string }[] = [
@@ -73,6 +78,13 @@ interface JobFiltersProps {
   onToggleRemote: (r: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  // salary filters
+  salaryMin: number;
+  salaryMax: number;
+  onSalaryMinChange: (v: number) => void;
+  onSalaryMaxChange: (v: number) => void;
+  filterHasSalary: boolean;
+  onToggleHasSalary: () => void;
 }
 
 export default function JobFilterPanel({
@@ -82,6 +94,12 @@ export default function JobFilterPanel({
   onToggleRemote,
   collapsed,
   onToggleCollapse,
+  salaryMin,
+  salaryMax,
+  onSalaryMinChange,
+  onSalaryMaxChange,
+  filterHasSalary,
+  onToggleHasSalary,
 }: JobFiltersProps) {
   return (
     <div
@@ -143,6 +161,46 @@ export default function JobFilterPanel({
               onChange={() => onToggleRemote(r.value)}
             />
           ))}
+        </div>
+      </div>
+      
+      <div>
+        <p
+          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
+          style={{ color: "var(--d-text-muted)" }}
+        >
+          Salary Range
+        </p>
+        <div className="space-y-3">
+          <FilterCheckbox
+            label="Has salary info"
+            checked={filterHasSalary}
+            onChange={onToggleHasSalary}
+          />
+          <div className="pt-2">
+            <Slider
+              label="Min Salary"
+              value={salaryMin}
+              onChange={onSalaryMinChange}
+              min={0}
+              max={300000}
+              step={1000}
+              valueSuffix="$"
+              showValue={true}
+            />
+          </div>
+          <div>
+            <Slider
+              label="Max Salary"
+              value={salaryMax}
+              onChange={onSalaryMaxChange}
+              min={0}
+              max={300000}
+              step={1000}
+              valueSuffix="$"
+              showValue={true}
+            />
+          </div>
         </div>
       </div>
     </div>

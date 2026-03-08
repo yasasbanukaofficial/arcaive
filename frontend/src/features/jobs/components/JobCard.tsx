@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { MapPin, ExternalLink, Wifi, Building2 } from "lucide-react";
 import type { JobListing } from "@/@types/jobs";
@@ -23,6 +24,7 @@ function formatSalary(job: JobListing): string {
 }
 
 export default function JobCard({ job }: JobCardProps) {
+  const router = useRouter();
   const accent = getAccentForCompany(job.company);
 
   const tags = [
@@ -31,8 +33,19 @@ export default function JobCard({ job }: JobCardProps) {
     ...(job.employmentTypes?.filter((t) => t !== "FULLTIME" && t !== job.employmentType) || []),
   ].filter(Boolean);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      router.push(`/jobs/${encodeURIComponent(job.id)}`);
+    }
+  };
+
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onClick={() => router.push(`/jobs/${encodeURIComponent(job.id)}`)}
       className="group relative rounded-2xl p-6 cursor-pointer hover:-translate-y-0.5 transition-[transform,border-color] duration-200 ease-out"
       style={{
         backgroundColor: "var(--d-surface)",
@@ -165,6 +178,7 @@ export default function JobCard({ job }: JobCardProps) {
               duration: 0.15,
               ease: [0.22, 1, 0.36, 1],
             }}
+            onClick={(e) => e.stopPropagation()}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-medium transition-[background-color,border-color,color] duration-150"
             style={{
               backgroundColor: "var(--d-surface-active)",
