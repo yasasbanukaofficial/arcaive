@@ -24,4 +24,8 @@ public class MemberCreateRequestDTO {
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
+
+    private String jobRole;
+    private String experience;
+    private String country;
 }

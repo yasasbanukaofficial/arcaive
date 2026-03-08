@@ -24,7 +24,10 @@ export type ExtractedMember = {
   memberFullName?: string | null;
   memberUsername?: string | null;
   memberEmail?: string | null;
-  password?: string | null
+  password?: string | null;
+  jobRole?: string | null;
+  experience?: string | null;
+  country?: string | null;
 };
 
 interface CVResumeUploadProps {
@@ -293,7 +296,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                 }}
               >
                 <Zap className="w-3 h-3" />
-                Auto-fills name, email, skills &amp; experience
+                Auto-fills name, email, job role &amp; experience
               </div>
             </motion.div>
           )}
@@ -424,7 +427,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                     exit={{ opacity: 0, height: 0 }}
                     className="flex flex-wrap gap-1.5"
                   >
-                    {["Name", "Email", "Skills", "Experience", "Education"].map(
+                    {["Name", "Email", "Job Role", "Experience", "Country"].map(
                       (field, i) => (
                         <motion.span
                           key={field}
@@ -454,7 +457,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                     exit={{ opacity: 0, height: 0 }}
                     className="flex flex-wrap gap-1.5"
                   >
-                    {["Name", "Email", "Skills", "Experience", "Education"].map(
+                    {["Name", "Email", "Job Role", "Experience", "Country"].map(
                       (field, i) => (
                         <motion.span
                           key={field}

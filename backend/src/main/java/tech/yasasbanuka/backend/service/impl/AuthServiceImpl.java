@@ -8,11 +8,15 @@ import tech.yasasbanuka.backend.dto.auth.AuthRequestDTO;
 import tech.yasasbanuka.backend.dto.auth.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.member.MemberCreateRequestDTO;
 import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.Subscription;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.EmailNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +40,25 @@ public class AuthServiceImpl {
         if (memberRepo.existsByEmail(dto.getMemberEmail())) {
             throw new AlreadyExistsException("An account with this email already exists. Please sign in instead.");
         }
+
         Member newUser = memberMapper.createRequestToEntity(dto);
         newUser.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
+
+        // Auto-generate username from email (part before @)
+        String username = dto.getMemberEmail().split("@")[0];
+        newUser.setUsername(username);
+
+        // Auto-create a STARTER subscription
+        Subscription starterSub = Subscription.builder()
+                .providerId("starter_free")
+                .status("active")
+                .variantId("starter")
+                .renewsAt(Instant.now().plus(365, ChronoUnit.DAYS))
+                .endsAt(Instant.now().plus(365, ChronoUnit.DAYS))
+                .build();
+        newUser.setSubscription(starterSub);
+        starterSub.setMember(newUser);
+
         memberRepo.save(newUser);
     }
 }

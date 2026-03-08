@@ -110,4 +110,24 @@ export const memberAPI = {
       })
     ).data.data;
   },
+  updateJobDetails: async (payload: {
+    jobRole: string;
+    experience: string;
+    country: string;
+  }) => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/job-details`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        data: payload,
+      })
+    ).data.data;
+  },
 };

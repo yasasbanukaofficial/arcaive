@@ -4,6 +4,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/features/dashboard/components/Sidebar";
 import TopBar from "@/features/dashboard/components/TopBar";
+import JobDetailsModal from "@/features/dashboard/components/JobDetailsModal";
 import {
   SidebarProvider,
   useSidebar,
@@ -41,6 +42,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       </div>
 
       <Sidebar />
+      <JobDetailsModal />
 
       <div
         className="relative z-10 min-h-screen flex flex-col"

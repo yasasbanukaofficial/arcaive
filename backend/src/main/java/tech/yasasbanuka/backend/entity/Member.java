@@ -27,6 +27,10 @@ public class Member {
     @ElementCollection
     private List<LinkedAccount> linkedAccounts;
 
+    private String jobRole;
+    private String experience;
+    private String country;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id", referencedColumnName = "id")
     private Subscription subscription;

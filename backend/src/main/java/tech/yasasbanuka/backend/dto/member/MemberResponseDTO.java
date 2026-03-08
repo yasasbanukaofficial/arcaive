@@ -22,4 +22,7 @@ public class MemberResponseDTO {
     private List<LinkedAccountDTO> linkedAccounts;
     private String memberTier;
     private String subscriptionId;
+    private String jobRole;
+    private String experience;
+    private String country;
 }

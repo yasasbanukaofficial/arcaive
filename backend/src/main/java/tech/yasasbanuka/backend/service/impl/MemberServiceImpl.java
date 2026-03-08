@@ -149,6 +149,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberResponseDTO updateJobDetailsByUsername(String username, JobDetailsDTO dto) {
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+        existingMember.setJobRole(dto.getJobRole());
+        existingMember.setExperience(dto.getExperience());
+        existingMember.setCountry(dto.getCountry());
+        return memberMapper.toResponseDTO(memberRepo.save(existingMember));
+    }
+
+    @Override
     public MemberInternalDTO extractMemberDetails(MultipartFile file) {
         String extractedText = pdfTextExtract.extract(file);
         CVAnalyzerAgent cvAnalyzerAgent = AgenticServices

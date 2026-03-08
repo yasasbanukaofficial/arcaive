@@ -29,4 +29,10 @@ public class MemberInternalDTO {
     private String memberTier;
     @Nullable
     private String subscriptionId;
+    @Nullable
+    private String jobRole;
+    @Nullable
+    private String experience;
+    @Nullable
+    private String country;
 }

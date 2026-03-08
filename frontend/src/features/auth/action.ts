@@ -16,6 +16,9 @@ export async function registerAction(
   const memberEmail = formData.get("memberEmail") as string;
   const memberPassword = formData.get("memberPassword") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
+  const jobRole = formData.get("jobRole") as string;
+  const experience = formData.get("experience") as string;
+  const country = formData.get("country") as string;
 
   if (memberPassword !== confirmPassword) {
     return { error: "Passwords do not match" };
@@ -27,6 +30,9 @@ export async function registerAction(
       memberEmail,
       memberUsername: memberEmail.split("@")[0],
       password: memberPassword,
+      jobRole,
+      experience,
+      country,
     });
     return { success: true };
   } catch (err: unknown) {

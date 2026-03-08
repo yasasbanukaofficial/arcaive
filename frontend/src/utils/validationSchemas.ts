@@ -20,6 +20,12 @@ export const registerSchema = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("memberPassword")], "Passwords do not match")
     .required("Please confirm your password"),
+  jobRole: Yup.string()
+    .required("Job role is required"),
+  experience: Yup.string()
+    .required("Experience is required"),
+  country: Yup.string()
+    .required("Country is required"),
 });
 
 export const forgotPasswordSchema = Yup.object({

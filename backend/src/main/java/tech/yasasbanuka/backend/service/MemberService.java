@@ -20,6 +20,7 @@ public interface MemberService {
     void changePassword(String username, String currentPassword, String newPassword);
     MemberResponseDTO updateMfaByUsername(String username, MfaUpdateRequestDTO mfa);
     MemberResponseDTO updateLinkedAccountsByUsername(String username, List<LinkedAccountDTO> linkedAccounts);
+    MemberResponseDTO updateJobDetailsByUsername(String username, JobDetailsDTO dto);
     MemberInternalDTO extractMemberDetails(MultipartFile file);
     AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file);
 }
