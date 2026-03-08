@@ -24,6 +24,13 @@ export default function JobsPage() {
   const [locationQuery, setLocationQuery] = useState("");
 
   useEffect(() => {
+    const cached = jobAPI.getCached?.();
+    if (cached && cached.length > 0) {
+      setJobList(cached);
+      setLoading(false);
+      return;
+    }
+
     async function fetchJobData() {
       try {
         const result = await jobAPI.get();
