@@ -12,6 +12,7 @@ import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
 import JobListHeader from "@/features/jobs/components/JobListHeader";
 import JobCard from "@/features/jobs/components/JobCard";
 import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
+import { jobAPI } from "@/features/jobs/api/jobAPI";
 import { matchesLocation } from "@/utils/location";
 import { useToast } from "@/components/ui/Toast";
 
@@ -25,17 +26,8 @@ export default function JobsPage() {
   useEffect(() => {
     async function fetchJobData() {
       try {
-        const response = await fetch("/api/jobs");
-        const result = await response.json();
-        if (result.success) {
-          setJobList(result.data);
-        } else {
-          addToast({
-            type: "error",
-            title: "Couldn't load jobs",
-            description: "We had trouble fetching job listings. Please try again later.",
-          });
-        }
+        const result = await jobAPI.get();
+        setJobList(result || []);
       } catch (err) {
         addToast({
           type: "error",
@@ -84,7 +76,7 @@ export default function JobsPage() {
 
     if (selectedEmploymentTypes.length > 0) {
       jobs = jobs.filter((j) =>
-        j.employmentTypes.some((t) => selectedEmploymentTypes.includes(t)),
+        (j.employmentTypes ?? []).some((t) => selectedEmploymentTypes.includes(t)),
       );
     }
 
@@ -185,41 +177,103 @@ export default function JobsPage() {
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            <AnimatePresence mode="popLayout">
-              {filteredJobs.map((job) => (
-                <motion.div
-                  key={job.id}
-                  layout="position"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {[...Array(9)].map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl p-5 space-y-4"
+                  style={{
+                    backgroundColor: "var(--d-surface)",
+                    border: "1px solid var(--d-border)",
+                  }}
                 >
-                  <JobCard job={job} />
-                </motion.div>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-11 h-11 rounded-xl animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    <div className="flex-1 space-y-2">
+                      <div
+                        className="h-4 w-3/4 rounded animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-3 w-1/2 rounded animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="h-5 w-5/6 rounded animate-pulse"
+                    style={{ backgroundColor: "var(--d-surface-hover)" }}
+                  />
+                  <div className="space-y-2">
+                    <div
+                      className="h-3 w-full rounded animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    <div
+                      className="h-3 w-4/5 rounded animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                  </div>
+                  <div className="flex gap-2 pt-1">
+                    <div
+                      className="h-6 w-16 rounded-lg animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    <div
+                      className="h-6 w-20 rounded-lg animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    <div
+                      className="h-6 w-14 rounded-lg animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                  </div>
+                </div>
               ))}
-            </AnimatePresence>
-          </div>
-          {filteredJobs.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col items-center justify-center py-20 text-center"
-            >
-              <p
-                className="text-[17px] font-medium mb-1.5"
-                style={{ color: "var(--d-text-secondary)" }}
-              >
-                No jobs found
-              </p>
-              <p
-                className="text-[14px]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Try adjusting your search or filter criteria
-              </p>
-            </motion.div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                <AnimatePresence mode="popLayout">
+                  {filteredJobs.map((job) => (
+                    <motion.div
+                      key={job.id}
+                      layout="position"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <JobCard job={job} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+              {filteredJobs.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-center justify-center py-20 text-center"
+                >
+                  <p
+                    className="text-[17px] font-medium mb-1.5"
+                    style={{ color: "var(--d-text-secondary)" }}
+                  >
+                    No jobs found
+                  </p>
+                  <p
+                    className="text-[14px]"
+                    style={{ color: "var(--d-text-muted)" }}
+                  >
+                    Try adjusting your search or filter criteria
+                  </p>
+                </motion.div>
+              )}
+            </>
           )}
         </div>
       </div>

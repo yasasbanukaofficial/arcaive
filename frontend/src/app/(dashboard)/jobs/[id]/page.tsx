@@ -19,7 +19,6 @@ import {
   Copy,
   Check,
   Wifi,
-  Loader2,
 } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import type { JobListing } from "@/@types/jobs";
@@ -28,6 +27,7 @@ import {
   getSourceIcon,
 } from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
+import { jobAPI } from "@/features/jobs/api/jobAPI";
 
 function InfoRow({
   icon: Icon,
@@ -89,30 +89,80 @@ export default function JobDetailsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchJob() {
+    const decodedId = decodeURIComponent(id);
+    const cached = jobAPI.getCachedJob(decodedId);
+    if (cached) {
+      setJob(cached);
+      setLoading(false);
+      return;
+    }
+
+    async function fetchAndFind() {
       try {
-        const response = await fetch("/api/jobs");
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          const found = result.data.find((j: JobListing) => j.id === id);
-          setJob(found || null);
-        }
+        const jobs = await jobAPI.get();
+        const found = jobs.find((j) => j.id === decodedId) ?? null;
+        setJob(found);
       } catch (err) {
         console.error("Failed to fetch job:", err);
       } finally {
         setLoading(false);
       }
     }
-    fetchJob();
+    fetchAndFind();
   }, [id]);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-32">
-        <Loader2
-          className="w-8 h-8 animate-spin"
-          style={{ color: "var(--d-text-muted)" }}
-        />
+      <div className="max-w-300 mx-auto space-y-6 py-4">
+        <div className="h-5 w-28 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+
+        <div className="rounded-2xl p-8" style={{ backgroundColor: "var(--d-surface)", border: "1px solid var(--d-border)" }}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-6 w-24 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+            <div className="h-6 w-20 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+          </div>
+          <div className="flex items-start gap-5 mb-6">
+            <div className="w-16 h-16 rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+            <div className="flex-1 space-y-3">
+              <div className="h-4 w-32 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-7 w-72 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-4 w-48 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <div className="h-7 w-20 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+            <div className="h-7 w-16 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="rounded-2xl p-6" style={{ backgroundColor: "var(--d-surface)", border: "1px solid var(--d-border)" }}>
+              <div className="h-5 w-36 rounded animate-pulse mb-4" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="space-y-2.5">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="h-4 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)", width: `${90 - i * 5}%` }} />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="space-y-6">
+            <div className="rounded-2xl p-6" style={{ backgroundColor: "var(--d-surface)", border: "1px solid var(--d-border)" }}>
+              <div className="h-5 w-24 rounded animate-pulse mb-4" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+                    <div className="flex-1 space-y-1.5">
+                      <div className="h-3 w-16 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+                      <div className="h-4 w-28 rounded animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
