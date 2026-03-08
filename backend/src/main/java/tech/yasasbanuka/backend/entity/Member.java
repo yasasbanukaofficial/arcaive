@@ -18,9 +18,6 @@ public class Member {
     private String email;
     private String hashedPassword;
 
-    @Enumerated(EnumType.STRING)
-    private MemberTier tier;
-
     @Embedded
     private Mfa mfa;
 

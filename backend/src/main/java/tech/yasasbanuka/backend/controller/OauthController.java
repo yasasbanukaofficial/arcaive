@@ -16,12 +16,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.member.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
-import tech.yasasbanuka.backend.entity.MemberTier;
+import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +35,7 @@ public class OauthController implements AuthenticationSuccessHandler {
     private final MemberService memberService;
     private final JwtUtil jwtUtil;
     private final MemberMapper memberMapper;
+    private final MemberRepo memberRepo;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
     @Override
@@ -98,9 +102,24 @@ public class OauthController implements AuthenticationSuccessHandler {
                             .url(socialUrl)
                             .build()
                     ))
-                    .memberTier(String.valueOf(MemberTier.STARTER))
-                    .build();
+            .build();
             memberService.createMemberInternal(existingMember);
+
+                // Auto-create free subscription for OAuth user
+                Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
+                Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
+                memberRepo.findByEmail(email).ifPresent(member -> {
+                Subscription freeSub = Subscription.builder()
+                    .providerId("explorer")
+                    .status("active")
+                    .variantId("Explorer")
+                    .endsAt(endsAt)
+                    .renewsAt(renewsAt)
+                    .build();
+                member.setSubscription(freeSub);
+                freeSub.setMember(member);
+                memberRepo.save(member);
+                });
         }
 
         String memberUsername = existingMember.getMemberUsername() != null

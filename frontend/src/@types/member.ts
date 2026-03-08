@@ -17,7 +17,6 @@ export type Member = {
   memberUsername?: string;
   memberEmail?: string;
   hasPassword?: boolean;
-  memberTier?: string | null;
   subscriptionId?: string | null;
   jobRole?: string | null;
   experience?: string | null;

@@ -48,16 +48,18 @@ public class AuthServiceImpl {
         String username = dto.getMemberEmail().split("@")[0];
         newUser.setUsername(username);
 
-        // Auto-create a STARTER subscription
-        Subscription starterSub = Subscription.builder()
-                .providerId("starter_free")
-                .status("active")
-                .variantId("starter")
-                .renewsAt(Instant.now().plus(365, ChronoUnit.DAYS))
-                .endsAt(Instant.now().plus(365, ChronoUnit.DAYS))
-                .build();
-        newUser.setSubscription(starterSub);
-        starterSub.setMember(newUser);
+        // Auto-create a free subscription with 30-day period and renews 1 day after end
+        Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
+        Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
+        Subscription freeSub = Subscription.builder()
+            .providerId("explorer")
+            .status("active")
+            .variantId("Explorer")
+            .endsAt(endsAt)
+            .renewsAt(renewsAt)
+            .build();
+        newUser.setSubscription(freeSub);
+        freeSub.setMember(newUser);
 
         memberRepo.save(newUser);
     }

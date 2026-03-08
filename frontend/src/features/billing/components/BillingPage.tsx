@@ -57,7 +57,7 @@ export default function BillingPage({
       (plan) =>
         plan.id === memberSubscription.currentPlan &&
         plan.billingPeriod === selectedPeriod,
-    ) || filteredPlans.find((p) => p.id === "free");
+    ) || filteredPlans.find((p) => p.id === "explorer");
 
   return (
     <div className="min-h-screen pb-8">
