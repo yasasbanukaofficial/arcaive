@@ -37,6 +37,9 @@ export const ACCENT_COLORS: AccentColor[] = [
   },
 ];
 
+/** Stable per-string color assignment for tags, benefits, etc. */
+export const TAG_COLORS: AccentColor[] = [...ACCENT_COLORS];
+
 export function hashStringToIndex(str: string, max: number): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -49,6 +52,15 @@ export function getAccentForCompany(company: string): AccentColor {
   return ACCENT_COLORS[hashStringToIndex(company, ACCENT_COLORS.length)];
 }
 
+export function getTagColor(tag: string): AccentColor {
+  return TAG_COLORS[hashStringToIndex(tag, TAG_COLORS.length)];
+}
+
+/** Returns color at a fixed index — for sequential coloring (tag-0, tag-1, …) */
+export function getColorByIndex(index: number): AccentColor {
+  return ACCENT_COLORS[index % ACCENT_COLORS.length];
+}
+
 export function getSourceIcon(publisher: string): string {
   const lower = publisher.toLowerCase();
   if (lower.includes("linkedin")) return "🔗";
@@ -56,4 +68,4 @@ export function getSourceIcon(publisher: string): string {
   if (lower.includes("glassdoor")) return "🚪";
   if (lower.includes("google")) return "🔍";
   return "🌐";
-  }
+}

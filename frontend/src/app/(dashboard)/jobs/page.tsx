@@ -214,62 +214,86 @@ export default function JobsPage() {
               {[...Array(9)].map((_, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl p-5 space-y-4"
+                  className="rounded-2xl overflow-hidden"
                   style={{
                     backgroundColor: "var(--d-surface)",
                     border: "1px solid var(--d-border)",
                   }}
                 >
-                  <div className="flex items-center gap-3">
+                  {/* Gradient bar skeleton */}
+                  <div
+                    className="h-1 w-full animate-pulse"
+                    style={{ backgroundColor: "var(--d-surface-hover)" }}
+                  />
+                  <div className="p-5 space-y-4">
+                    {/* Header: logo + company */}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-11 h-11 rounded-xl animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div className="flex-1 space-y-1.5">
+                        <div
+                          className="h-4 w-2/3 rounded animate-pulse"
+                          style={{ backgroundColor: "var(--d-surface-hover)" }}
+                        />
+                        <div
+                          className="h-2.5 w-1/3 rounded animate-pulse"
+                          style={{ backgroundColor: "var(--d-surface-hover)" }}
+                        />
+                      </div>
+                    </div>
+                    {/* Title */}
                     <div
-                      className="w-11 h-11 rounded-xl animate-pulse"
+                      className="h-5 w-5/6 rounded animate-pulse"
                       style={{ backgroundColor: "var(--d-surface-hover)" }}
                     />
-                    <div className="flex-1 space-y-2">
+                    {/* Location */}
+                    <div
+                      className="h-3 w-3/5 rounded animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    {/* Tags */}
+                    <div className="flex gap-1.5">
                       <div
-                        className="h-4 w-3/4 rounded animate-pulse"
+                        className="h-6 w-20 rounded-lg animate-pulse"
                         style={{ backgroundColor: "var(--d-surface-hover)" }}
                       />
                       <div
-                        className="h-3 w-1/2 rounded animate-pulse"
+                        className="h-6 w-16 rounded-lg animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-6 w-14 rounded-lg animate-pulse"
                         style={{ backgroundColor: "var(--d-surface-hover)" }}
                       />
                     </div>
-                  </div>
-                  <div
-                    className="h-5 w-5/6 rounded animate-pulse"
-                    style={{ backgroundColor: "var(--d-surface-hover)" }}
-                  />
-                  <div className="space-y-2">
+                    {/* Salary chip */}
                     <div
-                      className="h-3 w-full rounded animate-pulse"
+                      className="h-8 w-2/5 rounded-xl animate-pulse"
                       style={{ backgroundColor: "var(--d-surface-hover)" }}
                     />
+                    {/* Footer */}
                     <div
-                      className="h-3 w-4/5 rounded animate-pulse"
-                      style={{ backgroundColor: "var(--d-surface-hover)" }}
-                    />
-                  </div>
-                  <div className="flex gap-2 pt-1">
-                    <div
-                      className="h-6 w-16 rounded-lg animate-pulse"
-                      style={{ backgroundColor: "var(--d-surface-hover)" }}
-                    />
-                    <div
-                      className="h-6 w-20 rounded-lg animate-pulse"
-                      style={{ backgroundColor: "var(--d-surface-hover)" }}
-                    />
-                    <div
-                      className="h-6 w-14 rounded-lg animate-pulse"
-                      style={{ backgroundColor: "var(--d-surface-hover)" }}
-                    />
+                      className="flex items-center justify-between pt-3"
+                      style={{ borderTop: "1px solid var(--d-border-subtle)" }}
+                    >
+                      <div
+                        className="h-3 w-20 rounded animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-8 w-16 rounded-xl animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 auto-rows-fr">
                 <AnimatePresence mode="popLayout">
                   {filteredJobs.map((job) => (
                     <motion.div
@@ -279,6 +303,7 @@ export default function JobsPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.98 }}
                       transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                      className="h-full"
                     >
                       <JobCard job={job} />
                     </motion.div>
