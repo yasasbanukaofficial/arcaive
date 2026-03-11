@@ -37,7 +37,6 @@ export const memberAPI = {
         method: "POST",
         baseURL: `${MEMBER_DATA_URL}/upload-cv/skills`,
         headers: { Authorization: `Bearer ${token}` },
-
         withCredentials: true,
         data: formData,
       })

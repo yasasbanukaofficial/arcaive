@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -102,36 +104,37 @@ public class OauthController implements AuthenticationSuccessHandler {
                             .url(socialUrl)
                             .build()
                     ))
-            .build();
+                    .build();
             memberService.createMemberInternal(existingMember);
 
-                // Auto-create free subscription for OAuth user
-                Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
-                Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
-                memberRepo.findByEmail(email).ifPresent(member -> {
+            Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
+            Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
+            memberRepo.findByEmail(email).ifPresent(member -> {
                 Subscription freeSub = Subscription.builder()
-                    .providerId("explorer")
-                    .status("active")
-                    .variantId("Explorer")
-                    .endsAt(endsAt)
-                    .renewsAt(renewsAt)
-                    .build();
+                        .providerId("explorer")
+                        .status("active")
+                        .variantId("Explorer")
+                        .endsAt(endsAt)
+                        .renewsAt(renewsAt)
+                        .build();
                 member.setSubscription(freeSub);
                 freeSub.setMember(member);
                 memberRepo.save(member);
-                });
+            });
         }
 
         String memberUsername = existingMember.getMemberUsername() != null
                 ? existingMember.getMemberUsername()
                 : username;
         String token = jwtUtil.generateToken(memberUsername);
-        Cookie cookie = new Cookie("access_token", token);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("access_token", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(86400)
+                .sameSite("Lax")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         response.sendRedirect("http://localhost:3000/overview");
     }
