@@ -8,7 +8,6 @@ import type { SortOption } from "@/@types/jobs";
 
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
   { label: "Last updated", value: "last_updated" },
-  { label: "Match score", value: "match_score" },
   { label: "Salary (high)", value: "salary_high" },
   { label: "Salary (low)", value: "salary_low" },
   { label: "Newest", value: "date_newest" },

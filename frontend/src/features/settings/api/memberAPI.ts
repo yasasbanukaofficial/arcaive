@@ -1,6 +1,5 @@
 import { apiInstance } from "@/api/api";
 import { getToken } from "@/utils/auth";
-import { AtomicSkillResponseDTO } from "@/@types/member";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
 
@@ -38,7 +37,6 @@ export const memberAPI = {
         method: "POST",
         baseURL: `${MEMBER_DATA_URL}/upload-cv/skills`,
         headers: { Authorization: `Bearer ${token}` },
-
         withCredentials: true,
         data: formData,
       })
@@ -102,6 +100,26 @@ export const memberAPI = {
       await apiInstance({
         method: "PATCH",
         baseURL: `${MEMBER_DATA_URL}/me/linked-accounts`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        data: payload,
+      })
+    ).data.data;
+  },
+  updateJobDetails: async (payload: {
+    jobRole: string;
+    experience: string;
+    country: string;
+  }) => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/job-details`,
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

@@ -11,9 +11,9 @@ const PLANS = MOCK_PLANS
   .reduce((acc: any[], p) => (acc.find((x) => x.id === p.id) ? acc : [...acc, p]), []);
 
 const DESCRIPTION_MAP: Record<string, string> = {
-  free: "Starter pack to get you going",
-  pro: "Power tools for active job seekers",
-  enterprise: "For teams and large-scale workflows",
+  explorer: "Starter pack to get you going",
+  strategist: "Power tools for active job seekers",
+  architect: "For teams and large-scale workflows",
 };
 
 export default function SubscriptionChoosingPage() {
@@ -48,7 +48,7 @@ export default function SubscriptionChoosingPage() {
               )}
 
               <div className="mb-4">
-                <h3 className="text-xs uppercase text-gray-400 tracking-wider font-medium mb-2">{plan.id === 'free' ? 'Starter' : plan.name}</h3>
+                <h3 className="text-xs uppercase text-gray-400 tracking-wider font-medium mb-2">{plan.name}</h3>
 
                 <div className="flex items-end gap-3">
                   <div className="text-4xl font-bold text-white">{plan.price === 0 ? "Free" : `$${plan.price}`}</div>

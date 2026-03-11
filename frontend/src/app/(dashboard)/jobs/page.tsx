@@ -4,51 +4,43 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import type {
-  WorkSchedule,
-  EmploymentType,
-  JobSource,
   SortOption,
+  JobListing,
 } from "@/@types/jobs";
 import JobSearchBar from "@/features/jobs/components/JobSearchBar";
 import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
 import JobListHeader from "@/features/jobs/components/JobListHeader";
 import JobCard from "@/features/jobs/components/JobCard";
 import JobPromoBanner from "@/features/jobs/components/JobPromoBanner";
+import { jobAPI } from "@/features/jobs/api/jobAPI";
 import { matchesLocation } from "@/utils/location";
-import { DUMMY_JOBS } from "@/features/jobs/constants/mockData";
 import { useToast } from "@/components/ui/Toast";
 
 export default function JobsPage() {
   const { addToast } = useToast();
-  const [jobList, setJobList] = useState([]);
+  const [jobList, setJobList] = useState<JobListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
-  const [experienceLevel, setExperienceLevel] = useState("");
-  const [salaryRangeFilter, setSalaryRangeFilter] = useState("");
 
   useEffect(() => {
+    const cached = jobAPI.getCached?.();
+    if (cached && cached.length > 0) {
+      setJobList(cached);
+      setLoading(false);
+      return;
+    }
+
     async function fetchJobData() {
       try {
-        const response = await fetch("/api/jobs");
-        const result = await response.json();
-        if (result.success) {
-          setJobList(result.data);
-        } else {
-          addToast({
-            type: "error",
-            title: "Couldn't load jobs",
-            description: "We had trouble fetching job listings. Showing cached results instead.",
-          });
-          setJobList(DUMMY_JOBS as any);
-        }
+        const result = await jobAPI.get();
+        setJobList(result || []);
       } catch (err) {
         addToast({
           type: "error",
           title: "No connection",
-          description: "Unable to reach the job service. Showing cached results instead.",
+          description: "Unable to reach the job service. Please try again later.",
         });
-        setJobList(DUMMY_JOBS as any);
       } finally {
         setLoading(false);
       }
@@ -56,29 +48,26 @@ export default function JobsPage() {
     fetchJobData();
   }, []);
 
-  const [selectedSchedules, setSelectedSchedules] = useState<WorkSchedule[]>([
-    "Full time",
-    "Part time",
-    "Project work",
+  const [selectedEmploymentTypes, setSelectedEmploymentTypes] = useState<string[]>([
+    "FULLTIME",
+    "PARTTIME",
+    "CONTRACTOR",
+    "INTERN",
   ]);
-  const [selectedTypes, setSelectedTypes] = useState<EmploymentType[]>([
-    "Full Day",
-    "Flexible Schedule",
-    "Distant",
+  const [selectedRemote, setSelectedRemote] = useState<string[]>([
+    "remote",
+    "onsite",
   ]);
-  const [selectedSources, setSelectedSources] = useState<JobSource[]>([
-    "LinkedIn",
-    "Serper",
-    "Indeed",
-    "Glassdoor",
-  ]);
+  const [filterHasSalary, setFilterHasSalary] = useState(false);
+  const [salaryMin, setSalaryMin] = useState(0);
+  const [salaryMax, setSalaryMax] = useState(300000);
 
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
   const [sortBy, setSortBy] = useState<SortOption>("last_updated");
 
   const filteredJobs = useMemo(() => {
-    let jobs = jobList.length > 0 ? [...jobList] : [...DUMMY_JOBS];
+    let jobs = [...jobList];
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -86,7 +75,8 @@ export default function JobsPage() {
         (j) =>
           j.title.toLowerCase().includes(q) ||
           j.company.toLowerCase().includes(q) ||
-          j.tags.some((t) => t.toLowerCase().includes(q)),
+          j.publisher.toLowerCase().includes(q) ||
+          j.description.toLowerCase().includes(q),
       );
     }
 
@@ -94,44 +84,46 @@ export default function JobsPage() {
       jobs = jobs.filter((j) => matchesLocation(j.location, locationQuery));
     }
 
-    if (experienceLevel.trim()) {
-      jobs = jobs.filter((j) => j.experienceLevel === experienceLevel);
+    if (selectedEmploymentTypes.length > 0) {
+      jobs = jobs.filter((j) =>
+        (j.employmentTypes ?? []).some((t) => selectedEmploymentTypes.includes(t)),
+      );
     }
 
-    if (salaryRangeFilter.trim()) {
-      jobs = jobs.filter((j) => {
-        const salaryNum = parseInt(j.salary.replace(/[^0-9]/g, "")) || 0;
-        if (salaryRangeFilter === "0-2000") return salaryNum <= 2000;
-        if (salaryRangeFilter === "2000-5000")
-          return salaryNum > 2000 && salaryNum <= 5000;
-        if (salaryRangeFilter === "5000-10000")
-          return salaryNum > 5000 && salaryNum <= 10000;
-        if (salaryRangeFilter === "10000-20000")
-          return salaryNum > 10000 && salaryNum <= 20000;
-        if (salaryRangeFilter === "20000+") return salaryNum > 20000;
-        return true;
-      });
+    if (selectedRemote.length > 0 && selectedRemote.length < 2) {
+      if (selectedRemote.includes("remote")) {
+        jobs = jobs.filter((j) => j.isRemote);
+      } else {
+        jobs = jobs.filter((j) => !j.isRemote);
+      }
     }
-
-    const parseSalary = (s: string) => parseInt(s.replace(/[^0-9]/g, "")) || 0;
-    const parseDate = (d: string) => new Date(d).getTime();
 
     switch (sortBy) {
-      case "match_score":
-        jobs.sort((a, b) => b.matchScore - a.matchScore);
-        break;
       case "salary_high":
-        jobs.sort((a, b) => parseSalary(b.salary) - parseSalary(a.salary));
+        jobs.sort((a, b) => (b.maxSalary ?? 0) - (a.maxSalary ?? 0));
         break;
       case "salary_low":
-        jobs.sort((a, b) => parseSalary(a.salary) - parseSalary(b.salary));
+        jobs.sort((a, b) => (a.minSalary ?? Infinity) - (b.minSalary ?? Infinity));
         break;
       case "date_newest":
-        jobs.sort((a, b) => parseDate(b.postedDate) - parseDate(a.postedDate));
+        jobs.sort((a, b) => b.postedAtTimestamp - a.postedAtTimestamp);
         break;
       case "last_updated":
       default:
         break;
+    }
+
+    // Salary filters
+    if (filterHasSalary) {
+      jobs = jobs.filter((j) => j.salary || j.minSalary != null || j.maxSalary != null);
+    }
+
+    if (salaryMin > 0 || salaryMax < 300000) {
+      jobs = jobs.filter((j) => {
+        const jMin = j.minSalary ?? 0;
+        const jMax = j.maxSalary ?? j.minSalary ?? 0;
+        return jMax >= salaryMin && jMin <= salaryMax;
+      });
     }
 
     return jobs;
@@ -139,24 +131,22 @@ export default function JobsPage() {
     jobList,
     searchQuery,
     locationQuery,
-    experienceLevel,
-    salaryRangeFilter,
+    selectedEmploymentTypes,
+    selectedRemote,
     sortBy,
+    filterHasSalary,
+    salaryMin,
+    salaryMax,
   ]);
 
-  const toggleSchedule = (s: WorkSchedule) =>
-    setSelectedSchedules((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
-    );
-
-  const toggleType = (t: EmploymentType) =>
-    setSelectedTypes((prev) =>
+  const toggleEmploymentType = (t: string) =>
+    setSelectedEmploymentTypes((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
     );
 
-  const toggleSource = (s: JobSource) =>
-    setSelectedSources((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s],
+  const toggleRemote = (r: string) =>
+    setSelectedRemote((prev) =>
+      prev.includes(r) ? prev.filter((x) => x !== r) : [...prev, r],
     );
 
   return (
@@ -172,10 +162,6 @@ export default function JobsPage() {
           onQueryChange={setSearchQuery}
           location={locationQuery}
           onLocationChange={setLocationQuery}
-          experience={experienceLevel}
-          onExperienceChange={setExperienceLevel}
-          salaryRange={salaryRangeFilter}
-          onSalaryRangeChange={setSalaryRangeFilter}
         />
       </motion.div>
       <div className="flex gap-6 items-start">
@@ -196,14 +182,18 @@ export default function JobsPage() {
             </motion.div>
             <motion.div variants={fadeUp} className="mt-5">
               <JobFilterPanel
-                selectedSchedules={selectedSchedules}
-                onToggleSchedule={toggleSchedule}
-                selectedTypes={selectedTypes}
-                onToggleType={toggleType}
-                selectedSources={selectedSources}
-                onToggleSource={toggleSource}
+                selectedEmploymentTypes={selectedEmploymentTypes}
+                onToggleEmploymentType={toggleEmploymentType}
+                selectedRemote={selectedRemote}
+                onToggleRemote={toggleRemote}
                 collapsed={filtersCollapsed}
                 onToggleCollapse={() => setFiltersCollapsed((p) => !p)}
+                salaryMin={salaryMin}
+                salaryMax={salaryMax}
+                onSalaryMinChange={(v) => setSalaryMin(v)}
+                onSalaryMaxChange={(v) => setSalaryMax(v)}
+                filterHasSalary={filterHasSalary}
+                onToggleHasSalary={() => setFilterHasSalary((p) => !p)}
               />
             </motion.div>
           </div>
@@ -219,41 +209,128 @@ export default function JobsPage() {
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            <AnimatePresence mode="popLayout">
-              {filteredJobs.map((job) => (
-                <motion.div
-                  key={job.id}
-                  layout="position"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {[...Array(9)].map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl overflow-hidden"
+                  style={{
+                    backgroundColor: "var(--d-surface)",
+                    border: "1px solid var(--d-border)",
+                  }}
                 >
-                  <JobCard job={job} />
-                </motion.div>
+                  {/* Gradient bar skeleton */}
+                  <div
+                    className="h-1 w-full animate-pulse"
+                    style={{ backgroundColor: "var(--d-surface-hover)" }}
+                  />
+                  <div className="p-5 space-y-4">
+                    {/* Header: logo + company */}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-11 h-11 rounded-xl animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div className="flex-1 space-y-1.5">
+                        <div
+                          className="h-4 w-2/3 rounded animate-pulse"
+                          style={{ backgroundColor: "var(--d-surface-hover)" }}
+                        />
+                        <div
+                          className="h-2.5 w-1/3 rounded animate-pulse"
+                          style={{ backgroundColor: "var(--d-surface-hover)" }}
+                        />
+                      </div>
+                    </div>
+                    {/* Title */}
+                    <div
+                      className="h-5 w-5/6 rounded animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    {/* Location */}
+                    <div
+                      className="h-3 w-3/5 rounded animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    {/* Tags */}
+                    <div className="flex gap-1.5">
+                      <div
+                        className="h-6 w-20 rounded-lg animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-6 w-16 rounded-lg animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-6 w-14 rounded-lg animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                    </div>
+                    {/* Salary chip */}
+                    <div
+                      className="h-8 w-2/5 rounded-xl animate-pulse"
+                      style={{ backgroundColor: "var(--d-surface-hover)" }}
+                    />
+                    {/* Footer */}
+                    <div
+                      className="flex items-center justify-between pt-3"
+                      style={{ borderTop: "1px solid var(--d-border-subtle)" }}
+                    >
+                      <div
+                        className="h-3 w-20 rounded animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                      <div
+                        className="h-8 w-16 rounded-xl animate-pulse"
+                        style={{ backgroundColor: "var(--d-surface-hover)" }}
+                      />
+                    </div>
+                  </div>
+                </div>
               ))}
-            </AnimatePresence>
-          </div>
-          {filteredJobs.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col items-center justify-center py-20 text-center"
-            >
-              <p
-                className="text-[17px] font-medium mb-1.5"
-                style={{ color: "var(--d-text-secondary)" }}
-              >
-                No jobs found
-              </p>
-              <p
-                className="text-[14px]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Try adjusting your search or filter criteria
-              </p>
-            </motion.div>
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 auto-rows-fr">
+                <AnimatePresence mode="popLayout">
+                  {filteredJobs.map((job) => (
+                    <motion.div
+                      key={job.id}
+                      layout="position"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                      className="h-full"
+                    >
+                      <JobCard job={job} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+              {filteredJobs.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-center justify-center py-20 text-center"
+                >
+                  <p
+                    className="text-[17px] font-medium mb-1.5"
+                    style={{ color: "var(--d-text-secondary)" }}
+                  >
+                    No jobs found
+                  </p>
+                  <p
+                    className="text-[14px]"
+                    style={{ color: "var(--d-text-muted)" }}
+                  >
+                    Try adjusting your search or filter criteria
+                  </p>
+                </motion.div>
+              )}
+            </>
           )}
         </div>
       </div>

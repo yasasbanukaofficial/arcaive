@@ -18,14 +18,15 @@ public class Member {
     private String email;
     private String hashedPassword;
 
-    @Enumerated(EnumType.STRING)
-    private MemberTier tier;
-
     @Embedded
     private Mfa mfa;
 
     @ElementCollection
     private List<LinkedAccount> linkedAccounts;
+
+    private String jobRole;
+    private String experience;
+    private String country;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "subscription_id", referencedColumnName = "id")

@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -16,12 +18,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.member.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
-import tech.yasasbanuka.backend.entity.MemberTier;
+import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +37,7 @@ public class OauthController implements AuthenticationSuccessHandler {
     private final MemberService memberService;
     private final JwtUtil jwtUtil;
     private final MemberMapper memberMapper;
+    private final MemberRepo memberRepo;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
     @Override
@@ -69,17 +75,22 @@ public class OauthController implements AuthenticationSuccessHandler {
         if (existingMember != null) {
             List<LinkedAccountDTO> existingAccounts = existingMember.getLinkedAccounts();
             if (existingAccounts != null) {
-                existingAccounts.add(LinkedAccountDTO.builder()
-                        .provider(provider)
-                        .label(provider.equals("github") ? "Github" : "Google")
-                        .connected(true)
-                        .email(email)
-                        .url(socialUrl)
-                        .build()
-                );
+                String finalProvider = provider;
+                boolean alreadyLinked = existingAccounts.stream()
+                        .anyMatch(acc -> finalProvider.equals(acc.getProvider()));
+                if (!alreadyLinked) {
+                    existingAccounts.add(LinkedAccountDTO.builder()
+                            .provider(provider)
+                            .label(provider.equals("github") ? "Github" : "Google")
+                            .connected(true)
+                            .email(email)
+                            .url(socialUrl)
+                            .build()
+                    );
+                    existingMember.setLinkedAccounts(existingAccounts);
+                    memberService.updateMember(existingMember);
+                }
             }
-            existingMember.setLinkedAccounts(existingAccounts);
-            memberService.updateMember(existingMember);
         } else {
             existingMember = MemberInternalDTO.builder()
                     .memberUsername(username)
@@ -93,21 +104,37 @@ public class OauthController implements AuthenticationSuccessHandler {
                             .url(socialUrl)
                             .build()
                     ))
-                    .memberTier(String.valueOf(MemberTier.STARTER))
                     .build();
             memberService.createMemberInternal(existingMember);
+
+            Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
+            Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
+            memberRepo.findByEmail(email).ifPresent(member -> {
+                Subscription freeSub = Subscription.builder()
+                        .providerId("explorer")
+                        .status("active")
+                        .variantId("Explorer")
+                        .endsAt(endsAt)
+                        .renewsAt(renewsAt)
+                        .build();
+                member.setSubscription(freeSub);
+                freeSub.setMember(member);
+                memberRepo.save(member);
+            });
         }
 
         String memberUsername = existingMember.getMemberUsername() != null
                 ? existingMember.getMemberUsername()
                 : username;
         String token = jwtUtil.generateToken(memberUsername);
-        Cookie cookie = new Cookie("access_token", token);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 24 * 7);
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("access_token", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(86400)
+                .sameSite("Lax")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         response.sendRedirect("http://localhost:3000/overview");
     }

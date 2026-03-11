@@ -20,6 +20,8 @@ public class MemberResponseDTO {
     private boolean hasPassword;
     private MfaUpdateRequestDTO mfa;
     private List<LinkedAccountDTO> linkedAccounts;
-    private String memberTier;
     private String subscriptionId;
+    private String jobRole;
+    private String experience;
+    private String country;
 }

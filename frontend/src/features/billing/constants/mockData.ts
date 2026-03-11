@@ -6,7 +6,7 @@ import type {
 } from "@/@types/subscription";
 
 export const MOCK_MEMBER_SUBSCRIPTION: MemberSubscription = {
-  currentPlan: "free",
+  currentPlan: "explorer",
   billingPeriod: "month",
   renewalDate: "2026-03-14",
   isActive: true,
@@ -18,8 +18,8 @@ export const MOCK_MEMBER_SUBSCRIPTION: MemberSubscription = {
 
 export const MOCK_PLANS: SubscriptionPlan[] = [
   {
-    id: "free",
-    name: "Free",
+    id: "explorer",
+    name: "Explorer",
     price: 0,
     billingPeriod: "month",
     features: [
@@ -33,8 +33,8 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     maxJobs: 10,
   },
   {
-    id: "pro",
-    name: "Pro",
+    id: "strategist",
+    name: "Strategist",
     price: 29,
     billingPeriod: "month",
     features: [
@@ -50,8 +50,8 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     maxAgents: 5,
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
+    id: "architect",
+    name: "Architect",
     price: 99,
     billingPeriod: "month",
     features: [
@@ -66,8 +66,8 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     ],
   },
   {
-    id: "free",
-    name: "Free",
+    id: "explorer",
+    name: "Explorer",
     price: 0,
     billingPeriod: "year",
     features: [
@@ -81,8 +81,8 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     maxJobs: 10,
   },
   {
-    id: "pro",
-    name: "Pro",
+    id: "strategist",
+    name: "Strategist",
     price: 279,
     billingPeriod: "year",
     features: [
@@ -99,8 +99,8 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
     maxAgents: 5,
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
+    id: "architect",
+    name: "Architect",
     price: 949,
     billingPeriod: "year",
     features: [

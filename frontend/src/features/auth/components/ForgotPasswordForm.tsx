@@ -41,7 +41,7 @@ export default function ForgotPasswordForm() {
   }, [state]);
 
   return (
-    <motion.div variants={staggerContainer(0.12, 0.12)}>
+    <>
       <motion.form
         onSubmit={formik.handleSubmit}
         variants={staggerContainer(0.08, 0)}
@@ -94,6 +94,6 @@ export default function ForgotPasswordForm() {
           </Button>
         </motion.div>
       </motion.form>
-    </motion.div>
+    </>
   );
 }

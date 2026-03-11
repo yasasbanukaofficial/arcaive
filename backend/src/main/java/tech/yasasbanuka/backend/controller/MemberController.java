@@ -73,4 +73,9 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberResponseDTO>> updateLinkedAccounts(Authentication authentication, @RequestBody List<LinkedAccountDTO> linkedAccounts) {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Linked accounts updated successfully", memberservice.updateLinkedAccountsByUsername(authentication.getName(), linkedAccounts)), HttpStatus.OK);
     }
+
+    @PatchMapping("/me/job-details")
+    public ResponseEntity<APIResponse<MemberResponseDTO>> updateJobDetails(Authentication authentication, @RequestBody @Valid JobDetailsDTO dto) {
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.updateJobDetailsByUsername(authentication.getName(), dto)), HttpStatus.OK);
+    }
 }

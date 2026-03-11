@@ -1,9 +1,9 @@
 package tech.yasasbanuka.backend.entity;
 
 public enum MemberTier {
-    STARTER("Basic package"),
-    PRO("Medium Premium Package"),
-    LIFETIME("Custome Package tailored according to the user's request");
+    EXPLORER("Explorer"),
+    STRATEGIST("Strategist"),
+    ARCHITECT("Architect");
 
     private final String tierDescription;
     MemberTier(String tierDescription) {

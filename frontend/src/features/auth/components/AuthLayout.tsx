@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { staggerContainer } from "@/components/animations/variants";
 import { usePathname } from "next/navigation";
 
 type Props = {
@@ -29,7 +28,6 @@ export default function AuthLayout({
           key={pathname}
           initial="hidden"
           animate="show"
-          variants={staggerContainer(0.12, 0.12)}
           className="w-full max-w-[420px]"
         >
           <header className="text-center mb-10">

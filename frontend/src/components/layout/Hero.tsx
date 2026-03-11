@@ -45,7 +45,7 @@ export default function Hero() {
       <motion.div
         initial="hidden"
         animate="show"
-        variants={staggerContainer(0.3, 0.5)}
+        variants={staggerContainer(0.1, 0.15)}
         className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8"
       >
         <motion.div

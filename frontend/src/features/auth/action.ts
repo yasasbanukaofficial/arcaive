@@ -1,4 +1,5 @@
 'use server'
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { authAPI } from "./api/authAPI";
 
@@ -15,6 +16,9 @@ export async function registerAction(
   const memberEmail = formData.get("memberEmail") as string;
   const memberPassword = formData.get("memberPassword") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
+  const jobRole = formData.get("jobRole") as string;
+  const experience = formData.get("experience") as string;
+  const country = formData.get("country") as string;
 
   if (memberPassword !== confirmPassword) {
     return { error: "Passwords do not match" };
@@ -26,6 +30,9 @@ export async function registerAction(
       memberEmail,
       memberUsername: memberEmail.split("@")[0],
       password: memberPassword,
+      jobRole,
+      experience,
+      country,
     });
     return { success: true };
   } catch (err: unknown) {
@@ -87,4 +94,28 @@ export async function forgotPasswordAction(
     const msg = (err as any)?.message;
     return { error: msg || "We couldn't process that request right now. Please try again." };
   }
+}
+
+export async function logoutAction(): Promise<void> {
+  try {
+    await authAPI.logout();
+  } catch (err: unknown) {
+    console.error("authAPI.logout failed:", err);
+  }
+
+  const cookieStore = await cookies();
+  const expire = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict" as const,
+    path: "/",
+    maxAge: 0,
+  };
+
+  cookieStore.set("access_token", "", expire);
+  cookieStore.set("access_token", "", { ...expire, secure: true });  // OAuth variant (always Secure)
+  cookieStore.set("JSESSIONID", "", { ...expire, httpOnly: true });
+
+  // 3. Redirect — the client-side layout effect handles localStorage/sessionStorage cleanup.
+  redirect("/login");
 }

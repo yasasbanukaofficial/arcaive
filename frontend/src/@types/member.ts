@@ -17,8 +17,10 @@ export type Member = {
   memberUsername?: string;
   memberEmail?: string;
   hasPassword?: boolean;
-  memberTier?: string | null;
   subscriptionId?: string | null;
+  jobRole?: string | null;
+  experience?: string | null;
+  country?: string | null;
 };
 
 export type MemberIdentityData = Member & {
@@ -31,6 +33,9 @@ export type MemberCreateRequest = {
   memberEmail: string;
   memberUsername?: string;
   password: string;
+  jobRole?: string;
+  experience?: string;
+  country?: string;
 };
 
 export type AuthMember = {
@@ -47,4 +52,7 @@ export type AtomicSkillResponseDTO = {
   message?: string | null;
   achievements: AtomicAchievement[];
   targetRoles?: string[];
+  detectedJobRole?: string | null;
+  detectedExperience?: string | null;
+  detectedCountry?: string | null;
 };

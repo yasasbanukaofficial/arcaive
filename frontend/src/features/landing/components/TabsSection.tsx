@@ -127,7 +127,7 @@ export default function TabsSection() {
                 </div>
 
                 <Link
-                  href="/get-started"
+                  href="/register"
                   className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-[12px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all"
                 >
                   Get started

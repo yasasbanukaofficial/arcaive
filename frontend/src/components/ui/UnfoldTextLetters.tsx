@@ -27,12 +27,12 @@ export default function UnfoldTextLetters({ text, className = "" }: Props) {
             return (
               <motion.span
                 key={letterIdx}
-                initial={{ opacity: 0, filter: "blur(6px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{
-                  duration: 0.7,
-                  delay: 1 + currentIndex * 0.02,
-                  ease: [0.16, 1, 0.3, 1],
+                  duration: 0.35,
+                  delay: 0.5 + currentIndex * 0.012,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
                 className="inline-block"
               >

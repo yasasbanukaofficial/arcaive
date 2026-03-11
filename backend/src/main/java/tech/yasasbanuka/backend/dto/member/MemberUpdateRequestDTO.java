@@ -23,4 +23,11 @@ public class MemberUpdateRequestDTO {
     @Email(message = "Please provide a valid email address (ex:-john@xyz.com)")
     @Nullable
     private String memberEmail;
+
+    @Nullable
+    private String jobRole;
+    @Nullable
+    private String experience;
+    @Nullable
+    private String country;
 }

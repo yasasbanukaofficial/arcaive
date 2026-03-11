@@ -21,4 +21,12 @@ export const authAPI = {
       })
     ).data,
 
+  logout: async () =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/logout`,
+        withCredentials: true,
+      })
+    ).data,
 };

@@ -1,37 +1,45 @@
-import type { JobListing } from "@/@types/jobs";
+import type { JobListing, ApplyOption } from "@/@types/jobs";
 
-export function mapToJobListing(mock: any): JobListing {
-  let safeTags: string[] = [];
-  try {
-    if (mock.qualifications) {
-      const parsed =
-        typeof mock.qualifications === "string"
-          ? JSON.parse(mock.qualifications)
-          : mock.qualifications;
-
-      safeTags = Array.isArray(parsed) ? parsed : [];
-    }
-  } catch (e) {
-    console.error("Tag parsing failed for job:", mock.id);
-    safeTags = [];
-  }
+export function mapToJobListing(raw: any): JobListing {
+  const applyOptions: ApplyOption[] = Array.isArray(raw.applyOptions)
+    ? raw.applyOptions.map((opt: any) => ({
+        publisher: opt.publisher || "",
+        applyLink: opt.applyLink || "",
+        isDirect: opt.isDirect ?? null,
+      }))
+    : [];
 
   return {
-    id: mock.id || Math.random().toString(),
-    title: mock.title || "Position Opening",
-    company: mock.company || "Stealth Startup",
-    companyLogo: `https://api.dicebear.com/7.x/initials/svg?seed=${mock.company || "Company"}`,
-    location: mock.location || "Remote",
-    salary: `$${(mock.salary_from || 0) / 1000}k - $${(mock.salary_to || 0) / 1000}k`,
-    postedDate: mock.created_at || new Date().toISOString(),
-    tags: safeTags,
-    experienceLevel: "2 - 4 years",
-    workSchedule: "Full time",
-    employmentType: mock.is_remote_work ? "Distant" : "Full Day",
-    matchScore: Math.floor(Math.random() * 20) + 80,
-    whyYouMatch: "Matches your core technical stack.",
-    source: "LinkedIn",
-    bookmarked: false,
-    description: mock.description || "",
+    id: raw.jobId || Math.random().toString(),
+    title: raw.jobTitle || "Position Opening",
+    company: raw.employerName || "Unknown Company",
+    companyLogo: raw.employerLogo || null,
+    companyWebsite: raw.employerWebsite || null,
+    publisher: raw.jobPublisher || "Unknown",
+    employmentType: raw.jobEmploymentType || "Full-time",
+    employmentTypes: Array.isArray(raw.jobEmploymentTypes)
+      ? raw.jobEmploymentTypes
+      : [],
+    applyLink: raw.jobApplyLink || "",
+    applyIsDirect: raw.jobApplyIsDirect ?? false,
+    applyOptions,
+    description: raw.jobDescription || "",
+    isRemote: raw.jobIsRemote ?? false,
+    postedAt: raw.jobPostedAt || "Recently",
+    postedAtTimestamp: raw.jobPostedAtTimestamp || 0,
+    postedAtDatetime: raw.jobPostedAtDatetimeUtc || new Date().toISOString(),
+    location: raw.jobLocation || "Remote",
+    city: raw.jobCity || "",
+    state: raw.jobState || null,
+    country: raw.jobCountry || "",
+    salary: raw.jobSalary || null,
+    minSalary: raw.jobMinSalary ?? null,
+    maxSalary: raw.jobMaxSalary ?? null,
+    salaryPeriod: raw.jobSalaryPeriod || null,
+    highlights: raw.jobHighlights && typeof raw.jobHighlights === "object"
+      ? raw.jobHighlights
+      : {},
+    benefits: Array.isArray(raw.jobBenefits) ? raw.jobBenefits : null,
+    googleLink: raw.jobGoogleLink || "",
   };
 }

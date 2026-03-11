@@ -1,4 +1,4 @@
-export type PlanType = "free" | "pro" | "enterprise";
+export type PlanType = "explorer" | "strategist" | "architect";
 
 export interface SubscriptionPlan {
   id: PlanType;

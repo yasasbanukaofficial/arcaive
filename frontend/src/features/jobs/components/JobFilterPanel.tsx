@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ChevronLeft, Check } from "lucide-react";
-import type { WorkSchedule, EmploymentType, JobSource } from "@/@types/jobs";
+import Slider from "@/components/ui/Slider";
 
 interface FilterCheckboxProps {
   label: string;
@@ -55,44 +55,51 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
   );
 }
 
-const WORK_SCHEDULES: WorkSchedule[] = [
-  "Full time",
-  "Part time",
-  "Internship",
-  "Project work",
-  "Volunteering",
+const EMPLOYMENT_TYPES: { label: string; value: string }[] = [
+  { label: "Full-time", value: "FULLTIME" },
+  { label: "Part-time", value: "PARTTIME" },
+  { label: "Contractor", value: "CONTRACTOR" },
+  { label: "Intern", value: "INTERN" },
+  { label: "Temporary", value: "TEMPORARY" },
+  { label: "Freelance", value: "FREELANCE" },
+  { label: "Apprenticeship", value: "APPRENTICESHIP" },
+  { label: "Volunteer", value: "VOLUNTEER" },
 ];
 
-const EMPLOYMENT_TYPES: EmploymentType[] = [
-  "Full Day",
-  "Flexible Schedule",
-  "Shift work",
-  "Distant",
-  "Shift method",
+const REMOTE_OPTIONS: { label: string; value: string }[] = [
+  { label: "Remote", value: "remote" },
+  { label: "On-site", value: "onsite" },
 ];
-
-const SOURCES: JobSource[] = ["LinkedIn", "Serper", "Indeed", "Glassdoor"];
 
 interface JobFiltersProps {
-  selectedSchedules: WorkSchedule[];
-  onToggleSchedule: (s: WorkSchedule) => void;
-  selectedTypes: EmploymentType[];
-  onToggleType: (t: EmploymentType) => void;
-  selectedSources: JobSource[];
-  onToggleSource: (s: JobSource) => void;
+  selectedEmploymentTypes: string[];
+  onToggleEmploymentType: (t: string) => void;
+  selectedRemote: string[];
+  onToggleRemote: (r: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
+  // salary filters
+  salaryMin: number;
+  salaryMax: number;
+  onSalaryMinChange: (v: number) => void;
+  onSalaryMaxChange: (v: number) => void;
+  filterHasSalary: boolean;
+  onToggleHasSalary: () => void;
 }
 
 export default function JobFilterPanel({
-  selectedSchedules,
-  onToggleSchedule,
-  selectedTypes,
-  onToggleType,
-  selectedSources,
-  onToggleSource,
+  selectedEmploymentTypes,
+  onToggleEmploymentType,
+  selectedRemote,
+  onToggleRemote,
   collapsed,
   onToggleCollapse,
+  salaryMin,
+  salaryMax,
+  onSalaryMinChange,
+  onSalaryMaxChange,
+  filterHasSalary,
+  onToggleHasSalary,
 }: JobFiltersProps) {
   return (
     <div
@@ -125,33 +132,15 @@ export default function JobFilterPanel({
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
           style={{ color: "var(--d-text-muted)" }}
         >
-          Working schedule
-        </p>
-        <div className="space-y-0.5">
-          {WORK_SCHEDULES.map((s) => (
-            <FilterCheckbox
-              key={s}
-              label={s}
-              checked={selectedSchedules.includes(s)}
-              onChange={() => onToggleSchedule(s)}
-            />
-          ))}
-        </div>
-      </div>
-      <div>
-        <p
-          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          Employment type
+          Employment Type
         </p>
         <div className="space-y-0.5">
           {EMPLOYMENT_TYPES.map((t) => (
             <FilterCheckbox
-              key={t}
-              label={t}
-              checked={selectedTypes.includes(t)}
-              onChange={() => onToggleType(t)}
+              key={t.value}
+              label={t.label}
+              checked={selectedEmploymentTypes.includes(t.value)}
+              onChange={() => onToggleEmploymentType(t.value)}
             />
           ))}
         </div>
@@ -161,17 +150,57 @@ export default function JobFilterPanel({
           className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
           style={{ color: "var(--d-text-muted)" }}
         >
-          Source
+          Work Mode
         </p>
         <div className="space-y-0.5">
-          {SOURCES.map((s) => (
+          {REMOTE_OPTIONS.map((r) => (
             <FilterCheckbox
-              key={s}
-              label={s}
-              checked={selectedSources.includes(s)}
-              onChange={() => onToggleSource(s)}
+              key={r.value}
+              label={r.label}
+              checked={selectedRemote.includes(r.value)}
+              onChange={() => onToggleRemote(r.value)}
             />
           ))}
+        </div>
+      </div>
+      
+      <div>
+        <p
+          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
+          style={{ color: "var(--d-text-muted)" }}
+        >
+          Salary Range
+        </p>
+        <div className="space-y-3">
+          <FilterCheckbox
+            label="Has salary info"
+            checked={filterHasSalary}
+            onChange={onToggleHasSalary}
+          />
+          <div className="pt-2">
+            <Slider
+              label="Min Salary"
+              value={salaryMin}
+              onChange={onSalaryMinChange}
+              min={0}
+              max={300000}
+              step={1000}
+              valueSuffix="$"
+              showValue={true}
+            />
+          </div>
+          <div>
+            <Slider
+              label="Max Salary"
+              value={salaryMax}
+              onChange={onSalaryMaxChange}
+              min={0}
+              max={300000}
+              step={1000}
+              valueSuffix="$"
+              showValue={true}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -1,96 +1,77 @@
-# 🤖 ARCAIVE: The Sovereign Career Intelligence Platform
+<div align="center">
 
-**ARCAIVE** is the world's first autonomous career intelligence engine that orchestrates the entire discovery-to-application lifecycle. Unlike simple CV builders, ARCAIVE deploys a multi-agent swarm to analyze market trends, simulate recruiter personas, and autonomously generate hyper-tailored application packages.
+# 🤖 ARCAIVE
+### Sovereign Career Intelligence Platform
+**The world's first autonomous career intelligence engine.**
 
----
+[**Explore Demo**](https://arcaive.ai) • [**Documentation**](https://docs.arcaive.ai) • [**Join Community**](https://discord.gg/arcaive)
 
-## 🚀 The Hook
+<br/>
 
-**Stop hunting for jobs. Let your agents do the work.** ARCAIVE uses a "Human-in-the-loop" agentic workflow, visualized via **React Flow**, allowing users to watch their AI agents "think," research, and apply in real-time.
-
----
-
-## 🛠️ Tech Stack: The "SaaS Founder" Perspective
-
-| Tool                   | Purpose          | The "Pro" Logic                                                 |
-| ---------------------- | ---------------- | --------------------------------------------------------------- |
-| **Next.js & Tailwind** | Frontend         | High-performance dashboard with a sleek "Enterprise SaaS" feel. |
-| **Spring Boot**        | API & Backend    | Robust, type-safe enterprise system demonstrating JVM mastery.  |
-| **Neon (Postgres)**    | Database         | Serverless PostgreSQL for scalable User Subscription States.    |
-| **Chroma**             | Vector DB        | Stores "Skill Embeddings" for mathematical JD matching.         |
-| **LangChain4j**        | AI Orchestration | Java-native AI integration for professional environments.       |
-| **OpenRouter**         | LLM Gateway      | Unified access to GPT-4o and Claude 3.5 Sonnet.                 |
-| **Livekit**            | Arcaive Audio    | Powers the real-time simulation loop voice sessions.            |
-| **Lemon Squeezy**      | Payments         | Handles global tax/VAT (MoR) so developers can focus on code.   |
+![Header Image](https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=1200)
 
 ---
 
-## 🧠 Core Agentic Architecture
+### **"Stop hunting for jobs. Let your swarm do the work."**
 
-The heart of ARCAIVE is a **Multi-Agent Refinement Swarm** that handles the heavy lifting of professional self-presentation.
+</div>
 
-### 1. The Discovery Agent 🔍
+## 🚀 The Arcaive Vision
 
-Uses `Serper.dev` and Job APIs (LinkedIn, Indeed) to find "hidden" requirements and rank opportunities by compatibility scores.
-
-### 2. The Refinement Swarm 🐝
-
-- **Agent A (The Recruiter):** Critiques the CV for red flags and ATS compliance.
-- **Agent B (The Engineer):** Rewrites bullet points into "Atomic Achievements" (e.g., _“Reduced AWS costs by 20%”_).
-- **Agent C (The Editor):** Polishes tone and ensures professional "punch."
-
-### 3. The Auto-Apply Bot 🤖
-
-For **Arcaive** tier users, this bot handles the tedious form-filling and submission process, logging every action in real-time.
+**ARCAIVE** orchestrates the entire discovery-to-application lifecycle. Unlike simple CV builders, ARCAIVE deploys a **Multi-Agent Refinement Swarm** that analyzes market trends, simulates recruiter personas, and autonomously generates hyper-tailored application packages.
 
 ---
 
-## 💎 Monetization & Feature Gating
+## ✅ Features Completed
 
-ARCAIVE implements a sophisticated multi-tier logic using **Spring Security** and **Lemon Squeezy** webhooks.
-
-| Feature                      | Explorer (Free) | Arcaive ($19/mo)  |
-| ---------------------------- | --------------- | ----------------- |
-| CV Analysis                  | Basic           | Advanced (Atomic) |
-| Shadow Applications          | 3 / month       | Unlimited         |
-| LLM Access                   | Standard        | Claude 3.5 Sonnet |
-| **Simulation Loop**          | ❌              | ✅                |
-| **Auto-Apply Bot**           | ❌              | ✅                |
-| **React Flow Visualization** | ❌              | ✅                |
-
----
-
-## 🏆 The "Lead Engineer" Highlight: The Simulation Loop
-
-Our flagship feature is the **Mock-Recruiter Stress Test**. Before an application is finalized, a "Simulation Agent" acting as a Hiring Manager generates 5 high-pressure Arcaive questions based on the specific Job Description.
-
-> **The SaaS Twist:** This feature serves as a conversion catalyst. When an Explorer user attempts to access it, they are met with a seamless "Upgrade via Lemon Squeezy" modal—demonstrating a complete understanding of the SaaS conversion funnel.
+| Phase | Description | Status |
+| :--- | :--- | :--- |
+| 1 | **Architecture:** Next.js 15 + Spring Boot 3 + Neon Postgres scaffold | ✅ Done |
+| 2 | **Identity:** JWT & OAuth2 (Google/GitHub) secure authentication | ✅ Done |
+| 3 | **Agent Zero:** LangChain4j PDF extractor for "Atomic Achievements" | ✅ Done |
+| 4 | **UI/UX:** Full SaaS Component Library & Framer Motion animations | ✅ Done |
+| 5 | **Performance:** GPU-composited layers & Lenis smooth scrolling | ✅ Done |
+| 6 | **Dashboard:** Overview with stats, active agents & activity feeds | ✅ Done |
+| 7 | **Marketplace:** Location-aware Job Search & smart filter panels | ✅ Done |
+| 8 | **Identity:** Profile management & 2FA security UI scaffold | ✅ Done |
 
 ---
 
-## 🏗️ Data Flow & System Logic
+## 🏗️ Upcoming Phases
 
-1. **Ingestion:** User uploads PDF LangChain4j extracts **Atomic Achievements**.
-2. **Vectorization:** Achievements are converted to embeddings and stored in **Chroma** via UUID linkage to **Neon**.
-3. **Matching:** Discovery Agent calculates **Cosine Similarity** between the user's vector and active Job Descriptions.
-4. **Action:** If match , the Auto-Apply Bot triggers the refinement swarm.
-5. **Output:** A hyper-tailored PDF is generated, and a "Cheat Sheet" for the user is created.
-
----
-
-## 🛤️ Roadmap
-
-- [ ] **Phase 1:** Next.js Dashboard & Layout.
-- [ ] **Phase 2:** Spring Boot Auth & Neon Schema.
-- [ ] **Phase 3:** Lemon Squeezy Webhook Integration.
-- [ ] **Phase 4:** Chroma Vector Ingestion Agent.
-- [ ] **Phase 5:** Multi-Agent Swarm (The "Thinking" Engine).
-- [ ] **Phase 6:** PDF Export & Application Tracker.
+| Phase | Description | Status |
+| :--- | :--- | :--- |
+| 9 | **Sync:** Settings API integration (Member Profile & Preferences) | ⏳ In-Progress |
+| 10 | **Discovery:** Serper.dev + LinkedIn/Indeed Job Swarm Agent | ⏳ Planned |
+| 11 | **Matching:** Chroma Vector DB ingestion & Cosine Similarity matching | ⏳ Planned |
+| 12 | **Simulation:** Livekit Voice Loop — real-time AI mock interviews | ⏳ Planned |
+| 13 | **Execution:** Auto-Apply Bot — autonomous form-filling agent | ⏳ Planned |
+| 14 | **Flow:** React Flow Canvas for real-time agent "thinking" visualization | ⏳ Planned |
+| 15 | **Billing:** Lemon Squeezy MoR integration & feature gating | ⏳ Planned |
 
 ---
 
-## 🤝 Contributing
+## 🧠 The Agent Swarm
 
-Feel free to open an issue or submit a PR. Let's build the future of career sovereignty.
+### 🔍 Discovery Agent
+Scours LinkedIn, Indeed, and private APIs using `Serper.dev` to rank opportunities by compatibility scores.
+
+### Refinement Swarm
+*   **The Recruiter:** Critiques CVs for red flags and ATS compliance.
+*   **The Engineer:** Rewrites bullet points into measurable achievements.
+*   **The Editor:** Polishes tone for maximum professional "punch."
+
+---
+
+## 💎 Feature Tiers
+
+| Capability | Explorer (Free) | Scan Out ($19/mo) |
+| :--- | :---: | :---: |
+| **CV Analysis** | Basic | Advanced (Atomic) |
+| **Shadow Applications** | 10 / month | Unlimited |
+| **Simulation Loop** | ❌ | ✅ |
+| **Auto-Apply Bot** | 5 / month | Unlimited |
+| **Flow Visualization** | ❌ | ✅ |
+
 
 ---

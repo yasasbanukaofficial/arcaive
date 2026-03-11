@@ -24,11 +24,16 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> memberRepo.findByUsername(username)
-                .map(user -> new User(
-                        user.getUsername(),
-                        user.getHashedPassword(),
-                        List.of(new SimpleGrantedAuthority("ROLE_" + user.getTier().name()))
-                )).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .map(member -> {
+                    String tier = (member.getSubscription() != null && member.getSubscription().getVariantId() != null)
+                            ? member.getSubscription().getVariantId()
+                            : "Explorer";
+                    return new User(
+                            member.getUsername(),
+                            member.getHashedPassword(),
+                            List.of(new SimpleGrantedAuthority("ROLE_" + tier))
+                    );
+                }).orElseThrow(() -> new UsernameNotFoundException("Member not found with username: " + username));
     }
 
     @Bean

@@ -34,7 +34,7 @@ const FinalCTASection = () => {
             subtext="Experience the tool right now. Just dive in and see what AI can do for you."
           />
 
-          <CTAButton text="Try It Now" href="/get-started" />
+          <CTAButton text="Try It Now" href="/register" />
         </motion.div>
       </motion.section>
     </div>

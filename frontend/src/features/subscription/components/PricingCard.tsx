@@ -32,7 +32,7 @@ export default function PricingCard({
       )}
 
       <div className="mb-4">
-        <h3 className="text-xs uppercase text-gray-400 tracking-wider font-medium mb-2">{plan.id === "free" ? "Starter" : plan.name}</h3>
+        <h3 className="text-xs uppercase text-gray-400 tracking-wider font-medium mb-2">{plan.name}</h3>
 
         <div className="flex items-end gap-3">
           <div className="text-4xl font-bold text-white">{plan.price === 0 ? "Free" : `$${plan.price}`}</div>

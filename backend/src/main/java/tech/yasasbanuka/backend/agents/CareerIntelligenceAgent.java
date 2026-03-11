@@ -80,7 +80,10 @@ public interface CareerIntelligenceAgent {
                      "targetRoles": [
                         "<Job Title 1>",
                         "<Job Title 2>"
-                     ]
+                     ],
+                     "detectedJobRole": "<Most prominent/recent job title from CV, e.g. 'Software Engineer'>",
+                     "detectedExperience": "<Total professional years, e.g. '3 years', '5+ years', or 'Fresh Graduate'>",
+                     "detectedCountry": "<Country of residence inferred from CV, e.g. 'Sri Lanka', 'United States'>"
                   }
 
             ### FIELD RULES:
