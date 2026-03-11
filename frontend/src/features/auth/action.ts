@@ -113,9 +113,8 @@ export async function logoutAction(): Promise<void> {
   };
 
   cookieStore.set("access_token", "", expire);
-  cookieStore.set("access_token", "", { ...expire, secure: true });  // OAuth variant (always Secure)
+  cookieStore.set("access_token", "", { ...expire, secure: true }); 
   cookieStore.set("JSESSIONID", "", { ...expire, httpOnly: true });
 
-  // 3. Redirect — the client-side layout effect handles localStorage/sessionStorage cleanup.
   redirect("/login");
 }

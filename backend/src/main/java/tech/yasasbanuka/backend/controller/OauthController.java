@@ -131,7 +131,7 @@ public class OauthController implements AuthenticationSuccessHandler {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(86400)
+                .maxAge(3600)
                 .sameSite("Lax")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
