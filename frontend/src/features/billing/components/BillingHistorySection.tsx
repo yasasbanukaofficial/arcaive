@@ -109,7 +109,7 @@ export default function BillingHistorySection({
                     variant="secondary"
                     size="sm"
                     icon={<Download className="w-4 h-4" />}
-                    onClick={() => window.open(item.invoice, "_blank")}
+                    onClick={() => window.open(item.invoice, "_blank", "noopener,noreferrer")}
                   >
                     Invoice
                   </Button>

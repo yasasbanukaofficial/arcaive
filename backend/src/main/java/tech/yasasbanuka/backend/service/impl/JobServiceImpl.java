@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.job.JobResponseDTO;
 import tech.yasasbanuka.backend.dto.job.SearchResponse;
+import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
+import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.service.JobService;
+import tech.yasasbanuka.backend.service.MemberService;
 
 import java.util.*;
 
@@ -17,7 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class JobServiceImpl implements JobService {
-
+    private final MemberService memberService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${JSEARCH_API_KEY}")
@@ -27,11 +30,19 @@ public class JobServiceImpl implements JobService {
     private String jsearchApiHost;
 
     @Override
-    public List<JobResponseDTO> searchJobs(String query, String location) {
+    public List<JobResponseDTO> searchJobs(String username, String location) {
+        MemberResponseDTO member = memberService.getMemberByUsername(username);
+
         if (jsearchApiKey == null || jsearchApiKey.isBlank()) {
             log.error("JSearch API key is not configured.");
             return Collections.emptyList();
         }
+
+        if(location == null || location.isEmpty()) {
+            location = member.getCountry();
+        }
+
+        String jobRole = member.getJobRole();
 
         RestClient client = RestClient.builder()
                 .baseUrl("https://jsearch.p.rapidapi.com")
@@ -39,10 +50,11 @@ public class JobServiceImpl implements JobService {
                 .defaultHeader("x-rapidapi-host", jsearchApiHost)
                 .build();
 
+        String finalLocation = location;
         String searchResponse = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/search")
-                        .queryParam("query", query + " jobs in Sri Lanka")
+                        .queryParam("query", jobRole + " jobs in " + finalLocation)
                         .queryParam("page", "1")
                         .build())
                 .retrieve()

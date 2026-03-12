@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useActionState } from "react";
+import React, { useEffect, useActionState, startTransition } from "react";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,7 +22,7 @@ export default function ForgotPasswordForm() {
     onSubmit: (values) => {
       const fd = new FormData();
       fd.append("email", values.email);
-      formAction(fd);
+      startTransition(() => formAction(fd));
     },
   });
 

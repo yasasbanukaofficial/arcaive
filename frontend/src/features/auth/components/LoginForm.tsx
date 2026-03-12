@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState, useEffect } from "react";
+import React, { useActionState, useEffect, startTransition } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -28,7 +28,7 @@ export default function LoginForm() {
       const fd = new FormData();
       fd.append("email", values.email);
       fd.append("password", values.password);
-      formAction(fd);
+      startTransition(() => formAction(fd));
     },
   });
 

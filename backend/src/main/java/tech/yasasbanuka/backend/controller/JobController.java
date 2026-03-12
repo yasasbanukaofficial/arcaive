@@ -3,6 +3,7 @@ package tech.yasasbanuka.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.job.JobResponseDTO;
 import tech.yasasbanuka.backend.service.JobService;
@@ -19,11 +20,11 @@ public class JobController {
 
     @GetMapping("/search")
     public ResponseEntity<APIResponse<List<JobResponseDTO>>> searchJobs(
-            @RequestParam(defaultValue = "software engineer") String query,
+            Authentication authentication,
             @RequestParam(required = false) String location) {
         return new ResponseEntity<>(
                 new APIResponse<>(true, HttpStatus.OK.value(), "Jobs fetched successfully",
-                        jobService.searchJobs(query, location)),
+                        jobService.searchJobs(authentication.getName(), location)),
                 HttpStatus.OK);
     }
 }

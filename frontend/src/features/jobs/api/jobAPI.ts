@@ -3,32 +3,44 @@ import { mapToJobListing } from "@/features/jobs/utils/mockMapper";
 import type { JobListing } from "@/@types/jobs";
 import { getToken } from "@/utils/auth";
 
-const JOB_SEARCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/jobs/search`!;
+const JOB_SEARCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/jobs`!;
 const CACHE_KEY = "arcaive_jobs_cache";
 
 export const jobAPI = {
-  get: async (query?: string, location?: string) => {
-    const params: Record<string, string> = {};
-    if (query) params.query = query;
-    if (location) params.location = location;
-    const token = await getToken();
-
-    const response = await apiInstance({
-      method: "GET",
-      baseURL: JOB_SEARCH_URL,
-      headers: {Authorization: `Bearer ${token}`},
-      withCredentials: true,
-      params,
-    });
-
-    const rawJobs: any[] = response.data.data ?? [];
-    const jobs = rawJobs.map(mapToJobListing);
-
+  get: async (location: any) => {
     try {
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(jobs));
-    } catch {}
+      const params = {location};
 
-    return jobs;
+      console.log("Request starting with params:", params);
+
+      const token = await getToken();
+      console.log("Token acquired:", !!token);
+
+      const response = await apiInstance({
+        method: "GET", 
+        url: "/search", 
+        baseURL: JOB_SEARCH_URL,
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+        params,
+      });
+
+      console.log("Response received:", response.status);
+
+      const rawJobs: any[] = response.data?.data ?? [];
+      const jobs = rawJobs.map(mapToJobListing);
+
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(jobs));
+      } catch (e) {
+        console.warn("Session Storage failed", e);
+      }
+
+      return jobs;
+    } catch (error) {
+      console.error("Critical error in jobAPI.get:", error);
+      throw error; // Rethrow so the UI can handle the error state
+    }
   },
   getCached: (): JobListing[] | null => {
     try {
