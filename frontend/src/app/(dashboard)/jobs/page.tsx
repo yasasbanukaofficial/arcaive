@@ -3,10 +3,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
-import type {
-  SortOption,
-  JobListing,
-} from "@/@types/jobs";
+import type { SortOption, JobListing } from "@/@types/jobs";
 import JobSearchBar from "@/features/jobs/components/JobSearchBar";
 import JobFilterPanel from "@/features/jobs/components/JobFilterPanel";
 import JobListHeader from "@/features/jobs/components/JobListHeader";
@@ -31,29 +28,57 @@ export default function JobsPage() {
       return;
     }
 
-    async function fetchJobData() {
+    const getCoords = (): Promise<{ lat: number; lon: number } | null> => {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) {
+          resolve(null);
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          (p) => resolve({ lat: p.coords.latitude, lon: p.coords.longitude }),
+          (err) => {
+            resolve(null);
+          },
+          { timeout: 5000, enableHighAccuracy: true, maximumAge: 0 },
+        );
+      });
+    };
+
+    async function initialize() {
+      setLoading(true);
       try {
-        const result = await jobAPI.get();
+        const coords = await getCoords();
+        let country = "";
+        if (coords) {
+          const geoRes = await fetch(
+            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords.lat}&longitude=${coords.lon}&localityLanguage=en`,
+          );
+          const geoData = await geoRes.json();
+          country = geoData.countryName || "";
+          setLocationQuery(country);
+        }
+        console.log("shbfhs");
+        
+        const result = await jobAPI.get(country.trim());
+        console.log(result);
         setJobList(result || []);
       } catch (err) {
         addToast({
           type: "error",
-          title: "No connection",
-          description: "Unable to reach the job service. Please try again later.",
+          title: "Unable to load jobs",
+          description: "Allow location if not enabled in the browser.",
         });
       } finally {
         setLoading(false);
       }
     }
-    fetchJobData();
+
+    initialize();
   }, []);
 
-  const [selectedEmploymentTypes, setSelectedEmploymentTypes] = useState<string[]>([
-    "FULLTIME",
-    "PARTTIME",
-    "CONTRACTOR",
-    "INTERN",
-  ]);
+  const [selectedEmploymentTypes, setSelectedEmploymentTypes] = useState<
+    string[]
+  >(["FULLTIME", "PARTTIME", "CONTRACTOR", "INTERN"]);
   const [selectedRemote, setSelectedRemote] = useState<string[]>([
     "remote",
     "onsite",
@@ -86,7 +111,9 @@ export default function JobsPage() {
 
     if (selectedEmploymentTypes.length > 0) {
       jobs = jobs.filter((j) =>
-        (j.employmentTypes ?? []).some((t) => selectedEmploymentTypes.includes(t)),
+        (j.employmentTypes ?? []).some((t) =>
+          selectedEmploymentTypes.includes(t),
+        ),
       );
     }
 
@@ -103,7 +130,9 @@ export default function JobsPage() {
         jobs.sort((a, b) => (b.maxSalary ?? 0) - (a.maxSalary ?? 0));
         break;
       case "salary_low":
-        jobs.sort((a, b) => (a.minSalary ?? Infinity) - (b.minSalary ?? Infinity));
+        jobs.sort(
+          (a, b) => (a.minSalary ?? Infinity) - (b.minSalary ?? Infinity),
+        );
         break;
       case "date_newest":
         jobs.sort((a, b) => b.postedAtTimestamp - a.postedAtTimestamp);
@@ -113,9 +142,10 @@ export default function JobsPage() {
         break;
     }
 
-    // Salary filters
     if (filterHasSalary) {
-      jobs = jobs.filter((j) => j.salary || j.minSalary != null || j.maxSalary != null);
+      jobs = jobs.filter(
+        (j) => j.salary || j.minSalary != null || j.maxSalary != null,
+      );
     }
 
     if (salaryMin > 0 || salaryMax < 300000) {

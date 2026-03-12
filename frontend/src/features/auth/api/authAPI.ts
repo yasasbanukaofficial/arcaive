@@ -29,4 +29,13 @@ export const authAPI = {
         withCredentials: true,
       })
     ).data,
+  forgotPassword: async (email: string) =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/forgot-password`,
+        headers: { "Content-Type": "application/json" },
+        data: { email },
+      })
+    ).data,
 };

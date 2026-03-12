@@ -76,22 +76,10 @@ export async function forgotPasswordAction(
   const email = formData.get("email") as string;
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-
-    if (res.ok) {
-      return { success: true };
-    }
-
-    const data = await res.json().catch(() => ({}));
-    const msg = (data as any)?.message || (data as any)?.error;
-    return { error: msg || "We couldn't process that request right now. Please try again." };
+    await authAPI.forgotPassword(email);
+    return { success: true };
   } catch (err: unknown) {
-    const msg = (err as any)?.message;
+    const msg = (err as any)?.response?.data?.message;
     return { error: msg || "We couldn't process that request right now. Please try again." };
   }
 }
