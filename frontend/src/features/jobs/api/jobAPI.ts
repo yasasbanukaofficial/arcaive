@@ -1,4 +1,4 @@
-import { apiInstance } from "@/api/api";
+import { apiInstance } from "@/app/api/axios/api";
 import { mapToJobListing } from "@/features/jobs/utils/mockMapper";
 import type { JobListing } from "@/@types/jobs";
 import { getToken } from "@/utils/auth";

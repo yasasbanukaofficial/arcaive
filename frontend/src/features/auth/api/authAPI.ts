@@ -1,4 +1,4 @@
-import { apiInstance } from "@/api/api";
+import { apiInstance } from "@/app/api/axios/api";
 import { AuthMember, MemberCreateRequest } from "@/@types/member";
 
 const AUTH_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth`!;
