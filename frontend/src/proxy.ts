@@ -26,6 +26,7 @@ export const config = {
     "/agents/:path*",
     "/workflow/:path*",
     "/jobs/:path*",
+       "/inteview/:path*",
     "/billing/:path*",
     "/settings/:path*",
     "/analytics/:path*",

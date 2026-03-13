@@ -17,6 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  Mic,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
@@ -29,6 +30,7 @@ const mainNav = [
   { name: "Agents", href: "/agents", icon: Bot },
   { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
+  { name: "Interview", href: "/inteview", icon: Mic },
 ];
 
 const manageNav = [
