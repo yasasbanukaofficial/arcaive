@@ -1,4 +1,4 @@
-import { apiInstance } from "@/api/api";
+import { apiInstance } from "@/app/api/axios/api";
 import { getToken } from "@/utils/auth";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
