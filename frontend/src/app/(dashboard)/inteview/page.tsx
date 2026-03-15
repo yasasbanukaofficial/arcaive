@@ -1,22 +1,29 @@
 "use client";
+
+import { useState } from "react";
 import AgentUI from "@/features/interview/components/AgentUI";
+import useLiveKitToken from "@/features/interview/hooks/useLiveKitToken";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 
 export default function InterviewPage() {
-  const severUrl = process.env.NEXT_PUBLIC_LIVEKIT_SERVER_URL;
-  const token = process.env.NEXT_PUBLIC_LIVEKIT_TOKEN;
+  const [participantName] = useState(() => `user-${Date.now()}`);
+  const [roomName] = useState(() => `room-${Date.now()}`);
+
+  const { connection, loading, error } = useLiveKitToken(roomName, participantName);
+
+  if (loading) return <p>Connecting...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
     <div className="w-full h-full">
       <LiveKitRoom
-        serverUrl={severUrl}
-        token={token}
+        serverUrl={connection!.url}
+        token={connection!.token}
         connect={true}
         video={false}
         audio={true}
-        onDisconnected={() => {
-          // Handle disconnection logic here
-        }}
+        onDisconnected={() => console.log("Disconnected")}
       >
         <RoomAudioRenderer />
         <AgentUI />
