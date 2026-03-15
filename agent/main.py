@@ -11,7 +11,7 @@ from livekit.agents import (
     cli,
     room_io,
 )
-from livekit.plugins import openai, deepgram, cartesia, noise_cancellation, silero
+from livekit.plugins import openai, deepgram, cartesia, google, noise_cancellation, silero
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 logger = logging.getLogger("agent-Avery-2197")
@@ -53,9 +53,9 @@ async def entrypoint(ctx: JobContext):
             api_key=os.environ["DEEPGRAM_API_KEY"],
         ),
         llm=openai.LLM(
-            model="llama-3.3-70b-versatile",
-            api_key=os.environ["GROQ_API_KEY"],
-            base_url="https://api.groq.com/openai/v1",
+            model="llama3.2",
+            api_key="ollama",
+            base_url="http://localhost:11434/v1",
         ),
         tts=cartesia.TTS(
             voice="a167e0f3-df7e-4d52-a9c3-f949145efdab",
