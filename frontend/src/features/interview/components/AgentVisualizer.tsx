@@ -1,15 +1,18 @@
-import { BarVisualizer, useVoiceAssistant } from "@livekit/components-react";
+'use client';
 
-export default function AgentVisualizer() {
-  const { state, audioTrack } = useVoiceAssistant();
-  console.log("Agent State:", state, "Track:", audioTrack);
+import { useAgent} from '@livekit/components-react';
+import { AgentAudioVisualizerBar } from '@/components/agents-ui/agent-audio-visualizer-bar';
+
+export function AgentVisualizer() {
+  const { microphoneTrack, state } = useAgent();
+
   return (
-      <BarVisualizer
-        data-role="agent"
-        state={state}
-        trackRef={audioTrack}
-        barCount={5}
-        className="lk-voice-visualizer w-full h-full"
-      />
+    <AgentAudioVisualizerBar
+      size="lg"
+      color={undefined}
+      barCount={5}
+      state={state}
+      audioTrack={microphoneTrack}
+    />
   );
 }

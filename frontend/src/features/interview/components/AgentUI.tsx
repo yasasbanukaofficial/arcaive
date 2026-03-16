@@ -1,12 +1,14 @@
-import { ControlBar, TrackToggle, useVoiceAssistant } from "@livekit/components-react";
-import AgentVisualizer from "./AgentVisualizer";
-import { useState } from "react";
+import { useSession } from "@livekit/components-react";
+import { AgentSessionProvider } from "@/components/agents-ui/agent-session-provider";
+import { AgentVisualizer } from "./AgentVisualizer";
+import { UserControlsBar } from "./UserControlsBar";
 
 export default function AgentUI() {
-    const { state, audioTrack } = useVoiceAssistant();
-
-    return <div className="w-full h-full">
+    const session = useSession();
+    return (
+      <AgentSessionProvider session={session}>
         <AgentVisualizer />
-        <ControlBar />
-    </div>
+        <UserControlsBar />
+      </AgentSessionProvider>
+    )
 }
