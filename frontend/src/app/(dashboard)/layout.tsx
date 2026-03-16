@@ -22,7 +22,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth"
+      className="dashboard-theme h-screen font-sans transition-colors duration-300 scroll-smooth"
       data-theme={theme}
       style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
     >
@@ -45,7 +45,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       <JobDetailsModal />
 
       <div
-        className="relative z-10 min-h-screen flex flex-col"
+        className="relative z-10 flex h-screen flex-col"
         style={{
           marginLeft,
           transition: "margin-left 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -54,7 +54,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       >
         <TopBar />
         <main
-          className={`flex-1 ${isNoPaddingPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
+          className={`min-h-0 flex-1 ${isNoPaddingPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
         >
           {children}
         </main>

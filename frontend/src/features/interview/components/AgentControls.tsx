@@ -1,89 +1,183 @@
 import { AgentAudioVisualizerBar } from "@/components/agents-ui/agent-audio-visualizer-bar";
-import { AgentChatTranscript } from "@/components/agents-ui/agent-chat-transcript";
 import { useAgent, useSessionMessages } from "@livekit/components-react";
-import { Mic, User, MessageSquare, ListTodo, Sparkles } from "lucide-react";
+import { ArrowDown, Copy, Mic, MicOff, Moon, PhoneOff, Sun } from "lucide-react";
+import { useMemo, useRef } from "react";
 
-export default function AgentControls() {
+type AgentControlsProps = {
+  isMicrophoneEnabled: boolean;
+  onMicToggle: () => Promise<void>;
+  onEndCall: () => Promise<void>;
+  mode: "dark" | "light";
+  onModeToggle: () => void;
+};
+
+const STATE_LABEL: Record<string, string> = {
+  connecting: "CONNECTING",
+  initializing: "INITIALIZING",
+  listening: "LISTENING",
+  thinking: "THINKING",
+  speaking: "SPEAKING",
+};
+
+export default function AgentControls({
+  isMicrophoneEnabled,
+  onMicToggle,
+  onEndCall,
+  mode,
+  onModeToggle,
+}: AgentControlsProps) {
   const { state, microphoneTrack } = useAgent();
   const { messages } = useSessionMessages();
+  const transcriptRef = useRef<HTMLDivElement | null>(null);
+
+  const transcriptCopy = useMemo(
+    () =>
+      messages
+        .map((entry) => `${entry.from?.isLocal ? "Candidate" : "Interviewer"}: ${entry.message}`)
+        .join("\n\n"),
+    [messages],
+  );
+
+  const handleCopyTranscript = async () => {
+    if (!transcriptCopy) {
+      return;
+    }
+    await navigator.clipboard.writeText(transcriptCopy);
+  };
+
+  const handleScrollBottom = () => {
+    transcriptRef.current?.scrollTo({ top: transcriptRef.current.scrollHeight, behavior: "smooth" });
+  };
+
+  const stateText = STATE_LABEL[state ?? ""] ?? "ACTIVE";
 
   return (
-    <>
-      <div className="flex-1 flex flex-col gap-6 min-w-0">
-        <div className="flex-1 relative bg-[var(--d-surface)] rounded-[2rem] border border-[var(--d-border)] overflow-hidden shadow-2xl group transition-all duration-300">
+    <div className="relative grid h-full min-h-0 w-full grid-cols-1 lg:grid-cols-[3fr_2fr] bg-[var(--iv-bg)] text-[var(--iv-text)]">
+      <section className="relative min-h-0 border-r border-[var(--iv-border)]/90 bg-[var(--iv-bg)] p-8 md:p-12">
+        <div className="relative h-full w-full border border-[var(--iv-border)] bg-[var(--iv-surface)]">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-10">
-              <div className="w-28 h-28 rounded-[2.5rem] bg-linear-to-br from-[var(--d-glow-blue)] to-[var(--d-glow-purple)] flex items-center justify-center shadow-2xl border border-[var(--d-border-hover)]">
-                <span className="text-4xl font-bold text-[var(--d-text-primary)]">A</span>
-              </div>
-              
-              <div className="h-16 flex items-center">
-                <AgentAudioVisualizerBar
-                  size="lg"
-                  color="var(--d-text-secondary)"
-                  barCount={15}
-                  state={state}
-                  audioTrack={microphoneTrack}
-                />
-              </div>
-            </div>
+            <AgentAudioVisualizerBar
+              size="lg"
+              color="#d9d2c4"
+              barCount={21}
+              state={state}
+              audioTrack={microphoneTrack}
+              className="h-36 gap-[6px]"
+            />
           </div>
 
-          <div className="absolute bottom-6 left-6 flex items-center gap-3 px-4 py-2 bg-[var(--d-surface-active)] backdrop-blur-2xl rounded-2xl border border-[var(--d-border-hover)] text-xs font-semibold shadow-lg">
-            <div className={`w-2 h-2 rounded-full ${state === 'speaking' ? 'bg-blue-500 animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-[var(--d-text-ghost)]'}`} />
-            <span className="tracking-wide">Arcaive AI Interviewer</span>
+          <p
+            className="absolute bottom-6 left-6 text-[11px] uppercase tracking-[0.24em] text-[var(--iv-muted)]"
+            style={{ fontVariant: "small-caps", fontFamily: "var(--font-editorial), serif" }}
+          >
+            Arcaive Interviewer
+          </p>
+          <p className="absolute bottom-6 right-6 font-mono text-[11px] tracking-[0.18em] text-[var(--iv-accent)]">
+            {stateText}
+          </p>
+        </div>
+      </section>
+
+      <section className="relative min-h-0 bg-[var(--iv-bg)] px-8 pb-24 pt-8 md:px-10 md:pt-12">
+        <div className="h-px w-full bg-[var(--iv-border)]" aria-hidden="true" />
+        <div
+          ref={transcriptRef}
+          className="relative mt-6 h-[calc(100%-1.75rem)] overflow-y-auto pr-1"
+          style={{ maskImage: "linear-gradient(to bottom, transparent 0%, black 7%, black 100%)" }}
+        >
+          <div className="space-y-8 pb-8">
+            {messages.map((entry) => {
+              const origin = entry.from?.isLocal ? "Candidate" : "Interviewer";
+              const timestamp = new Date(entry.timestamp).toLocaleTimeString();
+
+              return (
+                <article key={entry.id} className="group border-b border-[var(--iv-border)]/40 pb-6">
+                  <div className="mb-3 flex items-center justify-between gap-4">
+                    <p
+                      className="text-[10px] uppercase tracking-[0.2em] text-[var(--iv-muted)]"
+                      style={{ fontVariant: "small-caps" }}
+                    >
+                      {origin}
+                    </p>
+                    <span className="font-mono text-[10px] tracking-[0.1em] text-[var(--iv-muted)] opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                      {timestamp}
+                    </span>
+                  </div>
+                  <p
+                    className="text-[1.12rem] leading-[1.75] text-[var(--iv-text)]"
+                    style={{ fontFamily: "var(--font-editorial), serif" }}
+                  >
+                    {entry.message}
+                  </p>
+                </article>
+              );
+            })}
+
+            {state === "thinking" && (
+              <article className="border-b border-[var(--iv-border)]/40 pb-6">
+                <p
+                  className="mb-3 text-[10px] uppercase tracking-[0.2em] text-[var(--iv-muted)]"
+                  style={{ fontVariant: "small-caps" }}
+                >
+                  Interviewer
+                </p>
+                <p
+                  className="text-[1.05rem] leading-[1.75] text-[var(--iv-muted)]"
+                  style={{ fontFamily: "var(--font-editorial), serif" }}
+                >
+                  Thinking...
+                </p>
+              </article>
+            )}
           </div>
         </div>
+      </section>
 
-        <div className="h-44 flex items-center gap-6 overflow-x-auto no-scrollbar py-2 shrink-0">
-          <div className="aspect-video h-full bg-[var(--d-surface)] rounded-3xl border border-[var(--d-border)] overflow-hidden relative shadow-lg group hover:border-[var(--d-border-hover)] transition-all">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-2xl bg-[var(--d-surface-active)] flex items-center justify-center border border-[var(--d-border)]">
-                <User className="w-6 h-6 text-[var(--d-text-secondary)]" />
-              </div>
-            </div>
-            <div className="absolute bottom-4 left-4 px-3 py-1.5 bg-[var(--d-surface-active)] backdrop-blur-md rounded-xl border border-[var(--d-border)] text-[10px] font-bold">
-              <span>Candidate (You)</span>
-            </div>
-          </div>
-          
-          <div className="aspect-video h-[85%] bg-[var(--d-surface)]/40 rounded-3xl border border-[var(--d-border)] border-dashed flex items-center justify-center group hover:bg-[var(--d-surface)] transition-all cursor-pointer">
-             <span className="text-[10px] font-bold text-[var(--d-text-muted)] group-hover:text-[var(--d-text-secondary)]">Wait for Peer</span>
-          </div>
+      <div className="pointer-events-none fixed bottom-8 left-1/2 z-20 -translate-x-1/2">
+        <div className="pointer-events-auto flex items-center gap-6 rounded-full border border-[var(--iv-border)] bg-[var(--iv-surface)]/96 px-6 py-3 backdrop-blur-sm">
+          <button
+            onClick={onModeToggle}
+            className="text-[var(--iv-muted)] transition-colors hover:text-[var(--iv-text)]"
+            aria-label="Toggle color mode"
+            title="Toggle color mode"
+          >
+            {mode === "dark" ? <Sun size={18} strokeWidth={1.6} /> : <Moon size={18} strokeWidth={1.6} />}
+          </button>
+          <button
+            onClick={onMicToggle}
+            className="text-[var(--iv-muted)] transition-colors hover:text-[var(--iv-text)]"
+            aria-label="Toggle microphone"
+            title="Toggle microphone"
+          >
+            {isMicrophoneEnabled ? <Mic size={18} strokeWidth={1.6} /> : <MicOff size={18} strokeWidth={1.6} />}
+          </button>
+          <button
+            onClick={handleCopyTranscript}
+            className="text-[var(--iv-muted)] transition-colors hover:text-[var(--iv-text)]"
+            aria-label="Copy transcript"
+            title="Copy transcript"
+          >
+            <Copy size={18} strokeWidth={1.6} />
+          </button>
+          <button
+            onClick={handleScrollBottom}
+            className="text-[var(--iv-muted)] transition-colors hover:text-[var(--iv-text)]"
+            aria-label="Jump to latest message"
+            title="Jump to latest"
+          >
+            <ArrowDown size={18} strokeWidth={1.6} />
+          </button>
+          <button
+            onClick={onEndCall}
+            className="text-[var(--iv-muted)] transition-colors hover:text-[var(--iv-text)]"
+            aria-label="End interview"
+            title="End interview"
+          >
+            <PhoneOff size={18} strokeWidth={1.6} />
+          </button>
         </div>
       </div>
-
-      <div className="w-full lg:w-[400px] flex flex-col gap-6 shrink-0">
-        <div className="bg-[var(--d-surface)] rounded-3xl border border-[var(--d-border)] p-6 shadow-xl flex flex-col h-[40%]">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
-                <Sparkles className="w-4 h-4" />
-              </div>
-              <h3 className="text-xs font-bold uppercase tracking-widest">Real-time Summary</h3>
-            </div>
-          </div>
-          <div className="flex-1 text-xs leading-relaxed text-[var(--d-text-secondary)] overflow-y-auto no-scrollbar">
-            The interview is in progress. The AI is currently assessing your communication style and technical depth in frontend frameworks.
-          </div>
-        </div>
-
-        <div className="bg-[var(--d-surface)] rounded-3xl border border-[var(--d-border)] flex flex-col h-[60%] shadow-xl overflow-hidden transition-all duration-300">
-          <div className="p-6 border-b border-[var(--d-border)] flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                <MessageSquare className="w-4 h-4" />
-              </div>
-              <h3 className="text-xs font-bold uppercase tracking-widest">Chat Transcript</h3>
-            </div>
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          </div>
-          <div className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
-            <AgentChatTranscript agentState={state} messages={messages} />
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
 
