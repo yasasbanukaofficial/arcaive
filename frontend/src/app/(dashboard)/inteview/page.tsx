@@ -19,7 +19,7 @@ export default function InterviewPage() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-[calc(100vh-76px)] flex flex-col overflow-hidden">
       <LiveKitRoom
         serverUrl={connection!.url}
         token={connection!.token}

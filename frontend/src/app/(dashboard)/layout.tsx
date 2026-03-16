@@ -18,7 +18,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
-  const isWorkflowPage = pathname === "/workflow";
+  const isNoPaddingPage = pathname === "/workflow" || pathname === "/inteview";
 
   return (
     <div
@@ -54,7 +54,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       >
         <TopBar />
         <main
-          className={`flex-1 ${isWorkflowPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
+          className={`flex-1 ${isNoPaddingPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
         >
           {children}
         </main>
