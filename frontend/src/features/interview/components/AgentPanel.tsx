@@ -4,35 +4,51 @@ import { useSession } from "@livekit/components-react";
 import { AgentSessionProvider } from "@/components/agents-ui/agent-session-provider";
 import { AgentControlBar } from "@/components/agents-ui/agent-control-bar";
 import AgentControls from "./AgentControls";
-import { Info, Users, MessageSquare } from "lucide-react";
+import { ChevronLeft, MoreVertical, Info, LayoutGrid } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AgentPanel() {
   const session = useSession();
+  const router = useRouter();
 
   return (
     <AgentSessionProvider session={session}>
-      <div className="flex flex-col h-full bg-[#0a0a0a] text-[#e3e3e3] overflow-hidden font-sans">
-        <div className="flex items-center justify-between px-6 h-16 shrink-0">
+      <div className="flex flex-col h-full bg-[var(--d-bg)] text-[var(--d-text-primary)] transition-colors duration-300 font-sans p-4 sm:p-6 gap-6">
+        
+        <header className="flex items-center justify-between shrink-0">
           <div className="flex items-center gap-4">
-            <h1 className="text-sm font-medium">Mock Interview Session</h1>
-            <div className="h-4 w-[1px] bg-white/10" />
-            <span className="text-xs text-white/50 tabular-nums">10:42 AM | arcaive-interview-room</span>
+            <button 
+              onClick={() => router.back()}
+              className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)] hover:bg-[var(--d-surface-hover)] transition-all"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div>
+              <h1 className="text-lg font-semibold tracking-tight">AI Technical Interview</h1>
+              <p className="text-xs text-[var(--d-text-tertiary)] font-medium">Arcaive • Senior Frontend Role</p>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-white/5 rounded-full transition-colors">
-              <Info className="w-5 h-5 text-white/70" />
+
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)]">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-xs font-semibold uppercase tracking-wider">Recording in Progress</span>
+            </div>
+            <button className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)]">
+              <LayoutGrid className="w-5 h-5 text-[var(--d-text-secondary)]" />
+            </button>
+            <button className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)]">
+              <MoreVertical className="w-5 h-5 text-[var(--d-text-secondary)]" />
             </button>
           </div>
-        </div>
+        </header>
 
-        <div className="flex-1 flex px-4 pb-24 gap-4 overflow-hidden relative">
+        <main className="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden">
           <AgentControls />
-        </div>
+        </main>
 
-        <div className="fixed bottom-0 left-0 right-0 h-24 flex items-center justify-between px-8 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-50">
-          <div className="hidden lg:block w-64" />
-          
-          <div className="pointer-events-auto flex items-center gap-3">
+        <footer className="shrink-0 flex justify-center pb-2">
+          <div className="bg-[var(--d-surface)] border border-[var(--d-border)] p-2 rounded-[2.5rem] shadow-2xl backdrop-blur-xl">
             <AgentControlBar
               variant="livekit"
               isChatOpen={false}
@@ -46,19 +62,11 @@ export default function AgentPanel() {
               }}
             />
           </div>
-
-          <div className="hidden lg:flex items-center gap-1 pointer-events-auto w-64 justify-end">
-            <button className="p-3 hover:bg-white/5 rounded-full text-white/70">
-              <Users className="w-5 h-5" />
-            </button>
-            <button className="p-3 hover:bg-white/5 rounded-full text-white/70">
-              <MessageSquare className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+        </footer>
       </div>
     </AgentSessionProvider>
   );
 }
+
 
 
