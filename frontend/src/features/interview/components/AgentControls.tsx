@@ -1,11 +1,8 @@
-'use client';
+import { AgentAudioVisualizerBar } from "@/components/agents-ui/agent-audio-visualizer-bar";
+import { useAgent } from "@livekit/components-react";
 
-import { useAgent} from '@livekit/components-react';
-import { AgentAudioVisualizerBar } from '@/components/agents-ui/agent-audio-visualizer-bar';
-
-export function AgentVisualizer() {
+export default function AgentControls() {
   const { microphoneTrack, state } = useAgent();
-
   return (
     <AgentAudioVisualizerBar
       size="lg"

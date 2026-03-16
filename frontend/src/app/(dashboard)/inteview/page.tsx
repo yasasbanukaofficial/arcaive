@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AgentUI from "@/features/interview/components/AgentUI";
+import AgentUI from "@/features/interview/components/AgentPanel";
 import useLiveKitToken from "@/features/interview/hooks/useLiveKitToken";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
