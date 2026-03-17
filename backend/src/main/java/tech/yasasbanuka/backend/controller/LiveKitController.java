@@ -22,7 +22,7 @@ public class LiveKitController {
     @GetMapping("/token")
     public Map<String, String> getToken(
             @RequestParam String roomName,
-            @RequestParam String participantName) throws Exception {
+            @RequestParam String participantName) {
 
         AccessToken accessToken = new AccessToken(apiKey, apiSecret);
         accessToken.setName(participantName);

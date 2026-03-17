@@ -1,4 +1,5 @@
 import { apiInstance } from "@/app/api/axios/api";
+import { getToken } from "@/utils/auth";
 import { useEffect, useState } from "react";
 
 interface ConnectDetails {
@@ -20,12 +21,16 @@ export default function useLiveKitToken(
       setLoading(true);
       setError(null);
 
+      const token = await getToken();
+
       try {
         const response = await apiInstance({
           method: "GET",
+          headers: {Authorization: `Bearer ${token}`},
           baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
           url: `api/v1/livekit/token`,
           params: { roomName, participantName },
+          withCredentials: true
         });
 
         setConnection(response.data);
