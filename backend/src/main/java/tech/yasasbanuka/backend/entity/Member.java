@@ -14,6 +14,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String fullName;
+    @Column(unique = true, nullable = false)
     private String username;
     private String email;
     private String hashedPassword;
