@@ -38,33 +38,43 @@ public class JobServiceImpl implements JobService {
             return Collections.emptyList();
         }
 
-        if(location == null || location.isEmpty()) {
+        if (location == null || location.isBlank()) {
             location = member.getCountry();
         }
 
         String jobRole = member.getJobRole();
+        if (jobRole == null || jobRole.isBlank()) {
+            jobRole = "software engineer";
+        }
+
+        String query = jobRole + " jobs in " + location;
+        log.info("Searching jobs with query: {}", query);
 
         RestClient client = RestClient.builder()
                 .baseUrl("https://jsearch.p.rapidapi.com")
-                .defaultHeader("x-rapidapi-key", jsearchApiKey)
-                .defaultHeader("x-rapidapi-host", jsearchApiHost)
+                .defaultHeader("X-RapidAPI-Key", jsearchApiKey)
+                .defaultHeader("X-RapidAPI-Host", jsearchApiHost)
                 .build();
 
-        String finalLocation = location;
+        String finalQuery = query;
         String searchResponse = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/search")
-                        .queryParam("query", jobRole + " jobs in " + finalLocation)
+                        .queryParam("query", finalQuery)
                         .queryParam("page", "1")
+                        .queryParam("num_pages", "1")
+                        .queryParam("date_posted", "all")
                         .build())
                 .retrieve()
                 .body(String.class);
+
+        log.info("JSearch raw response: {}", searchResponse);
 
         try {
             SearchResponse parsed = objectMapper.readValue(searchResponse, SearchResponse.class);
             return parsed.getData() != null ? parsed.getData() : Collections.emptyList();
         } catch (Exception e) {
-            log.error("Failed to parse JSearch API response: {}", e.getMessage());
+            log.error("Failed to parse JSearch response: {}", e.getMessage());
             return Collections.emptyList();
         }
     }
