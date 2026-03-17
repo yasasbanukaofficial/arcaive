@@ -142,6 +142,19 @@ public class GlobalException {
                 .build();
     }
 
+    @ExceptionHandler(java.lang.reflect.UndeclaredThrowableException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponse handleUndeclared(java.lang.reflect.UndeclaredThrowableException ex) {
+        Throwable cause = ex.getUndeclaredThrowable();
+        Throwable realCause = cause != null ? cause : ex;
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exception(realCause.getClass().getSimpleName())
+                .message(realCause.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleGeneric(Exception ex) {
