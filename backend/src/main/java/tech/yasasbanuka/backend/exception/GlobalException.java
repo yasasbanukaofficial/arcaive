@@ -25,6 +25,7 @@ public class GlobalException {
                 .orElse("One or more fields are invalid. Please check your input.");
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
                 .message(fieldMessage)
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -35,6 +36,7 @@ public class GlobalException {
     public ExceptionResponse handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("The request body is missing or contains invalid JSON. Please check your input and try again.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -45,6 +47,7 @@ public class GlobalException {
     public ExceptionResponse handleBadCredentials(BadCredentialsException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("Incorrect password. Please try again.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -55,6 +58,7 @@ public class GlobalException {
     public ExceptionResponse handleAccessDenied(AccessDeniedException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.FORBIDDEN.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("You don't have permission to perform this action.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -65,6 +69,7 @@ public class GlobalException {
     public ExceptionResponse handleEmailNotFound(EmailNotFoundException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("No account found with this email address.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -75,6 +80,7 @@ public class GlobalException {
     public ExceptionResponse handleResourceNotFound(ResourceNotFoundException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
+                .exception(ex.getClass().getSimpleName())
                 .message(ex.getMessage())
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -86,6 +92,7 @@ public class GlobalException {
     public ExceptionResponse handleUsernameNotFound(UsernameNotFoundException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("No account found with this email address.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -96,6 +103,7 @@ public class GlobalException {
     public ExceptionResponse handleAlreadyExists(AlreadyExistsException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.CONFLICT.value())
+                .exception(ex.getClass().getSimpleName())
                 .message(ex.getMessage())
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -106,6 +114,7 @@ public class GlobalException {
     public ExceptionResponse handleIllegalArgument(IllegalArgumentException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
+                .exception(ex.getClass().getSimpleName())
                 .message(ex.getMessage())
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -116,6 +125,7 @@ public class GlobalException {
     public ExceptionResponse handleDataIntegrity(DataIntegrityViolationException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.CONFLICT.value())
+                .exception(ex.getClass().getSimpleName())
                 .message("This action conflicts with existing data. Please verify your input and try again.")
                 .timeStamp(Instant.now().toString())
                 .build();
@@ -126,7 +136,21 @@ public class GlobalException {
     public ExceptionResponse handleNullPointer(NullPointerException ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message("An unexpected error occurred. Please try again or contact support.")
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler(java.lang.reflect.UndeclaredThrowableException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponse handleUndeclared(java.lang.reflect.UndeclaredThrowableException ex) {
+        Throwable cause = ex.getUndeclaredThrowable();
+        Throwable realCause = cause != null ? cause : ex;
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exception(realCause.getClass().getSimpleName())
+                .message(realCause.getMessage())
                 .timeStamp(Instant.now().toString())
                 .build();
     }
@@ -136,7 +160,8 @@ public class GlobalException {
     public ExceptionResponse handleGeneric(Exception ex) {
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message("Something went wrong on our end. Please try again shortly.")
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
                 .timeStamp(Instant.now().toString())
                 .build();
     }

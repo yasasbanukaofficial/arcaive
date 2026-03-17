@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @Data @Builder
 public class ExceptionResponse {
     private int statusCode;
+    private String exception;
     private String message;
     private String timeStamp;
 }
