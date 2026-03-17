@@ -7,31 +7,27 @@ interface ConnectDetails {
   url: string;
 }
 
-export default function useLiveKitToken(
-  roomName: string,
-  participantName: string,
-) {
+export default function useLiveKitToken() {
   const [connection, setConnection] = useState<ConnectDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!roomName || !participantName) return;
     const fetchToken = async () => {
       setLoading(true);
       setError(null);
 
-      const token = await getToken();
-
       try {
+        const token = await getToken();
         const response = await apiInstance({
           method: "GET",
-          headers: {Authorization: `Bearer ${token}`},
+          headers: { Authorization: `Bearer ${token}` },
           baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
           url: `api/v1/livekit/token`,
-          params: { roomName, participantName },
-          withCredentials: true
+          withCredentials: true,
         });
+
+        console.log(response);
 
         setConnection(response.data);
       } catch (err: any) {
@@ -42,7 +38,7 @@ export default function useLiveKitToken(
     };
 
     fetchToken();
-  }, [roomName, participantName]);
+  }, []);
 
   return { connection, loading, error };
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.auth.AuthRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberCreateRequestDTO;
+import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.impl.AuthServiceImpl;
 import tech.yasasbanuka.backend.util.APIResponse;
 
@@ -18,7 +19,7 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthController {
-    private final AuthServiceImpl authService;
+    private final AuthService authService;
 
     @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberCreateRequestDTO dto) {
