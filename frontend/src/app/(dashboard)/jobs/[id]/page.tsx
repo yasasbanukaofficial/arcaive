@@ -139,7 +139,6 @@ export default function JobDetailsPage() {
       variants={dashboardStagger(0.05, 0.02)}
       className="max-w-[1200px] mx-auto space-y-8 pb-20 px-4 sm:px-6"
     >
-      {/* Navigation & Actions Header */}
       <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <motion.button
           whileHover={{ x: -3 }}

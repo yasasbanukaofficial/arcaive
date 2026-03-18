@@ -27,4 +27,14 @@ public class JobController {
                         jobService.searchJobs(authentication.getName(), location)),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/custom-search")
+    public ResponseEntity<APIResponse<List<JobResponseDTO>>> customSearchJobs(
+            @RequestParam(required = true) String searchQuery,
+            @RequestParam(required = false) String location) {
+        return new ResponseEntity<>(
+                new APIResponse<>(true, HttpStatus.OK.value(), "Jobs fetched successfully",
+                        jobService.searchJobs(searchQuery, location)),
+                HttpStatus.OK);
+    }
 }

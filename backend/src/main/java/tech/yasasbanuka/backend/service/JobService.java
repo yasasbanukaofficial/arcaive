@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface JobService {
     List<JobResponseDTO> searchJobs(String username, String location);
+    List<JobResponseDTO> customSearchJobs(String searchQuery, String location);
 }

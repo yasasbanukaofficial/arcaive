@@ -57,8 +57,6 @@ export default function JobsPage() {
           country = geoData.countryName || "";
           setLocationQuery(country);
         }
-        console.log("shbfhs");
-        
         const result = await jobAPI.get(country.trim());
         console.log(result);
         setJobList(result || []);

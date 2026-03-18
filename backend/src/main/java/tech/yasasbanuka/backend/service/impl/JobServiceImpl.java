@@ -10,7 +10,6 @@ import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.job.JobResponseDTO;
 import tech.yasasbanuka.backend.dto.job.SearchResponse;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
-import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.service.JobService;
 import tech.yasasbanuka.backend.service.MemberService;
 
@@ -28,6 +27,9 @@ public class JobServiceImpl implements JobService {
 
     @Value("${JSEARCH_HOST}")
     private String jsearchApiHost;
+
+    @Value("${HIMALAYAS_API_URL}")
+    private String himalayasApiUrl;
 
     @Override
     public List<JobResponseDTO> searchJobs(String username, String location) {
@@ -56,7 +58,7 @@ public class JobServiceImpl implements JobService {
                 .defaultHeader("X-RapidAPI-Host", jsearchApiHost)
                 .build();
 
-        String finalQuery = query;
+        String finalLocation = location;
         String searchResponse = client.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/search")
@@ -68,8 +70,6 @@ public class JobServiceImpl implements JobService {
                 .retrieve()
                 .body(String.class);
 
-        log.info("JSearch raw response: {}", searchResponse);
-
         try {
             SearchResponse parsed = objectMapper.readValue(searchResponse, SearchResponse.class);
             return parsed.getData() != null ? parsed.getData() : Collections.emptyList();
@@ -77,5 +77,10 @@ public class JobServiceImpl implements JobService {
             log.error("Failed to parse JSearch response: {}", e.getMessage());
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public List<JobResponseDTO> customSearchJobs(String searchQuery, String location) {
+        return List.of();
     }
 }
