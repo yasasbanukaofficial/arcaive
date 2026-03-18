@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import type { JobListing } from "@/@types/jobs";
+
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   MapPin,
   Clock,
   Briefcase,
-  Calendar,
   ExternalLink,
   Bookmark,
   BookmarkCheck,
-  Share2,
   Building2,
   DollarSign,
   Globe,
@@ -23,146 +23,21 @@ import {
   TrendingUp,
   ShieldCheck,
   Zap,
-  Star,
-  Sparkles,
   Info,
   Search,
-  GraduationCap,
-  Hammer,
 } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
-import type { JobListing } from "@/@types/jobs";
 import {
   getAccentForCompany,
   getSourceIcon,
   getTagColor,
-  AccentColor,
 } from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
 import { jobAPI } from "@/features/jobs/api/jobAPI";
-
-// --- Components ---
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-  accent,
-}: {
-  icon: React.ElementType;
-  label: string;
-  value: string;
-  accent?: AccentColor;
-}) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      className="flex flex-col gap-2 p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border-subtle)",
-      }}
-    >
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mb-1"
-        style={{
-          backgroundColor: accent ? accent.bg : "var(--d-surface-hover)",
-          border: accent ? `1px solid ${accent.border}` : "1px solid var(--d-border-subtle)",
-        }}
-      >
-        <Icon className="w-5 h-5" style={{ color: accent ? accent.dot : "var(--d-icon-hover)" }} />
-      </div>
-      <div>
-        <p
-          className="text-[11px] font-bold uppercase tracking-widest mb-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          {label}
-        </p>
-        <p
-          className="text-[15px] font-semibold truncate"
-          style={{ color: "var(--d-text-primary)" }}
-        >
-          {value}
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-
-function Tag({ children }: { children: string }) {
-  const accent = getTagColor(children);
-  return (
-    <span
-      className="text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-transform hover:scale-105 select-none"
-      style={{
-        backgroundColor: accent.bg,
-        borderColor: accent.border,
-        color: accent.dot,
-      }}
-    >
-      <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accent.dot }} />
-      {children}
-    </span>
-  );
-}
-
-function HighlightSection({ title, items }: { title: string; items: string[] }) {
-  if (!items || items.length === 0) return null;
-
-  const getIcon = (t: string) => {
-    const l = t.toLowerCase();
-    if (l.includes("qualification") || l.includes("requirement")) return <GraduationCap className="w-5 h-5" />;
-    if (l.includes("responsibilit")) return <Hammer className="w-5 h-5" />;
-    if (l.includes("benefit")) return <Star className="w-5 h-5" />;
-    return <Sparkles className="w-5 h-5" />;
-  };
-
-  return (
-    <motion.div variants={fadeUp} className="space-y-4">
-      <div className="flex items-center gap-2.5">
-        <div className="p-2 rounded-lg" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
-          {getIcon(title)}
-        </div>
-        <h3 className="text-[18px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-          {title}
-        </h3>
-      </div>
-      <div className="grid grid-cols-1 gap-3">
-        {items.map((item, idx) => (
-          <div
-            key={idx}
-            className="flex items-start gap-3 p-4 rounded-xl border transition-colors hover:bg-[var(--d-surface-hover)] group"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: "var(--d-border-subtle)",
-            }}
-          >
-            <div className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 group-hover:scale-125 transition-transform" />
-            <p className="text-[14px] leading-relaxed" style={{ color: "var(--d-text-secondary)" }}>
-              {item}
-            </p>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
-
-// --- Utils ---
-
-function formatSalary(job: JobListing): string {
-  if (job.salary) return job.salary;
-  if (job.minSalary != null && job.maxSalary != null) {
-    const period = job.salaryPeriod ? `/${job.salaryPeriod}` : "";
-    return `$${job.minSalary.toLocaleString()} - $${job.maxSalary.toLocaleString()}${period}`;
-  }
-  if (job.minSalary != null) return `From $${job.minSalary.toLocaleString()}`;
-  if (job.maxSalary != null) return `Up to $${job.maxSalary.toLocaleString()}`;
-  return "Not specified";
-}
-
-// --- Main Page ---
+import JobStatCard from "@/features/jobs/components/JobStatCard";
+import JobTag from "@/features/jobs/components/JobTag";
+import JobHighlightSection from "@/features/jobs/components/JobHighlightSection";
+import formatSalary from "@/features/jobs/utils/formatSalary";
 
 export default function JobDetailsPage() {
   const params = useParams();
@@ -405,27 +280,23 @@ export default function JobDetailsPage() {
 
           <div className="mt-10 flex flex-wrap gap-2.5">
             {allTags.map((t) => (
-              <Tag key={t}>{t}</Tag>
+              <JobTag key={t}>{t}</JobTag>
             ))}
           </div>
         </div>
       </motion.div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Description & Details */}
         <div className="lg:col-span-8 space-y-8">
-          {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <StatCard icon={TrendingUp} label="Salary Range" value={formatSalary(job)} accent={getTagColor("Salary")} />
-            <StatCard icon={Briefcase} label="Job Type" value={job.employmentType} accent={getTagColor("Type")} />
-            <StatCard icon={Globe} label="Country" value={job.country} accent={getTagColor("Region")} />
-            <StatCard icon={Search} label="Source" value={job.publisher} accent={accent} />
+            <JobStatCard icon={TrendingUp} label="Salary Range" value={formatSalary(job)} accent={getTagColor("Salary")} />
+            <JobStatCard icon={Briefcase} label="Job Type" value={job.employmentType} accent={getTagColor("Type")} />
+            <JobStatCard icon={Globe} label="Country" value={job.country} accent={getTagColor("Region")} />
+            <JobStatCard icon={Search} label="Source" value={job.publisher} accent={accent} />
           </div>
 
-          {/* Highlights (Responsibilities/Qualifications) */}
           {Object.entries(job.highlights).map(([title, items]) => (
-            <HighlightSection key={title} title={title} items={items as string[]} />
+            <JobHighlightSection key={title} title={title} items={items as string[]} />
           ))}
 
           {/* Benefits */}

@@ -7,15 +7,10 @@ const JOB_SEARCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/jobs`!;
 const CACHE_KEY = "arcaive_jobs_cache";
 
 export const jobAPI = {
-  get: async (location: any) => {
+  get: async (location?: any) => {
     try {
       const params = {location};
-
-      console.log("Request starting with params:", params);
-
       const token = await getToken();
-      console.log("Token acquired:", !!token);
-
       const response = await apiInstance({
         method: "GET", 
         url: "/search", 
@@ -24,8 +19,6 @@ export const jobAPI = {
         withCredentials: true,
         params,
       });
-
-      console.log("Response received:", response.status);
 
       const rawJobs: any[] = response.data?.data ?? [];
       const jobs = rawJobs.map(mapToJobListing);
@@ -39,7 +32,7 @@ export const jobAPI = {
       return jobs;
     } catch (error) {
       console.error("Critical error in jobAPI.get:", error);
-      throw error; // Rethrow so the UI can handle the error state
+      throw error; 
     }
   },
   getCached: (): JobListing[] | null => {
