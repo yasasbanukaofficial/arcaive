@@ -22,6 +22,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     private final MemberService memberService;
     private final MemberRepo memberRepo;
+    private final RestClient githubRestClient;
 
     @Override
     public String processOAuthLogin(String provider, String email, String fullName,
@@ -85,9 +86,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     public String fetchPrimaryEmailFromGithub(String oAuthAccessToken) {
-        String apiUrl = "https://api.github.com";
-        RestClient restClient = RestClient.builder().baseUrl(apiUrl).build();
-        List<Map<String, Object>> emails = restClient.get()
+        List<Map<String, Object>> emails = githubRestClient.get()
                 .uri("/user/emails")
                 .header("Authorization", "Bearer " + oAuthAccessToken)
                 .retrieve()

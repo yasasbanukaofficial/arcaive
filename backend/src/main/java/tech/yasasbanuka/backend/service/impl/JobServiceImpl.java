@@ -3,8 +3,6 @@ package tech.yasasbanuka.backend.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.job.JobResponseDTO;
@@ -21,24 +19,11 @@ import java.util.*;
 public class JobServiceImpl implements JobService {
     private final MemberService memberService;
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Value("${JSEARCH_API_KEY}")
-    private String jsearchApiKey;
-
-    @Value("${JSEARCH_HOST}")
-    private String jsearchApiHost;
-
-    @Value("${HIMALAYAS_API_URL}")
-    private String himalayasApiUrl;
+    private final RestClient jsearchRestClient;
 
     @Override
     public List<JobResponseDTO> searchJobs(String username, String location) {
         MemberResponseDTO member = memberService.getMemberByUsername(username);
-
-        if (jsearchApiKey == null || jsearchApiKey.isBlank()) {
-            log.error("JSearch API key is not configured.");
-            return Collections.emptyList();
-        }
 
         if (location == null || location.isBlank()) {
             location = member.getCountry();
@@ -52,14 +37,8 @@ public class JobServiceImpl implements JobService {
         String query = jobRole + " jobs in " + location;
         log.info("Searching jobs with query: {}", query);
 
-        RestClient client = RestClient.builder()
-                .baseUrl("https://jsearch.p.rapidapi.com")
-                .defaultHeader("X-RapidAPI-Key", jsearchApiKey)
-                .defaultHeader("X-RapidAPI-Host", jsearchApiHost)
-                .build();
-
-        String finalLocation = location;
-        String searchResponse = client.get()
+        String finalQuery = query;
+        String searchResponse = jsearchRestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/search")
                         .queryParam("query", finalQuery)
