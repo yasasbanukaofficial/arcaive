@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tech.yasasbanuka.backend.dto.job.JobRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.service.LiveKitService;
 import tech.yasasbanuka.backend.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
@@ -25,19 +27,40 @@ public class LiveKitServiceImpl implements LiveKitService {
     private String livekitUrl;
 
     private final MemberService memberService;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Map<String, String> getToken(String username) {
+        return generateToken(username, null);
+    }
+
+    @Override
+    public Map<String, String> getToken(String username, JobRequestDTO jobDetails) {
+        return generateToken(username, jobDetails);
+    }
+
+    private Map<String, String> generateToken(String username, JobRequestDTO jobDetails) {
+        String jobDetailsAsJSON = "";
+        if (jobDetails != null && jobDetails.getId() != null && !jobDetails.getId().isEmpty()) {
+            log.info("Received Job Details: {}", jobDetails);
+            try {
+                jobDetailsAsJSON = objectMapper.writeValueAsString(jobDetails);
+            } catch (Exception e) {
+                log.error("Error serializing job details", e);
+            }
+        } else {
+            log.info("No job details provided, starting general interview");
+        }
+
         log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
         AccessToken accessToken = new AccessToken(apiKey, apiSecret);
 
         String roomName = "arc_" + member.getMemberId() + "_" + System.currentTimeMillis();
         log.info("Assigning user {} to LiveKit room: {}", username, roomName);
-        
+
         accessToken.setName(member.getMemberFullName());
         accessToken.setIdentity(String.valueOf(member.getMemberId()));
-        accessToken.addGrants(new RoomJoin(true), new RoomName(roomName));
         accessToken.addGrants(
                 new RoomJoin(true),
                 new RoomName(roomName),
@@ -48,8 +71,16 @@ public class LiveKitServiceImpl implements LiveKitService {
                 LivekitRoom.RoomConfiguration.newBuilder()
                         .addAgents(
                                 LivekitAgentDispatch.RoomAgentDispatch.newBuilder()
-                                        .setAgentName("Avery-2197")
-                                        .setMetadata("{ \"instructions\" : \"Every time say good ahoy mate when starting\" }")
+                                        .setAgentName("arcaive-interview-agent")
+                                        .setMetadata(String.format(
+                                                "{\"candidate details\": \"Name: %s, Job Role: %s, Experience: %s, Country: %s\", " +
+                                                        "\"job details\": %s}",
+                                                member.getMemberFullName(),
+                                                member.getJobRole(),
+                                                member.getExperience(),
+                                                member.getCountry(),
+                                                jobDetailsAsJSON.isEmpty() ? "null" : jobDetailsAsJSON
+                                        ))
                                         .build()
                         )
                         .build()

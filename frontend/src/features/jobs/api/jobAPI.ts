@@ -3,7 +3,7 @@ import { mapToJobListing } from "@/features/jobs/utils/mockMapper";
 import type { JobListing } from "@/@types/jobs";
 import { getToken } from "@/utils/auth";
 
-const JOB_SEARCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/jobs`!;
+const JOB_SEARCH_URL = `${process.env.NEXT_PUBLIC_API_URL}/jobs`;
 const CACHE_KEY = "arcaive_jobs_cache";
 
 export const jobAPI = {
