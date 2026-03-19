@@ -54,6 +54,14 @@ public class LiveKitServiceImpl implements LiveKitService {
 
         log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
+        String candidateDetailsJson = String.format(
+                "{\"name\": \"%s\", \"jobRole\": \"%s\", \"experience\": \"%s\", \"country\": \"%s\"}",
+                member.getMemberFullName(),
+                member.getJobRole(),
+                member.getExperience(),
+                member.getCountry()
+        );
+
         AccessToken accessToken = new AccessToken(apiKey, apiSecret);
 
         String roomName = "arc_" + member.getMemberId() + "_" + System.currentTimeMillis();
@@ -73,12 +81,8 @@ public class LiveKitServiceImpl implements LiveKitService {
                                 LivekitAgentDispatch.RoomAgentDispatch.newBuilder()
                                         .setAgentName("arcaive-interview-agent")
                                         .setMetadata(String.format(
-                                                "{\"candidate details\": \"Name: %s, Job Role: %s, Experience: %s, Country: %s\", " +
-                                                        "\"job details\": %s}",
-                                                member.getMemberFullName(),
-                                                member.getJobRole(),
-                                                member.getExperience(),
-                                                member.getCountry(),
+                                                "{\"candidate details\": %s, \"job details\": %s}",
+                                                candidateDetailsJson,
                                                 jobDetailsAsJSON.isEmpty() ? "null" : jobDetailsAsJSON
                                         ))
                                         .build()
