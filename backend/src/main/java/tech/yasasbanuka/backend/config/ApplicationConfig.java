@@ -18,22 +18,30 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class ApplicationConfig {
     private final MemberRepo memberRepo;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> memberRepo.findByUsername(username)
-                .map(member -> {
-                    String tier = (member.getSubscription() != null && member.getSubscription().getVariantId() != null)
-                            ? member.getSubscription().getVariantId()
-                            : "Explorer";
-                    return new User(
-                            member.getUsername(),
-                            member.getHashedPassword(),
-                            List.of(new SimpleGrantedAuthority("ROLE_" + tier))
-                    );
-                }).orElseThrow(() -> new UsernameNotFoundException("Member not found with username: " + username));
+        return username -> {
+            log.debug("Loading user by username: {}", username);
+            return memberRepo.findByUsername(username)
+                    .map(member -> {
+                        String tier = (member.getSubscription() != null && member.getSubscription().getVariantId() != null)
+                                ? member.getSubscription().getVariantId()
+                                : "Explorer";
+                        log.debug("User {} found with tier: {}", username, tier);
+                        return new User(
+                                member.getUsername(),
+                                member.getHashedPassword(),
+                                List.of(new SimpleGrantedAuthority("ROLE_" + tier))
+                        );
+                    }).orElseThrow(() -> {
+                        log.warn("User not found with username: {}", username);
+                        return new UsernameNotFoundException("Member not found with username: " + username);
+                    });
+        };
     }
 
     @Bean

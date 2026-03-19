@@ -4,6 +4,7 @@ import io.livekit.server.*;
 import livekit.LivekitAgentDispatch;
 import livekit.LivekitRoom;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LiveKitServiceImpl implements LiveKitService {
     @Value("${livekit.api-key}")
     private String apiKey;
@@ -26,10 +28,13 @@ public class LiveKitServiceImpl implements LiveKitService {
 
     @Override
     public Map<String, String> getToken(String username) {
+        log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
         AccessToken accessToken = new AccessToken(apiKey, apiSecret);
 
         String roomName = "arc_" + member.getMemberId() + "_" + System.currentTimeMillis();
+        log.info("Assigning user {} to LiveKit room: {}", username, roomName);
+        
         accessToken.setName(member.getMemberFullName());
         accessToken.setIdentity(String.valueOf(member.getMemberId()));
         accessToken.addGrants(new RoomJoin(true), new RoomName(roomName));
@@ -49,6 +54,8 @@ public class LiveKitServiceImpl implements LiveKitService {
                         )
                         .build()
         );
-        return Map.of("token", accessToken.toJwt(), "url", livekitUrl);
+        String token = accessToken.toJwt();
+        log.info("LiveKit token generated successfully for user: {}", username);
+        return Map.of("token", token, "url", livekitUrl);
     }
 }

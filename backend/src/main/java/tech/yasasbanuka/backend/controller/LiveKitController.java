@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.controller;
 
 import io.livekit.server.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,11 +16,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/livekit")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@Slf4j
 public class LiveKitController {
     private final LiveKitService liveKitService;
 
     @GetMapping("/token")
     public ResponseEntity<Map<String, String>> getToken(Authentication authentication) {
+        log.info("Received request for LiveKit token for user: {}", authentication.getName());
         Map<String, String> token = liveKitService.getToken(authentication.getName());
         return new ResponseEntity<>(token, HttpStatus.OK);
     }

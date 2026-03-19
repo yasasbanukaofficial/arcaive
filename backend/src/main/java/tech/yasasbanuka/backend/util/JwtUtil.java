@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
@@ -18,6 +19,7 @@ public class JwtUtil {
     private String secretKey;
 
     public String generateToken(String username) {
+        log.debug("Generating JWT token for user: {}", username);
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -32,6 +34,7 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
+            log.warn("JWT validation failed: {}", ex.getMessage());
             return false;
         }
     }
