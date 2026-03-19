@@ -12,15 +12,15 @@ import { JobListing } from "@/@types/jobs";
 export default function InterviewPage() {
   const params = useSearchParams();
   const jobId = params.get("jobId");
-  const [job, setJob] = useState<JobListing | null>();
+  const [job, setJob] = useState<JobListing | null>(null);
   const [jobResolved, setJobResolved] = useState(false);
 
   useEffect(() => {
     if (jobId) {
       const jobData = jobAPI.getCachedJob(jobId);
       setJob(jobData ?? null);
-      setJobResolved(true)
-    } else { setJobResolved(true) }
+    }
+    setJobResolved(true)
   }, [jobId]);
 
   const { connection, loading, error } = useLiveKitToken(jobResolved ? job : undefined);

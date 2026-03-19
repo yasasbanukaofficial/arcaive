@@ -31,7 +31,7 @@ export default function useLiveKitToken(posting?: JobListing | null) {
           withCredentials: true,
           ...(posting && { data: posting }),
         });
-        hasFetched.current = true; // ✅ only lock after success
+        hasFetched.current = true; 
         setConnection(response.data);
       } catch (err: any) {
         setError(err.message || "An error occurred");
