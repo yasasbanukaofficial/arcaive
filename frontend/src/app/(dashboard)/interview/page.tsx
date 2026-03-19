@@ -36,7 +36,7 @@ export default function InterviewPage() {
         connect={true}
         video={false}
         audio={false}
-        onDisconnected={() => console.log("Disconnected")}
+        onDisconnected={() => {}}
       >
         <RoomAudioRenderer />
         <AgentPanel />
