@@ -55,7 +55,7 @@ public class LiveKitServiceImpl implements LiveKitService {
         log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
         String candidateDetailsJson = String.format(
-                "{\"name\": \"%s\", \"jobRole\": \"%s\", \"experience\": \"%s\", \"country\": \"%s\"}",
+                "{\"name\": \"%s\", \"job role\": \"%s\", \"experience\": \"%s\", \"country\": \"%s\"}",
                 member.getMemberFullName(),
                 member.getJobRole(),
                 member.getExperience(),

@@ -35,7 +35,7 @@ export default function InterviewPage() {
         token={connection!.token}
         connect={true}
         video={false}
-        audio={true}
+        audio={false}
         onDisconnected={() => console.log("Disconnected")}
       >
         <RoomAudioRenderer />

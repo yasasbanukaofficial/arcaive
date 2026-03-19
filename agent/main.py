@@ -20,7 +20,7 @@ load_dotenv(".env")
 class DefaultAgent(Agent):
     def __init__(self, candidate_details, job_details) -> None:
         self.candidate_name = candidate_details.get("name", "there") if isinstance(candidate_details, dict) else "there"
-        self.job_title = job_details.get("title", "this position") if isinstance(job_details, dict) else "this position"
+        self.job_title = job_details.get("title", "this position") if isinstance(job_details, dict) else candidate_details.get("job role")
         super().__init__(
             instructions=f"""
                 You are Alex, a professional interviewer at Arcaive conducting a 1-minute mock interview.
@@ -40,13 +40,9 @@ class DefaultAgent(Agent):
 
     async def on_enter(self):
         await self.session.say(
-            f"Hello {self.candidate_name}, welcome to your mock interview for the {self.job_title} position. Let us begin. Tell me more about yourself please.",
+            f"Hello {self.candidate_name}, welcome to your mock interview for the {self.job_title} position. Let us begin. Tell me more about yourself",
             allow_interruptions=False,
         )
-        # await self.session.generate_reply(
-        #     instructions="Tell the candidate to tell more about him and then proceed on asking questions",
-        #     allow_interruptions=False,
-        # )
 
 
 def prewarm(proc: JobProcess):
@@ -81,7 +77,7 @@ async def entrypoint(ctx: JobContext):
             api_key=os.environ["DEEPGRAM_API_KEY"],
         ),
         llm=openai.LLM(
-            model="llama3.2",
+            model="llama3.1:8b",
             api_key="ollama",
             base_url=os.environ["OLLAMA_BASE_URL"],
         ),
