@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.service.impl;
 
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +16,18 @@ import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.entity.LinkedAccount;
 import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.Subscription;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
+import tech.yasasbanuka.backend.repo.SubscriptionRepo;
 import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -31,6 +36,7 @@ import java.util.UUID;
 @Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
+    private final SubscriptionService subscriptionService;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
@@ -133,6 +139,13 @@ public class MemberServiceImpl implements MemberService {
     public MemberInternalDTO getMemberInternalByEmail(String email) {
         log.debug("Fetching internal member by email: {}", email);
         return memberMapper.toInternalDTO(memberRepo.findByEmail(email).orElse(null));
+    }
+
+    @Override
+    public String getSubscriptionPlan(String username) {
+        log.debug("Fetching subscription details for: {}", username);
+        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Member not found: " + username));
+        return member.getSubscription().getVariantId();
     }
 
     @Override

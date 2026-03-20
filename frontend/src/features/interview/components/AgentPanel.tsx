@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useSession } from "@livekit/components-react";
 import { AgentSessionProvider } from "@/components/agents-ui/agent-session-provider";
 import { AgentControlBar } from "@/components/agents-ui/agent-control-bar";
@@ -9,6 +8,7 @@ import { ChevronLeft, MoreVertical, Info, LayoutGrid } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
+import { memberAPI } from "@/features/settings/api/memberAPI";
 
 export default function AgentPanel() {
   const session = useSession();
@@ -18,12 +18,19 @@ export default function AgentPanel() {
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!member) return;
-    let duration = 300; 
-    const plan = member.currentPlan?.toLowerCase();
-    if (plan === "strategist") duration = 300;
-    else if (plan === "architect") duration = 600;
-    setSecondsLeft(duration);
+    const setTimer = async () => {
+      if (!member) return;
+      const plan = await memberAPI.getSubscriptionPlan();
+      let duration: number;
+      duration =
+        plan.toLowerCase() === "strategist"
+          ? (duration = 300)
+          : plan.toLowerCase() === "architect"
+            ? (duration = 600)
+            : (duration = 120);
+      setSecondsLeft(duration);
+    };
+    setTimer();
   }, [member]);
 
   useEffect(() => {
@@ -55,8 +62,12 @@ export default function AgentPanel() {
               <ChevronLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-lg font-semibold tracking-tight">AI Technical Interview</h1>
-              <p className="text-xs text-[var(--d-text-tertiary)] font-medium">Arcaive • Senior Frontend Role</p>
+              <h1 className="text-lg font-semibold tracking-tight">
+                AI Technical Interview
+              </h1>
+              <p className="text-xs text-[var(--d-text-tertiary)] font-medium">
+                Arcaive • Senior Frontend Role
+              </p>
             </div>
           </div>
 
@@ -64,13 +75,17 @@ export default function AgentPanel() {
             <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)] min-w-[170px] justify-center">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               {isLoading || secondsLeft === null ? (
-                <span className="text-xs font-semibold uppercase tracking-wider">Loading...</span>
+                <span className="text-xs font-semibold uppercase tracking-wider">
+                  Loading...
+                </span>
               ) : secondsLeft > 0 ? (
                 <span className="text-xs font-semibold uppercase tracking-wider">
                   Remaining Time: {formatTime(secondsLeft)}
                 </span>
               ) : (
-                <span className="text-xs font-semibold uppercase tracking-wider text-red-500">Mock Interview Ended</span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-red-500">
+                  Mock Interview Ended
+                </span>
               )}
             </div>
             <button className="w-10 h-10 flex items-center justify-center rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)]">
@@ -106,6 +121,3 @@ export default function AgentPanel() {
     </AgentSessionProvider>
   );
 }
-
-
-
