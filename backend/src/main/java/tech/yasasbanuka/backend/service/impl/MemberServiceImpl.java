@@ -142,13 +142,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String getSubscriptionPlan(String username) {
-        log.debug("Fetching subscription details for: {}", username);
-        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Member not found: " + username));
-        return member.getSubscription().getVariantId();
-    }
-
-    @Override
     public List<MemberResponseDTO> getAllMembers() {
         log.info("Fetching all members");
         return memberRepo.findAll().stream().map(memberMapper::toResponseDTO).toList();

@@ -91,10 +91,4 @@ public class MemberController {
         log.info("Received request to update job details for user: {}", authentication.getName());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.updateJobDetailsByUsername(authentication.getName(), dto)), HttpStatus.OK);
     }
-
-    @GetMapping("/me/subscription-plan")
-    public ResponseEntity<APIResponse<String>> getSubscriptionPlan(Authentication authentication) {
-        log.info("Received request to receive subscription plan for: {}", authentication.getName());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.getSubscriptionPlan(authentication.getName())), HttpStatus.OK);
-    }
 }

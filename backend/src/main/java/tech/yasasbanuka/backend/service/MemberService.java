@@ -16,7 +16,6 @@ public interface MemberService {
     MemberResponseDTO getMember(UUID memberId);
     MemberResponseDTO getMemberByUsername(String username);
     MemberInternalDTO getMemberInternalByEmail(String email);
-    String getSubscriptionPlan(String username);
     List<MemberResponseDTO> getAllMembers();
     void changePassword(String username, String currentPassword, String newPassword);
     MemberResponseDTO updateMfaByUsername(String username, MfaUpdateRequestDTO mfa);

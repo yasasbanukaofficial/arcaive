@@ -129,19 +129,4 @@ export const memberAPI = {
       })
     ).data.data;
   },
-  getSubscriptionPlan: async () => {
-    const token = await getToken();
-    if (!token) throw new Error("No authentication token found");
-    return (
-      await apiInstance({
-        method: "GET",
-        baseURL: `${MEMBER_DATA_URL}/me/subscription-plan`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-    ).data.data;
-  },
 };
