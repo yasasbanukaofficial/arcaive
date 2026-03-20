@@ -23,16 +23,19 @@ public class LiveKitController {
     private final LiveKitService liveKitService;
 
     @GetMapping("/token")
-    public ResponseEntity<Map<String, String>> getToken(Authentication authentication) {
+    public ResponseEntity<APIResponse<Map<String, String>>> getToken(Authentication authentication) {
         log.info("Received request for LiveKit token for user: {}", authentication.getName());
         Map<String, String> token = liveKitService.getToken(authentication.getName());
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Successfully fetched the token details.", token), HttpStatus.OK);
     }
     @PostMapping("/token")
-    public ResponseEntity<Map<String, String>> getTokenWithJobDetails(Authentication authentication, @RequestBody() JobRequestDTO jobDetails) {
+    public ResponseEntity<APIResponse<Map<String, String>>> getTokenWithJobDetails(Authentication authentication, @RequestBody() JobRequestDTO jobDetails) {
         log.info("Received request for LiveKit token for user with job details: {}", authentication.getName());
         log.info("Received job details: {}", jobDetails);
         Map<String, String> token = liveKitService.getToken(authentication.getName(), jobDetails);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new APIResponse<>(true, HttpStatus.OK.value(), "Successfully fetched the token details.", token),
+                HttpStatus.OK
+        );
     }
 }

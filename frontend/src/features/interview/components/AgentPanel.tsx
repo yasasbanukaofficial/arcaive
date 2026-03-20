@@ -10,28 +10,16 @@ import { useEffect, useState } from "react";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
 import { memberAPI } from "@/features/settings/api/memberAPI";
 
-export default function AgentPanel() {
+export default function AgentPanel({ duration }: { duration: string }) {
   const session = useSession();
   const router = useRouter();
 
-  const { data: member, isLoading } = useMemberSettings();
+  // const { data: member, isLoading } = useMemberSettings();
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
 
   useEffect(() => {
-    const setTimer = async () => {
-      if (!member) return;
-      const plan = await memberAPI.getSubscriptionPlan();
-      let duration: number;
-      duration =
-        plan.toLowerCase() === "strategist"
-          ? (duration = 300)
-          : plan.toLowerCase() === "architect"
-            ? (duration = 600)
-            : (duration = 120);
-      setSecondsLeft(duration);
-    };
-    setTimer();
-  }, [member]);
+    setSecondsLeft(Number(duration));
+  }, [duration]);
 
   useEffect(() => {
     if (secondsLeft === null) return;
@@ -74,7 +62,7 @@ export default function AgentPanel() {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl bg-[var(--d-surface)] border border-[var(--d-border)] min-w-[170px] justify-center">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              {isLoading || secondsLeft === null ? (
+              {secondsLeft === null ? (
                 <span className="text-xs font-semibold uppercase tracking-wider">
                   Loading...
                 </span>

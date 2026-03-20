@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.dto.job.JobRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
+import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
+import tech.yasasbanuka.backend.entity.Subscription;
 import tech.yasasbanuka.backend.service.LiveKitService;
 import tech.yasasbanuka.backend.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tech.yasasbanuka.backend.service.SubscriptionService;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class LiveKitServiceImpl implements LiveKitService {
     private String livekitUrl;
 
     private final MemberService memberService;
+    private final SubscriptionService subscriptionService;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -62,11 +67,16 @@ public class LiveKitServiceImpl implements LiveKitService {
                 member.getCountry()
         );
 
-        AccessToken accessToken = new AccessToken(apiKey, apiSecret);
-
         String roomName = "arc_" + member.getMemberId() + "_" + System.currentTimeMillis();
         log.info("Assigning user {} to LiveKit room: {}", username, roomName);
 
+        SubscriptionResponseDTO subscription = subscriptionService.getSubscription(UUID.fromString(member.getSubscriptionId()));
+//        Need to write the subscription time period checking part.
+
+        String variantId = subscription.getVariantId();
+        int duration = variantId.equalsIgnoreCase("strategist") ? 300 : variantId.equalsIgnoreCase("architect") ? 600 : 120;
+
+        AccessToken accessToken = new AccessToken(apiKey, apiSecret);
         accessToken.setName(member.getMemberFullName());
         accessToken.setIdentity(String.valueOf(member.getMemberId()));
         accessToken.addGrants(
@@ -81,9 +91,10 @@ public class LiveKitServiceImpl implements LiveKitService {
                                 LivekitAgentDispatch.RoomAgentDispatch.newBuilder()
                                         .setAgentName("arcaive-interview-agent")
                                         .setMetadata(String.format(
-                                                "{\"candidate details\": %s, \"job details\": %s}",
+                                                "{\"candidate details\": %s, \"job details\": %s, \"duration\": %s}",
                                                 candidateDetailsJson,
-                                                jobDetailsAsJSON.isEmpty() ? "null" : jobDetailsAsJSON
+                                                jobDetailsAsJSON.isEmpty() ? "null" : jobDetailsAsJSON,
+                                                duration
                                         ))
                                         .build()
                         )
@@ -91,6 +102,6 @@ public class LiveKitServiceImpl implements LiveKitService {
         );
         String token = accessToken.toJwt();
         log.info("LiveKit token generated successfully for user: {}", username);
-        return Map.of("token", token, "url", livekitUrl);
+        return Map.of("token", token, "url", livekitUrl, "duration", String.valueOf(duration));
     }
 }

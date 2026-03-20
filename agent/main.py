@@ -30,14 +30,17 @@ async def entrypoint(ctx: JobContext):
     metadata = ctx.job.metadata
     job_details = None
     candidate_details = None
+    duration = None
 
     if metadata:
         try:
             data = json.loads(metadata)
             candidate_details = data.get("candidate details")
             job_details = data.get("job details")
-            logger.info(f"Received Candidate Data: {candidate_details}")
-            logger.info(f"Received Job Data: {job_details}")
+            duration = int(data.get("duration"))
+            logger.info(f"Received candidate data: {candidate_details}")
+            logger.info(f"Received job data: {job_details}")
+            logger.info(f"Received time duration: {duration}")
         except json.JSONDecodeError:
             logger.warning("Failed to parse metadata")
 
@@ -77,7 +80,7 @@ async def entrypoint(ctx: JobContext):
         ),
     )
 
-    await asyncio.sleep(120)
+    await asyncio.sleep(duration)
     logger.info("Interview time limit reached, closing room")
     await ctx.api.room.delete_room(api.DeleteRoomRequest(room=ctx.room.name))
 

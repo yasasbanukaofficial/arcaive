@@ -25,7 +25,7 @@ export default function InterviewPage() {
     setJobResolved(true)
   }, [jobId]);
 
-  const { connection, loading, error } = useLiveKitToken(
+  const { connection, duration, loading, error } = useLiveKitToken(
     (jobResolved && !showSetup) ? (job ?? null) : undefined
   );
 
@@ -62,7 +62,7 @@ export default function InterviewPage() {
             </div>
           )}
 
-          {!loading && !error && connection && (
+          {!loading && !error && connection && duration &&(
             <LiveKitRoom
               serverUrl={connection.url}
               token={connection.token}
@@ -73,7 +73,7 @@ export default function InterviewPage() {
               className="flex-1 flex flex-col min-h-0"
             >
               <RoomAudioRenderer />
-              <AgentPanel />
+              <AgentPanel duration={duration}/>
             </LiveKitRoom>
           )}
         </div>
