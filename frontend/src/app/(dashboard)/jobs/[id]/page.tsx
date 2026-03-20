@@ -369,6 +369,7 @@ export default function JobDetailsPage() {
             </div>
 
             <div className="space-y-3">
+
               <a href={job.applyLink} target="_blank" rel="noopener noreferrer" className="block">
                 <Button
                   variant="white"
@@ -380,6 +381,14 @@ export default function JobDetailsPage() {
                   Apply Directly
                 </Button>
               </a>
+              <Button
+                variant="primary"
+                size="lg"
+                className="w-full h-14 text-[16px] font-bold rounded-2xl simulate-interview-btn"
+                onClick={() => router.push(`/interview?jobId=${id}`)}
+              >
+                Simulate Interview
+              </Button>
 
               {job.googleLink && (
                 <a href={job.googleLink} target="_blank" rel="noopener noreferrer" className="block">

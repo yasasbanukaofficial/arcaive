@@ -1,13 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import useLiveKitToken from "@/features/interview/hooks/useLiveKitToken";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
 import AgentPanel from "@/features/interview/components/AgentPanel";
+import { jobAPI } from "@/features/jobs/api/jobAPI";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { JobListing } from "@/@types/jobs";
 
 export default function InterviewPage() {
-  const { connection, loading, error } = useLiveKitToken();
+  const params = useSearchParams();
+  const jobId = params.get("jobId");
+  const [job, setJob] = useState<JobListing | null>(null);
+  const [jobResolved, setJobResolved] = useState(false);
+
+  useEffect(() => {
+    if (jobId) {
+      const jobData = jobAPI.getCachedJob(jobId);
+      setJob(jobData ?? null);
+    }
+    setJobResolved(true)
+  }, [jobId]);
+
+  const { connection, loading, error } = useLiveKitToken(jobResolved ? job : undefined);
 
   if (loading) return <p>Connecting...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -19,8 +35,8 @@ export default function InterviewPage() {
         token={connection!.token}
         connect={true}
         video={false}
-        audio={true}
-        onDisconnected={() => console.log("Disconnected")}
+        audio={false}
+        onDisconnected={() => {}}
       >
         <RoomAudioRenderer />
         <AgentPanel />

@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,10 +16,12 @@ import tech.yasasbanuka.backend.util.ExceptionResponse;
 import java.time.Instant;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalException {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleValidation(MethodArgumentNotValidException ex) {
+        log.warn("Validation error: {}", ex.getMessage());
         String fieldMessage = ex.getBindingResult().getFieldErrors().stream()
                 .findFirst()
                 .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
@@ -34,6 +37,7 @@ public class GlobalException {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        log.warn("HTTP Message not readable: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .exception(ex.getClass().getSimpleName())
@@ -45,6 +49,7 @@ public class GlobalException {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ExceptionResponse handleBadCredentials(BadCredentialsException ex) {
+        log.warn("Bad credentials: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.UNAUTHORIZED.value())
                 .exception(ex.getClass().getSimpleName())
@@ -56,6 +61,7 @@ public class GlobalException {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionResponse handleAccessDenied(AccessDeniedException ex) {
+        log.warn("Access denied: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.FORBIDDEN.value())
                 .exception(ex.getClass().getSimpleName())
@@ -67,6 +73,7 @@ public class GlobalException {
     @ExceptionHandler(EmailNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleEmailNotFound(EmailNotFoundException ex) {
+        log.warn("Email not found: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .exception(ex.getClass().getSimpleName())
@@ -78,6 +85,7 @@ public class GlobalException {
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleResourceNotFound(ResourceNotFoundException ex) {
+        log.warn("Resource not found: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .exception(ex.getClass().getSimpleName())
@@ -90,6 +98,7 @@ public class GlobalException {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleUsernameNotFound(UsernameNotFoundException ex) {
+        log.warn("Username not found: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .exception(ex.getClass().getSimpleName())
@@ -101,6 +110,7 @@ public class GlobalException {
     @ExceptionHandler(AlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionResponse handleAlreadyExists(AlreadyExistsException ex) {
+        log.warn("Resource already exists: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.CONFLICT.value())
                 .exception(ex.getClass().getSimpleName())
@@ -112,6 +122,7 @@ public class GlobalException {
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionResponse handleIllegalArgument(IllegalArgumentException ex) {
+        log.warn("Illegal argument: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .exception(ex.getClass().getSimpleName())
@@ -123,6 +134,7 @@ public class GlobalException {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ExceptionResponse handleDataIntegrity(DataIntegrityViolationException ex) {
+        log.error("Data integrity violation: {}", ex.getMessage());
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.CONFLICT.value())
                 .exception(ex.getClass().getSimpleName())
@@ -134,6 +146,7 @@ public class GlobalException {
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleNullPointer(NullPointerException ex) {
+        log.error("Null pointer exception: ", ex);
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .exception(ex.getClass().getSimpleName())
@@ -147,6 +160,7 @@ public class GlobalException {
     public ExceptionResponse handleUndeclared(java.lang.reflect.UndeclaredThrowableException ex) {
         Throwable cause = ex.getUndeclaredThrowable();
         Throwable realCause = cause != null ? cause : ex;
+        log.error("Undeclared throwable exception: ", realCause);
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .exception(realCause.getClass().getSimpleName())
@@ -158,6 +172,7 @@ public class GlobalException {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleGeneric(Exception ex) {
+        log.error("Unhandled exception: ", ex);
         return ExceptionResponse.builder()
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .exception(ex.getClass().getSimpleName())

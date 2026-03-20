@@ -20,12 +20,10 @@ export default function SubscriptionChoosingPage() {
   const router = useRouter();
 
   const handleSelect = (planId: string) => {
-    console.log("selected plan", planId);
     router.push("/jobs");
   };
 
   const handleContinueStarter = () => {
-    console.log("continue with starter");
     router.push("/jobs");
   };
 
