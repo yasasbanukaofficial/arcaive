@@ -68,18 +68,28 @@ export default function AgentControls() {
           </div>
         </div>
 
-        <div className="bg-[var(--d-surface)] rounded-3xl border border-[var(--d-border)] flex flex-col h-[60%] shadow-xl overflow-hidden transition-all duration-300">
-          <div className="p-6 border-b border-[var(--d-border)] flex items-center justify-between shrink-0">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+        <div className="relative bg-[var(--d-surface)] rounded-3xl border border-[var(--d-border)] flex flex-col h-[60%] shadow-2xl overflow-hidden transition-all duration-500 group/chat">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[60px] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/5 blur-[60px] pointer-events-none" />
+          
+          <div className="p-6 border-b border-[var(--d-border)] flex items-center justify-between shrink-0 bg-[var(--d-surface)]/50 backdrop-blur-md relative z-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-linear-to-br from-emerald-500/20 to-emerald-500/5 text-emerald-500 border border-emerald-500/20 shadow-inner">
                 <MessageSquare className="w-4 h-4" />
               </div>
-              <h3 className="text-xs font-bold uppercase tracking-widest">Chat Transcript</h3>
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--d-text-primary)]">Chat Transcript</h3>
+                <p className="text-[10px] text-[var(--d-text-tertiary)] font-medium mt-0.5">Real-time interview logs</p>
+              </div>
             </div>
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-tighter">Live</span>
+            </div>
           </div>
-          <div className="flex-1 overflow-y-auto px-6 py-4 custom-scrollbar">
-            <AgentChatTranscript agentState={state} messages={messages} />
+          <div className="flex-1 overflow-hidden relative z-10">
+            <AgentChatTranscript agentState={state} messages={messages} className="h-full custom-scrollbar" />
           </div>
         </div>
       </div>

@@ -88,7 +88,7 @@ class DefaultAgent(Agent):
     async def on_enter(self):
         await self.session.say(
             f"Hello {self.candidate_name}, welcome to your mock interview for the {self.job_title} position. "
-            f"You have 2 minutes for this session and the countdown has already started. Let us begin. Tell me a little about yourself.",
+            f"A countdown has already started and will be displayed at the top. Let's begin. Tell me a little about yourself.",
             allow_interruptions=False,
         )
 
