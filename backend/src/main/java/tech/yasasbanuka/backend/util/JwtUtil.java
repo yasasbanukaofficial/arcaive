@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
@@ -18,6 +20,7 @@ public class JwtUtil {
     private String secretKey;
 
     public String generateToken(String username) {
+        log.debug("Generating JWT token for user: {}", username);
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -32,6 +35,7 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
+            log.warn("JWT validation failed: {}", ex.getMessage());
             return false;
         }
     }

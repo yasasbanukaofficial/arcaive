@@ -30,7 +30,7 @@ const mainNav = [
   { name: "Agents", href: "/agents", icon: Bot },
   { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
-  { name: "Interview", href: "/inteview", icon: Mic },
+  { name: "Interview", href: "/interview", icon: Mic },
 ];
 
 const manageNav = [

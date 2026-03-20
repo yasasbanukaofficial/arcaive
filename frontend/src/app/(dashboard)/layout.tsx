@@ -18,7 +18,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
-  const isNoPaddingPage = pathname === "/workflow" || pathname === "/inteview";
+  const isNoPaddingPage = pathname === "/workflow" || pathname === "/interview";
 
   return (
     <div

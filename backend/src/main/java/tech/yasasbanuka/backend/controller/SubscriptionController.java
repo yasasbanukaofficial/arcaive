@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,32 +19,38 @@ import java.util.UUID;
 @RequestMapping("/api/v1/subscriptions")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequiredArgsConstructor
+@Slf4j
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
     @GetMapping
     public ResponseEntity<APIResponse<List<SubscriptionResponseDTO>>> getAllSubscriptions() {
+        log.info("Received request to fetch all subscriptions");
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched all subscriptions successfully", subscriptionService.getAllSubscriptions()), HttpStatus.OK);
     }
 
     @GetMapping("/{subscriptionId}")
     public ResponseEntity<APIResponse<SubscriptionResponseDTO>> getSubscription(@PathVariable UUID subscriptionId) {
+        log.info("Received request to fetch subscription with ID: {}", subscriptionId);
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched subscription successfully", subscriptionService.getSubscription(subscriptionId)), HttpStatus.OK);
     }
 
     @PutMapping("/{subscriptionId}")
     public ResponseEntity<APIResponse<SubscriptionResponseDTO>> updateSubscription(@PathVariable UUID subscriptionId, @RequestBody @Valid SubscriptionUpdateRequestDTO dto) {
+        log.info("Received request to update subscription with ID: {}", subscriptionId);
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscription updated successfully", subscriptionService.updateSubscription(subscriptionId, dto)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{subscriptionId}")
     public ResponseEntity<APIResponse<Boolean>> deleteSubscription(@PathVariable UUID subscriptionId) {
+        log.info("Received request to delete subscription with ID: {}", subscriptionId);
         subscriptionService.deleteSubscription(subscriptionId);
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscription deleted successfully", null), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<APIResponse<SubscriptionResponseDTO>> createSubscription(@RequestBody @Valid SubscriptionCreateRequestDTO dto) {
+        log.info("Received request to create subscription for member ID: {}", dto.getMemberId());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Subscription created successfully", subscriptionService.createSubscription(dto)), HttpStatus.CREATED);
     }
 }

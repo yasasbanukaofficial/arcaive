@@ -3,6 +3,7 @@ package tech.yasasbanuka.backend.controller;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -18,11 +19,13 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@Slf4j
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("register")
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberCreateRequestDTO dto) {
+        log.info("Received registration request for email: {}", dto.getMemberEmail());
         authService.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new APIResponse<>(true, 201, "Account created successfully. Please sign in.", null));
@@ -30,12 +33,14 @@ public class AuthController {
 
     @PostMapping("login")
     public ResponseEntity<APIResponse<String>> loginUser(@RequestBody @Valid AuthRequestDTO dto) {
+        log.info("Received login request for email: {}", dto.getEmail());
         String token = authService.authenticate(dto).getAccessToken();
         return ResponseEntity.ok(new APIResponse<>(true, 200, "Signed in successfully.", token));
     }
 
     @PostMapping("logout")
     public ResponseEntity<APIResponse<Void>> logoutUser(HttpServletResponse response) {
+        log.info("Received logout request");
         ResponseCookie clearAccess = ResponseCookie.from("access_token", "")
                 .httpOnly(true)
                 .secure(true)

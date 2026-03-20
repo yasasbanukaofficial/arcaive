@@ -1,6 +1,5 @@
 package tech.yasasbanuka.backend.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +12,7 @@ import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.service.JobService;
 import tech.yasasbanuka.backend.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ import java.util.*;
 @Service
 public class JobServiceImpl implements JobService {
     private final MemberService memberService;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     @Value("${JSEARCH_API_KEY}")
     private String jsearchApiKey;

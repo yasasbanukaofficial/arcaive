@@ -1,6 +1,7 @@
 package tech.yasasbanuka.backend.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final MemberRepo memberRepo;
     private final PasswordEncoder passwordEncoder;
@@ -29,18 +31,26 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO authenticate(AuthRequestDTO dto) {
+        log.info("Attempting to authenticate user with email: {}", dto.getEmail());
         Member member = memberRepo.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new EmailNotFoundException("No account found with this email address."));
+                .orElseThrow(() -> {
+                    log.warn("Authentication failed: No account found for email {}", dto.getEmail());
+                    return new EmailNotFoundException("No account found with this email address.");
+                });
         if (!passwordEncoder.matches(dto.getPassword(), member.getHashedPassword())) {
+            log.warn("Authentication failed: Incorrect password for email {}", dto.getEmail());
             throw new BadCredentialsException("Incorrect password.");
         }
         String token = jwtUtil.generateToken(member.getUsername());
+        log.info("User {} authenticated successfully", member.getUsername());
         return new AuthResponseDTO(token);
     }
 
     @Override
     public void register(MemberCreateRequestDTO dto) {
+        log.info("Registering new user with email: {}", dto.getMemberEmail());
         if (memberRepo.existsByEmail(dto.getMemberEmail())) {
+            log.warn("Registration failed: Email {} already exists", dto.getMemberEmail());
             throw new AlreadyExistsException("An account with this email already exists. Please sign in instead.");
         }
 
@@ -63,5 +73,6 @@ public class AuthServiceImpl implements AuthService {
         freeSub.setMember(newUser);
 
         memberRepo.save(newUser);
+        log.info("User {} registered successfully with username: {}", dto.getMemberEmail(), username);
     }
 }
