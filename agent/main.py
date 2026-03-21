@@ -23,26 +23,27 @@ def prewarm(proc: JobProcess):
 
 async def entrypoint(ctx: JobContext):
     logger.info(f"Job received for room: {ctx.room.name}")
-
     await ctx.connect()
     await ctx.wait_for_participant()
 
     metadata = ctx.job.metadata
     job_details = None
     candidate_details = None
-    duration = None
+    duration = 120
 
     if metadata:
         try:
             data = json.loads(metadata)
             candidate_details = data.get("candidate details")
             job_details = data.get("job details")
-            duration = int(data.get("duration"))
+            duration = int(data.get("duration", 120))
             logger.info(f"Received candidate data: {candidate_details}")
             logger.info(f"Received job data: {job_details}")
             logger.info(f"Received time duration: {duration}")
-        except json.JSONDecodeError:
-            logger.warning("Failed to parse metadata")
+        except (json.JSONDecodeError, ValueError):
+            logger.warning("Failed to parse metadata, using defaults")
+
+    agent = InterviewAgent(candidate_details, job_details, duration=duration)
 
     session = AgentSession(
         vad=ctx.proc.userdata["vad"],
@@ -67,7 +68,7 @@ async def entrypoint(ctx: JobContext):
     )
 
     await session.start(
-        agent=InterviewAgent(candidate_details, job_details),
+        agent=agent,
         room=ctx.room,
         room_options=room_io.RoomOptions(
             audio_input=room_io.AudioInputOptions(
