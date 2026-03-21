@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
 import { memberAPI } from "@/features/settings/api/memberAPI";
+import InterviewEndModal from "./InterviewEndModal";
 
 export default function AgentPanel({ duration }: { duration: string }) {
   const session = useSession();
@@ -16,10 +17,18 @@ export default function AgentPanel({ duration }: { duration: string }) {
 
   // const { data: member, isLoading } = useMemberSettings();
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
+  const [showEndModal, setShowEndModal] = useState(false);
 
   useEffect(() => {
-    setSecondsLeft(Number(duration));
+    // setSecondsLeft(Number(duration));
+    setSecondsLeft(30);
   }, [duration]);
+
+  useEffect(() => {
+    if (secondsLeft === 0) {
+      setShowEndModal(true);
+    }
+  }, [secondsLeft]);
 
   useEffect(() => {
     if (secondsLeft === null) return;
@@ -95,6 +104,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
               variant="livekit"
               isChatOpen={false}
               isConnected={true}
+              onDisconnect={() => setShowEndModal(true)}
               controls={{
                 leave: true,
                 microphone: true,
@@ -105,6 +115,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
             />
           </div>
         </footer>
+        <InterviewEndModal isOpen={showEndModal} />
       </div>
     </AgentSessionProvider>
   );
