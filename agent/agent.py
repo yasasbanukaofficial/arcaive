@@ -125,7 +125,7 @@ class InterviewAgent(Agent):
                 Example B - candidate gives a short reply first:
                 Candidate: "Hi."
                 You: "Feel free to share your background, what have you been working on or studying?"
-                Candidate: "I just finished a bootcamp and built a to-do app in React."
+                Candidate: "I just finished a boot camp and built a to-do app in React."
                 You: "Good start. What was the trickiest part of building that app and how did you work through it?"
                 Candidate: "Managing state between components got messy so I added Redux."
                 You: "What made you choose Redux over something lighter like Context API, and would you make the same call again?"
