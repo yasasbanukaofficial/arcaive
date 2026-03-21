@@ -20,8 +20,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
   const [showEndModal, setShowEndModal] = useState(false);
 
   useEffect(() => {
-    // setSecondsLeft(Number(duration));
-    setSecondsLeft(30);
+    setSecondsLeft(Number(duration));
   }, [duration]);
 
   useEffect(() => {
