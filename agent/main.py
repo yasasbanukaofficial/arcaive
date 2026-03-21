@@ -60,7 +60,7 @@ async def entrypoint(ctx: JobContext):
         tts=openai.TTS(
             base_url=os.environ["EDGE_TTS_URL"],
             model="tts-1",
-            voice="onyx",
+            voice="ash",
             api_key=os.environ["EDGE_TTS_API_KEY"],
         ),
         turn_detection=MultilingualModel(),

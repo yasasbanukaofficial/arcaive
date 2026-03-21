@@ -157,7 +157,7 @@ class InterviewAgent(Agent):
                 ABSOLUTE RULES
                 One question per response, never two.
                 Never combine a redirect and a question in the same response.
-                Never roleplay as the candidate.
+                Never role play as the candidate.
                 Never say what step you are on.
                 Never mention the timer, time remaining, or countdown.
                 Every response is two sentences or less.
