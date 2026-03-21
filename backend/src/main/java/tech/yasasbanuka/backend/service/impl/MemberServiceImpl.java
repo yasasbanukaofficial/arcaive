@@ -2,7 +2,6 @@ package tech.yasasbanuka.backend.service.impl;
 
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,22 +11,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CareerIntelligenceAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
+import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.entity.LinkedAccount;
 import tech.yasasbanuka.backend.entity.Member;
-import tech.yasasbanuka.backend.entity.Subscription;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
-import tech.yasasbanuka.backend.repo.SubscriptionRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -142,13 +139,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String getSubscriptionPlan(String username) {
-        log.debug("Fetching subscription details for: {}", username);
-        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Member not found: " + username));
-        return member.getSubscription().getVariantId();
-    }
-
-    @Override
     public List<MemberResponseDTO> getAllMembers() {
         log.info("Fetching all members");
         return memberRepo.findAll().stream().map(memberMapper::toResponseDTO).toList();
@@ -241,7 +231,6 @@ public class MemberServiceImpl implements MemberService {
         CVAnalyzerAgent cvAnalyzerAgent = AgenticServices
                 .agentBuilder(CVAnalyzerAgent.class)
                 .chatModel(openAiChatModel)
-                .outputKey("extractedMember")
                 .build();
         MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(extractedText);
         log.info("Member details extracted successfully from CV");
@@ -255,7 +244,6 @@ public class MemberServiceImpl implements MemberService {
         CareerIntelligenceAgent careerIntelligenceAgent = AgenticServices
                 .agentBuilder(CareerIntelligenceAgent.class)
                 .chatModel(openAiChatModel)
-                .outputKey("atomicSkills")
                 .build();
         AtomicSkillResponseDTO result = careerIntelligenceAgent.extract(extractedText);
         log.info("Atomic skills extracted successfully from CV");

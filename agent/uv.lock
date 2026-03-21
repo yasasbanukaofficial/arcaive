@@ -19,6 +19,7 @@ dependencies = [
     { name = "livekit-plugins-openai" },
     { name = "livekit-plugins-silero" },
     { name = "livekit-plugins-turn-detector" },
+    { name = "openai" },
     { name = "python-dotenv" },
 ]
 
@@ -32,6 +33,7 @@ requires-dist = [
     { name = "livekit-plugins-openai", specifier = ">=1.4.5" },
     { name = "livekit-plugins-silero", specifier = ">=1.4.5" },
     { name = "livekit-plugins-turn-detector", specifier = ">=1.4.5" },
+    { name = "openai", specifier = ">=2.28.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
 ]
 
