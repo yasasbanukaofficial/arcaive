@@ -1,5 +1,8 @@
 package tech.yasasbanuka.backend.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import dev.langchain4j.agentic.AgenticServices;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 import io.livekit.server.*;
 import livekit.LivekitAgentDispatch;
 import livekit.LivekitRoom;
@@ -7,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tech.yasasbanuka.backend.agents.JobDetailsEnhancerAgent;
+import tech.yasasbanuka.backend.agents.MemberDetailsEnhancerAgent;
+import tech.yasasbanuka.backend.dto.job.EnhancedJobDetailsDTO;
+import tech.yasasbanuka.backend.dto.job.EnhancedMemberDetailsDTO;
 import tech.yasasbanuka.backend.dto.job.JobRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
@@ -33,23 +40,25 @@ public class LiveKitServiceImpl implements LiveKitService {
     private final MemberService memberService;
     private final SubscriptionService subscriptionService;
     private final ObjectMapper objectMapper;
+    private final OpenAiChatModel openAiChatModel;
 
     @Override
-    public Map<String, String> getToken(String username) {
+    public Map<String, String> getToken(String username) throws JsonProcessingException {
         return generateToken(username, null);
     }
 
     @Override
-    public Map<String, String> getToken(String username, JobRequestDTO jobDetails) {
+    public Map<String, String> getToken(String username, JobRequestDTO jobDetails) throws JsonProcessingException {
         return generateToken(username, jobDetails);
     }
 
-    private Map<String, String> generateToken(String username, JobRequestDTO jobDetails) {
-        String jobDetailsAsJSON = "";
+    private Map<String, String> generateToken(String username, JobRequestDTO jobDetails) throws JsonProcessingException {
+        String jobDetailsAsJSON = null;
         if (jobDetails != null && jobDetails.getId() != null && !jobDetails.getId().isEmpty()) {
             log.info("Received Job Details: {}", jobDetails);
             try {
-                jobDetailsAsJSON = objectMapper.writeValueAsString(jobDetails);
+                jobDetailsAsJSON = objectMapper.writeValueAsString(jobDetailsEnhanced(objectMapper.writeValueAsString(jobDetails)));
+                log.info("Received job details in json string format: {}", jobDetailsAsJSON);
             } catch (Exception e) {
                 log.error("Error serializing job details", e);
             }
@@ -59,13 +68,8 @@ public class LiveKitServiceImpl implements LiveKitService {
 
         log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
-        String candidateDetailsJson = String.format(
-                "{\"name\": \"%s\", \"job role\": \"%s\", \"experience\": \"%s\", \"country\": \"%s\"}",
-                member.getMemberFullName(),
-                member.getJobRole(),
-                member.getExperience(),
-                member.getCountry()
-        );
+        String memberDetailsAsJson = objectMapper.writeValueAsString(memberDetailsEnhancer(objectMapper.writeValueAsString(member)));
+        log.info("Received member details in json string format: {}", memberDetailsAsJson);
 
         String roomName = "arc_" + member.getMemberId() + "_" + System.currentTimeMillis();
         log.info("Assigning user {} to LiveKit room: {}", username, roomName);
@@ -85,17 +89,24 @@ public class LiveKitServiceImpl implements LiveKitService {
                 new CanPublish(true),
                 new CanSubscribe(true)
         );
+        String fallbackJobDetails = String.format(
+                "{\"title\": \"%s\", \"focus\": \"General interview for %s role\"}",
+                member.getJobRole(),
+                member.getJobRole()
+        );
+        String metadata = String.format(
+                "{\"candidate details\": %s, \"job details\": %s, \"duration\": %s}",
+                memberDetailsAsJson,
+                jobDetailsAsJSON == null ? fallbackJobDetails : jobDetailsAsJSON,
+                duration
+        );
+        log.info("Metadata being sent to agent: {}", metadata);
         accessToken.setRoomConfiguration(
                 LivekitRoom.RoomConfiguration.newBuilder()
                         .addAgents(
                                 LivekitAgentDispatch.RoomAgentDispatch.newBuilder()
                                         .setAgentName("arcaive-interview-agent")
-                                        .setMetadata(String.format(
-                                                "{\"candidate details\": %s, \"job details\": %s, \"duration\": %s}",
-                                                candidateDetailsJson,
-                                                jobDetailsAsJSON.isEmpty() ? "null" : jobDetailsAsJSON,
-                                                duration
-                                        ))
+                                        .setMetadata(metadata)
                                         .build()
                         )
                         .build()
@@ -103,5 +114,21 @@ public class LiveKitServiceImpl implements LiveKitService {
         String token = accessToken.toJwt();
         log.info("LiveKit token generated successfully for user: {}", username);
         return Map.of("token", token, "url", livekitUrl, "duration", String.valueOf(duration));
+    }
+
+    private EnhancedJobDetailsDTO jobDetailsEnhanced(String jobDetails) {
+        JobDetailsEnhancerAgent jobDetailsEnhancerAgent = AgenticServices
+                .agentBuilder(JobDetailsEnhancerAgent.class)
+                .chatModel(openAiChatModel)
+                .build();
+        return jobDetailsEnhancerAgent.enhance(jobDetails);
+    }
+
+    private EnhancedMemberDetailsDTO memberDetailsEnhancer(String memberResponseDTO) {
+        MemberDetailsEnhancerAgent memberDetailsEnhancerAgent = AgenticServices
+                .agentBuilder(MemberDetailsEnhancerAgent.class)
+                .chatModel(openAiChatModel)
+                .build();
+        return memberDetailsEnhancerAgent.enhance(memberResponseDTO);
     }
 }

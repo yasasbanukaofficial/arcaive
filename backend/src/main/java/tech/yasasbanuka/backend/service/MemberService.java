@@ -1,6 +1,7 @@
 package tech.yasasbanuka.backend.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 

@@ -1,5 +1,10 @@
-import logging, os, json, asyncio
+import logging
+import os
+import json
+import asyncio
 from dotenv import load_dotenv
+load_dotenv(".env")
+
 from livekit import rtc, api
 from livekit.agents import (
     AgentSession,
@@ -14,7 +19,6 @@ from livekit.plugins.turn_detector.multilingual import MultilingualModel
 from agent import InterviewAgent
 
 logger = logging.getLogger("arcaive-interview-agent")
-load_dotenv(".env")
 
 
 def prewarm(proc: JobProcess):
@@ -24,6 +28,7 @@ def prewarm(proc: JobProcess):
 async def entrypoint(ctx: JobContext):
     logger.info(f"Job received for room: {ctx.room.name}")
     await ctx.connect()
+    await asyncio.sleep(1)
     await ctx.wait_for_participant()
 
     metadata = ctx.job.metadata
@@ -53,9 +58,10 @@ async def entrypoint(ctx: JobContext):
             api_key=os.environ["DEEPGRAM_API_KEY"],
         ),
         llm=openai.LLM(
-            model="llama3.1:8b",
+            model="llama3.1:8b", 
             api_key="ollama",
             base_url=os.environ["OLLAMA_BASE_URL"],
+            timeout=60.0,
         ),
         tts=openai.TTS(
             base_url=os.environ["EDGE_TTS_URL"],
@@ -64,7 +70,14 @@ async def entrypoint(ctx: JobContext):
             api_key=os.environ["EDGE_TTS_API_KEY"],
         ),
         turn_detection=MultilingualModel(),
-        preemptive_generation=True,
+        preemptive_generation=False,
+        min_endpointing_delay=1.2,
+        max_endpointing_delay=5.0,
+        allow_interruptions=True,
+        min_interruption_duration=0.8,
+        min_interruption_words=2,
+        false_interruption_timeout=2.0,
+        resume_false_interruption=True,
     )
 
     await session.start(

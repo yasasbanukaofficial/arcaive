@@ -1,5 +1,7 @@
 package tech.yasasbanuka.backend.exception;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -177,6 +179,30 @@ public class GlobalException {
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .exception(ex.getClass().getSimpleName())
                 .message(ex.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler(JsonProcessingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponse handleJsonProcessing(JsonProcessingException ex) {
+        log.error("JSON processing error: {}", ex.getMessage());
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exception(ex.getClass().getSimpleName())
+                .message("Failed to process data. Please try again.")
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler(JsonMappingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionResponse handleJsonMapping(JsonMappingException ex) {
+        log.error("JSON mapping error: {}", ex.getMessage());
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .exception(ex.getClass().getSimpleName())
+                .message("Failed to map response data. Please try again.")
                 .timeStamp(Instant.now().toString())
                 .build();
     }
