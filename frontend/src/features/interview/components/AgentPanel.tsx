@@ -62,7 +62,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
                 AI Technical Interview
               </h1>
               <p className="text-xs text-[var(--d-text-tertiary)] font-medium">
-                Arcaive • Senior Frontend Role
+                Arcaive • Mock Interview Session
               </p>
             </div>
           </div>
