@@ -1,4 +1,12 @@
+# .gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 .env
-.env**
-node_modules/
-.idea/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/

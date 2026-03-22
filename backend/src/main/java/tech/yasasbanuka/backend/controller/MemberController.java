@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.service.MemberService;
@@ -90,11 +91,5 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberResponseDTO>> updateJobDetails(Authentication authentication, @RequestBody @Valid JobDetailsDTO dto) {
         log.info("Received request to update job details for user: {}", authentication.getName());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.updateJobDetailsByUsername(authentication.getName(), dto)), HttpStatus.OK);
-    }
-
-    @GetMapping("/me/subscription-plan")
-    public ResponseEntity<APIResponse<String>> getSubscriptionPlan(Authentication authentication) {
-        log.info("Received request to receive subscription plan for: {}", authentication.getName());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.getSubscriptionPlan(authentication.getName())), HttpStatus.OK);
     }
 }

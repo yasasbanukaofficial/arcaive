@@ -1,6 +1,7 @@
 package tech.yasasbanuka.backend.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 
@@ -16,7 +17,6 @@ public interface MemberService {
     MemberResponseDTO getMember(UUID memberId);
     MemberResponseDTO getMemberByUsername(String username);
     MemberInternalDTO getMemberInternalByEmail(String email);
-    String getSubscriptionPlan(String username);
     List<MemberResponseDTO> getAllMembers();
     void changePassword(String username, String currentPassword, String newPassword);
     MemberResponseDTO updateMfaByUsername(String username, MfaUpdateRequestDTO mfa);

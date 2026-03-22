@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.dto.member;
+package tech.yasasbanuka.backend.dto.job;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

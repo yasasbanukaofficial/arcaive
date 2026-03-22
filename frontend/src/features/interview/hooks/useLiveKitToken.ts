@@ -10,6 +10,7 @@ interface ConnectDetails {
 
 export default function useLiveKitToken(posting?: JobListing | null) {
   const [connection, setConnection] = useState<ConnectDetails | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const hasFetched = useRef(false);
@@ -32,7 +33,9 @@ export default function useLiveKitToken(posting?: JobListing | null) {
           ...(posting && { data: posting }),
         });
         hasFetched.current = true; 
-        setConnection(response.data);
+        const responseData = response.data.data
+        setConnection({token: responseData.token, url: responseData.url});
+        setDuration(responseData.duration)
       } catch (err: any) {
         setError(err.message || "An error occurred");
       } finally {
@@ -43,5 +46,5 @@ export default function useLiveKitToken(posting?: JobListing | null) {
     fetchToken();
   }, [posting]);
 
-  return { connection, loading, error };
+  return { connection, duration, loading, error };
 }
