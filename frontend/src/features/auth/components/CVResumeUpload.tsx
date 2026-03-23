@@ -58,14 +58,17 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
     }
   };
 
-  const completeFlow = useCallback((extracted?: ExtractedMember) => {
-    clearProgress();
-    setProgress(100);
-    setTimeout(() => {
-      setStage("done");
-      if (extracted && onExtracted) onExtracted(extracted);
-    }, 300);
-  }, [onExtracted]);
+  const completeFlow = useCallback(
+    (extracted?: ExtractedMember) => {
+      clearProgress();
+      setProgress(100);
+      setTimeout(() => {
+        setStage("done");
+        if (extracted && onExtracted) onExtracted(extracted);
+      }, 300);
+    },
+    [onExtracted],
+  );
 
   const runUploadFlow = useCallback(() => {
     setStage("uploading");
@@ -96,46 +99,57 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
     }, 60);
   }, []);
 
-  const handleFiles =  useCallback(
+  const handleFiles = useCallback(
     async (fileList: FileList | null) => {
       if (!fileList || fileList.length === 0) return;
       const f = fileList[0];
       const maxBytes = 10 * 1024 * 1024;
       if (f.size > maxBytes) return;
 
-      const accepted = [
+      const acceptedTypes = [
         "application/pdf",
-        "application/msword",
+        "application/msword", // .doc
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       ];
-      if (!accepted.includes(f.type) && !f.name.match(/\.(pdf|doc|docx)$/i))
+
+      const isAccepted =
+        acceptedTypes.includes(f.type) || f.name.match(/\.(pdf|doc|docx)$/i);
+
+      if (!isAccepted) {
+        addToast({
+          type: "error",
+          title: "Unsupported Format",
+          description: "Please upload a PDF or Word document.",
+        });
         return;
+      }
 
       setFile({ name: f.name, size: f.size, type: f.type, file: f });
       runUploadFlow();
 
       try {
-      const data = await memberAPI.extractMember(f);
-      
-      if (!data || (!data.memberFullName && !data.memberEmail)) {
-        throw new Error("Not a valid CV");
-      }
+        const data = await memberAPI.extractMember(f);
 
-      completeFlow(data);
-    } catch (error) {
-      clearProgress();
-      setStage("idle");
-      setFile(null);
-      setProgress(0);
-      if (inputRef.current) inputRef.current.value = "";
-      addToast({
-        type: "error",
-        title: "Invalid CV",
-        description: "We couldn't extract info from this file. Please ensure it's a valid CV.",
-      });
-    }
+        if (!data || (!data.memberFullName && !data.memberEmail)) {
+          throw new Error("Not a valid CV");
+        }
+
+        completeFlow(data);
+      } catch (error) {
+        clearProgress();
+        setStage("idle");
+        setFile(null);
+        setProgress(0);
+        if (inputRef.current) inputRef.current.value = "";
+        addToast({
+          type: "error",
+          title: "Invalid CV",
+          description:
+            "We couldn't extract info from this file. Please ensure it's a valid CV.",
+        });
+      }
     },
-    [runUploadFlow, completeFlow]
+    [runUploadFlow, completeFlow],
   );
 
   const removeFile = () => {
@@ -223,13 +237,13 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
           background: isDragging
             ? "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(16,185,129,0.06) 100%)"
             : isDone
-            ? "linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(6,182,212,0.04) 100%)"
-            : "linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+              ? "linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(6,182,212,0.04) 100%)"
+              : "linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(255,255,255,0.02) 100%)",
           border: isDragging
             ? "1.5px dashed rgba(139,92,246,0.5)"
             : isDone
-            ? "1.5px dashed rgba(16,185,129,0.35)"
-            : "1.5px dashed rgba(139,92,246,0.2)",
+              ? "1.5px dashed rgba(16,185,129,0.35)"
+              : "1.5px dashed rgba(139,92,246,0.2)",
         }}
       >
         <div
@@ -268,7 +282,10 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                   border: "1px solid rgba(139,92,246,0.2)",
                 }}
               >
-                <UploadCloud className="w-5 h-5" style={{ color: "rgba(167,139,250,0.85)" }} />
+                <UploadCloud
+                  className="w-5 h-5"
+                  style={{ color: "rgba(167,139,250,0.85)" }}
+                />
                 <motion.div
                   animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -282,9 +299,13 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
 
               <div className="space-y-1">
                 <p className="text-[13px] font-semibold text-white/70">
-                  {isDragging ? "Drop your resume here" : "Drop your resume or click to upload"}
+                  {isDragging
+                    ? "Drop your resume here"
+                    : "Drop your resume or click to upload"}
                 </p>
-                <p className="text-[11px] text-gray-600">PDF, DOC, DOCX · max 10 MB</p>
+                <p className="text-[11px] text-gray-600">
+                  PDF, DOC, DOCX · max 10 MB
+                </p>
               </div>
 
               <div
@@ -317,7 +338,10 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                     border: "1px solid rgba(239,68,68,0.2)",
                   }}
                 >
-                  <FileText className="w-4.5 h-4.5" style={{ color: "rgba(248,113,113,0.8)" }} />
+                  <FileText
+                    className="w-4.5 h-4.5"
+                    style={{ color: "rgba(248,113,113,0.8)" }}
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[13px] font-medium text-white/70 truncate">
@@ -352,7 +376,11 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                     ) : (
                       <motion.div
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1.2,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                         className="w-3.5 h-3.5"
                       >
                         <Sparkles
@@ -372,15 +400,15 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                         color: isDone
                           ? "rgba(52,211,153,0.8)"
                           : stage === "analyzing"
-                          ? "rgba(167,139,250,0.8)"
-                          : "rgba(96,165,250,0.8)",
+                            ? "rgba(167,139,250,0.8)"
+                            : "rgba(96,165,250,0.8)",
                       }}
                     >
                       {isDone
                         ? "Fields ready to auto-fill!"
                         : stage === "analyzing"
-                        ? "AI is analyzing your resume..."
-                        : "Uploading resume..."}
+                          ? "AI is analyzing your resume..."
+                          : "Uploading resume..."}
                     </span>
                   </div>
                   <span className="text-[11px] tabular-nums text-gray-600">
@@ -400,8 +428,8 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                       background: isDone
                         ? "linear-gradient(90deg, rgba(16,185,129,0.6), rgba(52,211,153,0.8))"
                         : stage === "analyzing"
-                        ? "linear-gradient(90deg, rgba(139,92,246,0.5), rgba(167,139,250,0.85), rgba(16,185,129,0.5))"
-                        : "linear-gradient(90deg, rgba(59,130,246,0.5), rgba(96,165,250,0.85))",
+                          ? "linear-gradient(90deg, rgba(139,92,246,0.5), rgba(167,139,250,0.85), rgba(16,185,129,0.5))"
+                          : "linear-gradient(90deg, rgba(59,130,246,0.5), rgba(96,165,250,0.85))",
                     }}
                   />
                 </div>
@@ -409,7 +437,12 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                 {isProcessing && (
                   <motion.div
                     animate={{ x: ["-100%", "400%"] }}
-                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
+                    transition={{
+                      duration: 1.6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      repeatDelay: 0.3,
+                    }}
                     className="absolute top-0 left-0 h-full w-1/4 pointer-events-none"
                     style={{
                       background:
@@ -443,7 +476,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                         >
                           {field}
                         </motion.span>
-                      )
+                      ),
                     )}
                   </motion.div>
                 )}
@@ -474,7 +507,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                           <CheckCircle2 className="w-2.5 h-2.5" />
                           {field}
                         </motion.span>
-                      )
+                      ),
                     )}
                   </motion.div>
                 )}
@@ -485,7 +518,8 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
       </motion.div>
 
       <p className="text-[11px] text-gray-600 ml-1">
-        Upload to auto fill the required information in seconds, or fill it manually below.
+        Upload to auto fill the required information in seconds, or fill it
+        manually below.
       </p>
     </motion.div>
   );
