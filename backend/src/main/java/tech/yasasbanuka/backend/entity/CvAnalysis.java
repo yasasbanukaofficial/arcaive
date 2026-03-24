@@ -2,6 +2,8 @@ package tech.yasasbanuka.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import tech.yasasbanuka.backend.entity.constants.AlignmentStatus;
+import tech.yasasbanuka.backend.entity.embeddable.SkillGap;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,10 +24,10 @@ public class CvAnalysis {
     private Member member;
 
     private String targetJobTitle;
-    private Double overallMatchScore; // e.g., 85.5
+    private Double overallMatchScore;
 
     @Enumerated(EnumType.STRING)
-    private AlignmentStatus seniorityFit; // Enum: MATCHED, OVERQUALIFIED, UNDERQUALIFIED
+    private AlignmentStatus seniorityFit;
 
     @Embedded
     private SkillGap skillGap;
@@ -37,5 +39,5 @@ public class CvAnalysis {
     private List<String> interviewProbes;
 
     @Column(columnDefinition = "TEXT")
-    private String semanticVerdict; // The "AI" generated reasoning
+    private String semanticVerdict;
 }

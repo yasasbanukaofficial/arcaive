@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.entity;
+package tech.yasasbanuka.backend.entity.embeddable;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
