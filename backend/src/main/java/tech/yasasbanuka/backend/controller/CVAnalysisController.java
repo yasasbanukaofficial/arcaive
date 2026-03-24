@@ -13,7 +13,7 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/cv")
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class CVAnalysisController {
     private final CVAnalysisService cvAnalysisService;
 

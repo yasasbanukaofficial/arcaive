@@ -37,7 +37,6 @@ public class SecurityConfig {
                                         "/api/v1/auth/**",
                                         "/api/v1/members/upload-cv",
                                         "/api/v1/members/upload-cv/skills",
-                                        "/api/v1/cv/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
