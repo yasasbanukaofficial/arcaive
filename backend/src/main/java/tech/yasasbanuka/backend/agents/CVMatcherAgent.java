@@ -22,7 +22,7 @@ public interface CVMatcherAgent {
             - Use ONLY these values for seniorityFit: UNDERQUALIFIED, MATCHED, OVERQUALIFIED, POTENTIAL_PIVOT.
             
             FIELD DEFINITIONS:
-            - targetJobTitle: Extract the job title from the job description.
+            - targetJobTitle: Extract the job title from the job description. If not explicitly stated, infer the most likely role.
             - overallMatchScore: Holistic match score combining skills, experience, seniority, and domain fit.
             - seniorityFit: How the candidate's experience level aligns with the role's seniority requirement.
               * UNDERQUALIFIED - candidate lacks required experience/seniority
