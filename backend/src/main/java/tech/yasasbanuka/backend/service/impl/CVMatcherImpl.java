@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CVMatcherAgent;
 import tech.yasasbanuka.backend.dto.cv.CvAnalysisResponseDTO;
-import tech.yasasbanuka.backend.service.CVAnalysisService;
+import tech.yasasbanuka.backend.service.CVMatcherService;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 @Slf4j
-public class CVAnalysisImpl implements CVAnalysisService {
+public class CVMatcherImpl implements CVMatcherService {
     private final PDFTextExtract pdfTextExtract;
-    private final OpenAiChatModel openAiChatModel;
+    private final OpenAiChatModel lowTempOpenAiChatModel;
 
     @Override
     public CvAnalysisResponseDTO analyze(MultipartFile file, String jobDescription) {
@@ -26,7 +26,7 @@ public class CVAnalysisImpl implements CVAnalysisService {
         String extractedText = pdfTextExtract.extract(file);
         CVMatcherAgent matcherAgent = AgenticServices
                 .agentBuilder(CVMatcherAgent.class)
-                .chatModel(openAiChatModel)
+                .chatModel(lowTempOpenAiChatModel)
                 .build();
         return matcherAgent.analysis(extractedText, jobDescription);
     }
