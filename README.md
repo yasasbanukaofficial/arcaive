@@ -34,6 +34,9 @@
 | 6 | **Dashboard:** Overview with stats, active agents & activity feeds | ✅ Done |
 | 7 | **Marketplace:** Location-aware Job Search & smart filter panels | ✅ Done |
 | 8 | **Identity:** Profile management & 2FA security UI scaffold | ✅ Done |
+| 9 | **Sync:** Settings API integration (Member Profile & Preferences) | ✅ Done |
+| 10 | **Discovery:** Serper.dev + LinkedIn/Indeed Job Swarm Agent | ✅ Done |
+| 12 | **Simulation:** Livekit Voice Loop — real-time AI mock interviews | ✅ Done |
 
 ---
 
@@ -41,11 +44,8 @@
 
 | Phase | Description | Status |
 | :--- | :--- | :--- |
-| 9 | **Sync:** Settings API integration (Member Profile & Preferences) | ⏳ In-Progress |
-| 10 | **Discovery:** Serper.dev + LinkedIn/Indeed Job Swarm Agent | ⏳ Planned |
 | 11 | **Matching:** Chroma Vector DB ingestion & Cosine Similarity matching | ⏳ Planned |
-| 12 | **Simulation:** Livekit Voice Loop — real-time AI mock interviews | ⏳ Planned |
-| 13 | **Execution:** Auto-Apply Bot — autonomous form-filling agent | ⏳ Planned |
+| 13 | **Execution:** Auto-Apply Bot — autonomous form-filling agent | ⏳ In Progress |
 | 14 | **Flow:** React Flow Canvas for real-time agent "thinking" visualization | ⏳ Planned |
 | 15 | **Billing:** Lemon Squeezy MoR integration & feature gating | ⏳ Planned |
 
@@ -65,13 +65,21 @@ Scours LinkedIn, Indeed, and private APIs using `Serper.dev` to rank opportuniti
 
 ## 💎 Feature Tiers
 
-| Capability | Explorer (Free) | Scan Out ($19/mo) |
-| :--- | :---: | :---: |
-| **CV Analysis** | Basic | Advanced (Atomic) |
-| **Shadow Applications** | 10 / month | Unlimited |
-| **Simulation Loop** | ❌ | ✅ |
-| **Auto-Apply Bot** | 5 / month | Unlimited |
-| **Flow Visualization** | ❌ | ✅ |
+| Capability         | Free (Explorer) | Pro (Scan Out) |
+|--------------------|:---------------:|:--------------:|
+| **CV Analysis**    | Basic           | Advanced (Atomic) |
+| **Shadow Apply**   | 10/mo           | Unlimited      |
+| **Simulations**    | ❌              | ✅             |
+| **Auto-Apply Bot** | 5/mo            | Unlimited      |
+| **Flow Visualizer**| ❌              | ✅             |
 
 
----
+
+
+
+- **Discovery Agent:** Smarter job search with Serper.dev, LinkedIn, Indeed
+- **Matching Engine:** Chroma Vector DB for better job-candidate fit
+- **Simulation Loop:** Real-time AI interview practice
+- **Auto-Apply Bot:** Automated job applications
+- **Flow Visualization:** Visualize agent thinking in real time
+- **Billing:** Feature gating and payments
