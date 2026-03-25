@@ -14,7 +14,7 @@ import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
-import tech.yasasbanuka.backend.entity.LinkedAccount;
+import tech.yasasbanuka.backend.entity.embeddable.LinkedAccount;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;

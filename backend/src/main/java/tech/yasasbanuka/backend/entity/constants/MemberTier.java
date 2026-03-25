@@ -1,4 +1,4 @@
-package tech.yasasbanuka.backend.entity;
+package tech.yasasbanuka.backend.entity.constants;
 
 public enum MemberTier {
     EXPLORER("Explorer"),

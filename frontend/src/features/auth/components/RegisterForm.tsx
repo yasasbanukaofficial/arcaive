@@ -313,7 +313,6 @@ export default function RegisterForm() {
           </div>
         </motion.div>
 
-        {/* ─── CV Upload ─── */}
         <motion.div variants={bounceIn}>
           <div className="relative flex items-center gap-4 pt-1 pb-1">
             <div className="h-px flex-1 bg-white/5"></div>

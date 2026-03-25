@@ -18,6 +18,7 @@ import {
   ChevronRight,
   LogOut,
   Mic,
+  FileSearch,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
@@ -30,6 +31,7 @@ const mainNav = [
   { name: "Agents", href: "/agents", icon: Bot },
   { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
+  { name: "CV Analysis", href: "/cv-analysis", icon: FileSearch },
   { name: "Interview", href: "/interview", icon: Mic },
 ];
 

@@ -2,6 +2,8 @@ package tech.yasasbanuka.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import tech.yasasbanuka.backend.entity.embeddable.LinkedAccount;
+import tech.yasasbanuka.backend.entity.embeddable.Mfa;
 
 import java.util.List;
 import java.util.UUID;
