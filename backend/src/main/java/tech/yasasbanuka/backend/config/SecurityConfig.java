@@ -13,12 +13,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import tech.yasasbanuka.backend.controller.OauthController;
-import tech.yasasbanuka.backend.util.JwtAuthFilter;
+import tech.yasasbanuka.backend.filter.JwtAuthFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -37,6 +35,7 @@ public class SecurityConfig {
                                         "/api/v1/auth/**",
                                         "/api/v1/members/upload-cv",
                                         "/api/v1/members/upload-cv/skills",
+                                        "/api/v1/subscriptions",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
                                         "/swagger-ui.html").permitAll()
