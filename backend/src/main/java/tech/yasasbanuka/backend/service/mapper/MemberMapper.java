@@ -4,7 +4,7 @@ import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.entity.Member;
-import tech.yasasbanuka.backend.entity.Mfa;
+import tech.yasasbanuka.backend.entity.embeddable.Mfa;
 
 @Mapper(config = CentralConfig.class)
 public interface MemberMapper {

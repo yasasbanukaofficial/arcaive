@@ -26,6 +26,7 @@ public class PDFTextExtract {
         ParseContext parseContext = new ParseContext();
         try (InputStream stream = file.getInputStream()){
             parser.parse(stream, handler, metadata, parseContext);
+            log.info("Successfully extracted text from PDF: {}", file.getOriginalFilename());
             return handler.toString();
         } catch (Exception e) {
             log.error("Failed to extract text from {}: {}", file.getOriginalFilename(), e.getMessage());

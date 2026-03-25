@@ -29,10 +29,17 @@ public class AIConfig {
                 .apiKey(apiKey)
                 .modelName(modelName)
                 .baseUrl(baseUrl)
-                //.temperature(temperature)
-                //.timeout(Duration.ofSeconds(timeout))
-                //.logRequests(true)
-                //.logResponses(true)
+                .maxRetries(3)
+                .build();
+    }
+
+    @Bean
+    public OpenAiChatModel lowTempOpenAiChatModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(modelName)
+                .temperature(0.0)
+                .baseUrl(baseUrl)
                 .maxRetries(3)
                 .build();
     }
