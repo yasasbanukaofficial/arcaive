@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileSearch, X, Sparkles, AlertCircle } from "lucide-react";
+import { X } from "lucide-react";
 import FileUpload, { UploadedFile, FileUploadStatus } from "@/components/ui/FileUpload";
 import TextArea from "@/components/ui/TextArea";
 import Button from "@/components/ui/Button";
@@ -13,12 +13,14 @@ import CVAnalysisLoading from "./CVAnalysisLoading";
 
 interface CVAnalysisModalProps {
   isOpen: boolean;
+  onClose: () => void;
   onAnalysisComplete: (data: CvAnalysisResponseDTO, file: File) => void;
   initialJobDescription?: string;
 }
 
 export default function CVAnalysisModal({ 
   isOpen, 
+  onClose,
   onAnalysisComplete, 
   initialJobDescription = "" 
 }: CVAnalysisModalProps) {
@@ -67,16 +69,17 @@ export default function CVAnalysisModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.4))" }} onClick={() => status !== "uploading" && onClose()} />
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-xl rounded-3xl border shadow-2xl overflow-hidden"
+          className="relative w-full max-w-xl overflow-hidden rounded-2xl border"
           style={{
             backgroundColor: "var(--d-surface)",
             borderColor: "var(--d-border)",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
           }}
         >
           <AnimatePresence mode="wait">
@@ -95,56 +98,54 @@ export default function CVAnalysisModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="p-8 space-y-6"
+                className="relative z-10 p-5 sm:p-8 space-y-5"
               >
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[100px] rounded-full" />
-                
-                <div className="relative z-10 space-y-6">
-                  <div className="text-center">
-                    <div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl"
-                      style={{ 
-                        background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                      }}
-                    >
-                      <FileSearch size={32} className="text-white" />
-                    </div>
-                    <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-                      CV Intelligence Analysis
-                    </h2>
-                    <p className="text-[14px] mt-1" style={{ color: "var(--d-text-muted)" }}>
-                      Upload your CV and provide a target job description to get AI-powered insights.
-                    </p>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg sm:text-xl font-medium" style={{ color: "var(--d-text-primary)" }}>
+                    Analysis Configuration
+                  </h2>
+                  <button
+                    onClick={onClose}
+                    className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                    style={{ color: "var(--d-text-muted)" }}
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
 
-                  <div className="space-y-4">
-                    <FileUpload
-                      label="Your CV / Resume"
-                      files={files}
-                      onFilesChange={setFiles}
-                      status={status}
-                      progress={progress}
-                      maxSizeMB={5}
-                      disabled={status === "uploading"}
-                    />
+                <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+                  Provide your credentials and the target role description for semantic alignment.
+                </p>
 
-                    <TextArea
-                      label="Target Job Description"
-                      placeholder="Paste the job description here..."
-                      value={jobDescription}
-                      onChange={(e) => setJobDescription(e.target.value)}
-                      rows={5}
-                      disabled={status === "uploading"}
-                    />
-                  </div>
+                <div className="space-y-5">
+                  <FileUpload
+                    label="Your Professional CV"
+                    files={files}
+                    onFilesChange={setFiles}
+                    status={status}
+                    progress={progress}
+                    maxSizeMB={5}
+                    disabled={status === "uploading"}
+                  />
 
+                  <TextArea
+                    label="Target Job Description"
+                    placeholder="Paste the full job description here..."
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    rows={4}
+                    disabled={status === "uploading"}
+                    className="rounded-xl"
+                  />
+                </div>
+
+                <div>
                   <Button
                     variant="primary"
                     size="lg"
-                    className="w-full h-14 text-[16px] font-bold rounded-2xl"
+                    className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl"
                     onClick={handleAnalyze}
                     disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
-                    icon={<Sparkles size={18} />}
                   >
                     Start Analysis
                   </Button>
