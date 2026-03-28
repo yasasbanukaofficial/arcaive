@@ -3,6 +3,7 @@ import { Host_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
+import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${hostGrotesk.variable} antialiased selection:bg-white/20 relative`}
       >
         <ToastProvider>
+          <QuotaExceededModal />
           <SmoothScroll>
             <div className="bg-glows">
               <div className="glow-blue" />

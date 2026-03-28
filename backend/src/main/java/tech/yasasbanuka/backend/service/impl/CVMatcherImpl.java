@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CVMatcherAgent;
 import tech.yasasbanuka.backend.dto.cv.CvAnalysisResponseDTO;
+import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
+import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.constants.QuotaType;
 import tech.yasasbanuka.backend.service.CVMatcherService;
+import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.QuotaService;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 @RequiredArgsConstructor
@@ -19,10 +24,17 @@ import tech.yasasbanuka.backend.util.PDFTextExtract;
 public class CVMatcherImpl implements CVMatcherService {
     private final PDFTextExtract pdfTextExtract;
     private final OpenAiChatModel lowTempOpenAiChatModel;
+    private final QuotaService quotaService;
+    private final MemberService memberService;
 
     @Override
-    public CvAnalysisResponseDTO analyze(MultipartFile file, String jobDescription) {
+    public CvAnalysisResponseDTO analyze(String username, MultipartFile file, String jobDescription) {
         log.info("Extracting atomic skills from CV file: {}", file.getOriginalFilename());
+
+        MemberResponseDTO member = memberService.getMemberByUsername(username);
+        log.info("Checking if member's quota is eligible or not: {}", member.getMemberFullName());
+        quotaService.checkAndConsume(member.getMemberId(), QuotaType.CV_ANALYSIS);
+
         String extractedText = pdfTextExtract.extract(file);
         CVMatcherAgent matcherAgent = AgenticServices
                 .agentBuilder(CVMatcherAgent.class)

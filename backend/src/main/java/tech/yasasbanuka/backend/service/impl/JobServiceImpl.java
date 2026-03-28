@@ -10,8 +10,10 @@ import tech.yasasbanuka.backend.dto.job.JobResponseDTO;
 import tech.yasasbanuka.backend.dto.job.SearchResponse;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.constants.QuotaType;
 import tech.yasasbanuka.backend.service.JobService;
 import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.QuotaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
@@ -21,6 +23,7 @@ import java.util.*;
 @Service
 public class JobServiceImpl implements JobService {
     private final MemberService memberService;
+    private final QuotaService quotaService;
     private final ObjectMapper objectMapper;
 
     @Value("${JSEARCH_API_KEY}")
@@ -32,6 +35,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<JobResponseDTO> searchJobs(String username, String location) {
         MemberResponseDTO member = memberService.getMemberByUsername(username);
+        quotaService.checkAndConsume(member.getMemberId(), QuotaType.JOB_SEARCH);
 
         if (jsearchApiKey == null || jsearchApiKey.isBlank()) {
             log.error("JSearch API key is not configured.");

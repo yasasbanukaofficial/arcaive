@@ -206,4 +206,18 @@ public class GlobalException {
                 .timeStamp(Instant.now().toString())
                 .build();
     }
+
+    @ExceptionHandler(QuotaExceededException.class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    public ExceptionResponse handleQuotaExceeded(QuotaExceededException ex) {
+        log.warn("Quota exceeded: {}", ex.getMessage());
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.TOO_MANY_REQUESTS.value())
+                .exception(ex.getClass().getSimpleName())
+                .message(ex.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+
 }
