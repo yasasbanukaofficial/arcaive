@@ -77,8 +77,8 @@ public class LiveKitServiceImpl implements LiveKitService {
         SubscriptionResponseDTO subscription = subscriptionService.getSubscription(UUID.fromString(member.getSubscriptionId()));
 //        Need to write the subscription time period checking part.
 
-        String variantId = subscription.getVariantId();
-        int duration = variantId.equalsIgnoreCase("strategist") ? 300 : variantId.equalsIgnoreCase("architect") ? 600 : 120;
+        String tier = subscription.getTier() != null ? subscription.getTier().name() : "EXPLORER";
+        int duration = tier.equalsIgnoreCase("STRATEGIST") ? 300 : tier.equalsIgnoreCase("ARCHITECT") ? 600 : 120;
 
         AccessToken accessToken = new AccessToken(apiKey, apiSecret);
         accessToken.setName(member.getMemberFullName());

@@ -16,6 +16,9 @@ public interface UsageEventMapper {
     @Mapping(target = "createdAt", ignore = true)
     UsageEvent createRequestToEntity(UsageEventCreateRequestDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "member", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(UsageEventCreateRequestDTO dto, @MappingTarget UsageEvent usageEvent);
 }

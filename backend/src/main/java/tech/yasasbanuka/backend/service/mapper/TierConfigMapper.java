@@ -14,6 +14,8 @@ public interface TierConfigMapper {
     @Mapping(target = "updatedAt", ignore = true)
     TierConfig createRequestToEntity(TierConfigCreateRequestDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(TierConfigCreateRequestDTO dto, @MappingTarget TierConfig tierConfig);
 }

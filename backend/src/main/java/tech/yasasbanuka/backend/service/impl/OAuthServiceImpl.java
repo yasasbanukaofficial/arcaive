@@ -8,6 +8,8 @@ import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.member.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
+import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.OAuthService;
@@ -71,15 +73,13 @@ public class OAuthServiceImpl implements OAuthService {
             memberService.createMemberInternal(existingMember);
 
             Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
-            Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
             memberRepo.findByEmail(email).ifPresent(member -> {
                 log.info("Assigning Explorer subscription to new OAuth member: {}", email);
                 Subscription freeSub = Subscription.builder()
-                        .providerId("explorer")
-                        .status("active")
-                        .variantId("Explorer")
-                        .endsAt(endsAt)
-                        .renewsAt(renewsAt)
+                        .paymentProvider("explorer")
+                        .status(SubscriptionStatus.ACTIVE)
+                        .tier(Tier.EXPLORER)
+                        .currentPeriodEnd(endsAt)
                         .build();
                 member.setSubscription(freeSub);
                 freeSub.setMember(member);

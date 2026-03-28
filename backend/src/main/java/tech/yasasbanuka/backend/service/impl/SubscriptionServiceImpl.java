@@ -40,7 +40,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         existingMember.setSubscription(entity);
         entity.setMember(existingMember);
         SubscriptionResponseDTO response = subscriptionMapper.toResponseDTO(subscriptionRepo.save(entity));
-        log.info("Subscription created successfully with ID: {} for member: {}", response.getSubscriptionId(), dto.getMemberId());
+        log.info("Subscription created successfully with ID: {} for member: {}", response.getId(), dto.getMemberId());
         return response;
     }
 

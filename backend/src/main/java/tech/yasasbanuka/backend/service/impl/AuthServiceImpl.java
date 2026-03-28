@@ -90,8 +90,6 @@ public class AuthServiceImpl implements AuthService {
         newUser.setSubscription(freeSub);
         newUser.setUsageQuota(usageQuota);
 
-        freeSub.setMember(newUser);
-        usageQuota.setMember(newUser);
         memberRepo.save(newUser);
 
         log.info("User {} registered successfully with username: {}", dto.getMemberEmail(), username);

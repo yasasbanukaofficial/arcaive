@@ -22,6 +22,15 @@ public interface UsageQuotaMapper {
     @Mapping(target = "updatedAt", ignore = true)
     UsageQuota createRequestToEntity(UsageQuotaCreateRequestDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "member", ignore = true)
+    @Mapping(target = "cvAnalysisUsed", ignore = true)
+    @Mapping(target = "jobSearchUsed", ignore = true)
+    @Mapping(target = "interviewUsed", ignore = true)
+    @Mapping(target = "autoApplyUsed", ignore = true)
+    @Mapping(target = "cvVersionsStored", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(UsageQuotaCreateRequestDTO dto, @MappingTarget UsageQuota usageQuota);
 }
