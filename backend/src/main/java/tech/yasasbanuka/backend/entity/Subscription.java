@@ -10,6 +10,7 @@ import tech.yasasbanuka.backend.entity.constants.Tier;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -46,9 +47,12 @@ public class Subscription {
     @Builder.Default
     private String currency = "USD";
 
-    private Instant startedAt;
-    private Instant currentPeriodStart;
-    private Instant currentPeriodEnd;
+    @Builder.Default
+    private Instant startedAt = Instant.now();
+    @Builder.Default
+    private Instant currentPeriodStart = Instant.now();
+    @Builder.Default
+    private Instant currentPeriodEnd = Instant.now().plus(30, ChronoUnit.DAYS);
     private Instant cancelledAt;
 
     private String paymentProvider;

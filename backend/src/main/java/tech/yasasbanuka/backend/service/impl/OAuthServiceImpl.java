@@ -71,20 +71,6 @@ public class OAuthServiceImpl implements OAuthService {
                     ))
                     .build();
             memberService.createMemberInternal(existingMember);
-
-            Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
-            memberRepo.findByEmail(email).ifPresent(member -> {
-                log.info("Assigning Explorer subscription to new OAuth member: {}", email);
-                Subscription freeSub = Subscription.builder()
-                        .paymentProvider("explorer")
-                        .status(SubscriptionStatus.ACTIVE)
-                        .tier(Tier.EXPLORER)
-                        .currentPeriodEnd(endsAt)
-                        .build();
-                member.setSubscription(freeSub);
-                freeSub.setMember(member);
-                memberRepo.save(member);
-            });
         }
 
         return existingMember.getMemberUsername() != null

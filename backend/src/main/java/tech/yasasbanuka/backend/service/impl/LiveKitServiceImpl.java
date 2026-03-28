@@ -18,9 +18,11 @@ import tech.yasasbanuka.backend.dto.job.JobRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.constants.QuotaType;
 import tech.yasasbanuka.backend.service.LiveKitService;
 import tech.yasasbanuka.backend.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tech.yasasbanuka.backend.service.QuotaService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 
 import java.util.Map;
@@ -39,6 +41,7 @@ public class LiveKitServiceImpl implements LiveKitService {
 
     private final MemberService memberService;
     private final SubscriptionService subscriptionService;
+    private final QuotaService quotaService;
     private final ObjectMapper objectMapper;
     private final OpenAiChatModel openAiChatModel;
 
@@ -68,6 +71,8 @@ public class LiveKitServiceImpl implements LiveKitService {
 
         log.info("Generating LiveKit token for user: {}", username);
         MemberResponseDTO member = memberService.getMemberByUsername(username);
+        quotaService.checkAndConsume(member.getMemberId(), QuotaType.MOCK_INTERVIEW);
+
         String memberDetailsAsJson = objectMapper.writeValueAsString(memberDetailsEnhancer(objectMapper.writeValueAsString(member)));
         log.info("Received member details in json string format: {}", memberDetailsAsJson);
 

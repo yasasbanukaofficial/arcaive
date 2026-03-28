@@ -26,7 +26,7 @@ public class QuotaServiceImpl implements QuotaService {
 
         if (type.isExceeded(quota)) {
             throw new QuotaExceededException(
-                    "You've reached your monthly limit for " + type.name() + ". Upgrade to continue."
+                    "You've reached your monthly limit for " + type.name().replace("_", " ").toLowerCase() + ". Upgrade to continue."
             );
         }
 

@@ -39,7 +39,7 @@ public class UsageQuota {
 
     private Integer interviewUsed;
     @Builder.Default
-    private Integer interviewLimit = 0;
+    private Integer interviewLimit = 1;
 
     private Integer autoApplyUsed;
     @Builder.Default

@@ -70,12 +70,12 @@ public class AuthServiceImpl implements AuthService {
 
         Subscription freeSub = Subscription.builder()
                 .member(newUser)
+                .tier(Tier.EXPLORER)
+                .status(SubscriptionStatus.ACTIVE)
                 .startedAt(now)
                 .currentPeriodStart(now)
                 .currentPeriodEnd(periodEnd)
-                .cancelledAt(null)
                 .paymentProvider("explorer")
-                .externalSubscriptionId(null)
                 .build();
 
         UsageQuota usageQuota = UsageQuota.builder()
@@ -85,6 +85,8 @@ public class AuthServiceImpl implements AuthService {
                 .cvAnalysisUsed(0)
                 .jobSearchUsed(0)
                 .interviewUsed(0)
+                .autoApplyUsed(0)
+                .cvVersionsStored(0)
                 .build();
         
         newUser.setSubscription(freeSub);
