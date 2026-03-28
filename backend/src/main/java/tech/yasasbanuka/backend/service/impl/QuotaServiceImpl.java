@@ -3,6 +3,7 @@ package tech.yasasbanuka.backend.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.UsageQuota;
 import tech.yasasbanuka.backend.entity.constants.QuotaType;
 import tech.yasasbanuka.backend.exception.QuotaExceededException;
@@ -10,6 +11,7 @@ import tech.yasasbanuka.backend.repo.UsageQuotaRepo;
 import tech.yasasbanuka.backend.service.QuotaService;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,5 +36,22 @@ public class QuotaServiceImpl implements QuotaService {
         usageQuotaRepo.save(quota);
     }
 
+    @Override
+    public void resetQuota(Member member) {
+        UsageQuota quota = member.getUsageQuota();
+        if (quota == null) return;
 
+        Instant now = Instant.now();
+        Instant periodEnd = now.plus(30, ChronoUnit.DAYS);
+
+        quota.setPeriodStart(now);
+        quota.setPeriodEnd(periodEnd);
+        quota.setCvAnalysisUsed(0);
+        quota.setJobSearchUsed(0);
+        quota.setInterviewUsed(0);
+        quota.setAutoApplyUsed(0);
+        quota.setCvVersionsStored(0);
+
+        usageQuotaRepo.save(quota);
+    }
 }

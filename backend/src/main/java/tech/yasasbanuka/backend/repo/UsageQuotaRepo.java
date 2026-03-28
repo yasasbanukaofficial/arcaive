@@ -8,6 +8,7 @@ import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.UsageQuota;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,6 @@ public interface UsageQuotaRepo extends JpaRepository<UsageQuota, UUID> {
 
     @Query("SELECT q FROM UsageQuota q WHERE q.member.id = :memberId AND q.periodStart <= :now AND q.periodEnd > :now")
     Optional<UsageQuota> findCurrentPeriod(@Param("memberId") UUID memberId, @Param("now") Instant now);
+
+    List<UsageQuota> findAllByPeriodEndBefore(Instant now);
 }
