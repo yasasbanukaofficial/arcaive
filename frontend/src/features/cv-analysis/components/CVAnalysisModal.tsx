@@ -69,17 +69,17 @@ export default function CVAnalysisModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={() => status !== "uploading" && onClose()} />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.4))" }} onClick={() => status !== "uploading" && onClose()} />
         
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-xl overflow-hidden rounded-2xl border shadow-xl"
+          className="relative w-full max-w-xl overflow-hidden rounded-2xl border"
           style={{
             backgroundColor: "var(--d-surface)",
             borderColor: "var(--d-border)",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
           }}
         >
           <AnimatePresence mode="wait">
