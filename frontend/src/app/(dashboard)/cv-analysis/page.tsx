@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileSearch, Sparkles, Plus, History, ArrowLeft, Brain, Target, ShieldCheck } from "lucide-react";
 import Button from "@/components/ui/Button";
@@ -8,18 +9,48 @@ import CVAnalysisModal from "@/features/cv-analysis/components/CVAnalysisModal";
 import CVAnalysisResults from "@/features/cv-analysis/components/CVAnalysisResults";
 import { CvAnalysisResponseDTO } from "@/features/cv-analysis/api/cvAnalysisAPI";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
+import { jobAPI } from "@/features/jobs/api/jobAPI";
 
 export default function CVAnalysisPage() {
+  const searchParams = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<CvAnalysisResponseDTO | null>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [initialJobDescription, setInitialJobDescription] = useState("");
 
   useEffect(() => {
     // Automatically open modal if no result
     if (!analysisResult) {
       setIsModalOpen(true);
     }
-  }, []);
+  }, [analysisResult]);
+
+  useEffect(() => {
+    const jobId = searchParams.get("jobId");
+    if (jobId) {
+      const decodedJobId = decodeURIComponent(jobId);
+      
+      const fetchJobDetails = async () => {
+        try {
+          // Try to get from cache first
+          let job = jobAPI.getCachedJob(decodedJobId);
+          if (!job) {
+            // If not in cache, fetch all jobs
+            const jobs = await jobAPI.get();
+            job = jobs.find((j) => j.id === decodedJobId) || null;
+          }
+          
+          if (job) {
+            setInitialJobDescription(job.description);
+          }
+        } catch (error) {
+          console.error("Failed to fetch job for CV analysis:", error);
+        }
+      };
+      
+      fetchJobDetails();
+    }
+  }, [searchParams]);
 
   const handleAnalysisComplete = (data: CvAnalysisResponseDTO, file: File) => {
     setUploadedFile(file);
@@ -153,6 +184,7 @@ export default function CVAnalysisPage() {
       <CVAnalysisModal
         isOpen={isModalOpen}
         onAnalysisComplete={handleAnalysisComplete}
+        initialJobDescription={initialJobDescription}
       />
     </motion.div>
   );

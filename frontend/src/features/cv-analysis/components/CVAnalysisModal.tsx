@@ -14,14 +14,26 @@ import CVAnalysisLoading from "./CVAnalysisLoading";
 interface CVAnalysisModalProps {
   isOpen: boolean;
   onAnalysisComplete: (data: CvAnalysisResponseDTO, file: File) => void;
+  initialJobDescription?: string;
 }
 
-export default function CVAnalysisModal({ isOpen, onAnalysisComplete }: CVAnalysisModalProps) {
+export default function CVAnalysisModal({ 
+  isOpen, 
+  onAnalysisComplete, 
+  initialJobDescription = "" 
+}: CVAnalysisModalProps) {
   const { addToast } = useToast();
   const [files, setFiles] = useState<UploadedFile[]>([]);
-  const [jobDescription, setJobDescription] = useState("");
+  const [jobDescription, setJobDescription] = useState(initialJobDescription);
   const [status, setStatus] = useState<FileUploadStatus>("idle");
   const [progress, setProgress] = useState(0);
+
+  // Update jobDescription if initialJobDescription changes
+  React.useEffect(() => {
+    if (initialJobDescription) {
+      setJobDescription(initialJobDescription);
+    }
+  }, [initialJobDescription]);
 
   const handleAnalyze = async () => {
     if (files.length === 0 || !jobDescription.trim()) return;
