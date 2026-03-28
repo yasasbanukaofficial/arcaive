@@ -14,7 +14,9 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter @Builder
+@Getter
+@Setter
+@Builder
 @Entity
 public class Subscription {
     @Id
@@ -26,18 +28,23 @@ public class Subscription {
     private Member member;
 
     @Enumerated(EnumType.STRING)
-    private Tier tier;
+    @Builder.Default
+    private Tier tier = Tier.EXPLORER;
 
     @Enumerated(EnumType.STRING)
-    private SubscriptionStatus status;
+    @Builder.Default
+    private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)
-    private BillingCycle billingCycle;
+    @Builder.Default
+    private BillingCycle billingCycle = BillingCycle.MONTHLY;
 
-    private BigDecimal priceAmount;
+    @Builder.Default
+    private BigDecimal priceAmount = BigDecimal.ZERO;
 
     @Column(length = 3)
-    private String currency;
+    @Builder.Default
+    private String currency = "USD";
 
     private Instant startedAt;
     private Instant currentPeriodStart;

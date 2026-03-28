@@ -33,4 +33,7 @@ public class Member {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Subscription subscription;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private UsageQuota usageQuota;
 }

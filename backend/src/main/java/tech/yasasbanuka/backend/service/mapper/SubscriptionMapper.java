@@ -9,19 +9,15 @@ import tech.yasasbanuka.backend.entity.Subscription;
 
 @Mapper(config = CentralConfig.class)
 public interface SubscriptionMapper {
-    @Mapping(source = "id", target = "subscriptionId")
-    @Mapping(source = "status", target = "subscriptionStatus")
     @Mapping(source = "member.id", target = "memberId")
     SubscriptionResponseDTO toResponseDTO(Subscription subscription);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", ignore = true)
-    @Mapping(source = "subscriptionStatus", target = "status", defaultValue = "inactive")
     Subscription createRequestToEntity(SubscriptionCreateRequestDTO dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", ignore = true)
-    @Mapping(source = "subscriptionStatus", target = "status")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(SubscriptionUpdateRequestDTO dto, @MappingTarget Subscription subscription);
 }

@@ -6,18 +6,21 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter @Builder
+@Getter
+@Setter
+@Builder
 @Entity
 public class UsageQuota {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
@@ -25,20 +28,26 @@ public class UsageQuota {
     private Instant periodEnd;
 
     private Integer cvAnalysisUsed;
-    private Integer cvAnalysisLimit;
+    @Builder.Default
+    private Integer cvAnalysisLimit = 3;
 
     private Integer jobSearchUsed;
-    private Integer jobSearchLimit;
-    private Integer jobResultsPerSearch;
+    @Builder.Default
+    private Integer jobSearchLimit = 1;
+    @Builder.Default
+    private Integer jobResultsPerSearch = 5;
 
     private Integer interviewUsed;
-    private Integer interviewLimit;
+    @Builder.Default
+    private Integer interviewLimit = 0;
 
     private Integer autoApplyUsed;
-    private Integer autoApplyLimit;
+    @Builder.Default
+    private Integer autoApplyLimit = 0;
 
     private Integer cvVersionsStored;
-    private Integer cvVersionsLimit;
+    @Builder.Default
+    private Integer cvVersionsLimit = 1;
 
     @CreationTimestamp
     private Instant createdAt;
