@@ -25,6 +25,7 @@ import {
   Zap,
   Info,
   Search,
+  FileSearch,
 } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import {
@@ -388,6 +389,16 @@ export default function JobDetailsPage() {
                 onClick={() => router.push(`/interview?jobId=${id}`)}
               >
                 Simulate Interview
+              </Button>
+
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
+                onClick={() => router.push(`/cv-analysis?jobId=${encodeURIComponent(id)}`)}
+                icon={<FileSearch className="w-5 h-5" />}
+              >
+                Analyze CV
               </Button>
 
               {job.googleLink && (
