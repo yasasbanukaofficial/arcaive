@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +25,10 @@ public class UsageQuota {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private Instant periodStart;
-    private Instant periodEnd;
+    @Builder.Default
+    private Instant periodStart = Instant.now();
+    @Builder.Default
+    private Instant periodEnd = Instant.now().plus(30, ChronoUnit.DAYS);
 
     private Integer cvAnalysisUsed;
     @Builder.Default

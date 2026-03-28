@@ -7,7 +7,9 @@ apiInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 429) {
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('arcaive-quota-exceeded'));
+        window.dispatchEvent(new CustomEvent('arcaive-quota-exceeded', {
+          detail: { message: error.response.data?.message }
+        }));
       }
     }
     return Promise.reject(error);

@@ -50,19 +50,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo(() => ({ addToast, removeToast }), [addToast, removeToast]);
 
-  useEffect(() => {
-    const handleQuotaExceeded = () => {
-      addToast({
-        type: "error",
-        title: "Quota limit reached",
-        description: "You have reached your limit. Upgrade to continue.",
-      });
-    };
-
-    window.addEventListener("arcaive-quota-exceeded", handleQuotaExceeded);
-    return () => window.removeEventListener("arcaive-quota-exceeded", handleQuotaExceeded);
-  }, [addToast]);
-
   return (
     <ToastContext.Provider value={value}>
       {children}
