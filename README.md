@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🤖 ARCAIVE
-### Sovereign Career Intelligence Platform
+### Sovereign Career Intelligence Platform (SaaS)
 **The world's first autonomous career intelligence engine.**
 
 [**Explore Demo**](https://arcaive.ai) • [**Documentation**](https://docs.arcaive.ai) • [**Join Community**](https://discord.gg/arcaive)
