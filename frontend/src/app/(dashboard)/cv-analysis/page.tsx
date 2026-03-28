@@ -19,7 +19,6 @@ export default function CVAnalysisPage() {
   const [initialJobDescription, setInitialJobDescription] = useState("");
 
   useEffect(() => {
-    // Automatically open modal if no result
     if (!analysisResult) {
       setIsModalOpen(true);
     }
@@ -32,10 +31,8 @@ export default function CVAnalysisPage() {
       
       const fetchJobDetails = async () => {
         try {
-          // Try to get from cache first
           let job = jobAPI.getCachedJob(decodedJobId);
           if (!job) {
-            // If not in cache, fetch all jobs
             const jobs = await jobAPI.get();
             job = jobs.find((j) => j.id === decodedJobId) || null;
           }
@@ -55,7 +52,6 @@ export default function CVAnalysisPage() {
   const handleAnalysisComplete = (data: CvAnalysisResponseDTO, file: File) => {
     setUploadedFile(file);
     setAnalysisResult(data);
-    // Give a small delay for state to propagate before closing modal
     setTimeout(() => {
       setIsModalOpen(false);
     }, 100);

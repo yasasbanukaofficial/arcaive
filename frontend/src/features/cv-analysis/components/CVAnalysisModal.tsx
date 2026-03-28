@@ -28,7 +28,6 @@ export default function CVAnalysisModal({
   const [status, setStatus] = useState<FileUploadStatus>("idle");
   const [progress, setProgress] = useState(0);
 
-  // Update jobDescription if initialJobDescription changes
   React.useEffect(() => {
     if (initialJobDescription) {
       setJobDescription(initialJobDescription);
