@@ -72,7 +72,7 @@ export default function TextArea({
       )}
       <textarea
         name={name}
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         placeholder={placeholder}
         required={required}
