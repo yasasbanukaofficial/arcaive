@@ -20,7 +20,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/members")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
 public class MemberController {
     private final MemberService memberservice;

@@ -18,7 +18,6 @@ import tech.yasasbanuka.backend.util.APIResponse;
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
 public class AuthController {
     private final AuthService authService;
