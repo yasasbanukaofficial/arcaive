@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
@@ -44,19 +44,17 @@ export default function BillingPage({
   onSetDefaultPaymentMethod = () => {},
 }: BillingPageProps) {
   const { isDark } = useTheme();
-  const [selectedPeriod, setSelectedPeriod] = useState<"month" | "year">(
-    memberSubscription.billingPeriod,
-  );
+  const selectedPeriod: "month" | "year" = "month";
 
   const filteredPlans = availablePlans.filter(
-    (plan) => plan.billingPeriod === selectedPeriod,
+    (plan) => plan.billingPeriod === "month",
   );
 
   const currentPlan =
     availablePlans.find(
       (plan) =>
         plan.id === memberSubscription.currentPlan &&
-        plan.billingPeriod === selectedPeriod,
+        plan.billingPeriod === "month",
     ) || filteredPlans.find((p) => p.id === "explorer");
 
   return (
@@ -116,51 +114,15 @@ export default function BillingPage({
                     : "rgba(0,0,0,0.04)",
                 }}
               >
-                <button
-                  onClick={() => setSelectedPeriod("month")}
-                  className="px-4 py-2 rounded-md text-sm font-medium transition-all"
+                <span
+                  className="px-4 py-2 rounded-md text-sm font-medium"
                   style={{
-                    backgroundColor:
-                      selectedPeriod === "month"
-                        ? "var(--d-accent)"
-                        : "transparent",
-                    color:
-                      selectedPeriod === "month"
-                        ? isDark
-                          ? "#000000"
-                          : "#ffffff"
-                        : "var(--d-text-secondary)",
+                    backgroundColor: "var(--d-accent)",
+                    color: "#ffffff",
                   }}
                 >
                   Monthly
-                </button>
-                <button
-                  onClick={() => setSelectedPeriod("year")}
-                  className="px-4 py-2 rounded-md text-sm font-medium transition-all relative"
-                  style={{
-                    backgroundColor:
-                      selectedPeriod === "year"
-                        ? "var(--d-accent)"
-                        : "transparent",
-                    color:
-                      selectedPeriod === "year"
-                        ? isDark
-                          ? "#000000"
-                          : "#ffffff"
-                        : "var(--d-text-secondary)",
-                  }}
-                >
-                  Yearly
-                  <span
-                    className="absolute -top-2 -right-2 text-[10px] px-1.5 py-0.5 rounded-full font-semibold"
-                    style={{
-                      backgroundColor: "var(--d-success)",
-                      color: "#ffffff",
-                    }}
-                  >
-                    -20%
-                  </span>
-                </button>
+                </span>
               </div>
             </div>
 

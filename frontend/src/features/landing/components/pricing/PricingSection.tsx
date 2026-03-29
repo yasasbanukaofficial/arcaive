@@ -1,50 +1,58 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
+import { fadeInUp, staggerContainer } from "@/components/animations/variants";
 import PricingCard from "./PricingCard";
 import SectionHeader from "@/components/layout/SectionHeader";
 
 const PricingSection = () => {
-  const [isYearly, setIsYearly] = useState(false);
-
   const pricingPlans = [
     {
-      plan: "Starter",
+      plan: "Explorer",
       price: 0,
       description:
-        "Perfect to explore AI with essential tools for individuals and small projects.",
+        "Essential AI tools to get started with AI-powered job hunting.",
       buttonText: "Start for Free",
       features: [
-        "Basic access to AI core",
-        "Limited prompts per month",
-        "Community support",
+        "3 CV analyses/month",
+        "1 mock interview/month",
+        "5 job results/set",
+        "Manual job input",
+        "1 CV version stored",
       ],
     },
     {
-      plan: "Pro",
-      price: 29,
+      plan: "Strategist",
+      price: 12,
       description:
-        "Advanced features and flexibility to scale productivity and handle bigger workloads.",
-      buttonText: "Upgrade to Pro",
+        "Advanced AI tools for serious job seekers who want to scale.",
+      buttonText: "Upgrade to Strategist",
       popular: true,
       features: [
-        "Unlimited AI prompts",
-        "Priority response time",
-        "Early access to new models",
+        "20 CV analyses/month",
+        "15 mock interviews/month",
+        "20 job results/set",
+        "10 auto-applications/month",
+        "AI CV rewriting",
+        "5 CV versions stored",
+        "Agent transparency",
       ],
     },
     {
-      plan: "Lifetime",
-      price: "Custom",
+      plan: "Architect",
+      price: 29,
       description:
-        "Full power with custom options, priority support, and team-ready collaboration.",
-      buttonText: "Contact Sales",
+        "Unlimited access with priority processing for maximum productivity.",
+      buttonText: "Get Architect",
       features: [
-        "Dedicated workspace",
-        "Advanced model tuning",
-        "Premium support & SLA",
+        "Unlimited CV analyses",
+        "Unlimited mock interviews",
+        "50 job results/set",
+        "Unlimited auto-apply",
+        "Priority AI queue",
+        "Unlimited CV versions",
+        "Early feature access",
       ],
     },
   ];
@@ -52,64 +60,35 @@ const PricingSection = () => {
   return (
     <section
       id="pricing"
-      className="py-16 sm:py-20 md:py-32 px-4 sm:px-6 bg-[#0a0a0a]"
+      className="py-20 sm:py-28 bg-[#0a0a0a]"
     >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="text-left mb-6 sm:mb-8 md:mb-10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={staggerContainer(0.1, 0.1)}
+          className="text-left mb-12 sm:mb-16"
+        >
           <SectionHeader
-            label="Pricing Plans"
+            label="Pricing"
             title="Simple, transparent"
             subtitle="pricing."
           />
-          <p className="text-white/40 text-sm sm:text-base md:text-lg max-w-2xl font-medium leading-relaxed tracking-tight">
-            Choose the plan that best fits your needs and start your journey
-            with Message today.
+          <p className="text-white/40 text-base sm:text-lg max-w-xl mt-4">
+            Choose the plan that fits your needs. Upgrade or downgrade anytime.
           </p>
-        </div>
-
-        <div className="mb-6 sm:mb-8 flex items-center justify-center">
-          <div className="mt-2 sm:mt-4 flex items-center gap-3 sm:gap-4">
-            <span
-              className={`text-[13px] sm:text-sm transition-colors cursor-pointer ${!isYearly ? "text-white" : "text-gray-500"}`}
-              onClick={() => setIsYearly(false)}
-            >
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsYearly(!isYearly)}
-              className="w-10 sm:w-11 h-[22px] sm:h-6 rounded-full bg-white/10 relative transition-colors hover:bg-white/20"
-            >
-              <motion.div
-                initial={false}
-                animate={{ x: isYearly ? 18 : 0 }}
-                className="absolute top-[3px] sm:top-1 left-1 w-4 h-4 rounded-full bg-white"
-              />
-            </button>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span
-                className={`text-[13px] sm:text-sm transition-colors cursor-pointer ${isYearly ? "text-white" : "text-gray-500"}`}
-                onClick={() => setIsYearly(true)}
-              >
-                Yearly
-              </span>
-              <span className="text-[9px] sm:text-[10px] bg-white/5 border border-white/10 px-1.5 sm:px-2 py-0.5 rounded-full text-white/60">
-                20% OFF
-              </span>
-            </div>
-          </div>
-        </div>
+        </motion.div>
 
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer(0.15, 0.1)}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
         >
           {pricingPlans.map((plan, index) => (
-            <motion.div key={index} variants={bounceIn}>
-              <PricingCard {...plan} isYearly={isYearly} />
-            </motion.div>
+            <PricingCard key={index} {...plan} />
           ))}
         </motion.div>
       </div>

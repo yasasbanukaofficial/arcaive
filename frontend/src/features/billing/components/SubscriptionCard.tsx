@@ -42,10 +42,10 @@ export default function SubscriptionCard({
     >
       {plan.isPopular && (
         <div
-          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold"
+          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold"
           style={{
-            backgroundColor: "var(--d-accent)",
-            color: isDark ? "#000000" : "#ffffff",
+            backgroundColor: "#ffffff",
+            color: "#000000",
           }}
         >
           Most Popular
