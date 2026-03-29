@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import BillingPage from "@/features/billing/components/BillingPage";
 import {
   MOCK_MEMBER_SUBSCRIPTION,
@@ -10,12 +11,14 @@ import {
 } from "@/features/billing/constants/mockData";
 
 export default function BillingPageWrapper() {
+  const router = useRouter();
+
   const handleUpgrade = (planId: string) => {
-    console.log("Upgrading to plan:", planId);
+    router.push(`/subscription/checkout?plan=${planId}&billing=month`);
   };
 
   const handleManageSubscription = () => {
-    console.log("Managing subscription");
+    router.push("/subscription");
   };
 
   const handleAddPaymentMethod = () => {

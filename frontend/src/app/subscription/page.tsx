@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Crown } from "lucide-react";
 import SubscriptionChoosingPage from "@/features/subscription/components/SubscriptionChoosingPage";
@@ -31,12 +32,13 @@ export default function SubscriptionPage() {
           <Crown className="w-4 h-4 shrink-0" style={{ color: "var(--d-text-muted)" }} />
           <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
             Need a custom solution for your team?
-            <button
+            <Link
+              href="/subscription/checkout?plan=architect&billing=month"
               className="ml-1 font-medium hover:underline"
               style={{ color: "var(--d-accent)" }}
             >
               Contact us
-            </button>
+            </Link>
           </p>
         </div>
       </motion.div>

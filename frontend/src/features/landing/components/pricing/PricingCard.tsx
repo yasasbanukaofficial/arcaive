@@ -13,6 +13,7 @@ type Props = {
   features: string[];
   popular?: boolean;
   isYearly?: boolean;
+  onSelect?: (plan: string) => void;
 };
 
 const PricingCard = ({
@@ -23,6 +24,7 @@ const PricingCard = ({
   features,
   popular = false,
   isYearly = false,
+  onSelect,
 }: Props) => {
   const displayPrice =
     typeof price === "number"
@@ -74,6 +76,7 @@ const PricingCard = ({
       </div>
 
       <button
+        onClick={() => onSelect?.(plan)}
         className={`w-full py-3 px-6 rounded-xl text-sm font-semibold transition-all ${
           popular
             ? "bg-emerald-500 text-black hover:bg-emerald-400"

@@ -1,12 +1,27 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/components/animations/variants";
 import PricingCard from "./PricingCard";
 import SectionHeader from "@/components/layout/SectionHeader";
 
 const PricingSection = () => {
+  const router = useRouter();
+
+  const planIdMap: Record<string, string> = {
+    Explorer: "explorer",
+    Strategist: "strategist",
+    Architect: "architect",
+  };
+
+  const handlePlanSelect = (planName: string) => {
+    const planId = planIdMap[planName];
+    if (planId) {
+      router.push(`/subscription/checkout?plan=${planId}&billing=month`);
+    }
+  };
   const pricingPlans = [
     {
       plan: "Explorer",
@@ -88,7 +103,7 @@ const PricingSection = () => {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
         >
           {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} {...plan} />
+            <PricingCard key={index} {...plan} onSelect={handlePlanSelect} />
           ))}
         </motion.div>
       </div>
