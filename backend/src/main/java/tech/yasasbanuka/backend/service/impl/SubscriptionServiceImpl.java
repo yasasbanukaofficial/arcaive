@@ -79,15 +79,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             case ARCHITECT  -> architectPriceId;
             default -> throw new IllegalArgumentException("Invalid Tier: " + tier);
         };
-        MemberResponseDTO member = memberRepo.getMemberByUsername((memberUsername));
+        Member member = memberRepo.findByUsername(memberUsername).orElseThrow(() -> new ResourceNotFoundException("Member not found: " + memberUsername));
         try {
             SessionCreateParams params = SessionCreateParams.builder()
-                    .setUiMode(SessionCreateParams.UiMode.EMBEDDED_PAGE)
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                    .setReturnUrl(baseUrl + "/subscription/sucess")
-                    .setSuccessUrl(baseUrl + "/subscription/sucess")
+                    .setSuccessUrl(baseUrl + "/subscription/success")
                     .setCancelUrl(baseUrl + "/subscription/cancel")
-                    .setCustomerEmail(member.getMemberEmail())
+                    .setCustomerEmail(member.getEmail())
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()
                                     .setQuantity(1L)

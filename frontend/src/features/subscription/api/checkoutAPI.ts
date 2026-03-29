@@ -7,7 +7,7 @@ export const checkoutAPI = {
     return (
       await apiInstance({
         method: "POST",
-        url: `${SUBSCRIPTION_URL}/checkout?tier=${tier}`,
+        url: `${SUBSCRIPTION_URL}/create?tier=${tier.toUpperCase()}`,
         withCredentials: true,
       })
     ).data;

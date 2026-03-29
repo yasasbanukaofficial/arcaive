@@ -127,8 +127,8 @@ function CheckoutContent() {
   const handleCheckout = async () => {
     setIsProcessing(true);
     try {
-      await checkoutAPI.checkout(selectedPlan);
-      router.push("/subscription/success");
+      const resp = await checkoutAPI.checkout(selectedPlan);
+      router.push(resp.data?.url);
     } catch {
       setIsProcessing(false);
     }
