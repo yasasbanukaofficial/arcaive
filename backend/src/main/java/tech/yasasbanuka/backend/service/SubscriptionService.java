@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
+import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.constants.Tier;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface SubscriptionService {
     void deleteSubscription(UUID subscriptionId);
     SubscriptionResponseDTO getSubscription(UUID subscriptionId);
     List<SubscriptionResponseDTO> getAllSubscriptions();
+
+    void activate(Member member, Tier tier, String externalSubId);
+    void cancel(Member member);
 }

@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface QuotaService {
     void checkAndConsume(UUID memberId, QuotaType type);
     void resetQuota(Member member);
+
+    void downgradeToExplorer(Member member);
 }

@@ -19,6 +19,7 @@ import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
 import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
@@ -27,6 +28,8 @@ import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +52,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Value("${app.base.url}")
     private String baseUrl;
     private final MemberRepo memberRepo;
-    private final MemberService memberService;
     private final SubscriptionRepo subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
 
@@ -77,7 +79,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             case ARCHITECT  -> architectPriceId;
             default -> throw new IllegalArgumentException("Invalid Tier: " + tier);
         };
-        MemberResponseDTO member = memberService.getMemberByUsername(memberUsername);
+        MemberResponseDTO member = memberRepo.getMemberByUsername((memberUsername));
         try {
             SessionCreateParams params = SessionCreateParams.builder()
                     .setUiMode(SessionCreateParams.UiMode.EMBEDDED_PAGE)
@@ -154,5 +156,29 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public List<SubscriptionResponseDTO> getAllSubscriptions() {
         log.debug("Fetching all subscriptions");
         return subscriptionRepo.findAll().stream().map(subscriptionMapper::toResponseDTO).toList();
+    }
+
+    @Override
+    public void activate(Member member, Tier tier, String externalSubId) {
+        Subscription sub = member.getSubscription();
+        Instant now = Instant.now();
+
+        sub.setTier(tier);
+        sub.setStatus(SubscriptionStatus.ACTIVE);
+        sub.setExternalSubscriptionId(externalSubId);
+        sub.setCreatedAt(now);
+        sub.setCurrentPeriodStart(now);
+        sub.setCurrentPeriodEnd(now.plus(30, ChronoUnit.DAYS));
+
+        memberRepo.save(member);
+    }
+
+    @Override
+    public void cancel(Member member) {
+        Subscription sub = member.getSubscription();
+
+        sub.setCancelledAt(Instant.now());
+        sub.setStatus(SubscriptionStatus.CANCELLED);
+        memberRepo.save(member);
     }
 }

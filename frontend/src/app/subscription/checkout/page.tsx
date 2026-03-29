@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
+import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 
 const PLAN_CONFIG = {
   explorer: {
@@ -125,8 +126,12 @@ function CheckoutContent() {
 
   const handleCheckout = async () => {
     setIsProcessing(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    router.push("/subscription/success");
+    try {
+      await checkoutAPI.checkout(selectedPlan);
+      router.push("/subscription/success");
+    } catch {
+      setIsProcessing(false);
+    }
   };
 
   const yearlyPrice = selectedPlanData?.price

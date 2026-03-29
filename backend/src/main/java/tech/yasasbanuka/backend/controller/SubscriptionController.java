@@ -29,7 +29,7 @@ import java.util.UUID;
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
 
-    @PostMapping()
+    @PostMapping("/create")
     public ResponseEntity<APIResponse<Map<String, String>>> createCheckout(@RequestParam Tier tier, Authentication authentication) {
         String username = authentication.getName();
         log.info("Request to create a checkout for the tier of {} to the user {}", tier, username);
