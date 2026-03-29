@@ -92,6 +92,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                                     .setPrice(priceId)
                                     .build()
                     )
+                    .setSubscriptionData(
+                            SessionCreateParams.SubscriptionData.builder()
+                                    .putMetadata("username", memberUsername)
+                                    .putMetadata("tier", tier.name())
+                                    .build()
+                    )
                     .putMetadata("username", memberUsername)
                     .putMetadata("tier", tier.name())
                     .build();
@@ -160,6 +166,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void activate(Member member, Tier tier, String externalSubId) {
         Subscription sub = member.getSubscription();
         Instant now = Instant.now();
+        if (sub == null) {
+            sub = new Subscription();
+            sub.setMember(member);
+            member.setSubscription(sub);
+        }
 
         sub.setTier(tier);
         sub.setStatus(SubscriptionStatus.ACTIVE);
@@ -167,6 +178,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setCreatedAt(now);
         sub.setCurrentPeriodStart(now);
         sub.setCurrentPeriodEnd(now.plus(30, ChronoUnit.DAYS));
+        sub.setPriceAmount(tier.getPriceInCents());
+        sub.setPaymentProvider("stripe");
 
         memberRepo.save(member);
     }
@@ -174,6 +187,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public void cancel(Member member) {
         Subscription sub = member.getSubscription();
+        if (sub == null) {
+            sub = new Subscription();
+            sub.setMember(member);
+            member.setSubscription(sub);
+        }
 
         sub.setCancelledAt(Instant.now());
         sub.setStatus(SubscriptionStatus.CANCELLED);
