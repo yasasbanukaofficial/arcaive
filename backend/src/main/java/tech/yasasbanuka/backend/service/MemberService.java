@@ -1,11 +1,13 @@
 package tech.yasasbanuka.backend.service;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MemberService {

@@ -1,18 +1,25 @@
 package tech.yasasbanuka.backend.controller;
 
+import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
+import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.util.APIResponse;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +28,13 @@ import java.util.UUID;
 @Slf4j
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
+
+    @PostMapping()
+    public ResponseEntity<APIResponse<Map<String, String>>> createCheckout(@RequestParam Tier tier, Authentication authentication) {
+        String username = authentication.getName();
+        log.info("Request to create a checkout for the tier of {} to the user {}", tier, username);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched all subscriptions successfully", subscriptionService.createCheckout(tier, authentication.getName())), HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<APIResponse<List<SubscriptionResponseDTO>>> getAllSubscriptions() {

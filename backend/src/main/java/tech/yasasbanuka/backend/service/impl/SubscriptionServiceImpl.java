@@ -1,21 +1,34 @@
 package tech.yasasbanuka.backend.service.impl;
 
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.repo.SubscriptionRepo;
+import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,7 +37,19 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class SubscriptionServiceImpl implements SubscriptionService {
+    @Value("${stripe.secret-key}")
+    private String stripeSecretKey;
+
+    @Value("${stripe.strategist-price-id}")
+    private String strategistPriceId;
+
+    @Value("${stripe.architect-price-id}")
+    private String architectPriceId;
+
+    @Value("${app.base.url}")
+    private String baseUrl;
     private final MemberRepo memberRepo;
+    private final MemberService memberService;
     private final SubscriptionRepo subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
 
@@ -42,6 +67,40 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         SubscriptionResponseDTO response = subscriptionMapper.toResponseDTO(subscriptionRepo.save(entity));
         log.info("Subscription created successfully with ID: {} for member: {}", response.getId(), dto.getMemberId());
         return response;
+    }
+
+    @Override
+    public Map<String, String> createCheckout(Tier tier, String memberUsername) {
+        Stripe.apiKey = stripeSecretKey;
+        String priceId = switch (tier) {
+            case STRATEGIST -> strategistPriceId;
+            case ARCHITECT  -> architectPriceId;
+            default -> throw new IllegalArgumentException("Invalid Tier: " + tier);
+        };
+        MemberResponseDTO member = memberService.getMemberByUsername(memberUsername);
+        try {
+            SessionCreateParams params = SessionCreateParams.builder()
+                    .setUiMode(SessionCreateParams.UiMode.EMBEDDED_PAGE)
+                    .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+                    .setReturnUrl(baseUrl + "/subscription/sucess")
+                    .setSuccessUrl(baseUrl + "/subscription/sucess")
+                    .setCancelUrl(baseUrl + "/subscription/cancel")
+                    .setCustomerEmail(member.getMemberEmail())
+                    .addLineItem(
+                            SessionCreateParams.LineItem.builder()
+                                    .setQuantity(1L)
+                                    .setPrice(priceId)
+                                    .build()
+                    )
+                    .putMetadata("username", memberUsername)
+                    .putMetadata("tier", tier.name())
+                    .build();
+
+            Session session = Session.create(params);
+            return Map.of("url", session.getUrl());
+        } catch (StripeException e) {
+            throw new RuntimeException("Stripe checkout failed: " + e.getMessage());
+        }
     }
 
     @Override
