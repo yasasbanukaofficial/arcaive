@@ -3,9 +3,9 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Settings } from "lucide-react";
+
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
-import Button from "@/components/ui/Button";
+
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
@@ -31,9 +31,7 @@ export default function BillingPageWrapper() {
     }
   };
 
-  const handleManageSubscription = () => {
-    router.push("/subscription");
-  };
+
 
   const subscription = isLoading || error ? MOCK_MEMBER_SUBSCRIPTION : (memberSubscription ?? MOCK_MEMBER_SUBSCRIPTION);
   const filteredPlans = MOCK_PLANS.filter((plan) => plan.billingPeriod === "month");
@@ -53,40 +51,25 @@ export default function BillingPageWrapper() {
       variants={dashboardStagger(0.04, 0.02)}
       className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 pb-20 px-3 sm:px-6"
     >
-      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-        <div className="text-center sm:text-left">
-          <h1
-            className="text-2xl sm:text-3xl lg:text-[36px] font-semibold"
-            style={{ color: "var(--d-text-primary)" }}
-          >
-            Billing & Subscription
-          </h1>
-          <p
-            className="text-sm sm:text-base mt-1"
-            style={{ color: "var(--d-text-muted)" }}
-          >
-            Manage your subscription, billing, and payment methods
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={handleManageSubscription}
-            icon={<Settings size={16} />}
-            className="rounded-xl h-10 sm:h-12 px-4 sm:px-6 border font-medium text-sm sm:text-base"
-          >
-            Settings
-          </Button>
-        </div>
+      <motion.div variants={fadeUp} className="text-center sm:text-left">
+        <h1
+          className="text-2xl sm:text-3xl lg:text-[36px] font-semibold"
+          style={{ color: "var(--d-text-primary)" }}
+        >
+          Billing & Subscription
+        </h1>
+        <p
+          className="text-sm sm:text-base mt-1"
+          style={{ color: "var(--d-text-muted)" }}
+        >
+          Manage your subscription, billing, and payment methods
+        </p>
       </motion.div>
 
       <motion.div variants={fadeUp}>
         <CurrentSubscription
           subscription={subscription}
           plan={currentPlan!}
-          onManage={handleManageSubscription}
         />
       </motion.div>
 

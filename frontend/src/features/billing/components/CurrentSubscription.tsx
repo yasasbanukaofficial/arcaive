@@ -4,18 +4,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, TrendingUp, AlertCircle, Zap } from "lucide-react";
 import { MemberSubscription, SubscriptionPlan } from "@/@types/subscription";
-import Button from "@/components/ui/Button";
 
 interface CurrentSubscriptionProps {
   subscription: MemberSubscription;
   plan: SubscriptionPlan;
-  onManage: () => void;
 }
 
 export default function CurrentSubscription({
   subscription,
   plan,
-  onManage,
 }: CurrentSubscriptionProps) {
   const usagePercentage = plan.maxAgents
     ? (subscription.usage.agentsUsed / plan.maxAgents) * 100
@@ -37,40 +34,30 @@ export default function CurrentSubscription({
         border: "1px solid var(--d-border)",
       }}
     >
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-        <div className="flex items-center gap-4">
-          <div
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
-            style={{ backgroundColor: "var(--d-surface-hover)" }}
-          >
-            <Zap
-              size={24}
-              style={{ color: "var(--d-accent)" }}
-            />
-          </div>
-          <div>
-            <h2
-              className="text-lg sm:text-xl lg:text-2xl font-semibold"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              {plan.name} Plan
-            </h2>
-            <p
-              className="text-sm sm:text-base"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Your current subscription tier
-            </p>
-          </div>
-        </div>
-        <Button
-          variant="secondary"
-          size="lg"
-          onClick={onManage}
-          className="rounded-xl h-10 sm:h-12 px-4 sm:px-6 border font-medium text-sm sm:text-base"
+      <div className="flex items-center gap-4 mb-8">
+        <div
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
+          style={{ backgroundColor: "var(--d-surface-hover)" }}
         >
-          Manage
-        </Button>
+          <Zap
+            size={24}
+            style={{ color: "var(--d-accent)" }}
+          />
+        </div>
+        <div>
+          <h2
+            className="text-lg sm:text-xl lg:text-2xl font-semibold"
+            style={{ color: "var(--d-text-primary)" }}
+          >
+            {plan.name} Plan
+          </h2>
+          <p
+            className="text-sm sm:text-base"
+            style={{ color: "var(--d-text-muted)" }}
+          >
+            Your current subscription tier
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
