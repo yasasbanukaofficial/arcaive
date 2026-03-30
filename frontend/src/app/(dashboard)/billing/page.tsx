@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import BillingPage from "@/features/billing/components/BillingPage";
+import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import {
   MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
@@ -12,6 +13,7 @@ import {
 
 export default function BillingPageWrapper() {
   const router = useRouter();
+  const { data: memberSubscription, isLoading, error } = useSubscription();
 
   const handleUpgrade = (planId: string) => {
     router.push(`/subscription/checkout?plan=${planId}&billing=month`);
@@ -33,9 +35,11 @@ export default function BillingPageWrapper() {
     console.log("Setting default payment method:", id);
   };
 
+  const subscription = isLoading || error ? MOCK_MEMBER_SUBSCRIPTION : (memberSubscription ?? MOCK_MEMBER_SUBSCRIPTION);
+
   return (
     <BillingPage
-      memberSubscription={MOCK_MEMBER_SUBSCRIPTION}
+      memberSubscription={subscription}
       availablePlans={MOCK_PLANS}
       billingHistory={MOCK_BILLING_HISTORY}
       paymentMethods={MOCK_PAYMENT_METHODS}
