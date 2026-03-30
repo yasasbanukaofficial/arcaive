@@ -10,17 +10,34 @@ import { useTheme } from "@/features/dashboard/components/ThemeContext";
 interface SubscriptionCardProps {
   plan: SubscriptionPlan;
   isCurrentPlan: boolean;
+  currentPlanTier?: string;
   onSelect: (planId: string) => void;
   disabled?: boolean;
 }
 
+const tierOrder = ["explorer", "strategist", "architect"];
+
 export default function SubscriptionCard({
   plan,
   isCurrentPlan,
+  currentPlanTier,
   onSelect,
   disabled,
 }: SubscriptionCardProps) {
   const { isDark } = useTheme();
+
+  const getButtonText = () => {
+    if (isCurrentPlan) return "Current Plan";
+    
+    const currentTierIndex = currentPlanTier ? tierOrder.indexOf(currentPlanTier) : -1;
+    const planTierIndex = tierOrder.indexOf(plan.id);
+    
+    if (currentTierIndex > 0 && planTierIndex < currentTierIndex) {
+      return "Cancel Paid Plan";
+    }
+    
+    return "Upgrade";
+  };
 
   return (
     <motion.div
@@ -98,7 +115,7 @@ export default function SubscriptionCard({
         disabled={disabled || isCurrentPlan}
         className="w-full"
       >
-        {isCurrentPlan ? "Current Plan" : "Upgrade"}
+        {getButtonText()}
       </Button>
     </motion.div>
   );

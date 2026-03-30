@@ -17,8 +17,8 @@ import { useTheme } from "@/features/dashboard/components/ThemeContext";
 interface BillingPageProps {
   memberSubscription: MemberSubscription;
   availablePlans: SubscriptionPlan[];
-  billingHistory: BillingHistory[];
-  paymentMethods: PaymentMethod[];
+  billingHistory?: BillingHistory[];
+  paymentMethods?: PaymentMethod[];
   onUpgrade?: (planId: string) => void;
   onManageSubscription?: () => void;
   onAddPaymentMethod?: () => void;
@@ -35,8 +35,8 @@ const fadeUp = {
 export default function BillingPage({
   memberSubscription,
   availablePlans,
-  billingHistory,
-  paymentMethods,
+  billingHistory = [],
+  paymentMethods = [],
   onUpgrade = () => {},
   onManageSubscription = () => {},
   onAddPaymentMethod = () => {},
@@ -135,21 +135,24 @@ export default function BillingPage({
                     plan.id === memberSubscription.currentPlan &&
                     plan.billingPeriod === selectedPeriod
                   }
+                  currentPlanTier={memberSubscription.currentPlan}
                   onSelect={onUpgrade}
                 />
               ))}
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <PaymentMethods
-              methods={paymentMethods}
-              onAdd={onAddPaymentMethod}
-              onRemove={onRemovePaymentMethod}
-              onSetDefault={onSetDefaultPaymentMethod}
-            />
-            <BillingHistorySection history={billingHistory} />
-          </div>
+          {paymentMethods.length > 0 && billingHistory.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <PaymentMethods
+                methods={paymentMethods}
+                onAdd={onAddPaymentMethod}
+                onRemove={onRemovePaymentMethod}
+                onSetDefault={onSetDefaultPaymentMethod}
+              />
+              <BillingHistorySection history={billingHistory} />
+            </div>
+          )}
         </div>
       </div>
     </div>
