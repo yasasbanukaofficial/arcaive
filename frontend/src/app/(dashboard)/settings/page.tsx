@@ -9,12 +9,10 @@ import SettingsNav, {
 import MemberIdentitySection from "@/features/settings/components/MemberIdentitySection";
 import CareerIntelligenceSection from "@/features/settings/components/CareerIntelligenceSection";
 import AgentConfigSection from "@/features/settings/components/AgentConfigSection";
-import BillingSection from "@/features/settings/components/BillingSection";
 import NotificationsSection from "@/features/settings/components/NotificationsSection";
 import { fadeUp, dashboardStagger } from "@/features/dashboard/components/animations";
 import {
   initialAgentConfigData,
-  initialBillingData,
   initialNotificationsData,
 } from "@/features/settings/constants/initialData";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
@@ -45,11 +43,6 @@ export default function SettingsPage() {
       description:
         "Fine-tune your AI agents — thresholds, persona, model selection, and filters.",
     },
-    billing: {
-      title: "Subscription & Billing",
-      description:
-        "View your plan, manage payment methods, and download invoices.",
-    },
     notifications: {
       title: "Notifications & System",
       description:
@@ -71,8 +64,6 @@ export default function SettingsPage() {
         );
       case "agents":
         return <AgentConfigSection data={initialAgentConfigData} />;
-      case "billing":
-        return <BillingSection data={initialBillingData} />;
       case "notifications":
         return <NotificationsSection data={initialNotificationsData} />;
       default:
@@ -131,7 +122,6 @@ export default function SettingsPage() {
                 "identity",
                 "career",
                 "agents",
-                "billing",
                 "notifications",
               ] as SettingsSection[]
             ).map((id) => {
