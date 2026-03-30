@@ -7,8 +7,28 @@ export interface SubscriptionPlan {
   billingPeriod: "month" | "year";
   features: string[];
   isPopular?: boolean;
-  maxAgents?: number;
-  maxJobs?: number;
+  cvAnalysisLimit?: number;
+  jobSearchLimit?: number;
+  jobResultsPerSearch?: number;
+  interviewLimit?: number;
+  autoApplyLimit?: number;
+  cvVersionsLimit?: number;
+}
+
+export interface UsageQuota {
+  periodStart: string;
+  periodEnd: string;
+  cvAnalysisUsed: number;
+  cvAnalysisLimit: number;
+  jobSearchUsed: number;
+  jobSearchLimit: number;
+  jobResultsPerSearch: number;
+  interviewUsed: number;
+  interviewLimit: number;
+  autoApplyUsed: number;
+  autoApplyLimit: number;
+  cvVersionsStored: number;
+  cvVersionsLimit: number;
 }
 
 export interface MemberSubscription {
@@ -17,10 +37,7 @@ export interface MemberSubscription {
   renewalDate: string;
   isActive: boolean;
   cancelAtPeriodEnd?: boolean;
-  usage: {
-    agentsUsed: number;
-    jobsApplied: number;
-  };
+  usage: UsageQuota;
 }
 
 export interface BillingHistory {

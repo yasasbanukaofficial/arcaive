@@ -27,6 +27,26 @@ export interface MemberResponse {
   subscriptionId: string | null;
 }
 
+export interface UsageQuotaResponse {
+  id: string;
+  memberId: string;
+  periodStart: string;
+  periodEnd: string;
+  cvAnalysisUsed: number;
+  cvAnalysisLimit: number;
+  jobSearchUsed: number;
+  jobSearchLimit: number;
+  jobResultsPerSearch: number;
+  interviewUsed: number;
+  interviewLimit: number;
+  autoApplyUsed: number;
+  autoApplyLimit: number;
+  cvVersionsStored: number;
+  cvVersionsLimit: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export const subscriptionAPI = {
   getMemberSubscription: async (): Promise<SubscriptionResponse | null> => {
     const token = await getToken();
@@ -49,5 +69,16 @@ export const subscriptionAPI = {
     });
     
     return subscriptionResponse.data.data;
+  },
+
+  getUsageQuota: async (): Promise<UsageQuotaResponse> => {
+    const token = await getToken();
+    const response = await apiInstance({
+      baseURL: `${MEMBER_URL}/me/usage-quota`,
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    });
+    
+    return response.data.data;
   },
 };

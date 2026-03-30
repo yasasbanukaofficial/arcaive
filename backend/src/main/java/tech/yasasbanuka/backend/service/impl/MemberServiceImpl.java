@@ -14,6 +14,7 @@ import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
+import tech.yasasbanuka.backend.dto.usage.UsageQuotaResponseDTO;
 import tech.yasasbanuka.backend.entity.Subscription;
 import tech.yasasbanuka.backend.entity.UsageQuota;
 import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
@@ -26,6 +27,7 @@ import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
+import tech.yasasbanuka.backend.service.mapper.UsageQuotaMapper;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.time.Instant;
@@ -41,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
     private final SubscriptionService subscriptionService;
     private final MemberMapper memberMapper;
+    private final UsageQuotaMapper usageQuotaMapper;
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
     private final OpenAiChatModel openAiChatModel;
@@ -171,6 +174,17 @@ public class MemberServiceImpl implements MemberService {
                     log.error("Member fetch failed: Username {} not found", username);
                     return new ResourceNotFoundException("Member not found with username: " + username);
                 }));
+    }
+
+    @Override
+    public UsageQuotaResponseDTO getUsageQuotaByUsername(String username) {
+        log.info("Fetching usage quota for username: {}", username);
+        Member member = memberRepo.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("Usage quota fetch failed: Username {} not found", username);
+                    return new ResourceNotFoundException("Member not found with username: " + username);
+                });
+        return usageQuotaMapper.toResponseDTO(member.getUsageQuota());
     }
 
     @Override
