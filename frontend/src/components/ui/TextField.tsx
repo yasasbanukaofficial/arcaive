@@ -59,7 +59,7 @@ export default function TextField({
         <input
           type={type}
           name={name}
-          value={value}
+          value={value ?? ""}
           onChange={onChange}
           placeholder={placeholder}
           required={required}

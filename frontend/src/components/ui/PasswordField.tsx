@@ -52,7 +52,7 @@ export default function PasswordField({
         <input
           name={name}
           type={show ? "text" : "password"}
-          value={value}
+          value={value ?? ""}
           onChange={onChange}
           placeholder={placeholder}
           required={required}

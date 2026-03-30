@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
+import tech.yasasbanuka.backend.dto.usage.UsageQuotaResponseDTO;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.util.APIResponse;
 
@@ -20,7 +21,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/members")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
 public class MemberController {
     private final MemberService memberservice;
@@ -35,6 +35,12 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberResponseDTO>> getMember(Authentication authentication) {
         log.info("Received request to fetch profile for user: {}", authentication.getName());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched member successfully", memberservice.getMemberByUsername(authentication.getName())), HttpStatus.OK);
+    }
+
+    @GetMapping("/me/usage-quota")
+    public ResponseEntity<APIResponse<UsageQuotaResponseDTO>> getUsageQuota(Authentication authentication) {
+        log.info("Received request to fetch usage quota for user: {}", authentication.getName());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched usage quota successfully", memberservice.getUsageQuotaByUsername(authentication.getName())), HttpStatus.OK);
     }
 
     @PostMapping("/upload-cv")

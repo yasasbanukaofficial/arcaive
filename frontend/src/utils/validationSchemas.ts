@@ -41,6 +41,10 @@ export const profileSchema = Yup.object({
   email: Yup.string()
     .email("Enter a valid email address")
     .required("Email is required"),
+  jobRole: Yup.string()
+    .required("Job role is required"),
+  experience: Yup.string()
+    .required("Experience is required"),
 });
 
 export const passwordChangeSchema = (hasPassword: boolean) =>

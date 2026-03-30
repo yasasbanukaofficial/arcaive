@@ -14,6 +14,8 @@ import {
   Unlink,
   Link as LinkIcon,
   LucideIcon,
+  Briefcase,
+  TrendingUp,
 } from "lucide-react";
 import Card, { CardRow } from "@/components/ui/Card";
 import TextField from "@/components/ui/TextField";
@@ -55,7 +57,12 @@ export default function MemberIdentitySection({
 
 
   const profileMutation = useMutation({
-    mutationFn: async (payload: { memberFullName: string; memberEmail: string }) =>
+    mutationFn: async (payload: { 
+      memberFullName: string; 
+      memberEmail: string;
+      jobRole: string;
+      experience: string;
+    }) =>
       await memberAPI.update(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["member"] });
@@ -98,13 +105,15 @@ export default function MemberIdentitySection({
   });
 
   const profileFormik = useFormik({
-    initialValues: { fullName: "", email: "" },
+    initialValues: { fullName: "", email: "", jobRole: "", experience: "" },
     validationSchema: profileSchema,
     enableReinitialize: false,
     onSubmit: (values) => {
       profileMutation.mutate({
         memberFullName: values.fullName,
         memberEmail: values.email,
+        jobRole: values.jobRole,
+        experience: values.experience,
       });
     },
   });
@@ -133,6 +142,8 @@ export default function MemberIdentitySection({
       profileFormik.setValues({
         fullName: data.memberFullName || "",
         email: data.memberEmail || "",
+        jobRole: data.jobRole || "",
+        experience: data.experience || "",
       });
       setMfaEnabled(data.mfa?.enabled ?? false);
       setMfaMethod(
@@ -244,6 +255,32 @@ export default function MemberIdentitySection({
             required
             hint="This is your primary login email"
             error={profileFormik.touched.email && profileFormik.errors.email ? profileFormik.errors.email : undefined}
+          />
+          <TextField
+            label="Job Role"
+            name="job_role"
+            value={profileFormik.values.jobRole}
+            onChange={(e) => profileFormik.setFieldValue("jobRole", e.target.value)}
+            onBlur={() => profileFormik.setFieldTouched("jobRole", true)}
+            placeholder="e.g. Senior Software Engineer"
+            required
+            icon={<Briefcase className="w-4 h-4" />}
+            error={profileFormik.touched.jobRole && profileFormik.errors.jobRole ? profileFormik.errors.jobRole : undefined}
+          />
+          <Select
+            label="Experience Level"
+            value={profileFormik.values.experience}
+            onChange={(value) => profileFormik.setFieldValue("experience", value)}
+            options={[
+              { value: "intern", label: "Intern / Student" },
+              { value: "entry", label: "Entry Level (0-2 years)" },
+              { value: "mid", label: "Mid Level (2-5 years)" },
+              { value: "senior", label: "Senior Level (5+ years)" },
+              { value: "lead", label: "Lead / Manager" },
+            ]}
+            required
+            icon={<TrendingUp className="w-4 h-4" />}
+            error={profileFormik.touched.experience && profileFormik.errors.experience ? profileFormik.errors.experience : undefined}
           />
         </div>
       </Card>

@@ -10,6 +10,9 @@ import tech.yasasbanuka.backend.dto.auth.AuthResponseDTO;
 import tech.yasasbanuka.backend.dto.member.MemberCreateRequestDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.UsageQuota;
+import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
+import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.EmailNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
@@ -17,8 +20,10 @@ import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -60,19 +65,35 @@ public class AuthServiceImpl implements AuthService {
         String username = dto.getMemberEmail().split("@")[0];
         newUser.setUsername(username);
 
-        Instant endsAt = Instant.now().plus(30, ChronoUnit.DAYS);
-        Instant renewsAt = endsAt.plus(1, ChronoUnit.DAYS);
+        Instant now = Instant.now();
+        Instant periodEnd = now.plus(30, ChronoUnit.DAYS);
+
         Subscription freeSub = Subscription.builder()
-            .providerId("explorer")
-            .status("active")
-            .variantId("Explorer")
-            .endsAt(endsAt)
-            .renewsAt(renewsAt)
-            .build();
+                .member(newUser)
+                .tier(Tier.EXPLORER)
+                .status(SubscriptionStatus.ACTIVE)
+                .startedAt(now)
+                .currentPeriodStart(now)
+                .currentPeriodEnd(periodEnd)
+                .paymentProvider("explorer")
+                .build();
+
+        UsageQuota usageQuota = UsageQuota.builder()
+                .member(newUser)
+                .periodStart(now)
+                .periodEnd(periodEnd)
+                .cvAnalysisUsed(0)
+                .jobSearchUsed(0)
+                .interviewUsed(0)
+                .autoApplyUsed(0)
+                .cvVersionsStored(0)
+                .build();
+        
         newUser.setSubscription(freeSub);
-        freeSub.setMember(newUser);
+        newUser.setUsageQuota(usageQuota);
 
         memberRepo.save(newUser);
+
         log.info("User {} registered successfully with username: {}", dto.getMemberEmail(), username);
     }
 }

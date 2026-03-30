@@ -18,7 +18,6 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/livekit")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
 public class LiveKitController {
     private final LiveKitService liveKitService;

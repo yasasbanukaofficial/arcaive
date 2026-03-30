@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/jobs")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
 public class JobController {
     private final JobService jobService;

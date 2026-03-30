@@ -14,6 +14,11 @@ import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
+import tech.yasasbanuka.backend.dto.usage.UsageQuotaResponseDTO;
+import tech.yasasbanuka.backend.entity.Subscription;
+import tech.yasasbanuka.backend.entity.UsageQuota;
+import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
+import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.entity.embeddable.LinkedAccount;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
@@ -22,8 +27,11 @@ import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
+import tech.yasasbanuka.backend.service.mapper.UsageQuotaMapper;
 import tech.yasasbanuka.backend.util.PDFTextExtract;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepo memberRepo;
     private final SubscriptionService subscriptionService;
     private final MemberMapper memberMapper;
+    private final UsageQuotaMapper usageQuotaMapper;
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
     private final OpenAiChatModel openAiChatModel;
@@ -48,6 +57,9 @@ public class MemberServiceImpl implements MemberService {
         }
         Member entity = memberMapper.createRequestToEntity(dto);
         entity.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
+        
+        initializeNewMember(entity);
+        
         MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(entity));
         log.info("Member created successfully with ID: {}", response.getMemberId());
         return response;
@@ -64,9 +76,41 @@ public class MemberServiceImpl implements MemberService {
         if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             entity.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
         }
+
+        initializeNewMember(entity);
+
         MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(entity));
         log.info("Internal member created successfully with ID: {}", response.getMemberId());
         return response;
+    }
+
+    private void initializeNewMember(Member member) {
+        Instant now = Instant.now();
+        Instant periodEnd = now.plus(30, ChronoUnit.DAYS);
+
+        Subscription freeSub = Subscription.builder()
+                .member(member)
+                .tier(Tier.EXPLORER)
+                .status(SubscriptionStatus.ACTIVE)
+                .startedAt(now)
+                .currentPeriodStart(now)
+                .currentPeriodEnd(periodEnd)
+                .paymentProvider("explorer")
+                .build();
+
+        UsageQuota usageQuota = UsageQuota.builder()
+                .member(member)
+                .periodStart(now)
+                .periodEnd(periodEnd)
+                .cvAnalysisUsed(0)
+                .jobSearchUsed(0)
+                .interviewUsed(0)
+                .autoApplyUsed(0)
+                .cvVersionsStored(0)
+                .build();
+
+        member.setSubscription(freeSub);
+        member.setUsageQuota(usageQuota);
     }
 
     @Override
@@ -130,6 +174,17 @@ public class MemberServiceImpl implements MemberService {
                     log.error("Member fetch failed: Username {} not found", username);
                     return new ResourceNotFoundException("Member not found with username: " + username);
                 }));
+    }
+
+    @Override
+    public UsageQuotaResponseDTO getUsageQuotaByUsername(String username) {
+        log.info("Fetching usage quota for username: {}", username);
+        Member member = memberRepo.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("Usage quota fetch failed: Username {} not found", username);
+                    return new ResourceNotFoundException("Member not found with username: " + username);
+                });
+        return usageQuotaMapper.toResponseDTO(member.getUsageQuota());
     }
 
     @Override

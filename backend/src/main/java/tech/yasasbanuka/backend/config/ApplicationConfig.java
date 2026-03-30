@@ -30,9 +30,9 @@ public class ApplicationConfig {
             log.debug("Loading user by username: {}", username);
             return memberRepo.findByUsername(username)
                     .map(member -> {
-                        String tier = (member.getSubscription() != null && member.getSubscription().getVariantId() != null)
-                                ? member.getSubscription().getVariantId()
-                                : "Explorer";
+                        String tier = (member.getSubscription() != null && member.getSubscription().getTier() != null)
+                                ? member.getSubscription().getTier().name()
+                                : "EXPLORER";
                         log.debug("User {} found with tier: {}", username, tier);
                         return new User(
                                 member.getUsername(),

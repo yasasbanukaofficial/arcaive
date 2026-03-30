@@ -31,7 +31,9 @@ public class Member {
     private String experience;
     private String country;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subscription_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Subscription subscription;
+
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private UsageQuota usageQuota;
 }
