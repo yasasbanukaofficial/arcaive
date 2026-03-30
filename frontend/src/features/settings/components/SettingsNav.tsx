@@ -6,7 +6,6 @@ import {
   Shield as MemberIcon,
   Brain,
   Cpu,
-  CreditCard,
   Bell,
   type LucideIcon,
 } from "lucide-react";
@@ -16,7 +15,6 @@ export type SettingsSection =
   | "identity"
   | "career"
   | "agents"
-  | "billing"
   | "notifications";
 
 type NavItem = {
@@ -44,12 +42,6 @@ const navItems: NavItem[] = [
     label: "Agent Configuration",
     description: "Thresholds, persona, model",
     icon: Cpu,
-  },
-  {
-    id: "billing",
-    label: "Subscription & Billing",
-    description: "Plan, payments, invoices",
-    icon: CreditCard,
   },
   {
     id: "notifications",

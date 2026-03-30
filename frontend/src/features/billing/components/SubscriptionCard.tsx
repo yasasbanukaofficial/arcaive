@@ -5,36 +5,44 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { SubscriptionPlan } from "@/@types/subscription";
 import Button from "@/components/ui/Button";
-import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 interface SubscriptionCardProps {
   plan: SubscriptionPlan;
   isCurrentPlan: boolean;
+  currentPlanTier?: string;
   onSelect: (planId: string) => void;
   disabled?: boolean;
 }
 
+const tierOrder = ["explorer", "strategist", "architect"];
+
 export default function SubscriptionCard({
   plan,
   isCurrentPlan,
+  currentPlanTier,
   onSelect,
   disabled,
 }: SubscriptionCardProps) {
-  const { isDark } = useTheme();
+  const getButtonText = () => {
+    if (isCurrentPlan) return "Current Plan";
+    
+    const currentTierIndex = currentPlanTier ? tierOrder.indexOf(currentPlanTier) : -1;
+    const planTierIndex = tierOrder.indexOf(plan.id);
+    
+    if (currentTierIndex > 0 && planTierIndex < currentTierIndex) {
+      return "Cancel Plan";
+    }
+    
+    return "Upgrade";
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="relative rounded-2xl p-6 h-full flex flex-col"
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="relative rounded-2xl p-5 sm:p-6 h-full flex flex-col"
       style={{
-        backgroundColor: plan.isPopular
-          ? isDark
-            ? "var(--d-surface)"
-            : "#ffffff"
-          : isDark
-            ? "var(--d-surface)"
-            : "#ffffff",
+        backgroundColor: "var(--d-surface-hover)",
         border: plan.isPopular
           ? "2px solid var(--d-accent)"
           : "1px solid var(--d-border)",
@@ -42,41 +50,44 @@ export default function SubscriptionCard({
     >
       {plan.isPopular && (
         <div
-          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold"
+          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold"
           style={{
             backgroundColor: "var(--d-accent)",
-            color: isDark ? "#000000" : "#ffffff",
+            color: "#ffffff",
           }}
         >
           Most Popular
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="mb-5 sm:mb-6">
         <h3
-          className="text-xl font-semibold mb-2"
+          className="text-lg sm:text-xl font-semibold mb-2"
           style={{ color: "var(--d-text-primary)" }}
         >
           {plan.name}
         </h3>
         <div className="flex items-baseline gap-1">
           <span
-            className="text-4xl font-bold"
+            className="text-3xl sm:text-4xl font-bold"
             style={{ color: "var(--d-text-primary)" }}
           >
             ${plan.price}
           </span>
-          <span className="text-sm" style={{ color: "var(--d-text-tertiary)" }}>
+          <span
+            className="text-sm"
+            style={{ color: "var(--d-text-muted)" }}
+          >
             /{plan.billingPeriod}
           </span>
         </div>
       </div>
 
-      <ul className="space-y-3 mb-6 flex-1">
+      <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-1">
         {plan.features.map((feature, index) => (
-          <li key={index} className="flex items-start gap-2">
+          <li key={index} className="flex items-start gap-2 sm:gap-3">
             <Check
-              className="w-5 h-5 shrink-0 mt-0.5"
+              className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 mt-0.5"
               style={{ color: "var(--d-accent)" }}
             />
             <span
@@ -96,9 +107,9 @@ export default function SubscriptionCard({
         size="lg"
         onClick={() => onSelect(plan.id)}
         disabled={disabled || isCurrentPlan}
-        className="w-full"
+        className="w-full rounded-xl h-11 sm:h-12"
       >
-        {isCurrentPlan ? "Current Plan" : "Upgrade"}
+        {getButtonText()}
       </Button>
     </motion.div>
   );

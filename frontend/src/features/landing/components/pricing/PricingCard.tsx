@@ -13,6 +13,7 @@ type Props = {
   features: string[];
   popular?: boolean;
   isYearly?: boolean;
+  onSelect?: (plan: string) => void;
 };
 
 const PricingCard = ({
@@ -23,6 +24,7 @@ const PricingCard = ({
   features,
   popular = false,
   isYearly = false,
+  onSelect,
 }: Props) => {
   const displayPrice =
     typeof price === "number"
@@ -32,75 +34,80 @@ const PricingCard = ({
       : price;
 
   return (
-    <div
-      className={`relative p-5 sm:p-6 md:p-8 bg-[#121212]/50 border ${popular ? "border-white/30" : "border-white/10"} transition-all duration-300 h-full flex flex-col`}
+    <motion.div
+      whileHover={{ y: -4 }}
+      className={`relative p-6 sm:p-8 bg-[#0f0f0f] border-2 rounded-2xl h-full flex flex-col transition-all duration-300 ${
+        popular
+          ? "border-emerald-500/50 shadow-lg shadow-emerald-500/10"
+          : "border-white/10 hover:border-white/20"
+      }`}
     >
       {popular && (
-        <span className="absolute top-3 right-3 sm:top-4 sm:right-4 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-white/20 text-[9px] sm:text-[10px] uppercase tracking-widest text-white/80 bg-white/5">
-          Popular
-        </span>
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span className="px-4 py-1 rounded-full bg-emerald-500 text-black text-xs font-semibold uppercase tracking-wider">
+            Most Popular
+          </span>
+        </div>
       )}
 
-      <div className="mb-5 sm:mb-6 md:mb-8">
-        <h4 className="text-gray-400 text-[13px] sm:text-sm font-medium mb-4 sm:mb-6 uppercase tracking-wider">
+      <div className="mb-6">
+        <h4 className="text-white text-lg font-semibold mb-2">
           {plan}
         </h4>
-        <div className="flex items-baseline gap-1 mb-3 sm:mb-4">
-          <span className="text-3xl sm:text-4xl font-light text-white flex overflow-hidden">
-            {typeof price === "number" && <span>€</span>}
+        <p className="text-white/50 text-sm leading-relaxed">
+          {description}
+        </p>
+      </div>
+
+      <div className="mb-6">
+        <div className="flex items-baseline gap-1">
+          <span className="text-4xl sm:text-5xl font-bold text-white">
+            {typeof price === "number" && "€"}
             <AnimatePresence mode="wait">
               <AnimatedPrice value={displayPrice} />
             </AnimatePresence>
           </span>
           {typeof price === "number" && (
-            <span className="text-gray-500 text-[13px] sm:text-sm ml-1">
+            <span className="text-white/50 text-sm">
               /month
             </span>
           )}
         </div>
-        <p className="text-[13px] sm:text-sm text-gray-400 leading-relaxed min-h-[40px] sm:min-h-[48px]">
-          {description}
-        </p>
       </div>
 
       <button
-        className={`w-full py-2.5 sm:py-3 px-5 sm:px-6 rounded-full text-[13px] sm:text-sm font-medium transition-all mb-6 sm:mb-8 md:mb-10 ${
+        onClick={() => onSelect?.(plan)}
+        className={`w-full py-3 px-6 rounded-xl text-sm font-semibold transition-all ${
           popular
-            ? "bg-white text-black hover:bg-gray-200"
-            : "bg-transparent text-white border border-white/20 hover:border-white/40"
+            ? "bg-emerald-500 text-black hover:bg-emerald-400"
+            : "bg-white text-black hover:bg-gray-200"
         }`}
       >
         {buttonText}
       </button>
 
-      <div className="mt-auto">
-        <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <div className="h-px bg-white/10 flex-grow" />
-          <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">
-            Features
-          </span>
-          <div className="h-px bg-white/10 flex-grow" />
-        </div>
-        <ul className="space-y-3 sm:space-y-4">
+      <div className="mt-8">
+        <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
+          What's included
+        </p>
+        <ul className="space-y-3">
           {features.map((feature, i) => (
             <li
               key={i}
-              className="flex items-start gap-2.5 sm:gap-3 text-[13px] sm:text-sm text-gray-400"
+              className="flex items-start gap-3 text-sm text-white/80"
             >
               <Check
-                size={15}
-                className="text-gray-500 mt-0.5 shrink-0 sm:hidden"
-              />
-              <Check
-                size={16}
-                className="text-gray-500 mt-0.5 shrink-0 hidden sm:block"
+                size={18}
+                className={`mt-0.5 shrink-0 ${
+                  popular ? "text-emerald-400" : "text-white/60"
+                }`}
               />
               <span>{feature}</span>
             </li>
           ))}
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

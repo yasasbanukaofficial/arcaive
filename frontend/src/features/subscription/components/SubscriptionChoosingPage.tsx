@@ -2,99 +2,194 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import Button from "@/components/ui/Button";
+import { motion } from "framer-motion";
+import { Check, Crown, Rocket, Sparkles, ArrowRight } from "lucide-react";
 import { MOCK_PLANS } from "@/features/billing/constants/mockData";
-import { Check } from "lucide-react";
 
-const PLANS = MOCK_PLANS
-  .filter((p) => p.billingPeriod === "month")
-  .reduce((acc: any[], p) => (acc.find((x) => x.id === p.id) ? acc : [...acc, p]), []);
+const MONTHLY_PLANS = MOCK_PLANS.filter((p) => p.billingPeriod === "month");
 
-const DESCRIPTION_MAP: Record<string, string> = {
-  explorer: "Starter pack to get you going",
-  strategist: "Power tools for active job seekers",
-  architect: "For teams and large-scale workflows",
+const PLAN_CONFIG = {
+  explorer: {
+    icon: Sparkles,
+    gradient: "from-slate-500/20 to-slate-600/10",
+    accentColor: "var(--d-text-muted)",
+  },
+  strategist: {
+    icon: Rocket,
+    gradient: "from-violet-500/20 via-fuchsia-500/10 to-purple-500/20",
+    accentColor: "var(--d-accent)",
+  },
+  architect: {
+    icon: Crown,
+    gradient: "from-amber-500/20 via-orange-500/10 to-yellow-500/20",
+    accentColor: "#f59e0b",
+  },
+};
+
+const PLAN_DESCRIPTIONS: Record<string, string> = {
+  explorer: "Essential tools to kickstart your job search journey",
+  strategist: "Advanced AI-powered features for serious job hunters",
+  architect: "Unlimited everything for teams and power users",
 };
 
 export default function SubscriptionChoosingPage() {
   const router = useRouter();
 
   const handleSelect = (planId: string) => {
-    router.push("/jobs");
-  };
-
-  const handleContinueStarter = () => {
-    router.push("/jobs");
+    router.push(`/subscription/checkout?plan=${planId}&billing=month`);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0c0d] p-6">
-      <div className="w-full max-w-6xl">
-        <h1 className="text-3xl font-extrabold text-center text-white mb-10">Choose a plan that suits you</h1>
+    <div className="space-y-6">
+      <motion.div
+        variants={{
+          show: {
+            transition: { staggerChildren: 0.1 },
+          },
+        }}
+        initial="hidden"
+        animate="show"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6"
+      >
+        {MONTHLY_PLANS.map((plan: any) => {
+          const config = PLAN_CONFIG[plan.id as keyof typeof PLAN_CONFIG];
+          const Icon = config?.icon || Sparkles;
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {PLANS.map((plan: any) => (
-            <div
+          return (
+            <motion.div
               key={plan.id}
-              className="relative p-6 bg-[#121212]/50 border rounded-2xl flex flex-col h-full transition-transform hover:-translate-y-2 shadow-lg"
-              style={{ borderColor: plan.isPopular ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)" }}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0 },
+              }}
+              className={`relative group rounded-2xl p-6 lg:p-8 flex flex-col transition-all duration-300 hover:-translate-y-1 ${
+                plan.isPopular ? "md:-mt-4 md:mb-[-16px]" : ""
+              }`}
+              style={{
+                background: `linear-gradient(145deg, var(--d-surface) 0%, ${plan.isPopular ? "var(--d-surface-hover)" : "var(--d-surface)"} 100%)`,
+                border: `1px solid ${plan.isPopular ? "var(--d-accent)" : "var(--d-border)"}`,
+              }}
             >
               {plan.isPopular && (
-                <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs uppercase tracking-wider bg-white/5 text-white/90 border border-white/20">
-                  Popular
-                </span>
+                <div className="absolute inset-0 bg-gradient-to-b from-violet-500/5 to-transparent rounded-2xl pointer-events-none" />
               )}
 
-              <div className="mb-4">
-                <h3 className="text-xs uppercase text-gray-400 tracking-wider font-medium mb-2">{plan.name}</h3>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-6">
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                      plan.isPopular ? "bg-gradient-to-br from-violet-500/20 to-fuchsia-500/10" : ""
+                    }`}
+                    style={{
+                      backgroundColor: plan.isPopular ? undefined : "var(--d-surface-hover)",
+                      border: plan.isPopular ? "1px solid var(--d-accent)" : "1px solid var(--d-border)",
+                    }}
+                  >
+                    <Icon
+                      className="w-6 h-6"
+                      style={{ color: config?.accentColor || "var(--d-text-muted)" }}
+                    />
+                  </div>
 
-                <div className="flex items-end gap-3">
-                  <div className="text-4xl font-bold text-white">{plan.price === 0 ? "Free" : `$${plan.price}`}</div>
-                  <div className="text-sm text-white/70 mb-1">/month</div>
+                  {plan.isPopular && (
+                    <span
+                      className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                      style={{
+                        backgroundColor: "var(--d-accent-subtle)",
+                        color: "var(--d-accent)",
+                      }}
+                    >
+                      Most Popular
+                    </span>
+                  )}
                 </div>
 
-                <p className="text-sm text-white/60 mt-3 min-h-[40px]">{DESCRIPTION_MAP[plan.id] ?? "Great value"}</p>
-              </div>
-
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-px bg-white/8 flex-1" />
-                  <div className="text-xs uppercase tracking-widest text-gray-400">Features</div>
-                  <div className="h-px bg-white/8 flex-1" />
+                <div className="mb-4">
+                  <h3
+                    className="text-lg font-semibold tracking-tight mb-1"
+                    style={{ color: "var(--d-text-primary)" }}
+                  >
+                    {plan.name}
+                  </h3>
+                  <p className="text-xs leading-relaxed" style={{ color: "var(--d-text-muted)" }}>
+                    {PLAN_DESCRIPTIONS[plan.id] || "Great value for your needs"}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-white/90">
-                  {plan.features?.map((f: string, i: number) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <Check className="w-4 h-4 text-emerald-400 mt-1 flex-shrink-0" />
-                      <span className="leading-tight">{f}</span>
+                <div className="mb-6">
+                  <div className="flex items-baseline gap-1.5">
+                    <span
+                      className="text-4xl lg:text-5xl font-bold tracking-tight"
+                      style={{ color: "var(--d-text-primary)" }}
+                    >
+                      {plan.price === 0 ? "Free" : `$${plan.price}`}
+                    </span>
+                    {plan.price > 0 && (
+                      <span className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+                        /mo
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex-1 space-y-3 mb-8">
+                  {plan.features.slice(0, 4).map((feature: string, i: number) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <div
+                        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5"
+                        style={{ backgroundColor: "var(--d-accent-subtle)" }}
+                      >
+                        <Check
+                          className="w-3 h-3"
+                          style={{ color: "var(--d-accent)" }}
+                        />
+                      </div>
+                      <span
+                        className="text-xs leading-relaxed"
+                        style={{ color: "var(--d-text-secondary)" }}
+                      >
+                        {feature}
+                      </span>
                     </div>
                   ))}
+                  {plan.features.length > 4 && (
+                    <p className="text-xs pl-7" style={{ color: "var(--d-text-muted)" }}>
+                      +{plan.features.length - 4} more features
+                    </p>
+                  )}
                 </div>
-              </div>
 
-              <div className="mt-6">
-                <Button
-                  onClick={() => handleSelect(plan.id)}
-                  className="w-full rounded-full py-2.5 bg-transparent border border-white/12 text-white hover:bg-white/6"
-                >
-                  Choose {plan.name}
-                </Button>
+                {plan.id === "explorer" ? (
+                  <button
+                    onClick={() => handleSelect(plan.id)}
+                    className="mt-auto w-full py-3.5 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      backgroundColor: "transparent",
+                      color: "#ffffff",
+                      border: "1px solid #ffffff",
+                    }}
+                  >
+                    Continue with Free Plan
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleSelect(plan.id)}
+                    className="mt-auto w-full py-3.5 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                    }}
+                  >
+                    Get Started
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
               </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <Button
-            variant="secondary"
-            className="w-full max-w-md mx-auto bg-transparent border border-white/12 text-white hover:bg-white/6"
-            onClick={handleContinueStarter}
-          >
-            Continue with Default Starter Pack
-          </Button>
-        </div>
-      </div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
     </div>
   );
 }

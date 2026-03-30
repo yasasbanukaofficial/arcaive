@@ -41,6 +41,7 @@ public class SecurityConfig {
                                         "/api/v1/auth/**",
                                         "/api/v1/members/upload-cv",
                                         "/api/v1/members/upload-cv/skills",
+                                        "/api/v1/webhooks/**",
                                         "/api/v1/subscriptions",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
