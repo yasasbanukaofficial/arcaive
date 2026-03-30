@@ -19,4 +19,6 @@ public interface MemberRepo extends JpaRepository<Member, UUID> {
 
     @Query("SELECT m FROM member m WHERE m.subscription.externalSubscriptionId = :externalSubId")
     Optional<Member> findByExternalSubscriptionId(@Param("externalSubId") String externalSubId);
+
+    Member getMemberById(UUID id);
 }

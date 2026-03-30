@@ -14,10 +14,6 @@ export default function CurrentSubscription({
   subscription,
   plan,
 }: CurrentSubscriptionProps) {
-  const usagePercentage = plan.maxAgents
-    ? (subscription.usage.agentsUsed / plan.maxAgents) * 100
-    : 0;
-
   return (
     <motion.div
       variants={{
@@ -153,40 +149,6 @@ export default function CurrentSubscription({
           </p>
         </div>
       </div>
-
-      {plan.maxAgents && (
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              Agent Usage
-            </span>
-            <span
-              className="text-sm"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              {subscription.usage.agentsUsed} / {plan.maxAgents} agents
-            </span>
-          </div>
-          <div
-            className="h-2 sm:h-3 rounded-full overflow-hidden"
-            style={{ backgroundColor: "var(--d-border)" }}
-          >
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${usagePercentage}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="h-full rounded-full"
-              style={{
-                backgroundColor:
-                  usagePercentage > 80 ? "var(--d-error)" : "var(--d-accent)",
-              }}
-            />
-          </div>
-        </div>
-      )}
 
       {subscription.cancelAtPeriodEnd && (
         <div
