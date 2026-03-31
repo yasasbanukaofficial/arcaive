@@ -96,6 +96,7 @@ public class StripeWebhookController {
     private void handleCheckoutSession(Session session) {
         String username = session.getMetadata().get("username");
         String tierName = session.getMetadata().get("tier");
+        log.debug("Tier Name: {}", tierName);
         String subscriptionId = session.getSubscription();
 
         log.info("Processing checkout.session.completed for user: {} with tier: {}", username, tierName);

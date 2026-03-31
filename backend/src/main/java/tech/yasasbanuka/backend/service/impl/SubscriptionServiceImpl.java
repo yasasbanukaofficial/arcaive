@@ -85,6 +85,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         };
         Member member = memberRepo.findByUsername(memberUsername).orElseThrow(() -> new ResourceNotFoundException("Member not found: " + memberUsername));
         try {
+            log.debug("Tier name: {}", tier.name());
             SessionCreateParams params = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                     .setSuccessUrl(baseUrl + "/subscription/success")
