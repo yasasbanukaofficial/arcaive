@@ -171,15 +171,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         log.info("Reducing tier for the user: {}", username);
         Member member = memberRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Member not found with username: " + username));
         Subscription sub = member.getSubscription();
+
+        if (sub.getExternalSubscriptionId() == null) {
+            log.warn("No active Stripe subscription found for user: {}", username);
+            return;
+        }
         String externalSubId = sub.getExternalSubscriptionId();
 
         try {
             Stripe.apiKey = stripeSecretKey;
             log.debug("External Subscription ID: {}", externalSubId);
             com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(externalSubId);
-            SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
+            SubscriptionCancelParams params = SubscriptionCancelParams.builder().setProrate(true).build();
             com.stripe.model.Subscription subscription = resource.cancel(params);
-            cancel(member);
+            cancel(member, true);
+            quotaService.downgradeToExplorer(member);
             log.info("Subscription cancelled: {}", subscription.toString());
         } catch (StripeException se) {
             log.error("Error cancelling Stripe subscription {} for user {}: {}", externalSubId, username, se.getMessage(), se);
@@ -207,10 +213,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setPaymentProvider("stripe");
 
         memberRepo.save(member);
+        quotaService.resetQuota(member);
     }
 
     @Override
-    public void cancel(Member member) {
+    public void cancel(Member member, boolean isWebhook) {
         Subscription sub = member.getSubscription();
         if (sub == null) {
             sub = new Subscription();
@@ -221,7 +228,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setCancelledAt(Instant.now());
         sub.setStatus(SubscriptionStatus.CANCELLED);
         sub.setPaymentProvider("None");
-        sub.setExternalSubscriptionId(null);
+
+        if (isWebhook) sub.setExternalSubscriptionId(null);
+
         sub.setPriceAmount(BigDecimal.ZERO);
         sub.setTier(Tier.EXPLORER);
         memberRepo.save(member);

@@ -22,5 +22,5 @@ public interface SubscriptionService {
     void cancelSubscription(String username);
 
     void activate(Member member, Tier tier, String externalSubId);
-    void cancel(Member member);
+    void cancel(Member member, boolean isManual);
 }

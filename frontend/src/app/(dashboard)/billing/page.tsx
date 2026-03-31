@@ -58,18 +58,33 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
             )}
           </div>
         </div>
-        <p
-          className="text-xl sm:text-2xl font-bold"
-          style={{ color: "var(--d-text-primary)" }}
-        >
-          {used}
+        {isUnlimited ? (
           <span
-            className="text-sm font-normal"
-            style={{ color: "var(--d-text-muted)" }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+            style={{
+              background: "linear-gradient(135deg, var(--d-accent) 0%, #a855f7 100%)",
+              color: "#ffffff",
+            }}
           >
-            {isUnlimited ? "" : `/${limit}`}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/>
+            </svg>
+            Unlimited
           </span>
-        </p>
+        ) : (
+          <p
+            className="text-xl sm:text-2xl font-bold"
+            style={{ color: "var(--d-text-primary)" }}
+          >
+            {used}
+            <span
+              className="text-sm font-normal"
+              style={{ color: "var(--d-text-muted)" }}
+            >
+              /{limit}
+            </span>
+          </p>
+        )}
       </div>
       {!isUnlimited && (
         <div

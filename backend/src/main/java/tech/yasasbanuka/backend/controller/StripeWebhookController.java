@@ -108,7 +108,6 @@ public class StripeWebhookController {
         memberRepo.findByUsername(username).ifPresentOrElse(member -> {
             try {
                 subscriptionService.activate(member, Tier.valueOf(tierName), subscriptionId);
-                quotaService.resetQuota(member);
                 log.info("Successfully activated subscription for user: {}", username);
             } catch (Exception e) {
                 log.error("Error activating subscription for user {}: {}", username, e.getMessage());
@@ -127,10 +126,13 @@ public class StripeWebhookController {
     }
 
     private void handleSubscriptionDeleted(Subscription subscription) {
-        memberRepo.findByExternalSubscriptionId(subscription.getId()).ifPresent(member -> {
-            subscriptionService.cancel(member);
-            quotaService.downgradeToExplorer(member);
-            log.info("Subscription cancelled for user: {}", member.getUsername());
-        });
+        memberRepo.findByExternalSubscriptionId(subscription.getId()).ifPresentOrElse(member -> {
+                    subscriptionService.cancel(member, true);
+                    quotaService.downgradeToExplorer(member);
+                    log.info("Subscription cancelled via webhook for user: {}", member.getUsername());
+                },
+                () -> log.info("Webhook customer.subscription.deleted: no member found for sub {}, " +
+                        "likely already cancelled manually.", subscription.getId())
+        );
     }
 }
