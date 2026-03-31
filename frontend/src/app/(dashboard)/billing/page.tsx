@@ -8,6 +8,8 @@ import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animat
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
+import { subscriptionAPI } from "@/features/billing/api/subscriptionAPI";
+import { useToast } from "@/components/ui/Toast";
 import {
   MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
@@ -91,16 +93,23 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
 
 export default function BillingPageWrapper() {
   const router = useRouter();
-  const { data: memberSubscription, isLoading, error } = useSubscription();
+  const { data: memberSubscription, isLoading, error, refetch } = useSubscription();
+  const { addToast } = useToast();
 
   const tierOrder = ["explorer", "strategist", "architect"];
 
-  const handleUpgrade = (planId: string) => {
+  const handleUpgrade = async (planId: string) => {
     const currentTierIndex = tierOrder.indexOf(subscription.currentPlan);
     const selectedTierIndex = tierOrder.indexOf(planId);
 
     if (selectedTierIndex < currentTierIndex) {
-      router.push("/subscription?action=cancel");
+      try {
+        const response = await subscriptionAPI.cancelSubscription();
+        addToast({ title: "Success", description: response.message, type: "success" });
+        refetch();
+      } catch (err: any) {
+        addToast({ title: "Error", description: err.response?.data?.message || "Failed to cancel subscription", type: "error" });
+      }
     } else {
       router.push(`/subscription/checkout?plan=${planId}&billing=month`);
     }

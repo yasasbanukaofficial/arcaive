@@ -30,7 +30,7 @@ export default function SubscriptionCard({
     const planTierIndex = tierOrder.indexOf(plan.id);
     
     if (currentTierIndex > 0 && planTierIndex < currentTierIndex) {
-      return "Cancel Plan";
+      return "Downgrade Plan";
     }
     
     return "Upgrade";

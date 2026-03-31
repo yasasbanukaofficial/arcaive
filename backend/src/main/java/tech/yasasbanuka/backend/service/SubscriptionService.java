@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.service;
 
+import com.stripe.exception.StripeException;
 import org.springframework.security.core.Authentication;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
@@ -18,6 +19,7 @@ public interface SubscriptionService {
     void deleteSubscription(UUID subscriptionId);
     SubscriptionResponseDTO getSubscription(UUID subscriptionId);
     List<SubscriptionResponseDTO> getAllSubscriptions();
+    void cancelSubscription(String username);
 
     void activate(Member member, Tier tier, String externalSubId);
     void cancel(Member member);

@@ -3,6 +3,7 @@ package tech.yasasbanuka.backend.service.impl;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.SubscriptionCancelParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,11 @@ import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.repo.SubscriptionRepo;
 import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.QuotaService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -54,6 +57,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final MemberRepo memberRepo;
     private final SubscriptionRepo subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
+    private final QuotaService quotaService;
 
     @Override
     public SubscriptionResponseDTO createSubscription(SubscriptionCreateRequestDTO dto) {
@@ -163,6 +167,27 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public void cancelSubscription(String username) {
+        log.info("Reducing tier for the user: {}", username);
+        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Member not found with username: " + username));
+        Subscription sub = member.getSubscription();
+        String externalSubId = sub.getExternalSubscriptionId();
+
+        try {
+            Stripe.apiKey = stripeSecretKey;
+            log.debug("External Subscription ID: {}", externalSubId);
+            com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(externalSubId);
+            SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
+            com.stripe.model.Subscription subscription = resource.cancel(params);
+            cancel(member);
+            log.info("Subscription cancelled: {}", subscription.toString());
+        } catch (StripeException se) {
+            log.error("Error cancelling Stripe subscription {} for user {}: {}", externalSubId, username, se.getMessage(), se);
+            throw new RuntimeException("Failed to cancel subscription with Stripe: " + se.getMessage(), se);
+        }
+    }
+
+    @Override
     public void activate(Member member, Tier tier, String externalSubId) {
         Subscription sub = member.getSubscription();
         Instant now = Instant.now();
@@ -195,6 +220,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         sub.setCancelledAt(Instant.now());
         sub.setStatus(SubscriptionStatus.CANCELLED);
+        sub.setPaymentProvider("None");
+        sub.setExternalSubscriptionId(null);
+        sub.setPriceAmount(BigDecimal.ZERO);
+        sub.setTier(Tier.EXPLORER);
         memberRepo.save(member);
     }
 }

@@ -10,7 +10,6 @@ import {
   CreditCard, 
   Shield, 
   Zap,
-  Sparkles,
   Rocket,
   Crown,
   ChevronDown,
@@ -21,14 +20,6 @@ import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 
 const PLAN_CONFIG = {
-  explorer: {
-    icon: Sparkles,
-    gradient: "from-blue-500/8 via-purple-500/5 to-transparent",
-    accentColor: "#cbd5e1",
-    bgAccent: "rgba(148, 163, 184, 0.15)",
-    borderAccent: "rgba(148, 163, 184, 0.5)",
-    priceColor: "#ffffff",
-  },
   strategist: {
     icon: Rocket,
     gradient: "from-blue-500/12 via-purple-500/8 to-transparent",
@@ -48,21 +39,6 @@ const PLAN_CONFIG = {
 };
 
 const PLANS = [
-  {
-    id: "explorer",
-    name: "Explorer",
-    price: 0,
-    priceDisplay: "Free",
-    description: "Essential tools to kickstart your job search journey",
-    features: [
-      { text: "3 CV analyses/month (basic single-pass)", included: true },
-      { text: "1 mock interview session/month (text only)", included: true },
-      { text: "1 job search set (5 results)", included: true },
-      { text: "0 auto-apply", included: false },
-      { text: "Manual job description input only", included: false },
-      { text: "1 CV version stored", included: true },
-    ],
-  },
   {
     id: "strategist",
     name: "Strategist",
@@ -103,7 +79,7 @@ function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<string>(
-    searchParams.get("plan") || "strategist"
+    (searchParams.get("plan") === "explorer" ? "strategist" : searchParams.get("plan")) || "strategist"
   );
   const [billingPeriod, setBillingPeriod] = useState<"month" | "year">(
     (searchParams.get("billing") as "month" | "year") || "month"
@@ -350,31 +326,22 @@ function CheckoutContent() {
                   </motion.button>
 
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleBillingChange("year")}
-                    className={`p-4 rounded-xl transition-all text-left relative`}
+                    disabled
+                    className={`p-4 rounded-xl transition-all text-left relative opacity-50 cursor-not-allowed`}
                     style={{
-                      backgroundColor:
-                        billingPeriod === "year"
-                          ? "rgba(59, 130, 246, 0.15)"
-                          : "rgba(255, 255, 255, 0.04)",
-                      border: `1px solid ${
-                        billingPeriod === "year"
-                          ? "rgba(59, 130, 246, 0.5)"
-                          : "rgba(255, 255, 255, 0.15)"
-                      }`,
+                      backgroundColor: "rgba(255, 255, 255, 0.04)",
+                      border: "1px solid rgba(255, 255, 255, 0.15)",
                     }}
                   >
                     <div
                       className="absolute -top-2 right-3"
                       style={{
-                        background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                        color: "#ffffff",
+                        background: "rgba(255, 255, 255, 0.1)",
+                        color: "#9ca3af",
                       }}
                     >
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">
-                        Save 20%
+                        Coming soon
                       </span>
                     </div>
                     <div
@@ -383,9 +350,9 @@ function CheckoutContent() {
                       Yearly
                     </div>
                     <div
-                      className="text-sm mt-1 text-gray-300"
+                      className="text-sm mt-1 text-gray-400"
                     >
-                      €{yearlyPrice}/year
+                      On the way
                     </div>
                   </motion.button>
                 </div>

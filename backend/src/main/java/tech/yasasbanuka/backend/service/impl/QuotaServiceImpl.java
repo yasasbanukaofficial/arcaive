@@ -67,4 +67,11 @@ public class QuotaServiceImpl implements QuotaService {
         TierLimits.of(Tier.EXPLORER).applyTo(quota);
         usageQuotaRepo.save(quota);
     }
+
+    @Override
+    public void downgradeTier(Tier downgradeTier, Member member) {
+        UsageQuota quota = member.getUsageQuota();
+        TierLimits.of(downgradeTier).applyTo(quota);
+        usageQuotaRepo.save(quota);
+    }
 }

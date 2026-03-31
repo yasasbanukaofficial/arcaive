@@ -81,4 +81,16 @@ export const subscriptionAPI = {
     
     return response.data.data;
   },
+
+  cancelSubscription: async (): Promise<{ message: string }> => {
+    const token = await getToken();
+    const response = await apiInstance({
+      baseURL: `${SUBSCRIPTION_URL}/cancel`,
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
+    });
+    
+    return response.data;
+  },
 };
