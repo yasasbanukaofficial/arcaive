@@ -114,10 +114,7 @@ export default function BillingPageWrapper() {
   const tierOrder = ["explorer", "strategist", "architect"];
 
   const handleUpgrade = async (planId: string) => {
-    const currentTierIndex = tierOrder.indexOf(subscription.currentPlan);
-    const selectedTierIndex = tierOrder.indexOf(planId);
-
-    if (selectedTierIndex < currentTierIndex) {
+    if (planId === "explorer") {
       try {
         const response = await subscriptionAPI.cancelSubscription();
         addToast({ title: "Success", description: response.message, type: "success" });
