@@ -77,11 +77,6 @@ public class StripeWebhookController {
                     handleCheckoutSession(session);
                 }
             }
-            case "invoice.paid" -> {
-                if (stripeObject instanceof Invoice invoice) {
-                    handleInvoicePaid(invoice);
-                }
-            }
             case "customer.subscription.deleted" -> {
                 if (stripeObject instanceof Subscription subscription) {
                     handleSubscriptionDeleted(subscription);
@@ -114,16 +109,6 @@ public class StripeWebhookController {
                 log.error("Error activating subscription for user {}: {}", username, e.getMessage());
             }
         }, () -> log.error("User not found in database: {}", username));
-    }
-
-    private void handleInvoicePaid(Invoice invoice) {
-        String email = invoice.getCustomerEmail();
-        if (email != null) {
-            memberRepo.findByEmail(email).ifPresent(member -> {
-                quotaService.resetQuota(member);
-                log.info("Quota reset for user email: {}", email);
-            });
-        }
     }
 
     private void handleSubscriptionDeleted(Subscription subscription) {
