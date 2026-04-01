@@ -95,7 +95,7 @@ export default function UpgradeConfirmModal({
                 className="text-sm leading-relaxed"
                 style={{ color: "var(--d-text-muted)" }}
               >
-                You&apos;re about to upgrade from <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{currentPlan}</span> to <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{targetPlan}</span> at <span className="font-semibold" style={{ color: "var(--d-accent)" }}>{newPrice}/month</span>.
+                You&apos;re about to upgrade from <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{currentPlan}</span> to <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{targetPlan}</span> at $<span className="font-semibold" style={{ color: "var(--d-accent)" }}>{newPrice}/month</span>.
               </motion.p>
             </div>
 

@@ -141,13 +141,13 @@ function CheckoutContent() {
           variants={dashboardStagger(0.05, 0.02)}
         >
           <motion.div variants={fadeUp} className="mb-8">
-            <Link
-              href="/subscription"
+            <button
+              onClick={() => router.back()}
               className="inline-flex items-center gap-2 text-sm transition-colors hover:opacity-80 mb-6 text-gray-300 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Plans
-            </Link>
+            </button>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
               <div className="text-center sm:text-left">
