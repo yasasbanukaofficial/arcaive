@@ -1,13 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FileSearch, BrainCircuit, Mic2, Rocket, FileText } from "lucide-react";
+import { FileSearch, BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
+import DowngradeConfirmModal from "@/features/billing/components/DowngradeConfirmModal";
+import UpgradeConfirmModal from "@/features/billing/components/UpgradeConfirmModal";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
+import { subscriptionAPI } from "@/features/billing/api/subscriptionAPI";
+import { useToast } from "@/components/ui/Toast";
 import {
   MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
@@ -56,18 +60,33 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
             )}
           </div>
         </div>
-        <p
-          className="text-xl sm:text-2xl font-bold"
-          style={{ color: "var(--d-text-primary)" }}
-        >
-          {used}
+        {isUnlimited ? (
           <span
-            className="text-sm font-normal"
-            style={{ color: "var(--d-text-muted)" }}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+            style={{
+              background: "linear-gradient(135deg, var(--d-accent) 0%, #a855f7 100%)",
+              color: "#ffffff",
+            }}
           >
-            {isUnlimited ? "" : `/${limit}`}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/>
+            </svg>
+            Unlimited
           </span>
-        </p>
+        ) : (
+          <p
+            className="text-xl sm:text-2xl font-bold"
+            style={{ color: "var(--d-text-primary)" }}
+          >
+            {used}
+            <span
+              className="text-sm font-normal"
+              style={{ color: "var(--d-text-muted)" }}
+            >
+              /{limit}
+            </span>
+          </p>
+        )}
       </div>
       {!isUnlimited && (
         <div
@@ -91,19 +110,117 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
 
 export default function BillingPageWrapper() {
   const router = useRouter();
-  const { data: memberSubscription, isLoading, error } = useSubscription();
+  const { data: memberSubscription, isLoading, error, refetch } = useSubscription();
+  const { addToast } = useToast();
+
+  const [showDowngradeModal, setShowDowngradeModal] = useState(false);
+  const [targetDowngradePlan, setTargetDowngradePlan] = useState<string | null>(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [targetUpgradePlan, setTargetUpgradePlan] = useState<string | null>(null);
 
   const tierOrder = ["explorer", "strategist", "architect"];
 
-  const handleUpgrade = (planId: string) => {
-    const currentTierIndex = tierOrder.indexOf(subscription.currentPlan);
-    const selectedTierIndex = tierOrder.indexOf(planId);
-
-    if (selectedTierIndex < currentTierIndex) {
-      router.push("/subscription?action=cancel");
-    } else {
-      router.push(`/subscription/checkout?plan=${planId}&billing=month`);
+  const getFeaturesLostOnDowngrade = (fromPlan: string, toPlan: string) => {
+    const featuresLost = [];
+    
+    if (fromPlan === "architect") {
+      if (toPlan === "strategist" || toPlan === "explorer") {
+        featuresLost.push({ label: "Priority Queue Access", icon: <Zap size={16} /> });
+      }
+      if (toPlan === "strategist" || toPlan === "explorer") {
+        featuresLost.push({ label: "Early Access to New Features", icon: <Crown size={16} /> });
+      }
+      if (toPlan === "explorer") {
+        featuresLost.push({ label: "Full Agent Transparency", icon: <Users size={16} /> });
+      }
     }
+    
+    if (fromPlan === "strategist") {
+      featuresLost.push({ label: "React Flow Agent Transparency", icon: <Users size={16} /> });
+    }
+
+    if (fromPlan === "architect" || fromPlan === "strategist") {
+      featuresLost.push({ label: "Unlimited CV Analyses", icon: <BrainCircuit size={16} /> });
+      featuresLost.push({ label: "Unlimited Mock Interviews", icon: <Mic2 size={16} /> });
+      featuresLost.push({ label: "Unlimited Job Searches", icon: <FileSearch size={16} /> });
+      featuresLost.push({ label: "Unlimited Auto-Applications", icon: <Rocket size={16} /> });
+      featuresLost.push({ label: "Unlimited CV Versions", icon: <FileText size={16} /> });
+    }
+
+    return featuresLost;
+  };
+
+  const getFeaturesGainedOnUpgrade = (fromPlan: string, toPlan: string) => {
+    const featuresGained = [];
+
+    if (fromPlan === "explorer") {
+      featuresGained.push({ label: "20 CV analyses/month (from 3)", icon: <BrainCircuit size={16} /> });
+      featuresGained.push({ label: "15 mock interviews/month (from 1)", icon: <Mic2 size={16} /> });
+      featuresGained.push({ label: "10 job searches with 20 results (from 1)", icon: <FileSearch size={16} /> });
+      featuresGained.push({ label: "10 auto-applications/month (from 0)", icon: <Rocket size={16} /> });
+      featuresGained.push({ label: "5 CV versions stored (from 1)", icon: <FileText size={16} /> });
+    }
+
+    if (fromPlan === "strategist" || fromPlan === "explorer") {
+      if (toPlan === "architect") {
+        featuresGained.push({ label: "Unlimited CV analyses", icon: <BrainCircuit size={16} /> });
+        featuresGained.push({ label: "Unlimited mock interviews", icon: <Mic2 size={16} /> });
+        featuresGained.push({ label: "Unlimited job searches", icon: <FileSearch size={16} /> });
+        featuresGained.push({ label: "Unlimited auto-applications", icon: <Rocket size={16} /> });
+        featuresGained.push({ label: "Unlimited CV versions", icon: <FileText size={16} /> });
+      }
+    }
+
+    if (fromPlan === "strategist" && toPlan === "architect") {
+      featuresGained.push({ label: "Priority Queue Access", icon: <Zap size={16} /> });
+      featuresGained.push({ label: "Early Access to New Features", icon: <Crown size={16} /> });
+    }
+
+    return featuresGained;
+  };
+
+  const handleDowngrade = (planId: string) => {
+    setTargetDowngradePlan(planId);
+    setShowDowngradeModal(true);
+  };
+
+  const confirmDowngrade = async () => {
+    if (!targetDowngradePlan) return;
+    
+    try {
+      const response = await subscriptionAPI.cancelSubscription();
+      addToast({ title: "Success", description: "Your plan has been downgraded", type: "success" });
+      refetch();
+    } catch (err: any) {
+      addToast({ title: "Error", description: err.response?.data?.message || "Failed to downgrade subscription", type: "error" });
+    }
+    
+    setShowDowngradeModal(false);
+    setTargetDowngradePlan(null);
+  };
+
+  const handleUpgrade = (planId: string) => {
+    setTargetUpgradePlan(planId);
+    setShowUpgradeModal(true);
+  };
+
+  const confirmUpgrade = async () => {
+    if (!targetUpgradePlan) return;
+    
+    if (targetUpgradePlan === "explorer") {
+      try {
+        const response = await subscriptionAPI.cancelSubscription();
+        addToast({ title: "Success", description: "Your plan has been updated", type: "success" });
+        refetch();
+      } catch (err: any) {
+        addToast({ title: "Error", description: err.response?.data?.message || "Failed to update subscription", type: "error" });
+      }
+    } else {
+      router.push(`/subscription/checkout?plan=${targetUpgradePlan}&billing=month`);
+    }
+    
+    setShowUpgradeModal(false);
+    setTargetUpgradePlan(null);
   };
 
   const subscription = isLoading || error ? MOCK_MEMBER_SUBSCRIPTION : (memberSubscription ?? MOCK_MEMBER_SUBSCRIPTION);
@@ -202,6 +319,7 @@ export default function BillingPageWrapper() {
               }
               currentPlanTier={subscription.currentPlan}
               onSelect={handleUpgrade}
+              onDowngrade={handleDowngrade}
             />
           ))}
         </div>
@@ -272,6 +390,55 @@ export default function BillingPageWrapper() {
           />
         </div>
       </motion.div>
+
+      <DowngradeConfirmModal
+        isOpen={showDowngradeModal}
+        onClose={() => {
+          setShowDowngradeModal(false);
+          setTargetDowngradePlan(null);
+        }}
+        onConfirm={confirmDowngrade}
+        currentPlan={currentPlan?.name || "Current"}
+        targetPlan={
+          targetDowngradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetDowngradePlan && p.billingPeriod === "month"
+              )?.name || "Lower"
+            : "Lower"
+        }
+        featuresLost={getFeaturesLostOnDowngrade(
+          subscription.currentPlan,
+          targetDowngradePlan || "explorer"
+        )}
+      />
+
+      <UpgradeConfirmModal
+        isOpen={showUpgradeModal}
+        onClose={() => {
+          setShowUpgradeModal(false);
+          setTargetUpgradePlan(null);
+        }}
+        onConfirm={confirmUpgrade}
+        currentPlan={currentPlan?.name || "Current"}
+        targetPlan={
+          targetUpgradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetUpgradePlan && p.billingPeriod === "month"
+              )?.name || "Higher"
+            : "Higher"
+        }
+        featuresGained={getFeaturesGainedOnUpgrade(
+          subscription.currentPlan,
+          targetUpgradePlan || "strategist"
+        )}
+        newPrice={
+          targetUpgradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetUpgradePlan && p.billingPeriod === "month"
+              )?.price.toString() || "0"
+            : "0"
+        }
+      />
     </motion.div>
   );
 }

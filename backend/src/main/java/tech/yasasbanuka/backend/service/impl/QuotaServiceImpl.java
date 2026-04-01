@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.Subscription;
@@ -19,6 +20,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -45,6 +47,8 @@ public class QuotaServiceImpl implements QuotaService {
     public void resetQuota(Member member) {
         UsageQuota quota = member.getUsageQuota();
         Tier tier = member.getSubscription().getTier();
+        log.info("Tier Details: {}", tier.name());
+        System.out.println(tier);
 
         quota.setCvAnalysisUsed(0);
         quota.setJobSearchUsed(0);
@@ -65,6 +69,13 @@ public class QuotaServiceImpl implements QuotaService {
     public void downgradeToExplorer(Member member) {
         UsageQuota quota = member.getUsageQuota();
         TierLimits.of(Tier.EXPLORER).applyTo(quota);
+        usageQuotaRepo.save(quota);
+    }
+
+    @Override
+    public void downgradeTier(Tier downgradeTier, Member member) {
+        UsageQuota quota = member.getUsageQuota();
+        TierLimits.of(downgradeTier).applyTo(quota);
         usageQuotaRepo.save(quota);
     }
 }
