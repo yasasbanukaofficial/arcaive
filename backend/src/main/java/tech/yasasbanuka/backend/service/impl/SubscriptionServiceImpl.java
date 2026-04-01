@@ -3,17 +3,14 @@ package tech.yasasbanuka.backend.service.impl;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.SubscriptionCancelParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
@@ -24,15 +21,16 @@ import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.repo.SubscriptionRepo;
-import tech.yasasbanuka.backend.service.MemberService;
+import tech.yasasbanuka.backend.service.QuotaService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -54,6 +52,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final MemberRepo memberRepo;
     private final SubscriptionRepo subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
+    private final QuotaService quotaService;
 
     @Override
     public SubscriptionResponseDTO createSubscription(SubscriptionCreateRequestDTO dto) {
@@ -80,12 +79,30 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             default -> throw new IllegalArgumentException("Invalid Tier: " + tier);
         };
         Member member = memberRepo.findByUsername(memberUsername).orElseThrow(() -> new ResourceNotFoundException("Member not found: " + memberUsername));
+        if (member.getSubscription() != null &&
+                member.getSubscription().getStatus() == SubscriptionStatus.ACTIVE) {
+            log.warn("User {} attempted to create a second subscription while ACTIVE", memberUsername);
+            log.info("Removing user's previous subscription: {}", member.getSubscription());
+
+            try {
+                com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(member.getSubscription().getExternalSubscriptionId());
+                SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
+                com.stripe.model.Subscription subscription = resource.cancel(params);
+                log.info("Subscription cancelled: {}", subscription.getStatus());
+            } catch (StripeException e) {
+                log.info("Error when cancelling the subscription: {}", e.getMessage());
+                throw new RuntimeException(e.getMessage());
+            }
+
+            cancel(member);
+        }
+
         try {
-            SessionCreateParams params = SessionCreateParams.builder()
+            log.debug("Tier name: {}", tier.name());
+            SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                     .setSuccessUrl(baseUrl + "/subscription/success")
                     .setCancelUrl(baseUrl + "/subscription/cancel")
-                    .setCustomerEmail(member.getEmail())
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()
                                     .setQuantity(1L)
@@ -99,10 +116,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                                     .build()
                     )
                     .putMetadata("username", memberUsername)
-                    .putMetadata("tier", tier.name())
-                    .build();
+                    .putMetadata("tier", tier.name());
 
-            Session session = Session.create(params);
+            String stripeCustomerId = member.getSubscription().getStripeCustomerId() != null ? member.getSubscription().getStripeCustomerId() : null;
+            log.debug("Stripe customer id: {}", stripeCustomerId);
+            if (stripeCustomerId != null && !stripeCustomerId.isEmpty()) {
+                paramsBuilder.setCustomer(stripeCustomerId);
+                log.debug("Reusing existing Stripe customer: {}", stripeCustomerId);
+            } else {
+                String memberEmail = member.getEmail();
+                paramsBuilder.setCustomerEmail(memberEmail);
+                log.debug("Creating a new stripe customer using email: {}", memberEmail);
+            }
+
+            Session session = Session.create(paramsBuilder.build());
             return Map.of("url", session.getUrl());
         } catch (StripeException e) {
             throw new RuntimeException("Stripe checkout failed: " + e.getMessage());
@@ -163,7 +190,34 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public void activate(Member member, Tier tier, String externalSubId) {
+    public void cancelSubscription(String username) {
+        log.info("Reducing tier for the user: {}", username);
+        Member member = memberRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Member not found with username: " + username));
+        Subscription sub = member.getSubscription();
+
+        if (sub.getExternalSubscriptionId() == null) {
+            log.warn("No active Stripe subscription found for user: {}", username);
+            return;
+        }
+        String externalSubId = sub.getExternalSubscriptionId();
+
+        try {
+            Stripe.apiKey = stripeSecretKey;
+            log.debug("External Subscription ID: {}", externalSubId);
+            com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(externalSubId);
+            SubscriptionCancelParams params = SubscriptionCancelParams.builder().setProrate(true).build();
+            com.stripe.model.Subscription subscription = resource.cancel(params);
+            cancel(member);
+            quotaService.downgradeToExplorer(member);
+            log.info("Subscription cancelled: {}", subscription.toString());
+        } catch (StripeException se) {
+            log.error("Error cancelling Stripe subscription {} for user {}: {}", externalSubId, username, se.getMessage(), se);
+            throw new RuntimeException("Failed to cancel subscription with Stripe: " + se.getMessage(), se);
+        }
+    }
+
+    @Override
+    public void activate(Member member, Tier tier, String externalSubId, String stripeCustomerId) {
         Subscription sub = member.getSubscription();
         Instant now = Instant.now();
         if (sub == null) {
@@ -175,6 +229,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setTier(tier);
         sub.setStatus(SubscriptionStatus.ACTIVE);
         sub.setExternalSubscriptionId(externalSubId);
+        sub.setStripeCustomerId(stripeCustomerId);
         sub.setCreatedAt(now);
         sub.setCurrentPeriodStart(now);
         sub.setCurrentPeriodEnd(now.plus(30, ChronoUnit.DAYS));
@@ -182,6 +237,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setPaymentProvider("stripe");
 
         memberRepo.save(member);
+        quotaService.resetQuota(member);
     }
 
     @Override
@@ -195,6 +251,12 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         sub.setCancelledAt(Instant.now());
         sub.setStatus(SubscriptionStatus.CANCELLED);
+        sub.setPaymentProvider("None");
+
+        sub.setExternalSubscriptionId(null);
+
+        sub.setPriceAmount(BigDecimal.ZERO);
+        sub.setTier(Tier.EXPLORER);
         memberRepo.save(member);
     }
 }

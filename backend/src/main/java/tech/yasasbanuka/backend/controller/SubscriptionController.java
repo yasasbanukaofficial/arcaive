@@ -33,7 +33,15 @@ public class SubscriptionController {
     public ResponseEntity<APIResponse<Map<String, String>>> createCheckout(@RequestParam Tier tier, Authentication authentication) {
         String username = authentication.getName();
         log.info("Request to create a checkout for the tier of {} to the user {}", tier, username);
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Fetched all subscriptions successfully", subscriptionService.createCheckout(tier, authentication.getName())), HttpStatus.OK);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Subscribed to " + tier.toString() +" tier successfully", subscriptionService.createCheckout(tier, authentication.getName())), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cancel")
+    public ResponseEntity<APIResponse<Void>> reduceTier(Authentication authentication) {
+        String username = authentication.getName();
+        log.info("Request to downgrade the subscription of the user {}", username);
+        subscriptionService.cancelSubscription(authentication.getName());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Cancelled subscription successfully", null), HttpStatus.OK);
     }
 
     @GetMapping

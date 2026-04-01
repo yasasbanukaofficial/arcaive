@@ -2,6 +2,7 @@ package tech.yasasbanuka.backend.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.stripe.exception.StripeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -215,6 +216,18 @@ public class GlobalException {
                 .statusCode(HttpStatus.TOO_MANY_REQUESTS.value())
                 .exception(ex.getClass().getSimpleName())
                 .message(ex.getMessage())
+                .timeStamp(Instant.now().toString())
+                .build();
+    }
+
+    @ExceptionHandler(StripeException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public ExceptionResponse handleStripeException(StripeException ex) {
+        log.error("Stripe API error: {}", ex.getMessage());
+        return ExceptionResponse.builder()
+                .statusCode(HttpStatus.BAD_GATEWAY.value())
+                .exception(ex.getClass().getSimpleName())
+                .message("Payment service error. Please try again later.")
                 .timeStamp(Instant.now().toString())
                 .build();
     }

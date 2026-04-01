@@ -66,8 +66,8 @@ export default function SubscriptionChoosingPage() {
                 plan.isPopular ? "md:-mt-4 md:mb-[-16px]" : ""
               }`}
               style={{
-                background: `linear-gradient(145deg, var(--d-surface) 0%, ${plan.isPopular ? "var(--d-surface-hover)" : "var(--d-surface)"} 100%)`,
-                border: `1px solid ${plan.isPopular ? "var(--d-accent)" : "var(--d-border)"}`,
+                backgroundColor: "#ffffff",
+                border: plan.isPopular ? "2px solid #000000" : "1px solid #e5e7eb",
               }}
             >
               {plan.isPopular && (
@@ -77,17 +77,11 @@ export default function SubscriptionChoosingPage() {
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6">
                   <div
-                    className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      plan.isPopular ? "bg-gradient-to-br from-violet-500/20 to-fuchsia-500/10" : ""
-                    }`}
-                    style={{
-                      backgroundColor: plan.isPopular ? undefined : "var(--d-surface-hover)",
-                      border: plan.isPopular ? "1px solid var(--d-accent)" : "1px solid var(--d-border)",
-                    }}
+                    className="w-12 h-12 rounded-xl flex items-center justify-center bg-gray-100"
                   >
                     <Icon
                       className="w-6 h-6"
-                      style={{ color: config?.accentColor || "var(--d-text-muted)" }}
+                      style={{ color: "#000000" }}
                     />
                   </div>
 
@@ -95,8 +89,8 @@ export default function SubscriptionChoosingPage() {
                     <span
                       className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
                       style={{
-                        backgroundColor: "var(--d-accent-subtle)",
-                        color: "var(--d-accent)",
+                        backgroundColor: "#000000",
+                        color: "#ffffff",
                       }}
                     >
                       Most Popular
@@ -106,12 +100,11 @@ export default function SubscriptionChoosingPage() {
 
                 <div className="mb-4">
                   <h3
-                    className="text-lg font-semibold tracking-tight mb-1"
-                    style={{ color: "var(--d-text-primary)" }}
+                    className="text-lg font-semibold tracking-tight mb-1 text-black"
                   >
                     {plan.name}
                   </h3>
-                  <p className="text-xs leading-relaxed" style={{ color: "var(--d-text-muted)" }}>
+                  <p className="text-xs leading-relaxed text-gray-600">
                     {PLAN_DESCRIPTIONS[plan.id] || "Great value for your needs"}
                   </p>
                 </div>
@@ -119,13 +112,12 @@ export default function SubscriptionChoosingPage() {
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1.5">
                     <span
-                      className="text-4xl lg:text-5xl font-bold tracking-tight"
-                      style={{ color: "var(--d-text-primary)" }}
+                      className="text-4xl lg:text-5xl font-bold tracking-tight text-black"
                     >
                       {plan.price === 0 ? "Free" : `$${plan.price}`}
                     </span>
                     {plan.price > 0 && (
-                      <span className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+                      <span className="text-sm text-gray-600">
                         /mo
                       </span>
                     )}
@@ -136,55 +128,33 @@ export default function SubscriptionChoosingPage() {
                   {plan.features.slice(0, 4).map((feature: string, i: number) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <div
-                        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ backgroundColor: "var(--d-accent-subtle)" }}
+                        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 bg-black"
                       >
                         <Check
-                          className="w-3 h-3"
-                          style={{ color: "var(--d-accent)" }}
+                          className="w-3 h-3 text-white"
                         />
                       </div>
                       <span
-                        className="text-xs leading-relaxed"
-                        style={{ color: "var(--d-text-secondary)" }}
+                        className="text-xs leading-relaxed text-gray-700"
                       >
                         {feature}
                       </span>
                     </div>
                   ))}
                   {plan.features.length > 4 && (
-                    <p className="text-xs pl-7" style={{ color: "var(--d-text-muted)" }}>
+                    <p className="text-xs pl-7 text-gray-500">
                       +{plan.features.length - 4} more features
                     </p>
                   )}
                 </div>
 
-                {plan.id === "explorer" ? (
-                  <button
-                    onClick={() => handleSelect(plan.id)}
-                    className="mt-auto w-full py-3.5 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                    style={{
-                      backgroundColor: "transparent",
-                      color: "#ffffff",
-                      border: "1px solid #ffffff",
-                    }}
-                  >
-                    Continue with Free Plan
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleSelect(plan.id)}
-                    className="mt-auto w-full py-3.5 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                    style={{
-                      backgroundColor: "#ffffff",
-                      color: "#000000",
-                    }}
-                  >
-                    Get Started
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                )}
+                <button
+                  onClick={() => handleSelect(plan.id)}
+                  className="mt-auto w-full py-3.5 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] bg-black text-white"
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </motion.div>
           );

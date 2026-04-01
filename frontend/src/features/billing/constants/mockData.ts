@@ -79,6 +79,12 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
       "Unlimited auto-applications",
       "Unlimited CV versions",
     ],
+    cvAnalysisLimit: -1,
+    jobSearchLimit: -1,
+    jobResultsPerSearch: -1,
+    interviewLimit: -1,
+    autoApplyLimit: -1,
+    cvVersionsLimit: -1,
   },
   {
     id: "explorer",
@@ -133,6 +139,12 @@ export const MOCK_PLANS: SubscriptionPlan[] = [
       "Unlimited CV versions",
       "Save $70 per year",
     ],
+    cvAnalysisLimit: -1,
+    jobSearchLimit: -1,
+    jobResultsPerSearch: -1,
+    interviewLimit: -1,
+    autoApplyLimit: -1,
+    cvVersionsLimit: -1,
   },
 ];
 

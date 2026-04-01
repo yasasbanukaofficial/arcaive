@@ -77,11 +77,6 @@ public class StripeWebhookController {
                     handleCheckoutSession(session);
                 }
             }
-            case "invoice.paid" -> {
-                if (stripeObject instanceof Invoice invoice) {
-                    handleInvoicePaid(invoice);
-                }
-            }
             case "customer.subscription.deleted" -> {
                 if (stripeObject instanceof Subscription subscription) {
                     handleSubscriptionDeleted(subscription);
@@ -96,6 +91,8 @@ public class StripeWebhookController {
     private void handleCheckoutSession(Session session) {
         String username = session.getMetadata().get("username");
         String tierName = session.getMetadata().get("tier");
+        String stripeCustomerId = session.getCustomer();
+        log.debug("Tier Name: {}", tierName);
         String subscriptionId = session.getSubscription();
 
         log.info("Processing checkout.session.completed for user: {} with tier: {}", username, tierName);
@@ -107,8 +104,7 @@ public class StripeWebhookController {
 
         memberRepo.findByUsername(username).ifPresentOrElse(member -> {
             try {
-                subscriptionService.activate(member, Tier.valueOf(tierName), subscriptionId);
-                quotaService.resetQuota(member);
+                subscriptionService.activate(member, Tier.valueOf(tierName), subscriptionId, stripeCustomerId);
                 log.info("Successfully activated subscription for user: {}", username);
             } catch (Exception e) {
                 log.error("Error activating subscription for user {}: {}", username, e.getMessage());
@@ -116,21 +112,14 @@ public class StripeWebhookController {
         }, () -> log.error("User not found in database: {}", username));
     }
 
-    private void handleInvoicePaid(Invoice invoice) {
-        String email = invoice.getCustomerEmail();
-        if (email != null) {
-            memberRepo.findByEmail(email).ifPresent(member -> {
-                quotaService.resetQuota(member);
-                log.info("Quota reset for user email: {}", email);
-            });
-        }
-    }
-
     private void handleSubscriptionDeleted(Subscription subscription) {
-        memberRepo.findByExternalSubscriptionId(subscription.getId()).ifPresent(member -> {
-            subscriptionService.cancel(member);
-            quotaService.downgradeToExplorer(member);
-            log.info("Subscription cancelled for user: {}", member.getUsername());
-        });
+        memberRepo.findByExternalSubscriptionId(subscription.getId()).ifPresentOrElse(member -> {
+                    subscriptionService.cancel(member);
+                    quotaService.downgradeToExplorer(member);
+                    log.info("Subscription cancelled via webhook for user: {}", member.getUsername());
+                },
+                () -> log.info("Webhook customer.subscription.deleted: no member found for sub {}, " +
+                        "likely already cancelled manually.", subscription.getId())
+        );
     }
 }

@@ -57,6 +57,7 @@ public class Subscription {
 
     private String paymentProvider;
     private String externalSubscriptionId;
+    private String stripeCustomerId;
 
     @CreationTimestamp
     private Instant createdAt;
