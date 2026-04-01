@@ -8,6 +8,7 @@ import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animat
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import DowngradeConfirmModal from "@/features/billing/components/DowngradeConfirmModal";
+import UpgradeConfirmModal from "@/features/billing/components/UpgradeConfirmModal";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { subscriptionAPI } from "@/features/billing/api/subscriptionAPI";
 import { useToast } from "@/components/ui/Toast";
@@ -114,6 +115,8 @@ export default function BillingPageWrapper() {
 
   const [showDowngradeModal, setShowDowngradeModal] = useState(false);
   const [targetDowngradePlan, setTargetDowngradePlan] = useState<string | null>(null);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [targetUpgradePlan, setTargetUpgradePlan] = useState<string | null>(null);
 
   const tierOrder = ["explorer", "strategist", "architect"];
 
@@ -147,6 +150,35 @@ export default function BillingPageWrapper() {
     return featuresLost;
   };
 
+  const getFeaturesGainedOnUpgrade = (fromPlan: string, toPlan: string) => {
+    const featuresGained = [];
+
+    if (fromPlan === "explorer") {
+      featuresGained.push({ label: "20 CV analyses/month (from 3)", icon: <BrainCircuit size={16} /> });
+      featuresGained.push({ label: "15 mock interviews/month (from 1)", icon: <Mic2 size={16} /> });
+      featuresGained.push({ label: "10 job searches with 20 results (from 1)", icon: <FileSearch size={16} /> });
+      featuresGained.push({ label: "10 auto-applications/month (from 0)", icon: <Rocket size={16} /> });
+      featuresGained.push({ label: "5 CV versions stored (from 1)", icon: <FileText size={16} /> });
+    }
+
+    if (fromPlan === "strategist" || fromPlan === "explorer") {
+      if (toPlan === "architect") {
+        featuresGained.push({ label: "Unlimited CV analyses", icon: <BrainCircuit size={16} /> });
+        featuresGained.push({ label: "Unlimited mock interviews", icon: <Mic2 size={16} /> });
+        featuresGained.push({ label: "Unlimited job searches", icon: <FileSearch size={16} /> });
+        featuresGained.push({ label: "Unlimited auto-applications", icon: <Rocket size={16} /> });
+        featuresGained.push({ label: "Unlimited CV versions", icon: <FileText size={16} /> });
+      }
+    }
+
+    if (fromPlan === "strategist" && toPlan === "architect") {
+      featuresGained.push({ label: "Priority Queue Access", icon: <Zap size={16} /> });
+      featuresGained.push({ label: "Early Access to New Features", icon: <Crown size={16} /> });
+    }
+
+    return featuresGained;
+  };
+
   const handleDowngrade = (planId: string) => {
     setTargetDowngradePlan(planId);
     setShowDowngradeModal(true);
@@ -167,18 +199,28 @@ export default function BillingPageWrapper() {
     setTargetDowngradePlan(null);
   };
 
-  const handleUpgrade = async (planId: string) => {
-    if (planId === "explorer") {
+  const handleUpgrade = (planId: string) => {
+    setTargetUpgradePlan(planId);
+    setShowUpgradeModal(true);
+  };
+
+  const confirmUpgrade = async () => {
+    if (!targetUpgradePlan) return;
+    
+    if (targetUpgradePlan === "explorer") {
       try {
         const response = await subscriptionAPI.cancelSubscription();
-        addToast({ title: "Success", description: response.message, type: "success" });
+        addToast({ title: "Success", description: "Your plan has been updated", type: "success" });
         refetch();
       } catch (err: any) {
-        addToast({ title: "Error", description: err.response?.data?.message || "Failed to cancel subscription", type: "error" });
+        addToast({ title: "Error", description: err.response?.data?.message || "Failed to update subscription", type: "error" });
       }
     } else {
-      router.push(`/subscription/checkout?plan=${planId}&billing=month`);
+      router.push(`/subscription/checkout?plan=${targetUpgradePlan}&billing=month`);
     }
+    
+    setShowUpgradeModal(false);
+    setTargetUpgradePlan(null);
   };
 
   const subscription = isLoading || error ? MOCK_MEMBER_SUBSCRIPTION : (memberSubscription ?? MOCK_MEMBER_SUBSCRIPTION);
@@ -368,6 +410,34 @@ export default function BillingPageWrapper() {
           subscription.currentPlan,
           targetDowngradePlan || "explorer"
         )}
+      />
+
+      <UpgradeConfirmModal
+        isOpen={showUpgradeModal}
+        onClose={() => {
+          setShowUpgradeModal(false);
+          setTargetUpgradePlan(null);
+        }}
+        onConfirm={confirmUpgrade}
+        currentPlan={currentPlan?.name || "Current"}
+        targetPlan={
+          targetUpgradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetUpgradePlan && p.billingPeriod === "month"
+              )?.name || "Higher"
+            : "Higher"
+        }
+        featuresGained={getFeaturesGainedOnUpgrade(
+          subscription.currentPlan,
+          targetUpgradePlan || "strategist"
+        )}
+        newPrice={
+          targetUpgradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetUpgradePlan && p.billingPeriod === "month"
+              )?.price.toString() || "0"
+            : "0"
+        }
       />
     </motion.div>
   );
