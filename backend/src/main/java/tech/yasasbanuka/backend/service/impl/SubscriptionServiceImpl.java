@@ -79,6 +79,24 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             default -> throw new IllegalArgumentException("Invalid Tier: " + tier);
         };
         Member member = memberRepo.findByUsername(memberUsername).orElseThrow(() -> new ResourceNotFoundException("Member not found: " + memberUsername));
+        if (member.getSubscription() != null &&
+                member.getSubscription().getStatus() == SubscriptionStatus.ACTIVE) {
+            log.warn("User {} attempted to create a second subscription while ACTIVE", memberUsername);
+            log.info("Removing user's previous subscription: {}", member.getSubscription());
+
+            try {
+                com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(member.getSubscription().getExternalSubscriptionId());
+                SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
+                com.stripe.model.Subscription subscription = resource.cancel(params);
+                log.info("Subscription cancelled: {}", subscription.getStatus());
+            } catch (StripeException e) {
+                log.info("Error when cancelling the subscription: {}", e.getMessage());
+                throw new RuntimeException(e.getMessage());
+            }
+
+            cancel(member);
+        }
+
         try {
             log.debug("Tier name: {}", tier.name());
             SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
@@ -100,7 +118,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                     .putMetadata("username", memberUsername)
                     .putMetadata("tier", tier.name());
 
-            String stripeCustomerId = member.getSubscription().getStripeCustomerId();
+            String stripeCustomerId = member.getSubscription().getStripeCustomerId() != null ? member.getSubscription().getStripeCustomerId() : null;
             log.debug("Stripe customer id: {}", stripeCustomerId);
             if (stripeCustomerId != null && !stripeCustomerId.isEmpty()) {
                 paramsBuilder.setCustomer(stripeCustomerId);
@@ -189,7 +207,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(externalSubId);
             SubscriptionCancelParams params = SubscriptionCancelParams.builder().setProrate(true).build();
             com.stripe.model.Subscription subscription = resource.cancel(params);
-            cancel(member, true);
+            cancel(member);
             quotaService.downgradeToExplorer(member);
             log.info("Subscription cancelled: {}", subscription.toString());
         } catch (StripeException se) {
@@ -223,7 +241,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public void cancel(Member member, boolean isWebhook) {
+    public void cancel(Member member) {
         Subscription sub = member.getSubscription();
         if (sub == null) {
             sub = new Subscription();
@@ -235,7 +253,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setStatus(SubscriptionStatus.CANCELLED);
         sub.setPaymentProvider("None");
 
-        if (isWebhook) sub.setExternalSubscriptionId(null);
+        sub.setExternalSubscriptionId(null);
 
         sub.setPriceAmount(BigDecimal.ZERO);
         sub.setTier(Tier.EXPLORER);

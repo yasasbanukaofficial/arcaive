@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FileSearch, BrainCircuit, Mic2, Rocket, FileText } from "lucide-react";
+import { FileSearch, BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
+import DowngradeConfirmModal from "@/features/billing/components/DowngradeConfirmModal";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { subscriptionAPI } from "@/features/billing/api/subscriptionAPI";
 import { useToast } from "@/components/ui/Toast";
@@ -111,7 +112,60 @@ export default function BillingPageWrapper() {
   const { data: memberSubscription, isLoading, error, refetch } = useSubscription();
   const { addToast } = useToast();
 
+  const [showDowngradeModal, setShowDowngradeModal] = useState(false);
+  const [targetDowngradePlan, setTargetDowngradePlan] = useState<string | null>(null);
+
   const tierOrder = ["explorer", "strategist", "architect"];
+
+  const getFeaturesLostOnDowngrade = (fromPlan: string, toPlan: string) => {
+    const featuresLost = [];
+    
+    if (fromPlan === "architect") {
+      if (toPlan === "strategist" || toPlan === "explorer") {
+        featuresLost.push({ label: "Priority Queue Access", icon: <Zap size={16} /> });
+      }
+      if (toPlan === "strategist" || toPlan === "explorer") {
+        featuresLost.push({ label: "Early Access to New Features", icon: <Crown size={16} /> });
+      }
+      if (toPlan === "explorer") {
+        featuresLost.push({ label: "Full Agent Transparency", icon: <Users size={16} /> });
+      }
+    }
+    
+    if (fromPlan === "strategist") {
+      featuresLost.push({ label: "React Flow Agent Transparency", icon: <Users size={16} /> });
+    }
+
+    if (fromPlan === "architect" || fromPlan === "strategist") {
+      featuresLost.push({ label: "Unlimited CV Analyses", icon: <BrainCircuit size={16} /> });
+      featuresLost.push({ label: "Unlimited Mock Interviews", icon: <Mic2 size={16} /> });
+      featuresLost.push({ label: "Unlimited Job Searches", icon: <FileSearch size={16} /> });
+      featuresLost.push({ label: "Unlimited Auto-Applications", icon: <Rocket size={16} /> });
+      featuresLost.push({ label: "Unlimited CV Versions", icon: <FileText size={16} /> });
+    }
+
+    return featuresLost;
+  };
+
+  const handleDowngrade = (planId: string) => {
+    setTargetDowngradePlan(planId);
+    setShowDowngradeModal(true);
+  };
+
+  const confirmDowngrade = async () => {
+    if (!targetDowngradePlan) return;
+    
+    try {
+      const response = await subscriptionAPI.cancelSubscription();
+      addToast({ title: "Success", description: "Your plan has been downgraded", type: "success" });
+      refetch();
+    } catch (err: any) {
+      addToast({ title: "Error", description: err.response?.data?.message || "Failed to downgrade subscription", type: "error" });
+    }
+    
+    setShowDowngradeModal(false);
+    setTargetDowngradePlan(null);
+  };
 
   const handleUpgrade = async (planId: string) => {
     if (planId === "explorer") {
@@ -223,6 +277,7 @@ export default function BillingPageWrapper() {
               }
               currentPlanTier={subscription.currentPlan}
               onSelect={handleUpgrade}
+              onDowngrade={handleDowngrade}
             />
           ))}
         </div>
@@ -293,6 +348,27 @@ export default function BillingPageWrapper() {
           />
         </div>
       </motion.div>
+
+      <DowngradeConfirmModal
+        isOpen={showDowngradeModal}
+        onClose={() => {
+          setShowDowngradeModal(false);
+          setTargetDowngradePlan(null);
+        }}
+        onConfirm={confirmDowngrade}
+        currentPlan={currentPlan?.name || "Current"}
+        targetPlan={
+          targetDowngradePlan
+            ? MOCK_PLANS.find(
+                (p) => p.id === targetDowngradePlan && p.billingPeriod === "month"
+              )?.name || "Lower"
+            : "Lower"
+        }
+        featuresLost={getFeaturesLostOnDowngrade(
+          subscription.currentPlan,
+          targetDowngradePlan || "explorer"
+        )}
+      />
     </motion.div>
   );
 }

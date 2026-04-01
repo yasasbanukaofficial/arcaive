@@ -114,7 +114,7 @@ public class StripeWebhookController {
 
     private void handleSubscriptionDeleted(Subscription subscription) {
         memberRepo.findByExternalSubscriptionId(subscription.getId()).ifPresentOrElse(member -> {
-                    subscriptionService.cancel(member, true);
+                    subscriptionService.cancel(member);
                     quotaService.downgradeToExplorer(member);
                     log.info("Subscription cancelled via webhook for user: {}", member.getUsername());
                 },

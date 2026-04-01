@@ -11,6 +11,7 @@ interface SubscriptionCardProps {
   isCurrentPlan: boolean;
   currentPlanTier?: string;
   onSelect: (planId: string) => void;
+  onDowngrade?: (planId: string) => void;
   disabled?: boolean;
 }
 
@@ -21,19 +22,28 @@ export default function SubscriptionCard({
   isCurrentPlan,
   currentPlanTier,
   onSelect,
+  onDowngrade,
   disabled,
 }: SubscriptionCardProps) {
+  const isDowngrade = () => {
+    if (isCurrentPlan || !currentPlanTier) return false;
+    const currentTierIndex = tierOrder.indexOf(currentPlanTier);
+    const planTierIndex = tierOrder.indexOf(plan.id);
+    return currentTierIndex > 0 && planTierIndex < currentTierIndex;
+  };
+
   const getButtonText = () => {
     if (isCurrentPlan) return "Current Plan";
-    
-    const currentTierIndex = currentPlanTier ? tierOrder.indexOf(currentPlanTier) : -1;
-    const planTierIndex = tierOrder.indexOf(plan.id);
-    
-    if (currentTierIndex > 0 && planTierIndex < currentTierIndex) {
-      return "Downgrade Plan";
-    }
-    
+    if (isDowngrade()) return "Downgrade Plan";
     return "Upgrade";
+  };
+
+  const handleClick = () => {
+    if (isDowngrade() && onDowngrade) {
+      onDowngrade(plan.id);
+    } else {
+      onSelect(plan.id);
+    }
   };
 
   return (
@@ -102,10 +112,10 @@ export default function SubscriptionCard({
 
       <Button
         variant={
-          isCurrentPlan ? "secondary" : plan.isPopular ? "primary" : "white"
+          isCurrentPlan ? "secondary" : isDowngrade() ? "danger" : plan.isPopular ? "primary" : "white"
         }
         size="lg"
-        onClick={() => onSelect(plan.id)}
+        onClick={handleClick}
         disabled={disabled || isCurrentPlan}
         className="w-full rounded-xl h-11 sm:h-12"
       >
