@@ -37,4 +37,7 @@ public class SubscriptionUpdateRequestDTO {
 
     @Nullable
     private UUID memberId;
+
+    @Nullable
+    private String stripeCustomerId;
 }

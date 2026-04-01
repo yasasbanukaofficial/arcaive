@@ -91,6 +91,7 @@ public class StripeWebhookController {
     private void handleCheckoutSession(Session session) {
         String username = session.getMetadata().get("username");
         String tierName = session.getMetadata().get("tier");
+        String stripeCustomerId = session.getCustomer();
         log.debug("Tier Name: {}", tierName);
         String subscriptionId = session.getSubscription();
 
@@ -103,7 +104,7 @@ public class StripeWebhookController {
 
         memberRepo.findByUsername(username).ifPresentOrElse(member -> {
             try {
-                subscriptionService.activate(member, Tier.valueOf(tierName), subscriptionId);
+                subscriptionService.activate(member, Tier.valueOf(tierName), subscriptionId, stripeCustomerId);
                 log.info("Successfully activated subscription for user: {}", username);
             } catch (Exception e) {
                 log.error("Error activating subscription for user {}: {}", username, e.getMessage());

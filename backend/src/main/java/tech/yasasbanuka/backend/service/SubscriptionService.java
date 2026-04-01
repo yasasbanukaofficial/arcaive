@@ -21,6 +21,6 @@ public interface SubscriptionService {
     List<SubscriptionResponseDTO> getAllSubscriptions();
     void cancelSubscription(String username);
 
-    void activate(Member member, Tier tier, String externalSubId);
+    void activate(Member member, Tier tier, String externalSubId, String stripeCustomerId);
     void cancel(Member member, boolean isManual);
 }

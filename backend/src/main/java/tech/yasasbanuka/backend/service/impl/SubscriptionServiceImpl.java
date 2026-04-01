@@ -9,12 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionCreateRequestDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionResponseDTO;
 import tech.yasasbanuka.backend.dto.subscription.SubscriptionUpdateRequestDTO;
@@ -25,7 +21,6 @@ import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.repo.SubscriptionRepo;
-import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.QuotaService;
 import tech.yasasbanuka.backend.service.SubscriptionService;
 import tech.yasasbanuka.backend.service.mapper.SubscriptionMapper;
@@ -35,7 +30,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -86,11 +81,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Member member = memberRepo.findByUsername(memberUsername).orElseThrow(() -> new ResourceNotFoundException("Member not found: " + memberUsername));
         try {
             log.debug("Tier name: {}", tier.name());
-            SessionCreateParams params = SessionCreateParams.builder()
+            SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                     .setSuccessUrl(baseUrl + "/subscription/success")
                     .setCancelUrl(baseUrl + "/subscription/cancel")
-                    .setCustomerEmail(member.getEmail())
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()
                                     .setQuantity(1L)
@@ -104,10 +98,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                                     .build()
                     )
                     .putMetadata("username", memberUsername)
-                    .putMetadata("tier", tier.name())
-                    .build();
+                    .putMetadata("tier", tier.name());
 
-            Session session = Session.create(params);
+            String stripeCustomerId = member.getSubscription().getStripeCustomerId();
+            log.debug("Stripe customer id: {}", stripeCustomerId);
+            if (stripeCustomerId != null && !stripeCustomerId.isEmpty()) {
+                paramsBuilder.setCustomer(stripeCustomerId);
+                log.debug("Reusing existing Stripe customer: {}", stripeCustomerId);
+            } else {
+                String memberEmail = member.getEmail();
+                paramsBuilder.setCustomerEmail(memberEmail);
+                log.debug("Creating a new stripe customer using email: {}", memberEmail);
+            }
+
+            Session session = Session.create(paramsBuilder.build());
             return Map.of("url", session.getUrl());
         } catch (StripeException e) {
             throw new RuntimeException("Stripe checkout failed: " + e.getMessage());
@@ -195,7 +199,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public void activate(Member member, Tier tier, String externalSubId) {
+    public void activate(Member member, Tier tier, String externalSubId, String stripeCustomerId) {
         Subscription sub = member.getSubscription();
         Instant now = Instant.now();
         if (sub == null) {
@@ -207,6 +211,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         sub.setTier(tier);
         sub.setStatus(SubscriptionStatus.ACTIVE);
         sub.setExternalSubscriptionId(externalSubId);
+        sub.setStripeCustomerId(stripeCustomerId);
         sub.setCreatedAt(now);
         sub.setCurrentPeriodStart(now);
         sub.setCurrentPeriodEnd(now.plus(30, ChronoUnit.DAYS));

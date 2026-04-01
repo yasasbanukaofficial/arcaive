@@ -40,4 +40,5 @@ public class SubscriptionCreateRequestDTO {
     private Instant currentPeriodEnd;
     private String paymentProvider;
     private String externalSubscriptionId;
+    private String stripeCustomerId;
 }
