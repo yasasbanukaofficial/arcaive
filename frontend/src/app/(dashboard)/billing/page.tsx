@@ -361,32 +361,32 @@ export default function BillingPageWrapper() {
             icon={<BrainCircuit size={16} style={{ color: "var(--d-accent)" }} />}
             label="CV Analyses"
             used={usage.cvAnalysisUsed}
-            limit={isUnlimited ? -1 : (currentPlan.cvAnalysisLimit ?? 0)}
+            limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
           />
           <UsageMetric
             icon={<FileSearch size={16} style={{ color: "var(--d-accent)" }} />}
             label="Job Searches"
             used={usage.jobSearchUsed}
-            limit={isUnlimited ? -1 : (currentPlan.jobSearchLimit ?? 0)}
-            sublabel={currentPlan.jobResultsPerSearch ? `${currentPlan.jobResultsPerSearch} results each` : undefined}
+            limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
+            sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
           />
           <UsageMetric
             icon={<Mic2 size={16} style={{ color: "var(--d-accent)" }} />}
             label="Interview Sessions"
             used={usage.interviewUsed}
-            limit={isUnlimited ? -1 : (currentPlan.interviewLimit ?? 0)}
+            limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
           />
           <UsageMetric
             icon={<Rocket size={16} style={{ color: "var(--d-accent)" }} />}
             label="Auto Applications"
             used={usage.autoApplyUsed}
-            limit={isUnlimited ? -1 : (currentPlan.autoApplyLimit ?? 0)}
+            limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
           />
           <UsageMetric
             icon={<FileText size={16} style={{ color: "var(--d-accent)" }} />}
             label="CV Versions"
             used={usage.cvVersionsStored}
-            limit={isUnlimited ? -1 : (currentPlan.cvVersionsLimit ?? 0)}
+            limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
           />
         </div>
       </motion.div>

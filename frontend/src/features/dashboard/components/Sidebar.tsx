@@ -6,11 +6,8 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
-  MessageSquare,
-  Bot,
   Zap,
   Briefcase,
-  Key,
   Settings,
   BarChart3,
   CreditCard,
@@ -27,8 +24,6 @@ import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
-  { name: "Chat", href: "/chat", icon: MessageSquare },
-  { name: "Agents", href: "/agents", icon: Bot },
   { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
   { name: "CV Analysis", href: "/cv-analysis", icon: FileSearch },
@@ -37,7 +32,6 @@ const mainNav = [
 
 const manageNav = [
   { name: "Usage", href: "/usage", icon: BarChart3 },
-  { name: "API Keys", href: "/api-keys", icon: Key },
   { name: "Billing", href: "/billing", icon: CreditCard },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
