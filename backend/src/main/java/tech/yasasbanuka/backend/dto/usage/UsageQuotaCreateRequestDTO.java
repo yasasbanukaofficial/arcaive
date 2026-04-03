@@ -28,5 +28,5 @@ public class UsageQuotaCreateRequestDTO {
     private Integer jobResultsPerSearch;
     private Integer interviewLimit;
     private Integer autoApplyLimit;
-    private Integer cvVersionsLimit;
+    private Integer cvCreationsLimit;
 }

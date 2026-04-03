@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
                 .jobSearchUsed(0)
                 .interviewUsed(0)
                 .autoApplyUsed(0)
-                .cvVersionsStored(0)
+                .cvCreationsStored(0)
                 .build();
         
         newUser.setSubscription(freeSub);

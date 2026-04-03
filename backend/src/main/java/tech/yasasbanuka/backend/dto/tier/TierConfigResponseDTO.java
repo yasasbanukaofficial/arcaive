@@ -22,7 +22,7 @@ public class TierConfigResponseDTO {
     private Integer jobResultsPerSearch;
     private Integer interviewLimit;
     private Integer autoApplyLimit;
-    private Integer cvVersionsLimit;
+    private Integer cvCreationsLimit;
     private BigDecimal priceMonthly;
     private Boolean isActive;
     private Instant updatedAt;

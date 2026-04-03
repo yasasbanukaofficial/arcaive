@@ -106,7 +106,7 @@ public class MemberServiceImpl implements MemberService {
                 .jobSearchUsed(0)
                 .interviewUsed(0)
                 .autoApplyUsed(0)
-                .cvVersionsStored(0)
+                .cvCreationsStored(0)
                 .build();
 
         member.setSubscription(freeSub);

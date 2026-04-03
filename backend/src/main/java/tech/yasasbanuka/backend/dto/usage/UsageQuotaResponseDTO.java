@@ -26,8 +26,8 @@ public class UsageQuotaResponseDTO {
     private Integer interviewLimit;
     private Integer autoApplyUsed;
     private Integer autoApplyLimit;
-    private Integer cvVersionsStored;
-    private Integer cvVersionsLimit;
+    private Integer cvCreationsStored;
+    private Integer cvCreationsLimit;
     private Instant createdAt;
     private Instant updatedAt;
 }
