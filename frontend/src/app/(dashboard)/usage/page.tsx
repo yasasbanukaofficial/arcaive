@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { dashboardStagger, fadeUp, barGrow } from "@/features/dashboard/components/animations";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import { 
   MOCK_MEMBER_SUBSCRIPTION, 
   MOCK_PLANS 
@@ -100,6 +101,7 @@ interface MetricCardProps {
 }
 
 function MetricCard({ icon, label, used, limit, sublabel }: MetricCardProps) {
+  const { isDark } = useTheme();
   const isUnlimited = limit === -1;
   const percentage = isUnlimited ? 0 : Math.min((used / limit) * 100, 100);
   
@@ -183,7 +185,7 @@ function MetricCard({ icon, label, used, limit, sublabel }: MetricCardProps) {
               animate={{ width: `${percentage}%` }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
               className="h-full rounded-full"
-              style={{ backgroundColor: statusColor }}
+              style={{ backgroundColor: isDark ? "#ffffff" : "#000000" }}
             />
           </div>
           <div className="flex justify-between items-center">
@@ -206,6 +208,7 @@ function MetricCard({ icon, label, used, limit, sublabel }: MetricCardProps) {
 }
 
 function RadialChart({ value, color }: { value: number; color: string }) {
+  const { isDark } = useTheme();
   const radius = 36;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (value / 100) * circumference;
@@ -220,13 +223,13 @@ function RadialChart({ value, color }: { value: number; color: string }) {
           stroke="currentColor"
           strokeWidth="8"
           fill="transparent"
-          className="text-white/5"
+          className={isDark ? "text-white/5" : "text-black/5"}
         />
         <motion.circle
           cx="48"
           cy="48"
           r={radius}
-          stroke={color}
+          stroke={isDark ? "#ffffff" : "#000000"}
           strokeWidth="8"
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
@@ -245,6 +248,7 @@ function RadialChart({ value, color }: { value: number; color: string }) {
 
 export default function UsagePage() {
   const { data: subscription, isLoading, error, refetch } = useSubscription();
+  const { isDark } = useTheme();
 
   useEffect(() => {
     if (subscription) {
@@ -528,20 +532,21 @@ export default function UsagePage() {
                     style={{ height: `${Math.max(2, percentage)}%` }}
                   >
                     <div 
-                      className="absolute inset-0 rounded-lg sm:rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(255,255,255,0.1)]" 
+                      className="absolute inset-0 rounded-lg sm:rounded-xl transition-all duration-300" 
                       style={{ 
-                        backgroundColor: "#ffffff",
-                        opacity: percentage > 0 ? 0.9 : 0.2
+                        backgroundColor: isDark ? "#ffffff" : "#000000",
+                        opacity: percentage > 0 ? 0.9 : 0.2,
+                        boxShadow: isDark ? "0 0 15px rgba(255,255,255,0.1)" : "0 0 15px rgba(0,0,0,0.05)"
                       }}
                     />
-                    <div className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/20" />
+                    <div className="absolute inset-0 rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ backgroundColor: isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.1)" }} />
                     
                     <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none scale-95 group-hover:scale-100 z-20">
                       <span
                         className="text-[12px] font-medium backdrop-blur-xl px-3 py-2 rounded-lg whitespace-nowrap shadow-2xl"
                         style={{
                           color: "#ffffff",
-                          backgroundColor: "rgba(0,0,0,0.8)",
+                          backgroundColor: "rgba(0,0,0,0.85)",
                           border: "1px solid rgba(255,255,255,0.1)",
                         }}
                       >
