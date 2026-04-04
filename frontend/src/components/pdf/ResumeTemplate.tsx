@@ -106,6 +106,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica-Bold',
     color: '#0a0a0a', // TODO: replace with your data
   },
+  companyRegular: {
+    fontFamily: 'Helvetica',
+    color: '#0a0a0a',
+  },
   locationRegular: {
     fontFamily: 'Helvetica',
   },
@@ -253,9 +257,13 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
                 <Text style={styles.period}>{exp.period /* TODO: replace with your data */}</Text>
               </View>
               <View style={styles.companyLine}>
-                <Text style={styles.companyBold}>{exp.company /* TODO: replace with your data */}</Text>
-                <Text> · {/* TODO: replace with your data */}</Text>
-                <Text style={styles.locationRegular}>{exp.location /* TODO: replace with your data */}</Text>
+                <Text style={styles.companyRegular}>{exp.company /* TODO: replace with your data */}</Text>
+                {exp.location && (
+                  <>
+                    <Text> · {/* TODO: replace with your data */}</Text>
+                    <Text style={styles.locationRegular}>{exp.location /* TODO: replace with your data */}</Text>
+                  </>
+                )}
               </View>
               {exp.bullets.map((bullet, bIndex) => (
                 <View key={bIndex} style={styles.bulletRow}>
