@@ -24,11 +24,11 @@ import Logo from "@/components/ui/Logo";
 import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
-  { name: "Create CV", href: "/create", icon: FileText },
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
-  { name: "Workflow", href: "/workflow", icon: Zap },
+  { name: "Create CV", href: "/create", icon: FileText },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
   { name: "CV Analysis", href: "/cv-analysis", icon: FileSearch },
+  { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Interview", href: "/interview", icon: Mic },
 ];
 

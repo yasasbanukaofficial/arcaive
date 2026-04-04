@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/renderer';
 import { ResumeData } from '@/@types/resume';
 
 const styles = StyleSheet.create({
@@ -32,8 +32,17 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: '#666666', // TODO: replace with your data
     fontFamily: 'Helvetica',
-    textAlign: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 2,
+    flexWrap: 'wrap',
+  },
+  contactItem: {
+    color: '#666666', // TODO: replace with your data
+    textDecoration: 'none',
+  },
+  dot: {
+    marginHorizontal: 4,
   },
   headerRule: {
     width: '100%',
@@ -184,14 +193,38 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
         <Text style={styles.specializations}>
           {data.personalInfo.specializations.join(' · ') /* TODO: replace with your data */}
         </Text>
-        <Text style={styles.contactRow}>
-          {[
-            data.personalInfo.location,
-            data.personalInfo.email,
-            data.personalInfo.phone,
-            data.personalInfo.linkedin
-          ].filter(Boolean).join(' · ') /* TODO: replace with your data */}
-        </Text>
+        <View style={styles.contactRow}>
+          {data.personalInfo.location && (
+            <Text>{data.personalInfo.location /* TODO: replace with your data */}</Text>
+          )}
+          
+          {data.personalInfo.location && data.personalInfo.email && <Text style={styles.dot}>·</Text>}
+          
+          {data.personalInfo.email && (
+            <Link src={`mailto:${data.personalInfo.email}`} style={styles.contactItem}>
+              <Text>{data.personalInfo.email /* TODO: replace with your data */}</Text>
+            </Link>
+          )}
+
+          {(data.personalInfo.location || data.personalInfo.email) && data.personalInfo.phone && <Text style={styles.dot}>·</Text>}
+
+          {data.personalInfo.phone && (
+            <Link src={`tel:${data.personalInfo.phone.replace(/\D/g, '')}`} style={styles.contactItem}>
+              <Text>{data.personalInfo.phone /* TODO: replace with your data */}</Text>
+            </Link>
+          )}
+
+          {(data.personalInfo.location || data.personalInfo.email || data.personalInfo.phone) && data.personalInfo.linkedin && <Text style={styles.dot}>·</Text>}
+
+          {data.personalInfo.linkedin && (
+            <Link 
+              src={data.personalInfo.linkedin.startsWith('http') ? data.personalInfo.linkedin : `https://${data.personalInfo.linkedin}`} 
+              style={styles.contactItem}
+            >
+              <Text>{data.personalInfo.linkedin /* TODO: replace with your data */}</Text>
+            </Link>
+          )}
+        </View>
         <View style={styles.headerRule} />
       </View>
 
