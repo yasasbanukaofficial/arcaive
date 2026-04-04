@@ -4,63 +4,73 @@ import { ResumeData } from '@/@types/resume';
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 48,
-    paddingBottom: 40,
-    paddingHorizontal: 48,
-    backgroundColor: '#ffffff',
+    paddingTop: 50,
+    paddingBottom: 50,
+    paddingHorizontal: 52,
+    backgroundColor: '#ffffff', // TODO: replace with your data
     fontFamily: 'Helvetica',
   },
   header: {
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 0,
   },
   name: {
-    fontSize: 28,
+    fontSize: 32,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginBottom: 4,
+    color: '#0a0a0a', // TODO: replace with your data
+    letterSpacing: -0.5,
+    textAlign: 'center',
   },
   specializations: {
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
-    color: '#374151',
-    marginBottom: 4,
+    color: '#444444', // TODO: replace with your data
+    fontFamily: 'Helvetica',
+    textAlign: 'center',
+    marginTop: 4,
   },
   contactRow: {
     fontSize: 9,
-    color: '#64748b',
+    color: '#666666', // TODO: replace with your data
+    fontFamily: 'Helvetica',
+    textAlign: 'center',
+    marginTop: 2,
   },
   headerRule: {
     width: '100%',
-    height: 1.5,
-    backgroundColor: '#0f172a',
-    marginTop: 10,
+    height: 2,
+    backgroundColor: '#0a0a0a', // TODO: replace with your data
+    marginTop: 14,
+    marginBottom: 0,
   },
-  section: {
-    marginTop: 16,
+  sectionHeader: {
+    marginTop: 22,
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   sectionTitle: {
-    fontSize: 13,
+    fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
+    color: '#0a0a0a', // TODO: replace with your data
+    letterSpacing: 3,
     textTransform: 'uppercase',
-    marginBottom: 4,
+    marginRight: 12,
   },
-  sectionRule: {
-    height: 1.5,
-    backgroundColor: '#0f172a',
-    width: '100%',
-    marginBottom: 10,
+  sectionLine: {
+    flex: 1,
+    height: 0.75,
+    backgroundColor: '#d1d5db', // TODO: replace with your data
   },
-  summaryText: {
+  summary: {
     fontSize: 9.5,
-    color: '#374151',
-    lineHeight: 1.7,
+    color: '#1f1f1f', // TODO: replace with your data
+    lineHeight: 1.75,
     textAlign: 'justify',
   },
-  entryHeader: {
+  experienceEntry: {
+    marginBottom: 16,
+  },
+  rowBetween: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
@@ -68,64 +78,97 @@ const styles = StyleSheet.create({
   role: {
     fontSize: 11,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
+    color: '#0a0a0a', // TODO: replace with your data
   },
   period: {
-    fontSize: 9.5,
-    color: '#374151',
+    fontSize: 9,
+    color: '#555555', // TODO: replace with your data
+    fontFamily: 'Helvetica',
   },
   companyLine: {
     fontSize: 9.5,
+    color: '#333333', // TODO: replace with your data
+    marginTop: 2,
+    marginBottom: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  companyBold: {
     fontFamily: 'Helvetica-Bold',
-    color: '#2563eb',
-    marginBottom: 5,
+    color: '#0a0a0a', // TODO: replace with your data
+  },
+  locationRegular: {
+    fontFamily: 'Helvetica',
   },
   bulletRow: {
     flexDirection: 'row',
-    marginBottom: 2,
+    marginBottom: 3.5,
+    paddingLeft: 4,
   },
   bulletDot: {
     fontSize: 9,
-    color: '#9ca3af',
-    marginRight: 6,
+    color: '#999999', // TODO: replace with your data
+    marginRight: 7,
+    lineHeight: 1.6,
   },
   bulletText: {
     fontSize: 9,
-    color: '#374151',
+    color: '#2d2d2d', // TODO: replace with your data
     lineHeight: 1.6,
     flex: 1,
-  },
-  experienceEntry: {
-    marginBottom: 14,
   },
   educationEntry: {
-    marginBottom: 10,
+    marginBottom: 14,
   },
-  skillsRow: {
+  eduInstitution: {
+    fontSize: 9.5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#0a0a0a', // TODO: replace with your data
+    marginTop: 2,
+  },
+  eduDescription: {
+    fontSize: 9,
+    color: '#444444', // TODO: replace with your data
+    marginTop: 2,
+  },
+  skillsGrid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
-  skillsColumn: {
-    flex: 1,
+  skillGroup: {
+    width: '50%',
+    marginBottom: 10,
   },
   skillCategory: {
-    marginBottom: 10,
-  },
-  categoryLabel: {
-    fontSize: 9,
+    fontSize: 8,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
-    marginBottom: 2,
+    color: '#0a0a0a', // TODO: replace with your data
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    marginBottom: 3,
   },
-  skillItems: {
+  skillText: {
     fontSize: 9,
-    color: '#374151',
+    color: '#444444', // TODO: replace with your data
+    lineHeight: 1.65,
+  },
+  certRow: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  certSquare: {
+    width: 4,
+    height: 4,
+    backgroundColor: '#0a0a0a', // TODO: replace with your data
+    marginTop: 3.5,
+    marginRight: 8,
+    flexShrink: 0,
+  },
+  certText: {
+    fontSize: 9.5,
+    color: '#1f1f1f', // TODO: replace with your data
     lineHeight: 1.6,
   },
-  certificationText: {
-    fontSize: 9.5,
-    color: '#374151',
-    lineHeight: 1.6,
-  }
 });
 
 interface ResumeDocumentProps {
@@ -135,11 +178,11 @@ interface ResumeDocumentProps {
 export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
   <Document title={`Resume - ${data.personalInfo.fullName}`}>
     <Page size="A4" style={styles.page}>
-      {/* HEADER BLOCK */}
+      {/* HEADER */}
       <View style={styles.header}>
-        <Text style={styles.name}>{data.personalInfo.fullName}</Text>
+        <Text style={styles.name}>{data.personalInfo.fullName /* TODO: replace with your data */}</Text>
         <Text style={styles.specializations}>
-          {data.personalInfo.specializations.join(' | ')}
+          {data.personalInfo.specializations.join(' · ') /* TODO: replace with your data */}
         </Text>
         <Text style={styles.contactRow}>
           {[
@@ -147,36 +190,44 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
             data.personalInfo.email,
             data.personalInfo.phone,
             data.personalInfo.linkedin
-          ].filter(Boolean).join(' | ')}
+          ].filter(Boolean).join(' · ') /* TODO: replace with your data */}
         </Text>
         <View style={styles.headerRule} />
       </View>
 
-      {/* 1. PROFESSIONAL SUMMARY */}
+      {/* PROFESSIONAL SUMMARY */}
       {data.summary && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Professional Summary</Text>
-          <View style={styles.sectionRule} />
-          <Text style={styles.summaryText}>{data.summary}</Text>
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Summary {/* TODO: replace with your data */}</Text>
+            <View style={styles.sectionLine} />
+          </View>
+          <Text style={styles.summary}>{data.summary /* TODO: replace with your data */}</Text>
         </View>
       )}
 
-      {/* 2. WORK EXPERIENCE */}
+      {/* WORK EXPERIENCE */}
       {data.workExperience.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Work Experience</Text>
-          <View style={styles.sectionRule} />
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Experience {/* TODO: replace with your data */}</Text>
+            <View style={styles.sectionLine} />
+          </View>
           {data.workExperience.map((exp, index) => (
             <View key={index} style={styles.experienceEntry}>
-              <View style={styles.entryHeader}>
-                <Text style={styles.role}>{exp.role}</Text>
-                <Text style={styles.period}>{exp.period}</Text>
+              <View style={styles.rowBetween}>
+                <Text style={styles.role}>{exp.role /* TODO: replace with your data */}</Text>
+                <Text style={styles.period}>{exp.period /* TODO: replace with your data */}</Text>
               </View>
-              <Text style={styles.companyLine}>{exp.company} | {exp.location}</Text>
+              <View style={styles.companyLine}>
+                <Text style={styles.companyBold}>{exp.company /* TODO: replace with your data */}</Text>
+                <Text> · {/* TODO: replace with your data */}</Text>
+                <Text style={styles.locationRegular}>{exp.location /* TODO: replace with your data */}</Text>
+              </View>
               {exp.bullets.map((bullet, bIndex) => (
                 <View key={bIndex} style={styles.bulletRow}>
                   <Text style={styles.bulletDot}>·</Text>
-                  <Text style={styles.bulletText}>{bullet}</Text>
+                  <Text style={styles.bulletText}>{bullet /* TODO: replace with your data */}</Text>
                 </View>
               ))}
             </View>
@@ -184,59 +235,55 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
         </View>
       )}
 
-      {/* 3. EDUCATION */}
+      {/* EDUCATION */}
       {data.education.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Education</Text>
-          <View style={styles.sectionRule} />
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Education {/* TODO: replace with your data */}</Text>
+            <View style={styles.sectionLine} />
+          </View>
           {data.education.map((edu, index) => (
             <View key={index} style={styles.educationEntry}>
-              <View style={styles.entryHeader}>
-                <Text style={styles.role}>{edu.degree}</Text>
-                <Text style={styles.period}>{edu.period}</Text>
+              <View style={styles.rowBetween}>
+                <Text style={styles.role}>{edu.degree /* TODO: replace with your data */}</Text>
+                <Text style={styles.period}>{edu.period /* TODO: replace with your data */}</Text>
               </View>
-              <Text style={styles.companyLine}>{edu.institution} | {edu.location}</Text>
+              <Text style={styles.eduInstitution}>{edu.institution /* TODO: replace with your data */}</Text>
+              {edu.location && <Text style={styles.eduDescription}>{edu.location /* TODO: replace with your data */}</Text>}
             </View>
           ))}
         </View>
       )}
 
-      {/* 4. SKILLS */}
+      {/* TECHNICAL SKILLS */}
       {data.skills.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Technical Skills</Text>
-          <View style={styles.sectionRule} />
-          <View style={styles.skillsRow}>
-            {/* Split skills into two columns if more than 2 categories */}
-            <View style={styles.skillsColumn}>
-              {data.skills.filter((_, i) => i % 2 === 0).map((cat, index) => (
-                <View key={index} style={styles.skillCategory}>
-                  <Text style={styles.categoryLabel}>{cat.category}</Text>
-                  <Text style={styles.skillItems}>{cat.items.join(', ')}</Text>
-                </View>
-              ))}
-            </View>
-            <View style={styles.skillsColumn}>
-              {data.skills.filter((_, i) => i % 2 !== 0).map((cat, index) => (
-                <View key={index} style={styles.skillCategory}>
-                  <Text style={styles.categoryLabel}>{cat.category}</Text>
-                  <Text style={styles.skillItems}>{cat.items.join(', ')}</Text>
-                </View>
-              ))}
-            </View>
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Skills {/* TODO: replace with your data */}</Text>
+            <View style={styles.sectionLine} />
+          </View>
+          <View style={styles.skillsGrid}>
+            {data.skills.map((cat, index) => (
+              <View key={index} style={styles.skillGroup}>
+                <Text style={styles.skillCategory}>{cat.category /* TODO: replace with your data */}</Text>
+                <Text style={styles.skillText}>{cat.items.join(', ') /* TODO: replace with your data */}</Text>
+              </View>
+            ))}
           </View>
         </View>
       )}
 
-      {/* 5. CERTIFICATIONS */}
+      {/* CERTIFICATIONS */}
       {data.certifications.length > 0 && (
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Certifications</Text>
-          <View style={styles.sectionRule} />
+        <View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Certifications {/* TODO: replace with your data */}</Text>
+            <View style={styles.sectionLine} />
+          </View>
           {data.certifications.map((cert, index) => (
-            <View key={index} style={styles.bulletRow}>
-              <Text style={styles.bulletDot}>·</Text>
-              <Text style={styles.certificationText}>{cert}</Text>
+            <View key={index} style={styles.certRow}>
+              <View style={styles.certSquare} />
+              <Text style={styles.certText}>{cert /* TODO: replace with your data */}</Text>
             </View>
           ))}
         </View>
@@ -244,4 +291,3 @@ export const ResumeDocument: React.FC<ResumeDocumentProps> = ({ data }) => (
     </Page>
   </Document>
 );
-
