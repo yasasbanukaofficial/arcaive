@@ -18,6 +18,13 @@ export interface SkillCategory {
   items: string[];
 }
 
+export interface Project {
+  name: string;
+  description: string;
+  bullets: string[];
+  year?: string;
+}
+
 export interface ResumeData {
   personalInfo: {
     fullName: string;
@@ -32,4 +39,8 @@ export interface ResumeData {
   education: Education[];
   skills: SkillCategory[];
   certifications: string[];
+  projects?: Project[];
+  languages?: string[];
+  personalDetails?: { label: string; value: string }[];
+  references?: string[];
 }

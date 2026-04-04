@@ -1,18 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, Download, FileText, Edit2, Plus, Trash2, Save, Sparkles } from "lucide-react";
-import { ResumeDocument } from "@/components/pdf/ResumeTemplate";
+import { 
+  Download, 
+  Plus, 
+  Trash2, 
+  Save, 
+  ArrowLeft, 
+  Check, 
+  Layout
+} from "lucide-react";
+import { 
+  ResumeClassic, 
+  ResumeModern, 
+  ResumeMinimal, 
+  ResumeBold 
+} from "@/components/pdf/ResumeTemplate";
 import { dashboardStagger, fadeUp, scaleIn } from "@/components/animations/animations";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
 import TextArea from "@/components/ui/TextArea";
 import { useToast } from "@/components/ui/Toast";
-import { ResumeData, WorkExperience, Education, SkillCategory } from "@/@types/resume";
+import { ResumeData, WorkExperience, Education, SkillCategory, Project } from "@/@types/resume";
+import { memberAPI } from "@/features/settings/api/memberAPI";
+import { MemberIdentityData } from "@/@types/member";
 
-// Dynamically import PDF components with ssr: false
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
   { ssr: false }
@@ -43,16 +57,6 @@ const defaultData: ResumeData = {
         "Architected and deployed a microservices-based platform serving 1M+ active users using Node.js and AWS.",
         "Reduced cloud infrastructure costs by 40% through serverless migration and container orchestration."
       ],
-    },
-    {
-      role: "Senior Full Stack Developer",
-      company: "Digital Solutions Group",
-      location: "Austin, TX",
-      period: "June 2017 — Dec 2020",
-      bullets: [
-        "Developed responsive React-based dashboards improving user engagement by 25% for enterprise clients.",
-        "Mentored junior developers and implemented standardized code review processes."
-      ],
     }
   ],
   education: [
@@ -67,27 +71,159 @@ const defaultData: ResumeData = {
     {
       category: "Languages & Frameworks",
       items: ["TypeScript", "JavaScript (ES6+)", "Node.js", "React", "Next.js", "GraphQL"]
-    },
-    {
-      category: "Cloud & DevOps",
-      items: ["AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions"]
     }
   ],
   certifications: [
-    "AWS Certified Solutions Architect – Associate",
-    "Meta Front-End Developer Professional Certificate"
+    "AWS Certified Solutions Architect – Associate"
   ],
 };
 
+type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
+
+const templates = [
+  { 
+    id: "classic" as const, 
+    name: "Classic", 
+    tag: "ATS Optimized", 
+    color: "#0a0a0a",
+    mockup: (
+      <div className="flex flex-col items-center gap-2 w-full">
+        <div className="w-1/3 h-2 bg-slate-800 rounded-sm mb-1" />
+        <div className="w-full h-0.5 bg-slate-200" />
+        <div className="w-full flex flex-col gap-1.5 mt-2">
+          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+          <div className="w-3/4 h-1 bg-slate-200 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 rounded-sm mt-2" />
+          <div className="w-1/2 h-1.5 bg-slate-300 rounded-sm" />
+          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+        </div>
+      </div>
+    )
+  },
+  { 
+    id: "modern" as const, 
+    name: "Modern", 
+    tag: "Modern Clean", 
+    color: "#2563eb",
+    mockup: (
+      <div className="flex w-full h-full gap-2">
+        <div className="w-1/3 bg-[#0f172a] rounded-sm p-2 flex flex-col gap-2">
+          <div className="w-full h-1.5 bg-white opacity-20 rounded-sm" />
+          <div className="w-3/4 h-1 bg-white opacity-10 rounded-sm" />
+          <div className="w-full h-1 bg-white opacity-10 rounded-sm mt-4" />
+          <div className="w-full h-1 bg-white opacity-10 rounded-sm" />
+        </div>
+        <div className="flex-1 flex flex-col gap-2 pt-2">
+          <div className="w-1/2 h-1.5 bg-slate-300 rounded-sm" />
+          <div className="w-full h-0.5 bg-slate-100" />
+          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+        </div>
+      </div>
+    )
+  },
+  { 
+    id: "minimal" as const, 
+    name: "Minimal", 
+    tag: "Clean & Simple", 
+    color: "#555555",
+    mockup: (
+      <div className="flex flex-col gap-4 w-full px-4">
+        <div className="w-1/2 h-2.5 bg-slate-800 rounded-sm" />
+        <div className="w-full h-[0.5px] bg-slate-300" />
+        <div className="w-full flex flex-col gap-3">
+          <div className="w-1/4 h-1.5 bg-slate-400 rounded-sm mt-4" />
+          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+          <div className="w-1/4 h-1.5 bg-slate-400 rounded-sm mt-2" />
+          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+        </div>
+      </div>
+    )
+  },
+  { 
+    id: "bold" as const, 
+    name: "Bold", 
+    tag: "Strong Impact", 
+    color: "#111111",
+    mockup: (
+      <div className="flex flex-col w-full h-full">
+        <div className="w-full h-[30%] bg-[#111111] rounded-t-sm p-3 flex flex-col gap-2">
+          <div className="w-3/4 h-2.5 bg-white opacity-90 rounded-sm" />
+          <div className="w-1/2 h-1.5 bg-white opacity-40 rounded-sm" />
+        </div>
+        <div className="flex-1 p-3 flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-3 bg-[#111111]" />
+            <div className="w-1/4 h-2 bg-slate-800 rounded-sm" />
+          </div>
+          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+        </div>
+      </div>
+    )
+  }
+];
+
+const steps = [
+  { id: 1, title: "Personal Info", subtitle: "How can employers reach you?" },
+  { id: 2, title: "Summary", subtitle: "Briefly describe your career path" },
+  { id: 3, title: "Experience", subtitle: "Tell us about your work history (Max 3)" },
+  { id: 4, title: "Education", subtitle: "Where did you study?" },
+  { id: 5, title: "Skills & Certs", subtitle: "What are you best at?" },
+  { id: 6, title: "Projects", subtitle: "Showcase your best work (Optional)" }
+];
+
 export default function CreateCVPage() {
   const [data, setData] = useState<ResumeData>(defaultData);
-  const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
+  const [stage, setStage] = useState(1);
+  const [step, setStep] = useState(1);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>(null);
   const [isSaving, setIsSaving] = useState(false);
   const { addToast } = useToast();
+  
+  const hasPreviewedRef = useRef(false);
+  if (stage === 3 && !hasPreviewedRef.current) {
+    hasPreviewedRef.current = true;
+  }
+
+  useEffect(() => {
+    const fetchMemberData = async () => {
+      try {
+        const memberData: MemberIdentityData = await memberAPI.get();
+        if (memberData) {
+          const linkedinAccount = memberData.linkedAccounts?.find(a => a.provider === 'linkedin');
+          setData(prev => ({
+            ...prev,
+            personalInfo: {
+              ...prev.personalInfo,
+              fullName: memberData.memberFullName || prev.personalInfo.fullName,
+              email: memberData.memberEmail || prev.personalInfo.email,
+              location: memberData.country || prev.personalInfo.location,
+              specializations: memberData.jobRole ? [memberData.jobRole] : prev.personalInfo.specializations,
+              linkedin: linkedinAccount?.url || prev.personalInfo.linkedin,
+            }
+          }));
+        }
+      } catch (error) {
+        console.error("Failed to fetch member data", error);
+      }
+    };
+    fetchMemberData();
+  }, []);
+
+  const ActiveResume = () => {
+    switch (selectedTemplate) {
+      case "classic": return <ResumeClassic data={data} />;
+      case "modern": return <ResumeModern data={data} />;
+      case "minimal": return <ResumeMinimal data={data} />;
+      case "bold": return <ResumeBold data={data} />;
+      default: return <ResumeClassic data={data} />;
+    }
+  };
 
   const handleSave = () => {
     setIsSaving(true);
-    // Simulate API call
     setTimeout(() => {
       setIsSaving(false);
       addToast({
@@ -106,13 +242,15 @@ export default function CreateCVPage() {
   };
 
   const addExperience = () => {
-    const newExp: WorkExperience = {
-      role: "",
-      company: "",
-      location: "",
-      period: "",
-      bullets: [""]
-    };
+    if (data.workExperience.length >= 3) {
+      addToast({
+        type: "error",
+        title: "Limit Reached",
+        description: "You can only add up to 3 work experiences.",
+      });
+      return;
+    }
+    const newExp: WorkExperience = { role: "", company: "", location: "", period: "", bullets: [""] };
     setData(prev => ({ ...prev, workExperience: [...prev.workExperience, newExp] }));
   };
 
@@ -125,10 +263,7 @@ export default function CreateCVPage() {
   };
 
   const removeExperience = (index: number) => {
-    setData(prev => ({
-      ...prev,
-      workExperience: prev.workExperience.filter((_, i) => i !== index)
-    }));
+    setData(prev => ({ ...prev, workExperience: prev.workExperience.filter((_, i) => i !== index) }));
   };
 
   const addEducation = () => {
@@ -165,326 +300,309 @@ export default function CreateCVPage() {
     });
   };
 
-  const removeCertification = (index: number) => {
-    setData(prev => ({
-      ...prev,
-      certifications: prev.certifications.filter((_, i) => i !== index)
-    }));
+  const addProject = () => {
+    const newProj: Project = { name: "", description: "", bullets: [""], year: "" };
+    setData(prev => ({ ...prev, projects: [...(prev.projects || []), newProj] }));
   };
 
-  return (
-    <motion.div
-      initial="hidden"
-      animate="show"
-      variants={dashboardStagger()}
-      className="p-6 space-y-6 max-w-7xl mx-auto"
-    >
-      {/* Header Section */}
-      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--d-text-primary)]">Create CV</h1>
-          <p className="text-sm text-[var(--d-text-secondary)]">Design and preview your professional resume</p>
-        </div>
+  const updateProject = (index: number, field: keyof Project, value: any) => {
+    setData(prev => {
+      const newProjs = [...(prev.projects || [])];
+      newProjs[index] = { ...newProjs[index], [field]: value };
+      return { ...prev, projects: newProjs };
+    });
+  };
 
-        <div className="flex items-center gap-3">
-          <div className="flex p-1 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-xl">
-            <button
-              onClick={() => setActiveTab("edit")}
-              className={`px-4 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                activeTab === "edit"
-                  ? "bg-[var(--d-surface-muted)] text-[var(--d-text-primary)] shadow-sm"
-                  : "text-[var(--d-text-tertiary)] hover:text-[var(--d-text-secondary)]"
-              }`}
-            >
-              <Edit2 className="w-3.5 h-3.5 inline-block mr-1.5" />
-              Edit
-            </button>
-            <button
-              onClick={() => setActiveTab("preview")}
-              className={`px-4 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                activeTab === "preview"
-                  ? "bg-[var(--d-surface-muted)] text-[var(--d-text-primary)] shadow-sm"
-                  : "text-[var(--d-text-tertiary)] hover:text-[var(--d-text-secondary)]"
-              }`}
-            >
-              <Eye className="w-3.5 h-3.5 inline-block mr-1.5" />
-              Preview
-            </button>
-          </div>
+  const removeProject = (index: number) => {
+    setData(prev => ({ ...prev, projects: (prev.projects || []).filter((_, i) => i !== index) }));
+  };
 
-          <Button
-            variant="secondary"
-            icon={<Save className="w-4 h-4" />}
-            onClick={handleSave}
-            loading={isSaving}
-          >
-            Save Draft
-          </Button>
+  const addCertification = () => {
+    setData(prev => ({ ...prev, certifications: [...prev.certifications, ""] }));
+  };
 
-          <PDFDownloadLink
-            document={<ResumeDocument data={data} />}
-            fileName={`${data.personalInfo.fullName.replace(/\s+/g, "_")}_Resume.pdf`}
-          >
-            {({ loading }) => (
-              <Button
-                variant="primary"
-                icon={<Download className="w-4 h-4" />}
-                loading={loading}
-              >
-                Download PDF
-              </Button>
-            )}
-          </PDFDownloadLink>
-        </div>
+  const updateCertification = (index: number, value: string) => {
+    setData(prev => {
+      const newCerts = [...prev.certifications];
+      newCerts[index] = value;
+      return { ...prev, certifications: newCerts };
+    });
+  };
+
+  const removeCertification = (index: number) => {
+    setData(prev => ({ ...prev, certifications: prev.certifications.filter((_, i) => i !== index) }));
+  };
+
+  const handleNextStep = () => {
+    if (step < 6) {
+      setStep(step + 1);
+    } else {
+      setStage(3);
+    }
+  };
+
+  const handlePrevStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    } else {
+      setStage(1);
+    }
+  };
+
+  const renderTemplateGallery = () => (
+    <motion.div variants={dashboardStagger()} initial="hidden" animate="show" className="space-y-8">
+      <motion.div variants={fadeUp}>
+        <h1 className="text-2xl font-bold text-[var(--d-text-primary)]">Choose a Template</h1>
+        <p className="text-[var(--d-text-secondary)]">Pick a style to get started</p>
       </motion.div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Editor Column */}
-        <motion.div
-          key="editor"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: activeTab === "edit" ? 1 : 0, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className={`lg:col-span-7 space-y-6 ${activeTab === "preview" ? "hidden lg:hidden" : ""}`}
-        >
-            {/* Personal Info */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Personal Information</h2>
-                <Button size="sm" variant="ghost" icon={<Sparkles className="w-3 h-3" />}>AI Optimize</Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {templates.map((tpl) => (
+          <motion.div
+            key={tpl.id}
+            variants={fadeUp}
+            whileHover={{ scale: 1.02 }}
+            className="group cursor-pointer"
+            onClick={() => {
+              setSelectedTemplate(tpl.id);
+              setStage(2);
+              setStep(1);
+            }}
+          >
+            <div className="bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl overflow-hidden group-hover:border-[var(--d-text-primary)] transition-all">
+              <div className="aspect-[3/4] p-4 bg-[var(--d-surface-muted)] relative flex items-start justify-center overflow-hidden">
+                {tpl.mockup}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <TextField
-                  label="Full Name"
-                  value={data.personalInfo.fullName}
-                  onChange={(e) => updatePersonalInfo("fullName", e.target.value)}
-                />
-                <TextField
-                  label="Email"
-                  value={data.personalInfo.email}
-                  onChange={(e) => updatePersonalInfo("email", e.target.value)}
-                />
-                <TextField
-                  label="Phone"
-                  value={data.personalInfo.phone}
-                  onChange={(e) => updatePersonalInfo("phone", e.target.value)}
-                />
-                <TextField
-                  label="Location"
-                  value={data.personalInfo.location}
-                  onChange={(e) => updatePersonalInfo("location", e.target.value)}
-                />
-                <TextField
-                  label="LinkedIn"
-                  className="md:col-span-1"
-                  value={data.personalInfo.linkedin}
-                  onChange={(e) => updatePersonalInfo("linkedin", e.target.value)}
-                />
-                <TextField
-                  label="Specializations (Comma separated)"
-                  className="md:col-span-2"
-                  value={data.personalInfo.specializations.join(", ")}
-                  onChange={(e) => setData(prev => ({
-                    ...prev,
-                    personalInfo: {
-                      ...prev.personalInfo,
-                      specializations: e.target.value.split(",").map(s => s.trim()).filter(Boolean)
-                    }
-                  }))}
-                />
+              <div className="p-4 border-t border-[var(--d-border)] bg-[var(--d-surface)] flex items-center justify-between">
+                <div>
+                  <h3 className="font-bold text-[var(--d-text-primary)]">{tpl.name}</h3>
+                  <span className="text-[10px] text-[var(--d-text-tertiary)] uppercase font-bold tracking-wider">{tpl.tag}</span>
+                </div>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: tpl.color }} />
               </div>
             </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
 
-            {/* Summary */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
-              <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Professional Summary</h2>
-              <TextArea
-                value={data.summary}
-                onChange={(e) => setData(prev => ({ ...prev, summary: e.target.value }))}
-                placeholder="A brief overview of your career and skills..."
-                rows={4}
+  const renderStepContent = () => {
+    switch (step) {
+      case 1:
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField label="Full Name" value={data.personalInfo.fullName} onChange={(e) => updatePersonalInfo("fullName", e.target.value)} />
+            <TextField label="Email" value={data.personalInfo.email} onChange={(e) => updatePersonalInfo("email", e.target.value)} />
+            <TextField label="Phone" value={data.personalInfo.phone} onChange={(e) => updatePersonalInfo("phone", e.target.value)} />
+            <TextField label="Location" value={data.personalInfo.location} onChange={(e) => updatePersonalInfo("location", e.target.value)} />
+            <TextField label="LinkedIn" value={data.personalInfo.linkedin} onChange={(e) => updatePersonalInfo("linkedin", e.target.value)} />
+            <TextField 
+              label="Specializations (Comma separated)" 
+              value={data.personalInfo.specializations.join(", ")} 
+              onChange={(e) => setData(prev => ({
+                ...prev,
+                personalInfo: {
+                  ...prev.personalInfo,
+                  specializations: e.target.value.split(",").map(s => s.trim()).filter(Boolean)
+                }
+              }))} 
+            />
+          </div>
+        );
+      case 2:
+        return <TextArea label="Professional Summary" value={data.summary} onChange={(e) => setData(prev => ({ ...prev, summary: e.target.value }))} placeholder="A brief overview of your career and skills..." rows={8} />;
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <p className="text-sm text-[var(--d-text-secondary)]">Max 3 work experiences allowed.</p>
+              <Button 
+                size="sm" 
+                icon={<Plus className="w-3 h-3" />} 
+                onClick={addExperience}
+                disabled={data.workExperience.length >= 3}
+              >
+                Add Experience
+              </Button>
+            </div>
+            {data.workExperience.map((exp, idx) => (
+              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
+                <button onClick={() => removeExperience(idx)} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <TextField label="Role" value={exp.role} onChange={(e) => updateExperience(idx, "role", e.target.value)} />
+                  <TextField label="Company" value={exp.company} onChange={(e) => updateExperience(idx, "company", e.target.value)} />
+                  <TextField label="Period" value={exp.period} onChange={(e) => updateExperience(idx, "period", e.target.value)} />
+                  <TextField label="Location" value={exp.location} onChange={(e) => updateExperience(idx, "location", e.target.value)} />
+                </div>
+                <TextArea label="Bullets (One per line)" value={exp.bullets.join("\n")} onChange={(e) => updateExperience(idx, "bullets", e.target.value.split("\n"))} rows={4} />
+              </div>
+            ))}
+            {data.workExperience.length === 0 && (
+              <div className="text-center py-12 border-2 border-dashed border-[var(--d-border)] rounded-2xl">
+                <p className="text-[var(--d-text-secondary)]">No work experience added yet.</p>
+              </div>
+            )}
+          </div>
+        );
+      case 4:
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-end"><Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addEducation}>Add Education</Button></div>
+            {data.education.map((edu, idx) => (
+              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
+                <button onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <TextField label="Degree" value={edu.degree} onChange={(e) => updateEducation(idx, "degree", e.target.value)} />
+                  <TextField label="Institution" value={edu.institution} onChange={(e) => updateEducation(idx, "institution", e.target.value)} />
+                  <TextField label="Period" value={edu.period} onChange={(e) => updateEducation(idx, "period", e.target.value)} />
+                  <TextField label="Location" value={edu.location} onChange={(e) => updateEducation(idx, "location", e.target.value)} />
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      case 5:
+        return (
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Skill Categories</h3>
+                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addSkillCategory}>Add Category</Button>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                {data.skills.map((cat, idx) => (
+                  <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
+                    <button onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                    <TextField label="Category Name" value={cat.category} onChange={(e) => updateSkillCategory(idx, e.target.value)} />
+                    <TextArea label="Items (Comma separated)" value={cat.items.join(", ")} onChange={(e) => updateSkillItems(idx, e.target.value)} rows={2} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Languages</h3>
+              <TextField 
+                placeholder="English, French, etc." 
+                value={data.languages?.join(", ") || ""} 
+                onChange={(e) => setData(prev => ({ ...prev, languages: e.target.value.split(",").map(s => s.trim()).filter(Boolean) }))} 
               />
             </div>
 
-            {/* Experience */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Work Experience</h2>
-                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addExperience}>Add Experience</Button>
-              </div>
-              <div className="space-y-4">
-                {data.workExperience.map((exp, idx) => (
-                  <div key={idx} className="p-4 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-xl space-y-3 relative group">
-                    <button
-                      onClick={() => removeExperience(idx)}
-                      className="absolute top-2 right-2 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <TextField
-                        label="Role"
-                        value={exp.role}
-                        onChange={(e) => updateExperience(idx, "role", e.target.value)}
-                      />
-                      <TextField
-                        label="Company"
-                        value={exp.company}
-                        onChange={(e) => updateExperience(idx, "company", e.target.value)}
-                      />
-                      <TextField
-                        label="Period"
-                        value={exp.period}
-                        onChange={(e) => updateExperience(idx, "period", e.target.value)}
-                      />
-                      <TextField
-                        label="Location"
-                        value={exp.location}
-                        onChange={(e) => updateExperience(idx, "location", e.target.value)}
-                      />
-                    </div>
-                    <TextArea
-                      label="Bullets (One per line)"
-                      value={exp.bullets.join("\n")}
-                      onChange={(e) => updateExperience(idx, "bullets", e.target.value.split("\n"))}
-                      rows={3}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Education */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Education</h2>
-                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addEducation}>Add Education</Button>
-              </div>
-              <div className="space-y-4">
-                {data.education.map((edu, idx) => (
-                  <div key={idx} className="p-4 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-xl space-y-3 relative group">
-                    <button
-                      onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))}
-                      className="absolute top-2 right-2 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <TextField
-                        label="Degree"
-                        value={edu.degree}
-                        onChange={(e) => updateEducation(idx, "degree", e.target.value)}
-                      />
-                      <TextField
-                        label="Institution"
-                        value={edu.institution}
-                        onChange={(e) => updateEducation(idx, "institution", e.target.value)}
-                      />
-                      <TextField
-                        label="Period"
-                        value={edu.period}
-                        onChange={(e) => updateEducation(idx, "period", e.target.value)}
-                      />
-                      <TextField
-                        label="Location"
-                        value={edu.location}
-                        onChange={(e) => updateEducation(idx, "location", e.target.value)}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Technical Skills</h2>
-                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addSkillCategory}>Add Category</Button>
-              </div>
-              <div className="space-y-4">
-                {data.skills.map((cat, idx) => (
-                  <div key={idx} className="p-4 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-xl space-y-3 relative group">
-                    <button
-                      onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))}
-                      className="absolute top-2 right-2 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <TextField
-                      label="Category Name"
-                      value={cat.category}
-                      onChange={(e) => updateSkillCategory(idx, e.target.value)}
-                    />
-                    <TextArea
-                      label="Items (Comma separated)"
-                      value={cat.items.join(", ")}
-                      onChange={(e) => updateSkillItems(idx, e.target.value)}
-                      rows={2}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Certifications */}
-            <div className="p-6 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Certifications</h2>
-                <Button
-                  size="sm"
-                  icon={<Plus className="w-3 h-3" />}
-                  onClick={() => setData(prev => ({ ...prev, certifications: [...prev.certifications, ""] }))}
-                >
-                  Add Certification
-                </Button>
+                <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Certifications</h3>
+                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addCertification}>Add Certification</Button>
               </div>
               <div className="space-y-3">
                 {data.certifications.map((cert, idx) => (
                   <div key={idx} className="flex gap-2 group">
-                    <TextField
-                      className="flex-1"
-                      placeholder="e.g. AWS Certified Solutions Architect"
-                      value={cert}
-                      onChange={(e) => setData(prev => {
-                        const newCerts = [...prev.certifications];
-                        newCerts[idx] = e.target.value;
-                        return { ...prev, certifications: newCerts };
-                      })}
-                    />
-                    <button
-                      onClick={() => removeCertification(idx)}
-                      className="p-2 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <TextField className="flex-1" placeholder="e.g. AWS Certified Solutions Architect" value={cert} onChange={(e) => updateCertification(idx, e.target.value)} />
+                    <button onClick={() => removeCertification(idx)} className="p-2 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 ))}
               </div>
             </div>
-          </motion.div>
-        {/* Persistent Preview Column */}
-        <motion.div
-          layout
-          className={`
-            ${activeTab === "preview" ? "lg:col-span-12" : "lg:col-span-5 lg:sticky lg:top-6"}
-            transition-all duration-300
-          `}
-        >
-          <div className={`rounded-2xl border border-[var(--d-border)] overflow-hidden bg-[#525659] shadow-2xl ${activeTab === "edit" ? "hidden lg:block" : "block"}`}>
-            <div className="bg-[var(--d-surface)] px-4 py-2 border-b border-[var(--d-border)] flex items-center justify-between">
-              <span className="text-[10px] font-bold text-[var(--d-text-tertiary)] uppercase tracking-widest">
-                {activeTab === "preview" ? "Document Preview" : "Live Preview"}
-              </span>
-              <span className="text-[10px] text-[var(--d-text-tertiary)] bg-[var(--d-surface-muted)] px-1.5 py-0.5 rounded">PDF</span>
-            </div>
-            <PDFViewer className={`w-full ${activeTab === "preview" ? "h-[80vh]" : "h-[calc(100vh-180px)]"} border-none`}>
-              <ResumeDocument data={data} />
-            </PDFViewer>
           </div>
-        </motion.div>
+        );
+      case 6:
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-end"><Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addProject}>Add Project</Button></div>
+            {(data.projects || []).map((proj, idx) => (
+              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
+                <button onClick={() => removeProject(idx)} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <TextField label="Project Name" value={proj.name} onChange={(e) => updateProject(idx, "name", e.target.value)} />
+                  <TextField label="Year" value={proj.year || ""} onChange={(e) => updateProject(idx, "year", e.target.value)} />
+                </div>
+                <TextField label="Description" value={proj.description} onChange={(e) => updateProject(idx, "description", e.target.value)} />
+                <TextArea label="Bullets (One per line)" value={proj.bullets.join("\n")} onChange={(e) => updateProject(idx, "bullets", e.target.value.split("\n"))} rows={3} />
+              </div>
+            ))}
+            {(!data.projects || data.projects.length === 0) && (
+              <div className="text-center py-12 border-2 border-dashed border-[var(--d-border)] rounded-2xl">
+                <Layout className="w-8 h-8 mx-auto mb-3 text-[var(--d-text-tertiary)]" />
+                <p className="text-[var(--d-text-secondary)]">No projects added yet.</p>
+              </div>
+            )}
+          </div>
+        );
+      default: return null;
+    }
+  };
+
+  const renderWizard = () => (
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div className="flex items-center justify-between gap-4">
+        <button onClick={() => setStage(1)} className="p-2 text-[var(--d-text-tertiary)] hover:text-[var(--d-text-primary)] transition-colors"><ArrowLeft className="w-5 h-5" /></button>
+        <div className="flex-1 flex flex-col items-center">
+          <div className="flex items-center gap-2 mb-4">
+            {steps.map((s, i) => (
+              <React.Fragment key={s.id}>
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                    step === s.id
+                      ? "bg-[var(--d-text-primary)] text-[var(--d-surface)]"
+                      : step > s.id
+                      ? "bg-emerald-500 text-white"
+                      : "border-2 border-[var(--d-border)] text-[var(--d-text-tertiary)]"
+                  }`}
+                >
+                  {step > s.id ? <Check className="w-4 h-4" /> : s.id}
+                </div>
+                {i < steps.length - 1 && (
+                  <div className={`w-8 h-0.5 ${step > s.id ? "bg-emerald-500" : "bg-[var(--d-border)]"}`} />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+          <span className="px-2 py-0.5 bg-[var(--d-surface-muted)] text-[10px] font-bold text-[var(--d-text-tertiary)] rounded border border-[var(--d-border)] uppercase tracking-widest">{selectedTemplate} Template</span>
+        </div>
+        <div className="w-9" />
       </div>
-    </motion.div>
+      <div className="text-center"><h2 className="text-2xl font-bold text-[var(--d-text-primary)]">{steps[step - 1].title}</h2><p className="text-[var(--d-text-secondary)]">{steps[step - 1].subtitle}</p></div>
+      <motion.div key={step} initial="hidden" animate="show" variants={fadeUp} className="bg-[var(--d-surface)] border border-[var(--d-border)] p-8 rounded-3xl">{renderStepContent()}</motion.div>
+      <div className="flex justify-end gap-3"><Button variant="secondary" onClick={handlePrevStep}>Back</Button>{step === 6 && <Button variant="ghost" onClick={() => setStage(3)}>Skip</Button>}<Button variant="primary" onClick={handleNextStep}>{step === 6 ? "Preview My CV" : "Continue"}</Button></div>
+    </div>
+  );
+
+  const renderPreview = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <button onClick={() => { setStage(2); setStep(6); }} className="p-2 text-[var(--d-text-tertiary)] hover:text-[var(--d-text-primary)] transition-colors"><ArrowLeft className="w-5 h-5" /></button>
+          <div>
+            <h2 className="text-xl font-bold text-[var(--d-text-primary)]">Final Preview</h2>
+            <span className="px-2 py-0.5 bg-[var(--d-surface-muted)] text-[10px] font-bold text-[var(--d-text-tertiary)] rounded border border-[var(--d-border)] uppercase tracking-widest">{selectedTemplate} Template</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" icon={<Save className="w-4 h-4" />} onClick={handleSave} loading={isSaving}>Save Draft</Button>
+          <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName.replace(/\s+/g, "_")}_Resume.pdf`}>
+            {({ loading }) => <Button variant="primary" icon={<Download className="w-4 h-4" />} loading={loading}>Download PDF</Button>}
+          </PDFDownloadLink>
+        </div>
+      </div>
+      <div className="rounded-2xl border border-[var(--d-border)] overflow-hidden bg-[#525659] shadow-2xl">
+        <div className="bg-[var(--d-surface)] px-4 py-2 border-b border-[var(--d-border)] flex items-center justify-between">
+          <span className="text-[10px] font-bold text-[var(--d-text-tertiary)] uppercase tracking-widest">Document Preview</span>
+          <span className="text-[10px] text-[var(--d-text-tertiary)] bg-[var(--d-surface-muted)] px-1.5 py-0.5 rounded">PDF</span>
+        </div>
+        <div className={hasPreviewedRef.current ? "block" : "hidden"}>
+          <PDFViewer className="w-full h-[85vh] border-none"><ActiveResume /></PDFViewer>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto min-h-[calc(100vh-100px)]">
+      <AnimatePresence mode="wait">
+        {stage === 1 && <motion.div key="stage1" initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }} variants={fadeUp}>{renderTemplateGallery()}</motion.div>}
+        {stage === 2 && <motion.div key="stage2" initial="hidden" animate="show" exit={{ opacity: 0, scale: 0.98 }} variants={fadeUp}>{renderWizard()}</motion.div>}
+        {stage === 3 && <motion.div key="stage3" initial="hidden" animate="show" variants={scaleIn}>{renderPreview()}</motion.div>}
+      </AnimatePresence>
+    </div>
   );
 }
