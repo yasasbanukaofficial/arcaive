@@ -11,21 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EducationDTO {
-    @Size(max = 200)
-    private String school;
-
     @Size(max = 100)
     private String degree;
 
+    @Size(max = 200)
+    private String institution;
+
     @Size(max = 100)
-    private String field;
+    private String location;
 
-    @Size(max = 20)
-    private String startYear;
-
-    @Size(max = 20)
-    private String endYear;
-
-    @Size(max = 20)
-    private String grade;
+    @Size(max = 100)
+    private String period;
 }

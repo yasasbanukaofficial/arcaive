@@ -3,8 +3,12 @@ package tech.yasasbanuka.backend.service.mapper;
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.member.*;
+import tech.yasasbanuka.backend.dto.profile.EducationDTO;
+import tech.yasasbanuka.backend.dto.profile.ExperienceDTO;
+import tech.yasasbanuka.backend.dto.profile.ProjectDTO;
+import tech.yasasbanuka.backend.dto.profile.SkillCategoryDTO;
 import tech.yasasbanuka.backend.entity.Member;
-import tech.yasasbanuka.backend.entity.embeddable.Mfa;
+import tech.yasasbanuka.backend.entity.embeddable.*;
 
 @Mapper(config = CentralConfig.class)
 public interface MemberMapper {
@@ -19,6 +23,13 @@ public interface MemberMapper {
     @Mapping(source = "jobRole", target = "jobRole")
     @Mapping(source = "experience", target = "experience")
     @Mapping(source = "country", target = "country")
+    @Mapping(source = "summary", target = "summary")
+    @Mapping(source = "experiences", target = "experiences")
+    @Mapping(source = "educations", target = "educations")
+    @Mapping(source = "projects", target = "projects")
+    @Mapping(source = "skills", target = "skills")
+    @Mapping(source = "certifications", target = "certifications")
+    @Mapping(source = "languages", target = "languages")
     MemberResponseDTO toResponseDTO(Member member);
 
     @Mapping(source = "memberFullName", target = "fullName")
@@ -33,6 +44,13 @@ public interface MemberMapper {
     @Mapping(source = "jobRole", target = "jobRole")
     @Mapping(source = "experience", target = "experience")
     @Mapping(source = "country", target = "country")
+    @Mapping(source = "summary", target = "summary")
+    @Mapping(source = "experiences", target = "experiences")
+    @Mapping(source = "educations", target = "educations")
+    @Mapping(source = "projects", target = "projects")
+    @Mapping(source = "skills", target = "skills")
+    @Mapping(source = "certifications", target = "certifications")
+    @Mapping(source = "languages", target = "languages")
     Member createRequestToEntity(MemberCreateRequestDTO dto);
 
     @Mapping(source = "memberFullName", target = "fullName")
@@ -47,6 +65,13 @@ public interface MemberMapper {
     @Mapping(source = "jobRole", target = "jobRole")
     @Mapping(source = "experience", target = "experience")
     @Mapping(source = "country", target = "country")
+    @Mapping(source = "summary", target = "summary")
+    @Mapping(source = "experiences", target = "experiences")
+    @Mapping(source = "educations", target = "educations")
+    @Mapping(source = "projects", target = "projects")
+    @Mapping(source = "skills", target = "skills")
+    @Mapping(source = "certifications", target = "certifications")
+    @Mapping(source = "languages", target = "languages")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(MemberUpdateRequestDTO dto, @MappingTarget Member member);
 
@@ -61,6 +86,13 @@ public interface MemberMapper {
     @Mapping(source = "jobRole", target = "jobRole")
     @Mapping(source = "experience", target = "experience")
     @Mapping(source = "country", target = "country")
+    @Mapping(source = "summary", target = "summary")
+    @Mapping(source = "experiences", target = "experiences")
+    @Mapping(source = "educations", target = "educations")
+    @Mapping(source = "projects", target = "projects")
+    @Mapping(source = "skills", target = "skills")
+    @Mapping(source = "certifications", target = "certifications")
+    @Mapping(source = "languages", target = "languages")
     Member internalDtoToEntity(MemberInternalDTO dto);
 
     @Mapping(source = "id", target = "memberId")
@@ -73,6 +105,13 @@ public interface MemberMapper {
     @Mapping(source = "jobRole", target = "jobRole")
     @Mapping(source = "experience", target = "experience")
     @Mapping(source = "country", target = "country")
+    @Mapping(source = "summary", target = "summary")
+    @Mapping(source = "experiences", target = "experiences")
+    @Mapping(source = "educations", target = "educations")
+    @Mapping(source = "projects", target = "projects")
+    @Mapping(source = "skills", target = "skills")
+    @Mapping(source = "certifications", target = "certifications")
+    @Mapping(source = "languages", target = "languages")
     MemberInternalDTO toInternalDTO(Member member);
 
     @InheritConfiguration(name = "internalDtoToEntity")
@@ -85,4 +124,16 @@ public interface MemberMapper {
     @Mapping(source = "enabled", target = "enabled", defaultValue = "false")
     @Mapping(source = "method", target = "method", defaultValue = "email")
     Mfa mfaDtoToMfa(MfaUpdateRequestDTO dto);
+
+    Experience toExperience(ExperienceDTO dto);
+    ExperienceDTO toExperienceDTO(Experience entity);
+
+    Education toEducation(EducationDTO dto);
+    EducationDTO toEducationDTO(Education entity);
+
+    Project toProject(ProjectDTO dto);
+    ProjectDTO toProjectDTO(Project entity);
+
+    SkillCategory toSkillCategory(SkillCategoryDTO dto);
+    SkillCategoryDTO toSkillCategoryDTO(SkillCategory entity);
 }

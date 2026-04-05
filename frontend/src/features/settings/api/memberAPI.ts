@@ -1,5 +1,6 @@
 import { apiInstance } from "@/app/api/axios/api";
 import { getToken } from "@/utils/auth";
+import { MemberUpdatePayload } from "@/@types/member";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
 
@@ -26,6 +27,20 @@ export const memberAPI = {
       })
     ).data.data;
   },
+  extractOnboardingFromCV: async (payload: File) => {
+    const token = await getToken();
+    const formData = new FormData();
+    formData.append("file", payload);
+    return (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${MEMBER_DATA_URL}/upload-cv/onboarding`,
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+        data: formData,
+      })
+    ).data.data;
+  },
   extractAtomicSkills: async (
     payload: File,
   ) => {
@@ -42,7 +57,7 @@ export const memberAPI = {
       })
     ).data.data;
   },
-  update: async (payload: any) => {
+  update: async (payload: MemberUpdatePayload) => {
     const token = await getToken();
     if (!token) throw new Error("No authentication token found");
     return (

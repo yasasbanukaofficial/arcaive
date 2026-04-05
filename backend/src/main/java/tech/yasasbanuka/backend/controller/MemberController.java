@@ -49,6 +49,12 @@ public class MemberController {
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Member created successfully", memberservice.extractMemberDetails(file)), HttpStatus.CREATED);
     }
 
+    @PostMapping("/upload-cv/onboarding")
+    public ResponseEntity<APIResponse<OnboardingAutofillResponseDTO>> extractOnboardingDetails(@RequestParam("file") MultipartFile file) {
+        log.info("Received request to extract onboarding details from CV: {}", file.getOriginalFilename());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Onboarding details extracted successfully", memberservice.extractOnboardingDetails(file)), HttpStatus.CREATED);
+    }
+
     @PostMapping("/upload-cv/skills")
     public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(@RequestParam("file") MultipartFile file) {
         log.info("Received request to extract skills from CV: {}", file.getOriginalFilename());

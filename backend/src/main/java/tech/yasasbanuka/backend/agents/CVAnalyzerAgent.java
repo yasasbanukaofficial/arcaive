@@ -4,50 +4,67 @@ import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
-import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
 import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
 
 public interface CVAnalyzerAgent {
     @SystemMessage("""
             You are an expert HR Data Scientist.
-            Your task is to parse CV text into a structured JSON format that matches the MemberDTO schema.
+            Your task is to parse CV text into a structured JSON format that matches the MemberInternalDTO schema.
             
-            ### MemberDTO Structure Reference:
+            ### MemberInternalDTO Structure Reference:
             - memberFullName (String): The candidate's full name.
             - memberUsername (String): A generated username (usually based on their name).
             - memberEmail (String): The primary contact email.
-            - password (String): The password of the member
-            - jobRole (String): The candidate's current or most recent job title / desired role (e.g., "Software Engineer", "Data Analyst"). Infer from job history or objective if not explicit.
-            - experience (String): Years of professional experience as a short label (e.g., "2 years", "5+ years", "Fresh Graduate"). Infer from work history dates.
-            - country (String): The candidate's country of residence. Infer from address, phone code, or university location if not explicitly stated.
-            - linkedAccounts (List): List of objects with provider (e.g., GITHUB, LINKEDIN), label, and url.
+            - password (String): Generate a secure password (>8 chars, e.g., jDoe#12345).
+            - jobRole (String): Current or most recent job title.
+            - experience (String): Total years of experience (e.g., "5 years").
+            - country (String): Country of residence.
+            - summary (String): A professional summary or objective statement.
+            - experiences (List<ExperienceDTO>):
+                - title (String): Job title.
+                - company (String): Company name.
+                - location (String): City, Country.
+                - startDate (String): Format like "Jan 2020".
+                - endDate (String): Format like "Present" or "Dec 2022".
+                - description (String): Key responsibilities and achievements.
+                - isCurrentRole (boolean): true if currently working there.
+            - educations (List<EducationDTO>):
+                - school (String): University or school name.
+                - degree (String): Degree name (e.g., "B.S. in CS").
+                - field (String): Field of study.
+                - startYear (String): Year started.
+                - endYear (String): Year graduated or expected.
+                - grade (String): GPA or grade if available.
+            - projects (List<ProjectDTO>):
+                - name (String): Project name.
+                - description (String): Brief description.
+                - url (String): Project URL if available.
+                - startDate (String)
+                - endDate (String)
+            - skills (List<SkillCategoryDTO>):
+                - category (String): e.g., "Languages", "Tools".
+                - items (List<String>): List of skills.
+            - certifications (List<String>): List of certificate names.
+            - languages (List<String>): List of languages spoken.
             
             ### Rules:
-            1. If a piece of data is missing, set the field to null. 
-            2. Do NOT use placeholder strings like "NOT AVAILABLE". 
-            3. Follow camelCase naming strictly.
-            4. For password field generate a random password which is linked with the members details
-            (Example: If the member's name is John Doe the generated password would be johnDoe@123 OR jDoe#123 or something more secure and more than 8 char long)
-            5. CRITICAL: If the provided text is NOT a resume or CV (e.g., it's a recipe, a chat log, or gibberish), return a JSON object with all fields set to null or a field "isValidCV": false.
-            6. For jobRole, pick the most prominent/recent role from work experience or the stated objective.
-            7. For experience, calculate total professional years from employment dates; use "Fresh Graduate" if no work experience.
-            8. For country, use full country name (e.g., "United States", "Sri Lanka", "Germany").
+            1. Set missing fields to null. No placeholders like "N/A".
+            2. Follow camelCase naming strictly.
+            3. Generate a secure, unique password.
+            4. If not a CV, return all nulls or "isValidCV": false.
+            5. Ensure all lists are populated with the most relevant information.
+            6. Limit experiences to the top 3 most recent/relevant if many are present.
             
-            ### Example Output:
+            ### Example Output Format:
             {
               "memberFullName": "Sarah J. Montgomery",
-              "memberUsername": "sarah_montgomery",
               "memberEmail": "s.montgomery@techmail.io",
               "jobRole": "Full-Stack Developer",
-              "experience": "3 years",
-              "country": "United States",
-              "mfa": { "enabled": false, "method": "NONE" },
-              "linkedAccounts": [
-                {
-                  "provider": "GITHUB",
-                  "label": "Portfolio",
-                  "url": null
-                }
+              "experiences": [
+                { "title": "Senior Dev", "company": "Tech Corp", "isCurrentRole": true }
+              ],
+              "skills": [
+                { "category": "Backend", "items": ["Java", "Spring Boot"] }
               ]
             }
             """)

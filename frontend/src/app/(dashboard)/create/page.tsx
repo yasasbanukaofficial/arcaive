@@ -37,45 +37,22 @@ const PDFDownloadLink = dynamic(
   { ssr: false }
 );
 
-const defaultData: ResumeData = {
+const emptyResumeData: ResumeData = {
   personalInfo: {
-    fullName: "John Doe",
-    specializations: ["Senior Software Engineer", "Full Stack Architect"],
-    email: "john.doe@example.com",
-    phone: "+1 (555) 000-0000",
-    location: "San Francisco, CA",
-    linkedin: "linkedin.com/in/johndoe",
+    fullName: "",
+    specializations: [],
+    email: "",
+    phone: "",
+    location: "",
+    linkedin: "",
   },
-  summary: "Results-driven Senior Software Engineer with over 8 years of experience in building scalable web applications and distributed systems. Expert in React, TypeScript, and modern cloud infrastructure. Proven track record of leading high-performance teams and delivering high-quality software solutions that drive business growth.",
-  workExperience: [
-    {
-      role: "Lead Software Engineer",
-      company: "Tech Innovations Inc.",
-      location: "New York, NY",
-      period: "Jan 2021 — Present",
-      bullets: [
-        "Architected and deployed a microservices-based platform serving 1M+ active users using Node.js and AWS.",
-        "Reduced cloud infrastructure costs by 40% through serverless migration and container orchestration."
-      ],
-    }
-  ],
-  education: [
-    {
-      degree: "B.S. in Computer Science",
-      institution: "University of Technology",
-      location: "Austin, TX",
-      period: "2017",
-    }
-  ],
-  skills: [
-    {
-      category: "Languages & Frameworks",
-      items: ["TypeScript", "JavaScript (ES6+)", "Node.js", "React", "Next.js", "GraphQL"]
-    }
-  ],
-  certifications: [
-    "AWS Certified Solutions Architect – Associate"
-  ],
+  summary: "",
+  workExperience: [],
+  education: [],
+  skills: [],
+  certifications: [],
+  projects: [],
+  languages: [],
 };
 
 type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
@@ -175,7 +152,7 @@ const steps = [
 ];
 
 export default function CreateCVPage() {
-  const [data, setData] = useState<ResumeData>(defaultData);
+  const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [stage, setStage] = useState(1);
   const [step, setStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateType>(null);
@@ -192,21 +169,50 @@ export default function CreateCVPage() {
       try {
         const memberData: MemberIdentityData = await memberAPI.get();
         if (memberData) {
-          const linkedinAccount = memberData.linkedAccounts?.find(a => a.provider === 'linkedin');
-          setData(prev => ({
-            ...prev,
-            personalInfo: {
-              ...prev.personalInfo,
-              fullName: memberData.memberFullName || prev.personalInfo.fullName,
-              email: memberData.memberEmail || prev.personalInfo.email,
-              location: memberData.country || prev.personalInfo.location,
-              specializations: memberData.jobRole ? [memberData.jobRole] : prev.personalInfo.specializations,
-              linkedin: linkedinAccount?.url || prev.personalInfo.linkedin,
-            }
-          }));
+          const memberId = memberData.memberId || "anonymous";
+          const storedDraftRaw = localStorage.getItem(`resume_draft_${memberId}`);
+          const storedDraft = storedDraftRaw ? (JSON.parse(storedDraftRaw) as ResumeData) : null;
+
+          const linkedinAccount = memberData.linkedAccounts?.find(
+            (a) => a.provider?.toLowerCase() === "linkedin",
+          );
+
+          if (storedDraft) {
+            setData({
+              ...emptyResumeData,
+              ...storedDraft,
+              personalInfo: {
+                ...emptyResumeData.personalInfo,
+                ...(storedDraft.personalInfo || {}),
+                fullName: storedDraft.personalInfo?.fullName || memberData.memberFullName || "",
+                email: storedDraft.personalInfo?.email || memberData.memberEmail || "",
+                location: storedDraft.personalInfo?.location || memberData.country || "",
+                specializations:
+                  storedDraft.personalInfo?.specializations?.length
+                    ? storedDraft.personalInfo.specializations
+                    : memberData.jobRole
+                    ? [memberData.jobRole]
+                    : [],
+                linkedin: storedDraft.personalInfo?.linkedin || linkedinAccount?.url || "",
+              },
+            });
+          } else {
+            setData({
+              ...emptyResumeData,
+              personalInfo: {
+                ...emptyResumeData.personalInfo,
+                fullName: memberData.memberFullName || "",
+                email: memberData.memberEmail || "",
+                location: memberData.country || "",
+                specializations: memberData.jobRole ? [memberData.jobRole] : [],
+                linkedin: linkedinAccount?.url || "",
+              },
+            });
+          }
         }
       } catch (error) {
         console.error("Failed to fetch member data", error);
+        setData(emptyResumeData);
       }
     };
     fetchMemberData();

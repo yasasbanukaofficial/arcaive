@@ -10,24 +10,18 @@ import tech.yasasbanuka.backend.dto.profile.ProjectDTO;
 import tech.yasasbanuka.backend.dto.profile.SkillCategoryDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberResponseDTO {
-    private UUID memberId;
-    private String memberFullName;
-    private String memberUsername;
-    private String memberEmail;
-    private boolean hasPassword;
-    private MfaUpdateRequestDTO mfa;
-    private List<LinkedAccountDTO> linkedAccounts;
-    private String subscriptionId;
+public class OnboardingAutofillResponseDTO {
     private String jobRole;
     private String experience;
     private String country;
+    private String location;
+    private String phone;
+    private String linkedin;
     private String summary;
     private List<ExperienceDTO> experiences;
     private List<EducationDTO> educations;

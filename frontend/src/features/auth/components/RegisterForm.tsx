@@ -70,9 +70,9 @@ export default function RegisterForm() {
       addToast({
         type: "success",
         title: "Account created",
-        description: "Your account has been created. Redirecting you to sign in...",
+        description: "Redirecting you to complete your profile...",
       });
-      setTimeout(() => router.push("/login"), 1500);
+      setTimeout(() => router.push("/onboarding"), 1500);
     }
     if (state.error) {
       addToast({

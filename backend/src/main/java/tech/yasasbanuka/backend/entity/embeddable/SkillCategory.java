@@ -14,13 +14,10 @@ import java.util.List;
 @Setter
 @Builder
 @Embeddable
-public class Experience {
-    private String role;
-    private String company;
-    private String location;
-    private String period;
+public class SkillCategory {
+    private String category;
 
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "TEXT")
-    private List<String> bullets;
+    private List<String> items;
 }

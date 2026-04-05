@@ -5,12 +5,14 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CareerIntelligenceAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
+import tech.yasasbanuka.backend.agents.OnboardingCVAutofillAgent;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
@@ -47,6 +49,10 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
     private final OpenAiChatModel openAiChatModel;
+    @Qualifier("lowTempOpenAiChatModel")
+    private final OpenAiChatModel lowTempOpenAiChatModel;
+
+    private static final int ONBOARDING_MAX_CHARS = 18_000;
 
     @Override
     public MemberResponseDTO createMember(MemberCreateRequestDTO dto) {
@@ -290,6 +296,62 @@ public class MemberServiceImpl implements MemberService {
         MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(extractedText);
         log.info("Member details extracted successfully from CV");
         return result;
+    }
+
+    @Override
+    public OnboardingAutofillResponseDTO extractOnboardingDetails(MultipartFile file) {
+        log.info("Extracting onboarding details from CV file: {}", file.getOriginalFilename());
+        String extractedText = pdfTextExtract.extract(file);
+        String clippedText = extractedText == null
+                ? ""
+                : extractedText.substring(0, Math.min(extractedText.length(), ONBOARDING_MAX_CHARS));
+
+        OnboardingCVAutofillAgent onboardingAgent = AgenticServices
+                .agentBuilder(OnboardingCVAutofillAgent.class)
+                .chatModel(lowTempOpenAiChatModel)
+                .build();
+
+        try {
+            OnboardingAutofillResponseDTO result = onboardingAgent.extractOnboardingDetails(clippedText);
+            if (result == null) {
+                return OnboardingAutofillResponseDTO.builder().build();
+            }
+
+            if (result.getLocation() == null || result.getLocation().isBlank()) {
+                result.setLocation(result.getCountry());
+            }
+            log.info("Onboarding details extracted successfully from CV");
+            return result;
+        } catch (Exception ex) {
+            log.warn("Onboarding CV extraction failed, attempting fallback extractor", ex);
+            try {
+                CVAnalyzerAgent fallbackAgent = AgenticServices
+                        .agentBuilder(CVAnalyzerAgent.class)
+                        .chatModel(lowTempOpenAiChatModel)
+                        .build();
+                MemberInternalDTO fallback = fallbackAgent.extractMemberFromCV(clippedText);
+                if (fallback == null) {
+                    return OnboardingAutofillResponseDTO.builder().build();
+                }
+
+                return OnboardingAutofillResponseDTO.builder()
+                        .jobRole(fallback.getJobRole())
+                        .experience(fallback.getExperience())
+                        .country(fallback.getCountry())
+                        .location(fallback.getCountry())
+                        .summary(fallback.getSummary())
+                        .experiences(fallback.getExperiences())
+                        .educations(fallback.getEducations())
+                        .projects(fallback.getProjects())
+                        .skills(fallback.getSkills())
+                        .certifications(fallback.getCertifications())
+                        .languages(fallback.getLanguages())
+                        .build();
+            } catch (Exception fallbackEx) {
+                log.warn("Fallback onboarding extraction also failed, returning empty onboarding payload", fallbackEx);
+                return OnboardingAutofillResponseDTO.builder().build();
+            }
+        }
     }
 
     @Override

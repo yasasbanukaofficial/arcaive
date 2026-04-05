@@ -38,6 +38,41 @@ export type MemberCreateRequest = {
   country?: string;
 };
 
+export type MemberUpdatePayload = {
+  memberFullName?: string;
+  memberUsername?: string;
+  memberEmail?: string;
+  jobRole?: string;
+  experience?: string;
+  country?: string;
+  summary?: string;
+  experiences?: {
+    role: string;
+    company: string;
+    location: string;
+    period: string;
+    bullets: string[];
+  }[];
+  educations?: {
+    degree: string;
+    institution: string;
+    location: string;
+    period: string;
+  }[];
+  skills?: {
+    category: string;
+    items: string[];
+  }[];
+  projects?: {
+    name: string;
+    description: string;
+    bullets: string[];
+    year?: string;
+  }[];
+  certifications?: string[];
+  languages?: string[];
+};
+
 export type AuthMember = {
   email: string;
   password: string;

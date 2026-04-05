@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,15 +16,11 @@ public class ProjectDTO {
     @Size(max = 200)
     private String name;
 
-    @Size(max = 500)
-    private String url;
-
-    @Size(max = 50)
-    private String startDate;
-
-    @Size(max = 50)
-    private String endDate;
-
     @Size(max = 1000)
     private String description;
+
+    private List<String> bullets;
+
+    @Size(max = 20)
+    private String year;
 }

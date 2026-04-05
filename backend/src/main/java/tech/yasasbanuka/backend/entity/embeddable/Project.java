@@ -1,8 +1,12 @@
 package tech.yasasbanuka.backend.entity.embeddable;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import lombok.*;
+import tech.yasasbanuka.backend.entity.converter.StringListConverter;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,9 +16,12 @@ import lombok.*;
 @Embeddable
 public class Project {
     private String name;
-    private String url;
-    private String startDate;
-    private String endDate;
     @Column(length = 1000)
     private String description;
+
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<String> bullets;
+
+    private String year;
 }

@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExperienceDTO {
     @Size(max = 100)
-    private String title;
+    private String role;
 
     @Size(max = 200)
     private String company;
@@ -20,14 +22,8 @@ public class ExperienceDTO {
     @Size(max = 200)
     private String location;
 
-    @Size(max = 50)
-    private String startDate;
+    @Size(max = 100)
+    private String period;
 
-    @Size(max = 50)
-    private String endDate;
-
-    private boolean isCurrentRole;
-
-    @Size(max = 1000)
-    private String description;
+    private List<String> bullets;
 }
