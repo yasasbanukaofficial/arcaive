@@ -21,11 +21,39 @@ export type Member = {
   jobRole?: string | null;
   experience?: string | null;
   country?: string | null;
+  location?: string | null;
+  phoneNumber?: string | null;
+  summary?: string | null;
+  experiences?: {
+    role: string;
+    company: string;
+    location: string;
+    period: string;
+    bullets: string[];
+  }[];
+  educations?: {
+    degree: string;
+    institution: string;
+    location: string;
+    period: string;
+  }[];
+  skills?: {
+    category: string;
+    items: string[];
+  }[];
+  projects?: {
+    name: string;
+    description: string;
+    bullets: string[];
+    year?: string;
+  }[];
+  certifications?: string[];
+  languages?: string[];
 };
 
 export type MemberIdentityData = Member & {
   mfa: MultifactorMethod;
-  linkedAccounts: LinkedAccount[];
+  linkedAccounts?: LinkedAccount[];
 };
 
 export type MemberCreateRequest = {
@@ -36,6 +64,8 @@ export type MemberCreateRequest = {
   jobRole?: string;
   experience?: string;
   country?: string;
+  location?: string;
+  phoneNumber?: string;
 };
 
 export type MemberUpdatePayload = {
@@ -45,6 +75,8 @@ export type MemberUpdatePayload = {
   jobRole?: string;
   experience?: string;
   country?: string;
+  location?: string;
+  phoneNumber?: string;
   summary?: string;
   experiences?: {
     role: string;
@@ -69,6 +101,21 @@ export type MemberUpdatePayload = {
     bullets: string[];
     year?: string;
   }[];
+  certifications?: string[];
+  languages?: string[];
+};
+
+export type OnboardingAutofillResponse = {
+  jobRole?: string | null;
+  experience?: string | null;
+  country?: string | null;
+  location?: string | null;
+  phone?: string | null;
+  summary?: string | null;
+  experiences?: MemberUpdatePayload["experiences"];
+  educations?: MemberUpdatePayload["educations"];
+  skills?: MemberUpdatePayload["skills"];
+  projects?: MemberUpdatePayload["projects"];
   certifications?: string[];
   languages?: string[];
 };

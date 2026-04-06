@@ -1,6 +1,6 @@
 import { apiInstance } from "@/app/api/axios/api";
 import { getToken } from "@/utils/auth";
-import { MemberUpdatePayload } from "@/@types/member";
+import { MemberUpdatePayload, OnboardingAutofillResponse } from "@/@types/member";
 
 const MEMBER_DATA_URL = `${process.env.NEXT_PUBLIC_API_URL}/members`!;
 
@@ -39,7 +39,7 @@ export const memberAPI = {
         withCredentials: true,
         data: formData,
       })
-    ).data.data;
+    ).data.data as OnboardingAutofillResponse;
   },
   extractAtomicSkills: async (
     payload: File,

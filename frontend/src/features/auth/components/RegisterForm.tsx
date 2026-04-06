@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowRight, Briefcase, Globe, Clock } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
-import CVResumeUpload, { ExtractedMember } from "./CVResumeUpload";
 import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
@@ -53,26 +52,14 @@ export default function RegisterForm() {
     },
   });
 
-  const handleExtracted = (data: ExtractedMember) => {
-    if (data.memberFullName) formik.setFieldValue("memberFullName", data.memberFullName);
-    if (data.memberEmail) formik.setFieldValue("memberEmail", data.memberEmail);
-    if (data.password) {
-      formik.setFieldValue("memberPassword", data.password);
-      formik.setFieldValue("confirmPassword", data.password);
-    }
-    if (data.jobRole) formik.setFieldValue("jobRole", data.jobRole);
-    if (data.experience) formik.setFieldValue("experience", data.experience);
-    if (data.country) formik.setFieldValue("country", data.country);
-  };
-
   useEffect(() => {
     if (state.success) {
       addToast({
         type: "success",
         title: "Account created",
-        description: "Redirecting you to complete your profile...",
+        description: "Redirecting you to login...",
       });
-      setTimeout(() => router.push("/onboarding"), 1500);
+      setTimeout(() => router.push("/login"), 1500);
     }
     if (state.error) {
       addToast({
@@ -311,20 +298,6 @@ export default function RegisterForm() {
               </div>
             </div>
           </div>
-        </motion.div>
-
-        <motion.div variants={bounceIn}>
-          <div className="relative flex items-center gap-4 pt-1 pb-1">
-            <div className="h-px flex-1 bg-white/5"></div>
-            <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold whitespace-nowrap">
-              Or auto-fill with AI
-            </span>
-            <div className="h-px flex-1 bg-white/5"></div>
-          </div>
-        </motion.div>
-
-        <motion.div variants={bounceIn}>
-          <CVResumeUpload onExtracted={handleExtracted} />
         </motion.div>
 
         <motion.div variants={bounceIn}>

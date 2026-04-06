@@ -9,7 +9,7 @@ export default function OAuthCallback() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/onboarding");
+      router.push("/overview");
     }, 100);
 
     return () => clearTimeout(timer);

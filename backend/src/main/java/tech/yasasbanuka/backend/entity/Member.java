@@ -32,6 +32,8 @@ public class Member {
     private String jobRole;
     private String experience;
     private String country;
+    private String location;
+    private String phoneNumber;
 
     @ElementCollection
     private List<Experience> experiences;

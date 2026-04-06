@@ -2,13 +2,13 @@ package tech.yasasbanuka.backend.service.impl;
 
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CareerIntelligenceAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
@@ -52,6 +52,7 @@ public class MemberServiceImpl implements MemberService {
     @Qualifier("lowTempOpenAiChatModel")
     private final OpenAiChatModel lowTempOpenAiChatModel;
 
+    private static final int CV_ANALYZER_MAX_CHARS = 18_000;
     private static final int ONBOARDING_MAX_CHARS = 18_000;
 
     @Override
@@ -163,6 +164,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberResponseDTO getMember(UUID memberId) {
         log.info("Fetching member with ID: {}", memberId);
         return memberMapper.toResponseDTO(memberRepo.findById(memberId)
@@ -173,6 +175,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberResponseDTO getMemberByUsername(String username) {
         log.info("Fetching member with username: {}", username);
         return memberMapper.toResponseDTO(memberRepo.findByUsername(username)
@@ -183,6 +186,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UsageQuotaResponseDTO getUsageQuotaByUsername(String username) {
         log.info("Fetching usage quota for username: {}", username);
         Member member = memberRepo.findByUsername(username)
@@ -194,12 +198,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberInternalDTO getMemberInternalByEmail(String email) {
         log.debug("Fetching internal member by email: {}", email);
         return memberMapper.toInternalDTO(memberRepo.findByEmail(email).orElse(null));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MemberResponseDTO> getAllMembers() {
         log.info("Fetching all members");
         return memberRepo.findAll().stream().map(memberMapper::toResponseDTO).toList();
@@ -289,11 +295,15 @@ public class MemberServiceImpl implements MemberService {
     public MemberInternalDTO extractMemberDetails(MultipartFile file) {
         log.info("Extracting member details from CV file: {}", file.getOriginalFilename());
         String extractedText = pdfTextExtract.extract(file);
+        String clippedText = extractedText == null
+            ? ""
+            : extractedText.substring(0, Math.min(extractedText.length(), CV_ANALYZER_MAX_CHARS));
+
         CVAnalyzerAgent cvAnalyzerAgent = AgenticServices
                 .agentBuilder(CVAnalyzerAgent.class)
                 .chatModel(openAiChatModel)
                 .build();
-        MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(extractedText);
+        MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(clippedText);
         log.info("Member details extracted successfully from CV");
         return result;
     }
@@ -338,7 +348,10 @@ public class MemberServiceImpl implements MemberService {
                         .jobRole(fallback.getJobRole())
                         .experience(fallback.getExperience())
                         .country(fallback.getCountry())
-                        .location(fallback.getCountry())
+                    .location(fallback.getLocation() != null && !fallback.getLocation().isBlank()
+                        ? fallback.getLocation()
+                        : fallback.getCountry())
+                    .phone(fallback.getPhoneNumber())
                         .summary(fallback.getSummary())
                         .experiences(fallback.getExperiences())
                         .educations(fallback.getEducations())

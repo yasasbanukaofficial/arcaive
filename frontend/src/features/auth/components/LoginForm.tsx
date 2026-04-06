@@ -34,9 +34,6 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state.success) {
-      const onboardingComplete = localStorage.getItem("onboarding_complete") === "1";
-      localStorage.removeItem("onboarding_complete");
-
       addToast({
         type: "success",
         title: "Signed in",

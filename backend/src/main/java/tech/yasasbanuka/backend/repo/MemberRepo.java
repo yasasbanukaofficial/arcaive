@@ -15,6 +15,10 @@ public interface MemberRepo extends JpaRepository<Member, UUID> {
     boolean existsByEmail(String email);
     Optional<Member> findByUsername(String username);
     Optional<Member> findByEmail(String email);
+
+    @Query("select m from member m left join fetch m.linkedAccounts where m.email = :email")
+    Optional<Member> findByEmailWithLinkedAccounts(@Param("email") String email);
+
     MemberResponseDTO getMemberByUsername(String username);
 
     @Query("SELECT m FROM member m WHERE m.subscription.externalSubscriptionId = :externalSubId")

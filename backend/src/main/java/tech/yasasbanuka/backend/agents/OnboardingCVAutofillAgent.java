@@ -18,7 +18,7 @@ public interface OnboardingCVAutofillAgent {
             - experience (String)
             - country (String)
             - location (String)
-            - phone (String)
+            - phone (String) [Example: +94 77 123 4567, +1 555 123 4567, +44 7123 456789 and etc.]
             - linkedin (String)
             - summary (String)
             - experiences (List<ExperienceDTO>): role, company, location, period, bullets[]
@@ -35,7 +35,9 @@ public interface OnboardingCVAutofillAgent {
             4. Use null for unknown scalar fields.
             5. Use [] for unknown list fields.
             6. Prefer the most recent and relevant 3 entries for experiences/projects/educations.
-            7. Ensure valid JSON syntax (balanced braces/brackets, quoted keys/strings).
+            7. Usually details like phone, country, email and other links are together at most times, if you find one of them the others must be near to the texts as well.
+            8. Ensure valid JSON syntax (balanced braces/brackets, quoted keys/strings).
+            9. Always try to find those above values as accurate as possible
             """)
     @UserMessage("""
             Extract onboarding profile details from this resume text.

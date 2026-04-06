@@ -29,7 +29,7 @@ public class OAuthServiceImpl implements OAuthService {
 
     @Override
     public String processOAuthLogin(String provider, String email, String fullName,
-                                    String username, String socialUrl) {
+                                    String username, String socialUrl, String oauthId) {
         log.info("Processing OAuth login for provider: {}, email: {}", provider, email);
         MemberInternalDTO existingMember = memberService.getMemberInternalByEmail(email);
 

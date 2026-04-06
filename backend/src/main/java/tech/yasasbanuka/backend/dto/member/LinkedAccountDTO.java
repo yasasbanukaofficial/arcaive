@@ -17,6 +17,9 @@ public class LinkedAccountDTO {
     @Size(max = 50, message = "Provider name cannot exceed 50 characters")
     private String provider;
 
+    @Size(max = 200, message = "OAuth ID cannot exceed 200 characters")
+    private String oauthId;
+
     @NotBlank(message = "Label is required")
     @Size(max = 100, message = "Label cannot exceed 100 characters")
     private String label;

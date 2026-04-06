@@ -36,6 +36,12 @@ public class MemberUpdateRequestDTO {
     private String experience;
     @Nullable
     private String country;
+    @Size(max = 200)
+    @Nullable
+    private String location;
+    @Size(max = 50)
+    @Nullable
+    private String phoneNumber;
 
     @Nullable
     private String summary;

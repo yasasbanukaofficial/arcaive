@@ -28,6 +28,8 @@ public class MemberResponseDTO {
     private String jobRole;
     private String experience;
     private String country;
+    private String location;
+    private String phoneNumber;
     private String summary;
     private List<ExperienceDTO> experiences;
     private List<EducationDTO> educations;

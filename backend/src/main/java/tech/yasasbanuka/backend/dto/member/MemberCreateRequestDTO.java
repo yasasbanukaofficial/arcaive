@@ -34,6 +34,9 @@ public class MemberCreateRequestDTO {
     private String jobRole;
     private String experience;
     private String country;
+    private String location;
+    @Size(max = 50)
+    private String phoneNumber;
 
     private String summary;
     private List<ExperienceDTO> experiences;

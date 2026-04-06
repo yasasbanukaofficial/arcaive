@@ -38,6 +38,10 @@ public class MemberInternalDTO {
     @Nullable
     private String country;
     @Nullable
+    private String location;
+    @Nullable
+    private String phoneNumber;
+    @Nullable
     private String summary;
     @Nullable
     private List<ExperienceDTO> experiences;

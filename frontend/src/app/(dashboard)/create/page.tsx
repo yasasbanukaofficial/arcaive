@@ -55,6 +55,16 @@ const emptyResumeData: ResumeData = {
   languages: [],
 };
 
+const trimOrEmpty = (value?: string | null) => (value || "").trim();
+
+const hasText = (value?: string | null) => trimOrEmpty(value).length > 0;
+
+const pickText = (draftValue: string | undefined, seedValue: string) =>
+  hasText(draftValue) ? draftValue.trim() : seedValue;
+
+const pickArray = <T,>(draftValue: T[] | undefined, seedValue: T[]) =>
+  Array.isArray(draftValue) && draftValue.length > 0 ? draftValue : seedValue;
+
 type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
 
 const templates = [
@@ -172,42 +182,86 @@ export default function CreateCVPage() {
           const memberId = memberData.memberId || "anonymous";
           const storedDraftRaw = localStorage.getItem(`resume_draft_${memberId}`);
           const storedDraft = storedDraftRaw ? (JSON.parse(storedDraftRaw) as ResumeData) : null;
+          const linkedInUrl = memberData.linkedAccounts?.find(
+            (account) => account.provider?.toLowerCase() === "linkedin",
+          )?.url;
 
-          const linkedinAccount = memberData.linkedAccounts?.find(
-            (a) => a.provider?.toLowerCase() === "linkedin",
-          );
+          const profileSeed: ResumeData = {
+            ...emptyResumeData,
+            personalInfo: {
+              ...emptyResumeData.personalInfo,
+              fullName: trimOrEmpty(memberData.memberFullName),
+              email: trimOrEmpty(memberData.memberEmail),
+              phone: trimOrEmpty(memberData.phoneNumber),
+              location: trimOrEmpty(memberData.location) || trimOrEmpty(memberData.country),
+              linkedin: trimOrEmpty(linkedInUrl),
+              specializations: [memberData.jobRole, memberData.experience]
+                .map((value) => trimOrEmpty(value))
+                .filter(Boolean),
+            },
+            summary: trimOrEmpty(memberData.summary),
+            workExperience: (memberData.experiences || []).map((x) => ({
+              role: x.role || "",
+              company: x.company || "",
+              location: x.location || "",
+              period: x.period || "",
+              bullets: Array.isArray(x.bullets) && x.bullets.length > 0 ? x.bullets : [""],
+            })),
+            education: (memberData.educations || []).map((x) => ({
+              degree: x.degree || "",
+              institution: x.institution || "",
+              location: x.location || "",
+              period: x.period || "",
+            })),
+            skills: (memberData.skills || []).map((x) => ({
+              category: x.category || "",
+              items: Array.isArray(x.items) ? x.items : [],
+            })),
+            certifications: Array.isArray(memberData.certifications)
+              ? memberData.certifications
+              : [],
+            projects: (memberData.projects || []).map((x) => ({
+              name: x.name || "",
+              description: x.description || "",
+              bullets: Array.isArray(x.bullets) && x.bullets.length > 0 ? x.bullets : [""],
+              year: x.year || "",
+            })),
+            languages: Array.isArray(memberData.languages) ? memberData.languages : [],
+          };
 
           if (storedDraft) {
             setData({
-              ...emptyResumeData,
+              ...profileSeed,
               ...storedDraft,
               personalInfo: {
-                ...emptyResumeData.personalInfo,
+                ...profileSeed.personalInfo,
                 ...(storedDraft.personalInfo || {}),
-                fullName: storedDraft.personalInfo?.fullName || memberData.memberFullName || "",
-                email: storedDraft.personalInfo?.email || memberData.memberEmail || "",
-                location: storedDraft.personalInfo?.location || memberData.country || "",
+                fullName: pickText(storedDraft.personalInfo?.fullName, profileSeed.personalInfo.fullName),
+                email: pickText(storedDraft.personalInfo?.email, profileSeed.personalInfo.email),
+                phone: pickText(storedDraft.personalInfo?.phone, profileSeed.personalInfo.phone),
+                location: pickText(storedDraft.personalInfo?.location, profileSeed.personalInfo.location),
+                linkedin: pickText(storedDraft.personalInfo?.linkedin, profileSeed.personalInfo.linkedin),
                 specializations:
-                  storedDraft.personalInfo?.specializations?.length
-                    ? storedDraft.personalInfo.specializations
-                    : memberData.jobRole
-                    ? [memberData.jobRole]
-                    : [],
-                linkedin: storedDraft.personalInfo?.linkedin || linkedinAccount?.url || "",
+                  storedDraft.personalInfo?.specializations?.some((value) => value.trim())
+                    ? storedDraft.personalInfo.specializations.filter((value) => value.trim())
+                    : profileSeed.personalInfo.specializations,
               },
+              summary: pickText(storedDraft.summary, profileSeed.summary),
+              workExperience:
+                pickArray(storedDraft.workExperience, profileSeed.workExperience),
+              education:
+                pickArray(storedDraft.education, profileSeed.education),
+              skills:
+                pickArray(storedDraft.skills, profileSeed.skills),
+              projects:
+                pickArray(storedDraft.projects, profileSeed.projects || []),
+              certifications:
+                pickArray(storedDraft.certifications, profileSeed.certifications),
+              languages:
+                pickArray(storedDraft.languages, profileSeed.languages || []),
             });
           } else {
-            setData({
-              ...emptyResumeData,
-              personalInfo: {
-                ...emptyResumeData.personalInfo,
-                fullName: memberData.memberFullName || "",
-                email: memberData.memberEmail || "",
-                location: memberData.country || "",
-                specializations: memberData.jobRole ? [memberData.jobRole] : [],
-                linkedin: linkedinAccount?.url || "",
-              },
-            });
+            setData(profileSeed);
           }
         }
       } catch (error) {
