@@ -30,7 +30,7 @@ public class ProfileUpdateRequestDTO {
     private Integer age;
 
     @Size(max = 50)
-    private String phoneNumber;
+    private String phone;
 
     @Size(max = 200)
     private String headline;

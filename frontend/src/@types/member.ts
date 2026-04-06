@@ -22,7 +22,7 @@ export type Member = {
   experience?: string | null;
   country?: string | null;
   location?: string | null;
-  phoneNumber?: string | null;
+  phone?: string | null;
   summary?: string | null;
   experiences?: {
     role: string;
@@ -65,7 +65,7 @@ export type MemberCreateRequest = {
   experience?: string;
   country?: string;
   location?: string;
-  phoneNumber?: string;
+  phone?: string;
 };
 
 export type MemberUpdatePayload = {
@@ -76,7 +76,7 @@ export type MemberUpdatePayload = {
   experience?: string;
   country?: string;
   location?: string;
-  phoneNumber?: string;
+  phone?: string;
   summary?: string;
   experiences?: {
     role: string;

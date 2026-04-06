@@ -13,7 +13,7 @@ function hasProfileDetails(member: Member) {
   return Boolean(
     member.summary?.trim() ||
       member.location?.trim() ||
-      member.phoneNumber?.trim() ||
+      member.phone?.trim() ||
       (member.experiences && member.experiences.length > 0) ||
       (member.educations && member.educations.length > 0) ||
       (member.skills && member.skills.length > 0) ||
@@ -29,7 +29,7 @@ function toPayload(extracted: OnboardingAutofillResponse): MemberUpdatePayload {
     ...(extracted.experience?.trim() ? { experience: extracted.experience.trim() } : {}),
     ...(extracted.country?.trim() ? { country: extracted.country.trim() } : {}),
     ...(extracted.location?.trim() ? { location: extracted.location.trim() } : {}),
-    ...(extracted.phone?.trim() ? { phoneNumber: extracted.phone.trim() } : {}),
+    ...(extracted.phone?.trim() ? { phone: extracted.phone.trim() } : {}),
     ...(extracted.summary?.trim() ? { summary: extracted.summary.trim() } : {}),
     experiences: Array.isArray(extracted.experiences) ? extracted.experiences : [],
     educations: Array.isArray(extracted.educations) ? extracted.educations : [],

@@ -96,8 +96,8 @@ public class LiveKitServiceImpl implements LiveKitService {
         );
         String fallbackJobDetails = String.format(
                 "{\"title\": \"%s\", \"focus\": \"General interview for %s role\"}",
-                member.getJobRole(),
-                member.getJobRole()
+                member.getProfile().getJobRole(),
+                member.getProfile().getJobRole()
         );
         String metadata = String.format(
                 "{\"candidate details\": %s, \"job details\": %s, \"duration\": %s}",

@@ -30,7 +30,7 @@ public class Profile {
     @Column(nullable = false)
     private Integer age;
 
-    private String phoneNumber;
+    private String phone;
     private String headline;
     private String summary;
     private String country;

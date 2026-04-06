@@ -34,6 +34,7 @@ import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -316,55 +317,122 @@ public class MemberServiceImpl implements MemberService {
                 ? ""
                 : extractedText.substring(0, Math.min(extractedText.length(), ONBOARDING_MAX_CHARS));
 
+        if (clippedText.isBlank()) {
+            log.warn("Onboarding CV extraction skipped because extracted CV text is empty");
+            return OnboardingAutofillResponseDTO.builder().build();
+        }
+
         OnboardingCVAutofillAgent onboardingAgent = AgenticServices
                 .agentBuilder(OnboardingCVAutofillAgent.class)
                 .chatModel(lowTempOpenAiChatModel)
                 .build();
 
         try {
-            OnboardingAutofillResponseDTO result = onboardingAgent.extractOnboardingDetails(clippedText);
-            if (result == null) {
-                return OnboardingAutofillResponseDTO.builder().build();
+            MemberProfileDTO profile = onboardingAgent.extractOnboardingDetails(clippedText);
+            if (!isProfileEmpty(profile)) {
+                normalizeProfile(profile);
+                log.info("Onboarding details extracted successfully from CV");
+                return OnboardingAutofillResponseDTO.builder().profile(profile).build();
             }
 
-            if (result.getLocation() == null || result.getLocation().isBlank()) {
-                result.setLocation(result.getCountry());
-            }
-            log.info("Onboarding details extracted successfully from CV");
-            return result;
+            log.warn("Primary onboarding extraction returned empty data, running fallback extractor");
+            return extractOnboardingDetailsFromFallback(clippedText);
         } catch (Exception ex) {
             log.warn("Onboarding CV extraction failed, attempting fallback extractor", ex);
-            try {
-                CVAnalyzerAgent fallbackAgent = AgenticServices
-                        .agentBuilder(CVAnalyzerAgent.class)
-                        .chatModel(lowTempOpenAiChatModel)
-                        .build();
-                MemberInternalDTO fallback = fallbackAgent.extractMemberFromCV(clippedText);
-                if (fallback == null) {
-                    return OnboardingAutofillResponseDTO.builder().build();
-                }
+            return extractOnboardingDetailsFromFallback(clippedText);
+        }
+    }
 
-                return OnboardingAutofillResponseDTO.builder()
-                        .jobRole(fallback.getJobRole())
-                        .experience(fallback.getExperience())
-                        .country(fallback.getCountry())
-                    .location(fallback.getLocation() != null && !fallback.getLocation().isBlank()
-                        ? fallback.getLocation()
-                        : fallback.getCountry())
-                    .phone(fallback.getPhoneNumber())
-                        .summary(fallback.getSummary())
-                        .experiences(fallback.getExperiences())
-                        .educations(fallback.getEducations())
-                        .projects(fallback.getProjects())
-                        .skills(fallback.getSkills())
-                        .certifications(fallback.getCertifications())
-                        .languages(fallback.getLanguages())
-                        .build();
-            } catch (Exception fallbackEx) {
-                log.warn("Fallback onboarding extraction also failed, returning empty onboarding payload", fallbackEx);
+    private OnboardingAutofillResponseDTO extractOnboardingDetailsFromFallback(String clippedText) {
+        try {
+            CVAnalyzerAgent fallbackAgent = AgenticServices
+                    .agentBuilder(CVAnalyzerAgent.class)
+                    .chatModel(lowTempOpenAiChatModel)
+                    .build();
+            MemberInternalDTO fallback = fallbackAgent.extractMemberFromCV(clippedText);
+            if (fallback == null) {
                 return OnboardingAutofillResponseDTO.builder().build();
             }
+
+            MemberProfileDTO profile = MemberProfileDTO.builder()
+                    .jobRole(fallback.getJobRole())
+                    .experience(fallback.getExperience())
+                    .country(fallback.getCountry())
+                    .location(fallback.getLocation() != null && !fallback.getLocation().isBlank()
+                            ? fallback.getLocation()
+                            : fallback.getCountry())
+                    .phone(fallback.getPhone())
+                    .summary(fallback.getSummary())
+                    .experiences(fallback.getExperiences())
+                    .educations(fallback.getEducations())
+                    .projects(fallback.getProjects())
+                    .skills(fallback.getSkills())
+                    .certifications(fallback.getCertifications())
+                    .languages(fallback.getLanguages())
+                    .build();
+
+            if (isProfileEmpty(profile)) {
+                return OnboardingAutofillResponseDTO.builder().build();
+            }
+
+            normalizeProfile(profile);
+            return OnboardingAutofillResponseDTO.builder().profile(profile).build();
+        } catch (Exception fallbackEx) {
+            log.warn("Fallback onboarding extraction also failed, returning empty onboarding payload", fallbackEx);
+            return OnboardingAutofillResponseDTO.builder().build();
         }
+    }
+
+    private void normalizeProfile(MemberProfileDTO profile) {
+        if (profile.getLocation() == null || profile.getLocation().isBlank()) {
+            profile.setLocation(profile.getCountry());
+        }
+
+        if (profile.getExperiences() == null) {
+            profile.setExperiences(Collections.emptyList());
+        }
+        if (profile.getEducations() == null) {
+            profile.setEducations(Collections.emptyList());
+        }
+        if (profile.getProjects() == null) {
+            profile.setProjects(Collections.emptyList());
+        }
+        if (profile.getSkills() == null) {
+            profile.setSkills(Collections.emptyList());
+        }
+        if (profile.getCertifications() == null) {
+            profile.setCertifications(Collections.emptyList());
+        }
+        if (profile.getLanguages() == null) {
+            profile.setLanguages(Collections.emptyList());
+        }
+    }
+
+    private boolean isProfileEmpty(MemberProfileDTO profile) {
+        if (profile == null) {
+            return true;
+        }
+
+        boolean hasScalar = isNotBlank(profile.getJobRole())
+                || isNotBlank(profile.getExperience())
+                || isNotBlank(profile.getCountry())
+                || isNotBlank(profile.getLocation())
+                || isNotBlank(profile.getPhone())
+                || isNotBlank(profile.getLinkedin())
+                || isNotBlank(profile.getSummary());
+
+        boolean hasListData = (profile.getExperiences() != null && !profile.getExperiences().isEmpty())
+                || (profile.getEducations() != null && !profile.getEducations().isEmpty())
+                || (profile.getProjects() != null && !profile.getProjects().isEmpty())
+                || (profile.getSkills() != null && !profile.getSkills().isEmpty())
+                || (profile.getCertifications() != null && !profile.getCertifications().isEmpty())
+                || (profile.getLanguages() != null && !profile.getLanguages().isEmpty());
+
+        return !(hasScalar || hasListData);
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.isBlank();
     }
 
     @Override

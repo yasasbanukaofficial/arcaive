@@ -33,7 +33,7 @@ public class Member {
     private String experience;
     private String country;
     private String location;
-    private String phoneNumber;
+    private String phone;
 
     @ElementCollection
     private List<Experience> experiences;

@@ -13,7 +13,7 @@ public interface CVAnalyzerAgent {
 
             Required top-level keys:
             memberFullName, memberUsername, memberEmail, password,
-            jobRole, experience, country, location, phoneNumber, summary,
+            jobRole, experience, country, location, phone, summary,
             experiences, educations, projects, skills, certifications, languages.
 
             Field rules:

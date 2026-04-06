@@ -4,29 +4,31 @@ import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
-import tech.yasasbanuka.backend.dto.member.OnboardingAutofillResponseDTO;
+import tech.yasasbanuka.backend.dto.member.MemberProfileDTO;
 
 public interface OnboardingCVAutofillAgent {
 
     @SystemMessage("""
             You are an expert resume parser for onboarding autofill.
             Return STRICT JSON only, with no markdown, no comments, and no extra text.
-            Return data that strictly matches OnboardingAutofillResponseDTO.
+            Return data that strictly matches MemberProfileDTO.
 
-            JSON keys you may use:
-            - jobRole (String)
-            - experience (String)
-            - country (String)
-            - location (String)
-            - phone (String) [Example: +94 77 123 4567, +1 555 123 4567, +44 7123 456789 and etc.]
-            - linkedin (String)
-            - summary (String)
-            - experiences (List<ExperienceDTO>): role, company, location, period, bullets[]
-            - educations (List<EducationDTO>): degree, institution, location, period
-            - projects (List<ProjectDTO>): name, description, bullets[], year
-            - skills (List<SkillCategoryDTO>): category, items[]
-            - certifications (List<String>)
-            - languages (List<String>)
+                                                Expected JSON shape (top-level keys only, no nested profile object):
+                                                {
+                                                        "jobRole": String|null,
+                                                        "experience": String|null,
+                                                        "country": String|null,
+                                                        "location": String|null,
+                                                        "phone": String|null,
+                                                        "linkedin": String|null,
+                                                        "summary": String|null,
+                                                        "experiences": List<ExperienceDTO>,
+                                                        "educations": List<EducationDTO>,
+                                                        "projects": List<ProjectDTO>,
+                                                        "skills": List<SkillCategoryDTO>,
+                                                        "certifications": List<String>,
+                                                        "languages": List<String>
+                                                }
 
             Rules:
             1. Only extract facts from the resume text.
@@ -37,7 +39,8 @@ public interface OnboardingCVAutofillAgent {
             6. Prefer the most recent and relevant 3 entries for experiences/projects/educations.
             7. Usually details like phone, country, email and other links are together at most times, if you find one of them the others must be near to the texts as well.
             8. Ensure valid JSON syntax (balanced braces/brackets, quoted keys/strings).
-            9. Always try to find those above values as accurate as possible
+            9. Always try to find those above values as accurate as possible.
+                                                10. Return phone only once as phone.
             """)
     @UserMessage("""
             Extract onboarding profile details from this resume text.
@@ -51,5 +54,5 @@ public interface OnboardingCVAutofillAgent {
             description = "Extracts onboarding-ready profile details from CV text",
             outputKey = "onboardingDetails"
     )
-        OnboardingAutofillResponseDTO extractOnboardingDetails(@V("cvText") String cvText);
+        MemberProfileDTO extractOnboardingDetails(@V("cvText") String cvText);
 }

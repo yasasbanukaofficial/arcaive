@@ -192,7 +192,7 @@ export default function CreateCVPage() {
               ...emptyResumeData.personalInfo,
               fullName: trimOrEmpty(memberData.memberFullName),
               email: trimOrEmpty(memberData.memberEmail),
-              phone: trimOrEmpty(memberData.phoneNumber),
+              phone: trimOrEmpty(memberData.phone),
               location: trimOrEmpty(memberData.location) || trimOrEmpty(memberData.country),
               linkedin: trimOrEmpty(linkedInUrl),
               specializations: [memberData.jobRole, memberData.experience]

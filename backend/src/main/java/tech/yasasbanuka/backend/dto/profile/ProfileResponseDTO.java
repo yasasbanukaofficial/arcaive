@@ -19,7 +19,7 @@ public class ProfileResponseDTO {
     private String email;
     private String address;
     private Integer age;
-    private String phoneNumber;
+    private String phone;
     private String headline;
     private String summary;
     private String country;

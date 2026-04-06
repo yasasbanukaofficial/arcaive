@@ -41,7 +41,7 @@ public class MemberUpdateRequestDTO {
     private String location;
     @Size(max = 50)
     @Nullable
-    private String phoneNumber;
+    private String phone;
 
     @Nullable
     private String summary;

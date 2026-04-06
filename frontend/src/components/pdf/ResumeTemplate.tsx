@@ -20,12 +20,8 @@ const classicStyles = StyleSheet.create({
   role: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: '#0a0a0a' },
   period: { fontSize: 9, color: '#555555', fontFamily: 'Helvetica' },
   companyLine: { fontSize: 9.5, color: '#333333', marginTop: 2, marginBottom: 6, flexDirection: 'row', alignItems: 'center' },
-  companyBold: { fontFamily: 'Helvetica-Bold', color: '#0a0a0a' },
-  bulletRow: { flexDirection: 'row', marginBottom: 2.5, paddingLeft: 4 },
-  bulletDot: { fontSize: 9, color: '#999999', marginRight: 7, lineHeight: 1.6 },
-  bulletText: { fontSize: 9, color: '#2d2d2d', lineHeight: 1.6, flex: 1 },
-  educationEntry: { marginBottom: 12 },
-  eduInstitution: { fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: '#0a0a0a', marginTop: 2 },
+  companyNormal: { color: '#0a0a0a' },
+  eduInstitution: { fontSize: 9.5, color: '#0a0a0a', marginTop: 2 },
   eduDescription: { fontSize: 9, color: '#444444', marginTop: 2 },
   skillsGrid: { flexDirection: 'row', flexWrap: 'wrap' },
   skillGroup: { width: '50%', marginBottom: 8 },
@@ -36,7 +32,11 @@ const classicStyles = StyleSheet.create({
   certText: { fontSize: 9.5, color: '#1f1f1f', lineHeight: 1.6 },
   projectEntry: { marginBottom: 12 },
   projectName: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: '#0a0a0a' },
-  projectDescription: { fontSize: 9, color: '#444444', marginTop: 2, marginBottom: 6 },
+  projectDescription: { fontSize: 9, color: '#444444', marginTop: 5, marginBottom: 6 },
+  educationEntry: { marginBottom: 12 },
+  bulletRow: { flexDirection: 'row', marginBottom: 2.5, paddingLeft: 4 },
+  bulletDot: { fontSize: 9, color: '#999999', marginRight: 7, lineHeight: 1.6 },
+  bulletText: { fontSize: 9, color: '#2d2d2d', lineHeight: 1.6, flex: 1 },
 });
 
 const modernStyles = StyleSheet.create({
@@ -54,6 +54,8 @@ const modernStyles = StyleSheet.create({
   entryTitle: { fontSize: 10.5, fontFamily: 'Helvetica-Bold', color: '#111111' },
   entryPeriod: { fontSize: 9, color: '#555555' },
   entrySubTitle: { fontSize: 9, color: '#777777', marginTop: 1, marginBottom: 5 },
+  entryCompany: { fontSize: 10.5, color: '#111111' },
+  entryInstitution: { fontSize: 9, color: '#111111' },
   bulletRow: { flexDirection: 'row', marginBottom: 2.5 },
   bulletChar: { fontSize: 9, color: '#333333', marginRight: 6 },
   bulletText: { fontSize: 9, color: '#333333', lineHeight: 1.6, flex: 1 },
@@ -90,7 +92,9 @@ const minimalStyles = StyleSheet.create({
   skillRating: { fontSize: 9, color: '#777' },
   detailsRow: { flexDirection: 'row', marginBottom: 2 },
   detailsLabel: { fontSize: 9, color: '#777', width: 110 },
-  detailsValue: { fontSize: 9, color: '#333', flex: 1 }
+  detailsValue: { fontSize: 9, color: '#333', flex: 1 },
+  eduInstitution: { fontSize: 9, color: '#111111' },
+  companyText: { fontSize: 9, color: '#111111' }
 });
 
 const boldStyles = StyleSheet.create({
@@ -108,6 +112,7 @@ const boldStyles = StyleSheet.create({
   entryTitle: { fontSize: 11, fontFamily: 'Helvetica-Bold', color: '#0a0a0a' },
   entryPeriod: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#0a0a0a' },
   entryLoc: { fontSize: 9, color: '#555555', marginBottom: 6 },
+  entryCompany: { fontSize: 11, color: '#0a0a0a' },
   bulletRow: { flexDirection: 'row', marginBottom: 4 },
   bulletChar: { fontSize: 9, color: '#444', marginRight: 7 },
   bulletText: { fontSize: 9, color: '#333', lineHeight: 1.6, flex: 1 },
@@ -115,6 +120,7 @@ const boldStyles = StyleSheet.create({
   skillCat: { fontSize: 8, fontFamily: 'Helvetica-Bold', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 2 },
   skillItems: { fontSize: 9, color: '#444', lineHeight: 1.6 },
   eduEntry: { marginBottom: 14 },
+  entryInstitution: { fontSize: 9, color: '#0a0a0a' },
   infoLabel: { fontFamily: 'Helvetica-Bold' }
 });
 
@@ -153,14 +159,14 @@ export const ResumeClassic = ({ data }: { data: ResumeData }) => (
             <View style={classicStyles.sectionHeader}><Text style={classicStyles.sectionTitle}>Experience</Text><View style={classicStyles.sectionLine} /></View>
             <View style={classicStyles.experienceEntry}>
               <View style={classicStyles.rowBetween}><Text style={classicStyles.role}>{data.workExperience[0].role}</Text><Text style={classicStyles.period}>{data.workExperience[0].period}</Text></View>
-              <View style={classicStyles.companyLine}><Text style={classicStyles.companyBold}>{data.workExperience[0].company}</Text><Text> · </Text><Text>{data.workExperience[0].location}</Text></View>
+              <View style={classicStyles.companyLine}><Text style={classicStyles.companyNormal}>{data.workExperience[0].company}</Text><Text> - </Text><Text>{data.workExperience[0].location}</Text></View>
               {data.workExperience[0].bullets.map((b, i) => (<View key={i} style={classicStyles.bulletRow}><Text style={classicStyles.bulletDot}>·</Text><Text style={classicStyles.bulletText}>{b}</Text></View>))}
             </View>
           </View>
           {data.workExperience.slice(1).map((exp, i) => (
             <View key={i} style={classicStyles.experienceEntry}>
               <View style={classicStyles.rowBetween}><Text style={classicStyles.role}>{exp.role}</Text><Text style={classicStyles.period}>{exp.period}</Text></View>
-              <View style={classicStyles.companyLine}><Text style={classicStyles.companyBold}>{exp.company}</Text><Text> · </Text><Text>{exp.location}</Text></View>
+              <View style={classicStyles.companyLine}><Text style={classicStyles.companyNormal}>{exp.company}</Text><Text> - </Text><Text>{exp.location}</Text></View>
               {exp.bullets.map((b, bi) => (<View key={bi} style={classicStyles.bulletRow}><Text style={classicStyles.bulletDot}>·</Text><Text style={classicStyles.bulletText}>{b}</Text></View>))}
             </View>
           ))}
@@ -269,9 +275,10 @@ export const ResumeModern = ({ data }: { data: ResumeData }) => (
             </View>
             <View style={modernStyles.entry}>
               <View style={modernStyles.rowBetween}>
-                <Text style={modernStyles.entryTitle}>{data.workExperience[0].company}, {data.workExperience[0].role}</Text>
+                <Text style={modernStyles.entryCompany}>{data.workExperience[0].company}</Text>
                 <Text style={modernStyles.entryPeriod}>{data.workExperience[0].period}</Text>
               </View>
+              <Text style={modernStyles.entrySubTitle}>{data.workExperience[0].role}</Text>
               <Text style={modernStyles.entrySubTitle}>{data.workExperience[0].location}</Text>
               {data.workExperience[0].bullets.map((b, i) => (
                 <View key={i} style={modernStyles.bulletRow}>
@@ -284,9 +291,10 @@ export const ResumeModern = ({ data }: { data: ResumeData }) => (
           {data.workExperience.slice(1).map((exp, i) => (
             <View key={i} style={modernStyles.entry}>
               <View style={modernStyles.rowBetween}>
-                <Text style={modernStyles.entryTitle}>{exp.company}, {exp.role}</Text>
+                <Text style={modernStyles.entryCompany}>{exp.company}</Text>
                 <Text style={modernStyles.entryPeriod}>{exp.period}</Text>
               </View>
+              <Text style={modernStyles.entrySubTitle}>{exp.role}</Text>
               <Text style={modernStyles.entrySubTitle}>{exp.location}</Text>
               {exp.bullets.map((b, bi) => (
                 <View key={bi} style={modernStyles.bulletRow}>
@@ -325,7 +333,7 @@ export const ResumeModern = ({ data }: { data: ResumeData }) => (
                 <Text style={modernStyles.entryTitle}>{data.education[0].degree}</Text>
                 <Text style={modernStyles.entryPeriod}>{data.education[0].period}</Text>
               </View>
-              <Text style={modernStyles.entrySubTitle}>{data.education[0].institution}</Text>
+              <Text style={modernStyles.entryInstitution}>{data.education[0].institution}</Text>
             </View>
           </View>
           {data.education.slice(1).map((edu, i) => (
@@ -334,7 +342,7 @@ export const ResumeModern = ({ data }: { data: ResumeData }) => (
                 <Text style={modernStyles.entryTitle}>{edu.degree}</Text>
                 <Text style={modernStyles.entryPeriod}>{edu.period}</Text>
               </View>
-              <Text style={modernStyles.entrySubTitle}>{edu.institution}</Text>
+              <Text style={modernStyles.entryInstitution}>{edu.institution}</Text>
             </View>
           ))}
         </View>
@@ -352,7 +360,7 @@ export const ResumeModern = ({ data }: { data: ResumeData }) => (
                 <Text style={modernStyles.entryTitle}>{proj.name}</Text>
                 <Text style={modernStyles.entryPeriod}>{proj.year}</Text>
               </View>
-              <Text style={modernStyles.entrySubTitle}>{proj.description}</Text>
+              <Text style={[modernStyles.entrySubTitle, { marginTop: 4 }]}>{proj.description}</Text>
               {proj.bullets.map((b, bi) => (
                 <View key={bi} style={modernStyles.bulletRow}>
                   <Text style={modernStyles.bulletChar}>•</Text>
@@ -432,7 +440,7 @@ export const ResumeMinimal = ({ data }: { data: ResumeData }) => (
               </View>
               <View style={minimalStyles.rightCol}>
                 <Text style={minimalStyles.boldText}>{data.education[0].degree}</Text>
-                <Text style={minimalStyles.subText}>{data.education[0].institution}</Text>
+                <Text style={minimalStyles.eduInstitution}>{data.education[0].institution}</Text>
               </View>
             </View>
           </View>
@@ -443,7 +451,7 @@ export const ResumeMinimal = ({ data }: { data: ResumeData }) => (
               </View>
               <View style={minimalStyles.rightCol}>
                 <Text style={minimalStyles.boldText}>{edu.degree}</Text>
-                <Text style={minimalStyles.subText}>{edu.institution}</Text>
+                <Text style={minimalStyles.eduInstitution}>{edu.institution}</Text>
               </View>
             </View>
           ))}
@@ -463,7 +471,8 @@ export const ResumeMinimal = ({ data }: { data: ResumeData }) => (
                 <Text style={minimalStyles.date}>{data.workExperience[0].period}</Text>
               </View>
               <View style={minimalStyles.rightCol}>
-                <Text style={minimalStyles.boldText}>{data.workExperience[0].role}, {data.workExperience[0].company}</Text>
+                <Text style={minimalStyles.boldText}>{data.workExperience[0].role}</Text>
+                <Text style={minimalStyles.companyText}>{data.workExperience[0].company}</Text>
                 <Text style={minimalStyles.subText}>{data.workExperience[0].location}</Text>
                 {data.workExperience[0].bullets.map((b, i) => (
                   <View key={i} style={minimalStyles.bulletRow}>
@@ -480,7 +489,8 @@ export const ResumeMinimal = ({ data }: { data: ResumeData }) => (
                 <Text style={minimalStyles.date}>{exp.period}</Text>
               </View>
               <View style={minimalStyles.rightCol}>
-                <Text style={minimalStyles.boldText}>{exp.role}, {exp.company}</Text>
+                <Text style={minimalStyles.boldText}>{exp.role}</Text>
+                <Text style={minimalStyles.companyText}>{exp.company}</Text>
                 <Text style={minimalStyles.subText}>{exp.location}</Text>
                 {exp.bullets.map((b, bi) => (
                   <View key={bi} style={minimalStyles.bulletRow}>
@@ -546,7 +556,7 @@ export const ResumeMinimal = ({ data }: { data: ResumeData }) => (
               </View>
               <View style={minimalStyles.rightCol}>
                 <Text style={minimalStyles.boldText}>{proj.name}</Text>
-                <Text style={minimalStyles.subText}>{proj.description}</Text>
+                <Text style={[minimalStyles.subText, { marginTop: 4 }]}>{proj.description}</Text>
                 {proj.bullets.map((b, bi) => (
                   <View key={bi} style={minimalStyles.bulletRow}>
                     <Text style={minimalStyles.bulletChar}>•</Text>
@@ -597,9 +607,10 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
             </View>
             <View style={boldStyles.entry}>
               <View style={boldStyles.rowBetween}>
-                <Text style={boldStyles.entryTitle}>{data.workExperience[0].company}, {data.workExperience[0].role}</Text>
+                <Text style={boldStyles.entryCompany}>{data.workExperience[0].company}</Text>
                 <Text style={boldStyles.entryPeriod}>{data.workExperience[0].period}</Text>
               </View>
+              <Text style={boldStyles.entryTitle}>{data.workExperience[0].role}</Text>
               <Text style={boldStyles.entryLoc}>{data.workExperience[0].location}</Text>
               {data.workExperience[0].bullets.map((b, i) => (
                 <View key={i} style={boldStyles.bulletRow}>
@@ -612,9 +623,10 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
           {data.workExperience.slice(1).map((exp, i) => (
             <View key={i} style={boldStyles.entry}>
               <View style={boldStyles.rowBetween}>
-                <Text style={boldStyles.entryTitle}>{exp.company}, {exp.role}</Text>
+                <Text style={boldStyles.entryCompany}>{exp.company}</Text>
                 <Text style={boldStyles.entryPeriod}>{exp.period}</Text>
               </View>
+              <Text style={boldStyles.entryTitle}>{exp.role}</Text>
               <Text style={boldStyles.entryLoc}>{exp.location}</Text>
               {exp.bullets.map((b, bi) => (
                 <View key={bi} style={boldStyles.bulletRow}>
@@ -639,7 +651,7 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
                 <Text style={boldStyles.entryTitle}>{data.projects[0].name}</Text>
                 <Text style={boldStyles.entryPeriod}>{data.projects[0].year}</Text>
               </View>
-              <Text style={[boldStyles.bulletText, { marginBottom: 8 }]}>{data.projects[0].description}</Text>
+              <Text style={[boldStyles.bulletText, { marginBottom: 10 }]}>{data.projects[0].description}</Text>
               {data.projects[0].bullets.map((b, i) => (
                 <View key={i} style={[boldStyles.bulletRow, { marginTop: 2 }]}>
                   <Text style={boldStyles.bulletChar}>•</Text>
@@ -654,7 +666,7 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
                 <Text style={boldStyles.entryTitle}>{proj.name}</Text>
                 <Text style={boldStyles.entryPeriod}>{proj.year}</Text>
               </View>
-              <Text style={[boldStyles.bulletText, { marginBottom: 8 }]}>{proj.description}</Text>
+              <Text style={[boldStyles.bulletText, { marginBottom: 10 }]}>{proj.description}</Text>
               {proj.bullets.map((b, bi) => (
                 <View key={bi} style={[boldStyles.bulletRow, { marginTop: 2 }]}>
                   <Text style={boldStyles.bulletChar}>•</Text>
@@ -695,7 +707,7 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
                 <Text style={boldStyles.entryTitle}>{data.education[0].degree}</Text>
                 <Text style={boldStyles.entryPeriod}>{data.education[0].period}</Text>
               </View>
-              <Text style={boldStyles.entryLoc}>{data.education[0].institution}</Text>
+              <Text style={boldStyles.entryInstitution}>{data.education[0].institution}</Text>
             </View>
           </View>
           {data.education.slice(1).map((edu, i) => (
@@ -704,7 +716,7 @@ export const ResumeBold = ({ data }: { data: ResumeData }) => (
                 <Text style={boldStyles.entryTitle}>{edu.degree}</Text>
                 <Text style={boldStyles.entryPeriod}>{edu.period}</Text>
               </View>
-              <Text style={boldStyles.entryLoc}>{edu.institution}</Text>
+              <Text style={boldStyles.entryInstitution}>{edu.institution}</Text>
             </View>
           ))}
         </View>
