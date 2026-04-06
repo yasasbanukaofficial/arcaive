@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Download, 
@@ -94,6 +95,31 @@ const mapProfileToResumeSections = (profile: MemberProfileDTO) => ({
   })),
   languages: Array.isArray(profile.languages) ? profile.languages : [],
 });
+
+const resolveTailoredProfile = (payload: unknown): MemberProfileDTO | null => {
+  if (!payload || typeof payload !== "object") {
+    return null;
+  }
+
+  const root = payload as Record<string, unknown>;
+  const directProfile = root.profile;
+  const nestedData = root.data;
+
+  const candidate =
+    (directProfile && typeof directProfile === "object" ? directProfile : null) ||
+    (nestedData && typeof nestedData === "object" ? nestedData : null) ||
+    root;
+
+  if (!candidate || typeof candidate !== "object") {
+    return null;
+  }
+
+  const hasProfileSignal = ["jobRole", "summary", "experiences", "skills", "projects"].some(
+    (key) => key in (candidate as Record<string, unknown>),
+  );
+
+  return hasProfileSignal ? (candidate as MemberProfileDTO) : null;
+};
 
 type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
 
@@ -192,6 +218,7 @@ const steps = [
 ];
 
 export default function CreateCVPage() {
+  const searchParams = useSearchParams();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
   const [stage, setStage] = useState(1);
   const [step, setStep] = useState(1);
@@ -207,16 +234,25 @@ export default function CreateCVPage() {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        // 1. Check for Tailored Draft in Session Storage first (Highest Priority)
-        const tailoredDraftRaw = sessionStorage.getItem(TAILORED_CV_DRAFT_KEY);
+        // 1. Use tailored draft only when this page is opened from jobs flow.
+        const source = searchParams.get("source");
+        const jobIdFromUrl = searchParams.get("jobId");
+        const isTailoredFlow = source === "tailored";
+
+        const tailoredDraftRaw = isTailoredFlow
+          ? sessionStorage.getItem(TAILORED_CV_DRAFT_KEY)
+          : null;
+
         if (tailoredDraftRaw) {
           try {
             const parsed = JSON.parse(tailoredDraftRaw);
-            const tailoredProfile: MemberProfileDTO = parsed.profile;
-            
-            if (tailoredProfile) {
+            const draftJobId = typeof parsed?.jobId === "string" ? parsed.jobId : "";
+            const jobMatches = !jobIdFromUrl || !draftJobId || draftJobId === jobIdFromUrl;
+            const tailoredProfile = resolveTailoredProfile(parsed);
+
+            if (tailoredProfile && jobMatches) {
               const tailoredSections = mapProfileToResumeSections(tailoredProfile);
-              
+
               // We still need member identity for basic info like name/email 
               // but we prefer tailored data for content
               const memberData: MemberIdentityData = await memberAPI.get();
@@ -239,6 +275,10 @@ export default function CreateCVPage() {
               // Clear session to avoid using it again on refresh
               sessionStorage.removeItem(TAILORED_CV_DRAFT_KEY);
               return;
+            }
+
+            if (!jobMatches) {
+              console.warn("Ignoring tailored draft due to jobId mismatch");
             }
           } catch (e) {
             console.error("Failed to parse tailored draft", e);
@@ -340,7 +380,7 @@ export default function CreateCVPage() {
       }
     };
     fetchMemberData();
-  }, []);
+  }, [searchParams]);
 
   const ActiveResume = () => {
     switch (selectedTemplate) {

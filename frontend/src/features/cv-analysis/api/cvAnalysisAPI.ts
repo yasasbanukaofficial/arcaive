@@ -53,6 +53,8 @@ export const cvAnalysisAPI = {
       withCredentials: true,
     });
 
-    return response.data as MemberProfileDTO;
+    const raw = response.data;
+    const normalized = raw?.data && typeof raw.data === "object" ? raw.data : raw;
+    return normalized as MemberProfileDTO;
   },
 };
