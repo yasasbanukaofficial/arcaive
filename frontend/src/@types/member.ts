@@ -49,6 +49,48 @@ export type Member = {
   }[];
   certifications?: string[];
   languages?: string[];
+  profile?: MemberProfileDTO;
+};
+
+export type MemberProfileDTO = {
+  jobRole?: string | null;
+  experience?: string | null;
+  country?: string | null;
+  location?: string | null;
+  phone?: string | null;
+  linkedin?: string | null;
+  summary?: string | null;
+  experiences?: {
+    role: string;
+    company: string;
+    location: string;
+    period: string;
+    bullets: string[];
+  }[];
+  educations?: {
+    degree: string;
+    institution: string;
+    location: string;
+    period: string;
+  }[];
+  skills?: {
+    category: string;
+    items: string[];
+  }[];
+  projects?: {
+    name: string;
+    description: string;
+    bullets: string[];
+    year?: string;
+  }[];
+  certifications?: string[];
+  languages?: string[];
+};
+
+export type TailoredCVRequestPayload = {
+  jobTitle: string;
+  jobDescription: string;
+  profile: MemberProfileDTO;
 };
 
 export type MemberIdentityData = Member & {

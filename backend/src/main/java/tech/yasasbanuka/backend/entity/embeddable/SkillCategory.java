@@ -1,12 +1,8 @@
 package tech.yasasbanuka.backend.entity.embeddable;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import tech.yasasbanuka.backend.entity.converter.StringListConverter;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +13,6 @@ import java.util.List;
 public class SkillCategory {
     private String category;
 
-    @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "TEXT")
-    private List<String> items;
+    private String items;
 }

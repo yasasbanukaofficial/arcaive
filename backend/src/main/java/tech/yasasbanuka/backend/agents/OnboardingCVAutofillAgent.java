@@ -22,7 +22,7 @@ public interface OnboardingCVAutofillAgent {
                     "linkedin": String|null,
                     "summary": String|null,
                     "experiences": List<ExperienceDTO>,
-                    "educations": List<EducationDTO>,
+                    "educations": List<EducationDTO>,   
                     "projects": List<ProjectDTO>,
                     "skills": List<SkillCategoryDTO>,
                     "certifications": List<String>,

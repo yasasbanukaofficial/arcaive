@@ -25,7 +25,8 @@ import TextArea from "@/components/ui/TextArea";
 import { useToast } from "@/components/ui/Toast";
 import { ResumeData, WorkExperience, Education, SkillCategory, Project } from "@/@types/resume";
 import { memberAPI } from "@/features/settings/api/memberAPI";
-import { MemberIdentityData } from "@/@types/member";
+import { MemberIdentityData, MemberProfileDTO } from "@/@types/member";
+import { TAILORED_CV_DRAFT_KEY } from "@/features/cv-analysis/constants/tailoredDraft";
 
 const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
@@ -64,6 +65,35 @@ const pickText = (draftValue: string | undefined, seedValue: string) =>
 
 const pickArray = <T,>(draftValue: T[] | undefined, seedValue: T[]) =>
   Array.isArray(draftValue) && draftValue.length > 0 ? draftValue : seedValue;
+
+const mapProfileToResumeSections = (profile: MemberProfileDTO) => ({
+  summary: trimOrEmpty(profile.summary),
+  workExperience: (profile.experiences || []).map((x) => ({
+    role: x.role || "",
+    company: x.company || "",
+    location: x.location || "",
+    period: x.period || "",
+    bullets: Array.isArray(x.bullets) && x.bullets.length > 0 ? x.bullets : [""],
+  })),
+  education: (profile.educations || []).map((x) => ({
+    degree: x.degree || "",
+    institution: x.institution || "",
+    location: x.location || "",
+    period: x.period || "",
+  })),
+  skills: (profile.skills || []).map((x) => ({
+    category: x.category || "",
+    items: Array.isArray(x.items) ? x.items : [],
+  })),
+  certifications: Array.isArray(profile.certifications) ? profile.certifications : [],
+  projects: (profile.projects || []).map((x) => ({
+    name: x.name || "",
+    description: x.description || "",
+    bullets: Array.isArray(x.bullets) && x.bullets.length > 0 ? x.bullets : [""],
+    year: x.year || "",
+  })),
+  languages: Array.isArray(profile.languages) ? profile.languages : [],
+});
 
 type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
 
@@ -177,11 +207,51 @@ export default function CreateCVPage() {
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
+        // 1. Check for Tailored Draft in Session Storage first (Highest Priority)
+        const tailoredDraftRaw = sessionStorage.getItem(TAILORED_CV_DRAFT_KEY);
+        if (tailoredDraftRaw) {
+          try {
+            const parsed = JSON.parse(tailoredDraftRaw);
+            const tailoredProfile: MemberProfileDTO = parsed.profile;
+            
+            if (tailoredProfile) {
+              const tailoredSections = mapProfileToResumeSections(tailoredProfile);
+              
+              // We still need member identity for basic info like name/email 
+              // but we prefer tailored data for content
+              const memberData: MemberIdentityData = await memberAPI.get();
+
+              setData({
+                ...emptyResumeData,
+                ...tailoredSections,
+                personalInfo: {
+                  fullName: trimOrEmpty(memberData.memberFullName),
+                  email: trimOrEmpty(memberData.memberEmail),
+                  phone: trimOrEmpty(tailoredProfile.phone) || trimOrEmpty(memberData.phone),
+                  location: trimOrEmpty(tailoredProfile.location) || trimOrEmpty(tailoredProfile.country) || trimOrEmpty(memberData.location) || trimOrEmpty(memberData.country),
+                  linkedin: trimOrEmpty(tailoredProfile.linkedin) || trimOrEmpty(memberData.linkedAccounts?.find(a => a.provider?.toLowerCase() === "linkedin")?.url),
+                  specializations: [tailoredProfile.jobRole, tailoredProfile.experience]
+                    .map(v => trimOrEmpty(v))
+                    .filter(Boolean),
+                },
+              });
+              
+              // Clear session to avoid using it again on refresh
+              sessionStorage.removeItem(TAILORED_CV_DRAFT_KEY);
+              return;
+            }
+          } catch (e) {
+            console.error("Failed to parse tailored draft", e);
+          }
+        }
+
+        // 2. Normal flow: Fetch member data and check for manual drafts
         const memberData: MemberIdentityData = await memberAPI.get();
         if (memberData) {
           const memberId = memberData.memberId || "anonymous";
           const storedDraftRaw = localStorage.getItem(`resume_draft_${memberId}`);
           const storedDraft = storedDraftRaw ? (JSON.parse(storedDraftRaw) as ResumeData) : null;
+          
           const linkedInUrl = memberData.linkedAccounts?.find(
             (account) => account.provider?.toLowerCase() === "linkedin",
           )?.url;

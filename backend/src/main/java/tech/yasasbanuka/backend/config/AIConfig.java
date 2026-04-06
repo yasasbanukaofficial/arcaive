@@ -1,9 +1,14 @@
 package tech.yasasbanuka.backend.config;
 
+import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tech.yasasbanuka.backend.agents.JobSummarizerAgent;
+import tech.yasasbanuka.backend.agents.OnboardingCVAutofillAgent;
+import tech.yasasbanuka.backend.agents.TailoredCVAgent;
 
 @Configuration
 public class AIConfig {
@@ -29,6 +34,8 @@ public class AIConfig {
                 .apiKey(apiKey)
                 .modelName(modelName)
                 .baseUrl(baseUrl)
+                .temperature(temperature)
+                .timeout(java.time.Duration.ofSeconds(timeout))
                 .maxRetries(3)
                 .build();
     }
@@ -40,7 +47,38 @@ public class AIConfig {
                 .modelName(modelName)
                 .temperature(0.0)
                 .baseUrl(baseUrl)
+                .timeout(java.time.Duration.ofSeconds(timeout))
                 .maxRetries(3)
                 .build();
     }
+
+        @Bean
+        public OnboardingCVAutofillAgent onboardingCVAutofillAgent(
+            @Qualifier("lowTempOpenAiChatModel") OpenAiChatModel lowTempOpenAiChatModel
+        ) {
+        return AgenticServices
+            .agentBuilder(OnboardingCVAutofillAgent.class)
+            .chatModel(lowTempOpenAiChatModel)
+            .build();
+        }
+
+        @Bean
+        public JobSummarizerAgent jobSummarizerAgent(
+            @Qualifier("lowTempOpenAiChatModel") OpenAiChatModel lowTempOpenAiChatModel
+        ) {
+        return AgenticServices
+            .agentBuilder(JobSummarizerAgent.class)
+            .chatModel(lowTempOpenAiChatModel)
+            .build();
+        }
+
+        @Bean
+        public TailoredCVAgent tailoredCVAgent(
+            @Qualifier("openAiChatModel") OpenAiChatModel openAiChatModel
+        ) {
+        return AgenticServices
+            .agentBuilder(TailoredCVAgent.class)
+            .chatModel(openAiChatModel)
+            .build();
+        }
 }

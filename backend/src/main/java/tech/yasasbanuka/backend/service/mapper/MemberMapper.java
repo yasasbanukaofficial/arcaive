@@ -1,5 +1,7 @@
 package tech.yasasbanuka.backend.service.mapper;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mapstruct.*;
 import tech.yasasbanuka.backend.config.CentralConfig;
 import tech.yasasbanuka.backend.dto.member.*;
@@ -10,8 +12,12 @@ import tech.yasasbanuka.backend.dto.profile.SkillCategoryDTO;
 import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.embeddable.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mapper(config = CentralConfig.class)
 public interface MemberMapper {
+    ObjectMapper LIST_MAPPER = new ObjectMapper();
 
     @Mapping(source = "id", target = "memberId")
     @Mapping(source = "fullName", target = "memberFullName")
@@ -135,15 +141,106 @@ public interface MemberMapper {
     @Mapping(source = "method", target = "method", defaultValue = "email")
     Mfa mfaDtoToMfa(MfaUpdateRequestDTO dto);
 
-    Experience toExperience(ExperienceDTO dto);
-    ExperienceDTO toExperienceDTO(Experience entity);
+    default Experience toExperience(ExperienceDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return Experience.builder()
+                .role(dto.getRole())
+                .company(dto.getCompany())
+                .location(dto.getLocation())
+                .period(dto.getPeriod())
+                .bullets(toJsonList(dto.getBullets()))
+                .build();
+    }
+
+    default ExperienceDTO toExperienceDTO(Experience entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return ExperienceDTO.builder()
+                .role(entity.getRole())
+                .company(entity.getCompany())
+                .location(entity.getLocation())
+                .period(entity.getPeriod())
+                .bullets(fromJsonList(entity.getBullets()))
+                .build();
+    }
 
     Education toEducation(EducationDTO dto);
     EducationDTO toEducationDTO(Education entity);
 
-    Project toProject(ProjectDTO dto);
-    ProjectDTO toProjectDTO(Project entity);
+    default Project toProject(ProjectDTO dto) {
+        if (dto == null) {
+            return null;
+        }
 
-    SkillCategory toSkillCategory(SkillCategoryDTO dto);
-    SkillCategoryDTO toSkillCategoryDTO(SkillCategory entity);
+        return Project.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .bullets(toJsonList(dto.getBullets()))
+                .year(dto.getYear())
+                .build();
+    }
+
+    default ProjectDTO toProjectDTO(Project entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return ProjectDTO.builder()
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .bullets(fromJsonList(entity.getBullets()))
+                .year(entity.getYear())
+                .build();
+    }
+
+    default SkillCategory toSkillCategory(SkillCategoryDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return SkillCategory.builder()
+                .category(dto.getCategory())
+                .items(toJsonList(dto.getItems()))
+                .build();
+    }
+
+    default SkillCategoryDTO toSkillCategoryDTO(SkillCategory entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        return SkillCategoryDTO.builder()
+                .category(entity.getCategory())
+                .items(fromJsonList(entity.getItems()))
+                .build();
+    }
+
+    default String toJsonList(List<String> values) {
+        if (values == null) {
+            return null;
+        }
+
+        try {
+            return LIST_MAPPER.writeValueAsString(values);
+        } catch (Exception ignored) {
+            return "[]";
+        }
+    }
+
+    default List<String> fromJsonList(String values) {
+        if (values == null || values.isBlank()) {
+            return new ArrayList<>();
+        }
+
+        try {
+            return LIST_MAPPER.readValue(values, new TypeReference<List<String>>() {});
+        } catch (Exception ignored) {
+            return new ArrayList<>();
+        }
+    }
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { JobListing } from "@/@types/jobs";
+import type { MemberIdentityData, MemberProfileDTO } from "@/@types/member";
 
 import { motion } from "framer-motion";
 import {
@@ -24,6 +25,7 @@ import {
   ShieldCheck,
   Zap,
   Info,
+  Sparkles,
   Search,
   FileSearch,
 } from "lucide-react";
@@ -35,20 +37,50 @@ import {
 } from "@/styles/jobColors";
 import Button from "@/components/ui/Button";
 import { jobAPI } from "@/features/jobs/api/jobAPI";
+import { memberAPI } from "@/features/settings/api/memberAPI";
+import { cvAnalysisAPI } from "@/features/cv-analysis/api/cvAnalysisAPI";
+import { TAILORED_CV_DRAFT_KEY } from "@/features/cv-analysis/constants/tailoredDraft";
 import JobStatCard from "@/features/jobs/components/JobStatCard";
 import JobTag from "@/features/jobs/components/JobTag";
 import JobHighlightSection from "@/features/jobs/components/JobHighlightSection";
 import formatSalary from "@/features/jobs/utils/formatSalary";
+import { useToast } from "@/components/ui/Toast";
+import { useQueryClient } from "@tanstack/react-query";
+import TailoringProgressModal from "@/features/cv-analysis/components/TailoringProgressModal";
+
+function toMemberProfile(member: MemberIdentityData): MemberProfileDTO {
+  if (member.profile) {
+    return member.profile;
+  }
+
+  return {
+    jobRole: member.jobRole,
+    experience: member.experience,
+    country: member.country,
+    location: member.location,
+    phone: member.phone,
+    summary: member.summary,
+    experiences: member.experiences,
+    educations: member.educations,
+    projects: member.projects,
+    skills: member.skills,
+    certifications: member.certifications,
+    languages: member.languages,
+  };
+}
 
 export default function JobDetailsPage() {
   const params = useParams();
   const router = useRouter();
+  const { addToast } = useToast();
+  const queryClient = useQueryClient();
   const id = params.id as string;
 
   const [bookmarked, setBookmarked] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const [job, setJob] = useState<JobListing | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isTailoring, setIsTailoring] = useState(false);
 
   useEffect(() => {
     const decodedId = decodeURIComponent(id);
@@ -133,13 +165,51 @@ export default function JobDetailsPage() {
     job.country,
   ])).filter(Boolean);
 
+  const handleCreateTailoredCV = async () => {
+    if (!job || isTailoring) return;
+
+    setIsTailoring(true);
+    try {
+      const cachedMember = queryClient.getQueryData<MemberIdentityData>(["member", "settings"]);
+      const member = cachedMember || ((await memberAPI.get()) as MemberIdentityData);
+
+      const tailoredProfile = await cvAnalysisAPI.tailor({
+        jobTitle: job.title,
+        jobDescription: job.description,
+        profile: toMemberProfile(member),
+      });
+
+      sessionStorage.setItem(
+        TAILORED_CV_DRAFT_KEY,
+        JSON.stringify({
+          profile: tailoredProfile,
+          jobId: id,
+          createdAt: Date.now(),
+        }),
+      );
+
+      router.push(`/create?source=tailored&jobId=${encodeURIComponent(id)}`);
+    } catch (error: any) {
+      const backendMessage = error?.response?.data?.message;
+      addToast({
+        type: "error",
+        title: "Tailoring failed",
+        description: backendMessage || "Could not create a tailored CV draft right now.",
+      });
+    } finally {
+      setIsTailoring(false);
+    }
+  };
+
   return (
-    <motion.div
-      initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.05, 0.02)}
-      className="max-w-[1200px] mx-auto space-y-8 pb-20 px-4 sm:px-6"
-    >
+    <>
+      <TailoringProgressModal isOpen={isTailoring} />
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={dashboardStagger(0.05, 0.02)}
+        className="max-w-[1200px] mx-auto space-y-8 pb-20 px-4 sm:px-6"
+      >
       {/* Navigation & Actions Header */}
       <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <motion.button
@@ -401,6 +471,17 @@ export default function JobDetailsPage() {
                 Analyze CV
               </Button>
 
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
+                onClick={handleCreateTailoredCV}
+                icon={<Sparkles className="w-5 h-5" />}
+                loading={isTailoring}
+              >
+                Create Tailored CV
+              </Button>
+
               {job.googleLink && (
                 <a href={job.googleLink} target="_blank" rel="noopener noreferrer" className="block">
                   <motion.button
@@ -502,5 +583,6 @@ export default function JobDetailsPage() {
         </div>
       </div>
     </motion.div>
+  </>
   );
 }
