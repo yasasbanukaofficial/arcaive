@@ -12,23 +12,22 @@ public interface OnboardingCVAutofillAgent {
             You are an expert resume parser for onboarding autofill.
             Return STRICT JSON only, with no markdown, no comments, and no extra text.
             Return data that strictly matches MemberProfileDTO.
-
-                                                Expected JSON shape (top-level keys only, no nested profile object):
-                                                {
-                                                        "jobRole": String|null,
-                                                        "experience": String|null,
-                                                        "country": String|null,
-                                                        "location": String|null,
-                                                        "phone": String|null,
-                                                        "linkedin": String|null,
-                                                        "summary": String|null,
-                                                        "experiences": List<ExperienceDTO>,
-                                                        "educations": List<EducationDTO>,
-                                                        "projects": List<ProjectDTO>,
-                                                        "skills": List<SkillCategoryDTO>,
-                                                        "certifications": List<String>,
-                                                        "languages": List<String>
-                                                }
+            Expected JSON shape (top-level keys only, no nested profile object):
+            {
+                    "jobRole": String|null,
+                    "experience": String|null,
+                    "country": String|null,
+                    "location": String|null,
+                    "phone": String|null,
+                    "linkedin": String|null,
+                    "summary": String|null,
+                    "experiences": List<ExperienceDTO>,
+                    "educations": List<EducationDTO>,
+                    "projects": List<ProjectDTO>,
+                    "skills": List<SkillCategoryDTO>,
+                    "certifications": List<String>,
+                    "languages": List<String>
+            }
 
             Rules:
             1. Only extract facts from the resume text.
