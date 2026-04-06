@@ -97,7 +97,8 @@ export default function CVAnalysisPage() {
               size="lg"
               className="w-10 h-10 sm:w-12 sm:h-12 p-0 rounded-xl border flex items-center justify-center shrink-0"
               icon={<History size={18} />}
-            />
+            >
+            </Button>
           </div>
         )}
       </motion.div>

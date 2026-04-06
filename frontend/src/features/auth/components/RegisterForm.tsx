@@ -71,17 +71,17 @@ export default function RegisterForm() {
   }, [state]);
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-white text-[14px] placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+    `w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
       touched && error
         ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-        : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
     }`;
 
   const selectClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
+    `w-full rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
       touched && error
-        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40 text-white"
-        : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40 text-white"
+        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
     }`;
 
   return (

@@ -23,27 +23,27 @@ function getTagStyles(variant: string): React.CSSProperties {
   switch (variant) {
     case "blue":
       return {
-        backgroundColor: "rgba(59, 130, 246, 0.1)",
-        color: "rgba(59, 130, 246, 0.85)",
-        border: "1px solid rgba(59, 130, 246, 0.15)",
+        backgroundColor: "rgba(59, 130, 246, 0.15)",
+        color: "#60a5fa",
+        border: "1px solid rgba(59, 130, 246, 0.3)",
       };
     case "green":
       return {
-        backgroundColor: "rgba(34, 197, 94, 0.1)",
-        color: "rgba(34, 197, 94, 0.85)",
-        border: "1px solid rgba(34, 197, 94, 0.15)",
+        backgroundColor: "rgba(34, 197, 94, 0.15)",
+        color: "#4ade80",
+        border: "1px solid rgba(34, 197, 94, 0.3)",
       };
     case "purple":
       return {
-        backgroundColor: "rgba(139, 92, 246, 0.1)",
-        color: "rgba(139, 92, 246, 0.85)",
-        border: "1px solid rgba(139, 92, 246, 0.15)",
+        backgroundColor: "rgba(139, 92, 246, 0.15)",
+        color: "#a78bfa",
+        border: "1px solid rgba(139, 92, 246, 0.3)",
       };
     default:
       return {
-        backgroundColor: "var(--d-surface-active)",
-        color: "var(--d-text-secondary)",
-        border: "1px solid var(--d-border)",
+        backgroundColor: "rgba(255, 255, 255, 0.08)",
+        color: "var(--d-text-primary)",
+        border: "1px solid rgba(255, 255, 255, 0.12)",
       };
   }
 }
@@ -160,8 +160,8 @@ export default function TagInput({
       {label && (
         <div className="flex items-center justify-between">
           <label
-            className="block text-[13px] font-medium ml-0.5"
-            style={{ color: "var(--d-text-tertiary)" }}
+            className="block text-xs font-bold ml-0.5 tracking-widest uppercase"
+            style={{ color: "var(--d-text-secondary)" }}
           >
             {label}
             {required && <span className="text-red-400/70 ml-0.5">*</span>}
@@ -184,18 +184,18 @@ export default function TagInput({
         <div
           onClick={handleContainerClick}
           className={`
-            flex flex-wrap items-center gap-1.5 rounded-xl px-3 py-2 min-h-[42px]
+            flex flex-wrap items-center gap-2 rounded-xl px-4 py-3 min-h-[50px]
             transition-all duration-200
             ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-text"}
           `}
           style={{
-            backgroundColor: "var(--d-surface)",
+            backgroundColor: "rgba(255, 255, 255, 0.05)",
             border: error
-              ? "1px solid rgba(239, 68, 68, 0.4)"
+              ? "1.5px solid rgba(239, 68, 68, 0.5)"
               : isFocused
-                ? "1px solid var(--d-border-hover)"
-                : "1px solid var(--d-border)",
-            boxShadow: isFocused ? "0 0 0 2px rgba(59, 130, 246, 0.08)" : "none",
+                ? "1.5px solid #3b82f6"
+                : "1.5px solid rgba(255, 255, 255, 0.12)",
+            boxShadow: isFocused ? "0 0 0 3px rgba(59, 130, 246, 0.15)" : "none",
           }}
         >
           <AnimatePresence mode="popLayout">
@@ -207,7 +207,7 @@ export default function TagInput({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8, width: 0, marginRight: -4 }}
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[12px] font-medium select-none shrink-0"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold select-none shrink-0"
                 style={tagStyle}
               >
                 <span className="truncate max-w-[150px]">{tag}</span>
@@ -218,10 +218,10 @@ export default function TagInput({
                       e.stopPropagation();
                       removeTag(index);
                     }}
-                    className="shrink-0 w-3.5 h-3.5 flex items-center justify-center rounded-full transition-all duration-150 hover:opacity-70 -mr-0.5"
+                    className="shrink-0 w-4 h-4 flex items-center justify-center rounded-full transition-all duration-150 hover:opacity-70 -mr-0.5"
                     aria-label={`Remove ${tag}`}
                   >
-                    <X className="w-2.5 h-2.5" />
+                    <X className="w-3 h-3" />
                   </button>
                 )}
               </motion.span>
@@ -243,17 +243,9 @@ export default function TagInput({
               onBlur={handleBlur}
               placeholder={tags.length === 0 ? placeholder : ""}
               disabled={disabled}
-              className="flex-1 min-w-[80px] bg-transparent text-[13px] outline-none placeholder:opacity-40 py-0.5"
+              className="flex-1 min-w-[80px] bg-transparent text-sm font-semibold outline-none placeholder:text-white/40 placeholder:font-medium py-1"
               style={{ color: "var(--d-text-primary)" }}
             />
-          )}
-          {tags.length === 0 && !isFocused && !disabled && (
-            <div
-              className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ color: "var(--d-text-ghost)" }}
-            >
-              <Plus className="w-3.5 h-3.5" />
-            </div>
           )}
         </div>
         <AnimatePresence>

@@ -61,7 +61,7 @@ const trimOrEmpty = (value?: string | null) => (value || "").trim();
 const hasText = (value?: string | null) => trimOrEmpty(value).length > 0;
 
 const pickText = (draftValue: string | undefined, seedValue: string) =>
-  hasText(draftValue) ? draftValue.trim() : seedValue;
+  hasText(draftValue) ? (draftValue as string).trim() : seedValue;
 
 const pickArray = <T,>(draftValue: T[] | undefined, seedValue: T[]) =>
   Array.isArray(draftValue) && draftValue.length > 0 ? draftValue : seedValue;
