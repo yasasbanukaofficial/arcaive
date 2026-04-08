@@ -32,8 +32,8 @@ public class TierConfigCreateRequestDTO {
     @NotNull(message = "Auto apply limit is required")
     private Integer autoApplyLimit;
 
-    @NotNull(message = "CV versions limit is required")
-    private Integer cvVersionsLimit;
+    @NotNull(message = "CV creation limit is required")
+    private Integer cvCreationsLimit;
 
     @NotNull(message = "Monthly price is required")
     private BigDecimal priceMonthly;

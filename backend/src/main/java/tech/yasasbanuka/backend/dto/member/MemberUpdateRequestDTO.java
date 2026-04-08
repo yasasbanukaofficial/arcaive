@@ -7,6 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tech.yasasbanuka.backend.dto.profile.EducationDTO;
+import tech.yasasbanuka.backend.dto.profile.ExperienceDTO;
+import tech.yasasbanuka.backend.dto.profile.ProjectDTO;
+import tech.yasasbanuka.backend.dto.profile.SkillCategoryDTO;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -30,4 +36,25 @@ public class MemberUpdateRequestDTO {
     private String experience;
     @Nullable
     private String country;
+    @Size(max = 200)
+    @Nullable
+    private String location;
+    @Size(max = 50)
+    @Nullable
+    private String phone;
+
+    @Nullable
+    private String summary;
+    @Nullable
+    private List<ExperienceDTO> experiences;
+    @Nullable
+    private List<EducationDTO> educations;
+    @Nullable
+    private List<ProjectDTO> projects;
+    @Nullable
+    private List<SkillCategoryDTO> skills;
+    @Nullable
+    private List<String> certifications;
+    @Nullable
+    private List<String> languages;
 }

@@ -2,8 +2,7 @@ package tech.yasasbanuka.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import tech.yasasbanuka.backend.entity.embeddable.LinkedAccount;
-import tech.yasasbanuka.backend.entity.embeddable.Mfa;
+import tech.yasasbanuka.backend.entity.embeddable.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +20,9 @@ public class Member {
     private String email;
     private String hashedPassword;
 
+    @Column(length = 2000)
+    private String summary;
+
     @Embedded
     private Mfa mfa;
 
@@ -30,6 +32,28 @@ public class Member {
     private String jobRole;
     private String experience;
     private String country;
+    private String location;
+    private String phone;
+
+    @ElementCollection
+    private List<Experience> experiences;
+
+    @ElementCollection
+    private List<Education> educations;
+
+    @ElementCollection
+    private List<Project> projects;
+
+    @ElementCollection
+    private List<SkillCategory> skills;
+
+    @ElementCollection
+    @Column(columnDefinition = "TEXT")
+    private List<String> certifications;
+
+    @ElementCollection
+    @Column(columnDefinition = "TEXT")
+    private List<String> languages;
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private Subscription subscription;

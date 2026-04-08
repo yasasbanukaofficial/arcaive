@@ -48,9 +48,9 @@ public class UsageQuota {
     @Builder.Default
     private Integer autoApplyLimit = 0;
 
-    private Integer cvVersionsStored;
+    private Integer cvCreationsStored;
     @Builder.Default
-    private Integer cvVersionsLimit = 1;
+    private Integer cvCreationsLimit = 1;
 
     @CreationTimestamp
     private Instant createdAt;

@@ -112,7 +112,7 @@ export default function Select({
                 {selected.icon}
               </span>
             )}
-            <span className="truncate">
+            <span className="truncate font-semibold">
               {selected ? selected.label : placeholder}
             </span>
           </div>

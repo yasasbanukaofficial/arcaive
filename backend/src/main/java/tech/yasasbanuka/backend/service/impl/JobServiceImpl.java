@@ -43,10 +43,10 @@ public class JobServiceImpl implements JobService {
         }
 
         if (location == null || location.isBlank()) {
-            location = member.getCountry();
+            location = member.getProfile().getCountry();
         }
 
-        String jobRole = member.getJobRole();
+        String jobRole = member.getProfile().getJobRole();
         if (jobRole == null || jobRole.isBlank()) {
             jobRole = "software engineer";
         }

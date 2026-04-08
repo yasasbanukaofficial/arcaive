@@ -2,15 +2,17 @@ package tech.yasasbanuka.backend.service.impl;
 
 import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CareerIntelligenceAgent;
 import tech.yasasbanuka.backend.agents.CVAnalyzerAgent;
+import tech.yasasbanuka.backend.agents.OnboardingCVAutofillAgent;
 import tech.yasasbanuka.backend.dto.job.JobDetailsDTO;
 import tech.yasasbanuka.backend.dto.member.*;
 import tech.yasasbanuka.backend.dto.skill.AtomicSkillResponseDTO;
@@ -32,6 +34,7 @@ import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +50,11 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final PDFTextExtract pdfTextExtract;
     private final OpenAiChatModel openAiChatModel;
+    @Qualifier("lowTempOpenAiChatModel")
+    private final OpenAiChatModel lowTempOpenAiChatModel;
+
+    private static final int CV_ANALYZER_MAX_CHARS = 18_000;
+    private static final int ONBOARDING_MAX_CHARS = 18_000;
 
     @Override
     public MemberResponseDTO createMember(MemberCreateRequestDTO dto) {
@@ -106,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
                 .jobSearchUsed(0)
                 .interviewUsed(0)
                 .autoApplyUsed(0)
-                .cvVersionsStored(0)
+                .cvCreationsStored(0)
                 .build();
 
         member.setSubscription(freeSub);
@@ -157,6 +165,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberResponseDTO getMember(UUID memberId) {
         log.info("Fetching member with ID: {}", memberId);
         return memberMapper.toResponseDTO(memberRepo.findById(memberId)
@@ -167,6 +176,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberResponseDTO getMemberByUsername(String username) {
         log.info("Fetching member with username: {}", username);
         return memberMapper.toResponseDTO(memberRepo.findByUsername(username)
@@ -177,6 +187,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UsageQuotaResponseDTO getUsageQuotaByUsername(String username) {
         log.info("Fetching usage quota for username: {}", username);
         Member member = memberRepo.findByUsername(username)
@@ -188,12 +199,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemberInternalDTO getMemberInternalByEmail(String email) {
         log.debug("Fetching internal member by email: {}", email);
         return memberMapper.toInternalDTO(memberRepo.findByEmail(email).orElse(null));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MemberResponseDTO> getAllMembers() {
         log.info("Fetching all members");
         return memberRepo.findAll().stream().map(memberMapper::toResponseDTO).toList();
@@ -283,13 +296,143 @@ public class MemberServiceImpl implements MemberService {
     public MemberInternalDTO extractMemberDetails(MultipartFile file) {
         log.info("Extracting member details from CV file: {}", file.getOriginalFilename());
         String extractedText = pdfTextExtract.extract(file);
+        String clippedText = extractedText == null
+            ? ""
+            : extractedText.substring(0, Math.min(extractedText.length(), CV_ANALYZER_MAX_CHARS));
+
         CVAnalyzerAgent cvAnalyzerAgent = AgenticServices
                 .agentBuilder(CVAnalyzerAgent.class)
                 .chatModel(openAiChatModel)
                 .build();
-        MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(extractedText);
+        MemberInternalDTO result = cvAnalyzerAgent.extractMemberFromCV(clippedText);
         log.info("Member details extracted successfully from CV");
         return result;
+    }
+
+    @Override
+    public OnboardingAutofillResponseDTO extractOnboardingDetails(MultipartFile file) {
+        log.info("Extracting onboarding details from CV file: {}", file.getOriginalFilename());
+        String extractedText = pdfTextExtract.extract(file);
+        String clippedText = extractedText == null
+                ? ""
+                : extractedText.substring(0, Math.min(extractedText.length(), ONBOARDING_MAX_CHARS));
+
+        if (clippedText.isBlank()) {
+            log.warn("Onboarding CV extraction skipped because extracted CV text is empty");
+            return OnboardingAutofillResponseDTO.builder().build();
+        }
+
+        OnboardingCVAutofillAgent onboardingAgent = AgenticServices
+                .agentBuilder(OnboardingCVAutofillAgent.class)
+                .chatModel(lowTempOpenAiChatModel)
+                .build();
+
+        try {
+            MemberProfileDTO profile = onboardingAgent.extractOnboardingDetails(clippedText);
+            if (!isProfileEmpty(profile)) {
+                normalizeProfile(profile);
+                log.info("Onboarding details extracted successfully from CV");
+                return OnboardingAutofillResponseDTO.builder().profile(profile).build();
+            }
+
+            log.warn("Primary onboarding extraction returned empty data, running fallback extractor");
+            return extractOnboardingDetailsFromFallback(clippedText);
+        } catch (Exception ex) {
+            log.warn("Onboarding CV extraction failed, attempting fallback extractor", ex);
+            return extractOnboardingDetailsFromFallback(clippedText);
+        }
+    }
+
+    private OnboardingAutofillResponseDTO extractOnboardingDetailsFromFallback(String clippedText) {
+        try {
+            CVAnalyzerAgent fallbackAgent = AgenticServices
+                    .agentBuilder(CVAnalyzerAgent.class)
+                    .chatModel(lowTempOpenAiChatModel)
+                    .build();
+            MemberInternalDTO fallback = fallbackAgent.extractMemberFromCV(clippedText);
+            if (fallback == null) {
+                return OnboardingAutofillResponseDTO.builder().build();
+            }
+
+            MemberProfileDTO profile = MemberProfileDTO.builder()
+                    .jobRole(fallback.getJobRole())
+                    .experience(fallback.getExperience())
+                    .country(fallback.getCountry())
+                    .location(fallback.getLocation() != null && !fallback.getLocation().isBlank()
+                            ? fallback.getLocation()
+                            : fallback.getCountry())
+                    .phone(fallback.getPhone())
+                    .summary(fallback.getSummary())
+                    .experiences(fallback.getExperiences())
+                    .educations(fallback.getEducations())
+                    .projects(fallback.getProjects())
+                    .skills(fallback.getSkills())
+                    .certifications(fallback.getCertifications())
+                    .languages(fallback.getLanguages())
+                    .build();
+
+            if (isProfileEmpty(profile)) {
+                return OnboardingAutofillResponseDTO.builder().build();
+            }
+
+            normalizeProfile(profile);
+            return OnboardingAutofillResponseDTO.builder().profile(profile).build();
+        } catch (Exception fallbackEx) {
+            log.warn("Fallback onboarding extraction also failed, returning empty onboarding payload", fallbackEx);
+            return OnboardingAutofillResponseDTO.builder().build();
+        }
+    }
+
+    private void normalizeProfile(MemberProfileDTO profile) {
+        if (profile.getLocation() == null || profile.getLocation().isBlank()) {
+            profile.setLocation(profile.getCountry());
+        }
+
+        if (profile.getExperiences() == null) {
+            profile.setExperiences(Collections.emptyList());
+        }
+        if (profile.getEducations() == null) {
+            profile.setEducations(Collections.emptyList());
+        }
+        if (profile.getProjects() == null) {
+            profile.setProjects(Collections.emptyList());
+        }
+        if (profile.getSkills() == null) {
+            profile.setSkills(Collections.emptyList());
+        }
+        if (profile.getCertifications() == null) {
+            profile.setCertifications(Collections.emptyList());
+        }
+        if (profile.getLanguages() == null) {
+            profile.setLanguages(Collections.emptyList());
+        }
+    }
+
+    private boolean isProfileEmpty(MemberProfileDTO profile) {
+        if (profile == null) {
+            return true;
+        }
+
+        boolean hasScalar = isNotBlank(profile.getJobRole())
+                || isNotBlank(profile.getExperience())
+                || isNotBlank(profile.getCountry())
+                || isNotBlank(profile.getLocation())
+                || isNotBlank(profile.getPhone())
+                || isNotBlank(profile.getLinkedin())
+                || isNotBlank(profile.getSummary());
+
+        boolean hasListData = (profile.getExperiences() != null && !profile.getExperiences().isEmpty())
+                || (profile.getEducations() != null && !profile.getEducations().isEmpty())
+                || (profile.getProjects() != null && !profile.getProjects().isEmpty())
+                || (profile.getSkills() != null && !profile.getSkills().isEmpty())
+                || (profile.getCertifications() != null && !profile.getCertifications().isEmpty())
+                || (profile.getLanguages() != null && !profile.getLanguages().isEmpty());
+
+        return !(hasScalar || hasListData);
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.isBlank();
     }
 
     @Override

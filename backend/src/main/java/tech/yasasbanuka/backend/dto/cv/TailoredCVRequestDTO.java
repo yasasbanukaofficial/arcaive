@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.UUID;
+import tech.yasasbanuka.backend.dto.member.MemberProfileDTO;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CvAnalysisInternalDTO {
-    private UUID id;
-    private UUID memberId;
-    private String targetJobTitle;
+public class TailoredCVRequestDTO {
+    private String jobTitle;
+    private String jobDescription;
+    private MemberProfileDTO profile;
 }

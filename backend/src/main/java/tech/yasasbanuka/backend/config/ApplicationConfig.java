@@ -3,6 +3,7 @@ package tech.yasasbanuka.backend.config;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,4 +54,11 @@ public class ApplicationConfig {
 
     @Bean
     public ObjectMapper objectMapper() {return new ObjectMapper();}
+
+    @Bean
+    @Qualifier("aiObjectMapper")
+    public ObjectMapper aiObjectMapper(ObjectMapper objectMapper) {
+        return objectMapper.copy()
+                .setSerializationInclusion(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY);
+    }
 }

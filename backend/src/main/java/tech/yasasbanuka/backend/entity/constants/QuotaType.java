@@ -23,10 +23,10 @@ public enum QuotaType {
         @Override public int getLimit(UsageQuota q) { return q.getAutoApplyLimit(); }
         @Override public void increment(UsageQuota q) { q.setAutoApplyUsed(q.getAutoApplyUsed() + 1); }
     },
-    CV_VERSIONS {
-        @Override public int getUsed(UsageQuota q) { return q.getCvVersionsStored(); }
-        @Override public int getLimit(UsageQuota q) { return q.getCvVersionsLimit(); }
-        @Override public void increment(UsageQuota q) { q.setCvVersionsStored(q.getCvVersionsStored() + 1); }
+    CV_CREATION {
+        @Override public int getUsed(UsageQuota q) { return q.getCvCreationsStored(); }
+        @Override public int getLimit(UsageQuota q) { return q.getCvCreationsLimit(); }
+        @Override public void increment(UsageQuota q) { q.setCvCreationsStored(q.getCvCreationsStored() + 1); }
     };
 
     public abstract int getUsed(UsageQuota q);

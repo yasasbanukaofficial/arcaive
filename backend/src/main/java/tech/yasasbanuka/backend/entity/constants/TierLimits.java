@@ -12,16 +12,16 @@ public enum TierLimits {
     private final int jobResultsPerSearch;
     private final int interviewLimit;
     private final int autoApplyLimit;
-    private final int cvVersionsLimit;
+    private final int cvCreationsLimit;
 
     TierLimits(int cvAnalysisLimit, int jobSearchLimit, int jobResultsPerSearch,
-               int interviewLimit, int autoApplyLimit, int cvVersionsLimit) {
+               int interviewLimit, int autoApplyLimit, int cvCreationsLimit) {
         this.cvAnalysisLimit = cvAnalysisLimit;
         this.jobSearchLimit = jobSearchLimit;
         this.jobResultsPerSearch = jobResultsPerSearch;
         this.interviewLimit = interviewLimit;
         this.autoApplyLimit = autoApplyLimit;
-        this.cvVersionsLimit = cvVersionsLimit;
+        this.cvCreationsLimit = cvCreationsLimit;
     }
 
     public static TierLimits of(Tier tier) {
@@ -38,6 +38,6 @@ public enum TierLimits {
         quota.setJobResultsPerSearch(this.jobResultsPerSearch);
         quota.setInterviewLimit(this.interviewLimit);
         quota.setAutoApplyLimit(this.autoApplyLimit);
-        quota.setCvVersionsLimit(this.cvVersionsLimit);
+        quota.setCvCreationsLimit(this.cvCreationsLimit);
     }
 }

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowRight, Briefcase, Globe, Clock } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
-import CVResumeUpload, { ExtractedMember } from "./CVResumeUpload";
 import { motion, AnimatePresence } from "framer-motion";
 import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import Button from "@/components/ui/Button";
@@ -53,24 +52,12 @@ export default function RegisterForm() {
     },
   });
 
-  const handleExtracted = (data: ExtractedMember) => {
-    if (data.memberFullName) formik.setFieldValue("memberFullName", data.memberFullName);
-    if (data.memberEmail) formik.setFieldValue("memberEmail", data.memberEmail);
-    if (data.password) {
-      formik.setFieldValue("memberPassword", data.password);
-      formik.setFieldValue("confirmPassword", data.password);
-    }
-    if (data.jobRole) formik.setFieldValue("jobRole", data.jobRole);
-    if (data.experience) formik.setFieldValue("experience", data.experience);
-    if (data.country) formik.setFieldValue("country", data.country);
-  };
-
   useEffect(() => {
     if (state.success) {
       addToast({
         type: "success",
         title: "Account created",
-        description: "Your account has been created. Redirecting you to sign in...",
+        description: "Redirecting you to login...",
       });
       setTimeout(() => router.push("/login"), 1500);
     }
@@ -84,17 +71,17 @@ export default function RegisterForm() {
   }, [state]);
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-white text-[14px] placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+    `w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
       touched && error
         ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-        : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
     }`;
 
   const selectClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-[14px] focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
+    `w-full rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
       touched && error
-        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40 text-white"
-        : "bg-white/3 border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40 text-white"
+        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
+        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
     }`;
 
   return (
@@ -311,20 +298,6 @@ export default function RegisterForm() {
               </div>
             </div>
           </div>
-        </motion.div>
-
-        <motion.div variants={bounceIn}>
-          <div className="relative flex items-center gap-4 pt-1 pb-1">
-            <div className="h-px flex-1 bg-white/5"></div>
-            <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold whitespace-nowrap">
-              Or auto-fill with AI
-            </span>
-            <div className="h-px flex-1 bg-white/5"></div>
-          </div>
-        </motion.div>
-
-        <motion.div variants={bounceIn}>
-          <CVResumeUpload onExtracted={handleExtracted} />
         </motion.div>
 
         <motion.div variants={bounceIn}>

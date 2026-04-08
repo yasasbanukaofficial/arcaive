@@ -1,5 +1,6 @@
 package tech.yasasbanuka.backend.dto.member;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,6 @@ public class MemberResponseDTO {
     private MfaUpdateRequestDTO mfa;
     private List<LinkedAccountDTO> linkedAccounts;
     private String subscriptionId;
-    private String jobRole;
-    private String experience;
-    private String country;
+    @JsonUnwrapped
+    private MemberProfileDTO profile;
 }

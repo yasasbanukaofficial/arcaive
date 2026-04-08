@@ -38,8 +38,8 @@ export default function TextField({
     <div className={`space-y-1.5 ${className}`}>
       {label && (
         <label
-          className="block text-[13px] font-medium ml-0.5"
-          style={{ color: "var(--d-text-tertiary)" }}
+          className="block text-xs font-bold ml-0.5 tracking-widest uppercase"
+          style={{ color: "var(--d-text-secondary)" }}
         >
           {label}
           {required && (
@@ -65,29 +65,31 @@ export default function TextField({
           required={required}
           disabled={disabled}
           className={`
-            w-full rounded-xl px-4 py-2.5 text-[13px]
+            w-full rounded-xl px-4 py-3 text-sm font-semibold
             outline-none transition-all duration-200
-            placeholder:opacity-40
+            placeholder:text-white/40 placeholder:font-medium
             disabled:opacity-40 disabled:cursor-not-allowed
-            focus:ring-2 focus:ring-blue-500/20
+            focus:ring-2 focus:ring-blue-500/30
             ${icon ? "pl-10" : ""}
           `}
           style={{
-            backgroundColor: "var(--d-surface)",
+            backgroundColor: "rgba(255, 255, 255, 0.05)",
             border: error
-              ? "1px solid rgba(239, 68, 68, 0.4)"
-              : "1px solid var(--d-border)",
+              ? "1.5px solid rgba(239, 68, 68, 0.5)"
+              : "1.5px solid rgba(255, 255, 255, 0.12)",
             color: "var(--d-text-primary)",
           }}
           onFocus={(e) => {
             e.currentTarget.style.borderColor = error
-              ? "rgba(239, 68, 68, 0.6)"
-              : "var(--d-border-hover)";
+              ? "rgba(239, 68, 68, 0.8)"
+              : "#3b82f6";
+            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
           }}
           onBlur={(e) => {
             e.currentTarget.style.borderColor = error
-              ? "rgba(239, 68, 68, 0.4)"
-              : "var(--d-border)";
+              ? "rgba(239, 68, 68, 0.5)"
+              : "rgba(255, 255, 255, 0.12)";
+            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
             onBlur?.(e);
           }}
         />

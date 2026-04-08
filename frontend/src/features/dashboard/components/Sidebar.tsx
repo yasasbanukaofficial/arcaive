@@ -16,6 +16,7 @@ import {
   LogOut,
   Mic,
   FileSearch,
+  FileText,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
@@ -24,9 +25,10 @@ import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
-  { name: "Workflow", href: "/workflow", icon: Zap },
+  { name: "Create CV", href: "/create", icon: FileText },
   { name: "Jobs", href: "/jobs", icon: Briefcase },
   { name: "CV Analysis", href: "/cv-analysis", icon: FileSearch },
+  { name: "Workflow", href: "/workflow", icon: Zap },
   { name: "Interview", href: "/interview", icon: Mic },
 ];
 

@@ -1,16 +1,17 @@
-package tech.yasasbanuka.backend.dto.cv;
+package tech.yasasbanuka.backend.dto.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.UUID;
+
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CvAnalysisCreateRequestDTO {
-    private UUID memberId;
-    private String targetJobTitle;
+public class SkillCategoryDTO {
+    private String category;
+    private List<String> items;
 }

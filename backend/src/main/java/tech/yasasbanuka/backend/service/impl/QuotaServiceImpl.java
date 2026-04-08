@@ -54,7 +54,7 @@ public class QuotaServiceImpl implements QuotaService {
         quota.setJobSearchUsed(0);
         quota.setInterviewUsed(0);
         quota.setAutoApplyUsed(0);
-        quota.setCvVersionsStored(0);
+        quota.setCvCreationsLimit(0);
 
         TierLimits.of(tier).applyTo(quota);
 

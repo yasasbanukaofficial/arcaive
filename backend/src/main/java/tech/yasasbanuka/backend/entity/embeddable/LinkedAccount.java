@@ -9,6 +9,7 @@ import lombok.*;
 @Embeddable
 public class LinkedAccount {
     private String provider;
+    private String oauthId;
     private String label;
     private boolean connected;
     private String email;

@@ -37,7 +37,7 @@ export default function LoginForm() {
       addToast({
         type: "success",
         title: "Signed in",
-        description: "Welcome back! Redirecting you to your dashboard...",
+        description: "Welcome! Redirecting you to your dashboard...",
       });
       setTimeout(() => router.push("/overview"), 1500);
     }

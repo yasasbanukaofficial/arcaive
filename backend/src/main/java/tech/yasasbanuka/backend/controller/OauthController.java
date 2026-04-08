@@ -63,9 +63,14 @@ public class OauthController implements AuthenticationSuccessHandler {
             case "google" -> "https://profiles.google.com/" + oAuth2User.getAttribute("sub");
             default -> "";
         };
+        String oauthId = switch (provider) {
+            case "github" -> String.valueOf(oAuth2User.getAttribute("id"));
+            case "google" -> (String) oAuth2User.getAttribute("sub");
+            default -> authentication.getName();
+        };
 
         log.info("Processing OAuth login for username: {} via provider: {}", username, provider);
-        String memberUsername = oAuthService.processOAuthLogin(provider, email, fullName, username, socialUrl);
+        String memberUsername = oAuthService.processOAuthLogin(provider, email, fullName, username, socialUrl, oauthId);
 
         log.info("Generating JWT for member: {}", memberUsername);
         String jwtToken = jwtUtil.generateToken(memberUsername);
