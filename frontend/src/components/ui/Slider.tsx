@@ -88,21 +88,21 @@ export default function Slider({
         `}
       >
         <div
-          className="absolute inset-x-0 h-[2px] bg-[#E8E6DE]"
-          style={{ borderRadius: 0 }}
+          className="absolute inset-x-0 h-[2px] bg-[var(--glass-border)]"
+          style={{ borderRadius: "var(--radius)" }}
         />
         <div
-          className="absolute left-0 h-[2px] bg-black transition-[width] duration-75 ease-out"
+          className="absolute left-0 h-[2px] bg-[var(--text-primary)] transition-[width] duration-75 ease-out"
           style={{
             width: `${percentage}%`,
-            borderRadius: 0,
+            borderRadius: "var(--radius)",
           }}
         />
         <div
-          className="absolute w-2 h-5 bg-black -translate-x-1/2 transition-[left] duration-75 ease-out"
+          className="absolute w-2 h-5 bg-[var(--text-primary)] -translate-x-1/2 transition-[left] duration-75 ease-out"
           style={{
             left: `${percentage}%`,
-            borderRadius: 0,
+            borderRadius: "var(--radius)",
           }}
         />
         <input

@@ -78,74 +78,38 @@ export default function SettingsPage() {
       variants={dashboardStagger(0.04, 0.02)}
       className="max-w-7xl mx-auto"
     >
-      <motion.div variants={fadeUp} className="mb-8">
-        <div className="flex items-center gap-3 mb-1">
-          <div
-            className="w-12 h-12  flex items-center justify-center"
-            style={{
-              backgroundColor: "var(--d-surface-active)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            <Settings
-              className="w-6 h-6"
-              style={{ color: "var(--d-text-tertiary)" }}
-            />
-          </div>
-          <div>
-            <h1
-              className="text-[26px] font-bold tracking-tight"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Settings
-            </h1>
-            <p
-              className="text-[15px] mt-1"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Configure your account, agents, and preferences
-            </p>
-          </div>
+      <motion.div variants={fadeUp} className="mb-12">
+        <div className="flex items-center gap-4 mb-3">
+          <div className="w-[1px] h-10 bg-black/20" />
+          <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+            Control Center
+          </h1>
         </div>
+        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
+          System <br /> Configuration.
+        </h2>
+        <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
+          Fine-tune your platform experience, manage AI agent parameters, and secure your 
+          digital identity through our centralized command interface.
+        </p>
       </motion.div>
-      <motion.div variants={fadeUp} className="lg:hidden mb-6">
-        <div
-          className="overflow-x-auto pb-2 -mx-1 px-1 "
-          style={{
-            backgroundColor: "var(--d-surface)",
-            border: "1px solid var(--d-border)",
-          }}
-        >
-          <div className="flex gap-1 p-1.5 min-w-max">
-            {(
-              [
-                "identity",
-                "career",
-                "agents",
-                "notifications",
-              ] as SettingsSection[]
-            ).map((id) => {
-              const isActive = activeSection === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => {
-                    setActiveSection(id);
-                    console.log(id);
-                  }}
-                  className="relative px-4 py-2.5  text-[13px] font-medium whitespace-nowrap  duration-200"
-                  style={{
-                    backgroundColor: isActive ? "#000000" : "transparent",
-                    color: isActive ? "#ffffff" : "var(--d-text-muted)",
-                    border: "1px solid transparent",
-                  }}
-                >
-                  {sectionTitles[id].title.split(" ")[0]}
-                </button>
-              );
-            })}
-          </div>
+      <motion.div variants={fadeUp} className="lg:hidden mb-8">
+        <div className="flex gap-2 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar">
+          {(["identity", "career", "agents", "notifications"] as SettingsSection[]).map((id) => {
+            const isActive = activeSection === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setActiveSection(id)}
+                className={`flex-shrink-0 px-6 py-3 text-[11px] font-black uppercase tracking-[0.2em] border transition-all ${
+                  isActive ? "bg-black text-white border-black" : "bg-white text-black/40 border-black/10"
+                }`}
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                {sectionTitles[id].title.split(" ")[0]}
+              </button>
+            );
+          })}
         </div>
       </motion.div>
       <motion.div
@@ -164,24 +128,24 @@ export default function SettingsPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.18, ease: smoothEase }}
-              className="mb-6"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              transition={{ duration: 0.25, ease: smoothEase }}
+              className="mb-10"
             >
-              <h2
-                className="text-[20px] font-semibold tracking-tight mb-1.5"
-                style={{ color: "var(--d-text-primary)" }}
-              >
-                {title}
-              </h2>
-              <p
-                className="text-[14px]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <div className="flex items-baseline gap-4 mb-2">
+                 <h2 className="font-display text-3xl font-black tracking-tight text-[var(--text-primary)] uppercase">
+                   {title.split(" & ")[0]}
+                 </h2>
+                 <span className="text-black/20 font-display text-2xl font-light italic">
+                   {title.split(" & ")[1] ? `& ${title.split(" & ")[1]}` : ""}
+                 </span>
+              </div>
+              <p className="text-[14px] text-[var(--text-secondary)] max-w-xl leading-relaxed">
                 {description}
               </p>
+              <div className="h-[1px] w-full bg-black/5 mt-6" />
             </motion.div>
           </AnimatePresence>
           <AnimatePresence mode="wait">

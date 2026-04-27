@@ -60,7 +60,7 @@ export default function PasswordField({
             disabled:opacity-40 disabled:cursor-not-allowed
             ${error ? "border-[#D83B2A]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
           `}
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         />
         <button
           type="button"

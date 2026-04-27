@@ -22,22 +22,12 @@ type TagInputProps = {
 function getTagStyles(variant: string): React.CSSProperties {
   switch (variant) {
     case "blue":
-      return {
-        backgroundColor: "rgba(59, 130, 246, 0.15)",
-        color: "#60a5fa",
-        border: "1px solid rgba(59, 130, 246, 0.3)",
-      };
     case "green":
-      return {
-        backgroundColor: "rgba(34, 197, 94, 0.15)",
-        color: "#4ade80",
-        border: "1px solid rgba(34, 197, 94, 0.3)",
-      };
     case "purple":
       return {
-        backgroundColor: "rgba(139, 92, 246, 0.15)",
-        color: "#a78bfa",
-        border: "1px solid rgba(139, 92, 246, 0.3)",
+        backgroundColor: "rgba(255, 255, 255, 0.08)",
+        color: "var(--text-primary)",
+        border: "1px solid var(--glass-border)",
       };
     default:
       return {
@@ -176,7 +166,7 @@ export default function TagInput({
             ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-text"}
             ${error ? "border-[#D83B2A]" : isFocused ? "border-[var(--text-primary)]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
           `}
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         >
           <AnimatePresence mode="popLayout">
             {tags.map((tag, index) => (
@@ -187,7 +177,7 @@ export default function TagInput({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="inline-flex items-center gap-2 px-2 py-1 border border-[var(--glass-border)] bg-[var(--glass-border)] font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)] shrink-0"
-                style={{ borderRadius: 0 }}
+                style={{ borderRadius: "var(--radius)" }}
               >
                 <span className="truncate max-w-[150px]">{tag}</span>
                 {!disabled && (
@@ -222,7 +212,7 @@ export default function TagInput({
               onBlur={handleBlur}
               placeholder={tags.length === 0 ? placeholder : ""}
               disabled={disabled}
-              className="flex-1 min-w-[120px] bg-transparent font-sans text-[15px] outline-none placeholder:text-[var(--text-secondary)] py-1"
+              className="flex-1 min-w-[120px] bg-transparent font-sans text-[15px] outline-none placeholder:text-[var(--text-secondary)]/30 py-1"
             />
           )}
         </div>
@@ -232,22 +222,22 @@ export default function TagInput({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute z-50 w-full mt-[-1px] bg-[var(--glass-bg)] border border-[var(--text-primary)] overflow-hidden max-h-48 overflow-y-auto"
-              style={{ borderRadius: 0 }}
+              className="absolute z-[9999] w-full mt-2 bg-[var(--glass-bg)] backdrop-blur-md border border-[var(--text-primary)] overflow-y-auto max-h-[220px] shadow-2xl"
+              style={{ borderRadius: "var(--radius)" }}
             >
               {filteredSuggestions.map((suggestion) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    addTag(suggestion);
-                  }}
-                  className="w-full flex items-center gap-3 px-[14px] py-[10px] text-left hover:bg-[var(--glass-border)] transition-colors border-b border-[var(--glass-border)] last:border-b-0"
-                >
-                  <span className="font-mono text-[11px] text-[var(--text-secondary)]">→</span>
-                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">{suggestion}</span>
-                </button>
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      addTag(suggestion);
+                    }}
+                    className="w-full flex items-center gap-3 px-[14px] py-[10px] text-left hover:bg-white/5 transition-colors border-b border-[var(--glass-border)] last:border-b-0"
+                  >
+                    <span className="font-mono text-[10px] text-[var(--text-secondary)]">→</span>
+                    <span className="font-sans text-[13px] font-bold uppercase tracking-tight text-[var(--text-primary)] truncate">{suggestion}</span>
+                  </button>
               ))}
             </motion.div>
           )}

@@ -40,7 +40,7 @@ export default function InterviewPage() {
         <div className="flex-1 flex flex-col min-h-0">
           {loading && (
             <div className="flex-1 flex flex-col items-center justify-center gap-4">
-              <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500  animate-spin" />
+              <div className="w-12 h-12 border-4 border-[var(--glass-border)] border-t-[var(--text-primary)] animate-spin" />
               <p className="text-[14px] font-medium" style={{ color: "var(--d-text-muted)" }}>
                 Establishing secure connection...
               </p>

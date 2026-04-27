@@ -201,11 +201,11 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
     >
       <div className="flex items-center justify-between">
         <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-          RESUME_DOC
+          Resume Document
         </span>
 
         <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)] border border-[var(--glass-border)] px-2 py-0.5">
-          [ AI_POWERED ]
+          AI Powered
         </div>
       </div>
 
@@ -218,7 +218,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
         className={`relative px-8 py-10 text-center border transition-colors ${
           isDragging ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : isDone ? "bg-[var(--glass-bg)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)] border-dashed"
         } ${isProcessing ? "cursor-default" : "cursor-pointer"}`}
-        style={{ borderRadius: 0 }}
+        style={{ borderRadius: "var(--radius)" }}
       >
         <input
           ref={inputRef}
@@ -246,7 +246,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
 
               <div className="space-y-1">
                 <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
-                  {isDragging ? "DROP_FILE_NOW" : "UPLOAD_RESUME_DOC"}
+                  {isDragging ? "Drop Resume Document" : "Upload Resume Document"}
                 </p>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
                   PDF, DOC, DOCX · MAX 10MB
@@ -254,7 +254,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
               </div>
 
               <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-tight text-[var(--text-secondary)]">
-                <span>→ AUTO_FILL_NAME_ROLE_EXPERIENCE</span>
+                <span>→ Auto-fill name, role, and experience</span>
               </div>
             </motion.div>
           )}
@@ -286,9 +286,9 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                       e.stopPropagation();
                       removeFile();
                     }}
-                    className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                    className="px-3 py-1 bg-black text-white hover:bg-[#D83B2A] transition-colors font-mono text-[10px] font-bold uppercase tracking-widest rounded-[var(--radius)]"
                   >
-                    [ REMOVE ]
+                    Remove
                   </button>
                 )}
               </div>
@@ -297,7 +297,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
-                      {isDone ? "✓ READY_TO_FILL" : stage === "analyzing" ? "→ ANALYZING_DOC" : "→ UPLOADING_DOC"}
+                      {isDone ? "Ready to fill" : stage === "analyzing" ? "Analyzing Document" : "Uploading Document"}
                     </span>
                   </div>
                   <span className="font-mono text-[11px] text-[var(--text-primary)]">
@@ -321,7 +321,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                     className={`px-2 py-1 font-mono text-[10px] uppercase tracking-widest border  ${
                       isDone ? "border-[var(--glass-border)] bg-[var(--glass-border)] text-[var(--text-primary)]" : "border-[var(--glass-border)] text-[var(--text-secondary)]"
                     }`}
-                    style={{ borderRadius: 0 }}
+                    style={{ borderRadius: "var(--radius)" }}
                   >
                     {isDone && "✓ "}{field}
                   </span>
@@ -333,7 +333,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
       </div>
 
       <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
-        UPLOAD_TO_AUTO_FILL_IN_SECONDS_OR_MANUAL_ENTRY_BELOW
+        Upload your resume to auto-fill the form in seconds, or enter details manually below.
       </p>
     </motion.div>
   );

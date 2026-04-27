@@ -11,17 +11,17 @@ if (typeof window !== "undefined") {
 
 const steps = [
   {
-    phase: "PHASE_01",
+    phase: "Phase 01",
     title: "Analysis.",
     description: "Multi-agent swarm decomposes your CV into raw vector signal.",
   },
   {
-    phase: "PHASE_02",
+    phase: "Phase 02",
     title: "Discovery.",
     description: "Scan global ecosystems for highest-signal role alignment.",
   },
   {
-    phase: "PHASE_03",
+    phase: "Phase 03",
     title: "Execution.",
     description: "Autonomous delivery of hyper-tailored professional data.",
   },

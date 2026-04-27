@@ -132,10 +132,10 @@ export default function JobDetailsPage() {
         <div className="w-20 h-20  bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20">
           <Info className="w-10 h-10 text-red-500" />
         </div>
-        <p className="text-[24px] font-bold mb-2" style={{ color: "var(--d-text-primary)" }}>
+        <p className="text-[24px] font-bold mb-2" style={{ color: "var(--text-primary)" }}>
           Job not found
         </p>
-        <p className="text-[15px] mb-8 max-w-sm" style={{ color: "var(--d-text-muted)" }}>
+        <p className="text-[15px] mb-8 max-w-sm" style={{ color: "var(--text-secondary)" }}>
           The job listing you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
         <Button
@@ -217,9 +217,9 @@ export default function JobDetailsPage() {
           whileTap={{ scale: 0.97 }}
           onClick={() => router.push("/jobs")}
           className="flex items-center gap-2.5 text-[14px] font-bold uppercase tracking-wider group py-2"
-          style={{ color: "var(--d-text-tertiary)" }}
+          style={{ color: "var(--text-secondary)" }}
         >
-          <div className="w-8 h-8  flex items-center justify-center transition-colors group-hover:bg-[var(--d-surface-hover)] border border-transparent group-hover:border-[var(--d-border-subtle)]">
+          <div className="w-8 h-8  flex items-center justify-center transition-colors group-hover:bg-[var(--bg-color)] border border-transparent group-hover:border-[var(--glass-border)]">
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
           </div>
           Back to Explorers
@@ -232,9 +232,9 @@ export default function JobDetailsPage() {
             onClick={handleCopyLink}
             className="px-4 h-10  flex items-center justify-center gap-2  border font-semibold text-[13px]"
             style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: linkCopied ? "var(--accent-emerald-border)" : "var(--d-border-subtle)",
-              color: linkCopied ? "var(--accent-emerald-dot)" : "var(--d-text-secondary)",
+              backgroundColor: "var(--glass-bg)",
+              borderColor: linkCopied ? "var(--accent-emerald-border)" : "var(--glass-border)",
+              color: linkCopied ? "var(--accent-emerald-dot)" : "var(--text-secondary)",
             }}
           >
             {linkCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -247,9 +247,9 @@ export default function JobDetailsPage() {
             onClick={() => setBookmarked(!bookmarked)}
             className="w-10 h-10  flex items-center justify-center  border"
             style={{
-              backgroundColor: bookmarked ? "var(--accent-amber-bg)" : "var(--d-surface)",
-              borderColor: bookmarked ? "var(--accent-amber-border)" : "var(--d-border-subtle)",
-              color: bookmarked ? "var(--accent-amber-dot)" : "var(--d-icon)",
+              backgroundColor: bookmarked ? "var(--accent-amber-bg)" : "var(--glass-bg)",
+              borderColor: bookmarked ? "var(--accent-amber-border)" : "var(--glass-border)",
+              color: bookmarked ? "var(--accent-amber-dot)" : "var(--text-secondary)",
             }}
           >
             {bookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
@@ -260,10 +260,10 @@ export default function JobDetailsPage() {
       {/* Hero Section */}
       <motion.div
         variants={fadeUp}
-        className="relative [2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-black/20"
+        className="relative [2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-black/40 oryzo-card-glow"
         style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
+          backgroundColor: "var(--glass-bg)",
+          border: "1px solid var(--glass-border)",
         }}
       >
         <div className="relative z-10">
@@ -273,7 +273,7 @@ export default function JobDetailsPage() {
               whileHover={{ scale: 1.05, rotate: 1 }}
               className="w-20 h-20 sm:w-28 sm:h-28  flex items-center justify-center shrink-0 overflow-hidden shadow-xl border-4"
               style={{
-                backgroundColor: "var(--d-surface-hover)",
+                backgroundColor: "var(--bg-color)",
                 borderColor: accent.bg,
               }}
             >
@@ -298,7 +298,7 @@ export default function JobDetailsPage() {
                 </span>
               </div>
 
-              <h1 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] sm:leading-tight" style={{ color: "var(--d-text-primary)" }}>
+              <h1 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] sm:leading-tight" style={{ color: "var(--text-primary)" }}>
                   {job.title}
                 </h1>
 
@@ -306,9 +306,9 @@ export default function JobDetailsPage() {
                 <div
                   className="flex items-center gap-2 px-4 py-2  transition-colors"
                   style={{
-                    backgroundColor: "var(--d-surface-hover)",
-                    border: "1px solid var(--d-border-subtle)",
-                    color: "var(--d-text-secondary)",
+                    backgroundColor: "var(--bg-color)",
+                    border: "1px solid var(--glass-border)",
+                    color: "var(--text-secondary)",
                   }}
                 >
                   <MapPin className="w-4 h-4 text-[var(--text-secondary)]" />
@@ -321,7 +321,7 @@ export default function JobDetailsPage() {
                   </div>
                 )}
                 {job.isRemote && (
-                  <div className="flex items-center gap-2 px-4 py-2 bg-[var(--glass-bg)]/5 border border-[var(--glass-border)] text-[var(--text-primary)]">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-[var(--text-primary)]/5 border border-[var(--glass-border)] text-[var(--text-primary)]">
                     <Wifi className="w-4 h-4" />
                     Remote Available
                   </div>
@@ -355,10 +355,10 @@ export default function JobDetailsPage() {
           {job.benefits && job.benefits.length > 0 && (
             <motion.div variants={fadeUp} className="space-y-4">
                <div className="flex items-center gap-2.5">
-                <div className="p-2 " style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
+                <div className="p-2 " style={{ backgroundColor: "var(--bg-color)", border: "1px solid var(--glass-border)" }}>
                   <Zap className="w-5 h-5 text-amber-400" />
                 </div>
-                <h3 className="text-[18px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
+                <h3 className="text-[18px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
                   Employee Benefits
                 </h3>
               </div>
@@ -368,9 +368,9 @@ export default function JobDetailsPage() {
                     key={i}
                     className="px-4 py-2.5  border flex items-center gap-2 text-[14px] font-medium  hover:translate-y-[-2px] hover:shadow-lg"
                     style={{
-                      backgroundColor: "var(--d-surface)",
-                      borderColor: "var(--d-border-subtle)",
-                      color: "var(--d-text-secondary)",
+                      backgroundColor: "var(--glass-bg)",
+                      borderColor: "var(--glass-border)",
+                      color: "var(--text-secondary)",
                     }}
                   >
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
@@ -384,18 +384,18 @@ export default function JobDetailsPage() {
           {/* Full Description */}
           <motion.div
             variants={fadeUp}
-            className=" p-8 space-y-6"
+            className="p-8 space-y-6 oryzo-card-glow"
             style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
+              backgroundColor: "var(--glass-bg)",
+              border: "1px solid var(--glass-border)",
             }}
           >
-            <h2 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
+            <h2 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
               Detailed Description
             </h2>
             <div
               className="text-[15px] leading-[1.8] whitespace-pre-line space-y-4"
-              style={{ color: "var(--d-text-secondary)" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               {job.description}
             </div>
@@ -407,16 +407,16 @@ export default function JobDetailsPage() {
           {/* Main Action Card */}
           <motion.div
             variants={fadeUp}
-            className="[2rem] p-8 space-y-6 border-2"
+            className="[2rem] p-8 space-y-6 border-2 oryzo-card-glow"
             style={{
-              backgroundColor: "var(--d-surface)",
+              backgroundColor: "var(--glass-bg)",
               borderColor: accent.bg,
             }}
           >
             <div className="space-y-2">
               <h3 className="text-[20px] font-bold tracking-tight">Ready to Apply?</h3>
               <p className="text-[14px] opacity-70 leading-relaxed">
-                Take the next step in your career with <span className="font-bold" style={{ color: "var(--d-text-primary)" }}>{job.company}</span>.
+                Take the next step in your career with <span className="font-bold" style={{ color: "var(--text-primary)" }}>{job.company}</span>.
               </p>
             </div>
 
@@ -426,7 +426,7 @@ export default function JobDetailsPage() {
                 <Button
                   variant="white"
                   size="lg"
-                  className="w-full h-14 text-[16px] font-bold  shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20"
+                  className="w-full h-14 text-[16px] font-bold"
                   icon={<ExternalLink className="w-4 h-4" />}
                   iconPosition="right"
                 >
@@ -436,7 +436,12 @@ export default function JobDetailsPage() {
               <Button
                 variant="primary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold  simulate-interview-btn"
+                className="w-full h-14 text-[16px] font-bold"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
+                  borderColor: "var(--glass-border)",
+                  color: "white"
+                }}
                 onClick={() => router.push(`/interview?jobId=${id}`)}
               >
                 Simulate Interview
@@ -445,7 +450,12 @@ export default function JobDetailsPage() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold  border-2"
+                className="w-full h-14 text-[16px] font-bold"
+                style={{
+                  background: "rgba(255, 255, 255, 0.03)",
+                  borderColor: "var(--glass-border)",
+                  color: "white"
+                }}
                 onClick={() => router.push(`/cv-analysis?jobId=${encodeURIComponent(id)}`)}
                 icon={<FileSearch className="w-5 h-5" />}
               >
@@ -455,7 +465,12 @@ export default function JobDetailsPage() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold  border-2"
+                className="w-full h-14 text-[16px] font-bold"
+                style={{
+                  background: "rgba(255, 255, 255, 0.03)",
+                  borderColor: "var(--glass-border)",
+                  color: "white"
+                }}
                 onClick={handleCreateTailoredCV}
                 icon={<Sparkles className="w-5 h-5" />}
                 loading={isTailoring}
@@ -468,20 +483,21 @@ export default function JobDetailsPage() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full h-12 flex items-center justify-center gap-2  text-[14px] font-bold border "
+                    className="w-full h-12 flex items-center justify-center gap-2 text-[14px] font-bold border"
                     style={{
-                      backgroundColor: "rgba(66, 133, 244, 0.1)",
-                      borderColor: "rgba(66, 133, 244, 0.2)",
+                      background: "linear-gradient(135deg, rgba(66, 133, 244, 0.15) 0%, rgba(52, 211, 153, 0.15) 100%)",
+                      borderColor: "rgba(66, 133, 244, 0.3)",
                       color: "#4285F4",
                     }}
                   >
-                    🔍 View on Google Jobs
+                    <Search className="w-4 h-4" />
+                    View on Google Jobs
                   </motion.button>
                 </a>
               )}
             </div>
 
-            <div className="pt-4 space-y-4" style={{ borderTop: "1px solid var(--d-border-subtle)" }}>
+            <div className="pt-4 space-y-4" style={{ borderTop: "1px solid var(--glass-border)" }}>
               <p className="text-[11px] font-bold uppercase tracking-[0.1em] opacity-40">
                 Other Platforms
               </p>
@@ -493,8 +509,8 @@ export default function JobDetailsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-3   group"
-                    style={{ border: "1px solid var(--d-border-subtle)" }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--d-surface-hover)")}
+                    style={{ border: "1px solid var(--glass-border)" }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--bg-color)")}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
                   >
                     <div className="flex items-center gap-3">
@@ -517,12 +533,12 @@ export default function JobDetailsPage() {
             variants={fadeUp}
             className="[2rem] p-8 space-y-6"
             style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
+              backgroundColor: "var(--glass-bg)",
+              border: "1px solid var(--glass-border)",
             }}
           >
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14  flex items-center justify-center shrink-0 overflow-hidden" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
+              <div className="w-14 h-14  flex items-center justify-center shrink-0 overflow-hidden" style={{ backgroundColor: "var(--bg-color)", border: "1px solid var(--glass-border)" }}>
                 {job.companyLogo ? (
                   <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover p-1.5" />
                 ) : (
@@ -544,7 +560,7 @@ export default function JobDetailsPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full h-11 flex items-center justify-center gap-2  text-[13px] font-bold "
-                  style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
+                  style={{ backgroundColor: "var(--bg-color)", border: "1px solid var(--glass-border)", color: "var(--text-secondary)" }}
                 >
                   <Globe className="w-3.5 h-3.5" />
                   Visit Website
@@ -554,7 +570,7 @@ export default function JobDetailsPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full h-11 flex items-center justify-center gap-2  text-[13px] font-bold "
-                style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
+                style={{ backgroundColor: "var(--bg-color)", border: "1px solid var(--glass-border)", color: "var(--text-secondary)" }}
               >
                 <Building2 className="w-3.5 h-3.5" />
                 Company Profile

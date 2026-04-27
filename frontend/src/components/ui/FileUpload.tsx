@@ -170,7 +170,7 @@ export default function FileUpload({
         `}
         style={{
           borderStyle: "dashed",
-          borderRadius: 0,
+          borderRadius: "var(--radius)",
         }}
       >
         <input
@@ -208,9 +208,9 @@ export default function FileUpload({
           </div>
           
           {status === "uploading" && typeof progress === "number" && (
-            <div className="h-[2px] w-full bg-[#E8E6DE]">
+            <div className="h-[2px] w-full bg-[var(--glass-border)]">
               <div 
-                className="h-full bg-black  duration-300"
+                className="h-full bg-[var(--text-primary)] duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -237,9 +237,9 @@ export default function FileUpload({
                 e.stopPropagation();
                 removeFile(i);
               }}
-              className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="px-3 py-1 bg-black text-white hover:bg-[#D83B2A] transition-colors font-mono text-[10px] font-bold uppercase tracking-widest rounded-[var(--radius)]"
             >
-              [ REMOVE ]
+              REMOVE
             </button>
           </motion.div>
         ))}

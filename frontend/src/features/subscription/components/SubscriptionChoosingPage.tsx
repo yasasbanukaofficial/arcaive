@@ -62,7 +62,7 @@ export default function SubscriptionChoosingPage() {
               className={`relative group p-10 flex flex-col transition-[background-color,border-color] duration-200 cursor-pointer border ${
                 plan.isPopular ? "bg-[var(--glass-border)] border-[var(--glass-border)] border-2" : "bg-[var(--glass-bg)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
               }`}
-              style={{ borderRadius: 0 }}
+              style={{ borderRadius: "var(--radius)" }}
               onClick={() => handleSelect(plan.id)}
             >
               {plan.isPopular && (
@@ -108,16 +108,21 @@ export default function SubscriptionChoosingPage() {
                     ))}
                     {plan.features.length > 4 && (
                       <li className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest pl-7">
-                        + {plan.features.length - 4} MORE_FEATURES
+                        + {plan.features.length - 4} more features
                       </li>
                     )}
                   </ul>
                 </div>
 
                 <button
-                  className="btn-primary w-full"
+                  className="w-full py-4 text-[13px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+                  style={{ 
+                    backgroundColor: "#000000", 
+                    color: "#ffffff",
+                    borderRadius: "var(--radius)" 
+                  }}
                 >
-                  GET_STARTED
+                  Get Started
                 </button>
               </div>
             </motion.div>

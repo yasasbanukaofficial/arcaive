@@ -54,7 +54,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
             <button
               onClick={() => router.back()}
               className="w-10 h-10 flex items-center justify-center bg-[var(--glass-border)] border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors"
-              style={{ borderRadius: 0 }}
+              style={{ borderRadius: "var(--radius)" }}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -69,11 +69,11 @@ export default function AgentPanel({ duration }: { duration: string }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-black border border-[var(--glass-border)] min-w-[200px] justify-center" style={{ borderRadius: 0 }}>
-              <div className={`w-2 h-2 ${secondsLeft && secondsLeft > 0 ? 'bg-[#D4F461]' : 'bg-red-500'}`} style={{ borderRadius: 0 }} />
+            <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-black border border-[var(--glass-border)] min-w-[200px] justify-center" style={{ borderRadius: "var(--radius)" }}>
+              <div className={`w-2 h-2 ${secondsLeft && secondsLeft > 0 ? 'bg-[#D4F461]' : 'bg-red-500'}`} style={{ borderRadius: "var(--radius)" }} />
               {secondsLeft === null ? (
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white">
-                  CONNECTING...
+                  Connecting...
                 </span>
               ) : secondsLeft > 0 ? (
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white">
@@ -81,14 +81,14 @@ export default function AgentPanel({ duration }: { duration: string }) {
                 </span>
               ) : (
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-red-500">
-                  SESSION_ENDED
+                  Session Ended
                 </span>
               )}
             </div>
-            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: 0 }}>
+            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: "var(--radius)" }}>
               <LayoutGrid className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
-            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: 0 }}>
+            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: "var(--radius)" }}>
               <MoreVertical className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
           </div>
@@ -99,7 +99,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
         </main>
 
         <footer className="shrink-0 flex justify-center py-4 border-t border-[var(--glass-border)]">
-          <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] p-3" style={{ borderRadius: 0 }}>
+          <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] p-3" style={{ borderRadius: "var(--radius)" }}>
             <AgentControlBar
               variant="livekit"
               isChatOpen={false}

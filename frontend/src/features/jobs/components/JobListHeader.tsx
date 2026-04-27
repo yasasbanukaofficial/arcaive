@@ -33,7 +33,7 @@ export default function JobListHeader({
       <div className="flex items-center gap-3 min-w-0">
         <h2
           className="text-[15px] sm:text-[17px] md:text-[20px] lg:text-[22px] font-semibold tracking-tight break-words sm:truncate min-w-0"
-          style={{ color: "var(--d-text-primary)" }}
+          style={{ color: "var(--text-primary)" }}
           title="Recommended jobs"
         >
           Recommended jobs
@@ -42,8 +42,8 @@ export default function JobListHeader({
         <span
           className="text-[12px] sm:text-[13px] font-semibold px-2 py-1 sm:px-3 sm:py-1.5 "
           style={{
-            backgroundColor: "var(--d-surface-hover)",
-            border: "1px solid var(--d-border)",
+            backgroundColor: "var(--bg-color)",
+            border: "1px solid var(--glass-border)",
             color: "var(--d-text-tertiary)",
           }}
           aria-label={`${totalJobs} jobs`}
@@ -61,8 +61,8 @@ export default function JobListHeader({
             onClick={onToggleFilters}
             className="flex items-center gap-2 px-3 py-2  text-[12px] sm:text-[13px] font-medium transition-colors duration-200"
             style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
+              backgroundColor: "var(--glass-bg)",
+              border: "1px solid var(--glass-border)",
               color: "var(--d-text-tertiary)",
             }}
             aria-pressed="false"
@@ -76,7 +76,7 @@ export default function JobListHeader({
         <div className="flex items-center gap-2">
           <span
             className="text-[11px] sm:text-[12px] font-medium"
-            style={{ color: "var(--d-text-muted)" }}
+            style={{ color: "var(--text-secondary)" }}
           >
             Sort by:
           </span>

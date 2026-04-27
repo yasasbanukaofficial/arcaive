@@ -35,7 +35,7 @@ export default function Toggle({
           relative w-10 h-5 shrink-0  duration-200 mt-1 border
           ${checked ? "bg-black border-[var(--text-primary)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"}
         `}
-        style={{ borderRadius: 0 }}
+        style={{ borderRadius: "var(--radius)" }}
       >
         <motion.div
           animate={{ x: checked ? 22 : 2 }}
@@ -43,7 +43,7 @@ export default function Toggle({
           className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5"
           style={{
             backgroundColor: checked ? "white" : "#888880",
-            borderRadius: 0,
+            borderRadius: "var(--radius)",
           }}
         />
       </button>

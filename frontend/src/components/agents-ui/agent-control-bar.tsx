@@ -123,7 +123,8 @@ function AgentChatInput({ chatOpen, onSend = async () => {}, className }: AgentC
         disabled={isDisabled}
         title={isSending ? 'Sending...' : 'Send'}
         onClick={handleButtonClick}
-        className="size-9 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 hover:bg-black/10 rounded-md self-end"
+        className="size-9 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 hover:bg-black/10 self-end"
+        style={{ borderRadius: "var(--radius)" }}
       >
         {isSending ? <Loader className="animate-spin" /> : <SendHorizontal />}
       </button>
@@ -375,11 +376,12 @@ export function AgentControlBar({
                 else onIsChatOpenChange(newState);
               }}
               className={cn(
-                'size-9 flex items-center justify-center rounded-md border',
+                'size-9 flex items-center justify-center border transition-all',
                 isChatOpen || isChatOpenUncontrolled
                   ? 'bg-black/20 border-[var(--glass-border)] text-[var(--text-primary)]'
                   : 'bg-transparent border-transparent text-foreground hover:bg-foreground/10'
               )}
+              style={{ borderRadius: "var(--radius)" }}
             >
               <MessageSquareTextIcon />
             </button>

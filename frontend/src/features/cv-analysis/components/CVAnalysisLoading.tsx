@@ -59,8 +59,8 @@ export default function CVAnalysisLoading() {
           {steps.map((_, i) => (
             <div 
               key={i} 
-              className={`h-1  duration-300 ${i === currentStep ? "w-8 bg-black" : "w-4 bg-[#E8E6DE]"}`} 
-              style={{ borderRadius: 0 }}
+              className={`h-1 duration-300 ${i === currentStep ? "w-8 bg-[var(--text-primary)]" : "w-4 bg-[var(--glass-border)]"}`} 
+              style={{ borderRadius: "var(--radius)" }}
             />
           ))}
         </div>

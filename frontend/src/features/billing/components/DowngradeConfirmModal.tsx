@@ -45,19 +45,19 @@ export default function DowngradeConfirmModal({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
           className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
               <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Downgrade to {targetPlan}
               </h2>
-              <button
-                onClick={onClose}
-                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
-              >
-                ×
-              </button>
+                  <button
+                    onClick={onClose}
+                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
+                  >
+                    ×
+                  </button>
             </div>
             <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
@@ -74,7 +74,7 @@ export default function DowngradeConfirmModal({
               {featuresLost.length > 0 && (
                 <div className="space-y-4">
                   <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-                    FEATURES_YOU_WILL_MISS
+                    Features you will miss
                   </span>
                   <ul className="space-y-3">
                     {featuresLost.map((feature, index) => (
@@ -101,16 +101,16 @@ export default function DowngradeConfirmModal({
               <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
               <div className="px-[48px] py-8 flex justify-end gap-4">
                 <button
-                  className="btn-ghost"
+                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                   onClick={onClose}
                 >
-                  KEEP MY PLAN
+                  Keep my plan
                 </button>
                 <button
-                  className="btn-ghost border-[#D83B2A] text-[#D83B2A] hover:bg-[#D83B2A] hover:text-white"
+                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest bg-black text-[#D83B2A] border border-[#D83B2A] hover:bg-[#D83B2A] hover:text-white transition-all rounded-[var(--radius)]"
                   onClick={onConfirm}
                 >
-                  YES, DOWNGRADE
+                  Yes, Downgrade
                 </button>
               </div>
             </div>

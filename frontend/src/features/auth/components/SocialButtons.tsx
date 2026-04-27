@@ -22,10 +22,10 @@ export default function SocialButtons({
 
   return (
     <div className="grid grid-cols-1 gap-3">
-      <Link href={buildOAuthUrl(googleUrl)} className={buttonStyle} style={{ borderRadius: 0 }}>
+      <Link href={buildOAuthUrl(googleUrl)} className={buttonStyle} style={{ borderRadius: "var(--radius)" }}>
         Continue with Google
       </Link>
-      <Link href={buildOAuthUrl(githubUrl)} className={buttonStyle} style={{ borderRadius: 0 }}>
+      <Link href={buildOAuthUrl(githubUrl)} className={buttonStyle} style={{ borderRadius: "var(--radius)" }}>
         Continue with GitHub
       </Link>
     </div>

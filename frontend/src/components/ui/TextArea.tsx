@@ -64,7 +64,7 @@ export default function TextArea({
           ${resize === "none" ? "resize-none" : "resize-y"}
           ${error ? "border-[#D83B2A]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
         `}
-        style={{ borderRadius: 0 }}
+        style={{ borderRadius: "var(--radius)" }}
       />
       {error && (
         <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>

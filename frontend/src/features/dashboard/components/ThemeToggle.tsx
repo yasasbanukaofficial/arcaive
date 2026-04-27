@@ -17,7 +17,7 @@ export default function ThemeToggle() {
           ? "bg-black border-white hover:bg-[var(--glass-bg)]/10"
           : "bg-[var(--glass-bg)] border-[var(--glass-border)] hover:bg-[var(--glass-border)]"
       }`}
-      style={{ borderRadius: 0 }}
+      style={{ borderRadius: "var(--radius)" }}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       <motion.div

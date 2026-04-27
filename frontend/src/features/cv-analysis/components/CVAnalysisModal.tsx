@@ -27,7 +27,7 @@ export default function CVAnalysisModal({
   const { addToast } = useToast();
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [jobDescription, setJobDescription] = useState(initialJobDescription);
-  const [status, setStatus] = useState<FileUploadStatus>("idle");
+  const [status, setStatus] = useState<any>("idle");
   const [progress, setProgress] = useState(0);
 
   React.useEffect(() => {
@@ -75,8 +75,8 @@ export default function CVAnalysisModal({
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: 0 }}
+          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden oryzo-card-glow"
+          style={{ borderRadius: "var(--radius)" }}
         >
           <AnimatePresence mode="wait">
             {status === "uploading" ? (
@@ -103,16 +103,16 @@ export default function CVAnalysisModal({
                   </h2>
                   <button
                     onClick={onClose}
-                    className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
+                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
                   >
                     ×
                   </button>
                 </div>
-                <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+                <div className="h-[1px] bg-[var(--glass-border)] mx-[48px]" />
 
                 <div className="p-[48px] space-y-8">
                   <FileUpload
-                    label="YOUR_RESUME_DOC"
+                    label="Your Resume Document"
                     files={files}
                     onFilesChange={setFiles}
                     status={status}
@@ -122,8 +122,8 @@ export default function CVAnalysisModal({
                   />
 
                   <TextArea
-                    label="TARGET_JOB_DESCRIPTION"
-                    placeholder="PASTE_TEXT_HERE"
+                    label="Target Job Description"
+                    placeholder="Paste the job description here..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                     rows={6}
@@ -132,19 +132,24 @@ export default function CVAnalysisModal({
                 </div>
 
                 <div className="mt-4">
-                  <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+                  <div className="h-[1px] bg-[var(--glass-border)] mx-[48px]" />
                   <div className="px-[48px] py-8 flex justify-end gap-4">
                     <button
-                      className="btn-ghost"
+                      className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                       onClick={onClose}
                       disabled={status === "uploading"}
                     >
                       CANCEL
                     </button>
                     <button
-                      className="btn-primary"
                       onClick={handleAnalyze}
                       disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
+                      className="px-8 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+                      style={{ 
+                        backgroundColor: "#000000", 
+                        color: "#ffffff",
+                        borderRadius: "var(--radius)"
+                      }}
                     >
                       RUN ANALYSIS
                     </button>

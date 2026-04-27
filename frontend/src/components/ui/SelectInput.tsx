@@ -21,6 +21,7 @@ type SelectProps = {
   hint?: string;
   error?: string;
   required?: boolean;
+  icon?: React.ReactNode;
   className?: string;
 };
 
@@ -34,9 +35,11 @@ export default function Select({
   hint,
   error,
   required = false,
+  icon,
   className = "",
 }: SelectProps) {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [openUp, setOpenUp] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const selected = options.find((o) => o.value === value);
@@ -46,21 +49,21 @@ export default function Select({
       containerRef.current &&
       !containerRef.current.contains(e.target as Node)
     ) {
-      setOpen(false);
+      setIsOpen(false);
     }
   }, []);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setOpen(false);
+        setIsOpen(false);
       }
     },
     [],
   );
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleKeyDown);
     }
@@ -68,7 +71,7 @@ export default function Select({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open, handleClickOutside, handleKeyDown]);
+  }, [isOpen, handleClickOutside, handleKeyDown]);
 
   return (
     <div className={`flex flex-col ${className}`} ref={containerRef}>
@@ -83,29 +86,54 @@ export default function Select({
         <button
           type="button"
           disabled={disabled}
-          onClick={() => !disabled && setOpen((prev) => !prev)}
+          onClick={() => {
+            if (!disabled) {
+              if (!isOpen) {
+                const rect = containerRef.current?.getBoundingClientRect();
+                const spaceBelow = window.innerHeight - (rect?.bottom || 0);
+                setOpenUp(spaceBelow < 300);
+              }
+              setIsOpen(!isOpen);
+            }
+          }}
           className={`
             w-full flex items-center justify-between gap-2
             px-[14px] py-[12px] font-sans text-[15px] text-left border 
-            focus:outline-none focus:border-[var(--text-primary)]
+            focus:outline-none transition-all duration-200
             disabled:opacity-40 disabled:cursor-not-allowed
-            ${error ? "border-[#D83B2A]" : open ? "border-[var(--text-primary)]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
+            ${error ? "border-red-500" : isOpen ? "border-black bg-black/5" : "border-black bg-white"}
           `}
-          style={{ borderRadius: 0 }}
+          style={{ 
+            borderRadius: "var(--radius)",
+            color: "#000000",
+            borderWidth: "1px",
+            borderStyle: "solid",
+            zIndex: isOpen ? 51 : 1
+          }}
         >
-          <span className={`truncate ${!selected ? "text-[var(--text-secondary)]" : "text-[var(--text-primary)]"}`}>
-            {selected ? selected.label : placeholder}
-          </span>
-          <span className="font-mono text-[18px] leading-none">↓</span>
+          <div className="flex items-center gap-3 truncate">
+            {icon && <span className="shrink-0 text-gray-500">{icon}</span>}
+            <span className={`truncate ${!selected ? "text-gray-500" : "text-black font-medium"}`}>
+              {selected ? selected.label : placeholder}
+            </span>
+          </div>
+          <ChevronDown className={`w-4 h-4 shrink-0 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
         </button>
+        
         <AnimatePresence>
-          {open && (
+          {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 0 }}
+              initial={{ opacity: 0, y: openUp ? 10 : -10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 0 }}
-              className="absolute z-50 w-full mt-[-1px] bg-[var(--glass-bg)] border border-[var(--text-primary)] overflow-hidden max-h-60 overflow-y-auto"
-              style={{ borderRadius: 0 }}
+              exit={{ opacity: 0, y: openUp ? 10 : -10 }}
+              className={`absolute left-0 right-0 z-[10000] overflow-y-auto max-h-[280px] shadow-[0_20px_50px_rgba(0,0,0,0.2)] ${openUp ? "bottom-full mb-2" : "top-full mt-2"}`}
+              style={{ 
+                borderRadius: "var(--radius)",
+                backgroundColor: "#ffffff",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: "#000000"
+              }}
             >
               {options.map((option) => {
                 const isSelected = option.value === value;
@@ -115,18 +143,19 @@ export default function Select({
                     type="button"
                     onClick={() => {
                       onChange(option.value);
-                      setOpen(false);
+                      setIsOpen(false);
                     }}
                     className={`
-                      w-full flex flex-col px-[14px] py-[10px] text-left transition-colors border-b border-[var(--glass-border)] last:border-b-0
-                      ${isSelected ? "bg-[var(--glass-border)]" : "bg-[var(--glass-bg)] hover:bg-[var(--glass-border)]"}
+                      w-full flex items-center gap-3 px-[14px] py-[10px] text-left transition-colors border-b last:border-b-0
+                      ${isSelected ? "bg-gray-100" : "hover:bg-gray-50"}
                     `}
+                    style={{ borderColor: "#e5e5e5" }}
                   >
-                    <span className="font-sans text-[14px] font-medium text-[var(--text-primary)]">
+                    <span className="font-sans text-[14px] font-medium text-black">
                       {option.label}
                     </span>
                     {option.description && (
-                      <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase mt-0.5">
+                      <span className="font-mono text-[10px] text-gray-500 uppercase mt-0.5">
                         {option.description}
                       </span>
                     )}
@@ -135,8 +164,8 @@ export default function Select({
               })}
 
               {options.length === 0 && (
-                <div className="px-[14px] py-[12px] font-mono text-[11px] text-[var(--text-secondary)] text-center">
-                  NO_OPTIONS_AVAILABLE
+                <div className="px-[14px] py-[12px] font-mono text-[11px] text-gray-500 text-center">
+                  No options available
                 </div>
               )}
             </motion.div>
@@ -145,10 +174,10 @@ export default function Select({
       </div>
 
       {error && (
-        <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
+        <p className="font-mono text-[11px] text-red-500 mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
+        <p className="font-mono text-[10px] text-gray-500 mt-2">
           {hint}
         </p>
       )}

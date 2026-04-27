@@ -53,7 +53,7 @@ export default function FAQSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           <div className="lg:col-span-5 flex flex-col gap-8 faq-reveal">
             <div>
-              <span className="section-label mb-6 block">KNOWLEDGE_BASE.QUERY()</span>
+              <span className="section-label mb-6 block">Knowledge Base</span>
               <h2 className="font-sans text-[clamp(36px,5vw,56px)] font-medium leading-[1] tracking-[-0.04em] text-white max-w-[400px]">
                 Seeking <br/><span className="italic text-white/40 font-light">understanding.</span>
               </h2>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { 
   BrainCircuit, 
@@ -20,6 +21,7 @@ import {
 import { dashboardStagger, fadeUp, barGrow } from "@/features/dashboard/components/animations";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
+import Card from "@/components/ui/Card";
 import { 
   MOCK_MEMBER_SUBSCRIPTION, 
   MOCK_PLANS 
@@ -30,7 +32,7 @@ function Skeleton({ className, style }: { className?: string; style?: React.CSSP
     <div 
       className={`bg-[var(--glass-bg)]/5 ${className}`} 
       style={{ 
-        backgroundColor: "var(--d-surface-hover)",
+        backgroundColor: "var(--bg-color)",
         ...style 
       }} 
     />
@@ -67,22 +69,22 @@ function UsageSkeleton() {
 function ErrorState({ message, retry }: { message: string; retry: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-16 h-16  bg-red-500/10 flex items-center justify-center mb-6">
+      <div className="w-16 h-16 bg-red-500/10 flex items-center justify-center mb-6">
         <AlertCircle size={32} className="text-red-500" />
       </div>
-      <h2 className="text-xl font-semibold mb-2" style={{ color: "var(--d-text-primary)" }}>
+      <h2 className="text-xl font-semibold mb-2" style={{ color: "var(--text-primary)" }}>
         Failed to load usage data
       </h2>
-      <p className="text-sm max-w-md mb-8" style={{ color: "var(--d-text-muted)" }}>
+      <p className="text-sm max-w-md mb-8" style={{ color: "var(--text-secondary)" }}>
         {message}
       </p>
       <button
         onClick={retry}
-        className="flex items-center gap-2 px-6 py-3  font-medium "
+        className="flex items-center gap-2 px-6 py-3 font-medium transition-all hover:bg-[var(--glass-border)]"
         style={{ 
-          backgroundColor: "var(--d-surface-active)",
-          border: "1px solid var(--d-border)",
-          color: "var(--d-text-primary)"
+          backgroundColor: "var(--bg-color)",
+          border: "1px solid var(--glass-border)",
+          color: "var(--text-primary)"
         }}
       >
         <RefreshCcw size={18} />
@@ -105,21 +107,21 @@ function MetricCard({ label, used, limit }: MetricCardProps) {
   const percentage = isUnlimited ? 100 : Math.min((used / limit) * 100, 100);
   
   return (
-    <div className="space-y-3 py-6 border-b border-[var(--glass-border)]">
+    <div className="space-y-4 py-6 border-b border-[var(--glass-border)]">
       <div className="flex justify-between items-end">
-        <span className="font-sans text-[14px] font-bold uppercase text-[var(--text-primary)]">
+        <span className="font-sans text-[16px] font-bold uppercase text-[var(--text-primary)]">
           {label}
         </span>
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
+        <span className="font-mono text-[12px] uppercase tracking-widest text-[var(--text-secondary)]">
           {used} / {isUnlimited ? "∞" : limit} USED
         </span>
       </div>
-      <div className="h-[4px] w-full border border-[var(--glass-border)] bg-[var(--glass-bg)]">
+      <div className="h-[6px] w-full border border-[var(--glass-border)] bg-[var(--bg-color)]">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full bg-black"
+          className="h-full bg-[var(--text-primary)]"
         />
       </div>
     </div>
@@ -127,6 +129,7 @@ function MetricCard({ label, used, limit }: MetricCardProps) {
 }
 
 export default function UsagePage() {
+  const router = useRouter();
   const { data: subscription, isLoading, error, refetch } = useSubscription();
 
   if (isLoading) return <UsageSkeleton />;
@@ -173,52 +176,78 @@ export default function UsagePage() {
       initial="hidden"
       animate="show"
       variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-[800px] mx-auto space-y-16 pb-20 px-6"
+      className="max-w-7xl mx-auto space-y-8 pb-20 px-4 sm:px-6"
     >
-      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[var(--glass-border)] pb-8">
-        <div className="space-y-2">
-          <h1 className="font-sans text-[28px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
-            Your Usage.
-          </h1>
-          <p className="font-sans text-[14px] text-[var(--text-secondary)]">
-            System resource consumption and plan boundaries.
-          </p>
-        </div>
+      <motion.div variants={fadeUp} className="mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="w-[1px] h-10 bg-black/20" />
+              <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+                System Consumption
+              </h1>
+            </div>
+            <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
+              Network <br /> Usage.
+            </h2>
+          </div>
 
-        <div className="flex flex-col items-start md:items-end gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">CURRENT_SUBSCRIPTION</span>
-          <div className="flex items-center gap-4">
-            <span className="tag border-[var(--glass-border)] bg-black text-white px-4 py-2 text-[12px]">
-              {subscription.currentPlan.toUpperCase()} TIER
-            </span>
-            <button className="btn-ghost py-2 text-[10px]">
-              UPGRADE
+          <div className="flex flex-col items-start md:items-end gap-5">
+            <div className="flex flex-col items-start md:items-end gap-1.5">
+              <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">Subscription Tier</span>
+              <span className="px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.15em] bg-black text-white" style={{ borderRadius: "var(--radius)" }}>
+                {subscription.currentPlan.toUpperCase()}
+              </span>
+            </div>
+            <button 
+              className="flex items-center gap-2.5 px-6 py-3 text-[11px] font-black uppercase tracking-widest border border-black transition-all hover:bg-black hover:text-white"
+              style={{ borderRadius: "var(--radius)" }}
+              onClick={() => router.push("/billing")}
+            >
+              Manage Plan
             </button>
           </div>
         </div>
       </motion.div>
 
-      <motion.div variants={fadeUp} className="space-y-2">
-        {metrics.map((metric) => (
-          <MetricCard
-            key={metric.id}
-            label={metric.label}
-            used={metric.used}
-            limit={metric.limit}
-            icon={null}
-          />
-        ))}
-      </motion.div>
-
-      <motion.div variants={fadeUp} className="p-8 border border-[var(--glass-border)] bg-[var(--glass-border)] space-y-4">
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NEXT_RESET_CYCLE</span>
-        <div className="font-sans text-[24px] font-bold">
-          {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
+      <Card
+        title="Resource Boundaries"
+        description="Detailed breakdown of your current billing cycle's resource allocation."
+        icon={<TrendingUp className="w-4 h-4" />}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 px-2">
+          {metrics.map((metric) => (
+            <MetricCard
+              key={metric.id}
+              label={metric.label}
+              used={metric.used}
+              limit={metric.limit}
+              icon={null}
+            />
+          ))}
         </div>
-        <p className="font-sans text-[14px] text-[var(--text-secondary)]">
-          All quotas will be automatically restored to their maximum values on this date.
-        </p>
-      </motion.div>
+      </Card>
+
+      <Card
+        title="Cycle Synchronization"
+        description="System recovery and quota restoration details."
+        icon={<Clock className="w-4 h-4" />}
+      >
+        <div className="flex flex-col sm:flex-row items-center gap-12 py-4">
+          <div className="flex-1 space-y-4">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-black/30">Next Reset Cycle</span>
+            <div className="font-display text-4xl sm:text-5xl font-black text-black">
+              {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
+            </div>
+          </div>
+          <div className="flex-1 max-w-sm">
+            <p className="font-sans text-[15px] text-[var(--text-secondary)] leading-relaxed">
+              All system quotas and resource allowances will be automatically restored to 
+              their maximum values on the synchronization date.
+            </p>
+          </div>
+        </div>
+      </Card>
     </motion.div>
   );
 }

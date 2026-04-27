@@ -8,10 +8,10 @@ import { DUMMY_STATS } from "@/features/dashboard/constants/mockData";
 const stats = DUMMY_STATS;
 
 const accentColors = [
-  "group-hover:bg-blue-200/20",
-  "group-hover:bg-orange-200/20",
-  "group-hover:bg-green-200/20",
-  "group-hover:bg-purple-200/20",
+  "group-hover:bg-white/5",
+  "group-hover:bg-white/5",
+  "group-hover:bg-white/5",
+  "group-hover:bg-white/5",
 ];
 
 export default function StatsGrid() {
@@ -26,7 +26,7 @@ export default function StatsGrid() {
           <motion.div
           key={stat.label}
           variants={fadeUp}
-          className={`relative group p-8 rounded-[32px] border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl transition-all duration-700 hover:shadow-2xl hover:border-[var(--text-secondary)] hover:-translate-y-1 cursor-default`}
+          className={`relative group p-8 rounded-[32px] border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl oryzo-card-glow transition-all duration-700 hover:shadow-2xl hover:border-[var(--text-primary)] hover:-translate-y-1 cursor-default`}
         >
           <div className="relative z-10 flex flex-col h-full justify-between">
             {/* Top row */}
@@ -38,7 +38,7 @@ export default function StatsGrid() {
               </div>
               <div
                 className={`font-mono text-[10px] uppercase font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full ${
-                  stat.trending === "up" ? "bg-green-500/10 text-green-400" : "bg-[var(--glass-border)] text-[var(--text-secondary)]"
+                  stat.trending === "up" ? "bg-white/10 text-white" : "bg-[var(--glass-border)] text-[var(--text-secondary)]"
                 }`}
               >
                 {stat.change}

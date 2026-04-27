@@ -30,7 +30,7 @@ export default function AgentControls() {
           </div>
 
           <div className="absolute bottom-6 left-6 flex items-center gap-3 px-4 py-2 bg-[var(--glass-border)] border border-[var(--glass-border)]">
-            <div className={`w-2 h-2 ${state === 'speaking' ? 'bg-black' : 'bg-[#888880]'}`} style={{ borderRadius: 0 }} />
+            <div className={`w-2 h-2 ${state === 'speaking' ? 'bg-black' : 'bg-[#888880]'}`} style={{ borderRadius: "var(--radius)" }} />
             <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)]">Arcaive AI Interviewer</span>
           </div>
         </div>

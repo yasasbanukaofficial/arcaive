@@ -31,7 +31,7 @@ export default function Checkbox({
           disabled={disabled}
           required={required}
           className="peer appearance-none w-[14px] h-[14px] border border-[#222] bg-[var(--glass-bg)] checked:bg-black "
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         />
         <span className="absolute text-white font-mono text-[10px] pointer-events-none opacity-0 peer-checked:opacity-100">
           ✓

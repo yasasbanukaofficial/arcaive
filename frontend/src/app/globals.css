@@ -6,38 +6,96 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── Minimalist Vercel-Style Monochrome Tokens ─── */
-  --bg-color: #000000; 
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.5);
-  --border-light: rgba(255, 255, 255, 0.12);
-  --glass-bg: rgba(10, 10, 10, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --grid-color: rgba(255, 255, 255, 0.04);
-
   --font-sans: "Inter", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
+  --radius: 10px;
+}
+
+/* ─── Dark Mode (Default) ─── */
+:root, .dark {
+  --bg-color: #000000; 
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --border-light: rgba(255, 255, 255, 0.18);
+  --glass-bg: rgba(18, 18, 18, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --grid-color: rgba(255, 255, 255, 0.06);
 
   /* Shadcn overrides */
   --background: var(--bg-color);
   --foreground: var(--text-primary);
-  --card: rgba(0,0,0,0.4);
+  --card: rgba(18, 18, 18, 0.8);
   --card-foreground: var(--text-primary);
-  --popover: var(--bg-color);
+  --popover: #000000;
   --popover-foreground: var(--text-primary);
-  --primary: var(--text-primary);
-  --primary-foreground: #000;
-  --secondary: rgba(255,255,255,0.1);
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: rgba(255, 255, 255, 0.1);
   --secondary-foreground: var(--text-primary);
-  --muted: rgba(255,255,255,0.05);
+  --muted: rgba(255, 255, 255, 0.05);
   --muted-foreground: var(--text-secondary);
-  --accent: var(--text-primary);
-  --accent-foreground: var(--bg-color);
+  --accent: #ffffff;
+  --accent-foreground: #000000;
   --destructive: #ff4a4a;
-  --border: var(--border-light);
-  --input: rgba(255,255,255,0.1);
-  --ring: var(--text-primary);
-  --radius: 0px;
+  --border: var(--glass-border);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #ffffff;
+
+  /* Monochrome Accents */
+  --accent-blue-bg: rgba(255, 255, 255, 0.05);
+  --accent-blue-border: rgba(255, 255, 255, 0.1);
+  --accent-blue-dot: #ffffff;
+  
+  --accent-emerald-bg: rgba(255, 255, 255, 0.05);
+  --accent-emerald-border: rgba(255, 255, 255, 0.1);
+  --accent-emerald-dot: #ffffff;
+  
+  --accent-violet-bg: rgba(255, 255, 255, 0.05);
+  --accent-violet-border: rgba(255, 255, 255, 0.1);
+  --accent-violet-dot: #ffffff;
+  
+  --accent-amber-bg: rgba(255, 255, 255, 0.05);
+  --accent-amber-border: rgba(255, 255, 255, 0.1);
+  --accent-amber-dot: #ffffff;
+  
+  --accent-pink-bg: rgba(255, 255, 255, 0.05);
+  --accent-pink-border: rgba(255, 255, 255, 0.1);
+  --accent-pink-dot: #ffffff;
+  
+  --accent-teal-bg: rgba(255, 255, 255, 0.05);
+  --accent-teal-border: rgba(255, 255, 255, 0.1);
+  --accent-teal-dot: #ffffff;
+}
+
+/* ─── Light Mode ─── */
+.light {
+  --bg-color: #f8f8f8;
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.65);
+  --border-light: rgba(0, 0, 0, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.12);
+  --grid-color: rgba(0, 0, 0, 0.05);
+
+  /* Shadcn overrides */
+  --background: var(--bg-color);
+  --foreground: var(--text-primary);
+  --card: rgba(255, 255, 255, 0.9);
+  --card-foreground: var(--text-primary);
+  --popover: #ffffff;
+  --popover-foreground: var(--text-primary);
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(0, 0, 0, 0.05);
+  --secondary-foreground: var(--text-primary);
+  --muted: rgba(0, 0, 0, 0.05);
+  --muted-foreground: var(--text-secondary);
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  --destructive: #e11d48;
+  --border: var(--glass-border);
+  --input: rgba(0, 0, 0, 0.1);
+  --ring: #000000;
 }
 
 @layer base {
@@ -114,24 +172,39 @@
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   padding: 40px;
-  border-radius: 2px;
+  border-radius: var(--radius);
 }
 
 /* Ultra minimal labels */
 .oryzo-label {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   color: var(--text-secondary);
+}
+
+.oryzo-card-glow {
+  position: relative;
+}
+
+.oryzo-card-glow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--text-secondary), transparent);
+  opacity: 0.3;
 }
 
 .noise-overlay {
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-  opacity: 0.8;
+  opacity: 0.6;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: overlay;
@@ -145,7 +218,7 @@
   background-image: 
     linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-  background-size: 8vh 8vh;
-  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
-  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+  background-size: 6vh 6vh;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%);
 }

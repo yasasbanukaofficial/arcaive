@@ -10,7 +10,7 @@ export default function JobStatCard({
   value,
   accent,
 }: {
-  icon: React.ElementType;
+  icon: any;
   label: string;
   value: string;
   accent?: AccentColor;
@@ -18,31 +18,31 @@ export default function JobStatCard({
   return (
     <motion.div
       variants={fadeUp}
-      className="flex flex-col gap-2 p-4   duration-300 hover:scale-[1.02]"
+      className="flex flex-col gap-2 p-4 duration-300 hover:scale-[1.02] oryzo-card-glow"
       style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border-subtle)",
+        backgroundColor: "var(--glass-bg)",
+        border: "1px solid var(--glass-border)",
       }}
     >
       <div
         className="w-10 h-10  flex items-center justify-center shrink-0 mb-1"
         style={{
-          backgroundColor: accent ? accent.bg : "var(--d-surface-hover)",
-          border: accent ? `1px solid ${accent.border}` : "1px solid var(--d-border-subtle)",
+          backgroundColor: accent ? accent.bg : "var(--bg-color)",
+          border: accent ? `1px solid ${accent.border}` : "1px solid var(--glass-border)",
         }}
       >
-        <Icon className="w-5 h-5" style={{ color: accent ? accent.dot : "var(--d-icon-hover)" }} />
+        <Icon className="w-5 h-5 transition-colors" style={{ color: accent ? accent.dot : "var(--text-primary)" }} />
       </div>
       <div>
         <p
           className="text-[11px] font-bold uppercase tracking-widest mb-0.5"
-          style={{ color: "var(--d-text-muted)" }}
+          style={{ color: "var(--text-secondary)" }}
         >
           {label}
         </p>
         <p
           className="text-[15px] font-semibold truncate"
-          style={{ color: "var(--d-text-primary)" }}
+          style={{ color: "var(--text-primary)" }}
         >
           {value}
         </p>

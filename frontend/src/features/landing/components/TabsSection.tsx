@@ -57,7 +57,7 @@ export default function TabsSection() {
           {/* Controls - Left side */}
           <div className="lg:col-span-5 flex flex-col gap-12">
             <div className="tab-reveal">
-              <span className="section-label mb-8 block">CAPABILITIES.MAP()</span>
+              <span className="section-label mb-8 block">Capabilities</span>
               <h2 className="font-sans text-[clamp(42px,5vw,64px)] font-medium leading-[1.05] tracking-[-0.04em] text-white">
                 Engineered for <br/>
                 <span className="text-white/15 font-light italic">outcome.</span>
@@ -99,7 +99,7 @@ export default function TabsSection() {
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="max-w-[600px] relative z-10"
                 >
-                  <span className="hud-label block mb-8 text-white/30">MODULE_{active.id.toUpperCase()}</span>
+                  <span className="hud-label block mb-8 text-white/30">Module: {active.label}</span>
                   <h3 className="font-sans text-[28px] sm:text-[36px] font-medium leading-[1.3] tracking-[-0.03em] text-white mb-8">
                     {active.title}
                   </h3>

@@ -90,7 +90,7 @@ export default function InterviewEndModal({ isOpen }: InterviewEndModalProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
           className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">

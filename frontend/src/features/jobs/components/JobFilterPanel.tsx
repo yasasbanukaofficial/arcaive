@@ -18,34 +18,34 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
   };
 
   return (
-    <div
-      role="checkbox"
-      aria-checked={checked}
-      tabIndex={0}
-      onClick={onChange}
-      onKeyDown={handleKeyDown}
-      className="flex items-center gap-4 py-2 cursor-pointer group outline-none"
-    >
-      <div
-        className={`relative w-[14px] h-[14px] border border-[#222] flex items-center justify-center shrink-0 ${
-          checked ? "bg-black" : "bg-[var(--glass-bg)]"
-        }`}
-        style={{ borderRadius: 0 }}
+<div
+        role="checkbox"
+        aria-checked={checked}
+        tabIndex={0}
+        onClick={onChange}
+        onKeyDown={handleKeyDown}
+        className="flex items-center gap-4 py-2 cursor-pointer group outline-none"
       >
-        {checked && (
-          <span className="font-mono text-[10px] text-white pointer-events-none">
-            ✓
-          </span>
-        )}
+        <div
+          className={`relative w-[14px] h-[14px] border flex items-center justify-center shrink-0 ${
+            checked ? "bg-white" : "bg-white"
+          }`}
+          style={{ borderRadius: "var(--radius)", borderColor: checked ? "#000" : "#222" }}
+        >
+          {checked && (
+            <span className="font-mono text-[10px] text-black pointer-events-none">
+              ✓
+            </span>
+          )}
+        </div>
+        <span
+          className={`font-mono text-[11px] uppercase tracking-widest transition-colors ${
+            checked ? "font-bold text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
+          }`}
+        >
+          {label}
+        </span>
       </div>
-      <span
-        className={`font-mono text-[11px] uppercase tracking-widest transition-colors ${
-          checked ? "font-bold text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
-        }`}
-      >
-        {label}
-      </span>
-    </div>
   );
 }
 
@@ -105,9 +105,9 @@ export default function JobFilterPanel({
         </h3>
         <button
           onClick={onToggleCollapse}
-          className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+          className="px-3 py-1 bg-black text-white font-mono text-[10px] font-bold uppercase tracking-widest rounded-[var(--radius)]"
         >
-          [ HIDE ]
+          Hide Filters
         </button>
       </div>
       <div>
@@ -153,7 +153,7 @@ export default function JobFilterPanel({
           />
           <div className="pt-2">
             <Slider
-              label="MIN_SALARY"
+              label="Min Salary"
               value={salaryMin}
               onChange={onSalaryMinChange}
               min={0}
@@ -165,7 +165,7 @@ export default function JobFilterPanel({
           </div>
           <div>
             <Slider
-              label="MAX_SALARY"
+              label="Max Salary"
               value={salaryMax}
               onChange={onSalaryMaxChange}
               min={0}

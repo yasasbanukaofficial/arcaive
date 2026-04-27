@@ -154,7 +154,7 @@ export default function Button({
         ${fullWidth ? "w-full" : ""}
         ${className}
       `}
-      style={{ borderRadius: 0, ...customStyle }}
+      style={{ borderRadius: "var(--radius)", ...customStyle }}
     >
       {loading && (
         <svg

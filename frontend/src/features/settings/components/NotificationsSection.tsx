@@ -71,18 +71,19 @@ export default function NotificationsSection({
           <div className="flex items-center gap-4">
             <AnimatePresence>
               {alertsSaved && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]"
-                >
-                  [ SAVED ]
-                </motion.span>
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-[#22C55E]"
+                  >
+                    <Check className="w-3 h-3" />
+                    Saved
+                  </motion.span>
               )}
             </AnimatePresence>
             <Button variant="primary" size="sm" onClick={handleAlertsSave} loading={alertsSaving} disabled={alertsSaving}>
-              SAVE_CHANGES
+              Save Changes
             </Button>
           </div>
         }
@@ -128,30 +129,30 @@ export default function NotificationsSection({
           label="Appearance"
           description="Switch between dark mode and light mode for the dashboard UI."
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => {
                 if (isDark) toggleTheme();
               }}
-              className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
-                !isDark ? "bg-black text-white border-[var(--glass-border)]" : "bg-[var(--glass-bg)] text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
+              className={`px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest border transition-all ${
+                !isDark ? "bg-black text-white border-black" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
               }`}
-              style={{ borderRadius: 0 }}
+              style={{ borderRadius: "var(--radius)" }}
             >
-              LIGHT
+              Light
             </button>
             <button
               type="button"
               onClick={() => {
                 if (!isDark) toggleTheme();
               }}
-              className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
-                isDark ? "bg-black text-white border-[var(--glass-border)]" : "bg-[var(--glass-bg)] text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
+              className={`px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest border transition-all ${
+                isDark ? "bg-black text-white border-black" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
               }`}
-              style={{ borderRadius: 0 }}
+              style={{ borderRadius: "var(--radius)" }}
             >
-              DARK
+              Dark
             </button>
           </div>
         </CardRow>
@@ -165,8 +166,8 @@ export default function NotificationsSection({
           <div className="p-8 border border-[#D83B2A] bg-[var(--glass-bg)]">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
-                <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#D83B2A]">
-                  [ DANGER_ZONE ]
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#D83B2A]">
+                  Danger Zone
                 </span>
               </div>
               <p className="font-sans text-[13px] leading-relaxed text-[var(--text-secondary)] mb-6">
@@ -178,13 +179,13 @@ export default function NotificationsSection({
 
               <AnimatePresence mode="wait">
                 {!showDeleteConfirm ? (
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => setShowDeleteConfirm(true)}
-                  >
-                    DELETE ALL DATA
-                  </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => setShowDeleteConfirm(true)}
+                    >
+                      Delete All Data
+                    </Button>
                 ) : (
                   <motion.div
                     initial={{ opacity: 0 }}
@@ -193,16 +194,16 @@ export default function NotificationsSection({
                     className="space-y-6"
                   >
                     <div className="space-y-3">
-                      <label className="font-mono text-[11px] uppercase tracking-widest text-[#D83B2A]">
-                        TYPE <strong className="font-bold underline">DELETE</strong> TO_CONFIRM
+                      <label className="font-mono text-[10px] uppercase tracking-widest text-[#D83B2A]">
+                        Type <strong className="font-bold underline">DELETE</strong> to confirm
                       </label>
                       <input
                         type="text"
                         value={deleteConfirmText}
                         onChange={(e) => setDeleteConfirmText(e.target.value)}
-                        placeholder="TYPE_DELETE"
-                        className="w-full max-w-[240px] px-[14px] py-[10px] font-mono text-[13px] border border-[#D83B2A] focus:outline-none focus:border-[var(--glass-border)] "
-                        style={{ borderRadius: 0 }}
+                        placeholder="Type DELETE"
+                        className="w-full max-w-[240px] px-[14px] py-[10px] font-mono text-[13px] border border-[#D83B2A] focus:outline-none focus:border-[#D83B2A] bg-transparent"
+                        style={{ borderRadius: "var(--radius)" }}
                         autoFocus
                       />
                     </div>
@@ -213,16 +214,16 @@ export default function NotificationsSection({
                         disabled={deleteConfirmText !== "DELETE"}
                         onClick={handleDeleteAllData}
                       >
-                        PERMANENTLY DELETE
+                        Permanently Delete
                       </Button>
                       <button
                         onClick={() => {
                           setShowDeleteConfirm(false);
                           setDeleteConfirmText("");
                         }}
-                        className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                        className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                       >
-                        CANCEL
+                        Cancel
                       </button>
                     </div>
                   </motion.div>

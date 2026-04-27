@@ -142,12 +142,12 @@ export default function DropdownMenu<T extends string | number>({
         aria-expanded={open}
         onClick={() => setOpen((s) => !s)}
         onKeyDown={onKeyDown}
-        className={`flex items-center justify-between gap-4 px-[14px] py-[10px] border  cursor-pointer ${buttonClassName}`}
+        className={`flex items-center justify-between gap-4 px-[14px] py-[10px] border cursor-pointer transition-all ${buttonClassName}`}
         style={{
-          backgroundColor: open ? "#F5F4EF" : "white",
-          borderColor: open ? "black" : "#E8E6DE",
-          color: "black",
-          borderRadius: 0,
+          backgroundColor: open ? "var(--text-primary)" : "transparent",
+          borderColor: "var(--text-primary)",
+          color: open ? "var(--bg-color)" : "var(--text-primary)",
+          borderRadius: "var(--radius)",
         }}
       >
         <span className="font-sans text-[13px] font-bold uppercase tracking-tight truncate">
@@ -161,11 +161,11 @@ export default function DropdownMenu<T extends string | number>({
           ref={panelRef}
           role="listbox"
           tabIndex={-1}
-          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] z-[9999] max-h-[300px] overflow-y-auto bg-[var(--glass-bg)] border border-[var(--text-primary)]"
+          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] z-[9999] max-h-[300px] overflow-y-auto bg-[var(--glass-bg)] backdrop-blur-md border border-[var(--text-primary)] shadow-2xl"
           style={{
             top: panelPos.top,
             left: panelPos.left,
-            borderRadius: 0,
+            borderRadius: "var(--radius)",
           }}
           onKeyDown={onKeyDown}
         >

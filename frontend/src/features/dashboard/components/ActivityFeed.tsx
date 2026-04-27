@@ -12,14 +12,14 @@ export default function ActivityFeed() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)] oryzo-card-glow rounded-[32px] shadow-sm relative overflow-hidden"
     >
       {/* Background soft glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100/10 rounded-full blur-[40px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--glass-border)]/[0.03]">
+          <div className="w-10 h-10 rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--glass-border)]">
             <ListFilter className="w-5 h-5 text-[var(--text-secondary)]" />
           </div>
           <div>
@@ -41,9 +41,9 @@ export default function ActivityFeed() {
           <motion.div
             key={i}
             variants={fadeUp}
-            className="flex items-center gap-5 p-5 transition-all duration-500 hover:bg-[var(--bg-color)] rounded-[24px] group cursor-pointer border border-transparent hover:border-[var(--glass-border)]/[0.03] group"
+            className="flex items-center gap-5 p-5 transition-all duration-500 hover:bg-[var(--bg-color)] rounded-[24px] group cursor-pointer border border-transparent hover:border-[var(--glass-border)] group"
           >
-            <div className="w-10 h-10 rounded-full border border-[var(--glass-border)]/[0.03] flex items-center justify-center shrink-0 bg-[var(--glass-bg)] group-hover:scale-110 group-hover:border-[var(--glass-border)] transition-all duration-500">
+            <div className="w-10 h-10 rounded-full border border-[var(--glass-border)] flex items-center justify-center shrink-0 bg-[var(--glass-bg)] group-hover:scale-110 group-hover:border-[var(--text-primary)] transition-all duration-500">
               <span className="font-sans text-[14px] font-bold text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors italic">→</span>
             </div>
 

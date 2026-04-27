@@ -15,8 +15,8 @@ export default function QuickActions() {
       variants={fadeUp}
       className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
-      {/* Background soft glow */}
-      <div className="absolute top-0 left-0 w-48 h-48 bg-blue-100/10 rounded-full blur-[60px] pointer-events-none" />
+      {/* Background subtle mono glow */}
+      <div className="absolute top-0 left-0 w-48 h-48 bg-white/5 rounded-[var(--radius)] blur-[60px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">

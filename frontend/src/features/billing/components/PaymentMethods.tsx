@@ -28,14 +28,14 @@ export default function PaymentMethods({
       animate={{ opacity: 1, y: 0 }}
       className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
-        border: "1px solid var(--d-border)",
+        backgroundColor: isDark ? "var(--glass-bg)" : "#ffffff",
+        border: "1px solid var(--glass-border)",
       }}
     >
       <div className="flex items-center justify-between mb-4">
         <h2
           className="text-xl font-semibold"
-          style={{ color: "var(--d-text-primary)" }}
+          style={{ color: "var(--text-primary)" }}
         >
           Payment Methods
         </h2>
@@ -64,28 +64,28 @@ export default function PaymentMethods({
               className="flex items-center justify-between p-4 "
               style={{
                 backgroundColor: isDark
-                  ? "var(--d-surface-hover)"
+                  ? "var(--bg-color)"
                   : "rgba(0,0,0,0.02)",
                 border: method.isDefault
-                  ? "2px solid var(--d-accent)"
-                  : "1px solid var(--d-border-subtle)",
+                  ? "2px solid var(--text-primary)"
+                  : "1px solid var(--glass-border)",
               }}
             >
               <div className="flex items-center gap-3">
                 <div
                   className="p-2 "
-                  style={{ backgroundColor: "var(--d-accent)", opacity: 0.1 }}
+                  style={{ backgroundColor: "var(--text-primary)", opacity: 0.1 }}
                 >
                   <CreditCard
                     className="w-5 h-5"
-                    style={{ color: "var(--d-accent)" }}
+                    style={{ color: "var(--text-primary)" }}
                   />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <p
                       className="text-sm font-medium"
-                      style={{ color: "var(--d-text-primary)" }}
+                      style={{ color: "var(--text-primary)" }}
                     >
                       {method.type === "card"
                         ? `${method.brand} •••• ${method.last4}`
@@ -95,7 +95,7 @@ export default function PaymentMethods({
                       <span
                         className="text-xs px-2 py-0.5 "
                         style={{
-                          backgroundColor: "var(--d-accent)",
+                          backgroundColor: "var(--text-primary)",
                           color: isDark ? "#000000" : "#ffffff",
                         }}
                       >

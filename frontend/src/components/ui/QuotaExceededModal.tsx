@@ -49,19 +49,19 @@ export default function QuotaExceededModal() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
           className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
               <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Quota Limit Reached
               </h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
-              >
-                ×
-              </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
+                  >
+                    ×
+                  </button>
             </div>
             <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
@@ -70,7 +70,7 @@ export default function QuotaExceededModal() {
                 {message}
               </p>
               <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-                NEED_MORE_HELP? <span className="text-[var(--text-primary)] underline cursor-pointer">CONTACT_SUPPORT</span>
+                Need more help? <span className="text-[var(--text-primary)] underline cursor-pointer">Contact Support</span>
               </p>
             </div>
 
@@ -78,16 +78,25 @@ export default function QuotaExceededModal() {
               <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
               <div className="px-[48px] py-8 flex justify-end gap-4">
                 <button
-                  className="btn-ghost"
+                  className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80 rounded-[var(--radius)]"
+                  style={{
+                    backgroundColor: "#ffffff",
+                    color: "#000000",
+                    border: "1px solid #000000",
+                  }}
                   onClick={handleViewBilling}
                 >
-                  VIEW BILLING
+                  View Billing
                 </button>
                 <button
-                  className="btn-primary"
+                  className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80 rounded-[var(--radius)]"
+                  style={{
+                    backgroundColor: "#000000",
+                    color: "#ffffff",
+                  }}
                   onClick={handleUpgrade}
                 >
-                  UPGRADE PLAN
+                  Upgrade Plan
                 </button>
               </div>
             </div>

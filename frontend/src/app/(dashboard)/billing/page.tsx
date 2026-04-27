@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FileSearch, BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap } from "lucide-react";
+import { BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap, Briefcase, Layout, FileSearch } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import DowngradeConfirmModal from "@/features/billing/components/DowngradeConfirmModal";
 import UpgradeConfirmModal from "@/features/billing/components/UpgradeConfirmModal";
+import Card from "@/components/ui/Card";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { subscriptionAPI } from "@/features/billing/api/subscriptionAPI";
 import { useToast } from "@/components/ui/Toast";
@@ -33,27 +34,27 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
   return (
     <div
       className="p-4 sm:p-5  sm:"
-      style={{ backgroundColor: "var(--d-surface-hover)" }}
+      style={{ backgroundColor: "var(--bg-color)" }}
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div
             className="w-8 h-8 sm:w-10 sm:h-10  sm: flex items-center justify-center"
-            style={{ backgroundColor: "var(--d-accent-subtle)" }}
+            style={{ backgroundColor: "var(--bg-color)" }}
           >
             {icon}
           </div>
           <div>
             <p
               className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               {label}
             </p>
             {sublabel && (
               <p
                 className="text-xs"
-                style={{ color: "var(--d-text-muted)" }}
+                style={{ color: "var(--text-secondary)" }}
               >
                 {sublabel}
               </p>
@@ -64,7 +65,7 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
           <span
             className="inline-flex items-center gap-1.5 px-3 py-1.5  text-sm font-semibold"
             style={{
-              background: "linear-gradient(135deg, var(--d-accent) 0%, #a855f7 100%)",
+              background: "linear-gradient(135deg, var(--text-primary) 0%, #a855f7 100%)",
               color: "#ffffff",
             }}
           >
@@ -76,12 +77,12 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
         ) : (
           <p
             className="text-xl sm:text-2xl font-bold"
-            style={{ color: "var(--d-text-primary)" }}
+            style={{ color: "var(--text-primary)" }}
           >
             {used}
             <span
               className="text-sm font-normal"
-              style={{ color: "var(--d-text-muted)" }}
+              style={{ color: "var(--text-secondary)" }}
             >
               /{limit}
             </span>
@@ -91,7 +92,7 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
       {!isUnlimited && (
         <div
           className="h-2  overflow-hidden"
-          style={{ backgroundColor: "var(--d-border)" }}
+          style={{ backgroundColor: "var(--glass-border)" }}
         >
           <motion.div
             initial={{ width: 0 }}
@@ -99,7 +100,7 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="h-full "
             style={{
-              backgroundColor: isExhausted ? "var(--d-error)" : "var(--d-accent)",
+              backgroundColor: isExhausted ? "var(--d-error)" : "var(--text-primary)",
             }}
           />
         </div>
@@ -242,20 +243,21 @@ export default function BillingPageWrapper() {
       initial="hidden"
       animate="show"
       variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 pb-20 px-3 sm:px-6"
+      className="max-w-7xl mx-auto space-y-8 pb-20 px-4 sm:px-6"
     >
-      <motion.div variants={fadeUp} className="text-center sm:text-left">
-        <h1
-          className="text-2xl sm:text-3xl lg:text-[36px] font-semibold"
-          style={{ color: "var(--d-text-primary)" }}
-        >
-          Billing & Subscription
-        </h1>
-        <p
-          className="text-sm sm:text-base mt-1"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          Manage your subscription, billing, and payment methods
+      <motion.div variants={fadeUp} className="mb-10">
+        <div className="flex items-center gap-4 mb-3">
+          <div className="w-[1px] h-10 bg-black/20" />
+          <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
+            Billing & Fiscal
+          </h1>
+        </div>
+        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
+          Platform <br /> Subscription.
+        </h2>
+        <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
+          Manage your system access level, billing cycles, and resource allowances. 
+          All transactions are processed through encrypted channels.
         </p>
       </motion.div>
 
@@ -266,47 +268,21 @@ export default function BillingPageWrapper() {
         />
       </motion.div>
 
-      <motion.div
-        variants={fadeUp}
-        className=" sm: p-6 sm:p-8 lg:p-10"
-        style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
-        }}
-      >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-          <div className="text-center sm:text-left">
-            <h2
-              className="text-lg sm:text-xl lg:text-2xl font-semibold"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Available Plans
-            </h2>
-            <p
-              className="text-sm sm:text-base mt-1"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Choose the plan that fits your needs
-            </p>
-          </div>
-
-          <div
-            className="flex items-center gap-2 p-1 "
-            style={{
-              backgroundColor: "var(--d-surface-hover)",
-            }}
-          >
-            <span
-              className="px-4 py-2  text-sm font-medium"
-              style={{
-                backgroundColor: "var(--d-accent)",
-                color: "#ffffff",
-              }}
-            >
+      <Card
+        title="Available Packages"
+        description="Select the architectural tier that best aligns with your career objectives."
+        icon={<Zap className="w-4 h-4" />}
+        actions={
+          <div className="flex items-center gap-2 p-1 bg-black/5" style={{ borderRadius: "6px" }}>
+            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white text-black shadow-sm" style={{ borderRadius: "4px" }}>
               Monthly
             </span>
+            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-black/30 cursor-not-allowed">
+              Annual
+            </span>
           </div>
-        </div>
+        }
+      >
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {filteredPlans.map((plan) => (
@@ -323,73 +299,48 @@ export default function BillingPageWrapper() {
             />
           ))}
         </div>
-      </motion.div>
+      </Card>
 
-      <motion.div
-        variants={fadeUp}
-        className=" sm: p-6 sm:p-8 lg:p-10"
-        style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
-        }}
+      <Card
+        title="System Resource Usage"
+        description={`${new Date(usage.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} cycle`}
+        icon={<BrainCircuit className="w-4 h-4" />}
       >
-        <div className="flex items-center gap-3 mb-6">
-          <div
-            className="w-10 h-10 sm:w-12 sm:h-12  sm: flex items-center justify-center"
-            style={{ backgroundColor: "var(--d-surface-hover)" }}
-          >
-            <FileSearch size={20} style={{ color: "var(--d-accent)" }} />
-          </div>
-          <div>
-            <h2
-              className="text-lg sm:text-xl lg:text-2xl font-semibold"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Usage This Month
-            </h2>
-            <p
-              className="text-sm sm:text-base"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              {new Date(usage.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} - {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-            </p>
-          </div>
-        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <UsageMetric
-            icon={<BrainCircuit size={16} style={{ color: "var(--d-accent)" }} />}
+            icon={<BrainCircuit size={16} style={{ color: "var(--text-primary)" }} />}
             label="CV Analyses"
             used={usage.cvAnalysisUsed}
             limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
           />
           <UsageMetric
-            icon={<FileSearch size={16} style={{ color: "var(--d-accent)" }} />}
+            icon={<FileSearch size={16} style={{ color: "var(--text-primary)" }} />}
             label="Job Searches"
             used={usage.jobSearchUsed}
             limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
             sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
           />
           <UsageMetric
-            icon={<Mic2 size={16} style={{ color: "var(--d-accent)" }} />}
+            icon={<Mic2 size={16} style={{ color: "var(--text-primary)" }} />}
             label="Interview Sessions"
             used={usage.interviewUsed}
             limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
           />
           <UsageMetric
-            icon={<Rocket size={16} style={{ color: "var(--d-accent)" }} />}
+            icon={<Rocket size={16} style={{ color: "var(--text-primary)" }} />}
             label="Auto Applications"
             used={usage.autoApplyUsed}
             limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
           />
           <UsageMetric
-            icon={<FileText size={16} style={{ color: "var(--d-accent)" }} />}
+            icon={<FileText size={16} style={{ color: "var(--text-primary)" }} />}
             label="CV Versions"
             used={usage.cvVersionsStored}
             limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
           />
         </div>
-      </motion.div>
+      </Card>
 
       <DowngradeConfirmModal
         isOpen={showDowngradeModal}

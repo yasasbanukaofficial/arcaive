@@ -23,18 +23,18 @@ import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 const PLAN_CONFIG = {
   strategist: {
     icon: Rocket,
-    gradient: "bg-[var(--glass-bg)]/5",
+    gradient: "bg-white/5",
     accentColor: "#000",
     bgAccent: "rgba(0, 0, 0, 0.05)",
-    borderAccent: "rgba(0, 0, 0, 0.3)",
+    borderAccent: "var(--text-primary)",
     priceColor: "#000",
   },
   architect: {
     icon: Crown,
-    gradient: "bg-[var(--glass-bg)]/5",
+    gradient: "bg-white/5",
     accentColor: "#000",
     bgAccent: "rgba(0, 0, 0, 0.05)",
-    borderAccent: "rgba(0, 0, 0, 0.3)",
+    borderAccent: "var(--text-primary)",
     priceColor: "#000",
   },
 };
@@ -119,51 +119,51 @@ function CheckoutContent() {
     : 0;
 
   return (
-    <div className="min-h-screen">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-black/5" />
-
-      <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-8 sm:py-12">
+    <div className="min-h-screen relative overflow-hidden bg-[#fbfbfb] text-black">
+      <div className="noise-overlay opacity-[0.03]" />
+      <div className="bg-grid-mat opacity-[0.2]" style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)' }} />
+      
+      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-white to-transparent pointer-events-none" />
+      <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-12 sm:py-20">
         <motion.div
           initial="hidden"
           animate="show"
           variants={dashboardStagger(0.05, 0.02)}
         >
-          <motion.div variants={fadeUp} className="mb-8">
-            <button
-              onClick={() => router.back()}
-              className="inline-flex items-center gap-2 text-sm transition-colors hover:opacity-80 mb-6 text-gray-300 hover:text-white"
+          <motion.div variants={fadeUp} className="mb-12">
+            <Link
+              href="/subscription"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-black hover:text-white border border-black mb-12"
+              style={{
+                borderRadius: "var(--radius)",
+              }}
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Plans
-            </button>
+              Change Selection
+            </Link>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-              <div className="text-center sm:text-left">
-                <h1
-                  className="text-2xl sm:text-3xl lg:text-[36px] font-semibold text-white"
-                >
-                  Checkout
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-[1px] bg-black/20"></div>
+                <h1 className="text-[11px] font-bold uppercase tracking-[0.25em] text-black/40">
+                  Secure Checkout
                 </h1>
-                <p className="text-sm sm:text-base mt-1 text-gray-400">
-                  Complete your subscription
-                </p>
               </div>
+              <h2 className="font-display text-6xl sm:text-8xl font-bold tracking-tighter text-black uppercase leading-[0.9]">
+                Order <br /> Summary.
+              </h2>
             </div>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
             <motion.div variants={fadeUp} className="lg:col-span-3 space-y-6">
               <div
-                className=" p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
+                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
+                style={{ borderRadius: "var(--radius)" }}
               >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Select Plan
+                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
+                  <span className="w-2 h-2 bg-black"></span>
+                  Package Selection
                 </h2>
 
                 <div className="space-y-4">
@@ -178,89 +178,57 @@ function CheckoutContent() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlanChange(plan.id)}
-                        className={`relative p-4 sm:p-5  cursor-pointer  duration-200`}
+                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-500 group ${isSelected ? "bg-black text-white shadow-xl shadow-black/10" : "bg-white text-black hover:bg-black/5"}`}
                         style={{
-                          backgroundColor: isSelected
-                            ? config?.bgAccent
-                            : "rgba(255, 255, 255, 0.04)",
-                          border: `1px solid ${
-                            isSelected ? config?.borderAccent : "rgba(255, 255, 255, 0.15)"
-                          }`,
+                          border: `1px solid ${isSelected ? "black" : "rgba(0,0,0,0.1)"}`,
+                          borderRadius: "var(--radius)",
                         }}
                       >
-                        {plan.isPopular && (
-                          <div className="absolute -top-2.5 right-4">
+                          <div className="absolute -top-3 left-8">
                             <span
-                              className="px-2.5 py-0.5  text-[10px] font-bold uppercase tracking-wider"
-                              style={{
-                                background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                                color: "#ffffff",
-                              }}
+                              className={`px-3 py-1 text-[9px] font-black tracking-widest uppercase border ${isSelected ? "bg-white text-black border-white" : "bg-black text-white border-black"}`}
+                              style={{ borderRadius: "4px" }}
                             >
-                              Most Popular
+                              Preferred Selection
                             </span>
                           </div>
-                        )}
 
                         <div className="flex items-center gap-4">
                           <div
-                            className="w-12 h-12  flex items-center justify-center shrink-0"
-                            style={{
-                              backgroundColor: isSelected
-                                ? config?.bgAccent
-                                : "rgba(255, 255, 255, 0.06)",
-                              border: `1px solid ${
-                                isSelected ? config?.borderAccent : "rgba(255, 255, 255, 0.1)"
-                              }`,
-                            }}
+                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-500 ${isSelected ? "bg-white/15" : "bg-black/5"}`}
+                            style={{ borderRadius: "var(--radius)" }}
                           >
                             <PlanIcon
-                              className="w-5 h-5"
-                              style={{ color: config?.accentColor }}
+                              className={`w-6 h-6 ${isSelected ? "text-white" : "text-black"}`}
                             />
                           </div>
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h3
-                                className="font-semibold text-white"
-                              >
+                              <h3 className="text-xl font-bold uppercase tracking-tight">
                                 {plan.name}
                               </h3>
                             </div>
-                            <p
-                              className="text-xs mt-0.5 truncate text-gray-300"
-                            >
+                            <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-white/50" : "text-black/40"}`}>
                               {plan.description}
                             </p>
                           </div>
 
                           <div className="text-right shrink-0">
-                            <div
-                              className="text-xl font-bold text-white"
-                            >
+                            <div className="text-2xl font-black">
                               {plan.priceDisplay}
                             </div>
-                            <div
-                              className="text-xs text-gray-400"
-                            >
+                            <div className={`text-[10px] uppercase tracking-widest opacity-60`}>
                               /month
                             </div>
                           </div>
 
                           <div
-                            className={`w-5 h-5  border-2 flex items-center justify-center shrink-0 `}
-                            style={{
-                              backgroundColor: isSelected
-                                ? config?.accentColor
-                                : "transparent",
-                              borderColor: isSelected
-                                ? config?.accentColor
-                                : "rgba(255, 255, 255, 0.3)",
-                            }}
+                            className={`w-5 h-5 border flex items-center justify-center shrink-0 ${isSelected ? "border-white bg-white" : "border-black/20"}`}
+                            style={{ borderRadius: "var(--radius)" }}
                           >
                             {isSelected && (
-                              <Check className="w-3 h-3 text-[var(--text-primary)]" />
+                              <Check className="w-3 h-3 text-black" strokeWidth={3} />
                             )}
                           </div>
                         </div>
@@ -271,122 +239,77 @@ function CheckoutContent() {
               </div>
 
               <div
-                className=" p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
+                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
+                style={{ borderRadius: "var(--radius)" }}
               >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Billing Period
+                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
+                  <span className="w-2 h-2 bg-black"></span>
+                  Billing Schedule
                 </h2>
 
                 <div className="grid grid-cols-2 gap-3">
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBillingChange("month")}
-                    className={`p-4   text-left`}
+                    className={`p-8 text-left transition-all duration-500 ${billingPeriod === "month" ? "bg-black text-white shadow-xl shadow-black/10" : "bg-white text-black hover:bg-black/5 border border-black/10"}`}
                     style={{
-                      backgroundColor:
-                        billingPeriod === "month"
-                          ? "rgba(59, 130, 246, 0.15)"
-                          : "rgba(255, 255, 255, 0.04)",
-                      border: `1px solid ${
-                        billingPeriod === "month"
-                          ? "rgba(59, 130, 246, 0.5)"
-                          : "rgba(255, 255, 255, 0.15)"
-                      }`,
+                      borderRadius: "var(--radius)",
                     }}
                   >
-                    <div
-                      className="font-semibold text-white"
-                    >
+                    <div className="font-bold text-lg uppercase tracking-tight">
                       Monthly
                     </div>
-                    <div
-                      className="text-sm mt-1 text-gray-300"
-                    >
-                      Billed monthly
+                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-white/40" : "text-black/30"}`}>
+                      Standard cycle
                     </div>
                   </motion.button>
 
-                  <motion.button
-                    disabled
-                    className={`p-4   text-left relative opacity-50 cursor-not-allowed`}
+                  <div
+                    className="p-8 text-left relative opacity-30 grayscale cursor-not-allowed bg-black/[0.02] border border-black/5"
                     style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.04)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)",
+                      borderRadius: "var(--radius)",
                     }}
                   >
-                    <div
-                      className="absolute -top-2 right-3"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        color: "#9ca3af",
-                      }}
-                    >
-                      <span className="px-2 py-0.5  text-[10px] font-bold uppercase">
-                        Coming soon
-                      </span>
+                    <div className="absolute -top-3 right-8 bg-white border border-black px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em]">
+                      Locked
                     </div>
-                    <div
-                      className="font-semibold text-white"
-                    >
-                      Yearly
+                    <div className="font-bold text-lg uppercase tracking-tight">
+                      Annual
                     </div>
-                    <div
-                      className="text-sm mt-1 text-gray-400"
-                    >
-                      On the way
+                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-black/30">
+                      Savings plan
                     </div>
-                  </motion.button>
+                  </div>
                 </div>
               </div>
 
               <div
-                className=" p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
+                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
+                style={{ borderRadius: "var(--radius)" }}
               >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Features Included
+                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
+                  <span className="w-2 h-2 bg-black"></span>
+                  Included Utilities
                 </h2>
 
                 <div className="space-y-4">
                   {selectedPlanData?.features.map((feature, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.02 }}
+                      className="flex items-start gap-5 p-5 hover:bg-black/5 transition-all duration-300 border border-transparent hover:border-black/5"
+                      style={{ borderRadius: "var(--radius)" }}
                     >
                       <div
-                        className={`w-5 h-5  flex items-center justify-center shrink-0 mt-0.5 ${
-                          feature.included ? "" : "opacity-40"
-                        }`}
-                        style={{
-                          backgroundColor: feature.included
-                            ? "rgba(59, 130, 246, 0.2)"
-                            : "rgba(255, 255, 255, 0.06)",
-                        }}
+                        className="w-6 h-6 flex items-center justify-center shrink-0 mt-0.5 border border-black/10 bg-white shadow-sm"
+                        style={{ borderRadius: "6px" }}
                       >
-                        <Check
-                          className="w-3 h-3 text-white"
-                        />
+                        <Check className="w-3.5 h-3.5 text-black" strokeWidth={3} />
                       </div>
-                      <span
-                        className={`text-sm leading-relaxed ${
-                          feature.included ? "" : "line-through opacity-50"
-                        } text-gray-200`}
-                      >
+                      <span className="text-sm font-medium leading-[1.6] text-black/80">
                         {feature.text}
                       </span>
                     </motion.div>
@@ -397,92 +320,63 @@ function CheckoutContent() {
 
             <motion.div variants={fadeUp} className="lg:col-span-2">
               <div
-                className=" p-6 sm:p-8 sticky top-8"
-                style={{
-                  backgroundColor: "rgba(30, 30, 30, 0.95)",
-                  border: `1px solid ${
-                    selectedPlan === "strategist"
-                      ? "rgba(59, 130, 246, 0.5)"
-                      : selectedPlan === "architect"
-                      ? "rgba(245, 158, 11, 0.5)"
-                      : "rgba(255, 255, 255, 0.15)"
-                  }`,
-                }}
+                className="p-10 sticky top-12 bg-white border-2 border-black"
+                style={{ borderRadius: "var(--radius)" }}
               >
-                <div className="flex items-center gap-3 mb-6">
+                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-black"></span>
+                  Summary
+                </h2>
+                <div className="flex items-center gap-5 mb-10 pb-10 border-b border-black/5">
                   <div
-                    className="w-10 h-10  flex items-center justify-center"
-                    style={{ backgroundColor: planConfig?.bgAccent }}
+                    className="w-16 h-16 flex items-center justify-center bg-black text-white shadow-xl shadow-black/10"
+                    style={{ borderRadius: "var(--radius)" }}
                   >
-                    <Icon className="w-5 h-5" style={{ color: planConfig?.accentColor }} />
+                    <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3
-                      className="font-semibold text-white"
-                    >
+                    <h3 className="text-2xl font-black text-black leading-none">
                       {selectedPlanData?.name}
                     </h3>
-                    <p className="text-xs text-gray-400">
-                      {billingPeriod === "year" ? "Yearly billing" : "Monthly billing"}
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/30 mt-2">
+                      Active collection
                     </p>
                   </div>
                 </div>
 
-                <div className="border-t border-b py-6 my-6 border-gray-600">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-300">
-                        {selectedPlanData?.name} plan
-                      </span>
-                      <span className="text-white font-medium">
-                        {selectedPlanData?.priceDisplay}/mo
-                      </span>
-                    </div>
-                    {billingPeriod === "year" && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-300">
-                          Billing period
-                        </span>
-                        <span className="text-white font-medium">
-                          12 months
-                        </span>
-                      </div>
-                    )}
-                    {billingPeriod === "year" && savings > 0 && (
-                      <div className="flex items-center justify-between">
-                        <span style={{ color: "#60a5fa" }}>
-                          Yearly discount
-                        </span>
-                        <span style={{ color: "#60a5fa" }}>
-                          -€{savings}
-                        </span>
-                      </div>
-                    )}
+                <div className="space-y-5 mb-10">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-black/40 font-bold uppercase tracking-widest text-[10px]">
+                      Package
+                    </span>
+                    <span className="font-bold text-black">
+                      {selectedPlanData?.priceDisplay}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-black/40 font-bold uppercase tracking-widest text-[10px]">
+                      Service Charge
+                    </span>
+                    <span className="font-bold text-black uppercase text-xs">
+                      Free
+                    </span>
                   </div>
                 </div>
 
-                <div className="mb-6">
+                <div className="mb-12 bg-black/[0.02] p-8 -mx-10 border-t border-b border-black/5">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-gray-300">
-                      Total
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/40">
+                      Total Due
                     </span>
                     <div className="text-right">
-                      <span
-                        className="text-3xl font-bold text-white"
-                      >
-                        {billingPeriod === "year"
-                          ? `€${yearlyPrice}`
-                          : selectedPlanData?.price === 0
-                          ? "Free"
-                          : `€${selectedPlanData?.price}`}
+                      <span className="text-6xl font-black text-black tracking-tighter">
+                        {selectedPlanData?.price === 0
+                          ? "0"
+                          : `${selectedPlanData?.price}`}
                       </span>
-                      {billingPeriod === "year" && (
-                        <span
-                          className="text-sm ml-1 text-gray-400"
-                        >
-                          /year
-                        </span>
-                      )}
+                      <span className="text-[10px] ml-3 font-bold uppercase tracking-widest text-black/40">
+                        USD
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -494,7 +388,7 @@ function CheckoutContent() {
                       size="lg"
                       fullWidth
                       onClick={handleCheckout}
-                      className="font-semibold"
+                      className="font-bold"
                     >
                       Continue with Free Plan
                     </Button>
@@ -502,34 +396,28 @@ function CheckoutContent() {
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-12 px-6  font-semibold text-sm  flex items-center justify-center gap-2 bg-[var(--glass-bg)] text-[var(--text-primary)] hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full h-16 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:bg-black/90 active:scale-[0.98] bg-black text-white"
+                      style={{ borderRadius: "var(--radius)" }}
                     >
                       {isProcessing ? (
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
+                        <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                       ) : (
                         <CreditCard className="w-4 h-4" />
                       )}
-                      {isProcessing ? "Processing..." : "Complete Purchase"}
+                      {isProcessing ? "Authorizing..." : "Complete Order"}
                     </button>
                   )}
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-gray-600">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Shield className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Secure checkout powered by Stripe</span>
+                <div className="mt-8 pt-8 border-t border-black/10">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-black/40">
+                      <Shield className="w-4 h-4 text-black" />
+                      <span>Encrypted Transaction via Stripe</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Zap className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Cancel anytime, no questions asked</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Lock className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Your data is encrypted and secure</span>
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-black/40">
+                      <Zap className="w-4 h-4 text-black" />
+                      <span>Instant deployment upon success</span>
                     </div>
                   </div>
                 </div>
@@ -537,14 +425,14 @@ function CheckoutContent() {
                 <div className="mt-6 flex items-center justify-center gap-4">
                   <Link
                     href="/subscription"
-                    className="text-xs transition-colors hover:underline text-gray-400 hover:text-gray-200"
+                    className="text-xs transition-colors hover:underline text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   >
                     Compare Plans
                   </Link>
-                  <span className="text-gray-600">|</span>
+                  <span style={{ color: "var(--d-border)" }}>|</span>
                   <Link
                     href="/billing"
-                    className="text-xs transition-colors hover:underline text-gray-400 hover:text-gray-200"
+                    className="text-xs transition-colors hover:underline text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   >
                     Manage Billing
                   </Link>

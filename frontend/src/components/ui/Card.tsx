@@ -31,8 +31,8 @@ export default function Card({
   return (
     <motion.div
       variants={fadeUp}
-      className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] transition-colors duration-300 ${className}`}
-      style={{ borderRadius: 0 }}
+      className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] oryzo-card-glow transition-colors duration-300 ${className}`}
+      style={{ borderRadius: "var(--radius)" }}
     >
       {(title || actions) && (
         <div

@@ -38,7 +38,7 @@ const PricingCard = ({
       className={`relative p-10 h-full flex flex-col transition-[background-color,border-color] duration-300 border ${
         popular ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"
       }`}
-      style={{ borderRadius: 0 }}
+      style={{ borderRadius: "var(--radius)" }}
     >
       {popular && (
         <div className="absolute top-6 right-6">

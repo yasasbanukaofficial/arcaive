@@ -56,7 +56,7 @@ export default function Badge({
         ${variantClass}
         ${className}
       `}
-      style={{ borderRadius: 0 }}
+      style={{ borderRadius: "var(--radius)" }}
     >
       <span>{children}</span>
       {removable && (

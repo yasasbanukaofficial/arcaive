@@ -12,7 +12,7 @@ const CTAButton = ({ text, href }: CTAButtonProps) => {
       <Link
         href={href}
         className="cursor-pointer inline-flex items-center justify-center bg-[var(--glass-bg)] text-[var(--text-primary)] font-mono text-[11px] font-bold uppercase tracking-widest py-3 px-6 border border-white hover:bg-black hover:text-white transition-colors duration-200"
-        style={{ borderRadius: 0 }}
+        style={{ borderRadius: "var(--radius)" }}
       >
         {text.replace(/\s+/g, '_')}
       </Link>

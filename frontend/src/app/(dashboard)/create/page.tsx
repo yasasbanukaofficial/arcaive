@@ -147,10 +147,10 @@ const templates = [
     id: "modern" as const, 
     name: "Modern", 
     tag: "Modern Clean", 
-    color: "#2563eb",
+    color: "#ffffff",
     mockup: (
       <div className="flex w-full h-full gap-2">
-        <div className="w-1/3 bg-[#0f172a]  p-2 flex flex-col gap-2">
+        <div className="w-1/3 bg-black  p-2 flex flex-col gap-2">
           <div className="w-full h-1.5 bg-[var(--glass-bg)] opacity-20 " />
           <div className="w-3/4 h-1 bg-[var(--glass-bg)] opacity-10 " />
           <div className="w-full h-1 bg-[var(--glass-bg)] opacity-10  mt-4" />
@@ -549,10 +549,10 @@ export default function CreateCVPage() {
                   relative aspect-[3/4] p-8 bg-[var(--glass-border)] border  flex items-center justify-center overflow-hidden
                   ${isSelected ? "border-[var(--text-primary)] border-2" : "border-[var(--glass-border)] group-hover:border-[var(--text-primary)]"}
                 `}
-                style={{ borderRadius: 0 }}
+                style={{ borderRadius: "var(--radius)" }}
               >
                 {isSelected && (
-                  <div className="absolute top-4 right-4 bg-black px-2 py-1">
+                  <div className="absolute top-4 right-4 bg-black px-2 py-1 rounded-[var(--radius)]">
                     <span className="font-mono text-[10px] text-white font-bold uppercase tracking-widest">
                       SELECTED
                     </span>
@@ -782,92 +782,126 @@ export default function CreateCVPage() {
   };
 
   const renderWizard = () => (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)] border border-[var(--glass-border)] bg-[var(--glass-bg)] overflow-hidden">
-      {/* Left: Form Side */}
-      <div className="flex-1 flex flex-col min-w-0">
+    <div className="flex flex-col min-h-[calc(100vh-200px)] border border-[var(--glass-border)] bg-[var(--glass-bg)] overflow-hidden relative">
+      {/* Decorative Grid Background for Focus */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+           style={{ 
+             backgroundImage: `linear-gradient(var(--text-primary) 1px, transparent 1px), linear-gradient(90deg, var(--text-primary) 1px, transparent 1px)`,
+             backgroundSize: '30px 30px' 
+           }} 
+      />
+
+      {/* Left: Form Side (Now Full Width during data collection) */}
+      <div className="relative z-10 flex-1 flex flex-col min-w-0 max-w-4xl mx-auto w-full">
         {/* Step Indicator */}
-        <div className="px-12 py-8 border-b border-[var(--glass-border)] flex items-center gap-6 overflow-x-auto no-scrollbar bg-[var(--glass-bg)]">
-          <button 
-            onClick={() => setStage(1)} 
-            className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors shrink-0"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-6">
-            {steps.map((s, i) => {
-              const isCurrent = step === s.id;
-              const isCompleted = step > s.id;
-              return (
-                <React.Fragment key={s.id}>
-                  <div 
-                    className={`
-                      flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest whitespace-nowrap pb-1 
-                      ${isCurrent ? "text-[var(--text-primary)] border-b border-[var(--glass-border)]" : "text-[var(--text-secondary)]"}
-                    `}
-                  >
-                    {isCompleted && <span>✓</span>}
-                    <span>{String(s.id).padStart(2, '0')} {s.title}</span>
-                  </div>
-                  {i < steps.length - 1 && <span className="text-[#E8E6DE]">—</span>}
-                </React.Fragment>
-              );
-            })}
+        <div className="px-12 py-8 border-b border-[var(--glass-border)] flex items-center justify-between overflow-x-auto no-scrollbar bg-[var(--glass-bg)]/50 backdrop-blur-sm sticky top-0 z-20">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setStage(1)} 
+              className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors shrink-0"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-3">
+              {steps.map((s, i) => {
+                const isCurrent = step === s.id;
+                const isCompleted = step > s.id;
+                return (
+                  <React.Fragment key={s.id}>
+                    <button 
+                      onClick={() => setStep(s.id)}
+                      className={`
+                        flex items-center gap-2 px-4 py-2 font-bold text-[12px] tracking-wide whitespace-nowrap transition-all rounded-[var(--radius)]
+                        ${isCurrent 
+                          ? "bg-black text-white" 
+                          : isCompleted 
+                            ? "bg-white text-black border border-black hover:bg-gray-100" 
+                            : "bg-[var(--glass-border)] text-[var(--text-secondary)] border border-transparent hover:border-[var(--glass-border)]"
+                        }
+                      `}
+                    >
+                      {isCompleted && <span>✓</span>}
+                      <span>{String(s.id).padStart(2, '0')}</span>
+                      <span className="hidden sm:inline">{s.title}</span>
+                    </button>
+                    {i < steps.length - 1 && <span className="text-[var(--glass-border)]">›</span>}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="hidden md:flex flex-col items-end text-right">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">DATA_COLLECTION_MODE</span>
+            <span className="font-sans text-[12px] font-bold text-[var(--text-primary)]">STEP {step} OF 6</span>
           </div>
         </div>
 
-        {/* Panel Content */}
-        <div className="flex-1 overflow-y-auto p-12 no-scrollbar bg-[var(--glass-bg)]">
-          <motion.div key={step} initial="hidden" animate="show" variants={fadeUp}>
-             <div className="mb-12">
-               <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">{steps[step - 1].title}</h2>
-               <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">{steps[step - 1].subtitle}</p>
-             </div>
-             {renderStepContent()}
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto no-scrollbar px-12 py-12">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-3xl"
+          >
+            <div className="mb-12">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] block mb-2">SECTION_{step}</span>
+              <h2 className="font-display text-[48px] font-bold uppercase leading-none text-[var(--text-primary)]">
+                {steps.find(s => s.id === step)?.title}
+              </h2>
+              <p className="font-sans text-[15px] text-[var(--text-secondary)] mt-4">
+                {steps.find(s => s.id === step)?.subtitle}
+              </p>
+            </div>
+
+            {renderStepContent()}
           </motion.div>
         </div>
 
         {/* Wizard Nav */}
-        <div className="px-12 py-8 border-t border-[var(--glass-border)] flex justify-between items-center bg-[var(--glass-bg)] mt-auto">
+        <div className="px-12 py-8 border-t border-[var(--glass-border)] flex justify-between items-center bg-[var(--glass-bg)]/50 backdrop-blur-sm">
            <button 
              onClick={handlePrevStep}
-             className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+             className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80"
+             style={{
+               backgroundColor: "#ffffff",
+               color: "#000000",
+               border: "1px solid #000000",
+               borderRadius: "var(--radius)",
+             }}
            >
-             ← PREVIOUS
+             <ArrowLeft className="w-4 h-4" />
+             Previous
            </button>
            <div className="flex gap-4">
              {step === 6 && (
                <button 
                  onClick={() => setStage(3)} 
-                 className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+                 className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:bg-[var(--glass-border)]"
+                 style={{
+                   backgroundColor: "transparent",
+                   color: "var(--text-secondary)",
+                   border: "1px solid var(--glass-border)",
+                   borderRadius: "var(--radius)",
+                 }}
                >
-                 SKIP_TO_FINAL
+                 Skip to Final
                </button>
              )}
              <button 
                onClick={handleNextStep}
-               className="btn-primary px-8 py-3 text-[12px] font-mono uppercase tracking-widest"
+               className="flex items-center gap-2 px-8 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+               style={{
+                 backgroundColor: "#000000",
+                 color: "#ffffff",
+                 borderRadius: "var(--radius)",
+               }}
              >
-               {step === 6 ? "PREVIEW FINAL CV →" : "NEXT_STEP →"}
+               {step === 6 ? "Preview Final CV" : "Next Step"}
+               {step !== 6 && <span className="text-lg">→</span>}
              </button>
-           </div>
-        </div>
-      </div>
-
-      {/* Right: Live Preview Sidebar */}
-      <div className="hidden lg:flex w-[480px] border-l border-[var(--glass-border)] bg-[var(--glass-bg)] flex-col">
-        <div className="px-8 py-4 border-b border-[var(--glass-border)] flex items-center justify-between bg-[var(--glass-bg)]">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
-            LIVE_PREVIEW
-          </span>
-          <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">
-            {selectedTemplate}_TEMPLATE
-          </span>
-        </div>
-        <div className="flex-1 bg-[var(--glass-border)] p-8 flex items-start justify-center overflow-hidden">
-           <div className="w-full h-full shadow-[0_0_40px_rgba(0,0,0,0.05)] origin-top scale-[0.65] lg:scale-[0.55] xl:scale-[0.65]">
-             <PDFViewer className="w-full h-full border-none">
-               <ActiveResume />
-             </PDFViewer>
            </div>
         </div>
       </div>
@@ -880,9 +914,15 @@ export default function CreateCVPage() {
         <div className="flex items-center gap-6">
           <button 
             onClick={() => { setStage(2); setStep(6); }} 
-            className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            className="flex items-center gap-2 p-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              border: "1px solid #000000",
+            }}
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
+            Back to Edit
           </button>
           <div>
             <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">Final Preview</h2>
@@ -893,26 +933,38 @@ export default function CreateCVPage() {
         </div>
         <div className="flex items-center gap-4">
           <button 
-            className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+            className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#000000",
+              border: "1px solid #000000",
+              borderRadius: "var(--radius)",
+            }}
             onClick={handleSave}
             disabled={isSaving}
           >
-            {isSaving ? "SAVING..." : "SAVE_DRAFT"}
+            {isSaving ? "SAVING..." : "Save Draft"}
           </button>
           <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName.replace(/\s+/g, "_")}_Resume.pdf`}>
             {({ loading }) => (
               <button 
-                className="btn-primary px-8 py-3 text-[12px] font-mono uppercase tracking-widest"
+                className="flex items-center gap-2 px-8 py-3 text-[12px] font-bold uppercase tracking-widest"
+                style={{
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
+                  borderRadius: "var(--radius)",
+                }}
                 disabled={loading}
               >
-                {loading ? "PREPARING..." : "DOWNLOAD_PDF ↓"}
+                {loading ? "Preparing..." : "Download PDF"}
+                <Download className="w-4 h-4" />
               </button>
             )}
           </PDFDownloadLink>
         </div>
       </div>
 
-      <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] overflow-hidden">
+      <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] overflow-hidden oryzo-card-glow rounded-[var(--radius)]">
         <div className="bg-[var(--glass-bg)] px-8 py-4 border-b border-[var(--glass-border)] flex items-center justify-between">
           <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
             DOCUMENT_OUTPUT
@@ -921,7 +973,7 @@ export default function CreateCVPage() {
             ENGINE_STABLE
           </span>
         </div>
-        <div className={hasPreviewedRef.current ? "block" : "hidden"}>
+        <div className="block bg-white">
           <PDFViewer className="w-full h-[90vh] border-none"><ActiveResume /></PDFViewer>
         </div>
       </div>

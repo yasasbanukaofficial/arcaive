@@ -84,7 +84,12 @@ export default function CVAnalysisPage() {
           <div className="flex items-center gap-4">
             <button
               onClick={handleNewAnalysis}
-              className="btn-primary"
+              className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80"
+              style={{
+                backgroundColor: "#ffffff",
+                color: "#000000",
+                border: "1px solid #000000",
+              }}
             >
               NEW ANALYSIS
             </button>
@@ -98,32 +103,45 @@ export default function CVAnalysisPage() {
             <motion.div
               key="empty-state"
               variants={fadeUp}
-              className="relative  sm: p-6 sm:p-10 lg:p-16 overflow-hidden text-center"
+              className="relative min-h-[500px] flex items-center justify-center overflow-hidden p-8 sm:p-20"
               style={{
-                backgroundColor: "var(--d-surface)",
-                border: "1px solid var(--d-border)",
+                backgroundColor: "var(--glass-bg)",
+                border: "1px solid var(--glass-border)",
               }}
             >
-              <div className="relative z-10 max-w-2xl mx-auto space-y-5 sm:space-y-6">
-                <div className="space-y-3 sm:space-y-4">
-                  <h2 className="text-xl sm:text-2xl lg:text-[40px] font-semibold leading-tight">
-                    Precision AI Profile Matching
+              {/* Decorative Landing-style Grid */}
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                   style={{ 
+                     backgroundImage: `linear-gradient(var(--text-primary) 1px, transparent 1px), linear-gradient(90deg, var(--text-primary) 1px, transparent 1px)`,
+                     backgroundSize: '40px 40px' 
+                   }} 
+              />
+              
+              <div className="relative z-10 max-w-2xl mx-auto space-y-8 text-center">
+                <div className="space-y-4">
+                  <div className="inline-block px-3 py-1 border border-[var(--glass-border)] font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-secondary)] mb-4">
+                    Neural Alignment v4.0
+                  </div>
+                  <h2 className="font-display text-[40px] sm:text-[64px] font-bold leading-[0.9] uppercase tracking-tight text-[var(--text-primary)]">
+                    Precision AI <br />Profile Matching
                   </h2>
-                  <p className="text-sm sm:text-base" style={{ color: "var(--d-text-muted)" }}>
-                    Upload your professional resume and a target job description. <br className="hidden sm:block" />
-                    Our neural engine will perform deep semantic analysis.
+                  <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] max-w-lg mx-auto">
+                    Upload your professional resume and a target job description. Our neural engine will perform deep semantic analysis.
                   </p>
                 </div>
 
-                <div className="pt-4 sm:pt-6">
-                  <Button
-                    variant="primary"
-                    size="lg"
+                <div className="pt-8">
+                  <button
                     onClick={() => setIsModalOpen(true)}
-                    className="h-12 sm:h-14 px-8 sm:px-10 text-sm sm:text-base font-medium "
+                    className="px-10 py-5 text-[14px] font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    style={{
+                      backgroundColor: "#ffffff",
+                      color: "#000000",
+                      border: "1px solid #000000",
+                    }}
                   >
-                    Start Analysis
-                  </Button>
+                    Start Analysis →
+                  </button>
                 </div>
               </div>
             </motion.div>

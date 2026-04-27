@@ -17,8 +17,11 @@ import {
   Mic,
   FileSearch,
   FileText,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
+import { useTheme } from "./ThemeContext";
 import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
@@ -42,6 +45,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Sidebar() {
   const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } = useSidebar();
+  const { theme, toggleTheme, isDark } = useTheme();
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
@@ -109,7 +113,7 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="h-[72px] flex items-center px-6 border-b border-[var(--glass-border)]">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-[var(--radius)] border border-[var(--glass-border)] flex items-center justify-center shrink-0">
               <span className="font-display text-[14px] font-bold text-[var(--text-primary)]">A</span>
             </div>
             {!collapsed && (
@@ -146,7 +150,7 @@ export default function Sidebar() {
           {!collapsed && (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-[var(--text-primary)] flex items-center justify-center shrink-0 border border-[var(--glass-border)]">
+                <div className="w-9 h-9 rounded-[var(--radius)] bg-[var(--text-primary)] flex items-center justify-center shrink-0 border border-[var(--glass-border)]">
                   <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
                 </div>
                 <div className="flex flex-col min-w-0">
@@ -154,10 +158,17 @@ export default function Sidebar() {
                   <span className="font-sans text-[12px] font-light text-[var(--text-secondary)] truncate">yasas@arcaive.ai</span>
                 </div>
               </div>
-              <div className="inline-flex w-fit">
+              <div className="flex items-center justify-between">
                 <span className="font-mono text-[10px] tracking-widest uppercase bg-[var(--glass-border)] rounded-full px-3 py-1 text-[var(--text-secondary)]">
                   Explorer Tier
                 </span>
+                <button
+                  onClick={toggleTheme}
+                  className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center transition-colors hover:bg-[var(--glass-border)] text-[var(--text-primary)]"
+                  title={`Switch to ${isDark ? "light" : "dark"} mode`}
+                >
+                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
               </div>
             </div>
           )}
@@ -170,6 +181,16 @@ export default function Sidebar() {
             >
               <Settings className="w-5 h-5" />
             </Link>
+
+            {collapsed && (
+              <button
+                onClick={toggleTheme}
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1 mb-2"
+                title={`Switch to ${isDark ? "light" : "dark"} mode`}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            )}
 
             {!collapsed && (
               <form action={logoutAction} className="flex-1">

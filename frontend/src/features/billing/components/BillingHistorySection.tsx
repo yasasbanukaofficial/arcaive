@@ -44,13 +44,13 @@ export default function BillingHistorySection({
       animate={{ opacity: 1, y: 0 }}
       className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
-        border: "1px solid var(--d-border)",
+        backgroundColor: isDark ? "var(--glass-bg)" : "#ffffff",
+        border: "1px solid var(--glass-border)",
       }}
     >
       <h2
         className="text-xl font-semibold mb-4"
-        style={{ color: "var(--d-text-primary)" }}
+        style={{ color: "var(--text-primary)" }}
       >
         Billing History
       </h2>
@@ -70,9 +70,9 @@ export default function BillingHistorySection({
               className="flex items-center justify-between p-4  transition-colors"
               style={{
                 backgroundColor: isDark
-                  ? "var(--d-surface-hover)"
+                  ? "var(--bg-color)"
                   : "rgba(0,0,0,0.02)",
-                border: "1px solid var(--d-border-subtle)",
+                border: "1px solid var(--glass-border)",
               }}
             >
               <div className="flex items-center gap-3">
@@ -80,7 +80,7 @@ export default function BillingHistorySection({
                 <div>
                   <p
                     className="text-sm font-medium"
-                    style={{ color: "var(--d-text-primary)" }}
+                    style={{ color: "var(--text-primary)" }}
                   >
                     {new Date(item.date).toLocaleDateString("en-US", {
                       month: "long",
@@ -100,7 +100,7 @@ export default function BillingHistorySection({
               <div className="flex items-center gap-4">
                 <span
                   className="text-lg font-semibold"
-                  style={{ color: "var(--d-text-primary)" }}
+                  style={{ color: "var(--text-primary)" }}
                 >
                   ${item.amount.toFixed(2)}
                 </span>

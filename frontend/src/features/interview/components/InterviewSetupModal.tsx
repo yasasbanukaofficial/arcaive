@@ -42,18 +42,19 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
           className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: 0 }}
+          style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
               <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Interview Setup
               </h2>
-              <button
-                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
-              >
-                ×
-              </button>
+                  <button
+                    onClick={onStart}
+                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
+                  >
+                    ×
+                  </button>
             </div>
             <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
@@ -96,7 +97,7 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
               </div>
 
               <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] text-center pt-4">
-                SECURE_SESSION_POWERED_BY_ARCAIVE_AI
+                Secure session powered by Arcaive AI
               </p>
             </div>
 
@@ -104,7 +105,12 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
               <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
               <div className="px-[48px] py-8 flex justify-end gap-4">
                 <button
-                  className="btn-primary w-full"
+                  className="w-full py-4 text-[13px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+                  style={{ 
+                    backgroundColor: "#000000", 
+                    color: "#ffffff",
+                    borderRadius: "var(--radius)"
+                  }}
                   onClick={onStart}
                 >
                   START MOCK INTERVIEW

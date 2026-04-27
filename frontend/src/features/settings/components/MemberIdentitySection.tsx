@@ -22,7 +22,7 @@ import TextField from "@/components/ui/TextField";
 import PasswordField from "@/components/ui/PasswordField";
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
-import Select from "@/components/ui/Select";
+import Select from "@/components/ui/SelectInput";
 import Badge from "@/components/ui/Badge";
 import type { MemberIdentityData, LinkedAccount } from "@/@types/member";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -156,8 +156,8 @@ export default function MemberIdentitySection({
   if (isLoading) {
     return (
       <div className="p-20 flex flex-col items-center justify-center space-y-4">
-        <div className="animate-spin  h-8 w-8 border-b-2 border-blue-500"></div>
-        <p className="text-[14px] text-gray-400">Loading profile data...</p>
+        <div className="animate-spin h-8 w-8 border-b-2 border-[var(--text-primary)]"></div>
+        <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">Loading profile data...</p>
       </div>
     );
   }
@@ -327,12 +327,7 @@ export default function MemberIdentitySection({
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className=" px-4 py-2.5 text-[13px] font-medium"
-                style={{
-                  backgroundColor: "rgba(239, 68, 68, 0.06)",
-                  border: "1px solid rgba(239, 68, 68, 0.15)",
-                  color: "rgba(239, 68, 68, 0.8)",
-                }}
+                className=" px-4 py-2.5 text-[11px] font-bold uppercase tracking-widest bg-[#D83B2A]/5 border border-[#D83B2A]/20 text-[#D83B2A]"
               >
                 {passwordFormik.status}
               </motion.div>
@@ -391,10 +386,7 @@ export default function MemberIdentitySection({
               className="space-y-1.5"
             >
               <div className="flex items-center justify-between">
-                <span
-                  className="text-[12px] font-medium"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
                   Password strength
                 </span>
                 <span
@@ -416,8 +408,7 @@ export default function MemberIdentitySection({
                 </span>
               </div>
               <div
-                className="h-1  overflow-hidden"
-                style={{ backgroundColor: "var(--d-surface-active)" }}
+                className="h-1 bg-black/10 overflow-hidden"
               >
                 <motion.div
                   initial={{ width: 0 }}
@@ -492,7 +483,7 @@ export default function MemberIdentitySection({
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="overflow-hidden"
+                className=""
               >
                 <div className="space-y-4 pt-1">
                   <Select
@@ -521,18 +512,10 @@ export default function MemberIdentitySection({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
-                      className=" p-4 flex items-start gap-4"
-                      style={{
-                        backgroundColor: "rgba(59, 130, 246, 0.04)",
-                        border: "1px solid rgba(59, 130, 246, 0.1)",
-                      }}
+                      className="p-4 flex items-start gap-4 bg-white/5 border border-white/10"
                     >
                       <div
-                        className="w-24 h-24  shrink-0 flex items-center justify-center"
-                        style={{
-                          backgroundColor: "var(--d-surface-active)",
-                          border: "1px solid var(--d-border)",
-                        }}
+                        className="w-24 h-24 shrink-0 flex items-center justify-center bg-white/5 border border-white/10"
                       >
                         <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-14 h-14">
                           {Array.from({ length: 16 }).map((_, i) => (
@@ -542,7 +525,7 @@ export default function MemberIdentitySection({
                               style={{
                                 backgroundColor:
                                   Math.random() > 0.4
-                                    ? "var(--d-text-muted)"
+                                    ? "var(--text-primary)"
                                     : "transparent",
                               }}
                             />
@@ -552,14 +535,12 @@ export default function MemberIdentitySection({
 
                       <div className="flex-1 min-w-0">
                         <p
-                          className="text-[13px] font-medium mb-1"
-                          style={{ color: "var(--d-text-secondary)" }}
+                          className="font-mono text-[11px] font-bold uppercase tracking-widest mb-1 text-[var(--text-primary)]"
                         >
                           Scan QR Code
                         </p>
                         <p
-                          className="text-[12px] leading-relaxed mb-3"
-                          style={{ color: "var(--d-text-muted)" }}
+                          className="font-sans text-[12px] leading-relaxed mb-3 text-[var(--text-secondary)]"
                         >
                           Scan this QR code with your authenticator app to set
                           up two-factor authentication.
@@ -602,8 +583,7 @@ export default function MemberIdentitySection({
                       Recommended
                     </Badge>
                     <span
-                      className="text-[12px]"
-                      style={{ color: "var(--d-text-muted)" }}
+                      className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]"
                     >
                       MFA significantly reduces the risk of unauthorized access
                     </span>
@@ -625,35 +605,18 @@ export default function MemberIdentitySection({
             return (
               <div
                 key={`${account.provider}-${i}`}
-                className="flex items-center justify-between gap-4 py-3.5"
-                style={{
-                  borderBottom: "1px solid var(--d-border-subtle)",
-                }}
+                className="flex items-center justify-between gap-4 py-3.5 border-b border-[var(--glass-border)] last:border-b-0"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div
-                    className="w-9 h-9  flex items-center justify-center shrink-0 transition-colors duration-200"
-                    style={{
-                      backgroundColor: account.connected
-                        ? "var(--d-surface-active)"
-                        : "var(--d-surface)",
-                      border: `1px solid ${
-                        account.connected
-                          ? "var(--d-border-hover)"
-                          : "var(--d-border)"
-                      }`,
-                      color: account.connected
-                        ? "var(--d-text-secondary)"
-                        : "var(--d-text-muted)",
-                    }}
+                    className={`w-9 h-9 flex items-center justify-center shrink-0 transition-colors duration-200 border border-[var(--glass-border)] ${account.connected ? "bg-white/10 text-[var(--text-primary)]" : "bg-transparent text-[var(--text-secondary)]"}`}
                   >
                     {Icon && <Icon className="w-4 h-4" />}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span
-                        className="text-[13px] font-medium"
-                        style={{ color: "var(--d-text-secondary)" }}
+                        className="font-sans text-[14px] font-bold text-[var(--text-primary)]"
                       >
                         {account.label}
                       </span>
@@ -665,8 +628,7 @@ export default function MemberIdentitySection({
                     </div>
                     {account.connected && account.email && (
                       <p
-                        className="text-[12px] mt-0.5 truncate"
-                        style={{ color: "var(--d-text-muted)" }}
+                        className="font-mono text-[11px] mt-0.5 truncate text-[var(--text-secondary)]"
                       >
                         {account.email}
                       </p>
@@ -695,8 +657,7 @@ export default function MemberIdentitySection({
           })}
 
           <p
-            className="text-[12px] pt-3"
-            style={{ color: "var(--d-text-muted)" }}
+            className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] pt-3"
           >
             Linking accounts allows for faster sign-in and enables the Discovery
             Agent to pull relevant project data from connected platforms.
