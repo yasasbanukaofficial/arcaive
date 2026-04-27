@@ -12,20 +12,20 @@ type Props = {
 
 const FAQItem = ({ question, answer, isOpen, onClick }: Props) => {
   return (
-    <div className="border-b border-white/10">
+    <div className="border-b border-[var(--border-light)]">
       <button
         onClick={onClick}
         className="w-full py-8 flex items-center justify-between text-left group transition-colors"
         aria-expanded={isOpen}
       >
         <span className={`font-sans text-[18px] font-medium tracking-tight pr-4 transition-colors ${
-          isOpen ? "text-white" : "text-white/40 group-hover:text-[var(--bg-color)]"
+          isOpen ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"
         }`}>
           {question}
         </span>
-        <div className="flex-shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-all group-hover:border-white/30 group-hover:scale-110">
+        <div className="flex-shrink-0 w-8 h-8 rounded-full border border-[var(--border-light)] flex items-center justify-center transition-all group-hover:border-[var(--text-primary)] group-hover:scale-110">
           <span className={`font-sans text-[18px] transition-transform duration-500 ${
-            isOpen ? "rotate-45 text-white" : "text-white/20 group-hover:text-[var(--bg-color)]"
+            isOpen ? "rotate-45 text-[var(--text-primary)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"
           }`}>
             +
           </span>
@@ -41,7 +41,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }: Props) => {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <div className="pb-8 font-sans text-[15px] font-light text-white/30 leading-[1.6] max-w-2xl">
+            <div className="pb-8 font-sans text-[15px] font-light text-[var(--text-secondary)] leading-[1.6] max-w-2xl">
               {answer}
             </div>
           </motion.div>

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
+import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,18 +31,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
-        className={`${spaceGrotesk.variable} antialiased bg-black text-white relative flex min-h-screen flex-col overflow-x-hidden`}
+        className={`${spaceGrotesk.variable} antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden`}
       >
-        <ToastProvider>
-           <QuotaExceededModal />
-           <SmoothScroll>
-            {/* Dark Tech Noise Overlay */}
-            <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-            
-            {children}
-            
-          </SmoothScroll>
-        </ToastProvider>
+        <ThemeProvider>
+          <ToastProvider>
+             <QuotaExceededModal />
+             <SmoothScroll>
+              {/* Dark Tech Noise Overlay */}
+              <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+              
+              {children}
+              
+            </SmoothScroll>
+          </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

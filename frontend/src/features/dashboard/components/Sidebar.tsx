@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
+import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -47,6 +49,9 @@ export default function Sidebar() {
   const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } = useSidebar();
   const { theme, toggleTheme, isDark } = useTheme();
   const pathname = usePathname();
+  
+  const { data: member, isLoading: memberLoading } = useMemberSettings();
+  const { data: subscription } = useSubscription();
 
   const isActive = (href: string) => pathname === href;
 
@@ -146,25 +151,36 @@ export default function Sidebar() {
         </nav>
 
         {/* Bottom User Section */}
-        <div className="mt-auto border-t border-[var(--glass-border)] p-6 space-y-6">
+        <div className="mt-auto border-t p-6 space-y-6" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
           {!collapsed && (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-[var(--radius)] bg-[var(--text-primary)] flex items-center justify-center shrink-0 border border-[var(--glass-border)]">
-                  <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
+                <div className="w-9 h-9 rounded-[var(--radius)] bg-[var(--text-primary)] flex items-center justify-center shrink-0 border" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+                  {memberLoading ? (
+                    <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">?</span>
+                  ) : (
+                    <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">
+                      {member?.memberFullName?.charAt(0) || member?.memberName?.charAt(0) || "U"}
+                    </span>
+                  )}
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">Yasas Banuka</span>
-                  <span className="font-sans text-[12px] font-light text-[var(--text-secondary)] truncate">yasas@arcaive.ai</span>
+                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">
+                    {memberLoading ? "Loading..." : (member?.memberFullName || member?.memberName || "User")}
+                  </span>
+                  <span className="font-sans text-[12px] font-light text-[var(--text-secondary)] truncate">
+                    {member?.memberEmail || ""}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] tracking-widest uppercase bg-[var(--glass-border)] rounded-full px-3 py-1 text-[var(--text-secondary)]">
-                  Explorer Tier
+                <span className="font-mono text-[10px] tracking-widest uppercase rounded-full px-3 py-1 text-[var(--text-secondary)]" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
+                  {(subscription?.currentPlan || "Explorer").toUpperCase()} TIER
                 </span>
                 <button
                   onClick={toggleTheme}
-                  className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center transition-colors hover:bg-[var(--glass-border)] text-[var(--text-primary)]"
+                  className="w-8 h-8 rounded-full border flex items-center justify-center transition-colors hover:opacity-80 text-[var(--text-primary)]"
+                  style={{ borderColor: "rgba(255,255,255,0.08)" }}
                   title={`Switch to ${isDark ? "light" : "dark"} mode`}
                 >
                   {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

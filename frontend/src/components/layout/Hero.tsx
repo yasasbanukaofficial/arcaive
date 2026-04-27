@@ -10,14 +10,14 @@ export default function Hero() {
       <div className="w-full relative z-10 flex flex-col justify-between h-full pb-12">
         
         {/* Massive Top Heading */}
-        <div className="flex flex-col w-full relative">
+        <div className="flex flex-col w-full relative pt-[30vh] lg:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             className="flex items-center gap-4 mb-2 oryzo-label ml-2"
           >
-            <span className="w-2 h-2 rounded-full bg-[#f0ead6]" />
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-brand)]" />
             MADE FOR MACHINES. BUILT FOR HUMANS.
           </motion.div>
           <motion.h1
@@ -47,7 +47,8 @@ export default function Hero() {
             
             <div className="mt-auto">
               <div className="w-full h-[1px] bg-[var(--glass-bg)]/20 mb-6" />
-              <p className="font-sans text-[14px] text-right text-white/70">
+              <div className="w-full h-[1px] bg-[var(--text-primary)]/20 mb-6" />
+              <p className="font-sans text-[14px] text-right text-[var(--text-primary)]">
                 The world's most<br/>
                 unnecessarily<br/>
                 sophisticated application engine.
@@ -56,10 +57,14 @@ export default function Hero() {
           </motion.div>
 
           <div className="lg:col-span-4 lg:col-start-9 flex flex-col items-end justify-end pb-8">
-             <Link href="/register" className="group flex items-center justify-center gap-4 border border-[#f0ead6] rounded-sm px-10 py-5 hover:bg-[#f0ead6] hover:text-[#0A0908] transition-colors duration-500">
-               <span className="oryzo-label group-hover:text-[#0A0908]">INITIALIZE</span>
-               <ArrowUpRight className="w-4 h-4" />
-             </Link>
+            <Link href="/register" className="group flex items-center justify-center gap-4 border border-[var(--accent-brand)] rounded-sm px-10 py-5 hover:bg-[var(--accent-brand)] transition-colors duration-500">
+              <span className="oryzo-label group-hover:text-[var(--bg-color)]">INITIALIZE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] group-hover:bg-[var(--bg-color)] transition-colors" />
+            </Link>
+            
+            <Link href="#features" className="oryzo-label opacity-40 hover:opacity-100 transition-opacity mt-6">
+              BROWSE ARCHITECTURE
+            </Link>
           </div>
         </div>
       </div>
@@ -71,7 +76,7 @@ export default function Hero() {
         transition={{ delay: 2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4"
       >
-        <div className="w-6 h-6 rounded-full border border-white/40 flex items-center justify-center">
+        <div className="w-6 h-6 rounded-full border border-[var(--border-light)] flex items-center justify-center">
            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1L5 5L9 1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
            </svg>

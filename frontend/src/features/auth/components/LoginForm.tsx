@@ -54,14 +54,14 @@ export default function LoginForm() {
       </div>
 
       <div className="relative flex items-center gap-4 py-8">
-        <div className="h-[1px] flex-1 bg-[#222222]"></div>
-        <span className="font-sans text-[12px] text-[#888888]">or continue with email</span>
-        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+        <div className="h-[1px] flex-1 bg-[var(--glass-border)]"></div>
+        <span className="font-sans text-[12px] text-[var(--text-secondary)]">or continue with email</span>
+        <div className="h-[1px] flex-1 bg-[var(--glass-border)]"></div>
       </div>
 
       <form onSubmit={formik.handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+          <label className="font-sans text-[13px] font-medium text-[var(--text-secondary)] block">
             Email Address
           </label>
           <input
@@ -71,10 +71,10 @@ export default function LoginForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="name@example.com"
-            className={`w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] placeholder-[#444444] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] ${
+            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
               formik.touched.email && formik.errors.email
                 ? "border-red-500/50 focus:border-red-500"
-                : "border-[#222222] focus:border-[#666666]"
+                : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
             }`}
           />
           <AnimatePresence>
@@ -94,12 +94,12 @@ export default function LoginForm() {
 
         <div className="space-y-2 pb-4">
           <div className="flex justify-between items-center mb-0">
-            <label className="font-sans text-[13px] font-medium text-[#cccccc]">
+            <label className="font-sans text-[13px] font-medium text-[var(--text-secondary)]">
               Password
             </label>
             <Link
               href="/forgot-password"
-              className="font-sans text-[12px] text-[#888888] hover:text-[#ffffff] transition-colors"
+              className="font-sans text-[12px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >
               Forgot password?
             </Link>
@@ -116,7 +116,7 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="w-full group flex items-center justify-center gap-2 bg-[#ffffff] text-[#000000] px-6 py-3 hover:bg-[#e0e0e0] transition-colors duration-200 rounded-lg"
+          className="w-full group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:opacity-90 transition-all duration-200 rounded-lg shadow-lg"
           disabled={isPending}
         >
           <span className="font-sans text-[14px] font-semibold">{isPending ? "Signing in..." : "Sign In"}</span>
@@ -125,11 +125,11 @@ export default function LoginForm() {
       </form>
 
       <div className="text-center">
-        <p className="text-center font-sans text-[14px] text-[#888888] mt-8">
+        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)] mt-8">
           Don't have an account?{" "}
           <Link
             href="/register"
-            className="text-[#ffffff] font-medium hover:text-[#cccccc] transition-colors"
+            className="text-[var(--text-primary)] font-medium hover:underline transition-all"
           >
             Sign up
           </Link>

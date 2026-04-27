@@ -83,7 +83,7 @@ export default function NotFound() {
             transition={{ duration: 1.2, delay: 0.2 }}
             className="font-display text-6xl sm:text-8xl font-black tracking-tighter text-black uppercase leading-[0.85]"
           >
-            Fragment <br /> Not Found.
+            Hmm... <br /> Not Found.
           </motion.h1>
 
           <motion.p

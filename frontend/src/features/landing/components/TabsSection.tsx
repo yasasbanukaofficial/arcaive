@@ -51,26 +51,26 @@ export default function TabsSection() {
   }, { scope: container });
 
   return (
-    <section ref={container} className="scene-container py-40 px-6 lg:px-12 border-b border-white/[0.06]">
+    <section ref={container} className="scene-container py-40 px-6 lg:px-12 border-b border-[var(--border-light)]">
       <div className="content-wrapper w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           {/* Controls - Left side */}
           <div className="lg:col-span-5 flex flex-col gap-12">
             <div className="tab-reveal">
-              <span className="section-label mb-8 block">Capabilities</span>
-              <h2 className="font-sans text-[clamp(42px,5vw,64px)] font-medium leading-[1.05] tracking-[-0.04em] text-white">
+              <span className="oryzo-label mb-8 block text-[var(--text-secondary)]">Capabilities</span>
+              <h2 className="font-sans text-[clamp(42px,5vw,64px)] font-bold leading-[1.05] tracking-tight text-[var(--text-primary)]">
                 Engineered for <br/>
-                <span className="text-white/15 font-light italic">outcome.</span>
+                <span className="text-[var(--text-secondary)] font-light italic">outcome.</span>
               </h2>
             </div>
 
-            <div className="flex flex-col border-t border-white/[0.06]">
+            <div className="flex flex-col border-t border-[var(--border-light)]">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`tab-reveal py-8 border-b border-white/[0.06] text-left transition-all relative group ${
-                    activeTab === tab.id ? "text-white" : "text-white/20 hover:text-white/40"
+                  className={`tab-reveal py-8 border-b border-[var(--border-light)] text-left transition-all relative group ${
+                    activeTab === tab.id ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   }`}
                 >
                   <span className="font-sans text-[22px] font-medium tracking-tight">
@@ -79,7 +79,7 @@ export default function TabsSection() {
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="tabUnderline"
-                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[var(--glass-bg)] shadow-[0_0_15px_white]"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[var(--accent-brand)]"
                     />
                   )}
                 </button>
@@ -89,7 +89,7 @@ export default function TabsSection() {
 
           {/* Content - Right side */}
           <div className="lg:col-span-7 tab-reveal">
-            <div className="glass-card aspect-[4/3] rounded-[48px] overflow-hidden p-12 lg:p-20 flex flex-col justify-center translate-y-0 hover:-translate-y-2 transition-transform duration-700 shadow-[0_0_80px_rgba(255,255,255,0.02)]">
+            <div className="oryzo-panel aspect-[4/3] rounded-[48px] overflow-hidden p-12 lg:p-20 flex flex-col justify-center translate-y-0 hover:-translate-y-2 transition-transform duration-700">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -99,11 +99,11 @@ export default function TabsSection() {
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   className="max-w-[600px] relative z-10"
                 >
-                  <span className="hud-label block mb-8 text-white/30">Module: {active.label}</span>
-                  <h3 className="font-sans text-[28px] sm:text-[36px] font-medium leading-[1.3] tracking-[-0.03em] text-white mb-8">
+                  <span className="oryzo-label block mb-8 text-[var(--text-secondary)]">Module: {active.label}</span>
+                  <h3 className="font-sans text-[28px] sm:text-[36px] font-medium leading-[1.3] tracking-tight text-[var(--text-primary)] mb-8">
                     {active.title}
                   </h3>
-                  <p className="font-sans text-[16px] text-white/30 leading-relaxed font-light italic">
+                  <p className="font-sans text-[16px] text-[var(--text-secondary)] leading-relaxed font-light italic">
                     {active.desc}
                   </p>
                 </motion.div>

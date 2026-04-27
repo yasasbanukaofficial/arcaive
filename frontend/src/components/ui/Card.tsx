@@ -31,7 +31,7 @@ export default function Card({
   return (
     <motion.div
       variants={fadeUp}
-      className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] oryzo-card-glow transition-colors duration-300 ${className}`}
+      className={`bg-[var(--d-surface)] border border-[var(--d-border)] oryzo-card-glow transition-colors duration-300 ${className}`}
       style={{ borderRadius: "var(--radius)" }}
     >
       {(title || actions) && (
@@ -42,12 +42,12 @@ export default function Card({
         >
           <div className="flex flex-col min-w-0 flex-1">
             {title && (
-              <h3 className="font-sans text-[18px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
+              <h3 className="font-sans text-[18px] font-bold text-[var(--d-text-primary)] uppercase tracking-tight">
                 {title}
               </h3>
             )}
             {description && !collapsed && (
-              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--d-text-secondary)] mt-2">
                 {description}
               </p>
             )}
@@ -59,7 +59,7 @@ export default function Card({
               <button
                 type="button"
                 onClick={() => setCollapsed((c) => !c)}
-                className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                className="font-mono text-[11px] text-[var(--d-text-secondary)] hover:text-[var(--d-text-primary)] transition-colors"
                 aria-label={collapsed ? "Expand section" : "Collapse section"}
               >
                 {collapsed ? "[+]" : "[-]"}
@@ -71,7 +71,7 @@ export default function Card({
       {!collapsed && (
         <div>
           {(title || actions) && (
-            <div className="h-[1px] bg-[#E8E6DE] mx-8 mt-4" />
+            <div className="h-[1px] bg-[var(--d-border)] mx-8 mt-4" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
           )}
           <div className={noPadding ? "" : "px-8 py-6"}>
             {children}
@@ -120,14 +120,15 @@ export function CardRow({
 }: CardRowProps) {
   return (
     <div
-      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-6 py-6 border-b border-[var(--glass-border)] last:border-b-0 ${className}`}
+      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-6 py-6 border-b last:border-b-0 ${className}`}
+      style={{ borderColor: "rgba(255,255,255,0.08)" }}
     >
       <div className="sm:flex-1 min-w-0 sm:max-w-[50%]">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--d-text-primary)]">
           {label}
         </p>
         {description && (
-          <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)] mt-1.5">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--d-text-secondary)] mt-1.5">
             {description}
           </p>
         )}

@@ -6,7 +6,12 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { fadeUp } from "./animations";
 import Link from "next/link";
 
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
+
 export default function WelcomeBanner() {
+  const { data: member } = useMemberSettings();
+  const firstName = member?.memberName?.split(" ")[0] || "there";
+
   return (
     <motion.div
       variants={fadeUp}
@@ -26,12 +31,12 @@ export default function WelcomeBanner() {
           </motion.div>
           <div className="space-y-4">
             <h2 className="font-display text-[24px] sm:text-[28px] uppercase font-bold tracking-tight text-[var(--text-primary)]">
-              Welcome back
+              Welcome back, {firstName}
             </h2>
             <p className="font-sans text-[16px] font-light leading-[1.6] max-w-xl text-[var(--text-secondary)]">
               Your AI agents have been busy.{" "}
-              <span className="text-[var(--text-primary)] font-medium">3 new applications</span> submitted and{" "}
-              <span className="text-[var(--text-primary)] font-medium">2 interviews</span> scheduled while you were away.
+              <span className="text-[var(--text-primary)] font-medium">{member?.stats?.newApplications || 0} new applications</span> submitted and{" "}
+              <span className="text-[var(--text-primary)] font-medium">{member?.stats?.interviewsScheduled || 0} interviews</span> scheduled while you were away.
             </p>
           </div>
         </div>

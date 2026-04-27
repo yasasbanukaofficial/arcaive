@@ -13,58 +13,77 @@
 
 /* ─── Dark Mode (Default) ─── */
 :root, .dark {
-  --bg-color: #000000; 
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-light: rgba(255, 255, 255, 0.18);
-  --glass-bg: rgba(18, 18, 18, 0.9);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --grid-color: rgba(255, 255, 255, 0.06);
+  --bg-color: #050505; 
+  --text-primary: #e4e4e4;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
+  --border-light: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(12, 12, 14, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --grid-color: rgba(255, 255, 255, 0.03);
+  --accent-brand: #f0ead6;
+  --accent-brand-contrast: #050505;
+  
+  /* Dashboard specific */
+  --d-bg: #030303;
+  --d-surface: #0c0c0e;
+  --d-surface-hover: #151517;
+  --d-surface-active: #1c1c1f;
+  --d-border: rgba(255, 255, 255, 0.08);
+  --d-border-subtle: rgba(255, 255, 255, 0.05);
+  --d-text-primary: #e4e4e4;
+  --d-text-secondary: rgba(255, 255, 255, 0.65);
+  --d-text-muted: rgba(255, 255, 255, 0.4);
+  --d-text-tertiary: rgba(255, 255, 255, 0.25);
 
   /* Shadcn overrides */
   --background: var(--bg-color);
   --foreground: var(--text-primary);
-  --card: rgba(18, 18, 18, 0.8);
+  --card: rgba(12, 12, 14, 0.95);
   --card-foreground: var(--text-primary);
-  --popover: #000000;
+  --popover: #0a0a0a;
   --popover-foreground: var(--text-primary);
-  --primary: #ffffff;
-  --primary-foreground: #000000;
-  --secondary: rgba(255, 255, 255, 0.1);
+  --primary: #e4e4e4;
+  --primary-foreground: #050505;
+  --secondary: rgba(255, 255, 255, 0.06);
   --secondary-foreground: var(--text-primary);
-  --muted: rgba(255, 255, 255, 0.05);
+  --muted: rgba(255, 255, 255, 0.04);
   --muted-foreground: var(--text-secondary);
-  --accent: #ffffff;
-  --accent-foreground: #000000;
-  --destructive: #ff4a4a;
-  --border: var(--glass-border);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #ffffff;
+  --accent: #e4e4e4;
+  --accent-foreground: #050505;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: #a3a3a3;
 
-  /* Monochrome Accents */
-  --accent-blue-bg: rgba(255, 255, 255, 0.05);
-  --accent-blue-border: rgba(255, 255, 255, 0.1);
-  --accent-blue-dot: #ffffff;
+  /* Monochrome Accents - with colors! */
+  --accent-blue-bg: rgba(59, 130, 246, 0.12);
+  --accent-blue-border: rgba(59, 130, 246, 0.25);
+  --accent-blue-dot: #60a5fa;
   
-  --accent-emerald-bg: rgba(255, 255, 255, 0.05);
-  --accent-emerald-border: rgba(255, 255, 255, 0.1);
-  --accent-emerald-dot: #ffffff;
+  --accent-emerald-bg: rgba(16, 185, 129, 0.12);
+  --accent-emerald-border: rgba(16, 185, 129, 0.25);
+  --accent-emerald-dot: #34d399;
   
-  --accent-violet-bg: rgba(255, 255, 255, 0.05);
-  --accent-violet-border: rgba(255, 255, 255, 0.1);
-  --accent-violet-dot: #ffffff;
+  --accent-violet-bg: rgba(139, 92, 246, 0.12);
+  --accent-violet-border: rgba(139, 92, 246, 0.25);
+  --accent-violet-dot: #a78bfa;
   
-  --accent-amber-bg: rgba(255, 255, 255, 0.05);
-  --accent-amber-border: rgba(255, 255, 255, 0.1);
-  --accent-amber-dot: #ffffff;
+  --accent-amber-bg: rgba(245, 158, 11, 0.12);
+  --accent-amber-border: rgba(245, 158, 11, 0.25);
+  --accent-amber-dot: #fbbf24;
   
-  --accent-pink-bg: rgba(255, 255, 255, 0.05);
-  --accent-pink-border: rgba(255, 255, 255, 0.1);
-  --accent-pink-dot: #ffffff;
+  --accent-pink-bg: rgba(236, 72, 153, 0.12);
+  --accent-pink-border: rgba(236, 72, 153, 0.25);
+  --accent-pink-dot: #f472b6;
   
-  --accent-teal-bg: rgba(255, 255, 255, 0.05);
-  --accent-teal-border: rgba(255, 255, 255, 0.1);
-  --accent-teal-dot: #ffffff;
+  --accent-teal-bg: rgba(20, 184, 166, 0.12);
+  --accent-teal-border: rgba(20, 184, 166, 0.25);
+  --accent-teal-dot: #2dd4bf;
+  
+  --accent-red-bg: rgba(239, 68, 68, 0.12);
+  --accent-red-border: rgba(239, 68, 68, 0.25);
+  --accent-red-dot: #f87171;
 }
 
 /* ─── Light Mode ─── */
@@ -76,6 +95,8 @@
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.12);
   --grid-color: rgba(0, 0, 0, 0.05);
+  --accent-brand: #050505;
+  --accent-brand-contrast: #f8f8f8;
 
   /* Shadcn overrides */
   --background: var(--bg-color);
@@ -84,14 +105,14 @@
   --card-foreground: var(--text-primary);
   --popover: #ffffff;
   --popover-foreground: var(--text-primary);
-  --primary: #000000;
-  --primary-foreground: #ffffff;
+  --primary: var(--accent-brand);
+  --primary-foreground: var(--accent-brand-contrast);
   --secondary: rgba(0, 0, 0, 0.05);
   --secondary-foreground: var(--text-primary);
   --muted: rgba(0, 0, 0, 0.05);
   --muted-foreground: var(--text-secondary);
-  --accent: #000000;
-  --accent-foreground: #ffffff;
+  --accent: var(--accent-brand);
+  --accent-foreground: var(--accent-brand-contrast);
   --destructive: #e11d48;
   --border: var(--glass-border);
   --input: rgba(0, 0, 0, 0.1);

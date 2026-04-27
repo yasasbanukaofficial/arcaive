@@ -48,22 +48,22 @@ export default function FAQSection() {
   }, { scope: container });
 
   return (
-    <section id="faq" ref={container} className="scene-container py-32 px-6 lg:px-12 border-b border-white/[0.06]">
+    <section id="faq" ref={container} className="scene-container py-32 px-6 lg:px-12 border-b border-[var(--border-light)]">
       <div className="content-wrapper w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           <div className="lg:col-span-5 flex flex-col gap-8 faq-reveal">
             <div>
-              <span className="section-label mb-6 block">Knowledge Base</span>
-              <h2 className="font-sans text-[clamp(36px,5vw,56px)] font-medium leading-[1] tracking-[-0.04em] text-white max-w-[400px]">
-                Seeking <br/><span className="italic text-white/40 font-light">understanding.</span>
+              <span className="oryzo-label mb-6 block text-[var(--text-secondary)]">Knowledge Base</span>
+              <h2 className="font-sans text-[clamp(36px,5vw,56px)] font-bold leading-[1] tracking-tight text-[var(--text-primary)] max-w-[400px]">
+                Seeking <br/><span className="italic text-[var(--text-secondary)] font-light">understanding.</span>
               </h2>
             </div>
-            <p className="font-sans text-[16px] text-white/30 leading-relaxed max-w-[320px] font-light">
+            <p className="font-sans text-[16px] text-[var(--text-secondary)] leading-relaxed max-w-[320px] font-light">
               We operate with absolute transparency. Every mechanism and protocol is fully documented below.
             </p>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col border-t border-white/[0.06]">
+          <div className="lg:col-span-7 flex flex-col border-t border-[var(--border-light)]">
             {faqData.map((item, index) => (
               <div key={index} className="faq-reveal">
                 <FAQItem

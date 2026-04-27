@@ -38,7 +38,7 @@ export default function FinalCTASection() {
         
         <Link 
           href="/register" 
-          className="group inline-flex items-center gap-6 px-12 py-6 bg-[var(--text-primary)] text-[#0A0908] rounded-sm font-sans text-[14px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[var(--glass-bg)]"
+          className="group inline-flex items-center gap-6 px-12 py-6 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-sm font-sans text-[14px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[var(--accent-brand)] hover:text-[var(--accent-brand-contrast)]"
         >
           INITIALIZE SWARM
           <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

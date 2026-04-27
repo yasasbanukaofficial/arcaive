@@ -51,14 +51,12 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const queryClient = new QueryClient();
+  const [queryClient] = React.useState(() => new QueryClient());
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <SidebarProvider>
-          <DashboardShell>{children}</DashboardShell>
-        </SidebarProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <SidebarProvider>
+        <DashboardShell>{children}</DashboardShell>
+      </SidebarProvider>
+    </QueryClientProvider>
   );
 }

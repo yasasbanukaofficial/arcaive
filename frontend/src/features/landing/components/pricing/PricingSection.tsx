@@ -67,9 +67,9 @@ export default function PricingSection() {
               </p>
               <button 
                 onClick={() => router.push(`/subscription/checkout?plan=${plan.name.toLowerCase()}&billing=month`)}
-                className="mt-auto group flex items-center justify-between w-full border border-[var(--text-primary)] px-6 py-4 hover:bg-[var(--text-primary)] hover:text-[#0A0908] transition-colors duration-500"
+                className="mt-auto group flex items-center justify-between w-full border border-[var(--text-primary)] px-6 py-4 hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)] transition-colors duration-500"
               >
-                <span className="oryzo-label group-hover:text-[#0A0908]">SELECT PROTOCOL</span>
+                <span className="oryzo-label group-hover:text-[var(--bg-color)]">SELECT PROTOCOL</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
