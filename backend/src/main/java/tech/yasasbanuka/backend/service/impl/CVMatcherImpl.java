@@ -5,6 +5,7 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tech.yasasbanuka.backend.agents.CVMatcherAgent;
@@ -12,7 +13,6 @@ import tech.yasasbanuka.backend.agents.CVOptimizationAgent;
 import tech.yasasbanuka.backend.dto.cv.CvAnalysisResponseDTO;
 import tech.yasasbanuka.backend.dto.member.MemberResponseDTO;
 import tech.yasasbanuka.backend.dto.profile.ProfileResponseDTO;
-import tech.yasasbanuka.backend.entity.Member;
 import tech.yasasbanuka.backend.entity.constants.QuotaType;
 import tech.yasasbanuka.backend.service.CVMatcherService;
 import tech.yasasbanuka.backend.service.MemberService;
@@ -25,7 +25,8 @@ import tech.yasasbanuka.backend.util.PDFTextExtract;
 @Slf4j
 public class CVMatcherImpl implements CVMatcherService {
     private final PDFTextExtract pdfTextExtract;
-    private final OpenAiChatModel lowTempOpenAiChatModel;
+    @Qualifier("cvMatcherOpenAiChatModel")
+    private final OpenAiChatModel cvMatcherOpenAiChatModel;
     private final QuotaService quotaService;
     private final MemberService memberService;
     private final OpenAiChatModel openAiChatModel;
@@ -41,9 +42,15 @@ public class CVMatcherImpl implements CVMatcherService {
         String extractedText = pdfTextExtract.extract(file);
         CVMatcherAgent matcherAgent = AgenticServices
                 .agentBuilder(CVMatcherAgent.class)
-                .chatModel(lowTempOpenAiChatModel)
+                .chatModel(cvMatcherOpenAiChatModel)
                 .build();
-        return matcherAgent.analysis(extractedText, jobDescription);
+
+        try {
+            return matcherAgent.analysis(extractedText, jobDescription);
+        } catch (RuntimeException ex) {
+            log.warn("CV match analysis parse failed on first attempt, retrying once with same model", ex);
+            return matcherAgent.analysis(extractedText, jobDescription);
+        }
     }
 
     @Override

@@ -119,6 +119,7 @@ export type MemberUpdatePayload = {
   country?: string;
   location?: string;
   phone?: string;
+  linkedin?: string;
   summary?: string;
   experiences?: {
     role: string;
@@ -153,6 +154,7 @@ export type OnboardingAutofillResponse = {
   country?: string | null;
   location?: string | null;
   phone?: string | null;
+  linkedin?: string | null;
   summary?: string | null;
   experiences?: MemberUpdatePayload["experiences"];
   educations?: MemberUpdatePayload["educations"];
