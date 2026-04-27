@@ -52,6 +52,20 @@ public class AIConfig {
                 .build();
     }
 
+    @Bean
+    @Qualifier("cvMatcherOpenAiChatModel")
+    public OpenAiChatModel cvMatcherOpenAiChatModel() {
+        return OpenAiChatModel.builder()
+                .apiKey(apiKey)
+                .modelName(modelName)
+                .temperature(0.0)
+                .baseUrl(baseUrl)
+                .timeout(java.time.Duration.ofSeconds(timeout))
+                .maxCompletionTokens(2200)
+                .maxRetries(3)
+                .build();
+    }
+
         @Bean
         public OnboardingCVAutofillAgent onboardingCVAutofillAgent(
             @Qualifier("lowTempOpenAiChatModel") OpenAiChatModel lowTempOpenAiChatModel

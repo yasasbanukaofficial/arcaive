@@ -90,6 +90,7 @@ public interface CVMatcherAgent {
                "Invalid input: provided document does not appear to be a [CV/JD]."
             5. Leave `id` and `member` as null — they are populated by the application layer.
             6. Return ONLY valid JSON. No markdown, no preamble, no trailing text.
+            7. Keep output concise to avoid truncation: max 5 items per array and 1-2 sentences for semanticVerdict.
             """)
 
     @UserMessage("""

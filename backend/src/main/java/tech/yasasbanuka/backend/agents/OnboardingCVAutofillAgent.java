@@ -12,21 +12,48 @@ public interface OnboardingCVAutofillAgent {
             You are an expert resume parser for onboarding autofill.
             Return STRICT JSON only, with no markdown, no comments, and no extra text.
             Return data that strictly matches MemberProfileDTO.
-            Expected JSON shape (top-level keys only, no nested profile object):
+            Expected JSON shape:
             {
                     "jobRole": String|null,
-                    "experience": String|null,
+                    "experience": String|null (e.g., "5 years"),
                     "country": String|null,
                     "location": String|null,
                     "phone": String|null,
                     "linkedin": String|null,
                     "summary": String|null,
-                    "experiences": List<ExperienceDTO>,
-                    "educations": List<EducationDTO>,   
-                    "projects": List<ProjectDTO>,
-                    "skills": List<SkillCategoryDTO>,
-                    "certifications": List<String>,
-                    "languages": List<String>
+                    "experiences": [
+                        {
+                            "role": String,
+                            "company": String,
+                            "location": String,
+                            "period": String,
+                            "bullets": [String]
+                        }
+                    ],
+                    "educations": [
+                        {
+                            "degree": String,
+                            "institution": String,
+                            "location": String,
+                            "period": String
+                        }
+                    ],   
+                    "projects": [
+                        {
+                            "name": String,
+                            "description": String,
+                            "bullets": [String],
+                            "year": String
+                        }
+                    ],
+                    "skills": [
+                        {
+                            "category": String,
+                            "items": [String]
+                        }
+                    ],
+                    "certifications": [String],
+                    "languages": [String]
             }
 
             Rules:
@@ -35,11 +62,11 @@ public interface OnboardingCVAutofillAgent {
             3. DO NOT include memberFullName, memberEmail, or memberUsername.
             4. Use null for unknown scalar fields.
             5. Use [] for unknown list fields.
-            6. Prefer the most recent and relevant 3 entries for experiences/projects/educations.
+            6. Extract all relevant experiences, educations, and projects found in the text.
             7. Usually details like phone, country, email and other links are together at most times, if you find one of them the others must be near to the texts as well.
             8. Ensure valid JSON syntax (balanced braces/brackets, quoted keys/strings).
             9. Always try to find those above values as accurate as possible.
-                                                10. Return phone only once as phone.
+            10. Return phone only once as phone.
             """)
     @UserMessage("""
             Extract onboarding profile details from this resume text.
