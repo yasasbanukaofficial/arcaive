@@ -69,7 +69,7 @@ function Bars() {
       {bars.map((bar, i) => (
         <mesh key={i} position={[bar.x, 0, bar.z]}>
           <boxGeometry args={[0.05, 1, 0.05]} />
-          <meshBasicMaterial color="#000" />
+          <meshBasicMaterial color="#fff" />
         </mesh>
       ))}
     </group>
@@ -82,7 +82,7 @@ function Core() {
       <mesh>
         <sphereGeometry args={[0.6, 64, 64]} />
         <MeshDistortMaterial
-          color="#000"
+          color="#fff"
           speed={4}
           distort={0.4}
           radius={1}
@@ -95,14 +95,14 @@ function Core() {
 export default function VoiceAgentAnimation() {
   return (
     <div className="w-full h-full min-h-[250px]">
-      <Canvas camera={{ position: [0, 2, 5], fov: 45 }}>
+      <Canvas camera={{ position: [0, 2, 5], fov: 45 }} gl={{ alpha: true }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         <Core />
         <Bars />
-        <WaveRing radius={1.8} color="#000" delay={0} />
-        <WaveRing radius={2.1} color="#000" delay={0.3} />
-        <WaveRing radius={2.4} color="#000" delay={0.6} />
+        <WaveRing radius={1.8} color="#fff" delay={0} />
+        <WaveRing radius={2.1} color="#fff" delay={0.3} />
+        <WaveRing radius={2.4} color="#fff" delay={0.6} />
       </Canvas>
     </div>
   );

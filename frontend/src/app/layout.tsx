@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     "An engine that does the hard work for you while you relax. A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies.",
 };
 
+import Experience from "@/components/animations/Experience";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,13 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
-        className={`${spaceGrotesk.variable} antialiased bg-beige text-black relative flex min-h-screen flex-col overflow-x-hidden`}
+        className={`${spaceGrotesk.variable} antialiased bg-black text-white relative flex min-h-screen flex-col overflow-x-hidden`}
       >
+        <Experience />
         <ToastProvider>
           <QuotaExceededModal />
           <SmoothScroll>
-            {/* Soft architectural noise overlay */}
-            <div className="noise-overlay" />
+            {/* Dark Tech Noise Overlay */}
+            <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
             
             {children}
             

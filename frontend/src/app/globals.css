@@ -6,62 +6,41 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── FLOEMA Design Tokens ─── */
-  --black: #1A1A1A;
+  /* ─── Cinematic Tech Design Tokens ─── */
+  --black: #000000;
+  --dark-gray: #0A0A0A;
+  --surface: #111111;
   --white: #FFFFFF;
-  --off-white: #F8F7F4;
-  --beige: #F2F0EA;
-  --beige-dark: #E2DFD8;
-  --surface-dark: #2A2A2A;
-  --surface-elevated: #FFFFFF;
-  --muted: #808080;
-  --muted-light: #B3B3B3;
-  --border-light: #E2DFD8;
-  --border-dark: #D1CCC0;
-  --accent: #E55B3C; /* Floema occasionally uses a burnt orange accent */
+  --muted: #666666;
+  --muted-dark: #333333;
+  --accent: #FFFFFF;
+  --glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.08);
   
   /* Font Aliases */
   --font-sans: "Inter", sans-serif;
   --font-grotesk: "Space Grotesk", sans-serif;
   --font-mono: "Space Mono", monospace;
 
-  /* Shadcn overrides — light-first */
-  --background: var(--beige);
-  --foreground: var(--black);
-  --card: var(--white);
-  --card-foreground: var(--black);
-  --popover: var(--white);
-  --popover-foreground: var(--black);
-  --primary: var(--black);
-  --primary-foreground: var(--white);
-  --secondary: var(--off-white);
-  --secondary-foreground: var(--black);
-  --muted-foreground: var(--muted);
-  --accent-color: var(--accent);
-  --accent-foreground: var(--white);
-  --destructive: #FF4444;
-  --border: var(--border-light);
-  --input: var(--border-light);
-  --ring: var(--black);
-  --radius: 16px; /* Floema uses highly rounded pills */
-}
-
-/* Fallback for dark mode (though Floema is primarily light) */
-.dark {
+  /* Shadcn overrides — Dark Theme */
   --background: var(--black);
   --foreground: var(--white);
-  --card: var(--surface-dark);
+  --card: var(--surface);
   --card-foreground: var(--white);
-  --popover: var(--surface-dark);
+  --popover: var(--dark-gray);
   --popover-foreground: var(--white);
   --primary: var(--white);
   --primary-foreground: var(--black);
-  --secondary: #333333;
+  --secondary: var(--muted-dark);
   --secondary-foreground: var(--white);
-  --muted-foreground: var(--muted-light);
-  --border: #404040;
-  --input: #404040;
+  --muted-foreground: var(--muted);
+  --accent-color: var(--accent);
+  --accent-foreground: var(--black);
+  --destructive: #FF3333;
+  --border-color: var(--border);
+  --input: var(--muted-dark);
   --ring: var(--white);
+  --radius: 0px; /* Sharp, architectural edges for 3D tech feel */
 }
 
 @theme inline {
@@ -72,11 +51,9 @@
   --font-sans: var(--font-sans);
   --font-grotesk: var(--font-grotesk);
   --font-mono: var(--font-mono);
-  --color-border: var(--border);
+  --color-border: var(--border-color);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-beige: #F2F0EA;
-  --color-off-white: #F8F7F4;
 }
 
 @layer base {
@@ -90,8 +67,8 @@
   }
 
   body {
-    background: var(--beige);
-    color: var(--black);
+    background: var(--black);
+    color: var(--white);
     font-family: var(--font-sans);
     font-weight: 400;
     overflow-x: hidden;

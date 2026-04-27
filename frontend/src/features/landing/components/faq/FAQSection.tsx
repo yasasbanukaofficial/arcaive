@@ -27,8 +27,8 @@ export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="bg-white py-40 px-6 lg:px-12 relative border-b border-black/[0.03]">
-      <div className="max-w-[1800px] mx-auto">
+    <section id="faq" className="bg-transparent py-40 px-6 lg:px-12 relative border-b border-white/5 overflow-hidden">
+      <div className="max-w-[1800px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
           <div className="lg:col-span-5 flex flex-col gap-8">
             <motion.div
@@ -36,17 +36,17 @@ export default function FAQSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30 mb-8 block">06 — Clarity</span>
-              <h2 className="font-sans text-[48px] font-medium leading-[1] tracking-tight text-black max-w-[400px]">
+              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.4em] text-white/30 mb-8 block">06 — Clarity</span>
+              <h2 className="font-sans text-[48px] font-medium leading-[1] tracking-tight text-white max-w-[400px]">
                 Seeking understanding.
               </h2>
             </motion.div>
-            <p className="font-sans text-[18px] text-black/40 leading-relaxed max-w-[320px]">
+            <p className="font-sans text-[18px] text-white/30 leading-relaxed max-w-[320px] font-light italic">
               Every question answered, ensuring total transparency in our automated processes.
             </p>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col border-t border-black/[0.06]">
+          <div className="lg:col-span-7 flex flex-col border-t border-white/10">
             {faqData.map((item, index) => (
               <FAQItem
                 key={index}

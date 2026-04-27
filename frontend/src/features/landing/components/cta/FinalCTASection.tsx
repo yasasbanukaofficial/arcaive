@@ -7,32 +7,35 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function FinalCTASection() {
   return (
-    <section className="bg-black py-48 px-6 lg:px-12 relative overflow-hidden flex flex-col items-center justify-center min-h-[70vh]">
+    <section className="bg-transparent py-60 px-6 lg:px-12 relative overflow-hidden flex flex-col items-center justify-center min-h-[90vh]">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-[1400px] mx-auto text-center"
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-[1400px] mx-auto text-center relative z-10"
       >
-        <span className="font-sans text-[11px] font-bold uppercase tracking-[0.3em] text-white/30 mb-12 block">Ready for the shift?</span>
-        <h2 className="font-sans text-[64px] sm:text-[90px] lg:text-[140px] font-medium leading-[0.85] tracking-[-0.06em] text-white mb-16">
-          Architect your<br />
-          <span className="text-white/20 italic">next move.</span>
+        <span className="font-sans text-[11px] font-bold uppercase tracking-[0.5em] text-white/30 mb-16 block">THE NEW REALITY</span>
+        <h2 className="font-sans text-[64px] sm:text-[100px] lg:text-[160px] font-medium leading-[0.8] tracking-[-0.07em] text-white mb-24">
+          Own your <br />
+          <span className="text-white/10 italic">evolution.</span>
         </h2>
         
         <Link 
           href="/register" 
-          className="inline-flex items-center gap-6 px-12 py-6 bg-white text-black rounded-full font-sans text-[15px] font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-all hover:scale-105"
+          className="inline-flex items-center gap-8 px-16 py-8 bg-white text-black rounded-full font-sans text-[16px] font-bold uppercase tracking-[0.3em] hover:bg-white/90 transition-all hover:scale-110 active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
         >
-          Secure your entry
-          <ArrowUpRight className="w-5 h-5" />
+          Initialize Swarm
+          <ArrowUpRight className="w-6 h-6" />
         </Link>
       </motion.div>
 
-      {/* Decorative background grid */}
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "100px 100px" }} />
+      {/* Atmospheric Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[160px] pointer-events-none opacity-50" />
+      
+      {/* Decorative architectural layout lines */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none grid-lines" 
+           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "120px 120px" }} />
     </section>
   );
 }
