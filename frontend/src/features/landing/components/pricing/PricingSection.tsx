@@ -3,106 +3,55 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import AnimatedPrice from "./AnimatedPrice";
 
-const PricingSection = () => {
+export default function PricingSection() {
   const router = useRouter();
   const [isYearly, setIsYearly] = React.useState(false);
 
-  const planIdMap: Record<string, string> = {
-    Explorer: "explorer",
-    Strategist: "strategist",
-    Architect: "architect",
-  };
-
-  const handlePlanSelect = (planName: string) => {
-    const planId = planIdMap[planName];
-    if (planId) {
-      router.push(`/subscription/checkout?plan=${planId}&billing=${isYearly ? "year" : "month"}`);
-    }
-  };
-
-  const pricingPlans = [
+  const plans = [
     {
-      plan: "Explorer",
+      name: "Explorer",
       price: 0,
-      description: "Essential AI tools to get started with AI-powered job hunting.",
-      buttonText: "Start for Free",
-      color: "hover:bg-blue-400/[0.03]",
-      features: [
-        "3 CV analyses/month",
-        "1 mock interview/month",
-        "5 job results/set",
-        "Manual job input",
-        "1 CV version stored",
-      ],
+      desc: "Essential AI tools to get started.",
+      features: ["3 CV analyses/month", "1 mock interview/month", "5 job results/set", "Manual job input"],
     },
     {
-      plan: "Strategist",
+      name: "Strategist",
       price: 12,
-      description: "Advanced AI tools for serious job seekers who want to scale.",
-      buttonText: "Upgrade to Strategist",
+      desc: "Advanced tools for serious seekers.",
+      features: ["20 CV analyses/month", "15 mock interviews/month", "20 job results/set", "10 auto-applications/month", "AI CV rewriting"],
       popular: true,
-      color: "bg-black",
-      features: [
-        "20 CV analyses/month",
-        "15 mock interviews/month",
-        "20 job results/set",
-        "10 auto-applications/month",
-        "AI CV rewriting",
-        "5 CV versions stored",
-        "Agent transparency",
-      ],
     },
     {
-      plan: "Architect",
+      name: "Architect",
       price: 29,
-      description: "Unlimited access with priority processing for maximum productivity.",
-      buttonText: "Get Architect",
-      color: "hover:bg-purple-400/[0.03]",
-      features: [
-        "Unlimited CV analyses",
-        "Unlimited mock interviews",
-        "50 job results/set",
-        "Unlimited auto-apply",
-        "Priority AI queue",
-        "Unlimited CV versions",
-        "Early feature access",
-      ],
+      desc: "Unlimited access for professionals.",
+      features: ["Unlimited CV analyses", "Unlimited mock interviews", "50 job results/set", "Priority AI queue", "Early feature access"],
     },
   ];
 
   return (
-    <section
-      id="pricing"
-      className="bg-white py-32 px-6 lg:px-12 relative overflow-hidden"
-    >
-      {/* Background soft glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/10 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-[1200px] mx-auto relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-24 max-w-[900px]"
-        >
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-3">
-              <span className="label-mono">06 — Pricing</span>
-            </div>
-            <h2 className="h2 tracking-tight text-black">
-              Flexible pricing for every stage.
+    <section id="pricing" className="bg-white py-40 px-6 lg:px-12 relative border-b border-black/[0.03]">
+      <div className="max-w-[1800px] mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-6"
+          >
+            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30">05 — Investment</span>
+            <h2 className="font-sans text-[48px] sm:text-[64px] font-medium leading-[1] tracking-[-0.04em] text-black max-w-[600px]">
+              Access the intelligence.
             </h2>
-          </div>
+          </motion.div>
 
-          {/* Toggle */}
-          <div className="flex items-center gap-3 bg-off-white p-1.5 rounded-full border border-black/5">
+          <div className="flex items-center p-1 bg-black/[0.03] rounded-full border border-black/[0.05]">
             <button
               onClick={() => setIsYearly(false)}
-              className={`px-6 py-2 rounded-full font-sans text-[13px] font-medium transition-all duration-300 ${
+              className={`px-8 py-3 rounded-full font-sans text-[11px] font-bold uppercase tracking-widest transition-all ${
                 !isYearly ? "bg-white text-black shadow-sm" : "text-black/40 hover:text-black"
               }`}
             >
@@ -110,102 +59,57 @@ const PricingSection = () => {
             </button>
             <button
               onClick={() => setIsYearly(true)}
-              className={`px-6 py-2 rounded-full font-sans text-[13px] font-medium transition-all duration-300 ${
+              className={`px-8 py-3 rounded-full font-sans text-[11px] font-bold uppercase tracking-widest transition-all ${
                 isYearly ? "bg-white text-black shadow-sm" : "text-black/40 hover:text-black"
               }`}
             >
-              Annual -20%
+              Yearly
             </button>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {pricingPlans.map((plan, index) => {
-            const displayPrice = typeof plan.price === "number"
-              ? isYearly ? Math.floor(plan.price * 0.8) : plan.price
-              : plan.price;
-
+        <div className="grid grid-cols-1 md:grid-cols-3 border-t border-black/[0.06]">
+          {plans.map((plan, i) => {
+            const displayPrice = isYearly ? Math.floor(plan.price * 0.8) : plan.price;
             return (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
+                key={plan.name}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 1, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={`relative p-10 lg:p-12 border rounded-[40px] flex flex-col transition-all duration-700 group hover:shadow-2xl hover:-translate-y-2 ${
-                  plan.popular 
-                    ? "bg-black text-white border-black shadow-xl" 
-                    : "bg-[#FAF9F6] text-black border-black/10 " + plan.color
-                }`}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                className={`flex flex-col py-20 px-4 group first:pl-0 last:pr-0 ${i !== plans.length - 1 ? "border-r border-black/[0.06]" : ""} ${i === 1 ? "md:px-20" : i === 2 ? "md:pl-20" : "md:pr-20"}`}
               >
-                {plan.popular && (
-                  <div className="absolute -inset-[1px] bg-gradient-to-tr from-blue-500/10 to-purple-500/10 rounded-[40px] -z-10 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-                )}
-
-                <div className="mb-12">
-                  <h4 className={`font-sans text-[14px] font-bold uppercase tracking-widest mb-8 ${
-                    plan.popular ? "text-blue-400" : "text-black/40"
-                  }`}>
-                    {plan.plan}
-                  </h4>
-                  <div className="flex items-baseline gap-1 mb-6">
-                    <span className={`font-sans text-[56px] lg:text-[72px] font-medium leading-none tracking-tight ${
-                      plan.popular ? "text-white" : "text-black"
-                    }`}>
-                      {typeof plan.price === "number" && <span className="text-[0.6em] font-light opacity-40 mr-1">€</span>}
-                      <AnimatePresence mode="wait">
-                        <AnimatedPrice value={displayPrice} />
-                      </AnimatePresence>
-                    </span>
-                    {typeof plan.price === "number" && (
-                      <span className={`font-sans text-[14px] font-light ml-2 ${
-                        plan.popular ? "text-white/40" : "text-black/40"
-                      }`}>
-                        /month
-                      </span>
-                    )}
-                  </div>
-                  <p className={`font-sans text-[15px] leading-relaxed ${
-                    plan.popular ? "text-white/60" : "text-black/60"
-                  }`}>
-                    {plan.description}
-                  </p>
+                <div className="flex items-center justify-between mb-8">
+                  <span className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-black/30">Phase {i+1}</span>
+                  {plan.popular && (
+                    <span className="px-3 py-1 bg-black text-white text-[9px] font-bold uppercase tracking-widest rounded-full">Recommended</span>
+                  )}
                 </div>
 
-                <div className={`w-full h-[1px] mb-12 ${
-                  plan.popular ? "bg-white/10" : "bg-black/5"
-                }`} />
+                <h3 className="font-sans text-[42px] font-medium text-black mb-4 tracking-tight">{plan.name}</h3>
+                <p className="font-sans text-[16px] text-black/40 mb-12 leading-relaxed max-w-[200px]">{plan.desc}</p>
 
-                <div className="flex-1">
-                  <ul className="space-y-4 mb-14">
-                    {plan.features.map((feature, i) => (
-                      <li
-                        key={i}
-                        className={`flex items-start gap-4 font-sans text-[14px] ${
-                          plan.popular ? "text-white/80" : "text-black/70"
-                        }`}
-                      >
-                        <div className={`mt-1 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center ${
-                          plan.popular ? "bg-white/5 border border-white/10" : "bg-black/[0.02] border border-black/5"
-                        }`}>
-                          <Check className={`w-2.5 h-2.5 ${plan.popular ? "text-white" : "text-black"}`} />
-                        </div>
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="flex items-baseline gap-2 mb-16">
+                  <span className="font-sans text-[64px] font-medium text-black tracking-tighter">€<AnimatedPrice value={displayPrice} /></span>
+                  <span className="font-sans text-[12px] font-bold text-black/20 uppercase tracking-[0.15em]">/ month</span>
                 </div>
 
-                <button
-                  onClick={() => handlePlanSelect(plan.plan)}
-                  className={`w-full rounded-full py-4 font-sans text-[15px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                    plan.popular
-                      ? "bg-white text-black hover:scale-105"
-                      : "bg-black text-white hover:scale-105 shadow-md"
-                  }`}
+                <div className="flex flex-col gap-5 mb-20">
+                  {plan.features.map((f) => (
+                    <div key={f} className="flex items-center gap-4 group/item">
+                      <div className="w-1 h-1 rounded-full bg-black/20 group-hover/item:bg-black transition-colors" />
+                      <span className="font-sans text-[14px] text-black/60">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button 
+                  onClick={() => router.push(`/subscription/checkout?plan=${plan.name.toLowerCase()}&billing=${isYearly ? "year" : "month"}`)}
+                  className="mt-auto flex items-center justify-between w-full p-6 border border-black text-black font-sans text-[13px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all group/btn"
                 >
-                  {plan.buttonText}
+                  Select Plan
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                 </button>
               </motion.div>
             );
@@ -214,6 +118,4 @@ const PricingSection = () => {
       </div>
     </section>
   );
-};
-
-export default PricingSection;
+}

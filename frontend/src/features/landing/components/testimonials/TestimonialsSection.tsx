@@ -5,103 +5,85 @@ import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    id: 1,
-    quote:
-      "I've tested countless AI tools, but this one feels different — less like software, more like a guide that clears the fog in my career.",
-    name: "Sophia M.",
-    role: "Product Designer",
-    color: "group-hover:bg-[#e0d6f5]/20",
+    quote: "I've tested countless AI tools, but this one feels different — less like software, more like a guide that clears the fog in my career.",
+    author: "Sophia M.",
+    position: "Product Designer @ Linear",
   },
   {
-    id: 2,
-    quote:
-      "Within days, it streamlined my entire job search. The balance of precision and automation it offers is unlike anything I've seen.",
-    name: "David K.",
-    role: "Indie Hacker",
-    color: "group-hover:bg-[#c3e6f0]/20",
+    quote: "Within days, it streamlined my entire job search. The balance of precision and automation it offers is unlike anything I've seen.",
+    author: "David K.",
+    position: "Engineering Director",
   },
   {
-    id: 3,
-    quote:
-      "At first I was skeptical. But the clarity it brings into complex application processes feels almost like working with a second brain.",
-    name: "Aria L.",
-    role: "Researcher",
-    color: "group-hover:bg-[#f9dbbd]/20",
-  },
-  {
-    id: 4,
-    quote:
-      "The seamless integration into my creative process has been a game changer. It doesn't replace me; it amplifies my reach.",
-    name: "Marcus T.",
-    role: "Art Director",
-    color: "group-hover:bg-[#f0e4c3]/20",
+    quote: "The clarity it brings into complex application processes feels almost like working with a second brain. Surgical precision.",
+    author: "Aria L.",
+    position: "Senior Researcher @ OpenAI",
   },
 ];
 
-const TestimonialsSection = () => {
+export default function TestimonialsSection() {
   return (
-    <section
-      id="testimonials"
-      className="bg-[#FAF9F6] py-32 px-6 lg:px-12 relative overflow-hidden border-t border-b border-black/5"
-    >
-      {/* Background soft glows */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-200/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-green-200/10 rounded-full blur-[100px] pointer-events-none" />
+    <section id="testimonials" className="bg-[#FAF9F6] py-40 px-6 lg:px-12 relative border-b border-black/[0.03]">
+      <div className="max-w-[1800px] mx-auto">
+        <div className="flex flex-col gap-24">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-6"
+          >
+            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30">03 — Stories</span>
+            <h2 className="font-sans text-[48px] sm:text-[64px] font-medium leading-[1] tracking-[-0.04em] text-black max-w-[800px]">
+              Voices from the frontier of automated careers.
+            </h2>
+          </motion.div>
 
-      <div className="max-w-[1200px] mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col gap-6 mb-24 max-w-[800px]"
-        >
-          <div className="flex items-center gap-3">
-            <span className="label-mono">05 — Testimonials</span>
-          </div>
-          <h2 className="h2 tracking-tight text-black">
-            Don't take our word for it.
-          </h2>
-        </motion.div>
-
-        {/* Testimonial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-t border-l border-black/5">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={t.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`p-12 sm:p-16 border-r border-b border-black/10 transition-all duration-700 cursor-default group relative overflow-hidden ${t.color}`}
-            >
-              <div className="relative z-10">
-                <p className="font-sans text-[20px] sm:text-[24px] font-medium leading-[1.5] text-black mb-16 tracking-tight">
-                  &ldquo;{t.quote}&rdquo;
+          {/* Main Testimonial */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+            <div className="lg:col-span-8">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                className="relative"
+              >
+                <span className="text-[120px] font-serif text-black/5 absolute -top-20 -left-10 select-none">"</span>
+                <p className="font-sans text-[32px] sm:text-[42px] font-medium leading-[1.3] tracking-tight text-black relative z-10">
+                  {testimonials[0].quote}
                 </p>
-                <div className="flex items-center gap-5">
-                  <div className="w-14 h-14 rounded-full border border-black/10 bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500">
-                    <span className="font-sans text-[18px] font-medium text-black">
-                      {t.name.charAt(0)}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-sans text-[16px] font-medium text-black tracking-tight">
-                      {t.name}
-                    </p>
-                    <p className="font-sans text-[14px] font-light text-black/40">
-                      {t.role}
-                    </p>
-                  </div>
+                <div className="mt-12 flex flex-col gap-1">
+                  <span className="font-sans text-[18px] font-bold text-black">{testimonials[0].author}</span>
+                  <span className="font-sans text-[14px] text-black/40 uppercase tracking-widest">{testimonials[0].position}</span>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            </div>
+
+            {/* List of others */}
+            <div className="lg:col-span-4 flex flex-col gap-16">
+              {testimonials.slice(1).map((t, i) => (
+                <motion.div
+                  key={t.author}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 + (i * 0.1) }}
+                  className="flex flex-col gap-6 border-l border-black/[0.08] pl-10"
+                >
+                  <p className="font-sans text-[18px] text-black/60 leading-relaxed italic">
+                    "{t.quote}"
+                  </p>
+                  <div className="flex flex-col">
+                    <span className="font-sans text-[14px] font-bold text-black">{t.author}</span>
+                    <span className="font-sans text-[12px] text-black/30 uppercase tracking-widest leading-loose">{t.position}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default TestimonialsSection;
+}

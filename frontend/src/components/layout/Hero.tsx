@@ -23,6 +23,16 @@ export default function Hero() {
     { name: "Auto-Apply", top: "70%", right: "12%", delay: 2 },
   ];
 
+  const getFloatKeyframes = (name: string) => {
+    switch(name) {
+      case "CV Analyst": return { x: [0, 40, -30, 20, 0], y: [0, 35, -25, 30, 0], duration: 8 };
+      case "Interview Prep": return { x: [0, -35, 30, -15, 0], y: [0, -30, 40, -20, 0], duration: 10 };
+      case "Job Matcher": return { x: [0, 30, -40, 15, 0], y: [0, 40, -35, 25, 0], duration: 9 };
+      case "Auto-Apply": return { x: [0, -20, 35, -25, 0], y: [0, -40, 35, -15, 0], duration: 11 };
+      default: return { x: [0, 30, -30, 0], y: [0, -30, 30, 0], duration: 8 };
+    }
+  };
+
   return (
     <section
       ref={containerRef}
@@ -37,24 +47,32 @@ export default function Hero() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] bg-blue-100/30 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Floating Agents */}
-      {floatingAgents.map((agent) => (
-        <motion.div
-          key={agent.name}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: [0, -20, 0] }}
-          transition={{
-            opacity: { duration: 1.5, delay: agent.delay },
-            y: { duration: 8, repeat: Infinity, ease: "easeInOut", delay: agent.delay }
-          }}
-          className="absolute hidden xl:flex items-center gap-3 bg-white/40 backdrop-blur-3xl px-6 py-3 rounded-full border border-black/[0.03] shadow-2xl hover:scale-110 transition-transform duration-500 cursor-default"
-          style={{ top: agent.top, ...(agent.left ? { left: agent.left } : { right: agent.right }) }}
-        >
-          <div className="w-2.5 h-2.5 rounded-full bg-black/80 shadow-[0_0_10px_rgba(0,0,0,0.1)]" />
-          <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/40">
-            {agent.name}
-          </span>
-        </motion.div>
-      ))}
+      {floatingAgents.map((agent) => {
+          const keyframes = getFloatKeyframes(agent.name);
+          return (
+            <motion.div
+              key={agent.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                x: keyframes.x,
+                y: keyframes.y
+              }}
+              transition={{
+                opacity: { duration: 1.5, delay: agent.delay },
+                x: { duration: keyframes.duration, repeat: Infinity, ease: "easeInOut", delay: agent.delay },
+                y: { duration: keyframes.duration, repeat: Infinity, ease: "easeInOut", delay: agent.delay }
+              }}
+              className="absolute hidden xl:flex items-center gap-3 bg-white/40 backdrop-blur-3xl px-6 py-3 rounded-full border border-black/[0.03] shadow-2xl hover:scale-110 transition-transform duration-500 cursor-default"
+              style={{ top: agent.top, left: agent.left, right: agent.right }}
+            >
+              <div className="w-2.5 h-2.5 rounded-full bg-black/80 shadow-[0_0_10px_rgba(0,0,0,0.1)]" />
+              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/40">
+                {agent.name}
+              </span>
+            </motion.div>
+          );
+        })}
 
       {/* Main Content */}
       <motion.div 

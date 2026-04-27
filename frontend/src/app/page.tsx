@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/layout/Hero";
 import Features from "@/features/landing/components/Features";
+import CoreValueSection from "@/features/landing/components/CoreValueSection";
 import StatsSection from "@/features/landing/components/StatsSection";
 import TestimonialsSection from "@/features/landing/components/testimonials/TestimonialsSection";
 import HowItWorksSection from "@/features/landing/components/how/HowItWorksSection";
@@ -17,6 +18,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Features />
+      <CoreValueSection />
       <StatsSection />
       <TestimonialsSection />
       <HowItWorksSection />

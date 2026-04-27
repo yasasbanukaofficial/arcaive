@@ -1,130 +1,109 @@
 "use client";
 
 import React, { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import PulseSphere from "../PulseSphere";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const steps = [
   {
-    week: "Phase 01",
-    title: "Onboarding & Analysis",
-    description: "Upload your CV. Our multi-agent swarm deconstructs your experience and identifies market-aligned achievements.",
-    color: "bg-[#f9dbbd]",
+    phase: "01",
+    title: "Analysis",
+    description: "Our swarm deconstructs your career trajectory into raw data, identifying high-signal achievements that define your professional worth.",
   },
   {
-    week: "Phase 02",
-    title: "Discovery & Matching",
-    description: "AI bots scan live job markets, matching you with high-signal roles that fit your exact profile and salary goals.",
-    color: "bg-[#c3e6f0]",
+    phase: "02",
+    title: "Discovery",
+    description: "Live market agents scan global job ecosystems, matching your profile with surgical precision to roles that fit your ambitions.",
   },
   {
-    week: "Phase 03",
-    title: "Tailored Submission",
-    description: "Every application is sent with a bespoke, AI-optimized resume that bypasses ATS and catches human eyes.",
-    color: "bg-[#f0e4c3]",
+    phase: "03",
+    title: "Submission",
+    description: "Hyper-tailored applications are delivered with bespoke optimizations that clear every digital barrier and catch human eyes.",
   },
   {
-    week: "Phase 04",
-    title: "Interview Prep",
-    description: "Prepare with role-specific AI interviewers. Refine your pitch and technical answers until you're ready.",
-    color: "bg-[#e0d6f5]",
+    phase: "04",
+    title: "Execution",
+    description: "Prepare with role-specific AI interviewers. Refine your narrative until your entry into the world's leading firms is secured.",
   },
 ];
 
-const HowItWorksSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"],
-  });
+export default function HowItWorksSection() {
+  const container = useRef(null);
 
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  useGSAP(() => {
+    gsap.from(".step-row", {
+      opacity: 0,
+      x: 30,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 60%",
+      },
+    });
+  }, { scope: container });
 
   return (
-    <section
-      id="howitworks"
-      ref={containerRef}
-      className="py-32 px-6 lg:px-12 bg-[#FAF9F6] relative overflow-hidden"
+    <section 
+      id="howitworks" 
+      ref={container}
+      className="bg-[#FAF9F6] py-40 px-6 lg:px-12 relative border-b border-black/[0.03]"
     >
-      {/* Background soft glows */}
-      <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-orange-100/20 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-blue-100/20 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="max-w-[1200px] mx-auto">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col gap-6 mb-32 max-w-[800px]"
-        >
-          <div className="flex items-center gap-3">
-            <span className="label-mono">03 — Process</span>
+      <div className="max-w-[1800px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+          {/* Left Side - Sticky 3D Element */}
+          <div className="lg:col-span-5 lg:sticky lg:top-40">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#F2F0EA] flex items-center justify-center">
+              <PulseSphere />
+              <div className="absolute inset-0 bg-black/[0.02] pointer-events-none" />
+            </div>
           </div>
-          <h2 className="h2 tracking-tight text-black">
-            Lightning-quick from zero to hired.
-          </h2>
-        </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Progress Line */}
-          <div className="hidden md:block absolute top-[44px] left-0 w-full h-[1px] bg-black/5" />
-          <motion.div 
-            style={{ scaleX }}
-            className="hidden md:block absolute top-[44px] left-0 w-full h-[1px] bg-black origin-left z-20"
-          />
+          {/* Right Side - Steps */}
+          <div className="lg:col-span-7 flex flex-col gap-12">
+            <div className="mb-20">
+              <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] text-black/30 mb-8 block">04 — The Methodology</span>
+              <h2 className="font-sans text-[48px] sm:text-[64px] font-medium leading-[1] tracking-[-0.04em] text-black max-w-[500px]">
+                A refined path to your new reality.
+              </h2>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8">
-            {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative flex flex-col items-start md:px-6 first:md:pl-0 last:md:pr-0"
-              >
-                <motion.div 
-                  className={`w-fit px-3 py-1 rounded-full ${step.color} bg-opacity-30 border border-black/5 font-sans text-[11px] font-bold text-black uppercase tracking-wider mb-8 transition-all group-hover:scale-105`}
+            <div className="flex flex-col">
+              {steps.map((step, i) => (
+                <div
+                  key={step.phase}
+                  className="step-row group flex flex-col border-t border-black/[0.06] py-16 last:border-b last:border-black/[0.06]"
                 >
-                  {step.week}
-                </motion.div>
-
-                {/* Node */}
-                <div className="hidden md:flex absolute top-[38px] left-6 first:left-0 w-3 h-3 rounded-full bg-white border border-black/20 z-30 items-center justify-center transition-all duration-500 group-hover:border-black group-hover:scale-110">
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: 0.5 + index * 0.1 }}
-                    className="w-1.5 h-1.5 rounded-full bg-black" 
-                  />
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <span className="md:col-span-1 font-mono text-[11px] font-bold text-black/20 pt-2">({step.phase})</span>
+                    <div className="md:col-span-11">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h3 className="font-sans text-[32px] font-medium text-black tracking-tight group-hover:translate-x-2 transition-transform duration-500">
+                            {step.title}
+                          </h3>
+                        </div>
+                        <div>
+                          <p className="font-sans text-[18px] text-black/50 leading-relaxed max-w-[400px]">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="pt-0 md:pt-16 space-y-4">
-                  <h3 className="font-sans text-[22px] font-medium text-black tracking-tight group-hover:translate-x-1 transition-transform">
-                    {step.title}
-                  </h3>
-                  <p className="font-sans text-[16px] font-light text-black/50 leading-[1.6]">
-                    {step.description}
-                  </p>
-                </div>
-
-                {/* Mobile line */}
-                {index !== steps.length - 1 && (
-                  <div className="md:hidden absolute top-[40px] left-[6px] w-[1px] h-[calc(100%+40px)] bg-black/5" />
-                )}
-              </motion.div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default HowItWorksSection;
+}
