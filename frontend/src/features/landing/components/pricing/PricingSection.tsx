@@ -1,94 +1,78 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const plans = [
   {
-    name: "Explorer",
-    price: 0,
-    desc: "Essential AI tools to get started.",
-    features: ["3 CV analyses/month", "1 mock interview/month", "5 job results/set", "Manual job input"],
-  },
-  {
-    name: "Strategist",
+    name: "STRATEGIST",
     price: 19,
-    desc: "Advanced tools for serious seekers.",
-    features: ["20 CV analyses/month", "15 mock interviews/month", "20 job results/set", "10 auto-applications/month", "AI CV rewriting"],
-    popular: true,
+    desc: "Advanced tools for serious seekers. 20 AI analyses & 10 auto-applications per month.",
   },
   {
-    name: "Architect",
+    name: "ARCHITECT",
     price: 42,
-    desc: "Unlimited access for professionals.",
-    features: ["Unlimited CV analyses", "Unlimited mock interviews", "50 job results/set", "Priority AI queue", "Early feature access"],
+    desc: "Unlimited access for professionals. Priority queue and infinite mock interviews.",
   },
 ];
 
 export default function PricingSection() {
   const router = useRouter();
+  const container = useRef(null);
+
+  useGSAP(() => {
+    gsap.from(".pricing-reveal", {
+      opacity: 0,
+      y: 60,
+      duration: 1.5,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 60%",
+      },
+    });
+  }, { scope: container });
 
   return (
-    <section id="pricing" className="bg-transparent py-40 px-6 lg:px-12 relative overflow-hidden">
-      <div className="max-w-[1800px] mx-auto relative z-10">
-        <div className="flex flex-col gap-8 mb-24">
-          <span className="font-sans text-[11px] font-bold uppercase tracking-[0.4em] text-white/30">05 — Investment</span>
-          <h2 className="font-sans text-[48px] sm:text-[64px] font-medium leading-[1] tracking-tight text-white max-w-[800px]">
-            Access the intelligence.
+    <section id="pricing" ref={container} className="scene-section items-end pb-32">
+      <div className="w-full relative z-10 flex flex-col justify-end">
+        <div className="pricing-reveal mb-24">
+          <h2 className="leading-[1] text-[var(--text-primary)] font-bold font-sans tracking-tight" style={{ fontSize: "clamp(48px, 8vw, 120px)"}}>
+            ACCESS THE<br/>
+            INTELLIGENCE.
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-white/10 group">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3 ml-auto">
           {plans.map((plan, i) => (
-            <motion.div
+            <div
               key={plan.name}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`flex flex-col p-10 sm:p-16 border-r border-b border-white/10 hover:bg-white/[0.04] transition-all duration-700 relative overflow-hidden ${plan.popular ? "bg-white/[0.02]" : ""}`}
+              className="pricing-reveal oryzo-panel flex flex-col"
             >
-              <div className="flex items-center justify-between mb-12">
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/20">Protocol {i+1}</span>
-                {plan.popular && (
-                  <span className="px-3 py-1 bg-white text-black text-[9px] font-bold uppercase tracking-widest rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)]">Recommended</span>
-                )}
+              <div className="flex items-center justify-between mb-16 border-b border-[var(--border-light)] pb-6">
+                <h3 className="font-sans text-[24px] font-bold tracking-tight">{plan.name}</h3>
+                <span className="font-sans text-[32px] font-medium tracking-tight">€{plan.price}</span>
               </div>
-
-              <h3 className="font-sans text-[36px] font-medium text-white mb-4 tracking-tight">{plan.name}</h3>
-              <p className="font-sans text-[16px] text-white/40 mb-16 leading-relaxed max-w-[240px] font-light italic">{plan.desc}</p>
-
-              <div className="flex items-baseline gap-3 mb-20 animate-pulse">
-                <span className="font-sans text-[20px] text-white/20 uppercase font-bold tracking-widest">€</span>
-                <span className="font-sans text-[72px] sm:text-[90px] font-medium text-white tracking-[-0.08em] leading-none">
-                  {plan.price}
-                </span>
-                <span className="font-sans text-[12px] font-bold text-white/20 uppercase tracking-[0.3em]">/ month</span>
-              </div>
-
-              <div className="flex flex-col gap-6 mb-24">
-                {plan.features.map((f) => (
-                  <div key={f} className="flex items-center gap-4 group/item">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover/item:bg-white transition-colors" />
-                    <span className="font-sans text-[15px] text-white/40 group-hover/item:text-white transition-colors leading-relaxed font-light">{f}</span>
-                  </div>
-                ))}
-              </div>
-
+              <p className="font-sans text-[16px] text-[var(--text-secondary)] mb-12">
+                {plan.desc}
+              </p>
               <button 
                 onClick={() => router.push(`/subscription/checkout?plan=${plan.name.toLowerCase()}&billing=month`)}
-                className={`mt-auto flex items-center justify-between w-full p-8 font-sans text-[13px] font-bold uppercase tracking-[0.3em] transition-all duration-700 group/btn ${
-                  plan.popular 
-                  ? "bg-white text-black hover:bg-white/90" 
-                  : "border border-white/20 text-white hover:bg-white hover:text-black"
-                }`}
+                className="mt-auto group flex items-center justify-between w-full border border-[var(--text-primary)] px-6 py-4 hover:bg-[var(--text-primary)] hover:text-[#0A0908] transition-colors duration-500"
               >
-                Select Protocol
-                <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform" />
+                <span className="oryzo-label group-hover:text-[#0A0908]">SELECT PROTOCOL</span>
+                <ArrowUpRight className="w-4 h-4" />
               </button>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

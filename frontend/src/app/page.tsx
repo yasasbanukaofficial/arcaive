@@ -2,32 +2,29 @@ import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/layout/Hero";
 import Features from "@/features/landing/components/Features";
 import CoreValueSection from "@/features/landing/components/CoreValueSection";
-import StatsSection from "@/features/landing/components/StatsSection";
-import TestimonialsSection from "@/features/landing/components/testimonials/TestimonialsSection";
 import HowItWorksSection from "@/features/landing/components/how/HowItWorksSection";
-import TabsSection from "@/features/landing/components/TabsSection";
 import Benefits from "@/features/landing/components/benefits/Benefits";
 import PricingSection from "@/features/landing/components/pricing/PricingSection";
-import FAQSection from "@/features/landing/components/faq/FAQSection";
 import FinalCTASection from "@/features/landing/components/cta/FinalCTASection";
 import Footer from "@/components/layout/Footer";
+import Experience from "@/components/animations/Experience";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative selection:bg-white selection:text-black">
-      <Navbar />
-      <Hero />
-      <Features />
-      <CoreValueSection />
-      <StatsSection />
-      <TestimonialsSection />
-      <HowItWorksSection />
-      <TabsSection />
-      <Benefits />
-      <PricingSection />
-      <FAQSection />
-      <FinalCTASection />
-      <Footer />
+    <main className="relative selection:bg-[var(--text-primary)] selection:text-black">
+      <Experience />
+      
+      <div className="relative z-10 w-full min-h-screen">
+        <Navbar />
+        <Hero />
+        <Features />
+        <CoreValueSection />
+        <HowItWorksSection />
+        <Benefits />
+        <PricingSection />
+        <FinalCTASection />
+        <Footer />
+      </div>
     </main>
   );
 }
