@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Zap } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
 import { DUMMY_QUICK_ACTIONS } from "@/features/dashboard/constants/mockData";
 import Link from "next/link";
@@ -13,47 +13,57 @@ export default function QuickActions() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-8 bg-[#0A0A0A] border border-white/[0.06]"
+      className="p-10 bg-white border border-black/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
-      <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.06]">
-        <div>
-          <h3 className="font-sans text-[16px] font-bold text-white uppercase tracking-tight">
-            Quick Actions
-          </h3>
-          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/25 mt-1">
-            Start from a template
-          </p>
+      {/* Background soft glow */}
+      <div className="absolute top-0 left-0 w-48 h-48 bg-blue-100/10 rounded-full blur-[60px] pointer-events-none" />
+
+      <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-beige flex items-center justify-center border border-black/[0.03]">
+            <Zap className="w-5 h-5 text-black/60" />
+          </div>
+          <div>
+            <h3 className="font-sans text-[18px] font-medium text-black tracking-tight">
+              Quick Actions
+            </h3>
+            <p className="font-sans text-[12px] text-black/30 font-medium uppercase tracking-[0.05em]">
+              Start from a template
+            </p>
+          </div>
         </div>
         <Link
           href="/create"
-          className="font-mono text-[10px] uppercase tracking-[0.1em] text-white/30 hover:text-[#D1FF00] transition-colors border border-white/[0.06] hover:border-[#D1FF00]/30 px-3 py-1.5"
+          className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-black/40 hover:text-black transition-colors border-b border-black/10 hover:border-black"
         >
-          CREATE
+          Create New
         </Link>
       </div>
 
       <motion.div
-        variants={dashboardStagger(0.04, 0)}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        variants={dashboardStagger(0.06, 0.1)}
+        className="grid grid-cols-1 sm:grid-cols-2 gap-5"
       >
         {templates.map((template) => (
           <motion.button
             key={template.title}
             variants={fadeUp}
-            className="group relative text-left p-6 bg-transparent border border-white/[0.06] transition-all duration-300 hover:bg-white/[0.02] hover:border-[#D1FF00]/20"
+            className="group relative text-left p-6 bg-[#FAF9F6] border border-black/[0.03] rounded-[24px] transition-all duration-500 hover:bg-white hover:shadow-2xl hover:-translate-y-1"
           >
-            <div className="flex items-start justify-between mb-4">
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-white/20 border border-white/[0.06] px-2 py-0.5 group-hover:border-[#D1FF00]/30 group-hover:text-[#D1FF00] transition-colors">
+            <div className="flex items-start justify-between mb-6">
+              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.1em] text-black/30 border border-black/[0.05] px-3 py-1 rounded-full group-hover:bg-black group-hover:text-white transition-all">
                 {template.tag}
               </span>
             </div>
-            <h4 className="font-sans text-[14px] font-bold mb-1.5 text-white uppercase tracking-tight group-hover:text-[#D1FF00] transition-colors">
+            <h4 className="font-sans text-[16px] font-medium mb-2 text-black tracking-tight group-hover:text-black transition-colors">
               {template.title}
             </h4>
-            <p className="font-sans text-[12px] leading-relaxed text-white/30">
+            <p className="font-sans text-[13px] leading-relaxed text-black/40 font-light">
               {template.description}
             </p>
-            <ArrowUpRight className="absolute bottom-4 right-4 w-4 h-4 text-white/10 group-hover:text-[#D1FF00] opacity-0 group-hover:opacity-100 transition-all" />
+            <div className="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-black/[0.05] flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-black group-hover:text-white transition-all duration-500">
+              <ArrowUpRight className="w-4 h-4" />
+            </div>
           </motion.button>
         ))}
       </motion.div>

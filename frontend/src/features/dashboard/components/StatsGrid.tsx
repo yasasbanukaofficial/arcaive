@@ -7,47 +7,56 @@ import { DUMMY_STATS } from "@/features/dashboard/constants/mockData";
 
 const stats = DUMMY_STATS;
 
+const accentColors = [
+  "group-hover:bg-blue-200/20",
+  "group-hover:bg-orange-200/20",
+  "group-hover:bg-green-200/20",
+  "group-hover:bg-purple-200/20",
+];
+
 export default function StatsGrid() {
   return (
     <motion.div
-      variants={dashboardStagger(0.04, 0)}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border-t border-l border-white/[0.06]"
+      variants={dashboardStagger(0.06, 0.2)}
+      initial="initial"
+      animate="animate"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
     >
-      {stats.map((stat) => (
+      {stats.map((stat, i) => (
         <motion.div
           key={stat.label}
           variants={fadeUp}
-          className="relative group p-8 border-r border-b border-white/[0.06] bg-[#0A0A0A] transition-all duration-300 hover:bg-[#111111] cursor-default"
+          className={`relative group p-8 rounded-[32px] border border-black/[0.03] bg-white transition-all duration-700 hover:shadow-2xl hover:-translate-y-1 cursor-default overflow-hidden`}
         >
-          <div className="relative z-10">
+          {/* Accent glow on hover */}
+          <div className={`absolute -inset-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-[60px] pointer-events-none ${accentColors[i % accentColors.length]}`} />
+          
+          <div className="relative z-10 flex flex-col h-full justify-between">
             {/* Top row */}
-            <div className="flex items-center justify-between mb-6">
-              <div className="w-9 h-9 border border-white/[0.08] flex items-center justify-center bg-transparent group-hover:border-[#D1FF00]/30 transition-colors">
-                <span className="font-sans text-[14px] font-bold text-white/30 group-hover:text-[#D1FF00] transition-colors uppercase">
+            <div className="flex items-center justify-between mb-10">
+              <div className="w-12 h-12 rounded-full border border-black/[0.05] flex items-center justify-center bg-[#FAF9F6] group-hover:scale-110 transition-transform duration-500">
+                <span className="font-sans text-[16px] font-bold text-black italic">
                   {stat.label.charAt(0)}
                 </span>
               </div>
               <div
-                className={`font-mono text-[10px] font-bold uppercase tracking-[0.1em] flex items-center gap-1 ${
-                  stat.trending === "up" ? "text-[#D1FF00]" : "text-white/30"
+                className={`font-sans text-[12px] font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full ${
+                  stat.trending === "up" ? "bg-green-50 text-green-600" : "bg-black/[0.02] text-black/40"
                 }`}
               >
-                <span className={`w-0 h-0 border-l-[3px] border-r-[3px] border-transparent ${
-                  stat.trending === "up"
-                    ? "border-b-[5px] border-b-[#D1FF00]"
-                    : "border-t-[5px] border-t-white/30"
-                }`} />
                 {stat.change}
               </div>
             </div>
 
             {/* Value */}
-            <p className="font-sans text-[36px] font-bold text-white leading-none mb-2 tracking-tight">
-              {stat.value}
-            </p>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-white/25">
-              {stat.label}
-            </p>
+            <div>
+              <p className="font-sans text-[48px] font-medium text-black leading-none mb-4 tracking-tighter group-hover:scale-[1.02] transition-transform origin-left">
+                {stat.value}
+              </p>
+              <p className="font-sans text-[14px] font-bold text-black/30 uppercase tracking-[0.1em]">
+                {stat.label}
+              </p>
+            </div>
           </div>
         </motion.div>
       ))}

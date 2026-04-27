@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileUp, Loader2, Sparkles, UserPlus, CheckCircle2, ShieldCheck, BrainCircuit } from "lucide-react";
+import { FileUp, Loader2, UserPlus, CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import { memberAPI } from "@/features/settings/api/memberAPI";
 import { Member, MemberUpdatePayload, OnboardingAutofillResponse } from "@/@types/member";
 import { useToast } from "@/components/ui/Toast";
@@ -201,110 +201,117 @@ export default function OnboardingModal() {
     <AnimatePresence>
       {open && !minimized && (
         <motion.div
-          className="fixed inset-0 z-[1000] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-black/70" />
+          <div className="absolute inset-0 bg-black/40" />
 
           <motion.div
-            initial={{ opacity: 0, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 0 }}
-            className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
-            style={{ borderRadius: 0 }}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-[560px] bg-white rounded-[40px] border border-black/5 shadow-2xl overflow-hidden"
           >
-            <div className="flex flex-col">
-              <div className="flex items-center justify-between px-[48px] py-6">
-                <h2 className="font-sans text-[20px] font-bold text-black uppercase">
-                  Welcome to Arcaive
-                </h2>
-              </div>
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            {/* Background glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100/20 rounded-full blur-[80px] pointer-events-none" />
 
-              <div className="p-[48px] space-y-8">
-                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
-                  Let&apos;s personalize your experience. How would you like to set up your profile?
-                </p>
+            <div className="flex flex-col p-12">
+              <div className="flex flex-col gap-4 mb-12">
 
-                <div className="space-y-4">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={uploading}
-                    className="group relative w-full p-6 border border-[#E8E6DE] text-left  hover:bg-[#F5F4EF] disabled:opacity-50"
-                  >
-                    <div className="flex items-center gap-5">
-                      <span className="font-mono text-[18px] text-black">→</span>
-                      <div className="flex-1 space-y-1">
-                        <p className="font-mono text-[12px] font-bold uppercase tracking-widest text-black">
-                          {uploading ? "Analyzing CV..." : "Upload CV PDF"}
-                        </p>
-                        <p className="font-sans text-[13px] text-[#888880]">
-                          {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
-                        </p>
-                      </div>
-                    </div>
-                    {uploading && (
-                      <div className="mt-4 h-[2px] w-full bg-[#E8E6DE]">
-                        <motion.div 
-                          className="h-full bg-black"
-                          initial={{ width: "0%" }}
-                          animate={{ width: `${progress}%` }}
-                        />
-                      </div>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={handleManualSetup}
-                    disabled={uploading}
-                    className="group relative w-full p-6 border border-[#E8E6DE] text-left  hover:bg-[#F5F4EF] disabled:opacity-50"
-                  >
-                    <div className="flex items-center gap-5">
-                      <span className="font-mono text-[18px] text-black">→</span>
-                      <div className="flex-1 space-y-1">
-                        <p className="font-mono text-[12px] font-bold uppercase tracking-widest text-black">
-                          Manual Setup
-                        </p>
-                        <p className="font-sans text-[13px] text-[#888880]">
-                          Fill in your professional details manually
-                        </p>
-                      </div>
-                    </div>
-                  </button>
+                <div>
+                  <h2 className="font-sans text-[28px] font-medium text-black tracking-tight leading-tight mb-2">
+                    Start your automated journey.
+                  </h2>
+                  <p className="font-sans text-[16px] font-light text-black/40 leading-relaxed max-w-[360px]">
+                    Let's personalize your experience. How would you like to set up your profile?
+                  </p>
                 </div>
-
-                <div className="flex items-center justify-center gap-6 py-2 opacity-60">
-                  <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                    [ SECURE_DATA ]
-                  </div>
-                  <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
-                    [ ATS_OPTIMIZED ]
-                  </div>
-                </div>
-
-                {error && (
-                  <motion.p 
-                    initial={{ opacity: 0, y: 10 }} 
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 border border-[#D83B2A] bg-[#D83B2A]/5 font-mono text-[11px] text-[#D83B2A] text-center"
-                  >
-                    ! {error}
-                  </motion.p>
-                )}
-
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf"
-                  className="hidden"
-                  onChange={(e) => {
-                    void handleCVUpload(e.target.files?.[0] ?? null);
-                    e.target.value = "";
-                  }}
-                />
               </div>
+
+              <div className="space-y-4">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="group relative w-full p-8 bg-[#FAF9F6] rounded-[32px] border border-black/[0.03] text-left hover:bg-white hover:shadow-xl transition-all duration-500 disabled:opacity-50"
+                >
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-white border border-black/[0.05] flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+                      <FileUp className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <p className="font-sans text-[16px] font-medium text-black tracking-tight">
+                        {uploading ? "Analyzing CV..." : "Upload CV PDF"}
+                      </p>
+                      <p className="font-sans text-[13px] text-black/40 font-light">
+                        {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
+                      </p>
+                    </div>
+                  </div>
+                  {uploading && (
+                    <div className="mt-6 h-1 w-full bg-black/5 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-black origin-left"
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ ease: "linear" }}
+                      />
+                    </div>
+                  )}
+                </button>
+
+                <button
+                  onClick={handleManualSetup}
+                  disabled={uploading}
+                  className="group relative w-full p-8 bg-[#FAF9F6] rounded-[32px] border border-black/[0.03] text-left hover:bg-white hover:shadow-xl transition-all duration-500 disabled:opacity-50"
+                >
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-white border border-black/[0.05] flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <p className="font-sans text-[16px] font-medium text-black tracking-tight">
+                        Manual Setup
+                      </p>
+                      <p className="font-sans text-[13px] text-black/40 font-light">
+                        Fill in your professional details manually
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              <div className="flex items-center justify-center gap-8 py-10 opacity-30">
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-black">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Secure Data
+                </div>
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-black">
+                  ATS Optimized
+                </div>
+              </div>
+
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 rounded-[20px] border border-orange-500/10 bg-orange-500/5 font-sans text-[12px] text-orange-600 text-center"
+                >
+                  {error}
+                </motion.div>
+              )}
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf"
+                className="hidden"
+                onChange={(e) => {
+                  void handleCVUpload(e.target.files?.[0] ?? null);
+                  e.target.value = "";
+                }}
+              />
             </div>
           </motion.div>
         </motion.div>
@@ -312,29 +319,31 @@ export default function OnboardingModal() {
 
       {minimized && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95 }}
-          className="fixed bottom-6 right-6 z-[1000] w-72 bg-white border border-black p-4 cursor-pointer hover:bg-[#F5F4EF] transition-colors"
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="fixed bottom-8 right-8 z-[1000] w-80 bg-white rounded-[32px] border border-black/5 p-6 shadow-2xl cursor-pointer hover:bg-[#FAF9F6] transition-all duration-500 flex flex-col gap-4"
           onClick={() => setMinimized(false)}
         >
-          <div className="flex flex-col gap-3">
-            <div className="flex justify-between items-center">
-              <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
-                ANALYZING_CV...
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+              <p className="font-sans text-[12px] font-bold uppercase tracking-widest text-black">
+                Analyzing_CV
               </p>
-              <span className="font-mono text-[11px] font-bold text-black">{Math.round(progress)}%</span>
             </div>
-            <p className="font-sans text-[12px] text-[#888880] truncate">
-              {steps[currentStep]}
-            </p>
-            <div className="h-[2px] w-full bg-[#E8E6DE]">
-              <motion.div 
-                className="h-full bg-black"
-                initial={{ width: "0%" }}
-                animate={{ width: `${progress}%` }}
-              />
-            </div>
+            <span className="font-sans text-[12px] font-bold text-black/40">{Math.round(progress)}%</span>
+          </div>
+          <p className="font-sans text-[13px] text-black/50 font-light truncate">
+            {steps[currentStep]}
+          </p>
+          <div className="h-1 w-full bg-black/5 rounded-full overflow-hidden">
+            <motion.div 
+              className="h-full bg-black origin-left"
+              initial={{ width: "0%" }}
+              animate={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
+            />
           </div>
         </motion.div>
       )}

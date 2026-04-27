@@ -1,26 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const features = [
   {
     title: "Multi-Agent Swarm",
     description:
       "Three specialized AI agents work in parallel. The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
-    tags: ["CV ANALYSIS", "AI SWARM"],
+    tags: ["CV Analysis", "AI Swarm"],
+    hoverColor: "hover:bg-[#f9dbbd]/10",
   },
   {
     title: "Auto-Apply Intelligence",
     description:
-      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper tailored CVs while you focus on interviews.",
-    tags: ["AI-POWERED", "AUTOMATION"],
+      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper-tailored CVs while you focus on interviews.",
+    tags: ["Automation", "Matching"],
+    hoverColor: "hover:bg-[#c3e6f0]/10",
   },
   {
     title: "Real-Time Agent Flow",
     description:
       "Watch your AI agents 'think' in real-time through an interactive React Flow visualization — complete transparency in the discovery and refinement process.",
-    tags: ["LIVE FLOW", "VISUAL"],
+    tags: ["Live Flow", "Visual"],
+    hoverColor: "hover:bg-[#f0e4c3]/10",
   },
 ];
 
@@ -28,63 +31,74 @@ export default function Features() {
   return (
     <section
       id="features"
-      className="py-32 px-6 lg:px-10 bg-black border-t border-white/[0.06]"
+      className="relative py-32 px-6 lg:px-12 bg-white"
     >
-      <div className="max-w-[1440px] mx-auto">
+      {/* Background soft glow */}
+      <div className="absolute top-[20%] right-0 w-[400px] h-[400px] bg-[#c3e6f0]/20 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-[1200px] mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col gap-5 mb-20">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] text-[#D1FF00] tracking-[0.15em]">[02]</span>
-            <div className="w-12 h-[1px] bg-white/10" />
-            <span className="font-mono text-[11px] text-white/30 uppercase tracking-[0.15em]">
-              What we do
-            </span>
-            <span className="font-mono text-[11px] text-white/20">_</span>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col gap-6 mb-24 max-w-[800px]"
+        >
+          <div className="flex items-center gap-3">
+            <span className="label-mono">01 — Services</span>
           </div>
-          <h2 className="font-sans text-[36px] sm:text-[48px] font-bold leading-tight tracking-[-0.03em] text-white uppercase">
-            The tools that<br />
-            <span className="text-[#D1FF00]">get you hired.</span>
+          <h2 className="h2 tracking-tight text-black">
+            The intelligent tools that secure your next position.
           </h2>
-        </div>
+        </motion.div>
 
         {/* Feature Rows */}
-        <div className="border-t border-white/[0.06]">
+        <motion.div 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ staggerChildren: 0.2 }}
+          className="border-t border-black/10"
+        >
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex flex-col md:flex-row items-start md:items-center py-10 px-0 md:px-6 border-b border-white/[0.06] hover:bg-white/[0.02] transition-colors cursor-default"
+              variants={{
+                hidden: { opacity: 0, y: 40 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+              }}
+              className={`group flex flex-col md:flex-row items-start md:items-center py-12 px-6 -mx-6 md:px-8 md:-mx-8 border-b border-black/10 transition-colors duration-500 rounded-2xl cursor-default ${feature.hoverColor}`}
             >
               {/* Number */}
-              <span className="font-mono text-[40px] font-bold text-[#D1FF00]/30 md:w-32 mb-4 md:mb-0 group-hover:text-[#D1FF00] transition-colors">
-                0{index + 1}
-              </span>
+              <div className="font-sans text-[24px] font-light text-black/30 md:w-24 mb-6 md:mb-0 group-hover:text-black/60 transition-colors">
+                (0{index + 1})
+              </div>
 
               {/* Content */}
-              <div className="flex-1 space-y-3">
-                <h3 className="font-sans text-[22px] sm:text-[26px] font-bold text-white uppercase tracking-tight group-hover:text-[#D1FF00] transition-colors">
+              <div className="flex-1 md:pr-12">
+                <h3 className="font-sans text-[28px] sm:text-[32px] font-medium text-black tracking-tight mb-3">
                   {feature.title}
                 </h3>
-                <p className="font-sans text-[14px] sm:text-[15px] text-white/40 max-w-[600px] leading-relaxed">
+                <p className="font-sans text-[16px] sm:text-[18px] text-black/60 max-w-[600px] leading-[1.6] font-light">
                   {feature.description}
                 </p>
               </div>
 
               {/* Tags + Arrow */}
-              <div className="flex items-center gap-4 mt-6 md:mt-0">
-                <div className="flex flex-wrap gap-2">
+              <div className="flex items-center gap-6 mt-8 md:mt-0">
+                <div className="flex flex-wrap gap-3">
                   {feature.tags.map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
+                    <span key={tag} className="tag bg-white shadow-sm group-hover:border-black/20 transition-colors">{tag}</span>
                   ))}
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-white/10 group-hover:text-[#D1FF00] transition-colors" />
+                <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center bg-white shadow-sm group-hover:bg-black group-hover:text-white transition-all duration-400 transform group-hover:scale-105">
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -47,45 +47,39 @@ export default function Benefits() {
   return (
     <section
       id="benefits"
-      className="py-32 px-6 lg:px-10 bg-black border-t border-white/[0.06]"
+      className="py-32 px-6 lg:px-12 bg-white"
     >
-      <div className="max-w-[1440px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col gap-5 mb-20">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] text-[#D1FF00] tracking-[0.15em]">[06]</span>
-            <div className="w-12 h-[1px] bg-white/10" />
-            <span className="font-mono text-[11px] text-white/30 uppercase tracking-[0.15em]">
-              Benefits
-            </span>
-            <span className="font-mono text-[11px] text-white/20">_</span>
+        <div className="flex flex-col gap-6 mb-24 max-w-[800px]">
+          <div className="flex items-center gap-3">
+            <span className="label-mono">04 — Benefits</span>
           </div>
-          <h2 className="font-sans text-[36px] sm:text-[48px] font-bold leading-tight tracking-[-0.03em] text-white uppercase">
-            Invisible power<br />
-            <span className="text-[#D1FF00]">at your side.</span>
+          <h2 className="h2 tracking-tight text-black">
+            Invisible power constantly at your side.
           </h2>
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/[0.06]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-black/5">
           {benefits.map((b, i) => {
             const Icon = b.icon;
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="p-10 border-r border-b border-white/[0.06] hover:bg-white/[0.02] transition-colors group cursor-default"
+                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="p-12 border-r border-b border-black/5 hover:bg-off-white transition-colors duration-500 group cursor-default"
               >
-                <div className="w-12 h-12 border border-white/[0.08] flex items-center justify-center mb-8 group-hover:border-[#D1FF00]/30 transition-colors">
-                  <Icon className="w-5 h-5 text-white/30 group-hover:text-[#D1FF00] transition-colors" />
+                <div className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center mb-8 bg-white group-hover:border-black/30 transition-colors duration-400 shadow-sm">
+                  <Icon className="w-5 h-5 text-black/40 group-hover:text-black transition-colors duration-400" />
                 </div>
-                <h4 className="font-sans text-[18px] font-bold text-white uppercase tracking-tight mb-3 group-hover:text-[#D1FF00] transition-colors">
+                <h4 className="font-sans text-[20px] font-medium text-black tracking-tight mb-3">
                   {b.title}
                 </h4>
-                <p className="font-sans text-[14px] text-white/40 leading-relaxed">
+                <p className="font-sans text-[15px] font-light text-black/60 leading-[1.6]">
                   {b.description}
                 </p>
               </motion.div>

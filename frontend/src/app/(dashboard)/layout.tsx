@@ -22,13 +22,9 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth"
-      data-theme={theme}
-      style={{ backgroundColor: "var(--black)", color: "var(--white)" }}
+      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth bg-beige text-black"
+      data-theme="light"
     >
-      {/* Subtle grid background */}
-      <div className="fixed inset-0 grid-lines opacity-[0.03] pointer-events-none z-0" />
-
       <Sidebar />
       <OnboardingModal />
 
@@ -36,13 +32,13 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
         className="relative z-10 min-h-screen flex flex-col"
         style={{
           marginLeft,
-          transition: "margin-left 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+          transition: "margin-left 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
           willChange: "margin-left",
         }}
       >
         <TopBar />
         <main
-          className={`flex-1 ${isNoPaddingPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
+          className={`flex-1 ${isNoPaddingPage ? "" : "p-6 sm:p-10 lg:p-12"}`}
         >
           {children}
         </main>

@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp, barGrow, dashboardStagger } from "./animations";
 import { USAGE_DAYS, USAGE_DATA } from "@/features/dashboard/constants/mockData";
+import { BarChart3 } from "lucide-react";
 
 const days = USAGE_DAYS;
 const data = USAGE_DATA;
@@ -13,43 +14,56 @@ export default function UsageChart() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-8 bg-[#0A0A0A] border border-white/[0.06]"
+      className="p-10 bg-white border border-black/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
-      <div className="flex items-center justify-between mb-10 pb-4 border-b border-white/[0.06]">
-        <div>
-          <h3 className="font-sans text-[16px] font-bold text-white uppercase tracking-tight">
-            API Usage
-          </h3>
-          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/25 mt-1">
-            Last 7 days
-          </p>
+      {/* Background soft glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/10 rounded-full blur-[40px] pointer-events-none" />
+
+      <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-beige flex items-center justify-center border border-black/[0.03]">
+            <BarChart3 className="w-5 h-5 text-black/60" />
+          </div>
+          <div>
+            <h3 className="font-sans text-[18px] font-medium text-black tracking-tight">
+              API Usage
+            </h3>
+            <p className="font-sans text-[12px] text-black/30 font-medium uppercase tracking-[0.05em]">
+              Last 7 days
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#D1FF00] border border-[#D1FF00]/30 px-3 py-1">
-            TOTAL REQUESTS
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-black/5 rounded-full border border-black/5">
+          <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-black/40">
+            Total Requests
           </span>
         </div>
       </div>
 
       <motion.div
-        variants={dashboardStagger(0.04, 0)}
-        className="flex items-end gap-3 h-52 px-1"
+        variants={dashboardStagger(0.06, 0.1)}
+        className="flex items-end gap-3 h-56 px-2"
       >
         {data.map((value, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center gap-4">
-            <motion.div
-              variants={barGrow}
-              className="w-full relative group cursor-pointer"
-              style={{ height: `${(value / maxVal) * 100}%` }}
-            >
-              <div className="absolute inset-0 bg-white/[0.08] group-hover:bg-[#D1FF00] transition-colors duration-300" />
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                <span className="font-mono text-[10px] font-bold text-black bg-[#D1FF00] px-2 py-1 whitespace-nowrap uppercase tracking-[0.1em]">
-                  {value}
+          <div key={i} className="flex-1 flex flex-col items-center gap-6 group">
+            <div className="w-full relative flex-1 flex items-end">
+              <motion.div
+                variants={barGrow}
+                className="w-full relative rounded-t-[12px] overflow-hidden transition-all duration-500 group-hover:shadow-lg origin-bottom"
+                style={{ height: `${(value / maxVal) * 100}%` }}
+              >
+                <div className="absolute inset-0 bg-[#FAF9F6] border-t border-x border-black/[0.03] group-hover:bg-gradient-to-t group-hover:from-blue-400/20 group-hover:to-purple-400/20 transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-black transition-all group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400" />
+              </motion.div>
+              
+              {/* Tooltip */}
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 translate-y-2 group-hover:translate-y-0">
+                <span className="font-sans text-[11px] font-bold text-white bg-black px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap uppercase tracking-widest">
+                  {value} Req
                 </span>
               </div>
-            </motion.div>
-            <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.1em]">
+            </div>
+            <span className="font-sans text-[10px] font-bold text-black/20 uppercase tracking-widest transition-colors group-hover:text-black">
               {days[i]}
             </span>
           </div>

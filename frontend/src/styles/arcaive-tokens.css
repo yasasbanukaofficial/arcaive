@@ -1,0 +1,59 @@
+:root {
+  /* Colors - Novera Aesthetic */
+  --color-background: #F8F7F4; /* Cream off-white */
+  --color-surface: #FFFFFF;    /* Pure white cards */
+  --color-near-black: #1A1A1A; /* Charcoal text */
+  --color-black: #0F0F0F;      /* Absolute darkest */
+  --color-muted: #737373;      /* Grey text */
+  --color-border-light: rgba(0, 0, 0, 0.08); /* Soft borders */
+  --color-border-dark: rgba(0, 0, 0, 0.15);
+  --color-accent: #E23E3E;     /* Surge Red for accents */
+  --color-error: #D83B2A;
+  --color-panel-dark: #111111;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace; /* Keep for specific technical elements if desired */
+
+  /* Font sizes */
+  --text-hero: clamp(48px, 6vw, 84px);
+  --text-section: clamp(32px, 4vw, 52px);
+  --text-heading: clamp(24px, 3vw, 36px);
+  --text-page-heading: 28px;
+  --text-card-heading: 20px;
+  --text-body: 16px;
+  --text-small: 14px;
+  --text-label: 12px;
+
+  /* Radius & Shadows - Elegant Softness */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
+  --shadow-lift: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-float: 0 20px 48px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Spacing */
+  --section-padding-y: 120px;
+  --page-max-width: 1280px;
+  --page-padding-x: 48px;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding-y: 80px;
+    --page-padding-x: 24px;
+    --text-hero: 44px;
+    --text-section: 32px;
+  }
+}

@@ -58,21 +58,18 @@ export default function Sidebar() {
     const active = isActive(item.href);
 
     return (
-      <div key={item.name}>
+      <div key={item.name} className="px-3">
         <Link
           href={item.href}
-          className={`flex items-center gap-3 px-6 py-3 transition-all duration-200 group relative ${
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
             active
-              ? "text-[#D1FF00]"
-              : "text-white/40 hover:text-white/80"
+              ? "bg-black/5 text-black"
+              : "text-black/60 hover:bg-black/[0.02] hover:text-black"
           }`}
         >
-          {active && (
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#D1FF00]" />
-          )}
-          <Icon className={`w-4 h-4 transition-colors ${active ? "text-[#D1FF00]" : "opacity-50 group-hover:opacity-100"}`} />
+          <Icon className={`w-5 h-5 shrink-0 transition-colors ${active ? "text-black" : "text-black/50 group-hover:text-black"}`} />
           {!collapsed && (
-            <span className="font-mono text-[11px] uppercase tracking-[0.12em] whitespace-nowrap">
+            <span className="font-sans text-[14px] font-medium whitespace-nowrap">
               {item.name}
             </span>
           )}
@@ -92,14 +89,14 @@ export default function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: CLOSE_DURATION_S, ease: "easeOut" }}
-            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileOpen(false)}
           />
         )}
       </AnimatePresence>
 
       <aside
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-[#0A0A0A] border-r border-white/[0.06]"
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-white border-r border-black/5"
         style={{
           width: sidebarWidth,
           transform: isMobile
@@ -110,79 +107,77 @@ export default function Sidebar() {
         }}
       >
         {/* Logo */}
-        <div className="h-[64px] flex items-center px-6 border-b border-white/[0.06]">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 bg-[#D1FF00] flex items-center justify-center shrink-0">
-              <span className="font-sans text-[12px] font-bold text-black">A</span>
+        <div className="h-[72px] flex items-center px-6 border-b border-black/5">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center shrink-0">
+              <span className="font-sans text-[14px] font-medium text-black">A</span>
             </div>
             {!collapsed && (
-              <span className="font-mono text-[12px] font-bold text-white uppercase tracking-[0.2em]">
-                ARCAIVE
+              <span className="font-sans text-[18px] font-medium tracking-tight text-black">
+                Arcaive
               </span>
             )}
           </Link>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 py-6 space-y-6 overflow-y-auto no-scrollbar">
+        <nav className="flex-1 py-6 space-y-8 overflow-y-auto no-scrollbar">
           <div>
             {!collapsed && (
-              <p className="px-6 mb-4 font-mono text-[9px] text-white/20 uppercase tracking-[0.2em]">
+              <p className="px-6 mb-3 font-sans text-[12px] font-medium text-black/40">
                 Explore
               </p>
             )}
-            <div className="space-y-0.5">{mainNav.map(renderNavItem)}</div>
+            <div className="space-y-1">{mainNav.map(renderNavItem)}</div>
           </div>
-
-          <div className="mx-6 h-[1px] bg-white/[0.06]" />
 
           <div>
             {!collapsed && (
-              <p className="px-6 mb-4 font-mono text-[9px] text-white/20 uppercase tracking-[0.2em]">
+              <p className="px-6 mb-3 font-sans text-[12px] font-medium text-black/40">
                 Manage
               </p>
             )}
-            <div className="space-y-0.5">{manageNav.map(renderNavItem)}</div>
+            <div className="space-y-1">{manageNav.map(renderNavItem)}</div>
           </div>
         </nav>
 
         {/* Bottom User Section */}
-        <div className="mt-auto border-t border-white/[0.06] p-6 space-y-4">
+        <div className="mt-auto border-t border-black/5 p-6 space-y-6">
           {!collapsed && (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-[#D1FF00] flex items-center justify-center shrink-0">
-                  <span className="font-sans font-bold text-black text-[12px]">Y</span>
+                <div className="w-9 h-9 rounded-full bg-beige flex items-center justify-center shrink-0 border border-black/5">
+                  <span className="font-sans font-medium text-black text-[14px]">Y</span>
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="font-sans text-[13px] font-bold text-white truncate">Yasas Banuka</span>
-                  <span className="font-mono text-[10px] text-white/30 truncate">yasas@arcaive.ai</span>
+                  <span className="font-sans text-[14px] font-medium text-black truncate">Yasas Banuka</span>
+                  <span className="font-sans text-[12px] font-light text-black/50 truncate">yasas@arcaive.ai</span>
                 </div>
               </div>
-              <div>
-                <span className="inline-block font-mono text-[9px] text-[#D1FF00] border border-[#D1FF00]/30 px-2 py-0.5 uppercase tracking-[0.1em]">
-                  EXPLORER TIER
+              <div className="inline-flex w-fit">
+                <span className="font-sans text-[11px] font-medium bg-black/5 rounded-full px-3 py-1 text-black/70">
+                  Explorer Tier
                 </span>
               </div>
             </div>
           )}
 
-          <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-2`}>
+          <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-4`}>
             <Link
               href="/settings"
-              className="text-white/30 hover:text-[#D1FF00] transition-colors"
+              className="text-black/40 hover:text-black transition-colors p-1"
               title="Settings"
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-5 h-5" />
             </Link>
 
             {!collapsed && (
               <form action={logoutAction} className="flex-1">
                 <button
                   type="submit"
-                  className="w-full text-left font-mono text-[11px] text-white/30 hover:text-[#D1FF00] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                  className="w-full text-left font-sans text-[14px] font-medium text-black/60 hover:text-black transition-colors flex items-center gap-2 px-1"
                 >
-                  <LogOut className="w-3 h-3" />
+                  <LogOut className="w-4 h-4" />
                   Log out
                 </button>
               </form>
@@ -191,9 +186,9 @@ export default function Sidebar() {
             {!isMobile && (
               <button
                 onClick={toggle}
-                className="text-white/20 hover:text-[#D1FF00] transition-colors"
+                className="text-black/20 hover:text-black transition-colors p-1"
               >
-                {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+                {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
               </button>
             )}
           </div>

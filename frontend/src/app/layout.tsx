@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
-import { Host_Grotesk, Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
-import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
 
-const hostGrotesk = Host_Grotesk({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-host-grotesk",
   subsets: ["latin"],
 });
@@ -25,15 +28,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("dark", "font-sans", inter.variable)}>
+    <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
-        className={`${hostGrotesk.variable} antialiased selection:bg-white/20 relative`}
+        className={`${spaceGrotesk.variable} antialiased bg-beige text-black relative flex min-h-screen flex-col overflow-x-hidden`}
       >
         <ToastProvider>
           <QuotaExceededModal />
           <SmoothScroll>
+            {/* Soft architectural noise overlay */}
             <div className="noise-overlay" />
+            
             {children}
+            
           </SmoothScroll>
         </ToastProvider>
       </body>

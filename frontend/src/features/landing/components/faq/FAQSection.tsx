@@ -42,24 +42,22 @@ const FAQSection = () => {
   return (
     <section
       id="faq"
-      className="py-32 px-6 lg:px-10 bg-black border-t border-white/[0.06]"
+      className="py-32 px-6 lg:px-12 bg-white"
     >
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
-        <div className="lg:col-span-4 flex flex-col gap-5">
-          <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] text-[#D1FF00] tracking-[0.15em]">[08]</span>
-            <div className="w-12 h-[1px] bg-white/10" />
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="flex items-center gap-3">
+            <span className="label-mono">07 — FAQ</span>
           </div>
-          <h2 className="font-sans text-[36px] sm:text-[42px] font-bold leading-tight tracking-[-0.03em] text-white uppercase">
-            Frequently<br />
-            <span className="text-[#D1FF00]">asked.</span>
+          <h2 className="h2 tracking-tight text-black">
+            Frequently asked questions.
           </h2>
-          <p className="font-sans text-[14px] text-white/30 leading-relaxed mt-2">
-            Everything you need to know about ARCAIVE.
+          <p className="font-sans text-[16px] text-black/50 leading-[1.6]">
+            Everything you need to know about Arcaive.
           </p>
         </div>
 
-        <div className="lg:col-span-8 border-t border-white/[0.06]">
+        <div className="lg:col-span-7 border-t border-black/10">
           {faqData.map((item, index) => (
             <FAQItem
               key={index}

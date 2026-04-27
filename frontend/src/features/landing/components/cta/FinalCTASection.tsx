@@ -3,49 +3,66 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
+const floatingTags = [
+  { label: "Agent Recruiter", delay: 0 },
+  { label: "Agent Optimizer", delay: 0.5 },
+];
 
 const FinalCTASection = () => {
   return (
-    <section className="py-32 px-6 lg:px-10 bg-black border-t border-white/[0.06] relative overflow-hidden">
-      {/* Background grid */}
-      <div className="absolute inset-0 grid-lines opacity-20" />
+    <section className="py-48 px-6 lg:px-12 bg-[#FAF9F6] relative overflow-hidden flex flex-col items-center justify-center min-h-[80vh]">
+      {/* Dramatic Background Atmosphere */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-200/20 rounded-full blur-[140px] animate-pulse-slow pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-200/20 rounded-full blur-[120px] animate-pulse-slow pointer-events-none" style={{ animationDelay: '2s' }} />
 
-      {/* Radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_center,_rgba(209,255,0,0.1)_0%,_transparent_70%)] pointer-events-none" />
-
-      <div className="max-w-[900px] mx-auto text-center relative z-10">
+      {/* Floating Echoes */}
+      {floatingTags.map((tag, i) => (
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="space-y-8"
+          key={i}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+          transition={{ 
+            opacity: { duration: 1, delay: tag.delay },
+            y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: tag.delay }
+          }}
+          className={`absolute hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 backdrop-blur-sm border border-black/5 font-sans text-[10px] font-bold text-black uppercase tracking-widest ${
+            i === 0 ? "top-1/4 left-1/4" : "bottom-1/4 right-1/4"
+          }`}
         >
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="w-12 h-[1px] bg-white/10" />
-            <span className="font-mono text-[11px] text-[#D1FF00] tracking-[0.15em]">
-              READY TO START
-            </span>
-            <div className="w-12 h-[1px] bg-white/10" />
+          <div className="w-1.5 h-1.5 rounded-full bg-black/40" />
+          {tag.label}
+        </motion.div>
+      ))}
+
+      <div className="max-w-[900px] mx-auto text-center relative z-10 w-full flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="space-y-12 flex flex-col items-center w-full"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <span className="label-mono opacity-40">08 — Get Started</span>
           </div>
 
-          <h2 className="font-sans text-[36px] sm:text-[56px] font-bold leading-[0.95] tracking-[-0.04em] text-white uppercase">
+          <h2 className="font-sans text-[56px] sm:text-[80px] lg:text-[110px] font-medium leading-[0.9] tracking-[-0.05em] text-black">
             Automate your<br />
-            <span className="text-[#D1FF00]">biggest bottleneck.</span>
+            <span className="text-black/60 italic">bottleneck.</span>
           </h2>
 
-          <p className="font-sans text-[16px] sm:text-[18px] text-white/40 max-w-[500px] mx-auto leading-[1.7]">
+          <p className="font-sans text-[18px] sm:text-[22px] font-light text-black/40 max-w-[500px] mx-auto leading-[1.6]">
             Experience the tool right now. Just dive in and see what AI can do for your career.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link href="/register" className="btn-primary">
-              GET STARTED FREE
-              <ArrowUpRight className="w-4 h-4 ml-2" />
-            </Link>
-            <Link href="#howitworks" className="btn-ghost">
-              LEARN MORE
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8 w-full max-w-[440px]">
+            <Link href="/register" className="btn-icon-capsule scale-125 w-full justify-center group shadow-2xl">
+              <span className="icon-circle group-hover:bg-black group-hover:text-white transition-colors duration-500">
+                <ArrowRight className="w-4 h-4" />
+              </span>
+              Start for Free
             </Link>
           </div>
         </motion.div>

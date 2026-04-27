@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -6,46 +6,47 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── KYMA Design Tokens ─── */
-  --black: #000000;
+  /* ─── FLOEMA Design Tokens ─── */
+  --black: #1A1A1A;
   --white: #FFFFFF;
-  --cream: #F2F2EB;
-  --near-black: #0A0A0A;
-  --surface-dark: #111111;
-  --surface-elevated: #161616;
-  --muted: #6B6B60;
-  --muted-light: #999990;
-  --border-dark: #1E1E1E;
-  --border-subtle: #2A2A2A;
-  --border-cream: #DDDDD4;
-  --neon: #D1FF00;
-  --neon-dim: #B8E000;
-
+  --off-white: #F8F7F4;
+  --beige: #F2F0EA;
+  --beige-dark: #E2DFD8;
+  --surface-dark: #2A2A2A;
+  --surface-elevated: #FFFFFF;
+  --muted: #808080;
+  --muted-light: #B3B3B3;
+  --border-light: #E2DFD8;
+  --border-dark: #D1CCC0;
+  --accent: #E55B3C; /* Floema occasionally uses a burnt orange accent */
+  
   /* Font Aliases */
-  --font-space-grotesk: "Space Grotesk", sans-serif;
-  --font-space-mono: "Space Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+  --font-grotesk: "Space Grotesk", sans-serif;
+  --font-mono: "Space Mono", monospace;
 
-  /* Shadcn overrides — dark-first */
-  --background: var(--black);
-  --foreground: var(--white);
-  --card: var(--surface-dark);
-  --card-foreground: var(--white);
-  --popover: var(--surface-dark);
-  --popover-foreground: var(--white);
-  --primary: var(--neon);
-  --primary-foreground: var(--black);
-  --secondary: var(--surface-elevated);
-  --secondary-foreground: var(--white);
+  /* Shadcn overrides — light-first */
+  --background: var(--beige);
+  --foreground: var(--black);
+  --card: var(--white);
+  --card-foreground: var(--black);
+  --popover: var(--white);
+  --popover-foreground: var(--black);
+  --primary: var(--black);
+  --primary-foreground: var(--white);
+  --secondary: var(--off-white);
+  --secondary-foreground: var(--black);
   --muted-foreground: var(--muted);
-  --accent: var(--neon);
-  --accent-foreground: var(--black);
+  --accent-color: var(--accent);
+  --accent-foreground: var(--white);
   --destructive: #FF4444;
-  --border: var(--border-dark);
-  --input: var(--border-dark);
-  --ring: var(--neon);
-  --radius: 0px;
+  --border: var(--border-light);
+  --input: var(--border-light);
+  --ring: var(--black);
+  --radius: 16px; /* Floema uses highly rounded pills */
 }
 
+/* Fallback for dark mode (though Floema is primarily light) */
 .dark {
   --background: var(--black);
   --foreground: var(--white);
@@ -53,38 +54,34 @@
   --card-foreground: var(--white);
   --popover: var(--surface-dark);
   --popover-foreground: var(--white);
-  --primary: var(--neon);
+  --primary: var(--white);
   --primary-foreground: var(--black);
-  --secondary: var(--surface-elevated);
+  --secondary: #333333;
   --secondary-foreground: var(--white);
-  --muted-foreground: var(--muted);
-  --accent: var(--neon);
-  --accent-foreground: var(--black);
-  --border: var(--border-dark);
-  --input: var(--border-dark);
-  --ring: var(--neon);
+  --muted-foreground: var(--muted-light);
+  --border: #404040;
+  --input: #404040;
+  --ring: var(--white);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-space-grotesk);
-  --font-mono: var(--font-space-mono);
+  --color-accent: var(--accent-color);
+  --font-sans: var(--font-sans);
+  --font-grotesk: var(--font-grotesk);
+  --font-mono: var(--font-mono);
   --color-border: var(--border);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-neon: #D1FF00;
-  --color-cream: #F2F2EB;
-  --color-surface: #111111;
-  --color-surface-elevated: #161616;
+  --color-beige: #F2F0EA;
+  --color-off-white: #F8F7F4;
 }
 
 @layer base {
   * {
     @apply border-border;
-    border-radius: 0 !important;
   }
 
   html {
@@ -93,51 +90,53 @@
   }
 
   body {
-    background: var(--black);
-    color: var(--white);
-    font-family: var(--font-space-grotesk), sans-serif;
+    background: var(--beige);
+    color: var(--black);
+    font-family: var(--font-sans);
     font-weight: 400;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* ─── Typography Scale ─── */
+  /* ─── Typography Scale (Floema is airy and refined) ─── */
   h1, .h1 {
-    font-size: clamp(48px, 6vw, 80px);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: clamp(48px, 7vw, 100px);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    font-weight: 500;
   }
   h2, .h2 {
-    font-size: clamp(36px, 4vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    font-weight: 500;
   }
   h3, .h3 {
-    font-size: clamp(24px, 2.5vw, 36px);
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: clamp(24px, 3vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-weight: 500;
   }
   h4, .h4 {
-    font-size: 20px;
-    line-height: 1.3;
+    font-family: var(--font-sans);
+    font-size: 24px;
+    line-height: 1.2;
     letter-spacing: -0.02em;
-    font-weight: 600;
+    font-weight: 500;
   }
   h5, .h5 {
+    font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   ::selection {
-    background: var(--neon);
+    background: var(--border-dark);
     color: var(--black);
   }
 
@@ -145,10 +144,11 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--black);
+    background: var(--beige);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--border-subtle);
+    background: var(--border-dark);
+    border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--muted);
@@ -156,186 +156,182 @@
 }
 
 /* ═══════════════════════════════════════════
-   KYMA Component System
+   FLOEMA Component System
    ═══════════════════════════════════════════ */
 
 /* ─── Buttons ─── */
 .btn-primary {
   @apply inline-flex items-center justify-center;
-  background: var(--neon);
-  color: var(--black);
-  border: 1px solid var(--neon);
-  padding: 14px 32px;
-  font-family: var(--font-space-mono);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.btn-primary:hover {
   background: var(--white);
   color: var(--black);
-  border-color: var(--white);
-  transform: translateY(-1px);
+  border: 1px solid var(--border-light);
+  padding: 12px 28px;
+  border-radius: 9999px; /* Pill shape */
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+}
+.btn-primary:hover {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .btn-ghost {
   @apply inline-flex items-center justify-center;
   background: transparent;
-  color: var(--white);
-  border: 1px solid var(--border-subtle);
-  padding: 14px 32px;
-  font-family: var(--font-space-mono);
-  font-size: 12px;
-  font-weight: 700;
+  color: var(--black);
+  border: 1px solid transparent;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  letter-spacing: 0.05em;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 .btn-ghost:hover {
-  background: var(--white);
-  color: var(--black);
-  border-color: var(--white);
+  background: rgba(0,0,0,0.05);
 }
 
 .btn-outline {
   @apply inline-flex items-center justify-center;
   background: transparent;
-  color: var(--white);
-  border: 1px solid var(--white);
-  padding: 14px 32px;
-  font-family: var(--font-space-mono);
-  font-size: 12px;
-  font-weight: 700;
+  color: var(--black);
+  border: 1px solid var(--black);
+  padding: 12px 28px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  letter-spacing: 0.05em;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
 }
 .btn-outline:hover {
-  background: var(--neon);
+  background: var(--black);
+  color: var(--white);
+}
+
+/* Special Floema Icon Button */
+.btn-icon-capsule {
+  @apply inline-flex items-center;
+  background: var(--white);
   color: var(--black);
-  border-color: var(--neon);
+  border: 1px solid var(--border-light);
+  padding: 6px 24px 6px 6px;
+  border-radius: 9999px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+}
+.btn-icon-capsule .icon-circle {
+  @apply flex items-center justify-center rounded-full mr-3;
+  width: 32px;
+  height: 32px;
+  background: var(--beige);
+  transition: all 400ms ease;
+}
+.btn-icon-capsule:hover {
+  border-color: var(--border-dark);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+.btn-icon-capsule:hover .icon-circle {
+  background: var(--black);
+  color: var(--white);
 }
 
 /* ─── Tags & Labels ─── */
 .tag {
-  @apply inline-block;
-  font-family: var(--font-space-mono);
-  font-size: 10px;
-  font-weight: 700;
+  @apply inline-flex items-center justify-center;
+  background: transparent;
+  border: 1px solid var(--border-dark);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  border: 1px solid var(--border-subtle);
-  padding: 4px 12px;
-  letter-spacing: 0.08em;
-  color: var(--muted-light);
-  transition: all 200ms ease;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  transition: all 300ms ease;
 }
 .tag:hover {
-  border-color: var(--neon);
-  color: var(--neon);
-}
-
-.tag-neon {
-  @apply inline-block;
-  font-family: var(--font-space-mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border: 1px solid var(--neon);
-  padding: 4px 12px;
-  letter-spacing: 0.08em;
-  color: var(--neon);
-}
-
-.section-index {
-  font-family: var(--font-space-mono);
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
+  border-color: var(--black);
+  color: var(--black);
 }
 
 .label-mono {
-  font-family: var(--font-space-mono);
-  font-size: 11px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.05em;
   color: var(--muted);
-}
-
-.label-neon {
-  font-family: var(--font-space-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--neon);
 }
 
 /* ─── Dividers ─── */
 .divider-line {
   width: 100%;
   height: 1px;
-  background: var(--border-dark);
+  background: var(--border-light);
 }
 
-.divider-neon {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--neon), transparent);
-}
-
-/* ─── Grid Lines (KYMA signature) ─── */
+/* ─── Grid Lines (Subtle for Floema background) ─── */
 .grid-lines {
   background-image:
-    linear-gradient(to right, var(--border-dark) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border-dark) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
 }
 
 /* ─── Cards ─── */
-.card-dark {
-  background: var(--surface-dark);
-  border: 1px solid var(--border-dark);
-  transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
+.card-soft {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid rgba(0,0,0,0.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.02);
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card-dark:hover {
-  border-color: var(--border-subtle);
-  background: var(--surface-elevated);
+.card-soft:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.04);
 }
 
 .card-glass {
-  background: rgba(17, 17, 17, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.card-glass:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(17, 17, 17, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  transition: all 300ms ease;
 }
 
 /* ─── Metric Display ─── */
 .metric-display {
-  font-family: var(--font-space-grotesk);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--white);
-}
-.metric-neon {
-  font-family: var(--font-space-grotesk);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--neon);
+  font-family: var(--font-sans);
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--black);
 }
 
 /* ─── Spinner ─── */
@@ -343,7 +339,7 @@
   width: 24px;
   height: 24px;
   border: 2px solid transparent;
-  border-top: 2px solid var(--neon);
+  border-top: 2px solid var(--black);
   border-radius: 50% !important;
   animation: kyma-spin 0.8s linear infinite;
 }
@@ -354,9 +350,10 @@
 
 /* ─── Skeleton ─── */
 .kyma-skeleton {
-  background: linear-gradient(90deg, var(--surface-dark) 0%, var(--surface-elevated) 50%, var(--surface-dark) 100%);
+  background: linear-gradient(90deg, var(--off-white) 0%, var(--beige-dark) 50%, var(--off-white) 100%);
   background-size: 200% 100%;
   animation: kyma-shimmer 1.5s ease-in-out infinite;
+  border-radius: 16px;
 }
 
 @keyframes kyma-shimmer {
@@ -364,27 +361,18 @@
   100% { background-position: -200% 0; }
 }
 
-/* ─── Glow Effects ─── */
-.glow-neon {
-  box-shadow: 0 0 20px rgba(209, 255, 0, 0.15), 0 0 60px rgba(209, 255, 0, 0.05);
-}
-
-.glow-neon-text {
-  text-shadow: 0 0 20px rgba(209, 255, 0, 0.4);
-}
-
 /* ─── Dashboard theme ─── */
 .dashboard-theme {
-  --d-bg: var(--black);
-  --d-surface: var(--surface-dark);
-  --d-surface-elevated: var(--surface-elevated);
-  --d-border: var(--border-dark);
-  --d-border-subtle: var(--border-subtle);
-  --d-text-primary: var(--white);
+  --d-bg: var(--beige);
+  --d-surface: var(--white);
+  --d-surface-elevated: var(--off-white);
+  --d-border: var(--border-light);
+  --d-border-subtle: rgba(0,0,0,0.05);
+  --d-text-primary: var(--black);
   --d-text-muted: var(--muted);
-  --d-accent: var(--neon);
+  --d-accent: var(--accent-color);
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* ─── Noise grain overlay ─── */
@@ -392,10 +380,10 @@
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity: 0.4;
+  opacity: 0.3; /* Lighter for light mode */
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
 }
 
 /* ─── Marquee ─── */
@@ -420,29 +408,3 @@
   scrollbar-width: none;
 }
 
-/* ─── Neon pulse animation ─── */
-@keyframes neon-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-.animate-neon-pulse {
-  animation: neon-pulse 2s ease-in-out infinite;
-}
-
-/* ─── Cream section (KYMA contrast blocks) ─── */
-.section-cream {
-  background-color: var(--cream);
-  color: var(--black);
-}
-.section-cream .label-mono {
-  color: var(--muted);
-}
-.section-cream .tag {
-  border-color: var(--border-cream);
-  color: var(--muted);
-}
-.section-cream .tag:hover {
-  border-color: var(--black);
-  color: var(--black);
-}
