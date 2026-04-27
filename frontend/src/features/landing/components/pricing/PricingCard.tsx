@@ -36,36 +36,36 @@ const PricingCard = ({
   return (
     <div
       className={`relative p-10 h-full flex flex-col transition-[background-color,border-color] duration-300 border ${
-        popular ? "bg-[#F5F4EF] border-black" : "bg-white border-[#E8E6DE]"
+        popular ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"
       }`}
       style={{ borderRadius: 0 }}
     >
       {popular && (
         <div className="absolute top-6 right-6">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-black border border-black px-2 py-1">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-primary)] border border-[var(--glass-border)] px-2 py-1">
             MOST POPULAR
           </span>
         </div>
       )}
 
       <div className="mb-10">
-        <h4 className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#888880] mb-8">
+        <h4 className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] mb-8">
           {plan}
         </h4>
         <div className="flex items-baseline gap-1 mb-4">
-          <span className="font-sans text-[56px] font-bold text-black leading-tight tracking-tight">
+          <span className="font-sans text-[56px] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
             {typeof price === "number" && "€"}
             <AnimatePresence mode="wait">
               <AnimatedPrice value={displayPrice} />
             </AnimatePresence>
           </span>
           {typeof price === "number" && (
-            <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880] ml-2">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] ml-2">
               /month
             </span>
           )}
         </div>
-        <p className="font-sans text-[14px] text-[#888880] leading-relaxed">
+        <p className="font-sans text-[14px] text-[var(--text-secondary)] leading-relaxed">
           {description}
         </p>
       </div>
@@ -77,9 +77,9 @@ const PricingCard = ({
           {features.map((feature, i) => (
             <li
               key={i}
-              className="flex items-start gap-3 font-sans text-[14px] text-black"
+              className="flex items-start gap-3 font-sans text-[14px] text-[var(--text-primary)]"
             >
-              <span className="text-[#888880]">—</span>
+              <span className="text-[var(--text-secondary)]">—</span>
               <span>{feature}</span>
             </li>
           ))}

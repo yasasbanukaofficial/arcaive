@@ -212,7 +212,7 @@ export default function OnboardingModal() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-[560px] bg-white rounded-[40px] border border-black/5 shadow-2xl overflow-hidden"
+            className="relative w-full max-w-[560px] bg-[var(--glass-bg)] rounded-[40px] border border-[var(--glass-border)] shadow-2xl overflow-hidden"
           >
             {/* Background glow */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100/20 rounded-full blur-[80px] pointer-events-none" />
@@ -221,10 +221,10 @@ export default function OnboardingModal() {
               <div className="flex flex-col gap-4 mb-12">
 
                 <div>
-                  <h2 className="font-sans text-[28px] font-medium text-black tracking-tight leading-tight mb-2">
+                  <h2 className="font-sans text-[28px] font-medium text-[var(--text-primary)] tracking-tight leading-tight mb-2">
                     Start your automated journey.
                   </h2>
-                  <p className="font-sans text-[16px] font-light text-black/40 leading-relaxed max-w-[360px]">
+                  <p className="font-sans text-[16px] font-light text-[var(--text-secondary)] leading-relaxed max-w-[360px]">
                     Let's personalize your experience. How would you like to set up your profile?
                   </p>
                 </div>
@@ -234,23 +234,23 @@ export default function OnboardingModal() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="group relative w-full p-8 bg-[#FAF9F6] rounded-[32px] border border-black/[0.03] text-left hover:bg-white hover:shadow-xl transition-all duration-500 disabled:opacity-50"
+                  className="group relative w-full p-8 bg-[var(--bg-color)] rounded-[32px] border border-[var(--glass-border)]/[0.03] text-left hover:bg-[var(--glass-bg)] hover:shadow-xl transition-all duration-500 disabled:opacity-50"
                 >
                   <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 rounded-full bg-white border border-black/[0.05] flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+                    <div className="w-12 h-12 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] flex items-center justify-center group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all duration-500">
                       <FileUp className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1">
-                      <p className="font-sans text-[16px] font-medium text-black tracking-tight">
+                      <p className="font-sans text-[16px] font-medium text-[var(--text-primary)] tracking-tight">
                         {uploading ? "Analyzing CV..." : "Upload CV PDF"}
                       </p>
-                      <p className="font-sans text-[13px] text-black/40 font-light">
+                      <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light">
                         {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
                       </p>
                     </div>
                   </div>
                   {uploading && (
-                    <div className="mt-6 h-1 w-full bg-black/5 rounded-full overflow-hidden">
+                    <div className="mt-6 h-1 w-full bg-[var(--glass-border)] rounded-full overflow-hidden">
                       <motion.div 
                         className="h-full bg-black origin-left"
                         initial={{ width: "0%" }}
@@ -264,17 +264,17 @@ export default function OnboardingModal() {
                 <button
                   onClick={handleManualSetup}
                   disabled={uploading}
-                  className="group relative w-full p-8 bg-[#FAF9F6] rounded-[32px] border border-black/[0.03] text-left hover:bg-white hover:shadow-xl transition-all duration-500 disabled:opacity-50"
+                  className="group relative w-full p-8 bg-[var(--bg-color)] rounded-[32px] border border-[var(--glass-border)]/[0.03] text-left hover:bg-[var(--glass-bg)] hover:shadow-xl transition-all duration-500 disabled:opacity-50"
                 >
                   <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 rounded-full bg-white border border-black/[0.05] flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-500">
+                    <div className="w-12 h-12 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] flex items-center justify-center group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all duration-500">
                       <ArrowRight className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1">
-                      <p className="font-sans text-[16px] font-medium text-black tracking-tight">
+                      <p className="font-sans text-[16px] font-medium text-[var(--text-primary)] tracking-tight">
                         Manual Setup
                       </p>
-                      <p className="font-sans text-[13px] text-black/40 font-light">
+                      <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light">
                         Fill in your professional details manually
                       </p>
                     </div>
@@ -283,11 +283,11 @@ export default function OnboardingModal() {
               </div>
 
               <div className="flex items-center justify-center gap-8 py-10 opacity-30">
-                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-black">
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   Secure Data
                 </div>
-                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-black">
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                   ATS Optimized
                 </div>
               </div>
@@ -322,22 +322,22 @@ export default function OnboardingModal() {
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="fixed bottom-8 right-8 z-[1000] w-80 bg-white rounded-[32px] border border-black/5 p-6 shadow-2xl cursor-pointer hover:bg-[#FAF9F6] transition-all duration-500 flex flex-col gap-4"
+          className="fixed bottom-8 right-8 z-[1000] w-80 bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-6 shadow-2xl cursor-pointer hover:bg-[var(--bg-color)] transition-all duration-500 flex flex-col gap-4"
           onClick={() => setMinimized(false)}
         >
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              <p className="font-sans text-[12px] font-bold uppercase tracking-widest text-black">
+              <p className="font-sans text-[12px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                 Analyzing_CV
               </p>
             </div>
-            <span className="font-sans text-[12px] font-bold text-black/40">{Math.round(progress)}%</span>
+            <span className="font-sans text-[12px] font-bold text-[var(--text-secondary)]">{Math.round(progress)}%</span>
           </div>
-          <p className="font-sans text-[13px] text-black/50 font-light truncate">
+          <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light truncate">
             {steps[currentStep]}
           </p>
-          <div className="h-1 w-full bg-black/5 rounded-full overflow-hidden">
+          <div className="h-1 w-full bg-[var(--glass-border)] rounded-full overflow-hidden">
             <motion.div 
               className="h-full bg-black origin-left"
               initial={{ width: "0%" }}

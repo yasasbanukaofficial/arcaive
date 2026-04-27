@@ -45,7 +45,7 @@ export default function TestimonialsSection() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                className="relative bg-white/[0.02] backdrop-blur-3xl border border-white/10 p-12 sm:p-20 rounded-[48px] shadow-2xl"
+                className="relative bg-[var(--glass-bg)]/[0.02] backdrop-blur-3xl border border-white/10 p-12 sm:p-20 rounded-[48px] shadow-2xl"
               >
                 <p className="font-sans text-[32px] sm:text-[42px] font-medium leading-[1.3] tracking-tight text-white relative z-10">
                   <span className="text-white/20 mr-4 italic">"</span>

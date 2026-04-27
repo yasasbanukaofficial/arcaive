@@ -128,13 +128,13 @@ export function AgentChatTranscript({
                 </span>
               </div>
               <div className="bg-[#000000] border border-[#333333]  -none px-6 py-4 w-fit shadow-2xl">
-                <AgentChatIndicator size="sm" className="bg-white/60" />
+                <AgentChatIndicator size="sm" className="bg-[var(--glass-bg)]/60" />
               </div>
             </div>
           )}
         </AnimatePresence>
       </ConversationContent>
-      <ConversationScrollButton className="bg-white dark:bg-zinc-800 backdrop-blur-none border-zinc-200 dark:border-zinc-700 shadow-xl hover:scale-110 transition-transform" />
+      <ConversationScrollButton className="bg-[var(--glass-bg)] dark:bg-zinc-800 backdrop-blur-none border-zinc-200 dark:border-zinc-700 shadow-xl hover:scale-110 transition-transform" />
     </Conversation>
   );
 }

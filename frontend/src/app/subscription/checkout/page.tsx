@@ -23,7 +23,7 @@ import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 const PLAN_CONFIG = {
   strategist: {
     icon: Rocket,
-    gradient: "bg-white/5",
+    gradient: "bg-[var(--glass-bg)]/5",
     accentColor: "#000",
     bgAccent: "rgba(0, 0, 0, 0.05)",
     borderAccent: "rgba(0, 0, 0, 0.3)",
@@ -31,7 +31,7 @@ const PLAN_CONFIG = {
   },
   architect: {
     icon: Crown,
-    gradient: "bg-white/5",
+    gradient: "bg-[var(--glass-bg)]/5",
     accentColor: "#000",
     bgAccent: "rgba(0, 0, 0, 0.05)",
     borderAccent: "rgba(0, 0, 0, 0.3)",
@@ -260,7 +260,7 @@ function CheckoutContent() {
                             }}
                           >
                             {isSelected && (
-                              <Check className="w-3 h-3 text-black" />
+                              <Check className="w-3 h-3 text-[var(--text-primary)]" />
                             )}
                           </div>
                         </div>
@@ -502,7 +502,7 @@ function CheckoutContent() {
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-12 px-6  font-semibold text-sm  flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full h-12 px-6  font-semibold text-sm  flex items-center justify-center gap-2 bg-[var(--glass-bg)] text-[var(--text-primary)] hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isProcessing ? (
                         <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
@@ -563,7 +563,7 @@ export default function CheckoutPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-sm text-[#888880]">
+          <div className="text-sm text-[var(--text-secondary)]">
             Loading...
           </div>
         </div>

@@ -200,11 +200,11 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
       className="space-y-4"
     >
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
           RESUME_DOC
         </span>
 
-        <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black border border-black px-2 py-0.5">
+        <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)] border border-[var(--glass-border)] px-2 py-0.5">
           [ AI_POWERED ]
         </div>
       </div>
@@ -216,7 +216,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
         onDrop={handleDrop}
         onClick={() => !isProcessing && inputRef.current?.click()}
         className={`relative px-8 py-10 text-center border transition-colors ${
-          isDragging ? "bg-[#F5F4EF] border-black" : isDone ? "bg-white border-black" : "bg-white border-[#E8E6DE] border-dashed"
+          isDragging ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : isDone ? "bg-[var(--glass-bg)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)] border-dashed"
         } ${isProcessing ? "cursor-default" : "cursor-pointer"}`}
         style={{ borderRadius: 0 }}
       >
@@ -240,20 +240,20 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
               exit={{ opacity: 0 }}
               className="flex flex-col items-center gap-4"
             >
-              <div className="w-12 h-12 border border-black flex items-center justify-center bg-[#F5F4EF]">
-                <UploadCloud className="w-5 h-5 text-black" />
+              <div className="w-12 h-12 border border-[var(--glass-border)] flex items-center justify-center bg-[var(--glass-border)]">
+                <UploadCloud className="w-5 h-5 text-[var(--text-primary)]" />
               </div>
 
               <div className="space-y-1">
-                <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                   {isDragging ? "DROP_FILE_NOW" : "UPLOAD_RESUME_DOC"}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-[#888880]">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
                   PDF, DOC, DOCX · MAX 10MB
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-tight text-[#888880]">
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-tight text-[var(--text-secondary)]">
                 <span>→ AUTO_FILL_NAME_ROLE_EXPERIENCE</span>
               </div>
             </motion.div>
@@ -267,15 +267,15 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
               exit={{ opacity: 0 }}
               className="space-y-6"
             >
-              <div className="flex items-center gap-4 text-left p-4 border border-[#E8E6DE] bg-[#F5F4EF]">
-                <div className="w-10 h-10 border border-black flex items-center justify-center bg-white shrink-0">
-                  <FileText className="w-5 h-5 text-black" />
+              <div className="flex items-center gap-4 text-left p-4 border border-[var(--glass-border)] bg-[var(--glass-border)]">
+                <div className="w-10 h-10 border border-[var(--glass-border)] flex items-center justify-center bg-[var(--glass-bg)] shrink-0">
+                  <FileText className="w-5 h-5 text-[var(--text-primary)]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-mono text-[11px] font-bold text-black uppercase truncate">
+                  <p className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase truncate">
                     {file.name}
                   </p>
-                  <p className="font-mono text-[10px] text-[#888880] uppercase">
+                  <p className="font-mono text-[10px] text-[var(--text-secondary)] uppercase">
                     {formatFileSize(file.size)}
                   </p>
                 </div>
@@ -286,7 +286,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                       e.stopPropagation();
                       removeFile();
                     }}
-                    className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
+                    className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                   >
                     [ REMOVE ]
                   </button>
@@ -296,11 +296,11 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                    <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                       {isDone ? "✓ READY_TO_FILL" : stage === "analyzing" ? "→ ANALYZING_DOC" : "→ UPLOADING_DOC"}
                     </span>
                   </div>
-                  <span className="font-mono text-[11px] text-black">
+                  <span className="font-mono text-[11px] text-[var(--text-primary)]">
                     {progress}%
                   </span>
                 </div>
@@ -319,7 +319,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                   <span
                     key={field}
                     className={`px-2 py-1 font-mono text-[10px] uppercase tracking-widest border  ${
-                      isDone ? "border-black bg-[#F5F4EF] text-black" : "border-[#E8E6DE] text-[#888880]"
+                      isDone ? "border-[var(--glass-border)] bg-[var(--glass-border)] text-[var(--text-primary)]" : "border-[var(--glass-border)] text-[var(--text-secondary)]"
                     }`}
                     style={{ borderRadius: 0 }}
                   >
@@ -332,7 +332,7 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
         </AnimatePresence>
       </div>
 
-      <p className="font-mono text-[10px] uppercase tracking-widest text-[#888880]">
+      <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
         UPLOAD_TO_AUTO_FILL_IN_SECONDS_OR_MANUAL_ENTRY_BELOW
       </p>
     </motion.div>

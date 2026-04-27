@@ -46,7 +46,7 @@ export default function Hero() {
             </h3>
             
             <div className="mt-auto">
-              <div className="w-full h-[1px] bg-white/20 mb-6" />
+              <div className="w-full h-[1px] bg-[var(--glass-bg)]/20 mb-6" />
               <p className="font-sans text-[14px] text-right text-white/70">
                 The world's most<br/>
                 unnecessarily<br/>

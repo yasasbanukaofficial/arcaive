@@ -35,9 +35,9 @@ const LK_TOGGLE_VARIANT_2 = [
   'data-[state=off]:focus-visible:border-ring data-[state=off]:focus-visible:ring-foreground/12',
   'data-[state=off]:text-foreground data-[state=off]:hover:text-foreground data-[state=off]:focus:text-foreground',
   'data-[state=on]:bg-black/20 data-[state=on]:hover:bg-black/30',
-  'data-[state=on]:border-black/10 data-[state=on]:text-black data-[state=on]:ring-black/30',
-  'data-[state=on]:focus-visible:border-black/50',
-  'dark:data-[state=on]:bg-white/20 dark:data-[state=on]:text-white',
+  'data-[state=on]:border-[var(--glass-border)] data-[state=on]:text-[var(--text-primary)] data-[state=on]:ring-black/30',
+  'data-[state=on]:focus-visible:border-[var(--glass-border)]/50',
+  'dark:data-[state=on]:bg-[var(--glass-bg)]/20 dark:data-[state=on]:text-white',
 ];
 
 const MOTION_PROPS: MotionProps = {
@@ -377,7 +377,7 @@ export function AgentControlBar({
               className={cn(
                 'size-9 flex items-center justify-center rounded-md border',
                 isChatOpen || isChatOpenUncontrolled
-                  ? 'bg-black/20 border-black/10 text-black'
+                  ? 'bg-black/20 border-[var(--glass-border)] text-[var(--text-primary)]'
                   : 'bg-transparent border-transparent text-foreground hover:bg-foreground/10'
               )}
             >

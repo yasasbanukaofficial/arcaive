@@ -75,7 +75,7 @@ export default function NotificationsSection({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="font-mono text-[11px] uppercase tracking-widest text-[#888880]"
+                  className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]"
                 >
                   [ SAVED ]
                 </motion.span>
@@ -135,7 +135,7 @@ export default function NotificationsSection({
                 if (isDark) toggleTheme();
               }}
               className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
-                !isDark ? "bg-black text-white border-black" : "bg-white text-[#888880] border-[#E8E6DE] hover:border-black"
+                !isDark ? "bg-black text-white border-[var(--glass-border)]" : "bg-[var(--glass-bg)] text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
               }`}
               style={{ borderRadius: 0 }}
             >
@@ -147,7 +147,7 @@ export default function NotificationsSection({
                 if (!isDark) toggleTheme();
               }}
               className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
-                isDark ? "bg-black text-white border-black" : "bg-white text-[#888880] border-[#E8E6DE] hover:border-black"
+                isDark ? "bg-black text-white border-[var(--glass-border)]" : "bg-[var(--glass-bg)] text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
               }`}
               style={{ borderRadius: 0 }}
             >
@@ -162,14 +162,14 @@ export default function NotificationsSection({
         description="Manage your stored data across all connected databases."
       >
         <div className="space-y-4">
-          <div className="p-8 border border-[#D83B2A] bg-white">
+          <div className="p-8 border border-[#D83B2A] bg-[var(--glass-bg)]">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#D83B2A]">
                   [ DANGER_ZONE ]
                 </span>
               </div>
-              <p className="font-sans text-[13px] leading-relaxed text-[#888880] mb-6">
+              <p className="font-sans text-[13px] leading-relaxed text-[var(--text-secondary)] mb-6">
                 Deleting all data will permanently remove your profile,
                 achievements, agent configurations, and all records from both
                 Neon (PostgreSQL) and Chroma (Vector) databases. This action
@@ -201,7 +201,7 @@ export default function NotificationsSection({
                         value={deleteConfirmText}
                         onChange={(e) => setDeleteConfirmText(e.target.value)}
                         placeholder="TYPE_DELETE"
-                        className="w-full max-w-[240px] px-[14px] py-[10px] font-mono text-[13px] border border-[#D83B2A] focus:outline-none focus:border-black "
+                        className="w-full max-w-[240px] px-[14px] py-[10px] font-mono text-[13px] border border-[#D83B2A] focus:outline-none focus:border-[var(--glass-border)] "
                         style={{ borderRadius: 0 }}
                         autoFocus
                       />
@@ -220,7 +220,7 @@ export default function NotificationsSection({
                           setShowDeleteConfirm(false);
                           setDeleteConfirmText("");
                         }}
-                        className="font-mono text-[11px] uppercase tracking-widest text-[#888880] hover:text-black transition-colors"
+                        className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                       >
                         CANCEL
                       </button>

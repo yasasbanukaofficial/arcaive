@@ -51,7 +51,7 @@ export default function Sidebar() {
   }, [pathname, isMobile, setMobileOpen]);
 
   const renderNavItem = (
-    item: { name: string; href: string; icon: React.ElementType },
+    item: { name: string; href: string; icon: React.ElementType<{ className?: string }> },
     _index: number
   ) => {
     const Icon = item.icon;
@@ -63,11 +63,11 @@ export default function Sidebar() {
           href={item.href}
           className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
             active
-              ? "bg-black/5 text-black"
-              : "text-black/60 hover:bg-black/[0.02] hover:text-black"
+              ? "bg-[var(--text-primary)] text-[var(--bg-color)]"
+              : "text-[var(--text-secondary)] hover:bg-[var(--glass-border)] hover:text-[var(--text-primary)]"
           }`}
         >
-          <Icon className={`w-5 h-5 shrink-0 transition-colors ${active ? "text-black" : "text-black/50 group-hover:text-black"}`} />
+          <Icon className={`w-5 h-5 shrink-0 transition-colors ${active ? "text-[var(--bg-color)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"}`} />
           {!collapsed && (
             <span className="font-sans text-[14px] font-medium whitespace-nowrap">
               {item.name}
@@ -96,7 +96,7 @@ export default function Sidebar() {
       </AnimatePresence>
 
       <aside
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-white border-r border-black/5"
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-[var(--glass-bg)] backdrop-blur-xl border-r border-[var(--glass-border)]"
         style={{
           width: sidebarWidth,
           transform: isMobile
@@ -107,13 +107,13 @@ export default function Sidebar() {
         }}
       >
         {/* Logo */}
-        <div className="h-[72px] flex items-center px-6 border-b border-black/5">
+        <div className="h-[72px] flex items-center px-6 border-b border-[var(--glass-border)]">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center shrink-0">
-              <span className="font-sans text-[14px] font-medium text-black">A</span>
+            <div className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center shrink-0">
+              <span className="font-display text-[14px] font-bold text-[var(--text-primary)]">A</span>
             </div>
             {!collapsed && (
-              <span className="font-sans text-[18px] font-medium tracking-tight text-black">
+              <span className="font-display text-[18px] font-bold tracking-tight text-[var(--text-primary)] uppercase">
                 Arcaive
               </span>
             )}
@@ -124,7 +124,7 @@ export default function Sidebar() {
         <nav className="flex-1 py-6 space-y-8 overflow-y-auto no-scrollbar">
           <div>
             {!collapsed && (
-              <p className="px-6 mb-3 font-sans text-[12px] font-medium text-black/40">
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)]">
                 Explore
               </p>
             )}
@@ -133,7 +133,7 @@ export default function Sidebar() {
 
           <div>
             {!collapsed && (
-              <p className="px-6 mb-3 font-sans text-[12px] font-medium text-black/40">
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)]">
                 Manage
               </p>
             )}
@@ -142,20 +142,20 @@ export default function Sidebar() {
         </nav>
 
         {/* Bottom User Section */}
-        <div className="mt-auto border-t border-black/5 p-6 space-y-6">
+        <div className="mt-auto border-t border-[var(--glass-border)] p-6 space-y-6">
           {!collapsed && (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-beige flex items-center justify-center shrink-0 border border-black/5">
-                  <span className="font-sans font-medium text-black text-[14px]">Y</span>
+                <div className="w-9 h-9 rounded-full bg-[var(--text-primary)] flex items-center justify-center shrink-0 border border-[var(--glass-border)]">
+                  <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="font-sans text-[14px] font-medium text-black truncate">Yasas Banuka</span>
-                  <span className="font-sans text-[12px] font-light text-black/50 truncate">yasas@arcaive.ai</span>
+                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">Yasas Banuka</span>
+                  <span className="font-sans text-[12px] font-light text-[var(--text-secondary)] truncate">yasas@arcaive.ai</span>
                 </div>
               </div>
               <div className="inline-flex w-fit">
-                <span className="font-sans text-[11px] font-medium bg-black/5 rounded-full px-3 py-1 text-black/70">
+                <span className="font-mono text-[10px] tracking-widest uppercase bg-[var(--glass-border)] rounded-full px-3 py-1 text-[var(--text-secondary)]">
                   Explorer Tier
                 </span>
               </div>
@@ -165,7 +165,7 @@ export default function Sidebar() {
           <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-4`}>
             <Link
               href="/settings"
-              className="text-black/40 hover:text-black transition-colors p-1"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1"
               title="Settings"
             >
               <Settings className="w-5 h-5" />
@@ -175,7 +175,7 @@ export default function Sidebar() {
               <form action={logoutAction} className="flex-1">
                 <button
                   type="submit"
-                  className="w-full text-left font-sans text-[14px] font-medium text-black/60 hover:text-black transition-colors flex items-center gap-2 px-1"
+                  className="w-full text-left font-sans text-[14px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 px-1"
                 >
                   <LogOut className="w-4 h-4" />
                   Log out
@@ -186,7 +186,7 @@ export default function Sidebar() {
             {!isMobile && (
               <button
                 onClick={toggle}
-                className="text-black/20 hover:text-black transition-colors p-1"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1"
               >
                 {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
               </button>

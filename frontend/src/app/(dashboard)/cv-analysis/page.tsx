@@ -72,10 +72,10 @@ export default function CVAnalysisPage() {
     >
       <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div className="space-y-2">
-          <h1 className="font-sans text-[28px] font-bold text-black uppercase tracking-tight">
+          <h1 className="font-sans text-[28px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
             CV Analysis.
           </h1>
-          <p className="font-sans text-[14px] text-[#888880] max-w-xl">
+          <p className="font-sans text-[14px] text-[var(--text-secondary)] max-w-xl">
             Deep semantic alignment engine for precision profile matching.
           </p>
         </div>

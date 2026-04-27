@@ -14,8 +14,8 @@ export default function ThemeToggle() {
       whileTap={{ scale: 0.95 }}
       className={`relative w-10 h-10 flex items-center justify-center transition-[background-color,border-color] duration-200 border ${
         isDark
-          ? "bg-black border-white hover:bg-white/10"
-          : "bg-white border-black hover:bg-[#F5F4EF]"
+          ? "bg-black border-white hover:bg-[var(--glass-bg)]/10"
+          : "bg-[var(--glass-bg)] border-[var(--glass-border)] hover:bg-[var(--glass-border)]"
       }`}
       style={{ borderRadius: 0 }}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
@@ -28,7 +28,7 @@ export default function ThemeToggle() {
         {isDark ? (
           <Sun className="w-4 h-4 text-white/40 hover:text-white/70 transition-colors" />
         ) : (
-          <Moon className="w-4 h-4 text-black/40 hover:text-black/70 transition-colors" />
+          <Moon className="w-4 h-4 text-[var(--text-secondary)] hover:text-[var(--text-secondary)] transition-colors" />
         )}
       </motion.div>
     </motion.button>

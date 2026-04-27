@@ -11,17 +11,17 @@ const MONTHLY_PLANS = MOCK_PLANS.filter((p) => p.billingPeriod === "month");
 const PLAN_CONFIG = {
   explorer: {
     icon: Sparkles,
-    gradient: "bg-white/5",
+    gradient: "bg-[var(--glass-bg)]/5",
     accentColor: "var(--d-text-muted)",
   },
   strategist: {
     icon: Rocket,
-    gradient: "bg-white/5",
+    gradient: "bg-[var(--glass-bg)]/5",
     accentColor: "var(--d-accent)",
   },
   architect: {
     icon: Crown,
-    gradient: "bg-white/5",
+    gradient: "bg-[var(--glass-bg)]/5",
     accentColor: "#000",
   },
 };
@@ -60,7 +60,7 @@ export default function SubscriptionChoosingPage() {
                 show: { opacity: 1 },
               }}
               className={`relative group p-10 flex flex-col transition-[background-color,border-color] duration-200 cursor-pointer border ${
-                plan.isPopular ? "bg-[#F5F4EF] border-black border-2" : "bg-white border-[#E8E6DE] hover:border-black"
+                plan.isPopular ? "bg-[var(--glass-border)] border-[var(--glass-border)] border-2" : "bg-[var(--glass-bg)] border-[var(--glass-border)] hover:border-[var(--glass-border)]"
               }`}
               style={{ borderRadius: 0 }}
               onClick={() => handleSelect(plan.id)}
@@ -75,23 +75,23 @@ export default function SubscriptionChoosingPage() {
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="mb-10">
-                  <div className="w-12 h-12 border border-black flex items-center justify-center bg-white mb-6">
-                    <span className="font-sans text-[20px] font-bold text-black uppercase">{plan.name.charAt(0)}</span>
+                  <div className="w-12 h-12 border border-[var(--glass-border)] flex items-center justify-center bg-[var(--glass-bg)] mb-6">
+                    <span className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">{plan.name.charAt(0)}</span>
                   </div>
-                  <h3 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight mb-2">
+                  <h3 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight mb-2">
                     {plan.name}
                   </h3>
-                  <p className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">
+                  <p className="font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-widest">
                     {PLAN_DESCRIPTIONS[plan.id] || "Great value for your needs"}
                   </p>
                 </div>
 
                 <div className="mb-10">
                   <div className="flex items-baseline gap-1">
-                    <span className="font-sans text-[48px] font-bold text-black tracking-tighter">
+                    <span className="font-sans text-[48px] font-bold text-[var(--text-primary)] tracking-tighter">
                       {plan.price === 0 ? "0€" : `€${plan.price}`}
                     </span>
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
                       /month
                     </span>
                   </div>
@@ -101,13 +101,13 @@ export default function SubscriptionChoosingPage() {
                   <div className="h-[1px] bg-[#E8E6DE] w-full" />
                   <ul className="space-y-4">
                     {plan.features.slice(0, 4).map((feature: string, i: number) => (
-                      <li key={i} className="flex items-start gap-3 font-sans text-[14px] text-black">
-                        <span className="text-[#888880]">—</span>
+                      <li key={i} className="flex items-start gap-3 font-sans text-[14px] text-[var(--text-primary)]">
+                        <span className="text-[var(--text-secondary)]">—</span>
                         <span>{feature}</span>
                       </li>
                     ))}
                     {plan.features.length > 4 && (
-                      <li className="font-mono text-[10px] text-[#888880] uppercase tracking-widest pl-7">
+                      <li className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest pl-7">
                         + {plan.features.length - 4} MORE_FEATURES
                       </li>
                     )}

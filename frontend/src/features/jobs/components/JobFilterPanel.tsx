@@ -28,7 +28,7 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
     >
       <div
         className={`relative w-[14px] h-[14px] border border-[#222] flex items-center justify-center shrink-0 ${
-          checked ? "bg-black" : "bg-white"
+          checked ? "bg-black" : "bg-[var(--glass-bg)]"
         }`}
         style={{ borderRadius: 0 }}
       >
@@ -40,7 +40,7 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
       </div>
       <span
         className={`font-mono text-[11px] uppercase tracking-widest transition-colors ${
-          checked ? "font-bold text-black" : "text-[#888880]"
+          checked ? "font-bold text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
         }`}
       >
         {label}
@@ -97,21 +97,21 @@ export default function JobFilterPanel({
 }: JobFiltersProps) {
   return (
     <div
-      className="p-8 space-y-10 border border-[#E8E6DE] bg-white sticky top-24"
+      className="p-8 space-y-10 border border-[var(--glass-border)] bg-[var(--glass-bg)] sticky top-24"
     >
-      <div className="flex items-center justify-between border-b border-[#E8E6DE] pb-4">
-        <h3 className="font-sans text-[16px] font-bold text-black uppercase tracking-tight">
+      <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4">
+        <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
           Filters
         </h3>
         <button
           onClick={onToggleCollapse}
-          className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
+          className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
         >
           [ HIDE ]
         </button>
       </div>
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
           Employment Type
         </p>
         <div className="space-y-1">
@@ -126,7 +126,7 @@ export default function JobFilterPanel({
         </div>
       </div>
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
           Work Mode
         </p>
         <div className="space-y-1">
@@ -142,7 +142,7 @@ export default function JobFilterPanel({
       </div>
       
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
           Salary Range
         </p>
         <div className="space-y-6">

@@ -33,11 +33,11 @@ export default function Radio({
           checked={checked}
           onChange={() => !disabled && onChange(value)}
           disabled={disabled}
-          className="peer appearance-none w-[14px] h-[14px] border border-[#222] bg-white checked:bg-black  "
+          className="peer appearance-none w-[14px] h-[14px] border border-[#222] bg-[var(--glass-bg)] checked:bg-black  "
         />
       </div>
       {label && (
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
           {label}
         </span>
       )}

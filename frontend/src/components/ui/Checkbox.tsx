@@ -30,7 +30,7 @@ export default function Checkbox({
           onChange={(e) => !disabled && onChange(e.target.checked)}
           disabled={disabled}
           required={required}
-          className="peer appearance-none w-[14px] h-[14px] border border-[#222] bg-white checked:bg-black "
+          className="peer appearance-none w-[14px] h-[14px] border border-[#222] bg-[var(--glass-bg)] checked:bg-black "
           style={{ borderRadius: 0 }}
         />
         <span className="absolute text-white font-mono text-[10px] pointer-events-none opacity-0 peer-checked:opacity-100">
@@ -38,7 +38,7 @@ export default function Checkbox({
         </span>
       </div>
       {label && (
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
           {label}
           {required && <span className="text-accent ml-1">*</span>}
         </span>

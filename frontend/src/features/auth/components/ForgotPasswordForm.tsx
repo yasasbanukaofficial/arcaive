@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
     <>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
             Email Address
           </label>
           <input
@@ -57,7 +57,7 @@ export default function ForgotPasswordForm() {
             className={`w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none ${
               formik.touched.email && formik.errors.email
                 ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
-                : "border-[#E8E6DE] bg-white focus:border-black"
+                : "border-[var(--glass-border)] bg-[var(--glass-bg)] focus:border-[var(--glass-border)]"
             }`}
           />
           <AnimatePresence>

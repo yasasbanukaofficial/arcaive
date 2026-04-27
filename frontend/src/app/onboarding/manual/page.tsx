@@ -144,12 +144,12 @@ export default function ManualOnboardingPage() {
                 Let&apos;s build your professional identity together.
               </p>
             </div>
-            <div className="flex items-center gap-2.5 px-4 py-2  bg-white/[0.03] border border-white/10 backdrop-blur-md">
-              <span className="text-xs font-bold uppercase tracking-widest text-black">Step {currentStep} of {STEPS.length}</span>
+            <div className="flex items-center gap-2.5 px-4 py-2  bg-[var(--glass-bg)]/[0.03] border border-white/10 backdrop-blur-md">
+              <span className="text-xs font-bold uppercase tracking-widest text-[var(--text-primary)]">Step {currentStep} of {STEPS.length}</span>
             </div>
           </div>
 
-          <div className="relative h-1 w-full bg-white/[0.05]  overflow-hidden">
+          <div className="relative h-1 w-full bg-[var(--glass-bg)]/[0.05]  overflow-hidden">
             <motion.div 
               className="absolute top-0 left-0 h-full bg-black"
               initial={{ width: 0 }}
@@ -163,15 +163,15 @@ export default function ManualOnboardingPage() {
               <div key={s.id} className="flex flex-col items-center gap-3 min-w-[80px]">
                 <div className={`w-10 h-10  flex items-center justify-center text-sm font-bold  duration-300 border ${
                   currentStep === s.id 
-                    ? "bg-black border-black text-white scale-110" 
+                    ? "bg-black border-[var(--glass-border)] text-white scale-110" 
                     : currentStep > s.id 
                       ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-400" 
-                      : "bg-white/[0.03] text-white/20 border-white/5"
+                      : "bg-[var(--glass-bg)]/[0.03] text-white/20 border-white/5"
                 }`}>
                   {currentStep > s.id ? <Check className="w-5 h-5" /> : s.id}
                 </div>
                 <span className={`text-[10px] font-bold uppercase tracking-widest ${
-                  currentStep === s.id ? "text-black" : "text-white/20"
+                  currentStep === s.id ? "text-[var(--text-primary)]" : "text-white/20"
                 }`}>
                   {s.title}
                 </span>
@@ -185,7 +185,7 @@ export default function ManualOnboardingPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="bg-white/[0.03] backdrop-blur-xl  border border-white/10 p-8 sm:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]"
+          className="bg-[var(--glass-bg)]/[0.03] backdrop-blur-xl  border border-white/10 p-8 sm:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]"
         >
           {currentStep === 1 && (
             <div className="space-y-8">
@@ -197,7 +197,7 @@ export default function ManualOnboardingPage() {
                 />
                 <div className="space-y-1.5">
                   <label className="text-[13px] font-semibold text-gray-400 ml-1">Email Address</label>
-                  <div className="w-full  px-4 py-3 text-white placeholder:text-gray-600 bg-white/[0.03] border border-white/10 text-sm font-semibold flex items-center">
+                  <div className="w-full  px-4 py-3 text-white placeholder:text-gray-600 bg-[var(--glass-bg)]/[0.03] border border-white/10 text-sm font-semibold flex items-center">
                     {formData.memberEmail}
                   </div>
                   <p className="text-[10px] text-emerald-400/90 uppercase font-bold tracking-widest ml-1">Verified Account</p>
@@ -257,7 +257,7 @@ export default function ManualOnboardingPage() {
               </div>
               <div className="space-y-6">
                 {formData.experiences?.map((exp, idx) => (
-                  <div key={idx} className="relative p-8  bg-white/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
+                  <div key={idx} className="relative p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
                     <button 
                       onClick={() => setFormData({...formData, experiences: formData.experiences?.filter((_, i) => i !== idx)})}
                       className="absolute top-6 right-6 p-2 text-white/20 hover:text-red-400 transition-colors"
@@ -310,7 +310,7 @@ export default function ManualOnboardingPage() {
               </div>
               <div className="space-y-6">
                 {formData.educations?.map((edu, idx) => (
-                  <div key={idx} className="relative p-8  bg-white/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
+                  <div key={idx} className="relative p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
                     <button 
                       onClick={() => setFormData({...formData, educations: formData.educations?.filter((_, i) => i !== idx)})}
                       className="absolute top-6 right-6 p-2 text-white/20 hover:text-red-400 transition-colors"
@@ -359,7 +359,7 @@ export default function ManualOnboardingPage() {
                 </div>
                 <div className="grid grid-cols-1 gap-6">
                   {formData.skills?.map((skill, idx) => (
-                    <div key={idx} className="relative p-8  bg-white/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
+                    <div key={idx} className="relative p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
                       <button 
                         onClick={() => setFormData({...formData, skills: formData.skills?.filter((_, i) => i !== idx)})}
                         className="absolute top-6 right-6 p-2 text-white/20 hover:text-red-400 transition-colors"
@@ -386,7 +386,7 @@ export default function ManualOnboardingPage() {
                 </div>
               </div>
 
-              <div className="space-y-6 p-8  bg-white/[0.03] border border-white/10 hover:border-white/20 ">
+              <div className="space-y-6 p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 hover:border-white/20 ">
                 <h3 className="text-xl font-bold text-white">Languages</h3>
                 <TagInput 
                   placeholder="e.g. English, German"
@@ -409,7 +409,7 @@ export default function ManualOnboardingPage() {
                 </div>
                 <div className="space-y-6">
                   {formData.projects?.map((proj, idx) => (
-                    <div key={idx} className="relative p-8  bg-white/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
+                    <div key={idx} className="relative p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 space-y-6 group hover:border-white/20 ">
                       <button 
                         onClick={() => setFormData({...formData, projects: formData.projects?.filter((_, i) => i !== idx)})}
                         className="absolute top-6 right-6 p-2 text-white/20 hover:text-red-400 transition-colors"
@@ -438,7 +438,7 @@ export default function ManualOnboardingPage() {
                 </div>
               </div>
 
-              <div className="space-y-6 p-8  bg-white/[0.03] border border-white/10 hover:border-white/20 ">
+              <div className="space-y-6 p-8  bg-[var(--glass-bg)]/[0.03] border border-white/10 hover:border-white/20 ">
                 <h3 className="text-xl font-bold text-white">Certifications</h3>
                 <TagInput 
                   placeholder="e.g. AWS Certified Developer"
@@ -455,7 +455,7 @@ export default function ManualOnboardingPage() {
               onClick={handleBack} 
               disabled={currentStep === 1 || submitting}
               icon={<ArrowLeft className="w-4 h-4" />}
-              className="bg-white/[0.03] border-white/10 hover:bg-white/[0.08]"
+              className="bg-[var(--glass-bg)]/[0.03] border-white/10 hover:bg-[var(--glass-bg)]/[0.08]"
             >
               Back
             </Button>
@@ -465,7 +465,7 @@ export default function ManualOnboardingPage() {
               loading={submitting}
               icon={currentStep === STEPS.length ? <Check className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
               iconPosition="right"
-              className="min-w-[160px] bg-black hover:bg-[#222] border border-black"
+              className="min-w-[160px] bg-black hover:bg-[#222] border border-[var(--glass-border)]"
             >
               {currentStep === STEPS.length ? "Finish Setup" : "Continue"}
             </Button>

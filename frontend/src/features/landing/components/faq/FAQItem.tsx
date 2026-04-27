@@ -19,13 +19,13 @@ const FAQItem = ({ question, answer, isOpen, onClick }: Props) => {
         aria-expanded={isOpen}
       >
         <span className={`font-sans text-[18px] font-medium tracking-tight pr-4 transition-colors ${
-          isOpen ? "text-white" : "text-white/40 group-hover:text-white"
+          isOpen ? "text-white" : "text-white/40 group-hover:text-[var(--bg-color)]"
         }`}>
           {question}
         </span>
         <div className="flex-shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-all group-hover:border-white/30 group-hover:scale-110">
           <span className={`font-sans text-[18px] transition-transform duration-500 ${
-            isOpen ? "rotate-45 text-white" : "text-white/20 group-hover:text-white"
+            isOpen ? "rotate-45 text-white" : "text-white/20 group-hover:text-[var(--bg-color)]"
           }`}>
             +
           </span>

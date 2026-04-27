@@ -32,7 +32,7 @@ export default function TopBar() {
       initial="hidden"
       animate="show"
       variants={fadeUp}
-      className="h-[80px] flex items-center justify-between px-6 lg:px-12 bg-white/70 backdrop-blur-xl border-b border-black/[0.03] sticky top-0 z-40 transition-all duration-300"
+      className="h-[80px] flex items-center justify-between px-6 lg:px-12 bg-[var(--glass-bg)] backdrop-blur-xl border-b border-[var(--glass-border)] sticky top-0 z-40 transition-all duration-300"
     >
       <div className="flex items-center gap-6">
         {isMobile && (
@@ -41,60 +41,60 @@ export default function TopBar() {
             className="flex flex-col gap-[4px] shrink-0 lg:hidden p-2 group"
             aria-label="Open menu"
           >
-            <div className="w-5 h-[1.5px] bg-black/80 rounded-full group-hover:w-4 transition-all" />
-            <div className="w-4 h-[1.5px] bg-black/80 rounded-full group-hover:w-5 transition-all" />
-            <div className="w-5 h-[1.5px] bg-black/80 rounded-full group-hover:w-3 transition-all" />
+            <div className="w-5 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-4 transition-all" />
+            <div className="w-4 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-5 transition-all" />
+            <div className="w-5 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-3 transition-all" />
           </button>
         )}
         <div className="flex flex-col">
-          <h1 className="font-sans text-[20px] font-medium text-black tracking-tight leading-none mb-1">
+          <h1 className="font-display text-[20px] tracking-tight uppercase font-bold text-[var(--text-primary)] leading-none mb-1">
             {title}
           </h1>
-          <span className="font-sans text-[11px] font-bold text-black/20 uppercase tracking-widest hidden sm:inline">
+          <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest hidden sm:inline">
             Arcaive / Platform
           </span>
         </div>
       </div>
 
-      <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8">
         {/* Quota */}
         {usage && (
-          <div className="hidden lg:flex items-center gap-4 bg-black/[0.02] border border-black/[0.03] px-4 py-2 rounded-full">
-            <span className="font-sans text-[11px] font-bold text-black/30 uppercase tracking-wider">
+          <div className="hidden lg:flex items-center gap-4 bg-[var(--glass-border)] border border-[var(--glass-border)] px-4 py-2 rounded-full">
+            <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
               Token Usage
             </span>
-            <div className="w-24 h-1 bg-black/[0.05] rounded-full overflow-hidden">
+            <div className="w-24 h-1 bg-[var(--glass-bg)] rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min((usage.cvAnalysisUsed / usage.cvAnalysisLimit) * 100, 100)}%` }}
-                className="h-full bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
+                className="h-full bg-[var(--text-primary)] rounded-full"
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
-            <span className="font-sans text-[12px] font-bold text-black/60">
+            <span className="font-mono text-[12px] font-bold text-[var(--text-primary)]">
               {usage.cvAnalysisUsed}/{usage.cvAnalysisLimit}
             </span>
           </div>
         )}
 
         <div className="flex items-center gap-3">
-          <button className="text-black/40 hover:text-black transition-all p-2 rounded-full hover:bg-[#FAF9F6] border border-transparent hover:border-black/[0.05] group">
+          <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all p-2 rounded-full hover:bg-[var(--glass-border)] border border-transparent hover:border-[var(--glass-border)] group">
             <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>
-          <button className="text-black/40 hover:text-black transition-all p-2 rounded-full hover:bg-[#FAF9F6] border border-transparent hover:border-black/[0.05] group relative">
+          <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all p-2 rounded-full hover:bg-[var(--glass-border)] border border-transparent hover:border-[var(--glass-border)] group relative">
             <Bell className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span className="absolute top-2 right-2.5 w-2 h-2 bg-orange-400 rounded-full border-2 border-white ring-1 ring-orange-400/20" />
+            <span className="absolute top-2 right-2.5 w-2 h-2 bg-[var(--text-primary)] rounded-full border-2 border-[var(--bg-color)]" />
           </button>
 
-          <div className="w-[1px] h-4 bg-black/10 mx-2" />
+          <div className="w-[1px] h-4 bg-[var(--glass-border)] mx-2" />
 
-          <button className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-full border border-black/[0.03] hover:bg-[#FAF9F6] hover:border-black/[0.08] transition-all">
+          <button className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-full border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] hover:border-[var(--text-secondary)] transition-all">
             <div className="flex flex-col items-end text-right mr-1 hidden sm:flex">
-              <span className="font-sans text-[13px] font-medium text-black leading-none mb-1">Yasas Banuka</span>
-              <span className="font-sans text-[10px] font-bold text-black/20 uppercase tracking-tighter">Pro member</span>
+              <span className="font-sans text-[13px] font-medium text-[var(--text-primary)] leading-none mb-1">Yasas Banuka</span>
+              <span className="font-mono text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-tighter">Pro member</span>
             </div>
-            <div className="w-10 h-10 rounded-full bg-beige border border-black/5 flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-500">
-              <span className="font-sans font-bold text-black text-[14px] italic">Y</span>
+            <div className="w-10 h-10 rounded-full bg-[var(--text-primary)] border border-[var(--glass-border)] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-500">
+              <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
             </div>
           </button>
         </div>

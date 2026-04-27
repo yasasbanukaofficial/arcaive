@@ -157,12 +157,12 @@ export default function TagInput({
     <div className={`flex flex-col ${className}`} ref={containerRef}>
       {label && (
         <div className="flex items-center justify-between mb-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
             {label}
             {required && <span className="text-accent ml-1 font-mono">*</span>}
           </label>
           {maxTags && (
-            <span className="font-mono text-[10px] text-[#888880]">
+            <span className="font-mono text-[10px] text-[var(--text-secondary)]">
               {tags.length}/{maxTags}
             </span>
           )}
@@ -174,7 +174,7 @@ export default function TagInput({
           className={`
             flex flex-wrap items-center gap-2 px-[14px] py-[12px] min-h-[50px] border 
             ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-text"}
-            ${error ? "border-[#D83B2A]" : isFocused ? "border-black" : "border-[#E8E6DE] bg-white"}
+            ${error ? "border-[#D83B2A]" : isFocused ? "border-[var(--text-primary)]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
           `}
           style={{ borderRadius: 0 }}
         >
@@ -186,7 +186,7 @@ export default function TagInput({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="inline-flex items-center gap-2 px-2 py-1 border border-[#E8E6DE] bg-[#F5F4EF] font-mono text-[10px] font-bold uppercase tracking-widest text-black shrink-0"
+                className="inline-flex items-center gap-2 px-2 py-1 border border-[var(--glass-border)] bg-[var(--glass-border)] font-mono text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)] shrink-0"
                 style={{ borderRadius: 0 }}
               >
                 <span className="truncate max-w-[150px]">{tag}</span>
@@ -197,7 +197,7 @@ export default function TagInput({
                       e.stopPropagation();
                       removeTag(index);
                     }}
-                    className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
+                    className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                     aria-label={`Remove ${tag}`}
                   >
                     ×
@@ -222,7 +222,7 @@ export default function TagInput({
               onBlur={handleBlur}
               placeholder={tags.length === 0 ? placeholder : ""}
               disabled={disabled}
-              className="flex-1 min-w-[120px] bg-transparent font-sans text-[15px] outline-none placeholder:text-[#888880] py-1"
+              className="flex-1 min-w-[120px] bg-transparent font-sans text-[15px] outline-none placeholder:text-[var(--text-secondary)] py-1"
             />
           )}
         </div>
@@ -232,7 +232,7 @@ export default function TagInput({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute z-50 w-full mt-[-1px] bg-white border border-black overflow-hidden max-h-48 overflow-y-auto"
+              className="absolute z-50 w-full mt-[-1px] bg-[var(--glass-bg)] border border-[var(--text-primary)] overflow-hidden max-h-48 overflow-y-auto"
               style={{ borderRadius: 0 }}
             >
               {filteredSuggestions.map((suggestion) => (
@@ -243,10 +243,10 @@ export default function TagInput({
                     e.preventDefault();
                     addTag(suggestion);
                   }}
-                  className="w-full flex items-center gap-3 px-[14px] py-[10px] text-left hover:bg-[#F5F4EF] transition-colors border-b border-[#E8E6DE] last:border-b-0"
+                  className="w-full flex items-center gap-3 px-[14px] py-[10px] text-left hover:bg-[var(--glass-border)] transition-colors border-b border-[var(--glass-border)] last:border-b-0"
                 >
-                  <span className="font-mono text-[11px] text-[#888880]">→</span>
-                  <span className="font-sans text-[14px] font-medium text-black truncate">{suggestion}</span>
+                  <span className="font-mono text-[11px] text-[var(--text-secondary)]">→</span>
+                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">{suggestion}</span>
                 </button>
               ))}
             </motion.div>
@@ -258,7 +258,7 @@ export default function TagInput({
         <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p className="font-mono text-[10px] text-[#888880] mt-2">
+        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
           {hint}
         </p>
       )}

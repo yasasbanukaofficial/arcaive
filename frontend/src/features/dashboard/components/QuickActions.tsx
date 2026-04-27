@@ -13,28 +13,28 @@ export default function QuickActions() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-white border border-black/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
       {/* Background soft glow */}
       <div className="absolute top-0 left-0 w-48 h-48 bg-blue-100/10 rounded-full blur-[60px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-beige flex items-center justify-center border border-black/[0.03]">
-            <Zap className="w-5 h-5 text-black/60" />
+          <div className="w-10 h-10 rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--glass-border)]/[0.03]">
+            <Zap className="w-5 h-5 text-[var(--text-secondary)]" />
           </div>
           <div>
-            <h3 className="font-sans text-[18px] font-medium text-black tracking-tight">
+            <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               Quick Actions
             </h3>
-            <p className="font-sans text-[12px] text-black/30 font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
               Start from a template
             </p>
           </div>
         </div>
         <Link
           href="/create"
-          className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-black/40 hover:text-black transition-colors border-b border-black/10 hover:border-black"
+          className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--glass-border)] hover:border-[var(--glass-border)]"
         >
           Create New
         </Link>
@@ -48,20 +48,20 @@ export default function QuickActions() {
           <motion.button
             key={template.title}
             variants={fadeUp}
-            className="group relative text-left p-6 bg-[#FAF9F6] border border-black/[0.03] rounded-[24px] transition-all duration-500 hover:bg-white hover:shadow-2xl hover:-translate-y-1"
+            className="group relative text-left p-6 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-2xl hover:-translate-y-1"
           >
             <div className="flex items-start justify-between mb-6">
-              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.1em] text-black/30 border border-black/[0.05] px-3 py-1 rounded-full group-hover:bg-black group-hover:text-white transition-all">
+              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] border border-[var(--glass-border)]/[0.05] px-3 py-1 rounded-full group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all">
                 {template.tag}
               </span>
             </div>
-            <h4 className="font-sans text-[16px] font-medium mb-2 text-black tracking-tight group-hover:text-black transition-colors">
+            <h4 className="font-sans text-[16px] font-medium mb-2 text-[var(--text-primary)] tracking-tight group-hover:text-[var(--text-primary)] transition-colors">
               {template.title}
             </h4>
-            <p className="font-sans text-[13px] leading-relaxed text-black/40 font-light">
+            <p className="font-sans text-[13px] leading-relaxed text-[var(--text-secondary)] font-light">
               {template.description}
             </p>
-            <div className="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-black/[0.05] flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-black group-hover:text-white transition-all duration-500">
+            <div className="absolute bottom-6 right-6 w-8 h-8 rounded-full border border-[var(--glass-border)]/[0.05] flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all duration-500">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </motion.button>

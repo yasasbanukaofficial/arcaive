@@ -22,7 +22,7 @@ export default function JobSearchBar({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full flex flex-col md:flex-row items-stretch border border-[#222] bg-white overflow-hidden"
+      className="w-full flex flex-col md:flex-row items-stretch border border-[#222] bg-[var(--glass-bg)] overflow-hidden"
     >
       <div className="flex-1 flex items-center px-6 py-4">
         <input
@@ -30,7 +30,7 @@ export default function JobSearchBar({
           placeholder="JOB TITLE, KEYWORD, OR COMPANY"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
-          className="w-full bg-transparent outline-none font-sans text-[18px] uppercase font-bold placeholder:text-[#888880]"
+          className="w-full bg-transparent outline-none font-sans text-[18px] uppercase font-bold placeholder:text-[var(--text-secondary)]"
         />
       </div>
 
@@ -41,12 +41,12 @@ export default function JobSearchBar({
             placeholder="LOCATION"
             value={location}
             onChange={(e) => onLocationChange(e.target.value)}
-            className="w-full bg-transparent outline-none font-mono text-[14px] uppercase tracking-widest text-black"
+            className="w-full bg-transparent outline-none font-mono text-[14px] uppercase tracking-widest text-[var(--text-primary)]"
           />
         </div>
         
         <button 
-          className="bg-black text-white px-8 flex items-center justify-center text-[24px] hover:bg-[#D4F461] hover:text-black transition-colors"
+          className="bg-black text-white px-8 flex items-center justify-center text-[24px] hover:bg-[#D4F461] hover:text-[var(--text-primary)] transition-colors"
         >
           →
         </button>

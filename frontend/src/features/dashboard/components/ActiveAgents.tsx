@@ -12,7 +12,7 @@ export default function ActiveAgents() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-white border border-black/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
       {/* Background soft glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-green-100/10 rounded-full blur-[40px] pointer-events-none" />
@@ -20,15 +20,15 @@ export default function ActiveAgents() {
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
           <div>
-            <h3 className="font-sans text-[18px] font-medium text-black tracking-tight">
+            <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               Active Agents
             </h3>
-            <p className="font-sans text-[12px] text-black/30 font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
               Running workflows
             </p>
           </div>
         </div>
-        <button className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-black/40 hover:text-black transition-colors">
+        <button className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
           Manage
         </button>
       </div>
@@ -38,38 +38,38 @@ export default function ActiveAgents() {
           <motion.div
             key={agent.name}
             variants={fadeUp}
-            className="flex items-center gap-5 p-5 bg-[#FAF9F6] border border-black/[0.03] rounded-[24px] transition-all duration-500 hover:bg-white hover:shadow-xl hover:-translate-y-1 group cursor-pointer"
+            className="flex items-center gap-5 p-5 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-xl hover:-translate-y-1 group cursor-pointer"
           >
-            <div className="w-12 h-12 rounded-full border border-black/[0.05] flex items-center justify-center bg-white shrink-0 group-hover:border-black transition-all duration-500 group-hover:scale-110">
-              <span className="font-sans text-[16px] font-bold text-black italic">
+            <div className="w-12 h-12 rounded-full border border-[var(--glass-border)]/[0.05] flex items-center justify-center bg-[var(--glass-bg)] shrink-0 group-hover:border-[var(--glass-border)] transition-all duration-500 group-hover:scale-110">
+              <span className="font-sans text-[16px] font-bold text-[var(--text-primary)] italic">
                 {agent.name.charAt(0)}
               </span>
             </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-1">
-                <p className="font-sans text-[15px] font-medium text-black tracking-tight">
+                <p className="font-sans text-[15px] font-medium text-[var(--text-primary)] tracking-tight">
                   {agent.name}
                 </p>
-                <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-black/5 border border-black/5">
+                <div className="flex items-center gap-2 px-2 py-0.5 rounded-full bg-[var(--glass-border)] border border-[var(--glass-border)]">
                   <span className={`w-1.5 h-1.5 rounded-full ${
-                    agent.status === "active" ? "bg-green-500 animate-pulse" : "bg-black/20"
+                    agent.status === "active" ? "bg-green-500 animate-pulse" : "bg-[var(--glass-border)]"
                   }`} />
-                  <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-black/40">
+                  <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
                     {agent.status}
                   </span>
                 </div>
               </div>
-              <p className="font-sans text-[13px] text-black/40 truncate font-light">
+              <p className="font-sans text-[13px] text-[var(--text-secondary)] truncate font-light">
                 {agent.description}
               </p>
             </div>
 
             <div className="text-right flex-shrink-0">
-              <p className="font-sans text-[22px] font-medium text-black leading-none">
+              <p className="font-sans text-[22px] font-medium text-[var(--text-primary)] leading-none">
                 {agent.tasks}
               </p>
-              <p className="font-sans text-[9px] font-bold uppercase tracking-[0.1em] text-black/20">
+              <p className="font-sans text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)]">
                 Tasks
               </p>
             </div>

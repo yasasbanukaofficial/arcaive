@@ -16,14 +16,14 @@ export default function OAuthCallback() {
   }, [router]);
 
   return (
-    <div className="min-h-screen w-full bg-white text-black flex items-center justify-center font-mono selection:bg-[#D4F461]">
+    <div className="min-h-screen w-full bg-[var(--glass-bg)] text-[var(--text-primary)] flex items-center justify-center font-mono selection:bg-[#D4F461]">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="text-center"
       >
-        <div className="w-8 h-8 border border-black border-t-transparent animate-spin mx-auto mb-6" />
-        <p className="text-[11px] uppercase tracking-widest text-[#888880]">
+        <div className="w-8 h-8 border border-[var(--glass-border)] border-t-transparent animate-spin mx-auto mb-6" />
+        <p className="text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
           Completing sign in...
         </p>
       </motion.div>

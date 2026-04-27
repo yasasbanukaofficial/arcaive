@@ -22,15 +22,15 @@ function getVariantClass(variant: BadgeVariant): string {
     case "red":
       return "border-[#D83B2A] text-[#D83B2A] bg-[#D83B2A]/5";
     case "green":
-      return "border-[#000] text-black bg-[#F5F4EF]";
+      return "border-[#000] text-[var(--text-primary)] bg-[var(--glass-border)]";
     case "blue":
-      return "border-[#000] text-black bg-[#F5F4EF]";
+      return "border-[#000] text-[var(--text-primary)] bg-[var(--glass-border)]";
     case "purple":
-      return "border-[#000] text-black bg-[#F5F4EF]";
+      return "border-[#000] text-[var(--text-primary)] bg-[var(--glass-border)]";
     case "yellow":
-      return "border-[#000] text-black bg-[#F5F4EF]";
+      return "border-[#000] text-[var(--text-primary)] bg-[var(--glass-border)]";
     default:
-      return "border-[#E8E6DE] text-[#888880] bg-white";
+      return "border-[var(--glass-border)] text-[var(--text-secondary)] bg-[var(--glass-bg)]";
   }
 }
 
@@ -66,7 +66,7 @@ export default function Badge({
             e.stopPropagation();
             onRemove?.();
           }}
-          className="ml-2 font-mono text-[11px] hover:text-black transition-colors"
+          className="ml-2 font-mono text-[11px] hover:text-[var(--text-primary)] transition-colors"
           aria-label={`Remove ${children}`}
         >
           ×

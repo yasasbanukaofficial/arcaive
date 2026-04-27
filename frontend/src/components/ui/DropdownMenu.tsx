@@ -161,7 +161,7 @@ export default function DropdownMenu<T extends string | number>({
           ref={panelRef}
           role="listbox"
           tabIndex={-1}
-          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] z-[9999] max-h-[300px] overflow-y-auto bg-white border border-black"
+          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] z-[9999] max-h-[300px] overflow-y-auto bg-[var(--glass-bg)] border border-[var(--text-primary)]"
           style={{
             top: panelPos.top,
             left: panelPos.left,
@@ -179,10 +179,10 @@ export default function DropdownMenu<T extends string | number>({
                   onChange(opt.value);
                   setOpen(false);
                 }}
-                className={`text-left px-[14px] py-[10px] transition-colors border-b border-[#E8E6DE] last:border-b-0 ${
+                className={`text-left px-[14px] py-[10px] transition-colors border-b border-[var(--glass-border)] last:border-b-0 ${
                   opt.value === value
-                    ? "bg-[#F5F4EF] text-black"
-                    : "bg-white hover:bg-[#F5F4EF] text-black"
+                    ? "bg-[var(--glass-border)] text-[var(--text-primary)]"
+                    : "bg-[var(--glass-bg)] hover:bg-[var(--glass-border)] text-[var(--text-primary)]"
                 }`}
                 onMouseEnter={() => (focusedIndexRef.current = idx)}
               >

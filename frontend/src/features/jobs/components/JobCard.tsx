@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -105,13 +105,13 @@ export default function JobCard({ job }: JobCardProps) {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onClick={() => router.push(`/jobs/${encodeURIComponent(job.id)}`)}
-      className="group w-full flex items-center justify-between py-6 px-6 border-b border-[#E8E6DE] bg-white hover:bg-[#F5F4EF] transition-colors cursor-pointer"
+      className="group w-full flex items-center justify-between py-6 px-6 border-b border-[var(--glass-border)] bg-[var(--glass-bg)] hover:bg-[var(--glass-border)] transition-colors cursor-pointer"
     >
       <div className="flex flex-col gap-1 min-w-0">
-        <h3 className="font-sans text-[16px] font-bold text-black uppercase truncate">
+        <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase truncate">
           {job.title}
         </h3>
-        <div className="flex items-center gap-3 font-sans text-[14px] text-[#888880]">
+        <div className="flex items-center gap-3 font-sans text-[14px] text-[var(--text-secondary)]">
           <span className="uppercase">{job.company}</span>
           <span>—</span>
           <span>{job.location}</span>
@@ -120,20 +120,20 @@ export default function JobCard({ job }: JobCardProps) {
 
       <div className="flex items-center gap-12 shrink-0">
         <div className="hidden md:flex flex-col items-end">
-          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest mb-1">POSTED</span>
-          <span className="font-mono text-[12px] text-black">
+          <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest mb-1">POSTED</span>
+          <span className="font-mono text-[12px] text-[var(--text-primary)]">
             {job.postedAt.toUpperCase()}
           </span>
         </div>
 
         <div className="flex flex-col items-end w-24">
-          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest mb-1">MATCH</span>
-          <span className="font-mono text-[14px] font-bold text-black">
+          <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest mb-1">MATCH</span>
+          <span className="font-mono text-[14px] font-bold text-[var(--text-primary)]">
             {matchScore}%
           </span>
         </div>
 
-        <div className="text-black group-hover:translate-x-1 transition-transform">
+        <div className="text-[var(--text-primary)] group-hover:translate-x-1 transition-transform">
           →
         </div>
       </div>

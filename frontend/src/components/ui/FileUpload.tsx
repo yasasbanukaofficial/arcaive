@@ -151,7 +151,7 @@ export default function FileUpload({
     <div className={`space-y-4 ${className}`}>
       {label && (
         <label
-          className="font-mono text-[11px] uppercase tracking-widest text-[#888880]"
+          className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]"
         >
           {label}
         </label>
@@ -165,7 +165,7 @@ export default function FileUpload({
         className={`
           relative py-12 px-6 text-center cursor-pointer  duration-200 border
           ${disabled ? "opacity-40 cursor-not-allowed" : ""}
-          ${isDragging ? "bg-[#F5F4EF] border-black" : "bg-white border-[#E8E6DE]"}
+          ${isDragging ? "bg-[var(--glass-border)] border-[var(--text-primary)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"}
           ${error ? "border-[#D83B2A]" : ""}
         `}
         style={{
@@ -187,10 +187,10 @@ export default function FileUpload({
         />
 
         <div className="flex flex-col items-center gap-4">
-          <div className="font-mono text-[11px] uppercase tracking-widest text-black font-bold">
+          <div className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)] font-bold">
             {isDragging ? "DROP DOCUMENT" : "UPLOAD YOUR CV"}
           </div>
-          <p className="font-sans text-[12px] text-[#888880]">
+          <p className="font-sans text-[12px] text-[var(--text-secondary)]">
             {acceptHint} UP TO {maxSizeMB}MB
           </p>
         </div>
@@ -198,10 +198,10 @@ export default function FileUpload({
 
       {status !== "idle" && (
         <div
-          className="px-4 py-3 flex flex-col gap-2 border border-[#E8E6DE]"
+          className="px-4 py-3 flex flex-col gap-2 border border-[var(--glass-border)]"
         >
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-black">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-primary)]">
               {statusMessage || (status === "uploading" ? "ANALYZING" : status === "success" ? "READY" : "ERROR")}
             </span>
             {status === "uploading" && <span className="font-mono text-[10px]">{progress}%</span>}
@@ -225,11 +225,11 @@ export default function FileUpload({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex items-center justify-between border border-black p-4"
+            className="flex items-center justify-between border border-[var(--text-primary)] p-4"
           >
             <div className="flex flex-col min-w-0">
               <span className="font-sans text-[13px] font-bold truncate uppercase">{f.name}</span>
-              <span className="font-mono text-[10px] text-[#888880]">{formatFileSize(f.size)}</span>
+              <span className="font-mono text-[10px] text-[var(--text-secondary)]">{formatFileSize(f.size)}</span>
             </div>
             <button
               type="button"
@@ -237,7 +237,7 @@ export default function FileUpload({
                 e.stopPropagation();
                 removeFile(i);
               }}
-              className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
+              className="font-mono text-[11px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >
               [ REMOVE ]
             </button>
@@ -249,7 +249,7 @@ export default function FileUpload({
         <p className="font-mono text-[11px] text-[#D83B2A] uppercase tracking-widest">! {error}</p>
       )}
       {hint && !error && (
-        <p className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">
+        <p className="font-mono text-[11px] text-[var(--text-secondary)] uppercase tracking-widest">
           {hint}
         </p>
       )}

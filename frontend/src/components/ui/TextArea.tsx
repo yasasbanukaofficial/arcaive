@@ -37,12 +37,12 @@ export default function TextArea({
     <div className={`flex flex-col ${className}`}>
       {label && (
         <div className="flex items-center justify-between mb-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
             {label}
             {required && <span className="text-accent ml-1 font-mono">*</span>}
           </label>
           {maxLength && (
-            <span className="font-mono text-[10px] text-[#888880]">
+            <span className="font-mono text-[10px] text-[var(--text-secondary)]">
               {value.length}/{maxLength}
             </span>
           )}
@@ -59,10 +59,10 @@ export default function TextArea({
         maxLength={maxLength}
         className={`
           w-full px-[14px] py-[12px] font-sans text-[15px] border 
-          focus:outline-none focus:border-black min-h-[120px]
+          focus:outline-none focus:border-[var(--text-primary)] min-h-[120px]
           disabled:opacity-40 disabled:cursor-not-allowed
           ${resize === "none" ? "resize-none" : "resize-y"}
-          ${error ? "border-[#D83B2A]" : "border-[#E8E6DE] bg-white"}
+          ${error ? "border-[#D83B2A]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
         `}
         style={{ borderRadius: 0 }}
       />
@@ -70,7 +70,7 @@ export default function TextArea({
         <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p className="font-mono text-[10px] text-[#888880] mt-2">
+        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
           {hint}
         </p>
       )}

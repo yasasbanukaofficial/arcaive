@@ -108,14 +108,14 @@ export default function JobDetailsPage() {
   if (loading) {
     return (
       <div className="max-w-300 mx-auto space-y-6 py-4 px-4 sm:px-6">
-        <div className="h-5 w-28 bg-white/5" />
-        <div className="h-80 w-full bg-white/5" />
+        <div className="h-5 w-28 bg-[var(--glass-bg)]/5" />
+        <div className="h-80 w-full bg-[var(--glass-bg)]/5" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
            <div className="lg:col-span-2 space-y-6">
-              <div className="h-64 w-full bg-white/5" />
+              <div className="h-64 w-full bg-[var(--glass-bg)]/5" />
            </div>
            <div className="space-y-6">
-              <div className="h-96 w-full bg-white/5" />
+              <div className="h-96 w-full bg-[var(--glass-bg)]/5" />
            </div>
         </div>
       </div>
@@ -298,18 +298,9 @@ export default function JobDetailsPage() {
                 </span>
               </div>
 
-              <h1 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] sm:leading-tight">
-                <span
-                  style={{
-                    background: "linear-gradient(to bottom right, var(--d-text-primary), var(--d-text-muted))",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
+              <h1 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] sm:leading-tight" style={{ color: "var(--d-text-primary)" }}>
                   {job.title}
-                </span>
-              </h1>
+                </h1>
 
               <div className="flex flex-wrap items-center gap-4 text-[15px] font-semibold">
                 <div
@@ -320,7 +311,7 @@ export default function JobDetailsPage() {
                     color: "var(--d-text-secondary)",
                   }}
                 >
-                  <MapPin className="w-4 h-4 text-[#888880]" />
+                  <MapPin className="w-4 h-4 text-[var(--text-secondary)]" />
                   {job.location}
                 </div>
                 {(job.salary || job.minSalary) && (
@@ -330,7 +321,7 @@ export default function JobDetailsPage() {
                   </div>
                 )}
                 {job.isRemote && (
-                  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-[#E8E6DE] text-black">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-[var(--glass-bg)]/5 border border-[var(--glass-border)] text-[var(--text-primary)]">
                     <Wifi className="w-4 h-4" />
                     Remote Available
                   </div>

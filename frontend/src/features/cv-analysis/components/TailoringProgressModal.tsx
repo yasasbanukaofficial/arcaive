@@ -91,12 +91,12 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
           style={{ borderRadius: 0 }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Tailoring CV
               </h2>
             </div>
@@ -104,7 +104,7 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
 
             <div className="p-[48px] space-y-8">
               <div className="space-y-4">
-                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
                   Our AI agents are optimizing your profile for this specific role.
                 </p>
                 <div className="h-[2px] w-full bg-[#E8E6DE]">
@@ -130,16 +130,16 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
                         opacity: isActive || isCompleted ? 1 : 0.4,
                       }}
                       className={`flex items-start gap-4 p-4 border  duration-300 ${
-                        isActive ? "bg-[#F5F4EF] border-black" : "bg-white border-[#E8E6DE]"
+                        isActive ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"
                       }`}
                     >
-                      <span className="font-mono text-[14px] text-black pt-0.5">
+                      <span className="font-mono text-[14px] text-[var(--text-primary)] pt-0.5">
                         {isCompleted ? "✓" : "→"}
                       </span>
                       
                       <div className="flex-1 space-y-1">
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                             {step.label}
                           </span>
                         </div>
@@ -147,7 +147,7 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
                           <motion.p 
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            className="font-sans text-[13px] leading-relaxed text-[#888880]" 
+                            className="font-sans text-[13px] leading-relaxed text-[var(--text-secondary)]" 
                           >
                             {step.description}
                           </motion.p>
@@ -159,7 +159,7 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
               </div>
 
               <div className="text-center">
-                <p className="font-mono text-[10px] uppercase tracking-widest text-[#888880]">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
                   EST_WAIT_TIME: 10-20_SECONDS
                 </p>
               </div>

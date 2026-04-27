@@ -33,7 +33,7 @@ export default function Toggle({
         onClick={() => !disabled && onChange(!checked)}
         className={`
           relative w-10 h-5 shrink-0  duration-200 mt-1 border
-          ${checked ? "bg-black border-black" : "bg-white border-[#E8E6DE]"}
+          ${checked ? "bg-black border-[var(--text-primary)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"}
         `}
         style={{ borderRadius: 0 }}
       >
@@ -50,12 +50,12 @@ export default function Toggle({
       {(label || description) && (
         <div className="flex flex-col min-w-0">
           {label && (
-            <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
               {label}
             </span>
           )}
           {description && (
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#888880] mt-1">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-secondary)] mt-1">
               {description}
             </span>
           )}

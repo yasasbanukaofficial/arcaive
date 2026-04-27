@@ -6,15 +6,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ─── Oryzo Cinematic Tokens (Physical Architect Vibe) ─── */
-  /* Using deeply muted warm green/browns to emulate the physical environment */
-  --bg-color: #1a1c1a; 
-  --text-primary: #F3EBD9; /* Warm cream/off-white */
-  --text-secondary: rgba(243, 235, 217, 0.5);
-  --border-light: rgba(243, 235, 217, 0.12);
-  --glass-bg: rgba(26, 28, 26, 0.6);
-  --glass-border: rgba(243, 235, 217, 0.08);
-  --grid-color: rgba(243, 235, 217, 0.03);
+  /* ─── Minimalist Vercel-Style Monochrome Tokens ─── */
+  --bg-color: #000000; 
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --border-light: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(10, 10, 10, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --grid-color: rgba(255, 255, 255, 0.04);
 
   --font-sans: "Inter", sans-serif;
   --font-display: "Space Grotesk", sans-serif;

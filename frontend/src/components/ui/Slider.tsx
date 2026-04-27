@@ -67,12 +67,12 @@ export default function Slider({
       {(label || showValue) && (
         <div className="flex items-center justify-between mb-4">
           {label && (
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+            <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
               {label}
             </label>
           )}
           {showValue && (
-            <span className="font-mono text-[13px] font-bold text-black">
+            <span className="font-mono text-[13px] font-bold text-[var(--text-primary)]">
               {value}{valueSuffix}
             </span>
           )}
@@ -119,7 +119,7 @@ export default function Slider({
       </div>
 
       {hint && (
-        <p className="font-mono text-[10px] text-[#888880] mt-2">
+        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
           {hint}
         </p>
       )}

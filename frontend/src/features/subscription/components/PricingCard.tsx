@@ -26,7 +26,7 @@ export default function PricingCard({
       style={{ borderColor: plan.isPopular ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)" }}
     >
       {plan.isPopular && (
-        <span className="absolute top-4 right-4 px-3 py-1  text-xs uppercase tracking-wider bg-white/5 text-white/90 border border-white/20">
+        <span className="absolute top-4 right-4 px-3 py-1  text-xs uppercase tracking-wider bg-[var(--glass-bg)]/5 text-white/90 border border-white/20">
           Popular
         </span>
       )}
@@ -44,9 +44,9 @@ export default function PricingCard({
 
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-px bg-white/8 flex-1" />
+          <div className="h-px bg-[var(--glass-bg)]/8 flex-1" />
           <div className="text-xs uppercase tracking-widest text-gray-400">Features</div>
-          <div className="h-px bg-white/8 flex-1" />
+          <div className="h-px bg-[var(--glass-bg)]/8 flex-1" />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-white/90">
@@ -60,7 +60,7 @@ export default function PricingCard({
       </div>
 
       <div className="mt-6">
-        <Button onClick={() => onSelect(plan.id)} className="w-full  py-2.5 bg-transparent border border-white/12 text-white hover:bg-white/6">
+        <Button onClick={() => onSelect(plan.id)} className="w-full  py-2.5 bg-transparent border border-white/12 text-white hover:bg-[var(--glass-bg)]/6">
           Choose {plan.name}
         </Button>
       </div>

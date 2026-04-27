@@ -242,7 +242,7 @@ export default function JobsPage() {
               <button 
                 key={t}
                 onClick={() => toggleEmploymentType(t)}
-                className="tag border-black bg-black text-white hover:bg-white hover:text-black transition-colors"
+                className="tag border-[var(--glass-border)] bg-black text-white hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
               >
                 {t} [X]
               </button>
@@ -251,7 +251,7 @@ export default function JobsPage() {
               <button 
                 key={r}
                 onClick={() => toggleRemote(r)}
-                className="tag border-black bg-black text-white hover:bg-white hover:text-black transition-colors"
+                className="tag border-[var(--glass-border)] bg-black text-white hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
               >
                 {r.toUpperCase()} [X]
               </button>
@@ -259,23 +259,23 @@ export default function JobsPage() {
           </div>
 
           {loading ? (
-            <div className="flex flex-col border-t border-[#E8E6DE]">
+            <div className="flex flex-col border-t border-[var(--glass-border)]">
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-full h-24 border-b border-[#E8E6DE] flex items-center px-6 gap-8 bg-white/5"
+                  className="w-full h-24 border-b border-[var(--glass-border)] flex items-center px-6 gap-8 bg-[var(--glass-bg)]/5"
                 >
                   <div className="flex-1 space-y-3">
-                    <div className="h-4 w-1/3 bg-[#F5F4EF]" />
-                    <div className="h-3 w-1/4 bg-[#F5F4EF]" />
+                    <div className="h-4 w-1/3 bg-[var(--glass-border)]" />
+                    <div className="h-3 w-1/4 bg-[var(--glass-border)]" />
                   </div>
-                  <div className="w-24 h-8 bg-[#F5F4EF]" />
+                  <div className="w-24 h-8 bg-[var(--glass-border)]" />
                 </div>
               ))}
             </div>
           ) : (
             <>
-              <div className="flex flex-col border-t border-[#E8E6DE]">
+              <div className="flex flex-col border-t border-[var(--glass-border)]">
                 <AnimatePresence mode="popLayout">
                   {filteredJobs.map((job) => (
                     <motion.div

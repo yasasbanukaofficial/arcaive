@@ -115,11 +115,11 @@ export default function SubscriptionSuccessPage() {
 
       <footer className="relative z-10 py-8 text-center border-t border-white/5">
         <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0  cursor-default">
-          <div className="w-1 h-1  bg-white" />
+          <div className="w-1 h-1  bg-[var(--glass-bg)]" />
           <span className="text-[10px] uppercase tracking-[0.2em] font-bold">
             Harness Invisible Power
           </span>
-          <div className="w-1 h-1  bg-white" />
+          <div className="w-1 h-1  bg-[var(--glass-bg)]" />
         </div>
       </footer>
     </div>

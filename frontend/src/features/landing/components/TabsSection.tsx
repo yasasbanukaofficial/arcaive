@@ -79,7 +79,7 @@ export default function TabsSection() {
                   {activeTab === tab.id && (
                     <motion.div
                       layoutId="tabUnderline"
-                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_15px_white]"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[var(--glass-bg)] shadow-[0_0_15px_white]"
                     />
                   )}
                 </button>

@@ -15,7 +15,7 @@ export default function AuthLayout({
   children,
 }: Props) {
   return (
-    <div className="min-h-screen w-full relative flex flex-col bg-[#000000] text-white selection:bg-[#ffffff] selection:text-black overflow-x-hidden">
+    <div className="min-h-screen w-full relative flex flex-col bg-[#000000] text-white selection:bg-[#ffffff] selection:text-[var(--text-primary)] overflow-x-hidden">
       
       {/* Background Graphic */}
       <div className="fixed inset-0 pointer-events-none z-0 flex justify-center">

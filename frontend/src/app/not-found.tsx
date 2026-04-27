@@ -37,14 +37,14 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <Link
             href="/"
-            className="group flex items-center gap-2 bg-[#D1FF00] text-black px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] hover:bg-white transition-colors"
+            className="group flex items-center gap-2 bg-[#D1FF00] text-[var(--text-primary)] px-6 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.1em] hover:bg-[var(--glass-bg)] transition-colors"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
             Back to home
           </Link>
           <Link
             href="/login"
-            className="flex items-center gap-2 px-6 py-3 border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm text-white/60 font-mono text-[12px] uppercase tracking-[0.1em] hover:bg-white/[0.06] hover:border-white/[0.15] hover:text-white transition-all"
+            className="flex items-center gap-2 px-6 py-3 border border-white/[0.08] bg-[var(--glass-bg)]/[0.02] backdrop-blur-sm text-white/60 font-mono text-[12px] uppercase tracking-[0.1em] hover:bg-[var(--glass-bg)]/[0.06] hover:border-white/[0.15] hover:text-white transition-all"
           >
             Sign in
           </Link>

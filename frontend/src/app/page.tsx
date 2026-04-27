@@ -11,7 +11,7 @@ import Experience from "@/components/animations/Experience";
 
 export default function Home() {
   return (
-    <main className="relative selection:bg-[var(--text-primary)] selection:text-black">
+    <main className="relative selection:bg-[var(--text-primary)] selection:text-[var(--text-primary)]">
       <Experience />
       
       <div className="relative z-10 w-full min-h-screen">

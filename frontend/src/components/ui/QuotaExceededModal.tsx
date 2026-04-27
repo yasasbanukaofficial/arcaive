@@ -48,17 +48,17 @@ export default function QuotaExceededModal() {
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
           style={{ borderRadius: 0 }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Quota Limit Reached
               </h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="font-mono text-[18px] text-black hover:opacity-60 transition-opacity"
+                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
               >
                 ×
               </button>
@@ -66,11 +66,11 @@ export default function QuotaExceededModal() {
             <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
             <div className="p-[48px] space-y-6">
-              <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+              <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
                 {message}
               </p>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-                NEED_MORE_HELP? <span className="text-black underline cursor-pointer">CONTACT_SUPPORT</span>
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
+                NEED_MORE_HELP? <span className="text-[var(--text-primary)] underline cursor-pointer">CONTACT_SUPPORT</span>
               </p>
             </div>
 

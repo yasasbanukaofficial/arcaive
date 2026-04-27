@@ -48,28 +48,28 @@ export default function AgentPanel({ duration }: { duration: string }) {
 
   return (
     <AgentSessionProvider session={session}>
-      <div className="flex flex-col w-full h-full bg-white text-black font-sans p-6 gap-8 overflow-hidden">
-        <header className="flex items-center justify-between shrink-0 border-b border-[#E8E6DE] pb-6">
+      <div className="flex flex-col w-full h-full bg-[var(--glass-bg)] text-[var(--text-primary)] font-sans p-6 gap-8 overflow-hidden">
+        <header className="flex items-center justify-between shrink-0 border-b border-[var(--glass-border)] pb-6">
           <div className="flex items-center gap-6">
             <button
               onClick={() => router.back()}
-              className="w-10 h-10 flex items-center justify-center bg-[#F5F4EF] border border-[#E8E6DE] hover:border-black transition-colors"
+              className="w-10 h-10 flex items-center justify-center bg-[var(--glass-border)] border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors"
               style={{ borderRadius: 0 }}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">
+              <h1 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
                 AI Technical Interview
               </h1>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-0.5">
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-0.5">
                 Arcaive • Mock Interview Session
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-black border border-black min-w-[200px] justify-center" style={{ borderRadius: 0 }}>
+            <div className="hidden sm:flex items-center gap-3 px-4 py-2 bg-black border border-[var(--glass-border)] min-w-[200px] justify-center" style={{ borderRadius: 0 }}>
               <div className={`w-2 h-2 ${secondsLeft && secondsLeft > 0 ? 'bg-[#D4F461]' : 'bg-red-500'}`} style={{ borderRadius: 0 }} />
               {secondsLeft === null ? (
                 <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-white">
@@ -85,11 +85,11 @@ export default function AgentPanel({ duration }: { duration: string }) {
                 </span>
               )}
             </div>
-            <button className="w-10 h-10 flex items-center justify-center border border-[#E8E6DE] hover:border-black transition-colors" style={{ borderRadius: 0 }}>
-              <LayoutGrid className="w-5 h-5 text-black" />
+            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: 0 }}>
+              <LayoutGrid className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
-            <button className="w-10 h-10 flex items-center justify-center border border-[#E8E6DE] hover:border-black transition-colors" style={{ borderRadius: 0 }}>
-              <MoreVertical className="w-5 h-5 text-black" />
+            <button className="w-10 h-10 flex items-center justify-center border border-[var(--glass-border)] hover:border-[var(--glass-border)] transition-colors" style={{ borderRadius: 0 }}>
+              <MoreVertical className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
           </div>
         </header>
@@ -98,8 +98,8 @@ export default function AgentPanel({ duration }: { duration: string }) {
           <AgentControls />
         </main>
 
-        <footer className="shrink-0 flex justify-center py-4 border-t border-[#E8E6DE]">
-          <div className="bg-[#F5F4EF] border border-black p-3" style={{ borderRadius: 0 }}>
+        <footer className="shrink-0 flex justify-center py-4 border-t border-[var(--glass-border)]">
+          <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] p-3" style={{ borderRadius: 0 }}>
             <AgentControlBar
               variant="livekit"
               isChatOpen={false}

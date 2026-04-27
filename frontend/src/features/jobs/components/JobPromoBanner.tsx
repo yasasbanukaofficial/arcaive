@@ -9,7 +9,7 @@ export default function JobPromoBanner() {
   return (
     <motion.div
       variants={fadeUp}
-      className=" overflow-hidden relative p-7 flex flex-col justify-between min-h-[250px] bg-white border border-[#E8E6DE]"
+      className=" overflow-hidden relative p-7 flex flex-col justify-between min-h-[250px] bg-[var(--glass-bg)] border border-[var(--glass-border)]"
     >
       <div className="relative z-10">
         <img
@@ -19,7 +19,7 @@ export default function JobPromoBanner() {
         />
 
         <h3
-          className="text-[18px] font-semibold tracking-tight leading-snug mb-2.5 text-black"
+          className="text-[18px] font-semibold tracking-tight leading-snug mb-2.5 text-[var(--text-primary)]"
         >
           Get your best
           <br />
@@ -28,7 +28,7 @@ export default function JobPromoBanner() {
           AI Discovery
         </h3>
         <p
-          className="text-[13px] leading-relaxed mb-5 text-[#888880]"
+          className="text-[13px] leading-relaxed mb-5 text-[var(--text-secondary)]"
         >
           Our agents scan 50+ sources daily to surface the roles you'd thrive
           in.

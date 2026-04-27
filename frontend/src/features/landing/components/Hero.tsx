@@ -17,7 +17,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 flex items-center gap-3 px-5 py-2 bg-white/5 backdrop-blur-xl rounded-full border border-white/10"
+          className="mb-12 flex items-center gap-3 px-5 py-2 bg-[var(--glass-bg)]/5 backdrop-blur-xl rounded-full border border-white/10"
         >
           <span className="font-mono text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">
             System.Protocol(Alpha) — Ready
@@ -51,7 +51,7 @@ export default function Hero() {
         >
           <Link 
             href="/register" 
-            className="group flex items-center gap-6 px-12 py-6 bg-white text-black rounded-full font-sans text-[15px] font-bold uppercase tracking-[0.2em] hover:bg-white/90 transition-all active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
+            className="group flex items-center gap-6 px-12 py-6 bg-[var(--glass-bg)] text-[var(--text-primary)] rounded-full font-sans text-[15px] font-bold uppercase tracking-[0.2em] hover:bg-[var(--glass-bg)]/90 transition-all active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)]"
           >
             Join the Swarm
             <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -61,7 +61,7 @@ export default function Hero() {
             href="/methodology" 
             className="font-sans text-[12px] font-bold uppercase tracking-[0.2em] text-white/20 hover:text-white transition-all flex items-center gap-4 group"
           >
-            <span className="w-10 h-[1px] bg-white/10 group-hover:w-16 group-hover:bg-white transition-all" />
+            <span className="w-10 h-[1px] bg-[var(--glass-bg)]/10 group-hover:w-16 group-hover:bg-[var(--glass-bg)] transition-all" />
             Methodology
           </Link>
         </motion.div>

@@ -44,17 +44,17 @@ export default function DowngradeConfirmModal({
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
           style={{ borderRadius: 0 }}
         >
           <div className="flex flex-col">
             <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
                 Downgrade to {targetPlan}
               </h2>
               <button
                 onClick={onClose}
-                className="font-mono text-[18px] text-black hover:opacity-60 transition-opacity"
+                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
               >
                 ×
               </button>
@@ -63,26 +63,26 @@ export default function DowngradeConfirmModal({
 
             <div className="p-[48px] space-y-8">
               <div className="space-y-4">
-                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
-                  You&apos;re about to downgrade from <span className="text-black font-bold uppercase">{currentPlan}</span> to <span className="text-black font-bold uppercase">{targetPlan}</span>.
+                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                  You&apos;re about to downgrade from <span className="text-[var(--text-primary)] font-bold uppercase">{currentPlan}</span> to <span className="text-[var(--text-primary)] font-bold uppercase">{targetPlan}</span>.
                 </p>
-                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
                   We&apos;re sorry to see you go. Before you proceed, please review the changes.
                 </p>
               </div>
 
               {featuresLost.length > 0 && (
                 <div className="space-y-4">
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
                     FEATURES_YOU_WILL_MISS
                   </span>
                   <ul className="space-y-3">
                     {featuresLost.map((feature, index) => (
                       <li
                         key={index}
-                        className="flex items-center gap-3 font-mono text-[12px] uppercase text-black"
+                        className="flex items-center gap-3 font-mono text-[12px] uppercase text-[var(--text-primary)]"
                       >
-                        <span className="text-[#888880]">→</span>
+                        <span className="text-[var(--text-secondary)]">→</span>
                         {feature.label}
                       </li>
                     ))}

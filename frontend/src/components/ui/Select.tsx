@@ -73,7 +73,7 @@ export default function Select({
   return (
     <div className={`flex flex-col ${className}`} ref={containerRef}>
       {label && (
-        <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mb-2">
+        <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mb-2">
           {label}
           {required && <span className="text-accent ml-1 font-mono">*</span>}
         </label>
@@ -87,13 +87,13 @@ export default function Select({
           className={`
             w-full flex items-center justify-between gap-2
             px-[14px] py-[12px] font-sans text-[15px] text-left border 
-            focus:outline-none focus:border-black
+            focus:outline-none focus:border-[var(--text-primary)]
             disabled:opacity-40 disabled:cursor-not-allowed
-            ${error ? "border-[#D83B2A]" : open ? "border-black" : "border-[#E8E6DE] bg-white"}
+            ${error ? "border-[#D83B2A]" : open ? "border-[var(--text-primary)]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
           `}
           style={{ borderRadius: 0 }}
         >
-          <span className={`truncate ${!selected ? "text-[#888880]" : "text-black"}`}>
+          <span className={`truncate ${!selected ? "text-[var(--text-secondary)]" : "text-[var(--text-primary)]"}`}>
             {selected ? selected.label : placeholder}
           </span>
           <span className="font-mono text-[18px] leading-none">↓</span>
@@ -104,7 +104,7 @@ export default function Select({
               initial={{ opacity: 0, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 0 }}
-              className="absolute z-50 w-full mt-[-1px] bg-white border border-black overflow-hidden max-h-60 overflow-y-auto"
+              className="absolute z-50 w-full mt-[-1px] bg-[var(--glass-bg)] border border-[var(--text-primary)] overflow-hidden max-h-60 overflow-y-auto"
               style={{ borderRadius: 0 }}
             >
               {options.map((option) => {
@@ -118,15 +118,15 @@ export default function Select({
                       setOpen(false);
                     }}
                     className={`
-                      w-full flex flex-col px-[14px] py-[10px] text-left transition-colors border-b border-[#E8E6DE] last:border-b-0
-                      ${isSelected ? "bg-[#F5F4EF]" : "bg-white hover:bg-[#F5F4EF]"}
+                      w-full flex flex-col px-[14px] py-[10px] text-left transition-colors border-b border-[var(--glass-border)] last:border-b-0
+                      ${isSelected ? "bg-[var(--glass-border)]" : "bg-[var(--glass-bg)] hover:bg-[var(--glass-border)]"}
                     `}
                   >
-                    <span className="font-sans text-[14px] font-medium text-black">
+                    <span className="font-sans text-[14px] font-medium text-[var(--text-primary)]">
                       {option.label}
                     </span>
                     {option.description && (
-                      <span className="font-mono text-[10px] text-[#888880] uppercase mt-0.5">
+                      <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase mt-0.5">
                         {option.description}
                       </span>
                     )}
@@ -135,7 +135,7 @@ export default function Select({
               })}
 
               {options.length === 0 && (
-                <div className="px-[14px] py-[12px] font-mono text-[11px] text-[#888880] text-center">
+                <div className="px-[14px] py-[12px] font-mono text-[11px] text-[var(--text-secondary)] text-center">
                   NO_OPTIONS_AVAILABLE
                 </div>
               )}
@@ -148,7 +148,7 @@ export default function Select({
         <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p className="font-mono text-[10px] text-[#888880] mt-2">
+        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
           {hint}
         </p>
       )}

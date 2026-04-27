@@ -14,27 +14,27 @@ export default function UsageChart() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-white border border-black/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
     >
       {/* Background soft glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100/10 rounded-full blur-[40px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-12">
         <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-beige flex items-center justify-center border border-black/[0.03]">
-            <BarChart3 className="w-5 h-5 text-black/60" />
+          <div className="w-10 h-10 rounded-full bg-[var(--bg-color)] flex items-center justify-center border border-[var(--glass-border)]/[0.03]">
+            <BarChart3 className="w-5 h-5 text-[var(--text-secondary)]" />
           </div>
           <div>
-            <h3 className="font-sans text-[18px] font-medium text-black tracking-tight">
+            <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               API Usage
             </h3>
-            <p className="font-sans text-[12px] text-black/30 font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
               Last 7 days
             </p>
           </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-black/5 rounded-full border border-black/5">
-          <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-black/40">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[var(--glass-border)] rounded-full border border-[var(--glass-border)]">
+          <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
             Total Requests
           </span>
         </div>
@@ -52,7 +52,7 @@ export default function UsageChart() {
                 className="w-full relative rounded-t-[12px] overflow-hidden transition-all duration-500 group-hover:shadow-lg origin-bottom"
                 style={{ height: `${(value / maxVal) * 100}%` }}
               >
-                <div className="absolute inset-0 bg-[#FAF9F6] border-t border-x border-black/[0.03] group-hover:bg-gradient-to-t group-hover:from-blue-400/20 group-hover:to-purple-400/20 transition-all duration-500" />
+                <div className="absolute inset-0 bg-[var(--bg-color)] border-t border-x border-[var(--glass-border)]/[0.03] group-hover:bg-gradient-to-t group-hover:from-blue-400/20 group-hover:to-purple-400/20 transition-all duration-500" />
                 <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-black transition-all group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400" />
               </motion.div>
               
@@ -63,7 +63,7 @@ export default function UsageChart() {
                 </span>
               </div>
             </div>
-            <span className="font-sans text-[10px] font-bold text-black/20 uppercase tracking-widest transition-colors group-hover:text-black">
+            <span className="font-sans text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest transition-colors group-hover:text-[var(--text-primary)]">
               {days[i]}
             </span>
           </div>

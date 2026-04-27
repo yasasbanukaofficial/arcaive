@@ -22,24 +22,24 @@ export default function CVAnalysisLoading() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[320px] sm:min-h-[380px] py-8 sm:py-10 px-4 sm:px-6 text-center bg-white border border-[#E8E6DE]">
+    <div className="flex flex-col items-center justify-center min-h-[320px] sm:min-h-[380px] py-8 sm:py-10 px-4 sm:px-6 text-center bg-[var(--glass-bg)] border border-[var(--glass-border)]">
       <div className="mb-8">
-        <div className="w-16 h-16 border border-black flex items-center justify-center relative">
+        <div className="w-16 h-16 border border-[var(--glass-border)] flex items-center justify-center relative">
           <div className="brutalist-spinner" />
         </div>
       </div>
 
       <div className="max-w-md w-full space-y-8">
         <div className="space-y-2">
-          <h3 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">
+          <h3 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
             Processing
           </h3>
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
             Analyzing your CV against job requirements
           </p>
         </div>
         
-        <div className="h-16 border border-black flex items-center justify-center overflow-hidden px-8 bg-[#F5F4EF]">
+        <div className="h-16 border border-[var(--glass-border)] flex items-center justify-center overflow-hidden px-8 bg-[var(--glass-border)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -48,7 +48,7 @@ export default function CVAnalysisLoading() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="font-mono text-[11px] uppercase tracking-widest text-black">
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)]">
                 {steps[currentStep]}
               </p>
             </motion.div>

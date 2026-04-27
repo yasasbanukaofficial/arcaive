@@ -21,10 +21,9 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   const isNoPaddingPage = pathname === "/workflow" || pathname === "/interview";
 
   return (
-    <div
-      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth bg-beige text-black"
-      data-theme="light"
-    >
+    <div className="dashboard-theme min-h-screen z-0 font-sans transition-colors duration-300 scroll-smooth bg-[var(--bg-color)] text-[var(--text-primary)]">
+      <div className="bg-grid-mat" />
+      <div className="noise-overlay" />
       <Sidebar />
       <OnboardingModal />
 

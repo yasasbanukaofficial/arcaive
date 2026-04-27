@@ -151,10 +151,10 @@ const templates = [
     mockup: (
       <div className="flex w-full h-full gap-2">
         <div className="w-1/3 bg-[#0f172a]  p-2 flex flex-col gap-2">
-          <div className="w-full h-1.5 bg-white opacity-20 " />
-          <div className="w-3/4 h-1 bg-white opacity-10 " />
-          <div className="w-full h-1 bg-white opacity-10  mt-4" />
-          <div className="w-full h-1 bg-white opacity-10 " />
+          <div className="w-full h-1.5 bg-[var(--glass-bg)] opacity-20 " />
+          <div className="w-3/4 h-1 bg-[var(--glass-bg)] opacity-10 " />
+          <div className="w-full h-1 bg-[var(--glass-bg)] opacity-10  mt-4" />
+          <div className="w-full h-1 bg-[var(--glass-bg)] opacity-10 " />
         </div>
         <div className="flex-1 flex flex-col gap-2 pt-2">
           <div className="w-1/2 h-1.5 bg-slate-300 " />
@@ -192,8 +192,8 @@ const templates = [
     mockup: (
       <div className="flex flex-col w-full h-full">
         <div className="w-full h-[30%] bg-[#111111] -sm p-3 flex flex-col gap-2">
-          <div className="w-3/4 h-2.5 bg-white opacity-90 " />
-          <div className="w-1/2 h-1.5 bg-white opacity-40 " />
+          <div className="w-3/4 h-2.5 bg-[var(--glass-bg)] opacity-90 " />
+          <div className="w-1/2 h-1.5 bg-[var(--glass-bg)] opacity-40 " />
         </div>
         <div className="flex-1 p-3 flex flex-col gap-4">
           <div className="flex items-center gap-2">
@@ -521,11 +521,11 @@ export default function CreateCVPage() {
 
   const renderTemplateGallery = () => (
     <motion.div variants={dashboardStagger()} initial="hidden" animate="show" className="space-y-12">
-      <motion.div variants={fadeUp} className="border-b border-[#E8E6DE] pb-8">
-        <h1 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">
+      <motion.div variants={fadeUp} className="border-b border-[var(--glass-border)] pb-8">
+        <h1 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
           Choose a Template
         </h1>
-        <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">
+        <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">
           Pick a style to get started
         </p>
       </motion.div>
@@ -546,8 +546,8 @@ export default function CreateCVPage() {
             >
               <div 
                 className={`
-                  relative aspect-[3/4] p-8 bg-[#F5F4EF] border  flex items-center justify-center overflow-hidden
-                  ${isSelected ? "border-black border-2" : "border-[#E8E6DE] group-hover:border-black"}
+                  relative aspect-[3/4] p-8 bg-[var(--glass-border)] border  flex items-center justify-center overflow-hidden
+                  ${isSelected ? "border-[var(--text-primary)] border-2" : "border-[var(--glass-border)] group-hover:border-[var(--text-primary)]"}
                 `}
                 style={{ borderRadius: 0 }}
               >
@@ -563,10 +563,10 @@ export default function CreateCVPage() {
                 </div>
               </div>
               <div className="mt-4 flex items-center justify-between">
-                <h3 className="font-mono text-[11px] font-bold text-black uppercase tracking-widest">
+                <h3 className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-widest">
                   {tpl.name}
                 </h3>
-                <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest">
+                <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest">
                   {tpl.tag}
                 </span>
               </div>
@@ -605,10 +605,10 @@ export default function CreateCVPage() {
       case 3:
         return (
           <div className="space-y-10">
-            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
+            <div className="flex justify-between items-end border-b border-[var(--glass-border)] pb-4">
               <div>
-                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Work Experience</h3>
-                <p className="font-mono text-[10px] text-[#888880] mt-1">MAX 3 ENTRIES ALLOWED</p>
+                <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase">Work Experience</h3>
+                <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-1">MAX 3 ENTRIES ALLOWED</p>
               </div>
               <button 
                 className="btn-ghost px-4 py-2 text-[11px]"
@@ -620,10 +620,10 @@ export default function CreateCVPage() {
             </div>
             <div className="space-y-6">
               {data.workExperience.map((exp, idx) => (
-                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                <div key={idx} className="p-8 bg-[var(--glass-border)] border border-[var(--glass-border)] space-y-6 relative">
                   <button 
                     onClick={() => removeExperience(idx)} 
-                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[var(--text-secondary)] hover:text-[#D83B2A] transition-colors"
                   >
                     [ REMOVE ]
                   </button>
@@ -637,8 +637,8 @@ export default function CreateCVPage() {
                 </div>
               ))}
               {data.workExperience.length === 0 && (
-                <div className="text-center py-16 border border-dashed border-[#E8E6DE]">
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">NO_EXPERIENCE_ADDED</p>
+                <div className="text-center py-16 border border-dashed border-[var(--glass-border)]">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO_EXPERIENCE_ADDED</p>
                 </div>
               )}
             </div>
@@ -647,8 +647,8 @@ export default function CreateCVPage() {
       case 4:
         return (
           <div className="space-y-10">
-            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
-              <h3 className="font-sans text-[16px] font-bold text-black uppercase">Education</h3>
+            <div className="flex justify-between items-end border-b border-[var(--glass-border)] pb-4">
+              <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase">Education</h3>
               <button 
                 className="btn-ghost px-4 py-2 text-[11px]" 
                 onClick={addEducation}
@@ -658,10 +658,10 @@ export default function CreateCVPage() {
             </div>
             <div className="space-y-6">
               {data.education.map((edu, idx) => (
-                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                <div key={idx} className="p-8 bg-[var(--glass-border)] border border-[var(--glass-border)] space-y-6 relative">
                   <button 
                     onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))} 
-                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[var(--text-secondary)] hover:text-[#D83B2A] transition-colors"
                   >
                     [ REMOVE ]
                   </button>
@@ -680,8 +680,8 @@ export default function CreateCVPage() {
         return (
           <div className="space-y-12">
             <div className="space-y-8">
-              <div className="flex items-end justify-between border-b border-[#E8E6DE] pb-4">
-                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Skill Categories</h3>
+              <div className="flex items-end justify-between border-b border-[var(--glass-border)] pb-4">
+                <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase">Skill Categories</h3>
                 <button 
                   className="btn-ghost px-4 py-2 text-[11px]" 
                   onClick={addSkillCategory}
@@ -691,10 +691,10 @@ export default function CreateCVPage() {
               </div>
               <div className="grid grid-cols-1 gap-6">
                 {data.skills.map((cat, idx) => (
-                  <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                  <div key={idx} className="p-8 bg-[var(--glass-border)] border border-[var(--glass-border)] space-y-6 relative">
                     <button 
                       onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))} 
-                      className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                      className="absolute top-6 right-8 font-mono text-[11px] text-[var(--text-secondary)] hover:text-[#D83B2A] transition-colors"
                     >
                       [ REMOVE ]
                     </button>
@@ -706,7 +706,7 @@ export default function CreateCVPage() {
             </div>
             
             <div className="space-y-6">
-              <h3 className="font-sans text-[16px] font-bold text-black uppercase border-b border-[#E8E6DE] pb-4">Languages</h3>
+              <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase border-b border-[var(--glass-border)] pb-4">Languages</h3>
               <TextField 
                 placeholder="English, French, etc." 
                 value={data.languages?.join(", ") || ""} 
@@ -715,8 +715,8 @@ export default function CreateCVPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="flex items-end justify-between border-b border-[#E8E6DE] pb-4">
-                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Certifications</h3>
+              <div className="flex items-end justify-between border-b border-[var(--glass-border)] pb-4">
+                <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase">Certifications</h3>
                 <button 
                   className="btn-ghost px-4 py-2 text-[11px]" 
                   onClick={addCertification}
@@ -730,7 +730,7 @@ export default function CreateCVPage() {
                     <TextField className="flex-1" placeholder="e.g. AWS Certified Solutions Architect" value={cert} onChange={(e) => updateCertification(idx, e.target.value)} />
                     <button 
                       onClick={() => removeCertification(idx)} 
-                      className="mt-10 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                      className="mt-10 font-mono text-[11px] text-[var(--text-secondary)] hover:text-[#D83B2A] transition-colors"
                     >
                       ×
                     </button>
@@ -743,8 +743,8 @@ export default function CreateCVPage() {
       case 6:
         return (
           <div className="space-y-10">
-            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
-              <h3 className="font-sans text-[16px] font-bold text-black uppercase">Projects</h3>
+            <div className="flex justify-between items-end border-b border-[var(--glass-border)] pb-4">
+              <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase">Projects</h3>
               <button 
                 className="btn-ghost px-4 py-2 text-[11px]" 
                 onClick={addProject}
@@ -754,10 +754,10 @@ export default function CreateCVPage() {
             </div>
             <div className="space-y-6">
               {(data.projects || []).map((proj, idx) => (
-                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                <div key={idx} className="p-8 bg-[var(--glass-border)] border border-[var(--glass-border)] space-y-6 relative">
                   <button 
                     onClick={() => removeProject(idx)} 
-                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[var(--text-secondary)] hover:text-[#D83B2A] transition-colors"
                   >
                     [ REMOVE ]
                   </button>
@@ -770,8 +770,8 @@ export default function CreateCVPage() {
                 </div>
               ))}
               {(!data.projects || data.projects.length === 0) && (
-                <div className="text-center py-16 border border-dashed border-[#E8E6DE]">
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">NO_PROJECTS_ADDED</p>
+                <div className="text-center py-16 border border-dashed border-[var(--glass-border)]">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO_PROJECTS_ADDED</p>
                 </div>
               )}
             </div>
@@ -782,14 +782,14 @@ export default function CreateCVPage() {
   };
 
   const renderWizard = () => (
-    <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)] border border-[#E8E6DE] bg-white overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)] border border-[var(--glass-border)] bg-[var(--glass-bg)] overflow-hidden">
       {/* Left: Form Side */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Step Indicator */}
-        <div className="px-12 py-8 border-b border-[#E8E6DE] flex items-center gap-6 overflow-x-auto no-scrollbar bg-white">
+        <div className="px-12 py-8 border-b border-[var(--glass-border)] flex items-center gap-6 overflow-x-auto no-scrollbar bg-[var(--glass-bg)]">
           <button 
             onClick={() => setStage(1)} 
-            className="p-2 -ml-2 text-[#888880] hover:text-black transition-colors shrink-0"
+            className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -802,7 +802,7 @@ export default function CreateCVPage() {
                   <div 
                     className={`
                       flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest whitespace-nowrap pb-1 
-                      ${isCurrent ? "text-black border-b border-black" : "text-[#888880]"}
+                      ${isCurrent ? "text-[var(--text-primary)] border-b border-[var(--glass-border)]" : "text-[var(--text-secondary)]"}
                     `}
                   >
                     {isCompleted && <span>✓</span>}
@@ -816,18 +816,18 @@ export default function CreateCVPage() {
         </div>
 
         {/* Panel Content */}
-        <div className="flex-1 overflow-y-auto p-12 no-scrollbar bg-white">
+        <div className="flex-1 overflow-y-auto p-12 no-scrollbar bg-[var(--glass-bg)]">
           <motion.div key={step} initial="hidden" animate="show" variants={fadeUp}>
              <div className="mb-12">
-               <h2 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">{steps[step - 1].title}</h2>
-               <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">{steps[step - 1].subtitle}</p>
+               <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">{steps[step - 1].title}</h2>
+               <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">{steps[step - 1].subtitle}</p>
              </div>
              {renderStepContent()}
           </motion.div>
         </div>
 
         {/* Wizard Nav */}
-        <div className="px-12 py-8 border-t border-[#E8E6DE] flex justify-between items-center bg-white mt-auto">
+        <div className="px-12 py-8 border-t border-[var(--glass-border)] flex justify-between items-center bg-[var(--glass-bg)] mt-auto">
            <button 
              onClick={handlePrevStep}
              className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
@@ -854,16 +854,16 @@ export default function CreateCVPage() {
       </div>
 
       {/* Right: Live Preview Sidebar */}
-      <div className="hidden lg:flex w-[480px] border-l border-[#E8E6DE] bg-white flex-col">
-        <div className="px-8 py-4 border-b border-[#E8E6DE] flex items-center justify-between bg-white">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+      <div className="hidden lg:flex w-[480px] border-l border-[var(--glass-border)] bg-[var(--glass-bg)] flex-col">
+        <div className="px-8 py-4 border-b border-[var(--glass-border)] flex items-center justify-between bg-[var(--glass-bg)]">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
             LIVE_PREVIEW
           </span>
-          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-wider">
+          <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-wider">
             {selectedTemplate}_TEMPLATE
           </span>
         </div>
-        <div className="flex-1 bg-[#F5F4EF] p-8 flex items-start justify-center overflow-hidden">
+        <div className="flex-1 bg-[var(--glass-border)] p-8 flex items-start justify-center overflow-hidden">
            <div className="w-full h-full shadow-[0_0_40px_rgba(0,0,0,0.05)] origin-top scale-[0.65] lg:scale-[0.55] xl:scale-[0.65]">
              <PDFViewer className="w-full h-full border-none">
                <ActiveResume />
@@ -875,18 +875,18 @@ export default function CreateCVPage() {
   );
 
   const renderPreview = () => (
-    <div className="space-y-12 bg-white p-12 border border-[#E8E6DE]">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[#E8E6DE] pb-10">
+    <div className="space-y-12 bg-[var(--glass-bg)] p-12 border border-[var(--glass-border)]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[var(--glass-border)] pb-10">
         <div className="flex items-center gap-6">
           <button 
             onClick={() => { setStage(2); setStep(6); }} 
-            className="p-2 -ml-2 text-[#888880] hover:text-black transition-colors"
+            className="p-2 -ml-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h2 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">Final Preview</h2>
-            <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">
+            <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">Final Preview</h2>
+            <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">
               {selectedTemplate}_TEMPLATE_SELECTED
             </p>
           </div>
@@ -912,12 +912,12 @@ export default function CreateCVPage() {
         </div>
       </div>
 
-      <div className="bg-[#F5F4EF] border border-[#E8E6DE] overflow-hidden">
-        <div className="bg-white px-8 py-4 border-b border-[#E8E6DE] flex items-center justify-between">
-          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+      <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] overflow-hidden">
+        <div className="bg-[var(--glass-bg)] px-8 py-4 border-b border-[var(--glass-border)] flex items-center justify-between">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
             DOCUMENT_OUTPUT
           </span>
-          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest">
+          <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest">
             ENGINE_STABLE
           </span>
         </div>

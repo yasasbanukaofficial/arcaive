@@ -28,7 +28,7 @@ import {
 function Skeleton({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
     <div 
-      className={`bg-white/5 ${className}`} 
+      className={`bg-[var(--glass-bg)]/5 ${className}`} 
       style={{ 
         backgroundColor: "var(--d-surface-hover)",
         ...style 
@@ -105,16 +105,16 @@ function MetricCard({ label, used, limit }: MetricCardProps) {
   const percentage = isUnlimited ? 100 : Math.min((used / limit) * 100, 100);
   
   return (
-    <div className="space-y-3 py-6 border-b border-[#E8E6DE]">
+    <div className="space-y-3 py-6 border-b border-[var(--glass-border)]">
       <div className="flex justify-between items-end">
-        <span className="font-sans text-[14px] font-bold uppercase text-black">
+        <span className="font-sans text-[14px] font-bold uppercase text-[var(--text-primary)]">
           {label}
         </span>
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
           {used} / {isUnlimited ? "∞" : limit} USED
         </span>
       </div>
-      <div className="h-[4px] w-full border border-[#E8E6DE] bg-white">
+      <div className="h-[4px] w-full border border-[var(--glass-border)] bg-[var(--glass-bg)]">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}
@@ -175,20 +175,20 @@ export default function UsagePage() {
       variants={dashboardStagger(0.04, 0.02)}
       className="max-w-[800px] mx-auto space-y-16 pb-20 px-6"
     >
-      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-black pb-8">
+      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-[var(--glass-border)] pb-8">
         <div className="space-y-2">
-          <h1 className="font-sans text-[28px] font-bold text-black uppercase tracking-tight">
+          <h1 className="font-sans text-[28px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
             Your Usage.
           </h1>
-          <p className="font-sans text-[14px] text-[#888880]">
+          <p className="font-sans text-[14px] text-[var(--text-secondary)]">
             System resource consumption and plan boundaries.
           </p>
         </div>
 
         <div className="flex flex-col items-start md:items-end gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#888880]">CURRENT_SUBSCRIPTION</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">CURRENT_SUBSCRIPTION</span>
           <div className="flex items-center gap-4">
-            <span className="tag border-black bg-black text-white px-4 py-2 text-[12px]">
+            <span className="tag border-[var(--glass-border)] bg-black text-white px-4 py-2 text-[12px]">
               {subscription.currentPlan.toUpperCase()} TIER
             </span>
             <button className="btn-ghost py-2 text-[10px]">
@@ -210,12 +210,12 @@ export default function UsagePage() {
         ))}
       </motion.div>
 
-      <motion.div variants={fadeUp} className="p-8 border border-[#E8E6DE] bg-[#F5F4EF] space-y-4">
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">NEXT_RESET_CYCLE</span>
+      <motion.div variants={fadeUp} className="p-8 border border-[var(--glass-border)] bg-[var(--glass-border)] space-y-4">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NEXT_RESET_CYCLE</span>
         <div className="font-sans text-[24px] font-bold">
           {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
         </div>
-        <p className="font-sans text-[14px] text-[#888880]">
+        <p className="font-sans text-[14px] text-[var(--text-secondary)]">
           All quotas will be automatically restored to their maximum values on this date.
         </p>
       </motion.div>
