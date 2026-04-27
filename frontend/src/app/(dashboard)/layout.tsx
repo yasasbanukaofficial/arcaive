@@ -24,8 +24,11 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
     <div
       className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth"
       data-theme={theme}
-      style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
+      style={{ backgroundColor: "var(--black)", color: "var(--white)" }}
     >
+      {/* Subtle grid background */}
+      <div className="fixed inset-0 grid-lines opacity-[0.03] pointer-events-none z-0" />
+
       <Sidebar />
       <OnboardingModal />
 

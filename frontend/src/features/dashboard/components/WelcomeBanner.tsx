@@ -2,44 +2,44 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import { fadeUp } from "./animations";
-import Button from "@/components/ui/Button";
-import { useTheme } from "./ThemeContext";
-import Logo from "@/components/ui/Logo";
+import Link from "next/link";
 
 export default function WelcomeBanner() {
-  const { isDark } = useTheme();
   return (
     <motion.div
       variants={fadeUp}
-      className="relative overflow-hidden bg-white p-8 lg:p-12 transition-[border-color] duration-300 border border-[#E8E6DE]"
-      style={{ borderRadius: 0 }}
+      className="relative overflow-hidden bg-[#0A0A0A] border border-white/[0.06] p-8 lg:p-10"
     >
-      <div className="absolute top-0 right-0 w-32 h-full bg-[#F5F4EF] opacity-50 pointer-events-none" />
+      {/* Background glow */}
+      <div className="absolute top-0 right-0 w-[300px] h-full bg-[radial-gradient(ellipse_at_right,_rgba(209,255,0,0.06)_0%,_transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 grid-lines opacity-10 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-        <div className="flex items-start gap-6">
-          <div className="w-12 h-12 border border-black flex items-center justify-center bg-white shrink-0">
-            <Logo size={32} showText={false} />
+        <div className="flex items-start gap-5">
+          <div className="w-12 h-12 bg-[#D1FF00] flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5 text-black" />
           </div>
           <div className="space-y-2">
-            <h2 className="font-sans text-[24px] font-bold text-black uppercase tracking-tight">
+            <h2 className="font-sans text-[20px] sm:text-[24px] font-bold text-white uppercase tracking-tight">
               Welcome back
             </h2>
-            <p className="font-sans text-[15px] leading-relaxed max-w-xl text-[#888880]">
-              Your AI agents have been busy. <span className="text-black font-bold">3 NEW APPLICATIONS</span> submitted and <span className="text-black font-bold">2 INTERVIEWS</span> scheduled while you were away.
+            <p className="font-sans text-[14px] leading-relaxed max-w-xl text-white/40">
+              Your AI agents have been busy.{" "}
+              <span className="text-[#D1FF00] font-bold">3 NEW APPLICATIONS</span> submitted and{" "}
+              <span className="text-[#D1FF00] font-bold">2 INTERVIEWS</span> scheduled while you were away.
             </p>
           </div>
         </div>
 
-        <Button
-          variant="primary"
-          size="md"
-          className="whitespace-nowrap"
+        <Link
+          href="/overview"
+          className="inline-flex items-center gap-2 bg-[#D1FF00] text-black px-6 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.1em] hover:bg-white transition-colors whitespace-nowrap"
         >
-          VIEW_SUMMARY →
-        </Button>
+          VIEW SUMMARY
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
     </motion.div>
   );

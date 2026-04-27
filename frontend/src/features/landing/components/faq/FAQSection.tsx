@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import FAQItem from "./FAQItem";
-import SectionHeader from "@/components/layout/SectionHeader";
 
 const faqData = [
   {
@@ -45,21 +42,24 @@ const FAQSection = () => {
   return (
     <section
       id="faq"
-      className="py-32 px-6 bg-white border-t border-[#E8E6DE]"
+      className="py-32 px-6 lg:px-10 bg-black border-t border-white/[0.06]"
     >
       <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
-        <div className="lg:col-span-4 flex flex-col gap-4">
+        <div className="lg:col-span-4 flex flex-col gap-5">
           <div className="flex items-center gap-4">
-            <span className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">[05]</span>
-            <div className="w-12 h-[1px] bg-[#E8E6DE]" />
+            <span className="font-mono text-[11px] text-[#D1FF00] tracking-[0.15em]">[08]</span>
+            <div className="w-12 h-[1px] bg-white/10" />
           </div>
-          <h2 className="font-sans text-[32px] font-bold leading-tight tracking-[-0.03em] text-black">
-            Frequently <br />
-            asked.
+          <h2 className="font-sans text-[36px] sm:text-[42px] font-bold leading-tight tracking-[-0.03em] text-white uppercase">
+            Frequently<br />
+            <span className="text-[#D1FF00]">asked.</span>
           </h2>
+          <p className="font-sans text-[14px] text-white/30 leading-relaxed mt-2">
+            Everything you need to know about ARCAIVE.
+          </p>
         </div>
 
-        <div className="lg:col-span-8 border-t border-[#E8E6DE]">
+        <div className="lg:col-span-8 border-t border-white/[0.06]">
           {faqData.map((item, index) => (
             <FAQItem
               key={index}
