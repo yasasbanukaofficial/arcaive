@@ -1,7 +1,7 @@
 "use client";
 
 import useLiveKitToken from "@/features/interview/hooks/useLiveKitToken";
-import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
+import { LiveKitRoom, RoomAudioRenderer, SessionProvider, useSession } from "@livekit/components-react";
 import "@livekit/components-styles";
 import AgentPanel from "@/features/interview/components/AgentPanel";
 import InterviewSetupModal from "@/features/interview/components/InterviewSetupModal";
@@ -9,6 +9,11 @@ import { jobAPI } from "@/features/jobs/api/jobAPI";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { JobListing } from "@/@types/jobs";
+
+function InterviewSession({ children }: { children: React.ReactNode }) {
+  const session = useSession();
+  return <SessionProvider session={session}>{children}</SessionProvider>;
+}
 
 export default function InterviewPage() {
   const params = useSearchParams();
@@ -73,7 +78,9 @@ export default function InterviewPage() {
               className="flex-1 flex flex-col min-h-0"
             >
               <RoomAudioRenderer />
-              <AgentPanel duration={duration}/>
+              <InterviewSession>
+                <AgentPanel duration={duration}/>
+              </InterviewSession>
             </LiveKitRoom>
           )}
         </div>

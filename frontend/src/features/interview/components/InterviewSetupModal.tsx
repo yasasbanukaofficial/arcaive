@@ -34,88 +34,70 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/70"
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="relative w-full max-w-[560px] bg-[var(--bg-color)] border border-[var(--glass-border)] overflow-hidden shadow-2xl"
           style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
-            <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
-                Interview Setup
-              </h2>
-                  <button
-                    onClick={onStart}
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
-                  >
-                    ×
-                  </button>
+            <div className="flex items-center justify-between px-8 sm:px-12 py-8 bg-[var(--glass-bg)]">
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--text-secondary)] mb-1 block">Protocol Initialization</span>
+                <h2 className="font-sans text-[20px] sm:text-[24px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
+                  Interview Setup
+                </h2>
+              </div>
+              <button
+                onClick={onStart}
+                className="w-10 h-10 flex items-center justify-center text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] transition-all"
+                style={{ borderRadius: "var(--radius)" }}
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            
+            <div className="h-[1px] bg-[var(--glass-border)]" />
 
-            <div className="p-[48px] space-y-8">
-              <div className="space-y-2">
+            <div className="px-8 sm:px-12 py-10 space-y-10">
+              <div className="space-y-4">
                 <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  Please review these important details before starting your mock interview.
+                  Verify your environment and permissions before proceeding to the session.
                 </p>
               </div>
 
-              <div className="grid gap-6">
-                <div className="flex gap-4">
-                  <span className="font-mono text-[14px] text-[var(--text-primary)]">→</span>
-                  <div className="space-y-1">
-                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)]">Allow Microphone Access</h3>
-                    <p className="font-sans text-[13px] text-[var(--text-secondary)]">Enable your microphone so the interviewer can hear you clearly.</p>
+              <div className="space-y-6">
+                {[
+                  { title: "Standard Protocol", desc: "Enable microphone for high-fidelity communication analysis." },
+                  { title: "Secure Buffer", desc: "No session data is archived or processed externally." },
+                  { title: "Network Link", desc: "Refreshing the node will terminate the active session." },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-6 items-start group">
+                    <span className="font-mono text-[11px] text-[var(--text-secondary)] opacity-30 mt-1 shrink-0">0{idx + 1}</span>
+                    <div className="space-y-1">
+                       <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)] font-black group-hover:translate-x-1 transition-transform">{item.title}</h3>
+                       <p className="font-sans text-[13px] text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex gap-4">
-                  <span className="font-mono text-[14px] text-[var(--text-primary)]">→</span>
-                  <div className="space-y-1">
-                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)]">Privacy Guaranteed</h3>
-                    <p className="font-sans text-[13px] text-[var(--text-secondary)]">Your interview is private. No audio or video is recorded.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <span className="font-mono text-[14px] text-[var(--text-primary)]">→</span>
-                  <div className="space-y-1">
-                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)]">Temporary Data</h3>
-                    <p className="font-sans text-[13px] text-[var(--text-secondary)]">Details provided are temporary and not stored in our database.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <span className="font-mono text-[14px] text-[var(--text-primary)]">→</span>
-                  <div className="space-y-1">
-                    <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)]">Refresh to Reset</h3>
-                    <p className="font-sans text-[13px] text-[var(--text-secondary)]">Refreshing clears session data and ends the call.</p>
-                  </div>
-                </div>
+                ))}
               </div>
-
-              <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] text-center pt-4">
-                Secure session powered by Arcaive AI
-              </p>
             </div>
 
-            <div className="mt-4">
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
-              <div className="px-[48px] py-8 flex justify-end gap-4">
-                <button
-                  className="w-full py-4 text-[13px] font-bold uppercase tracking-widest transition-transform active:scale-95"
-                  style={{ 
-                    backgroundColor: "#000000", 
-                    color: "#ffffff",
-                    borderRadius: "var(--radius)"
-                  }}
+            <div className="p-8 sm:p-12 pt-0">
+               <button
+                  className="w-full py-5 text-[12px] font-black uppercase tracking-[0.3em] transition-all bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 active:scale-95 shadow-xl"
+                  style={{ borderRadius: "var(--radius)" }}
                   onClick={onStart}
                 >
-                  START MOCK INTERVIEW
+                  INITIALIZE SESSION
                 </button>
-              </div>
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] text-center mt-6 opacity-40">
+                  ARCAIVE_OS | TECHNICAL_CORE_v2
+                </p>
             </div>
           </div>
         </motion.div>

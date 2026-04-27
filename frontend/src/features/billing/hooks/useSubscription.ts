@@ -65,7 +65,7 @@ function mapToMemberSubscription(
 
 export function useSubscription() {
   return useQuery({
-    queryKey: ["subscription", "usage-quota"],
+    queryKey: ["subscription"],
     queryFn: async () => {
       const [subscriptionData, usageQuotaData] = await Promise.all([
         subscriptionAPI.getMemberSubscription(),
@@ -77,8 +77,8 @@ export function useSubscription() {
       
       return memberSubscription;
     },
-    staleTime: 2 * 60 * 1000,
-    refetchOnWindowFocus: true,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -89,7 +89,7 @@ export function useUsageQuota() {
       const data = await subscriptionAPI.getUsageQuota();
       return mapToUsageQuota(data);
     },
-    staleTime: 2 * 60 * 1000,
-    refetchOnWindowFocus: true,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 }

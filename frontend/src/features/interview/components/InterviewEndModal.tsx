@@ -82,86 +82,81 @@ export default function InterviewEndModal({ isOpen }: InterviewEndModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/70"
+          className="absolute inset-0 bg-black/80 backdrop-blur-md"
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
+          initial={{ opacity: 0, scale: 0.9, rotateX: 10 }}
+          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          className="relative w-full max-w-[600px] bg-[var(--bg-color)] border border-[var(--glass-border)] overflow-hidden shadow-2xl"
           style={{ borderRadius: "var(--radius)" }}
         >
           <div className="flex flex-col">
-            <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
-                Session Complete
-              </h2>
-              <button
-                className="font-mono text-[18px] text-[var(--text-primary)] hover:opacity-60 transition-opacity"
-              >
-                ×
-              </button>
+            <div className="flex flex-col items-center justify-center px-8 py-12 bg-[var(--glass-bg)] text-center relative overflow-hidden">
+               <div className="absolute inset-0 opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
+               <motion.div 
+                 initial={{ scale: 0 }}
+                 animate={{ scale: 1 }}
+                 className="w-20 h-20 bg-[var(--text-primary)] text-[var(--bg-color)] flex items-center justify-center rounded-full mb-6 shadow-xl"
+               >
+                 <CheckCircle2 className="w-10 h-10" />
+               </motion.div>
+               <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--text-secondary)] mb-2">Protocol Finalized</span>
+               <h2 className="font-sans text-[28px] sm:text-[32px] font-bold text-[var(--text-primary)] uppercase tracking-tighter">
+                 Session Complete
+               </h2>
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            
+            <div className="h-[1px] bg-[var(--glass-border)]" />
 
-            <div className="p-[48px] space-y-8">
-              <div className="space-y-2 text-center">
-                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  Your performance metrics have been analyzed by Arcaive AI. Excellent work today.
-                </p>
+            <div className="p-10 sm:p-14 space-y-10">
+              <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)] text-center max-w-sm mx-auto">
+                Performance metrics have been synthesized by the Arcaive Neural Engine.
+              </p>
+
+              <div className="space-y-8">
+                {[
+                  { label: "Communication Clarity", score: 8.5, icon: MessageSquare },
+                  { label: "Technical Proficiency", score: 7.8, icon: Brain },
+                  { label: "Strategic Thinking", score: 9.2, icon: TrendingUp },
+                ].map((stat, i) => (
+                  <div key={i} className="space-y-3">
+                    <div className="flex justify-between items-end">
+                      <div className="flex items-center gap-3">
+                        <stat.icon className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] font-bold">{stat.label}</span>
+                      </div>
+                      <span className="font-mono text-[12px] font-black">{stat.score} <span className="opacity-20">/ 10</span></span>
+                    </div>
+                    <div className="h-[2px] w-full bg-[var(--glass-border)] overflow-hidden">
+                       <motion.div 
+                         initial={{ width: 0 }}
+                         animate={{ width: `${stat.score * 10}%` }}
+                         transition={{ delay: 0.5 + (i * 0.2), duration: 1 }}
+                         className="h-full bg-[var(--text-primary)]" 
+                       />
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <div className="flex justify-between items-end">
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">Communication Clarity</span>
-                    <span className="font-mono text-[13px] font-bold text-[var(--text-primary)]">8.5 / 10</span>
-                  </div>
-                  <div className="h-[2px] w-full bg-[#E8E6DE]">
-                    <div className="h-full bg-black" style={{ width: "85%" }} />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between items-end">
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">Technical Proficiency</span>
-                    <span className="font-mono text-[13px] font-bold text-[var(--text-primary)]">7.8 / 10</span>
-                  </div>
-                  <div className="h-[2px] w-full bg-[#E8E6DE]">
-                    <div className="h-full bg-black" style={{ width: "78%" }} />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between items-end">
-                    <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">Strategic Thinking</span>
-                    <span className="font-mono text-[13px] font-bold text-[var(--text-primary)]">9.2 / 10</span>
-                  </div>
-                  <div className="h-[2px] w-full bg-[#E8E6DE]">
-                    <div className="h-full bg-black" style={{ width: "92%" }} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center gap-2 pt-4">
-                <span className="w-1.5 h-1.5 bg-black" />
-                <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
-                  Auto-redirecting in {timeLeft}s
+              <div className="flex items-center justify-center gap-4 pt-6 opacity-40">
+                <Clock className="w-3 h-3" />
+                <p className="font-mono text-[9px] uppercase tracking-widest">
+                  Auto-routing in {timeLeft}s
                 </p>
               </div>
             </div>
 
-            <div className="mt-4">
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
-              <div className="px-[48px] py-8 flex justify-end gap-4">
-                <button
-                  className="btn-primary w-full"
+            <div className="p-10 sm:p-14 pt-0">
+               <button
+                  className="w-full py-5 text-[12px] font-black uppercase tracking-[0.3em] transition-all bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 active:scale-95 shadow-xl"
+                  style={{ borderRadius: "var(--radius)" }}
                   onClick={() => router.push("/overview")}
                 >
-                  RETURN TO DASHBOARD
+                  CONSOLIDATE & EXIT
                 </button>
-              </div>
             </div>
           </div>
         </motion.div>
