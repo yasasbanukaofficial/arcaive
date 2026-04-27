@@ -32,17 +32,16 @@ export default function PasswordInput({
           onChange={onChange ?? (() => {})}
           onBlur={onBlur}
           placeholder={placeholder}
-          className={`w-full px-4 py-[14px] pr-16 font-sans text-[15px] border  focus:outline-none ${
+          className={`w-full px-4 py-3 pr-14 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] placeholder-[#444444] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] ${
             error
-              ? "border-[#D83B2A]"
-              : "border-[#E8E6DE] bg-white focus:border-black"
+              ? "border-red-500/50 focus:border-red-500"
+              : "border-[#222222] focus:border-[#666666]"
           }`}
-          style={{ borderRadius: 0 }}
         />
         <button
           type="button"
           onClick={() => setShow(!show)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] uppercase tracking-widest text-[#888880] hover:text-black transition-colors"
+          className="absolute right-0 top-1/2 -translate-y-1/2 oryzo-label hover:text-[var(--text-primary)] transition-colors"
           aria-label={show ? "Hide password" : "Show password"}
         >
           {show ? "HIDE" : "SHOW"}

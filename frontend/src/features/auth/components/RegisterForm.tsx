@@ -1,17 +1,15 @@
 "use client";
 import React, { useActionState, useEffect, startTransition } from "react";
 import Link from "next/link";
-import { ArrowRight, Briefcase, Globe, Clock } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import Button from "@/components/ui/Button";
-import { useRouter } from "next/navigation";
 import { registerAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
+import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { registerSchema } from "@/utils/validationSchemas";
+import { ArrowRight } from "lucide-react";
 
 const EXPERIENCE_OPTIONS = [
   "Fresh Graduate",
@@ -71,42 +69,41 @@ export default function RegisterForm() {
   }, [state]);
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none ${
+    `w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] placeholder-[#444444] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] ${
       touched && error
-        ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
-        : "border-[#E8E6DE] bg-white focus:border-black"
+        ? "border-red-500/50 focus:border-red-500"
+        : "border-[#222222] focus:border-[#666666]"
     }`;
 
   const selectClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none appearance-none cursor-pointer ${
+    `w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] appearance-none cursor-pointer ${
       touched && error
-        ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
-        : "border-[#E8E6DE] bg-white focus:border-black"
+        ? "border-red-500/50 focus:border-red-500"
+        : "border-[#222222] focus:border-[#666666]"
     }`;
 
   return (
     <>
-      <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
-
-      <div className="relative flex items-center gap-4 py-2">
-        <div className="h-px flex-1 bg-[#E8E6DE]"></div>
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-          — OR —
-        </span>
-        <div className="h-px flex-1 bg-[#E8E6DE]"></div>
+      <div className="w-full">
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </div>
 
-      <form className="space-y-6" onSubmit={formik.handleSubmit}>
-        {/* ─── Account Details ─── */}
-        <div className="space-y-6">
+      <div className="relative flex items-center gap-4 py-8">
+        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+        <span className="font-sans text-[12px] text-[#888888]">or continue with email</span>
+        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+      </div>
+
+      <form className="space-y-5" onSubmit={formik.handleSubmit}>
+        <div className="space-y-4">
           <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-              Full name
+            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              Full Name
             </label>
             <input
               name="memberFullName"
               type="text"
-              placeholder="YOUR NAME"
+              placeholder="John Doe"
               value={formik.values.memberFullName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -119,22 +116,22 @@ export default function RegisterForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                  className="font-sans text-[12px] mt-2 text-red-400"
                 >
-                  ! {formik.errors.memberFullName}
+                  {formik.errors.memberFullName}
                 </motion.p>
               )}
             </AnimatePresence>
           </div>
 
           <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
               Email Address
             </label>
             <input
               name="memberEmail"
               type="email"
-              placeholder="NAME@COMPANY.COM"
+              placeholder="name@example.com"
               value={formik.values.memberEmail}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -147,59 +144,53 @@ export default function RegisterForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                  className="font-sans text-[12px] mt-2 text-red-400"
                 >
-                  ! {formik.errors.memberEmail}
+                  {formik.errors.memberEmail}
                 </motion.p>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-              Password
-            </label>
-            <PasswordInput
-              name="memberPassword"
-              value={formik.values.memberPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.memberPassword && formik.errors.memberPassword ? formik.errors.memberPassword : undefined}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-              Confirm password
-            </label>
-            <PasswordInput
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : undefined}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+                Password
+              </label>
+              <PasswordInput
+                name="memberPassword"
+                placeholder="••••••••"
+                value={formik.values.memberPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.memberPassword && formik.errors.memberPassword ? formik.errors.memberPassword : undefined}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+                Confirm Password
+              </label>
+              <PasswordInput
+                name="confirmPassword"
+                placeholder="••••••••"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : undefined}
+              />
+            </div>
           </div>
         </div>
 
-        {/* ─── Job Details Section ─── */}
-        <div className="space-y-6">
-          <div className="relative flex items-center gap-4 pt-4">
-            <div className="h-px flex-1 bg-[#E8E6DE]"></div>
-            <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-              JOB DETAILS
-            </span>
-            <div className="h-px flex-1 bg-[#E8E6DE]"></div>
-          </div>
-
+        <div className="space-y-4 pt-4 border-t border-[#222222]">
           <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-              Job Role
+            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              Target Role
             </label>
             <input
               name="jobRole"
               type="text"
-              placeholder="SOFTWARE ENGINEER"
+              placeholder="e.g. Software Engineer"
               value={formik.values.jobRole}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -212,18 +203,18 @@ export default function RegisterForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                  className="font-sans text-[12px] mt-2 text-red-400"
                 >
-                  ! {formik.errors.jobRole}
+                  {formik.errors.jobRole}
                 </motion.p>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-                Experience
+              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+                Experience Level
               </label>
               <div className="relative">
                 <select
@@ -234,11 +225,11 @@ export default function RegisterForm() {
                   className={selectClass(formik.touched.experience, formik.errors.experience)}
                 >
                   <option value="" disabled>
-                    SELECT…
+                    Select experience
                   </option>
                   {EXPERIENCE_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
-                      {opt.toUpperCase()}
+                      {opt}
                     </option>
                   ))}
                 </select>
@@ -250,22 +241,22 @@ export default function RegisterForm() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
-                    className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                    className="font-sans text-[12px] mt-2 text-red-400"
                   >
-                    ! {formik.errors.experience}
+                    {formik.errors.experience}
                   </motion.p>
                 )}
               </AnimatePresence>
             </div>
 
             <div className="space-y-2">
-              <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-                Country
+              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+                Location
               </label>
               <input
                 name="country"
                 type="text"
-                placeholder="USA"
+                placeholder="e.g. United States"
                 value={formik.values.country}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -278,9 +269,9 @@ export default function RegisterForm() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
-                    className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                    className="font-sans text-[12px] mt-2 text-red-400"
                   >
-                    ! {formik.errors.country}
+                    {formik.errors.country}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -290,21 +281,22 @@ export default function RegisterForm() {
 
         <button
           type="submit"
-          className="btn-primary w-full mt-4"
+          className="w-full mt-8 group flex items-center justify-center gap-2 bg-[#ffffff] text-[#000000] px-6 py-3 hover:bg-[#e0e0e0] transition-colors duration-200 rounded-lg"
           disabled={isPending}
         >
-          {isPending ? "CREATING..." : "CREATE ACCOUNT"}
+          <span className="font-sans text-[14px] font-semibold">{isPending ? "Creating account..." : "Sign Up"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
         </button>
       </form>
 
-      <div className="text-center pb-8">
-        <p className="text-center font-sans text-[14px] text-[#888880] mt-8">
+      <div className="text-center pt-6">
+        <p className="text-center font-sans text-[14px] text-[#888888]">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="text-black font-bold hover:underline underline-offset-4"
+            className="text-[#ffffff] font-medium hover:text-[#cccccc] transition-colors"
           >
-            SIGN IN
+            Sign in
           </Link>
         </p>
       </div>

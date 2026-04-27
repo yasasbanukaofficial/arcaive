@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
+import Navbar from "@/components/layout/Navbar";
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
 
 type Props = {
   title?: string;
@@ -15,53 +15,39 @@ export default function AuthLayout({
   children,
 }: Props) {
   return (
-    <div className="min-h-screen w-full flex flex-col md:flex-row bg-white selection:bg-[#D4F461] selection:text-black">
-      {/* Left Panel - Black Editorial */}
-      <div className="hidden md:flex md:w-1/2 bg-black p-12 lg:p-16 flex-col justify-between text-white relative overflow-hidden">
-        {/* Noise Overlay */}
-        <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] pointer-events-none" />
-        
-        <div className="relative z-10">
-          <div className="font-mono text-[16px] font-bold uppercase tracking-[0.2em] mb-24">
-            ARCAIVE
-          </div>
-          
-          <h1 className="font-sans text-[48px] lg:text-[56px] font-bold leading-[1.1] tracking-[-0.03em] mb-8">
-            Your career, <br />
-            optimized.
-          </h1>
-          
-          <div className="space-y-3 font-mono text-[11px] uppercase tracking-widest text-white/60">
-            <p>— CV ANALYSIS</p>
-            <p>— JOB MATCHING</p>
-            <p>— MOCK INTERVIEWS</p>
-          </div>
-        </div>
-
-        <div className="relative z-10">
-          <p className="font-sans text-[15px] text-white/40 max-w-sm leading-relaxed">
-            Built for engineers who are serious about what comes next.
-          </p>
-        </div>
+    <div className="min-h-screen w-full relative flex flex-col bg-[#000000] text-white selection:bg-[#ffffff] selection:text-black overflow-x-hidden">
+      
+      {/* Background Graphic */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex justify-center">
+        <div className="w-[1px] h-full bg-gradient-to-b from-[#ffffff]/0 via-[#ffffff]/10 to-[#ffffff]/0" />
       </div>
 
-      {/* Right Panel - White Form */}
-      <main className="flex-1 flex flex-col items-center justify-center p-8 lg:p-16">
-        <div className="w-full max-w-[400px]">
-          <header className="mb-10">
-            <h2 className="font-sans text-[24px] font-bold text-black mb-2 tracking-tight">
+      <div className="w-full relative z-50">
+        <Navbar />
+      </div>
+
+      <main className="flex-1 w-full flex flex-col items-center justify-center p-6 lg:p-12 relative z-10 pt-24 lg:pt-0">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.94, filter: "blur(4px)" }}
+          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-[400px] mx-auto"
+        >
+          <header className="mb-10 text-center">
+            <h1 className="font-sans text-[28px] font-semibold text-[#ffffff] tracking-tight mb-2">
               {title}
-            </h2>
-            <p className="font-sans text-[#888880] text-[14px]">
+            </h1>
+            <p className="font-sans text-[15px] text-[#888888]">
               {subtitle}
             </p>
           </header>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {children}
           </div>
-        </div>
+        </motion.div>
       </main>
+      
     </div>
   );
 }

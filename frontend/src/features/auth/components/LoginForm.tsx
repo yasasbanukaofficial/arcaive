@@ -2,18 +2,15 @@
 
 import React, { useActionState, useEffect, startTransition } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import Button from "@/components/ui/Button";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-// Single stagger on form only — no nested stagger wrappers
 import { loginAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { loginSchema } from "@/utils/validationSchemas";
+import { ArrowRight } from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -52,19 +49,19 @@ export default function LoginForm() {
 
   return (
     <>
-      <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
-
-      <div className="relative flex items-center gap-4 py-2">
-        <div className="h-px flex-1 bg-[#E8E6DE]"></div>
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
-          — OR —
-        </span>
-        <div className="h-px flex-1 bg-[#E8E6DE]"></div>
+      <div className="w-full">
+        <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </div>
 
-      <form onSubmit={formik.handleSubmit} className="space-y-6">
+      <div className="relative flex items-center gap-4 py-8">
+        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+        <span className="font-sans text-[12px] text-[#888888]">or continue with email</span>
+        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+      </div>
+
+      <form onSubmit={formik.handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
             Email Address
           </label>
           <input
@@ -73,11 +70,11 @@ export default function LoginForm() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="NAME@COMPANY.COM"
-            className={`w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none ${
+            placeholder="name@example.com"
+            className={`w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] placeholder-[#444444] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] ${
               formik.touched.email && formik.errors.email
-                ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
-                : "border-[#E8E6DE] bg-white focus:border-black"
+                ? "border-red-500/50 focus:border-red-500"
+                : "border-[#222222] focus:border-[#666666]"
             }`}
           />
           <AnimatePresence>
@@ -87,22 +84,22 @@ export default function LoginForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                className="font-sans text-[12px] mt-2 text-red-400"
               >
-                ! {formik.errors.email}
+                {formik.errors.email}
               </motion.p>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="space-y-2">
-          <div className="flex justify-between items-center">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+        <div className="space-y-2 pb-4">
+          <div className="flex justify-between items-center mb-0">
+            <label className="font-sans text-[13px] font-medium text-[#cccccc]">
               Password
             </label>
             <Link
               href="/forgot-password"
-              className="font-sans text-[12px] text-[#888880] hover:text-black transition-colors"
+              className="font-sans text-[12px] text-[#888888] hover:text-[#ffffff] transition-colors"
             >
               Forgot password?
             </Link>
@@ -112,27 +109,29 @@ export default function LoginForm() {
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            placeholder="••••••••"
             error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
           />
         </div>
 
         <button
           type="submit"
-          className="btn-primary w-full mt-4"
+          className="w-full group flex items-center justify-center gap-2 bg-[#ffffff] text-[#000000] px-6 py-3 hover:bg-[#e0e0e0] transition-colors duration-200 rounded-lg"
           disabled={isPending}
         >
-          {isPending ? "SIGNING IN..." : "SIGN IN"}
+          <span className="font-sans text-[14px] font-semibold">{isPending ? "Signing in..." : "Sign In"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
         </button>
       </form>
 
       <div className="text-center">
-        <p className="text-center font-sans text-[14px] text-[#888880] mt-8">
+        <p className="text-center font-sans text-[14px] text-[#888888] mt-8">
           Don't have an account?{" "}
           <Link
             href="/register"
-            className="text-black font-bold hover:underline underline-offset-4"
+            className="text-[#ffffff] font-medium hover:text-[#cccccc] transition-colors"
           >
-            Create one for free
+            Sign up
           </Link>
         </p>
       </div>

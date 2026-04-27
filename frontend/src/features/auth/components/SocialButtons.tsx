@@ -18,7 +18,7 @@ export default function SocialButtons({
     return `${baseUrl}${separator}redirect_uri=${encodeURIComponent(oauthCallbackUrl)}`;
   };
 
-  const buttonStyle = "cursor-pointer flex items-center justify-center gap-3 py-[14px] px-[28px] border border-black bg-white text-black font-mono text-[11px] font-bold uppercase tracking-[0.15em]  hover:bg-[#F5F4EF]";
+  const buttonStyle = "w-full cursor-pointer flex items-center justify-center gap-3 py-3 px-4 border border-[#222222] bg-[#0a0a0a] text-[#ffffff] font-sans text-[14px] font-medium hover:bg-[#1a1a1a] transition-colors duration-200 rounded-lg";
 
   return (
     <div className="grid grid-cols-1 gap-3">
