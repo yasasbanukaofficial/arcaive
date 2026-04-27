@@ -45,55 +45,31 @@ const FAQSection = () => {
   return (
     <section
       id="faq"
-      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20"
+      className="py-32 px-6 bg-white border-t border-[#E8E6DE]"
     >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="FAQ"
-            title="Your questions,"
-            subtitle="answered with clarity"
-          />
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
+        <div className="lg:col-span-4 flex flex-col gap-4">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">[05]</span>
+            <div className="w-12 h-[1px] bg-[#E8E6DE]" />
+          </div>
+          <h2 className="font-sans text-[32px] font-bold leading-tight tracking-[-0.03em] text-black">
+            Frequently <br />
+            asked.
+          </h2>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.1, 0.1)}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-0 items-start"
-        >
-          <div className="flex flex-col">
-            {faqData.slice(0, 3).map((item, index) => (
-              <motion.div key={index} variants={bounceIn}>
-                <FAQItem
-                  question={item.question}
-                  answer={item.answer}
-                  isOpen={openIndex === index}
-                  onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-                />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="flex flex-col">
-            {faqData.slice(3).map((item, index) => {
-              const actualIndex = index + 3;
-              return (
-                <motion.div key={actualIndex} variants={bounceIn}>
-                  <FAQItem
-                    question={item.question}
-                    answer={item.answer}
-                    isOpen={openIndex === actualIndex}
-                    onClick={() =>
-                      setOpenIndex(openIndex === actualIndex ? -1 : actualIndex)
-                    }
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
+        <div className="lg:col-span-8 border-t border-[#E8E6DE]">
+          {faqData.map((item, index) => (
+            <FAQItem
+              key={index}
+              question={item.question}
+              answer={item.answer}
+              isOpen={openIndex === index}
+              onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

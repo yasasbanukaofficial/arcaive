@@ -1,32 +1,30 @@
 'use client';
 
 import { type ComponentProps } from 'react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { useSessionContext } from '@livekit/components-react';
-import { type VariantProps } from 'class-variance-authority';
 import { PhoneOffIcon } from 'lucide-react';
 
 /**
  * Props for the AgentDisconnectButton component.
  */
 export interface AgentDisconnectButtonProps
-  extends ComponentProps<'button'>,
-    VariantProps<typeof buttonVariants> {
+  extends Omit<ComponentProps<typeof Button>, 'size' | 'variant' | 'children'> {
   /**
    * Custom icon to display. Defaults to PhoneOffIcon.
    */
   icon?: React.ReactNode;
   /**
    * The size of the button.
-   * @default 'default'
+   * @default 'md'
    */
-  size?: 'default' | 'sm' | 'lg' | 'icon';
+  size?: 'sm' | 'md' | 'lg';
   /**
    * The variant of the button.
-   * @default 'destructive'
+   * @default 'danger'
    */
-  variant?: 'default' | 'outline' | 'destructive' | 'ghost' | 'link';
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'white';
   /**
    * The children to render.
    */
@@ -50,8 +48,8 @@ export interface AgentDisconnectButtonProps
  */
 export function AgentDisconnectButton({
   icon,
-  size = 'default',
-  variant = 'destructive',
+  size = 'md',
+  variant = 'danger',
   children,
   onClick,
   ...props
@@ -67,7 +65,7 @@ export function AgentDisconnectButton({
   return (
     <Button size={size} variant={variant} onClick={handleClick} {...props}>
       {icon ?? <PhoneOffIcon />}
-      {children ?? <span className={cn(size?.includes('icon') && 'sr-only')}>END CALL</span>}
+      {children ?? <span>END CALL</span>}
     </Button>
   );
 }

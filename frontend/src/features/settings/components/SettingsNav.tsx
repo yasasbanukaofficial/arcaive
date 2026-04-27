@@ -81,7 +81,7 @@ export default function SettingsNav({
             key={item.id}
             type="button"
             onClick={() => onSectionChange(item.id)}
-            className="relative flex items-start gap-3 w-full px-3 py-3 rounded-xl text-left transition-all duration-200 group"
+            className="relative flex items-start gap-3 w-full px-3 py-3  text-left  duration-200 group"
             style={{
               backgroundColor: isActive
                 ? isDark
@@ -93,7 +93,7 @@ export default function SettingsNav({
             {isActive && (
               <motion.div
                 layoutId="settings-nav-active"
-                className="absolute inset-0 rounded-xl"
+                className="absolute inset-0 "
                 style={{
                   backgroundColor: isDark
                     ? "var(--d-surface-active)"
@@ -105,7 +105,7 @@ export default function SettingsNav({
             )}
 
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
+              className="w-9 h-9  flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
               style={{
                 backgroundColor: isActive
                   ? isDark

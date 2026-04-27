@@ -10,7 +10,6 @@ import {
   VideoIcon,
   VideoOffIcon,
 } from 'lucide-react';
-import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
 
 export const agentTrackToggleVariants = cva(['size-9'], {
@@ -140,14 +139,15 @@ export function AgentTrackToggle({
     onPressedChange?.(nextPressed);
   };
 
+  const isPressed = isControlled ? pressed : uncontrolledPressed;
+
   return (
-    <Toggle
-      size={size}
-      variant={variant}
-      pressed={isControlled ? pressed : undefined}
-      defaultPressed={isControlled ? undefined : defaultPressed}
+    <button
+      type="button"
+      size={size as any}
       aria-label={`Toggle ${source}`}
-      onPressedChange={handlePressedChange}
+      aria-pressed={isPressed}
+      onClick={() => handlePressedChange(!isPressed)}
       className={cn(
         agentTrackToggleVariants({
           size,
@@ -155,10 +155,10 @@ export function AgentTrackToggle({
           className,
         }),
       )}
-      {...props}
+      {...(props as any)}
     >
       <IconComponent className={cn(pending && 'animate-spin')} />
       {props.children}
-    </Toggle>
+    </button>
   );
 }

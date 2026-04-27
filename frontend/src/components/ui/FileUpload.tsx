@@ -148,44 +148,29 @@ export default function FileUpload({
     .join(", ");
 
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`space-y-4 ${className}`}>
       {label && (
         <label
-          className="block text-[13px] font-medium ml-0.5"
-          style={{ color: "var(--d-text-tertiary)" }}
+          className="font-mono text-[11px] uppercase tracking-widest text-[#888880]"
         >
           {label}
         </label>
       )}
-      <motion.div
+      <div
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onClick={() => !disabled && inputRef.current?.click()}
-        animate={{
-          scale: isDragging ? 1.01 : 1,
-          borderColor: isDragging
-            ? "rgba(59, 130, 246, 0.4)"
-            : error
-              ? "rgba(239, 68, 68, 0.4)"
-              : "rgba(255, 255, 255, 0.1)",
-        }}
-        transition={{ duration: 0.15 }}
         className={`
-          relative rounded-xl py-8 px-6 text-center cursor-pointer
-          transition-all duration-200 group
+          relative py-12 px-6 text-center cursor-pointer  duration-200 border
           ${disabled ? "opacity-40 cursor-not-allowed" : ""}
+          ${isDragging ? "bg-[#F5F4EF] border-black" : "bg-white border-[#E8E6DE]"}
+          ${error ? "border-[#D83B2A]" : ""}
         `}
         style={{
-          backgroundColor: isDragging
-            ? "rgba(59, 130, 246, 0.04)"
-            : "rgba(255, 255, 255, 0.03)",
-          border: error
-            ? "1.5px dashed rgba(239, 68, 68, 0.4)"
-            : isDragging
-              ? "1.5px dashed rgba(59, 130, 246, 0.4)"
-              : "1.5px dashed rgba(255, 255, 255, 0.1)",
+          borderStyle: "dashed",
+          borderRadius: 0,
         }}
       >
         <input
@@ -201,186 +186,50 @@ export default function FileUpload({
           className="hidden"
         />
 
-        <div className="flex flex-col items-center gap-3">
-          <motion.div
-            animate={{
-              y: isDragging ? -4 : 0,
-              scale: isDragging ? 1.1 : 1,
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-200"
-            style={{
-              backgroundColor: isDragging
-                ? "rgba(59, 130, 246, 0.1)"
-                : "var(--d-surface-active)",
-              border: `1px solid ${isDragging ? "rgba(59, 130, 246, 0.2)" : "var(--d-border)"}`,
-            }}
-          >
-            <Upload
-              className="w-4.5 h-4.5 transition-colors duration-200"
-              style={{
-                color: isDragging
-                  ? "rgba(59, 130, 246, 0.7)"
-                  : "var(--d-text-muted)",
-              }}
-            />
-          </motion.div>
-
-          <div>
-            <p
-              className="text-[13px] font-medium mb-1"
-              style={{
-                color: isDragging
-                  ? "rgba(59, 130, 246, 0.8)"
-                  : "var(--d-text-secondary)",
-              }}
-            >
-              {isDragging
-                ? "Drop your files here"
-                : "Drag & drop files here, or click to browse"}
-            </p>
-            <p
-              className="text-[12px]"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              {acceptHint} up to {maxSizeMB}MB
-            </p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="font-mono text-[11px] uppercase tracking-widest text-black font-bold">
+            {isDragging ? "DROP DOCUMENT" : "UPLOAD YOUR CV"}
           </div>
+          <p className="font-sans text-[12px] text-[#888880]">
+            {acceptHint} UP TO {maxSizeMB}MB
+          </p>
         </div>
-      </motion.div>
-      {status !== "idle" && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="rounded-xl px-4 py-3 flex items-center gap-3"
-          style={{
-            backgroundColor:
-              status === "uploading"
-                ? "rgba(59, 130, 246, 0.05)"
-                : status === "success"
-                  ? "rgba(34, 197, 94, 0.05)"
-                  : "rgba(239, 68, 68, 0.05)",
-            border: `1px solid ${
-              status === "uploading"
-                ? "rgba(59, 130, 246, 0.15)"
-                : status === "success"
-                  ? "rgba(34, 197, 94, 0.15)"
-                  : "rgba(239, 68, 68, 0.15)"
-            }`,
-          }}
-        >
-          {status === "uploading" && (
-            <svg
-              className="animate-spin w-4 h-4 shrink-0"
-              style={{ color: "rgba(59, 130, 246, 0.6)" }}
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="3"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
-          )}
-          {status === "success" && (
-            <CheckCircle
-              className="w-4 h-4 shrink-0"
-              style={{ color: "rgba(34, 197, 94, 0.7)" }}
-            />
-          )}
-          {status === "error" && (
-            <AlertCircle
-              className="w-4 h-4 shrink-0"
-              style={{ color: "rgba(239, 68, 68, 0.7)" }}
-            />
-          )}
+      </div>
 
-          <div className="flex-1 min-w-0">
-            <p
-              className="text-[12px] font-medium"
-              style={{
-                color:
-                  status === "uploading"
-                    ? "rgba(59, 130, 246, 0.8)"
-                    : status === "success"
-                      ? "rgba(34, 197, 94, 0.8)"
-                      : "rgba(239, 68, 68, 0.8)",
-              }}
-            >
-              {statusMessage ||
-                (status === "uploading"
-                  ? "Processing..."
-                  : status === "success"
-                    ? "Upload complete"
-                    : "Upload failed")}
-            </p>
-            {status === "uploading" && typeof progress === "number" && (
-              <div
-                className="mt-1.5 h-1 rounded-full overflow-hidden"
-                style={{ backgroundColor: "rgba(59, 130, 246, 0.1)" }}
-              >
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="h-full rounded-full"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.7))",
-                  }}
-                />
-              </div>
-            )}
+      {status !== "idle" && (
+        <div
+          className="px-4 py-3 flex flex-col gap-2 border border-[#E8E6DE]"
+        >
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-black">
+              {statusMessage || (status === "uploading" ? "ANALYZING" : status === "success" ? "READY" : "ERROR")}
+            </span>
+            {status === "uploading" && <span className="font-mono text-[10px]">{progress}%</span>}
           </div>
-        </motion.div>
+          
+          {status === "uploading" && typeof progress === "number" && (
+            <div className="h-[2px] w-full bg-[#E8E6DE]">
+              <div 
+                className="h-full bg-black  duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
+        </div>
       )}
+
       <AnimatePresence mode="popLayout">
         {files.map((f, i) => (
           <motion.div
             key={`${f.name}-${i}`}
-            layout
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: -16, height: 0 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="flex items-center gap-3 rounded-xl px-3.5 py-2.5"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex items-center justify-between border border-black p-4"
           >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-              style={{
-                backgroundColor: "var(--d-surface-active)",
-                border: "1px solid var(--d-border)",
-              }}
-            >
-              {getFileIcon(f.type)}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p
-                className="text-[13px] font-medium truncate"
-                style={{ color: "var(--d-text-secondary)" }}
-              >
-                {f.name}
-              </p>
-              <p
-                className="text-[11px]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                {formatFileSize(f.size)}
-              </p>
+            <div className="flex flex-col min-w-0">
+              <span className="font-sans text-[13px] font-bold truncate uppercase">{f.name}</span>
+              <span className="font-mono text-[10px] text-[#888880]">{formatFileSize(f.size)}</span>
             </div>
             <button
               type="button"
@@ -388,36 +237,19 @@ export default function FileUpload({
                 e.stopPropagation();
                 removeFile(i);
               }}
-              className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-150"
-              style={{
-                color: "var(--d-text-muted)",
-                backgroundColor: "transparent",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "rgba(239, 68, 68, 0.1)";
-                e.currentTarget.style.color = "rgba(239, 68, 68, 0.7)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--d-text-muted)";
-              }}
-              aria-label={`Remove ${f.name}`}
+              className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
             >
-              <X className="w-3.5 h-3.5" />
+              [ REMOVE ]
             </button>
           </motion.div>
         ))}
       </AnimatePresence>
 
       {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
+        <p className="font-mono text-[11px] text-[#D83B2A] uppercase tracking-widest">! {error}</p>
       )}
       {hint && !error && (
-        <p
-          className="text-[12px] ml-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">
           {hint}
         </p>
       )}

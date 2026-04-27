@@ -201,128 +201,110 @@ export default function OnboardingModal() {
     <AnimatePresence>
       {open && !minimized && (
         <motion.div
-          className="fixed inset-0 z-1000 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+          <div className="absolute inset-0 bg-black/70" />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-[2.5rem] border shadow-2xl"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: "rgba(255, 255, 255, 0.08)",
-            }}
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 0 }}
+            className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+            style={{ borderRadius: 0 }}
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden">
-              <motion.div 
-                className="h-full bg-blue-500"
-                initial={{ width: "0%" }}
-                animate={{ width: `${progress}%` }}
-              />
-            </div>
-
-            <div className="p-8 sm:p-10">
-              <div className="mb-8 text-center space-y-3">
-                <div className="mx-auto w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                  <Sparkles className="w-8 h-8 text-blue-400" />
-                </div>
-                <div className="space-y-1">
-                  <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-                    Welcome to Arcaive
-                  </h2>
-                  <p className="text-[15px]" style={{ color: "var(--d-text-muted)" }}>
-                    Let&apos;s personalize your experience. How would you like to set up your profile?
-                  </p>
-                </div>
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between px-[48px] py-6">
+                <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+                  Welcome to Arcaive
+                </h2>
               </div>
+              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-              <div className="space-y-4">
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  disabled={uploading}
-                  className="group relative w-full p-6 rounded-3xl border text-left transition-all hover:bg-white/5 active:scale-[0.98] disabled:opacity-50"
-                  style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
-                >
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors">
-                      {uploading ? <BrainCircuit className="w-7 h-7 text-blue-400 animate-pulse" /> : <FileUp className="w-7 h-7 text-blue-400" />}
+              <div className="p-[48px] space-y-8">
+                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                  Let&apos;s personalize your experience. How would you like to set up your profile?
+                </p>
+
+                <div className="space-y-4">
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="group relative w-full p-6 border border-[#E8E6DE] text-left  hover:bg-[#F5F4EF] disabled:opacity-50"
+                  >
+                    <div className="flex items-center gap-5">
+                      <span className="font-mono text-[18px] text-black">→</span>
+                      <div className="flex-1 space-y-1">
+                        <p className="font-mono text-[12px] font-bold uppercase tracking-widest text-black">
+                          {uploading ? "Analyzing CV..." : "Upload CV PDF"}
+                        </p>
+                        <p className="font-sans text-[13px] text-[#888880]">
+                          {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 space-y-1">
-                      <p className="font-bold text-lg" style={{ color: "var(--d-text-primary)" }}>
-                        {uploading ? "Analyzing CV..." : "Upload CV PDF"}
-                      </p>
-                      <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
-                        {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
-                      </p>
+                    {uploading && (
+                      <div className="mt-4 h-[2px] w-full bg-[#E8E6DE]">
+                        <motion.div 
+                          className="h-full bg-black"
+                          initial={{ width: "0%" }}
+                          animate={{ width: `${progress}%` }}
+                        />
+                      </div>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleManualSetup}
+                    disabled={uploading}
+                    className="group relative w-full p-6 border border-[#E8E6DE] text-left  hover:bg-[#F5F4EF] disabled:opacity-50"
+                  >
+                    <div className="flex items-center gap-5">
+                      <span className="font-mono text-[18px] text-black">→</span>
+                      <div className="flex-1 space-y-1">
+                        <p className="font-mono text-[12px] font-bold uppercase tracking-widest text-black">
+                          Manual Setup
+                        </p>
+                        <p className="font-sans text-[13px] text-[#888880]">
+                          Fill in your professional details manually
+                        </p>
+                      </div>
                     </div>
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center gap-6 py-2 opacity-60">
+                  <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                    [ SECURE_DATA ]
                   </div>
-                  
-                  {uploading && (
-                    <div className="mt-4 flex items-center gap-2 text-xs font-medium text-blue-400/80 uppercase tracking-widest">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      AI Processing...
-                    </div>
-                  )}
-                </button>
-
-                <button
-                  onClick={handleManualSetup}
-                  disabled={uploading}
-                  className="group relative w-full p-6 rounded-3xl border text-left transition-all hover:bg-white/5 active:scale-[0.98] disabled:opacity-50"
-                  style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
-                >
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-colors">
-                      <UserPlus className="w-7 h-7 text-emerald-400" />
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <p className="font-bold text-lg" style={{ color: "var(--d-text-primary)" }}>
-                        Manual Setup
-                      </p>
-                      <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
-                        Fill in your professional details manually
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black">
+                    [ ATS_OPTIMIZED ]
                   </div>
-                </button>
-              </div>
-
-              <div className="mt-8 flex items-center justify-center gap-6 py-2 opacity-40">
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                  <ShieldCheck className="w-3 h-3" />
-                  Secure Data
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                  <CheckCircle2 className="w-3 h-3" />
-                  ATS Optimized
-                </div>
+
+                {error && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: 10 }} 
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 border border-[#D83B2A] bg-[#D83B2A]/5 font-mono text-[11px] text-[#D83B2A] text-center"
+                  >
+                    ! {error}
+                  </motion.p>
+                )}
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf"
+                  className="hidden"
+                  onChange={(e) => {
+                    void handleCVUpload(e.target.files?.[0] ?? null);
+                    e.target.value = "";
+                  }}
+                />
               </div>
-
-              {error && (
-                <motion.p 
-                  initial={{ opacity: 0, y: 10 }} 
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 text-center text-sm font-medium text-red-400 bg-red-400/10 py-3 rounded-xl border border-red-400/20"
-                >
-                  {error}
-                </motion.p>
-              )}
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf"
-                className="hidden"
-                onChange={(e) => {
-                  void handleCVUpload(e.target.files?.[0] ?? null);
-                  e.target.value = "";
-                }}
-              />
             </div>
           </motion.div>
         </motion.div>
@@ -330,37 +312,28 @@ export default function OnboardingModal() {
 
       {minimized && (
         <motion.div
-          initial={{ opacity: 0, y: 50, x: 50 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          className="fixed bottom-6 right-6 z-1000 w-72 overflow-hidden rounded-2xl border shadow-2xl cursor-pointer hover:scale-[1.02] transition-transform"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            borderColor: "rgba(255, 255, 255, 0.08)",
-          }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="fixed bottom-6 right-6 z-[1000] w-72 bg-white border border-black p-4 cursor-pointer hover:bg-[#F5F4EF] transition-colors"
           onClick={() => setMinimized(false)}
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden">
-            <motion.div 
-              className="h-full bg-blue-500"
-              initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="p-4 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-              <BrainCircuit className="w-5 h-5 text-blue-400 animate-pulse" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold truncate" style={{ color: "var(--d-text-primary)" }}>
-                Analyzing CV...
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center">
+              <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                ANALYZING_CV...
               </p>
-              <p className="text-[11px] truncate" style={{ color: "var(--d-text-muted)" }}>
-                {steps[currentStep]}
-              </p>
+              <span className="font-mono text-[11px] font-bold text-black">{Math.round(progress)}%</span>
             </div>
-            <div className="text-[10px] font-bold text-blue-400">
-              {Math.round(progress)}%
+            <p className="font-sans text-[12px] text-[#888880] truncate">
+              {steps[currentStep]}
+            </p>
+            <div className="h-[2px] w-full bg-[#E8E6DE]">
+              <motion.div 
+                className="h-full bg-black"
+                initial={{ width: "0%" }}
+                animate={{ width: `${progress}%` }}
+              />
             </div>
           </div>
         </motion.div>

@@ -20,37 +20,36 @@ export default function JobSearchBar({
 }: JobSearchBarProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: -6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-2xl p-2"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="w-full flex flex-col md:flex-row items-stretch border border-[#222] bg-white overflow-hidden"
     >
-      <div className="flex flex-col sm:flex-row items-stretch gap-2">
-        <div className="flex items-center gap-3 flex-1 min-w-0 px-5 py-3.5 rounded-xl transition-colors duration-200 hover:bg-[var(--d-surface-hover)]">
-          <Search
-            className="w-4.5 h-4.5 shrink-0"
-            style={{ color: "var(--d-icon)" }}
-          />
+      <div className="flex-1 flex items-center px-6 py-4">
+        <input
+          type="text"
+          placeholder="JOB TITLE, KEYWORD, OR COMPANY"
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
+          className="w-full bg-transparent outline-none font-sans text-[18px] uppercase font-bold placeholder:text-[#888880]"
+        />
+      </div>
+
+      <div className="w-full md:w-auto flex items-stretch border-t md:border-t-0 md:border-l border-[#222]">
+        <div className="flex-1 md:w-64 px-6 py-4 flex items-center">
           <input
             type="text"
-            placeholder="Job title, keyword, or company"
-            value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
-            className="bg-transparent outline-none w-full text-[14px] font-medium placeholder:text-[var(--d-text-ghost)]"
-            style={{ color: "var(--d-text-primary)" }}
+            placeholder="LOCATION"
+            value={location}
+            onChange={(e) => onLocationChange(e.target.value)}
+            className="w-full bg-transparent outline-none font-mono text-[14px] uppercase tracking-widest text-black"
           />
         </div>
-
-        <div
-          className="hidden sm:block w-px self-stretch my-2 shrink-0"
-          style={{ backgroundColor: "var(--d-border-subtle)" }}
-        />
-
-        <LocationDropdown value={location} onChange={onLocationChange} />
+        
+        <button 
+          className="bg-black text-white px-8 flex items-center justify-center text-[24px] hover:bg-[#D4F461] hover:text-black transition-colors"
+        >
+          →
+        </button>
       </div>
     </motion.div>
   );

@@ -11,24 +11,15 @@ export default function WhatsNew() {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-200"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      className="p-8 border border-[#E8E6DE] bg-white transition-[border-color] duration-200"
+      style={{ borderRadius: 0 }}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#E8E6DE]">
         <div>
-          <h3
-            className="text-[17px] font-medium tracking-tight"
-            style={{ color: "var(--d-text-primary)" }}
-          >
+          <h3 className="font-sans text-[18px] font-bold text-black uppercase tracking-tight">
             What&apos;s New
           </h3>
-          <p
-            className="text-[13px] mt-0.5"
-            style={{ color: "var(--d-text-muted)" }}
-          >
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-1">
             Latest features & updates
           </p>
         </div>
@@ -36,32 +27,28 @@ export default function WhatsNew() {
 
       <motion.div
         variants={dashboardStagger(0.04, 0)}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+        className="grid grid-cols-1 sm:grid-cols-2 gap-6"
       >
         {whatsNew.map((item) => (
           <motion.div
             key={item.title}
             variants={fadeUp}
-            className="flex items-start gap-3.5 p-4 rounded-xl transition-all duration-200 cursor-pointer group hover:-translate-y-0.5"
-            style={{ border: "1px solid var(--d-border-subtle)" }}
+            className="flex items-start gap-4 p-5 border border-[#E8E6DE] bg-white transition-[background-color,border-color] duration-200 cursor-pointer group hover:bg-[#F5F4EF] hover:border-black"
+            style={{ borderRadius: 0 }}
           >
-            <span className="text-xl flex-shrink-0 mt-0.5">{item.icon}</span>
+            <div className="w-10 h-10 border border-[#E8E6DE] bg-[#F5F4EF] flex items-center justify-center shrink-0 group-hover:border-black transition-colors">
+              <span className="font-sans text-[16px] font-bold text-black">{item.icon}</span>
+            </div>
             <div className="min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
-                <h4
-                  className="text-[14px] font-medium transition-colors truncate"
-                  style={{ color: "var(--d-text-secondary)" }}
-                >
+              <div className="flex items-center gap-3 mb-1">
+                <h4 className="font-sans text-[14px] font-bold text-black uppercase truncate tracking-tight">
                   {item.title}
                 </h4>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400/50 bg-blue-500/10 px-1.5 py-0.5 rounded-md flex-shrink-0">
+                <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-black border border-black px-1.5 py-0.5">
                   {item.tag}
                 </span>
               </div>
-              <p
-                className="text-[12px] leading-relaxed"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <p className="font-mono text-[11px] leading-relaxed text-[#888880] uppercase tracking-tighter">
                 {item.description}
               </p>
             </div>

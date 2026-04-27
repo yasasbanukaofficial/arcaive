@@ -50,7 +50,7 @@ export default function SubscriptionCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className="relative rounded-2xl p-5 sm:p-6 h-full flex flex-col"
+      className="relative  p-5 sm:p-6 h-full flex flex-col"
       style={{
         backgroundColor: "var(--d-surface-hover)",
         border: plan.isPopular
@@ -60,7 +60,7 @@ export default function SubscriptionCard({
     >
       {plan.isPopular && (
         <div
-          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold"
+          className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-1 sm:py-1.5  text-xs sm:text-sm font-bold"
           style={{
             backgroundColor: "var(--d-accent)",
             color: "#ffffff",
@@ -117,7 +117,7 @@ export default function SubscriptionCard({
         size="lg"
         onClick={handleClick}
         disabled={disabled || isCurrentPlan}
-        className="w-full rounded-xl h-11 sm:h-12"
+        className="w-full  h-11 sm:h-12"
       >
         {getButtonText()}
       </Button>

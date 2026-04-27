@@ -17,7 +17,7 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   const pathname = usePathname();
 
-  const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
+  const marginLeft = isMobile ? 0 : collapsed ? 72 : 240;
   const isNoPaddingPage = pathname === "/workflow" || pathname === "/interview";
 
   return (
@@ -26,21 +26,6 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
       data-theme={theme}
       style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
     >
-      <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500 will-change-auto">
-        <div
-          className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[80px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[80px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
-          }}
-        />
-      </div>
-
       <Sidebar />
       <OnboardingModal />
 

@@ -13,8 +13,6 @@ import {
   AgentTrackToggle,
   agentTrackToggleVariants,
 } from '@/components/agents-ui/agent-track-toggle';
-import { Button } from '@/components/ui/button';
-import { Toggle } from '@/components/ui/toggle';
 import {
   useInputControls,
   usePublishPermissions,
@@ -36,10 +34,10 @@ const LK_TOGGLE_VARIANT_2 = [
   'data-[state=off]:border-border data-[state=off]:hover:border-foreground/12',
   'data-[state=off]:focus-visible:border-ring data-[state=off]:focus-visible:ring-foreground/12',
   'data-[state=off]:text-foreground data-[state=off]:hover:text-foreground data-[state=off]:focus:text-foreground',
-  'data-[state=on]:bg-blue-500/20 data-[state=on]:hover:bg-blue-500/30',
-  'data-[state=on]:border-blue-700/10 data-[state=on]:text-blue-700 data-[state=on]:ring-blue-700/30',
-  'data-[state=on]:focus-visible:border-blue-700/50',
-  'dark:data-[state=on]:bg-blue-500/20 dark:data-[state=on]:text-blue-300',
+  'data-[state=on]:bg-black/20 data-[state=on]:hover:bg-black/30',
+  'data-[state=on]:border-black/10 data-[state=on]:text-black data-[state=on]:ring-black/30',
+  'data-[state=on]:focus-visible:border-black/50',
+  'dark:data-[state=on]:bg-white/20 dark:data-[state=on]:text-white',
 ];
 
 const MOTION_PROPS: MotionProps = {
@@ -109,7 +107,7 @@ function AgentChatInput({ chatOpen, onSend = async () => {}, className }: AgentC
   }, [chatOpen]);
 
   return (
-    <div className={cn('mb-3 flex grow items-end gap-2 rounded-md pl-1 text-sm', className)}>
+    <div className={cn('mb-3 flex grow items-end gap-2  pl-1 text-sm', className)}>
       <textarea
         autoFocus
         ref={inputRef}
@@ -120,17 +118,15 @@ function AgentChatInput({ chatOpen, onSend = async () => {}, className }: AgentC
         onChange={(e) => setMessage(e.target.value)}
         className="field-sizing-content max-h-16 min-h-8 flex-1 resize-none py-2 [scrollbar-width:thin] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       />
-      <Button
-        size="icon"
+      <button
         type="button"
         disabled={isDisabled}
-        variant={isDisabled ? 'secondary' : 'default'}
         title={isSending ? 'Sending...' : 'Send'}
         onClick={handleButtonClick}
-        className="self-end disabled:cursor-not-allowed"
+        className="size-9 flex items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 hover:bg-black/10 rounded-md self-end"
       >
         {isSending ? <Loader className="animate-spin" /> : <SendHorizontal />}
-      </Button>
+      </button>
     </div>
   );
 }
@@ -290,7 +286,7 @@ export function AgentControlBar({
       aria-label="Voice assistant controls"
       className={cn(
         'bg-background border-input/50 dark:border-muted flex flex-col border p-3 drop-shadow-md/3',
-        variant === 'livekit' ? 'rounded-[31px]' : 'rounded-lg',
+        variant === 'livekit' ? '[31px]' : '',
         className,
       )}
       {...props}
@@ -304,7 +300,7 @@ export function AgentControlBar({
         <AgentChatInput
           chatOpen={isChatOpen || isChatOpenUncontrolled}
           onSend={handleSendMessage}
-          className={cn(variant === 'livekit' && '[&_button]:rounded-full')}
+          className={cn(variant === 'livekit' && '[&_button]:')}
         />
       </motion.div>
 
@@ -326,7 +322,7 @@ export function AgentControlBar({
               className={cn(
                 variant === 'livekit' && [
                   LK_TOGGLE_VARIANT_1,
-                  'rounded-full [&_button:first-child]:rounded-l-full [&_button:last-child]:rounded-r-full',
+                  ' [&_button:first-child]:-full [&_button:last-child]:-full',
                 ],
               )}
             />
@@ -348,7 +344,7 @@ export function AgentControlBar({
               className={cn(
                 variant === 'livekit' && [
                   LK_TOGGLE_VARIANT_1,
-                  'rounded-full [&_button:first-child]:rounded-l-full [&_button:last-child]:rounded-r-full',
+                  ' [&_button:first-child]:-full [&_button:last-child]:-full',
                 ],
               )}
             />
@@ -363,27 +359,30 @@ export function AgentControlBar({
               pressed={screenShareToggle.enabled}
               disabled={screenShareToggle.pending}
               onPressedChange={screenShareToggle.toggle}
-              className={cn(variant === 'livekit' && [LK_TOGGLE_VARIANT_2, 'rounded-full'])}
+              className={cn(variant === 'livekit' && [LK_TOGGLE_VARIANT_2, ''])}
             />
           )}
 
           {/* Toggle Transcript */}
           {visibleControls.chat && (
-            <Toggle
-              variant={variant === 'outline' ? 'outline' : 'default'}
-              pressed={isChatOpen || isChatOpenUncontrolled}
+            <button
+              type="button"
               aria-label="Toggle transcript"
-              onPressedChange={(state) => {
-                if (!onIsChatOpenChange) setIsChatOpenUncontrolled(state);
-                else onIsChatOpenChange(state);
+              aria-pressed={isChatOpen || isChatOpenUncontrolled}
+              onClick={() => {
+                const newState = !(isChatOpen || isChatOpenUncontrolled);
+                if (!onIsChatOpenChange) setIsChatOpenUncontrolled(newState);
+                else onIsChatOpenChange(newState);
               }}
-              className={agentTrackToggleVariants({
-                variant: variant === 'outline' ? 'outline' : 'default',
-                className: cn(variant === 'livekit' && [LK_TOGGLE_VARIANT_2, 'rounded-full']),
-              })}
+              className={cn(
+                'size-9 flex items-center justify-center rounded-md border',
+                isChatOpen || isChatOpenUncontrolled
+                  ? 'bg-black/20 border-black/10 text-black'
+                  : 'bg-transparent border-transparent text-foreground hover:bg-foreground/10'
+              )}
             >
               <MessageSquareTextIcon />
-            </Toggle>
+            </button>
           )}
         </div>
 
@@ -394,7 +393,7 @@ export function AgentControlBar({
             disabled={!isConnected}
             className={cn(
               variant === 'livekit' &&
-                'bg-destructive/10 dark:bg-destructive/10 text-destructive hover:bg-destructive/20 dark:hover:bg-destructive/20 focus:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/4 rounded-full font-mono text-xs font-bold tracking-wider',
+                'bg-destructive/10 dark:bg-destructive/10 text-destructive hover:bg-destructive/20 dark:hover:bg-destructive/20 focus:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/4  font-mono text-xs font-bold tracking-wider',
             )}
           >
             <span className="hidden md:inline">END CALL</span>

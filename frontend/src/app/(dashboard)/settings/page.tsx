@@ -81,7 +81,7 @@ export default function SettingsPage() {
       <motion.div variants={fadeUp} className="mb-8">
         <div className="flex items-center gap-3 mb-1">
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center"
+            className="w-12 h-12  flex items-center justify-center"
             style={{
               backgroundColor: "var(--d-surface-active)",
               border: "1px solid var(--d-border)",
@@ -110,7 +110,7 @@ export default function SettingsPage() {
       </motion.div>
       <motion.div variants={fadeUp} className="lg:hidden mb-6">
         <div
-          className="overflow-x-auto pb-2 -mx-1 px-1 rounded-xl"
+          className="overflow-x-auto pb-2 -mx-1 px-1 "
           style={{
             backgroundColor: "var(--d-surface)",
             border: "1px solid var(--d-border)",
@@ -134,7 +134,7 @@ export default function SettingsPage() {
                     setActiveSection(id);
                     console.log(id);
                   }}
-                  className="relative px-4 py-2.5 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-200"
+                  className="relative px-4 py-2.5  text-[13px] font-medium whitespace-nowrap  duration-200"
                   style={{
                     backgroundColor: isActive ? "#000000" : "transparent",
                     color: isActive ? "#ffffff" : "var(--d-text-muted)",

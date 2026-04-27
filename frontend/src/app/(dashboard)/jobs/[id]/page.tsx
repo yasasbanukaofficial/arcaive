@@ -108,14 +108,14 @@ export default function JobDetailsPage() {
   if (loading) {
     return (
       <div className="max-w-300 mx-auto space-y-6 py-4 px-4 sm:px-6">
-        <div className="h-5 w-28 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
-        <div className="h-80 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+        <div className="h-5 w-28 bg-white/5" />
+        <div className="h-80 w-full bg-white/5" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
            <div className="lg:col-span-2 space-y-6">
-              <div className="h-64 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-64 w-full bg-white/5" />
            </div>
            <div className="space-y-6">
-              <div className="h-96 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-96 w-full bg-white/5" />
            </div>
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function JobDetailsPage() {
         animate={{ opacity: 1 }}
         className="flex flex-col items-center justify-center py-32 text-center"
       >
-        <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20">
+        <div className="w-20 h-20  bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20">
           <Info className="w-10 h-10 text-red-500" />
         </div>
         <p className="text-[24px] font-bold mb-2" style={{ color: "var(--d-text-primary)" }}>
@@ -219,7 +219,7 @@ export default function JobDetailsPage() {
           className="flex items-center gap-2.5 text-[14px] font-bold uppercase tracking-wider group py-2"
           style={{ color: "var(--d-text-tertiary)" }}
         >
-          <div className="w-8 h-8 rounded-full flex items-center justify-center transition-colors group-hover:bg-[var(--d-surface-hover)] border border-transparent group-hover:border-[var(--d-border-subtle)]">
+          <div className="w-8 h-8  flex items-center justify-center transition-colors group-hover:bg-[var(--d-surface-hover)] border border-transparent group-hover:border-[var(--d-border-subtle)]">
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
           </div>
           Back to Explorers
@@ -230,7 +230,7 @@ export default function JobDetailsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleCopyLink}
-            className="px-4 h-10 rounded-xl flex items-center justify-center gap-2 transition-all border font-semibold text-[13px]"
+            className="px-4 h-10  flex items-center justify-center gap-2  border font-semibold text-[13px]"
             style={{
               backgroundColor: "var(--d-surface)",
               borderColor: linkCopied ? "var(--accent-emerald-border)" : "var(--d-border-subtle)",
@@ -245,7 +245,7 @@ export default function JobDetailsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setBookmarked(!bookmarked)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all border"
+            className="w-10 h-10  flex items-center justify-center  border"
             style={{
               backgroundColor: bookmarked ? "var(--accent-amber-bg)" : "var(--d-surface)",
               borderColor: bookmarked ? "var(--accent-amber-border)" : "var(--d-border-subtle)",
@@ -260,28 +260,18 @@ export default function JobDetailsPage() {
       {/* Hero Section */}
       <motion.div
         variants={fadeUp}
-        className="relative rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-black/20"
+        className="relative [2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-black/20"
         style={{
           backgroundColor: "var(--d-surface)",
           border: "1px solid var(--d-border)",
         }}
       >
-        {/* Animated Background Gradients */}
-        <div
-          className="absolute top-0 right-0 w-[600px] h-[600px] blur-[120px] opacity-20 pointer-events-none"
-          style={{ background: `radial-gradient(circle, ${accent.dot}, transparent)` }}
-        />
-        <div
-          className="absolute -bottom-20 -left-20 w-[400px] h-[400px] blur-[100px] opacity-10 pointer-events-none"
-          style={{ background: `radial-gradient(circle, var(--accent-blue-dot), transparent)` }}
-        />
-
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row items-start gap-8">
             {/* Logo Wrapper */}
             <motion.div
               whileHover={{ scale: 1.05, rotate: 1 }}
-              className="w-20 h-20 sm:w-28 sm:h-28 rounded-3xl flex items-center justify-center shrink-0 overflow-hidden shadow-xl border-4"
+              className="w-20 h-20 sm:w-28 sm:h-28  flex items-center justify-center shrink-0 overflow-hidden shadow-xl border-4"
               style={{
                 backgroundColor: "var(--d-surface-hover)",
                 borderColor: accent.bg,
@@ -297,7 +287,7 @@ export default function JobDetailsPage() {
             <div className="flex-1 min-w-0 space-y-4">
               <div className="flex flex-wrap items-center gap-3">
                 <span
-                  className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-[0.2em] border"
+                  className="px-3 py-1  text-[11px] font-black uppercase tracking-[0.2em] border"
                   style={{ backgroundColor: accent.bg, borderColor: accent.border, color: accent.dot }}
                 >
                   {job.publisher}
@@ -323,24 +313,24 @@ export default function JobDetailsPage() {
 
               <div className="flex flex-wrap items-center gap-4 text-[15px] font-semibold">
                 <div
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl transition-colors"
+                  className="flex items-center gap-2 px-4 py-2  transition-colors"
                   style={{
                     backgroundColor: "var(--d-surface-hover)",
                     border: "1px solid var(--d-border-subtle)",
                     color: "var(--d-text-secondary)",
                   }}
                 >
-                  <MapPin className="w-4 h-4 text-blue-400" />
+                  <MapPin className="w-4 h-4 text-[#888880]" />
                   {job.location}
                 </div>
                 {(job.salary || job.minSalary) && (
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                  <div className="flex items-center gap-2 px-4 py-2  bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                     <DollarSign className="w-4 h-4" />
                     {formatSalary(job)}
                   </div>
                 )}
                 {job.isRemote && (
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-[#E8E6DE] text-black">
                     <Wifi className="w-4 h-4" />
                     Remote Available
                   </div>
@@ -374,7 +364,7 @@ export default function JobDetailsPage() {
           {job.benefits && job.benefits.length > 0 && (
             <motion.div variants={fadeUp} className="space-y-4">
                <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
+                <div className="p-2 " style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
                   <Zap className="w-5 h-5 text-amber-400" />
                 </div>
                 <h3 className="text-[18px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
@@ -385,7 +375,7 @@ export default function JobDetailsPage() {
                 {job.benefits.map((benefit, i) => (
                   <span
                     key={i}
-                    className="px-4 py-2.5 rounded-xl border flex items-center gap-2 text-[14px] font-medium transition-all hover:translate-y-[-2px] hover:shadow-lg"
+                    className="px-4 py-2.5  border flex items-center gap-2 text-[14px] font-medium  hover:translate-y-[-2px] hover:shadow-lg"
                     style={{
                       backgroundColor: "var(--d-surface)",
                       borderColor: "var(--d-border-subtle)",
@@ -403,7 +393,7 @@ export default function JobDetailsPage() {
           {/* Full Description */}
           <motion.div
             variants={fadeUp}
-            className="rounded-3xl p-8 space-y-6"
+            className=" p-8 space-y-6"
             style={{
               backgroundColor: "var(--d-surface)",
               border: "1px solid var(--d-border)",
@@ -426,7 +416,7 @@ export default function JobDetailsPage() {
           {/* Main Action Card */}
           <motion.div
             variants={fadeUp}
-            className="rounded-[2rem] p-8 space-y-6 border-2"
+            className="[2rem] p-8 space-y-6 border-2"
             style={{
               backgroundColor: "var(--d-surface)",
               borderColor: accent.bg,
@@ -445,7 +435,7 @@ export default function JobDetailsPage() {
                 <Button
                   variant="white"
                   size="lg"
-                  className="w-full h-14 text-[16px] font-bold rounded-2xl shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20"
+                  className="w-full h-14 text-[16px] font-bold  shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20"
                   icon={<ExternalLink className="w-4 h-4" />}
                   iconPosition="right"
                 >
@@ -455,7 +445,7 @@ export default function JobDetailsPage() {
               <Button
                 variant="primary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl simulate-interview-btn"
+                className="w-full h-14 text-[16px] font-bold  simulate-interview-btn"
                 onClick={() => router.push(`/interview?jobId=${id}`)}
               >
                 Simulate Interview
@@ -464,7 +454,7 @@ export default function JobDetailsPage() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
+                className="w-full h-14 text-[16px] font-bold  border-2"
                 onClick={() => router.push(`/cv-analysis?jobId=${encodeURIComponent(id)}`)}
                 icon={<FileSearch className="w-5 h-5" />}
               >
@@ -474,7 +464,7 @@ export default function JobDetailsPage() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
+                className="w-full h-14 text-[16px] font-bold  border-2"
                 onClick={handleCreateTailoredCV}
                 icon={<Sparkles className="w-5 h-5" />}
                 loading={isTailoring}
@@ -487,7 +477,7 @@ export default function JobDetailsPage() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full h-12 flex items-center justify-center gap-2 rounded-2xl text-[14px] font-bold border transition-all"
+                    className="w-full h-12 flex items-center justify-center gap-2  text-[14px] font-bold border "
                     style={{
                       backgroundColor: "rgba(66, 133, 244, 0.1)",
                       borderColor: "rgba(66, 133, 244, 0.2)",
@@ -511,20 +501,20 @@ export default function JobDetailsPage() {
                     href={opt.applyLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl transition-all group"
+                    className="flex items-center justify-between p-3   group"
                     style={{ border: "1px solid var(--d-border-subtle)" }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--d-surface-hover)")}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-[18px] grayscale group-hover:grayscale-0 transition-all">
+                      <span className="text-[18px] grayscale group-hover:grayscale-0 ">
                         {getSourceIcon(opt.publisher)}
                       </span>
                       <span className="text-[13px] font-semibold opacity-80 group-hover:opacity-100">
                         {opt.publisher}
                       </span>
                     </div>
-                    <ChevronRight className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-all" />
+                    <ChevronRight className="w-4 h-4 opacity-30 group-hover:opacity-100 " />
                   </a>
                 ))}
               </div>
@@ -534,14 +524,14 @@ export default function JobDetailsPage() {
           {/* Company Profile Card */}
           <motion.div
             variants={fadeUp}
-            className="rounded-[2rem] p-8 space-y-6"
+            className="[2rem] p-8 space-y-6"
             style={{
               backgroundColor: "var(--d-surface)",
               border: "1px solid var(--d-border)",
             }}
           >
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
+              <div className="w-14 h-14  flex items-center justify-center shrink-0 overflow-hidden" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
                 {job.companyLogo ? (
                   <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover p-1.5" />
                 ) : (
@@ -562,7 +552,7 @@ export default function JobDetailsPage() {
                   href={job.companyWebsite}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[13px] font-bold transition-all"
+                  className="w-full h-11 flex items-center justify-center gap-2  text-[13px] font-bold "
                   style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
                 >
                   <Globe className="w-3.5 h-3.5" />
@@ -572,7 +562,7 @@ export default function JobDetailsPage() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[13px] font-bold transition-all"
+                className="w-full h-11 flex items-center justify-center gap-2  text-[13px] font-bold "
                 style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
               >
                 <Building2 className="w-3.5 h-3.5" />

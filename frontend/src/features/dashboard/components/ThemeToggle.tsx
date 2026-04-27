@@ -11,12 +11,13 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      whileTap={{ scale: 0.9 }}
-      className={`relative w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 border ${
+      whileTap={{ scale: 0.95 }}
+      className={`relative w-10 h-10 flex items-center justify-center transition-[background-color,border-color] duration-200 border ${
         isDark
-          ? "bg-white/3 border-white/6 hover:bg-white/6"
-          : "bg-black/[0.04] border-black/[0.08] hover:bg-black/[0.06]"
+          ? "bg-black border-white hover:bg-white/10"
+          : "bg-white border-black hover:bg-[#F5F4EF]"
       }`}
+      style={{ borderRadius: 0 }}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       <motion.div

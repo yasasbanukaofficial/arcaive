@@ -42,13 +42,9 @@ export default function ForgotPasswordForm() {
 
   return (
     <>
-      <motion.form
-        onSubmit={formik.handleSubmit}
-        variants={staggerContainer(0.08, 0)}
-        className="space-y-4"
-      >
-        <motion.div variants={bounceIn} className="space-y-1.5">
-          <label className="text-[13px] font-medium text-gray-400 ml-1">
+      <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
             Email Address
           </label>
           <input
@@ -57,11 +53,11 @@ export default function ForgotPasswordForm() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="name@company.com"
-            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+            placeholder="NAME@COMPANY.COM"
+            className={`w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none ${
               formik.touched.email && formik.errors.email
-                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-                : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+                ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
+                : "border-[#E8E6DE] bg-white focus:border-black"
             }`}
           />
           <AnimatePresence>
@@ -71,29 +67,22 @@ export default function ForgotPasswordForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="text-[12px] mt-1 ml-1 text-red-400/90"
+                className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
               >
-                {formik.errors.email}
+                ! {formik.errors.email}
               </motion.p>
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
-        <motion.div variants={bounceIn}>
-          <Button
-            type="submit"
-            variant="white"
-            size="lg"
-            fullWidth
-            icon={<ArrowRight size={18} />}
-            iconPosition="right"
-            className="mt-4 font-semibold py-3.5 rounded-full"
-            disabled={isPending}
-          >
-            {isPending ? "Sending..." : "Send reset link"}
-          </Button>
-        </motion.div>
-      </motion.form>
+        <button
+          type="submit"
+          className="btn-primary w-full mt-4"
+          disabled={isPending}
+        >
+          {isPending ? "SENDING..." : "SEND RESET LINK"}
+        </button>
+      </form>
     </>
   );
 }

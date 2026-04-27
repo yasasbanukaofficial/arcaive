@@ -70,35 +70,24 @@ export default function CVAnalysisPage() {
       variants={dashboardStagger(0.05, 0.02)}
       className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 pb-20 px-3 sm:px-6"
     >
-      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-        <div className="text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl lg:text-[36px] font-semibold"
-              style={{ color: "var(--d-text-primary)" }}>
-            CV Intelligence
+      <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="space-y-2">
+          <h1 className="font-sans text-[28px] font-bold text-black uppercase tracking-tight">
+            CV Analysis.
           </h1>
-          <p className="text-sm sm:text-base mt-1" style={{ color: "var(--d-text-muted)" }}>
-            Deep semantic alignment engine
+          <p className="font-sans text-[14px] text-[#888880] max-w-xl">
+            Deep semantic alignment engine for precision profile matching.
           </p>
         </div>
 
         {analysisResult && (
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Button
-              variant="secondary"
-              size="lg"
+          <div className="flex items-center gap-4">
+            <button
               onClick={handleNewAnalysis}
-              icon={<Plus size={16} />}
-              className="rounded-xl h-10 sm:h-12 px-4 sm:px-6 border font-medium text-sm sm:text-base"
+              className="btn-primary"
             >
-              New Analysis
-            </Button>
-            <Button
-              variant="secondary"
-              size="lg"
-              className="w-10 h-10 sm:w-12 sm:h-12 p-0 rounded-xl border flex items-center justify-center shrink-0"
-              icon={<History size={18} />}
-            >
-            </Button>
+              NEW ANALYSIS
+            </button>
           </div>
         )}
       </motion.div>
@@ -109,7 +98,7 @@ export default function CVAnalysisPage() {
             <motion.div
               key="empty-state"
               variants={fadeUp}
-              className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-10 lg:p-16 overflow-hidden text-center"
+              className="relative  sm: p-6 sm:p-10 lg:p-16 overflow-hidden text-center"
               style={{
                 backgroundColor: "var(--d-surface)",
                 border: "1px solid var(--d-border)",
@@ -131,7 +120,7 @@ export default function CVAnalysisPage() {
                     variant="primary"
                     size="lg"
                     onClick={() => setIsModalOpen(true)}
-                    className="h-12 sm:h-14 px-8 sm:px-10 text-sm sm:text-base font-medium rounded-xl"
+                    className="h-12 sm:h-14 px-8 sm:px-10 text-sm sm:text-base font-medium "
                   >
                     Start Analysis
                   </Button>

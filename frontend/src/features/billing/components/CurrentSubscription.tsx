@@ -24,7 +24,7 @@ export default function CurrentSubscription({
           transition: { type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1] },
         },
       }}
-      className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
+      className=" sm: p-6 sm:p-8 lg:p-10"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -32,7 +32,7 @@ export default function CurrentSubscription({
     >
       <div className="flex items-center gap-4 mb-8">
         <div
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
+          className="w-12 h-12 sm:w-14 sm:h-14  flex items-center justify-center"
           style={{ backgroundColor: "var(--d-surface-hover)" }}
         >
           <Zap
@@ -58,7 +58,7 @@ export default function CurrentSubscription({
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
         <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
+          className="p-4 sm:p-5  sm:"
           style={{
             backgroundColor: "var(--d-surface-hover)",
           }}
@@ -90,7 +90,7 @@ export default function CurrentSubscription({
         </div>
 
         <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
+          className="p-4 sm:p-5  sm:"
           style={{
             backgroundColor: "var(--d-surface-hover)",
           }}
@@ -120,7 +120,7 @@ export default function CurrentSubscription({
         </div>
 
         <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
+          className="p-4 sm:p-5  sm:"
           style={{
             backgroundColor: "var(--d-surface-hover)",
           }}
@@ -152,7 +152,7 @@ export default function CurrentSubscription({
 
       {subscription.cancelAtPeriodEnd && (
         <div
-          className="mt-6 p-4 rounded-xl sm:rounded-2xl flex items-start gap-3"
+          className="mt-6 p-4  sm: flex items-start gap-3"
           style={{
             backgroundColor: "var(--d-error)",
             opacity: 0.1,

@@ -26,7 +26,7 @@ export default function PaymentMethods({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl p-6"
+      className=" p-6"
       style={{
         backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
         border: "1px solid var(--d-border)",
@@ -61,7 +61,7 @@ export default function PaymentMethods({
           methods.map((method) => (
             <div
               key={method.id}
-              className="flex items-center justify-between p-4 rounded-xl"
+              className="flex items-center justify-between p-4 "
               style={{
                 backgroundColor: isDark
                   ? "var(--d-surface-hover)"
@@ -73,7 +73,7 @@ export default function PaymentMethods({
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="p-2 rounded-lg"
+                  className="p-2 "
                   style={{ backgroundColor: "var(--d-accent)", opacity: 0.1 }}
                 >
                   <CreditCard
@@ -93,7 +93,7 @@ export default function PaymentMethods({
                     </p>
                     {method.isDefault && (
                       <span
-                        className="text-xs px-2 py-0.5 rounded-full"
+                        className="text-xs px-2 py-0.5 "
                         style={{
                           backgroundColor: "var(--d-accent)",
                           color: isDark ? "#000000" : "#ffffff",
@@ -126,7 +126,7 @@ export default function PaymentMethods({
                 )}
                 <button
                   onClick={() => onRemove(method.id)}
-                  className="p-2 rounded-lg transition-colors"
+                  className="p-2  transition-colors"
                   style={{
                     color: "var(--d-error)",
                   }}

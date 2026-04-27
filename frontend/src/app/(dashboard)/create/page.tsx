@@ -131,14 +131,14 @@ const templates = [
     color: "#0a0a0a",
     mockup: (
       <div className="flex flex-col items-center gap-2 w-full">
-        <div className="w-1/3 h-2 bg-slate-800 rounded-sm mb-1" />
+        <div className="w-1/3 h-2 bg-slate-800  mb-1" />
         <div className="w-full h-0.5 bg-slate-200" />
         <div className="w-full flex flex-col gap-1.5 mt-2">
-          <div className="w-full h-1 bg-slate-200 rounded-sm" />
-          <div className="w-3/4 h-1 bg-slate-200 rounded-sm" />
-          <div className="w-full h-1 bg-slate-200 rounded-sm mt-2" />
-          <div className="w-1/2 h-1.5 bg-slate-300 rounded-sm" />
-          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 " />
+          <div className="w-3/4 h-1 bg-slate-200 " />
+          <div className="w-full h-1 bg-slate-200  mt-2" />
+          <div className="w-1/2 h-1.5 bg-slate-300 " />
+          <div className="w-full h-1 bg-slate-100 " />
         </div>
       </div>
     )
@@ -150,17 +150,17 @@ const templates = [
     color: "#2563eb",
     mockup: (
       <div className="flex w-full h-full gap-2">
-        <div className="w-1/3 bg-[#0f172a] rounded-sm p-2 flex flex-col gap-2">
-          <div className="w-full h-1.5 bg-white opacity-20 rounded-sm" />
-          <div className="w-3/4 h-1 bg-white opacity-10 rounded-sm" />
-          <div className="w-full h-1 bg-white opacity-10 rounded-sm mt-4" />
-          <div className="w-full h-1 bg-white opacity-10 rounded-sm" />
+        <div className="w-1/3 bg-[#0f172a]  p-2 flex flex-col gap-2">
+          <div className="w-full h-1.5 bg-white opacity-20 " />
+          <div className="w-3/4 h-1 bg-white opacity-10 " />
+          <div className="w-full h-1 bg-white opacity-10  mt-4" />
+          <div className="w-full h-1 bg-white opacity-10 " />
         </div>
         <div className="flex-1 flex flex-col gap-2 pt-2">
-          <div className="w-1/2 h-1.5 bg-slate-300 rounded-sm" />
+          <div className="w-1/2 h-1.5 bg-slate-300 " />
           <div className="w-full h-0.5 bg-slate-100" />
-          <div className="w-full h-1 bg-slate-200 rounded-sm" />
-          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 " />
+          <div className="w-full h-1 bg-slate-200 " />
         </div>
       </div>
     )
@@ -172,14 +172,14 @@ const templates = [
     color: "#555555",
     mockup: (
       <div className="flex flex-col gap-4 w-full px-4">
-        <div className="w-1/2 h-2.5 bg-slate-800 rounded-sm" />
+        <div className="w-1/2 h-2.5 bg-slate-800 " />
         <div className="w-full h-[0.5px] bg-slate-300" />
         <div className="w-full flex flex-col gap-3">
-          <div className="w-1/4 h-1.5 bg-slate-400 rounded-sm mt-4" />
-          <div className="w-full h-1 bg-slate-100 rounded-sm" />
-          <div className="w-full h-1 bg-slate-100 rounded-sm" />
-          <div className="w-1/4 h-1.5 bg-slate-400 rounded-sm mt-2" />
-          <div className="w-full h-1 bg-slate-100 rounded-sm" />
+          <div className="w-1/4 h-1.5 bg-slate-400  mt-4" />
+          <div className="w-full h-1 bg-slate-100 " />
+          <div className="w-full h-1 bg-slate-100 " />
+          <div className="w-1/4 h-1.5 bg-slate-400  mt-2" />
+          <div className="w-full h-1 bg-slate-100 " />
         </div>
       </div>
     )
@@ -191,17 +191,17 @@ const templates = [
     color: "#111111",
     mockup: (
       <div className="flex flex-col w-full h-full">
-        <div className="w-full h-[30%] bg-[#111111] rounded-t-sm p-3 flex flex-col gap-2">
-          <div className="w-3/4 h-2.5 bg-white opacity-90 rounded-sm" />
-          <div className="w-1/2 h-1.5 bg-white opacity-40 rounded-sm" />
+        <div className="w-full h-[30%] bg-[#111111] -sm p-3 flex flex-col gap-2">
+          <div className="w-3/4 h-2.5 bg-white opacity-90 " />
+          <div className="w-1/2 h-1.5 bg-white opacity-40 " />
         </div>
         <div className="flex-1 p-3 flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <div className="w-1 h-3 bg-[#111111]" />
-            <div className="w-1/4 h-2 bg-slate-800 rounded-sm" />
+            <div className="w-1/4 h-2 bg-slate-800 " />
           </div>
-          <div className="w-full h-1 bg-slate-200 rounded-sm" />
-          <div className="w-full h-1 bg-slate-200 rounded-sm" />
+          <div className="w-full h-1 bg-slate-200 " />
+          <div className="w-full h-1 bg-slate-200 " />
         </div>
       </div>
     )
@@ -520,38 +520,59 @@ export default function CreateCVPage() {
   };
 
   const renderTemplateGallery = () => (
-    <motion.div variants={dashboardStagger()} initial="hidden" animate="show" className="space-y-8">
-      <motion.div variants={fadeUp}>
-        <h1 className="text-2xl font-bold text-[var(--d-text-primary)]">Choose a Template</h1>
-        <p className="text-[var(--d-text-secondary)]">Pick a style to get started</p>
+    <motion.div variants={dashboardStagger()} initial="hidden" animate="show" className="space-y-12">
+      <motion.div variants={fadeUp} className="border-b border-[#E8E6DE] pb-8">
+        <h1 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">
+          Choose a Template
+        </h1>
+        <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">
+          Pick a style to get started
+        </p>
       </motion.div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {templates.map((tpl) => (
-          <motion.div
-            key={tpl.id}
-            variants={fadeUp}
-            whileHover={{ scale: 1.02 }}
-            className="group cursor-pointer"
-            onClick={() => {
-              setSelectedTemplate(tpl.id);
-              setStage(2);
-              setStep(1);
-            }}
-          >
-            <div className="bg-[var(--d-surface)] border border-[var(--d-border)] rounded-2xl overflow-hidden group-hover:border-[var(--d-text-primary)] transition-all">
-              <div className="aspect-[3/4] p-4 bg-[var(--d-surface-muted)] relative flex items-start justify-center overflow-hidden">
-                {tpl.mockup}
-              </div>
-              <div className="p-4 border-t border-[var(--d-border)] bg-[var(--d-surface)] flex items-center justify-between">
-                <div>
-                  <h3 className="font-bold text-[var(--d-text-primary)]">{tpl.name}</h3>
-                  <span className="text-[10px] text-[var(--d-text-tertiary)] uppercase font-bold tracking-wider">{tpl.tag}</span>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {templates.map((tpl) => {
+          const isSelected = selectedTemplate === tpl.id;
+          return (
+            <motion.div
+              key={tpl.id}
+              variants={fadeUp}
+              className="group cursor-pointer flex flex-col"
+              onClick={() => {
+                setSelectedTemplate(tpl.id);
+                setStage(2);
+                setStep(1);
+              }}
+            >
+              <div 
+                className={`
+                  relative aspect-[3/4] p-8 bg-[#F5F4EF] border  flex items-center justify-center overflow-hidden
+                  ${isSelected ? "border-black border-2" : "border-[#E8E6DE] group-hover:border-black"}
+                `}
+                style={{ borderRadius: 0 }}
+              >
+                {isSelected && (
+                  <div className="absolute top-4 right-4 bg-black px-2 py-1">
+                    <span className="font-mono text-[10px] text-white font-bold uppercase tracking-widest">
+                      SELECTED
+                    </span>
+                  </div>
+                )}
+                <div className="w-full scale-110 opacity-80 group-hover:opacity-100 transition-opacity">
+                  {tpl.mockup}
                 </div>
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: tpl.color }} />
               </div>
-            </div>
-          </motion.div>
-        ))}
+              <div className="mt-4 flex items-center justify-between">
+                <h3 className="font-mono text-[11px] font-bold text-black uppercase tracking-widest">
+                  {tpl.name}
+                </h3>
+                <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest">
+                  {tpl.tag}
+                </span>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </motion.div>
   );
@@ -560,7 +581,7 @@ export default function CreateCVPage() {
     switch (step) {
       case 1:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <TextField label="Full Name" value={data.personalInfo.fullName} onChange={(e) => updatePersonalInfo("fullName", e.target.value)} />
             <TextField label="Email" value={data.personalInfo.email} onChange={(e) => updatePersonalInfo("email", e.target.value)} />
             <TextField label="Phone" value={data.personalInfo.phone} onChange={(e) => updatePersonalInfo("phone", e.target.value)} />
@@ -583,66 +604,100 @@ export default function CreateCVPage() {
         return <TextArea label="Professional Summary" value={data.summary} onChange={(e) => setData(prev => ({ ...prev, summary: e.target.value }))} placeholder="A brief overview of your career and skills..." rows={8} />;
       case 3:
         return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <p className="text-sm text-[var(--d-text-secondary)]">Max 3 work experiences allowed.</p>
-              <Button 
-                size="sm" 
-                icon={<Plus className="w-3 h-3" />} 
+          <div className="space-y-10">
+            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
+              <div>
+                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Work Experience</h3>
+                <p className="font-mono text-[10px] text-[#888880] mt-1">MAX 3 ENTRIES ALLOWED</p>
+              </div>
+              <button 
+                className="btn-ghost px-4 py-2 text-[11px]"
                 onClick={addExperience}
                 disabled={data.workExperience.length >= 3}
               >
-                Add Experience
-              </Button>
+                + ADD EXPERIENCE
+              </button>
             </div>
-            {data.workExperience.map((exp, idx) => (
-              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
-                <button onClick={() => removeExperience(idx)} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <TextField label="Role" value={exp.role} onChange={(e) => updateExperience(idx, "role", e.target.value)} />
-                  <TextField label="Company" value={exp.company} onChange={(e) => updateExperience(idx, "company", e.target.value)} />
-                  <TextField label="Period" value={exp.period} onChange={(e) => updateExperience(idx, "period", e.target.value)} />
-                  <TextField label="Location" value={exp.location} onChange={(e) => updateExperience(idx, "location", e.target.value)} />
+            <div className="space-y-6">
+              {data.workExperience.map((exp, idx) => (
+                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                  <button 
+                    onClick={() => removeExperience(idx)} 
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                  >
+                    [ REMOVE ]
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <TextField label="Role" value={exp.role} onChange={(e) => updateExperience(idx, "role", e.target.value)} />
+                    <TextField label="Company" value={exp.company} onChange={(e) => updateExperience(idx, "company", e.target.value)} />
+                    <TextField label="Period" value={exp.period} onChange={(e) => updateExperience(idx, "period", e.target.value)} />
+                    <TextField label="Location" value={exp.location} onChange={(e) => updateExperience(idx, "location", e.target.value)} />
+                  </div>
+                  <TextArea label="Bullets (One per line)" value={exp.bullets.join("\n")} onChange={(e) => updateExperience(idx, "bullets", e.target.value.split("\n"))} rows={4} />
                 </div>
-                <TextArea label="Bullets (One per line)" value={exp.bullets.join("\n")} onChange={(e) => updateExperience(idx, "bullets", e.target.value.split("\n"))} rows={4} />
-              </div>
-            ))}
-            {data.workExperience.length === 0 && (
-              <div className="text-center py-12 border-2 border-dashed border-[var(--d-border)] rounded-2xl">
-                <p className="text-[var(--d-text-secondary)]">No work experience added yet.</p>
-              </div>
-            )}
+              ))}
+              {data.workExperience.length === 0 && (
+                <div className="text-center py-16 border border-dashed border-[#E8E6DE]">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">NO_EXPERIENCE_ADDED</p>
+                </div>
+              )}
+            </div>
           </div>
         );
       case 4:
         return (
-          <div className="space-y-6">
-            <div className="flex justify-end"><Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addEducation}>Add Education</Button></div>
-            {data.education.map((edu, idx) => (
-              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
-                <button onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <TextField label="Degree" value={edu.degree} onChange={(e) => updateEducation(idx, "degree", e.target.value)} />
-                  <TextField label="Institution" value={edu.institution} onChange={(e) => updateEducation(idx, "institution", e.target.value)} />
-                  <TextField label="Period" value={edu.period} onChange={(e) => updateEducation(idx, "period", e.target.value)} />
-                  <TextField label="Location" value={edu.location} onChange={(e) => updateEducation(idx, "location", e.target.value)} />
+          <div className="space-y-10">
+            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
+              <h3 className="font-sans text-[16px] font-bold text-black uppercase">Education</h3>
+              <button 
+                className="btn-ghost px-4 py-2 text-[11px]" 
+                onClick={addEducation}
+              >
+                + ADD EDUCATION
+              </button>
+            </div>
+            <div className="space-y-6">
+              {data.education.map((edu, idx) => (
+                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                  <button 
+                    onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))} 
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                  >
+                    [ REMOVE ]
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <TextField label="Degree" value={edu.degree} onChange={(e) => updateEducation(idx, "degree", e.target.value)} />
+                    <TextField label="Institution" value={edu.institution} onChange={(e) => updateEducation(idx, "institution", e.target.value)} />
+                    <TextField label="Period" value={edu.period} onChange={(e) => updateEducation(idx, "period", e.target.value)} />
+                    <TextField label="Location" value={edu.location} onChange={(e) => updateEducation(idx, "location", e.target.value)} />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         );
       case 5:
         return (
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Skill Categories</h3>
-                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addSkillCategory}>Add Category</Button>
+          <div className="space-y-12">
+            <div className="space-y-8">
+              <div className="flex items-end justify-between border-b border-[#E8E6DE] pb-4">
+                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Skill Categories</h3>
+                <button 
+                  className="btn-ghost px-4 py-2 text-[11px]" 
+                  onClick={addSkillCategory}
+                >
+                  + ADD CATEGORY
+                </button>
               </div>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 gap-6">
                 {data.skills.map((cat, idx) => (
-                  <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
-                    <button onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                  <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                    <button 
+                      onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))} 
+                      className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                    >
+                      [ REMOVE ]
+                    </button>
                     <TextField label="Category Name" value={cat.category} onChange={(e) => updateSkillCategory(idx, e.target.value)} />
                     <TextArea label="Items (Comma separated)" value={cat.items.join(", ")} onChange={(e) => updateSkillItems(idx, e.target.value)} rows={2} />
                   </div>
@@ -650,8 +705,8 @@ export default function CreateCVPage() {
               </div>
             </div>
             
-            <div className="space-y-4">
-              <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Languages</h3>
+            <div className="space-y-6">
+              <h3 className="font-sans text-[16px] font-bold text-black uppercase border-b border-[#E8E6DE] pb-4">Languages</h3>
               <TextField 
                 placeholder="English, French, etc." 
                 value={data.languages?.join(", ") || ""} 
@@ -659,16 +714,26 @@ export default function CreateCVPage() {
               />
             </div>
 
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[var(--d-text-primary)] uppercase tracking-wider">Certifications</h3>
-                <Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addCertification}>Add Certification</Button>
+            <div className="space-y-6">
+              <div className="flex items-end justify-between border-b border-[#E8E6DE] pb-4">
+                <h3 className="font-sans text-[16px] font-bold text-black uppercase">Certifications</h3>
+                <button 
+                  className="btn-ghost px-4 py-2 text-[11px]" 
+                  onClick={addCertification}
+                >
+                  + ADD CERTIFICATION
+                </button>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {data.certifications.map((cert, idx) => (
-                  <div key={idx} className="flex gap-2 group">
+                  <div key={idx} className="flex gap-4 group">
                     <TextField className="flex-1" placeholder="e.g. AWS Certified Solutions Architect" value={cert} onChange={(e) => updateCertification(idx, e.target.value)} />
-                    <button onClick={() => removeCertification(idx)} className="p-2 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                    <button 
+                      onClick={() => removeCertification(idx)} 
+                      className="mt-10 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                    >
+                      ×
+                    </button>
                   </div>
                 ))}
               </div>
@@ -677,25 +742,39 @@ export default function CreateCVPage() {
         );
       case 6:
         return (
-          <div className="space-y-6">
-            <div className="flex justify-end"><Button size="sm" icon={<Plus className="w-3 h-3" />} onClick={addProject}>Add Project</Button></div>
-            {(data.projects || []).map((proj, idx) => (
-              <div key={idx} className="p-6 bg-[var(--d-surface-muted)] border border-[var(--d-border)] rounded-2xl space-y-4 relative group">
-                <button onClick={() => removeProject(idx)} className="absolute top-4 right-4 p-1.5 text-[var(--d-text-tertiary)] hover:text-red-500 transition-colors"><Trash2 className="w-4 h-4" /></button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <TextField label="Project Name" value={proj.name} onChange={(e) => updateProject(idx, "name", e.target.value)} />
-                  <TextField label="Year" value={proj.year || ""} onChange={(e) => updateProject(idx, "year", e.target.value)} />
+          <div className="space-y-10">
+            <div className="flex justify-between items-end border-b border-[#E8E6DE] pb-4">
+              <h3 className="font-sans text-[16px] font-bold text-black uppercase">Projects</h3>
+              <button 
+                className="btn-ghost px-4 py-2 text-[11px]" 
+                onClick={addProject}
+              >
+                + ADD PROJECT
+              </button>
+            </div>
+            <div className="space-y-6">
+              {(data.projects || []).map((proj, idx) => (
+                <div key={idx} className="p-8 bg-[#F5F4EF] border border-[#E8E6DE] space-y-6 relative">
+                  <button 
+                    onClick={() => removeProject(idx)} 
+                    className="absolute top-6 right-8 font-mono text-[11px] text-[#888880] hover:text-[#D83B2A] transition-colors"
+                  >
+                    [ REMOVE ]
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <TextField label="Project Name" value={proj.name} onChange={(e) => updateProject(idx, "name", e.target.value)} />
+                    <TextField label="Year" value={proj.year || ""} onChange={(e) => updateProject(idx, "year", e.target.value)} />
+                  </div>
+                  <TextField label="Description" value={proj.description} onChange={(e) => updateProject(idx, "description", e.target.value)} />
+                  <TextArea label="Bullets (One per line)" value={proj.bullets.join("\n")} onChange={(e) => updateProject(idx, "bullets", e.target.value.split("\n"))} rows={3} />
                 </div>
-                <TextField label="Description" value={proj.description} onChange={(e) => updateProject(idx, "description", e.target.value)} />
-                <TextArea label="Bullets (One per line)" value={proj.bullets.join("\n")} onChange={(e) => updateProject(idx, "bullets", e.target.value.split("\n"))} rows={3} />
-              </div>
-            ))}
-            {(!data.projects || data.projects.length === 0) && (
-              <div className="text-center py-12 border-2 border-dashed border-[var(--d-border)] rounded-2xl">
-                <Layout className="w-8 h-8 mx-auto mb-3 text-[var(--d-text-tertiary)]" />
-                <p className="text-[var(--d-text-secondary)]">No projects added yet.</p>
-              </div>
-            )}
+              ))}
+              {(!data.projects || data.projects.length === 0) && (
+                <div className="text-center py-16 border border-dashed border-[#E8E6DE]">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">NO_PROJECTS_ADDED</p>
+                </div>
+              )}
+            </div>
           </div>
         );
       default: return null;
@@ -703,64 +782,147 @@ export default function CreateCVPage() {
   };
 
   const renderWizard = () => (
-    <div className="space-y-8 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between gap-4">
-        <button onClick={() => setStage(1)} className="p-2 text-[var(--d-text-tertiary)] hover:text-[var(--d-text-primary)] transition-colors"><ArrowLeft className="w-5 h-5" /></button>
-        <div className="flex-1 flex flex-col items-center">
-          <div className="flex items-center gap-2 mb-4">
-            {steps.map((s, i) => (
-              <React.Fragment key={s.id}>
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-                    step === s.id
-                      ? "bg-[var(--d-text-primary)] text-[var(--d-surface)]"
-                      : step > s.id
-                      ? "bg-emerald-500 text-white"
-                      : "border-2 border-[var(--d-border)] text-[var(--d-text-tertiary)]"
-                  }`}
-                >
-                  {step > s.id ? <Check className="w-4 h-4" /> : s.id}
-                </div>
-                {i < steps.length - 1 && (
-                  <div className={`w-8 h-0.5 ${step > s.id ? "bg-emerald-500" : "bg-[var(--d-border)]"}`} />
-                )}
-              </React.Fragment>
-            ))}
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)] border border-[#E8E6DE] bg-white overflow-hidden">
+      {/* Left: Form Side */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Step Indicator */}
+        <div className="px-12 py-8 border-b border-[#E8E6DE] flex items-center gap-6 overflow-x-auto no-scrollbar bg-white">
+          <button 
+            onClick={() => setStage(1)} 
+            className="p-2 -ml-2 text-[#888880] hover:text-black transition-colors shrink-0"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="flex items-center gap-6">
+            {steps.map((s, i) => {
+              const isCurrent = step === s.id;
+              const isCompleted = step > s.id;
+              return (
+                <React.Fragment key={s.id}>
+                  <div 
+                    className={`
+                      flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest whitespace-nowrap pb-1 
+                      ${isCurrent ? "text-black border-b border-black" : "text-[#888880]"}
+                    `}
+                  >
+                    {isCompleted && <span>✓</span>}
+                    <span>{String(s.id).padStart(2, '0')} {s.title}</span>
+                  </div>
+                  {i < steps.length - 1 && <span className="text-[#E8E6DE]">—</span>}
+                </React.Fragment>
+              );
+            })}
           </div>
-          <span className="px-2 py-0.5 bg-[var(--d-surface-muted)] text-[10px] font-bold text-[var(--d-text-tertiary)] rounded border border-[var(--d-border)] uppercase tracking-widest">{selectedTemplate} Template</span>
         </div>
-        <div className="w-9" />
+
+        {/* Panel Content */}
+        <div className="flex-1 overflow-y-auto p-12 no-scrollbar bg-white">
+          <motion.div key={step} initial="hidden" animate="show" variants={fadeUp}>
+             <div className="mb-12">
+               <h2 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">{steps[step - 1].title}</h2>
+               <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">{steps[step - 1].subtitle}</p>
+             </div>
+             {renderStepContent()}
+          </motion.div>
+        </div>
+
+        {/* Wizard Nav */}
+        <div className="px-12 py-8 border-t border-[#E8E6DE] flex justify-between items-center bg-white mt-auto">
+           <button 
+             onClick={handlePrevStep}
+             className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+           >
+             ← PREVIOUS
+           </button>
+           <div className="flex gap-4">
+             {step === 6 && (
+               <button 
+                 onClick={() => setStage(3)} 
+                 className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+               >
+                 SKIP_TO_FINAL
+               </button>
+             )}
+             <button 
+               onClick={handleNextStep}
+               className="btn-primary px-8 py-3 text-[12px] font-mono uppercase tracking-widest"
+             >
+               {step === 6 ? "PREVIEW FINAL CV →" : "NEXT_STEP →"}
+             </button>
+           </div>
+        </div>
       </div>
-      <div className="text-center"><h2 className="text-2xl font-bold text-[var(--d-text-primary)]">{steps[step - 1].title}</h2><p className="text-[var(--d-text-secondary)]">{steps[step - 1].subtitle}</p></div>
-      <motion.div key={step} initial="hidden" animate="show" variants={fadeUp} className="bg-[var(--d-surface)] border border-[var(--d-border)] p-8 rounded-3xl">{renderStepContent()}</motion.div>
-      <div className="flex justify-end gap-3"><Button variant="secondary" onClick={handlePrevStep}>Back</Button>{step === 6 && <Button variant="ghost" onClick={() => setStage(3)}>Skip</Button>}<Button variant="primary" onClick={handleNextStep}>{step === 6 ? "Preview My CV" : "Continue"}</Button></div>
+
+      {/* Right: Live Preview Sidebar */}
+      <div className="hidden lg:flex w-[480px] border-l border-[#E8E6DE] bg-white flex-col">
+        <div className="px-8 py-4 border-b border-[#E8E6DE] flex items-center justify-between bg-white">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+            LIVE_PREVIEW
+          </span>
+          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-wider">
+            {selectedTemplate}_TEMPLATE
+          </span>
+        </div>
+        <div className="flex-1 bg-[#F5F4EF] p-8 flex items-start justify-center overflow-hidden">
+           <div className="w-full h-full shadow-[0_0_40px_rgba(0,0,0,0.05)] origin-top scale-[0.65] lg:scale-[0.55] xl:scale-[0.65]">
+             <PDFViewer className="w-full h-full border-none">
+               <ActiveResume />
+             </PDFViewer>
+           </div>
+        </div>
+      </div>
     </div>
   );
 
   const renderPreview = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <button onClick={() => { setStage(2); setStep(6); }} className="p-2 text-[var(--d-text-tertiary)] hover:text-[var(--d-text-primary)] transition-colors"><ArrowLeft className="w-5 h-5" /></button>
+    <div className="space-y-12 bg-white p-12 border border-[#E8E6DE]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[#E8E6DE] pb-10">
+        <div className="flex items-center gap-6">
+          <button 
+            onClick={() => { setStage(2); setStep(6); }} 
+            className="p-2 -ml-2 text-[#888880] hover:text-black transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
           <div>
-            <h2 className="text-xl font-bold text-[var(--d-text-primary)]">Final Preview</h2>
-            <span className="px-2 py-0.5 bg-[var(--d-surface-muted)] text-[10px] font-bold text-[var(--d-text-tertiary)] rounded border border-[var(--d-border)] uppercase tracking-widest">{selectedTemplate} Template</span>
+            <h2 className="font-sans text-[20px] font-bold text-black uppercase tracking-tight">Final Preview</h2>
+            <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-2">
+              {selectedTemplate}_TEMPLATE_SELECTED
+            </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" icon={<Save className="w-4 h-4" />} onClick={handleSave} loading={isSaving}>Save Draft</Button>
+        <div className="flex items-center gap-4">
+          <button 
+            className="btn-ghost px-6 py-3 text-[12px] font-mono uppercase tracking-widest"
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {isSaving ? "SAVING..." : "SAVE_DRAFT"}
+          </button>
           <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName.replace(/\s+/g, "_")}_Resume.pdf`}>
-            {({ loading }) => <Button variant="primary" icon={<Download className="w-4 h-4" />} loading={loading}>Download PDF</Button>}
+            {({ loading }) => (
+              <button 
+                className="btn-primary px-8 py-3 text-[12px] font-mono uppercase tracking-widest"
+                disabled={loading}
+              >
+                {loading ? "PREPARING..." : "DOWNLOAD_PDF ↓"}
+              </button>
+            )}
           </PDFDownloadLink>
         </div>
       </div>
-      <div className="rounded-2xl border border-[var(--d-border)] overflow-hidden bg-[#525659] shadow-2xl">
-        <div className="bg-[var(--d-surface)] px-4 py-2 border-b border-[var(--d-border)] flex items-center justify-between">
-          <span className="text-[10px] font-bold text-[var(--d-text-tertiary)] uppercase tracking-widest">Document Preview</span>
-          <span className="text-[10px] text-[var(--d-text-tertiary)] bg-[var(--d-surface-muted)] px-1.5 py-0.5 rounded">PDF</span>
+
+      <div className="bg-[#F5F4EF] border border-[#E8E6DE] overflow-hidden">
+        <div className="bg-white px-8 py-4 border-b border-[#E8E6DE] flex items-center justify-between">
+          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+            DOCUMENT_OUTPUT
+          </span>
+          <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest">
+            ENGINE_STABLE
+          </span>
         </div>
         <div className={hasPreviewedRef.current ? "block" : "hidden"}>
-          <PDFViewer className="w-full h-[85vh] border-none"><ActiveResume /></PDFViewer>
+          <PDFViewer className="w-full h-[90vh] border-none"><ActiveResume /></PDFViewer>
         </div>
       </div>
     </div>

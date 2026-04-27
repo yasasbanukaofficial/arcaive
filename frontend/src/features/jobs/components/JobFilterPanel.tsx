@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { ChevronLeft, Check } from "lucide-react";
 import Slider from "@/components/ui/Slider";
 
 interface FilterCheckboxProps {
@@ -25,29 +24,24 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
       tabIndex={0}
       onClick={onChange}
       onKeyDown={handleKeyDown}
-      className="flex items-center gap-3 py-2 cursor-pointer group outline-none"
+      className="flex items-center gap-4 py-2 cursor-pointer group outline-none"
     >
       <div
-        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-[background-color,border-color] duration-150 ease-out"
-        style={{
-          backgroundColor: checked ? "var(--d-surface-active)" : "transparent",
-          border: `1.5px solid ${checked ? "var(--d-border-hover)" : "var(--d-border)"}`,
-        }}
+        className={`relative w-[14px] h-[14px] border border-[#222] flex items-center justify-center shrink-0 ${
+          checked ? "bg-black" : "bg-white"
+        }`}
+        style={{ borderRadius: 0 }}
       >
-        <Check
-          className="w-3.5 h-3.5 transition-[opacity,transform] duration-150 ease-out"
-          style={{
-            color: "var(--d-text-primary)",
-            opacity: checked ? 1 : 0,
-            transform: checked ? "scale(1)" : "scale(0.5)",
-          }}
-        />
+        {checked && (
+          <span className="font-mono text-[10px] text-white pointer-events-none">
+            ✓
+          </span>
+        )}
       </div>
       <span
-        className="text-[13px] font-medium transition-colors duration-200"
-        style={{
-          color: checked ? "var(--d-text-secondary)" : "var(--d-text-tertiary)",
-        }}
+        className={`font-mono text-[11px] uppercase tracking-widest transition-colors ${
+          checked ? "font-bold text-black" : "text-[#888880]"
+        }`}
       >
         {label}
       </span>
@@ -103,38 +97,24 @@ export default function JobFilterPanel({
 }: JobFiltersProps) {
   return (
     <div
-      className="rounded-2xl p-6 space-y-6 sticky top-24"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      className="p-8 space-y-10 border border-[#E8E6DE] bg-white sticky top-24"
     >
-      <div className="flex items-center justify-between">
-        <h3
-          className="text-[16px] font-semibold tracking-tight"
-          style={{ color: "var(--d-text-primary)" }}
-        >
+      <div className="flex items-center justify-between border-b border-[#E8E6DE] pb-4">
+        <h3 className="font-sans text-[16px] font-bold text-black uppercase tracking-tight">
           Filters
         </h3>
         <button
           onClick={onToggleCollapse}
-          className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-200"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-            color: "var(--d-icon)",
-          }}
+          className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
         >
-          <ChevronLeft className="w-4 h-4" />
+          [ HIDE ]
         </button>
       </div>
       <div>
-        <p
-          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
           Employment Type
         </p>
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {EMPLOYMENT_TYPES.map((t) => (
             <FilterCheckbox
               key={t.value}
@@ -146,13 +126,10 @@ export default function JobFilterPanel({
         </div>
       </div>
       <div>
-        <p
-          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
           Work Mode
         </p>
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {REMOTE_OPTIONS.map((r) => (
             <FilterCheckbox
               key={r.value}
@@ -165,13 +142,10 @@ export default function JobFilterPanel({
       </div>
       
       <div>
-        <p
-          className="text-[12px] font-bold uppercase tracking-wider mb-2.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[#888880]">
           Salary Range
         </p>
-        <div className="space-y-3">
+        <div className="space-y-6">
           <FilterCheckbox
             label="Has salary info"
             checked={filterHasSalary}
@@ -179,7 +153,7 @@ export default function JobFilterPanel({
           />
           <div className="pt-2">
             <Slider
-              label="Min Salary"
+              label="MIN_SALARY"
               value={salaryMin}
               onChange={onSalaryMinChange}
               min={0}
@@ -191,7 +165,7 @@ export default function JobFilterPanel({
           </div>
           <div>
             <Slider
-              label="Max Salary"
+              label="MAX_SALARY"
               value={salaryMax}
               onChange={onSalaryMaxChange}
               min={0}

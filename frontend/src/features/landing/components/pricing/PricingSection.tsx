@@ -9,6 +9,7 @@ import SectionHeader from "@/components/layout/SectionHeader";
 
 const PricingSection = () => {
   const router = useRouter();
+  const [isYearly, setIsYearly] = React.useState(false);
 
   const planIdMap: Record<string, string> = {
     Explorer: "explorer",
@@ -19,9 +20,10 @@ const PricingSection = () => {
   const handlePlanSelect = (planName: string) => {
     const planId = planIdMap[planName];
     if (planId) {
-      router.push(`/subscription/checkout?plan=${planId}&billing=month`);
+      router.push(`/subscription/checkout?plan=${planId}&billing=${isYearly ? "year" : "month"}`);
     }
   };
+
   const pricingPlans = [
     {
       plan: "Explorer",
@@ -75,37 +77,49 @@ const PricingSection = () => {
   return (
     <section
       id="pricing"
-      className="py-20 sm:py-28 bg-[#0a0a0a]"
+      className="py-32 px-6 bg-white border-t border-[#E8E6DE]"
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          variants={staggerContainer(0.1, 0.1)}
-          className="text-left mb-12 sm:mb-16"
-        >
-          <SectionHeader
-            label="Pricing"
-            title="Simple, transparent"
-            subtitle="pricing."
-          />
-          <p className="text-white/40 text-base sm:text-lg max-w-xl mt-4">
-            Choose the plan that fits your needs. Upgrade or downgrade anytime.
-          </p>
-        </motion.div>
+      <div className="max-w-[1440px] mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">[04]</span>
+              <div className="w-12 h-[1px] bg-[#E8E6DE]" />
+            </div>
+            <h2 className="font-sans text-[48px] font-bold leading-tight tracking-[-0.03em] text-black">
+              Flexible pricing <br />
+              for every stage.
+            </h2>
+          </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer(0.15, 0.1)}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
-        >
+          {/* Toggle */}
+          <div className="flex items-center gap-8 pb-2">
+            <button
+              onClick={() => setIsYearly(false)}
+              className={`font-mono text-[11px] uppercase tracking-widest transition-[color,border-color] duration-200 pb-1 border-b ${
+                !isYearly ? "text-black border-black" : "text-[#888880] border-transparent"
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`font-mono text-[11px] uppercase tracking-widest transition-[color,border-color] duration-200 pb-1 border-b ${
+                isYearly ? "text-black border-black" : "text-[#888880] border-transparent"
+              }`}
+            >
+              Annual (-20%)
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 border-t border-[#E8E6DE]">
           {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} {...plan} onSelect={handlePlanSelect} />
+            <div key={index} className={`relative ${index !== 2 ? "md:border-r border-[#E8E6DE]" : ""} border-b md:border-b-0 border-[#E8E6DE]`}>
+              <PricingCard {...plan} isYearly={isYearly} onSelect={handlePlanSelect} />
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -32,13 +32,13 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
 
   return (
     <div
-      className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
+      className="p-4 sm:p-5  sm:"
       style={{ backgroundColor: "var(--d-surface-hover)" }}
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center"
+            className="w-8 h-8 sm:w-10 sm:h-10  sm: flex items-center justify-center"
             style={{ backgroundColor: "var(--d-accent-subtle)" }}
           >
             {icon}
@@ -62,7 +62,7 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
         </div>
         {isUnlimited ? (
           <span
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5  text-sm font-semibold"
             style={{
               background: "linear-gradient(135deg, var(--d-accent) 0%, #a855f7 100%)",
               color: "#ffffff",
@@ -90,14 +90,14 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
       </div>
       {!isUnlimited && (
         <div
-          className="h-2 rounded-full overflow-hidden"
+          className="h-2  overflow-hidden"
           style={{ backgroundColor: "var(--d-border)" }}
         >
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-full rounded-full"
+            className="h-full "
             style={{
               backgroundColor: isExhausted ? "var(--d-error)" : "var(--d-accent)",
             }}
@@ -268,7 +268,7 @@ export default function BillingPageWrapper() {
 
       <motion.div
         variants={fadeUp}
-        className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
+        className=" sm: p-6 sm:p-8 lg:p-10"
         style={{
           backgroundColor: "var(--d-surface)",
           border: "1px solid var(--d-border)",
@@ -291,13 +291,13 @@ export default function BillingPageWrapper() {
           </div>
 
           <div
-            className="flex items-center gap-2 p-1 rounded-lg"
+            className="flex items-center gap-2 p-1 "
             style={{
               backgroundColor: "var(--d-surface-hover)",
             }}
           >
             <span
-              className="px-4 py-2 rounded-md text-sm font-medium"
+              className="px-4 py-2  text-sm font-medium"
               style={{
                 backgroundColor: "var(--d-accent)",
                 color: "#ffffff",
@@ -327,7 +327,7 @@ export default function BillingPageWrapper() {
 
       <motion.div
         variants={fadeUp}
-        className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
+        className=" sm: p-6 sm:p-8 lg:p-10"
         style={{
           backgroundColor: "var(--d-surface)",
           border: "1px solid var(--d-border)",
@@ -335,7 +335,7 @@ export default function BillingPageWrapper() {
       >
         <div className="flex items-center gap-3 mb-6">
           <div
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center"
+            className="w-10 h-10 sm:w-12 sm:h-12  sm: flex items-center justify-center"
             style={{ backgroundColor: "var(--d-surface-hover)" }}
           >
             <FileSearch size={20} style={{ color: "var(--d-accent)" }} />

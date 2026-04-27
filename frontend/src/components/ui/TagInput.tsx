@@ -59,7 +59,6 @@ export default function TagInput({
   hint,
   error,
   required = false,
-  variant = "default",
   className = "",
 }: TagInputProps) {
   const [inputValue, setInputValue] = useState("");
@@ -152,29 +151,18 @@ export default function TagInput({
     }, 150);
   }, [inputValue, addTag]);
 
-  const tagStyle = getTagStyles(variant);
   const atLimit = maxTags !== undefined && tags.length >= maxTags;
 
   return (
-    <div className={`space-y-1.5 ${className}`} ref={containerRef}>
+    <div className={`flex flex-col ${className}`} ref={containerRef}>
       {label && (
-        <div className="flex items-center justify-between">
-          <label
-            className="block text-xs font-bold ml-0.5 tracking-widest uppercase"
-            style={{ color: "var(--d-text-secondary)" }}
-          >
+        <div className="flex items-center justify-between mb-2">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
             {label}
-            {required && <span className="text-red-400/70 ml-0.5">*</span>}
+            {required && <span className="text-accent ml-1 font-mono">*</span>}
           </label>
           {maxTags && (
-            <span
-              className="text-[11px] tabular-nums"
-              style={{
-                color: atLimit
-                  ? "rgba(234, 179, 8, 0.7)"
-                  : "var(--d-text-muted)",
-              }}
-            >
+            <span className="font-mono text-[10px] text-[#888880]">
               {tags.length}/{maxTags}
             </span>
           )}
@@ -184,31 +172,22 @@ export default function TagInput({
         <div
           onClick={handleContainerClick}
           className={`
-            flex flex-wrap items-center gap-2 rounded-xl px-4 py-3 min-h-[50px]
-            transition-all duration-200
+            flex flex-wrap items-center gap-2 px-[14px] py-[12px] min-h-[50px] border 
             ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-text"}
+            ${error ? "border-[#D83B2A]" : isFocused ? "border-black" : "border-[#E8E6DE] bg-white"}
           `}
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.05)",
-            border: error
-              ? "1.5px solid rgba(239, 68, 68, 0.5)"
-              : isFocused
-                ? "1.5px solid #3b82f6"
-                : "1.5px solid rgba(255, 255, 255, 0.12)",
-            boxShadow: isFocused ? "0 0 0 3px rgba(59, 130, 246, 0.15)" : "none",
-          }}
+          style={{ borderRadius: 0 }}
         >
           <AnimatePresence mode="popLayout">
             {tags.map((tag, index) => (
               <motion.span
                 key={tag}
                 layout
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8, width: 0, marginRight: -4 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold select-none shrink-0"
-                style={tagStyle}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="inline-flex items-center gap-2 px-2 py-1 border border-[#E8E6DE] bg-[#F5F4EF] font-mono text-[10px] font-bold uppercase tracking-widest text-black shrink-0"
+                style={{ borderRadius: 0 }}
               >
                 <span className="truncate max-w-[150px]">{tag}</span>
                 {!disabled && (
@@ -218,10 +197,10 @@ export default function TagInput({
                       e.stopPropagation();
                       removeTag(index);
                     }}
-                    className="shrink-0 w-4 h-4 flex items-center justify-center rounded-full transition-all duration-150 hover:opacity-70 -mr-0.5"
+                    className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
                     aria-label={`Remove ${tag}`}
                   >
-                    <X className="w-3 h-3" />
+                    ×
                   </button>
                 )}
               </motion.span>
@@ -243,25 +222,18 @@ export default function TagInput({
               onBlur={handleBlur}
               placeholder={tags.length === 0 ? placeholder : ""}
               disabled={disabled}
-              className="flex-1 min-w-[80px] bg-transparent text-sm font-semibold outline-none placeholder:text-white/40 placeholder:font-medium py-1"
-              style={{ color: "var(--d-text-primary)" }}
+              className="flex-1 min-w-[120px] bg-transparent font-sans text-[15px] outline-none placeholder:text-[#888880] py-1"
             />
           )}
         </div>
         <AnimatePresence>
           {showSuggestions && filteredSuggestions.length > 0 && (
             <motion.div
-              initial={{ opacity: 0, y: -4, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute z-50 w-full mt-1.5 rounded-xl py-1 overflow-hidden backdrop-blur-xl max-h-48 overflow-y-auto"
-              style={{
-                backgroundColor: "var(--d-bg)",
-                border: "1px solid var(--d-border-hover)",
-                boxShadow:
-                  "0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15)",
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute z-50 w-full mt-[-1px] bg-white border border-black overflow-hidden max-h-48 overflow-y-auto"
+              style={{ borderRadius: 0 }}
             >
               {filteredSuggestions.map((suggestion) => (
                 <button
@@ -271,24 +243,10 @@ export default function TagInput({
                     e.preventDefault();
                     addTag(suggestion);
                   }}
-                  className="w-full flex items-center gap-2.5 px-3.5 py-2 text-left text-[13px] transition-colors duration-150 outline-none"
-                  style={{
-                    color: "var(--d-text-secondary)",
-                    backgroundColor: "transparent",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--d-surface-hover)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }}
+                  className="w-full flex items-center gap-3 px-[14px] py-[10px] text-left hover:bg-[#F5F4EF] transition-colors border-b border-[#E8E6DE] last:border-b-0"
                 >
-                  <Plus
-                    className="w-3 h-3 shrink-0"
-                    style={{ color: "var(--d-text-muted)" }}
-                  />
-                  <span className="truncate">{suggestion}</span>
+                  <span className="font-mono text-[11px] text-[#888880]">→</span>
+                  <span className="font-sans text-[14px] font-medium text-black truncate">{suggestion}</span>
                 </button>
               ))}
             </motion.div>
@@ -297,13 +255,10 @@ export default function TagInput({
       </div>
 
       {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
+        <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p
-          className="text-[12px] ml-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[10px] text-[#888880] mt-2">
           {hint}
         </p>
       )}

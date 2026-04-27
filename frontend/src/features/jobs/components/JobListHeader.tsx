@@ -40,7 +40,7 @@ export default function JobListHeader({
         </h2>
 
         <span
-          className="text-[12px] sm:text-[13px] font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg"
+          className="text-[12px] sm:text-[13px] font-semibold px-2 py-1 sm:px-3 sm:py-1.5 "
           style={{
             backgroundColor: "var(--d-surface-hover)",
             border: "1px solid var(--d-border)",
@@ -59,7 +59,7 @@ export default function JobListHeader({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             onClick={onToggleFilters}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl text-[12px] sm:text-[13px] font-medium transition-colors duration-200"
+            className="flex items-center gap-2 px-3 py-2  text-[12px] sm:text-[13px] font-medium transition-colors duration-200"
             style={{
               backgroundColor: "var(--d-surface)",
               border: "1px solid var(--d-border)",

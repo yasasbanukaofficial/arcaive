@@ -33,38 +33,16 @@ export default function TextArea({
   resize = "vertical",
   className = "",
 }: TextAreaProps) {
-  const resizeClass =
-    resize === "none"
-      ? "resize-none"
-      : resize === "vertical"
-        ? "resize-y"
-        : resize === "horizontal"
-          ? "resize-x"
-          : "resize";
-
   return (
-    <div className={`space-y-1.5 ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       {label && (
-        <div className="flex items-center justify-between">
-          <label
-            className="block text-xs font-bold ml-0.5 tracking-widest uppercase"
-            style={{ color: "var(--d-text-secondary)" }}
-          >
+        <div className="flex items-center justify-between mb-2">
+          <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
             {label}
-            {required && (
-              <span className="text-red-400/70 ml-0.5">*</span>
-            )}
+            {required && <span className="text-accent ml-1 font-mono">*</span>}
           </label>
           {maxLength && (
-            <span
-              className="text-[11px] tabular-nums"
-              style={{
-                color:
-                  value.length > maxLength * 0.9
-                    ? "rgba(239, 68, 68, 0.7)"
-                    : "var(--d-text-muted)",
-              }}
-            >
+            <span className="font-mono text-[10px] text-[#888880]">
               {value.length}/{maxLength}
             </span>
           )}
@@ -80,41 +58,19 @@ export default function TextArea({
         rows={rows}
         maxLength={maxLength}
         className={`
-          w-full rounded-xl px-4 py-3 text-sm font-semibold leading-relaxed
-          outline-none transition-all duration-200
-          placeholder:text-white/40 placeholder:font-medium
+          w-full px-[14px] py-[12px] font-sans text-[15px] border 
+          focus:outline-none focus:border-black min-h-[120px]
           disabled:opacity-40 disabled:cursor-not-allowed
-          focus:ring-2 focus:ring-blue-500/30
-          ${resizeClass}
+          ${resize === "none" ? "resize-none" : "resize-y"}
+          ${error ? "border-[#D83B2A]" : "border-[#E8E6DE] bg-white"}
         `}
-        style={{
-          backgroundColor: "rgba(255, 255, 255, 0.05)",
-          border: error
-            ? "1.5px solid rgba(239, 68, 68, 0.5)"
-            : "1.5px solid rgba(255, 255, 255, 0.12)",
-          color: "var(--d-text-primary)",
-        }}
-        onFocus={(e) => {
-          e.currentTarget.style.borderColor = error
-            ? "rgba(239, 68, 68, 0.8)"
-            : "#3b82f6";
-          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = error
-            ? "rgba(239, 68, 68, 0.5)"
-            : "rgba(255, 255, 255, 0.12)";
-          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-        }}
+        style={{ borderRadius: 0 }}
       />
       {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
+        <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p
-          className="text-[12px] ml-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[10px] text-[#888880] mt-2">
           {hint}
         </p>
       )}

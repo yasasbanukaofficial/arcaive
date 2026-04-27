@@ -11,90 +11,46 @@ export default function ActivityFeed() {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-200"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      className="p-8 border border-[#E8E6DE] bg-white transition-[border-color] duration-200"
+      style={{ borderRadius: 0 }}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#E8E6DE]">
         <div>
-          <h3
-            className="text-[17px] font-medium tracking-tight"
-            style={{ color: "var(--d-text-primary)" }}
-          >
+          <h3 className="font-sans text-[18px] font-bold text-black uppercase tracking-tight">
             Recent Activity
           </h3>
-          <p
-            className="text-[13px] mt-0.5"
-            style={{ color: "var(--d-text-muted)" }}
-          >
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-1">
             Latest agent logs
           </p>
         </div>
-        <button
-          className="text-[13px] transition-colors"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
-          View all
+        <button className="font-mono text-[11px] uppercase tracking-widest text-[#888880] hover:text-black transition-colors">
+          [ VIEW_ALL ]
         </button>
       </div>
 
-      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-1">
+      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-2">
         {activities.map((activity, i) => {
-          const Icon = activity.icon;
           return (
             <motion.div
               key={i}
               variants={fadeUp}
-              className="flex items-start gap-3.5 p-3.5 rounded-xl transition-colors duration-200 group cursor-pointer"
+              className="flex items-start gap-4 p-4 border border-transparent hover:border-[#E8E6DE] hover:bg-[#F5F4EF] transition-[background-color,border-color] duration-200 group cursor-pointer"
+              style={{ borderRadius: 0 }}
             >
-              <div
-                className={`w-10 h-10 rounded-lg flex-shrink-0 flex items-center justify-center ${
-                  activity.status === "warning"
-                    ? "bg-amber-500/10 border border-amber-500/10"
-                    : ""
-                }`}
-                style={
-                  activity.status !== "warning"
-                    ? {
-                        backgroundColor: "var(--d-surface-hover)",
-                        border: "1px solid var(--d-border)",
-                      }
-                    : undefined
-                }
-              >
-                <Icon
-                  className={`w-4 h-4 ${
-                    activity.status === "warning" ? "text-amber-400/60" : ""
-                  }`}
-                  style={
-                    activity.status !== "warning"
-                      ? { color: "var(--d-icon)" }
-                      : undefined
-                  }
-                />
+              <div className="w-10 h-10 border border-[#E8E6DE] bg-[#F5F4EF] flex items-center justify-center shrink-0 group-hover:border-black transition-colors">
+                <span className="font-mono text-[14px] text-black">→</span>
               </div>
 
               <div className="flex-1 min-w-0">
-                <p
-                  className="text-[14px] font-medium transition-colors truncate"
-                  style={{ color: "var(--d-text-secondary)" }}
-                >
+                <p className="font-sans text-[14px] font-bold text-black uppercase truncate tracking-tight">
                   {activity.title}
                 </p>
-                <p
-                  className="text-[12px] mt-0.5 truncate"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
+                <p className="font-mono text-[11px] text-[#888880] uppercase tracking-tighter truncate mt-1">
                   {activity.description}
                 </p>
               </div>
 
-              <span
-                className="text-[11px] flex-shrink-0 mt-0.5"
-                style={{ color: "var(--d-text-ghost)" }}
-              >
+              <span className="font-mono text-[10px] text-[#888880] uppercase tracking-widest whitespace-nowrap mt-1">
                 {activity.time}
               </span>
             </motion.div>

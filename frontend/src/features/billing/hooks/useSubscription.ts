@@ -1,9 +1,9 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { subscriptionAPI } from "../api/subscriptionAPI";
+import { subscriptionAPI, type UsageQuotaResponse } from "../api/subscriptionAPI";
 import type { MemberSubscription, UsageQuota } from "@/@types/subscription";
 
-function mapToUsageQuota(data: subscriptionAPI.UsageQuotaResponse | null): UsageQuota {
+function mapToUsageQuota(data: UsageQuotaResponse | null): UsageQuota {
   if (!data) {
     return {
       periodStart: new Date().toISOString(),

@@ -12,8 +12,7 @@ export default function SubscriptionSuccessPage() {
   return (
     <div className="min-h-screen w-full bg-[#0a0c0d] flex flex-col font-sans">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full opacity-50" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-[300px] h-[200px] bg-white/5 blur-[80px] rounded-full" />
+        <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
       </div>
 
@@ -29,7 +28,7 @@ export default function SubscriptionSuccessPage() {
         >
           <motion.div
             variants={bounceIn}
-            className="relative overflow-hidden rounded-2xl p-10 sm:p-12 text-center"
+            className="relative overflow-hidden  p-10 sm:p-12 text-center"
             style={{
               backgroundColor: "rgba(18, 18, 18, 0.6)",
               border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -50,7 +49,7 @@ export default function SubscriptionSuccessPage() {
                 }}
                 className="relative"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-emerald-500/10 border border-emerald-500/30">
+                <div className="w-20 h-20 sm:w-24 sm:h-24  flex items-center justify-center bg-emerald-500/10 border border-emerald-500/30">
                   <CheckCircle2
                     size={44}
                     className="text-emerald-400"
@@ -69,7 +68,7 @@ export default function SubscriptionSuccessPage() {
                     repeat: 2,
                     repeatDelay: 1,
                   }}
-                  className="absolute inset-0 rounded-full border-2 border-emerald-500/50"
+                  className="absolute inset-0  border-2 border-emerald-500/50"
                 />
               </motion.div>
             </motion.div>
@@ -97,7 +96,7 @@ export default function SubscriptionSuccessPage() {
                   fullWidth
                   icon={<ArrowRight size={18} />}
                   iconPosition="right"
-                  className="mt-4 font-semibold py-3.5 rounded-full"
+                  className="mt-4 font-semibold py-3.5 "
                 >
                   Go to Dashboard
                 </Button>
@@ -115,12 +114,12 @@ export default function SubscriptionSuccessPage() {
       </main>
 
       <footer className="relative z-10 py-8 text-center border-t border-white/5">
-        <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0 transition-all cursor-default">
-          <div className="w-1 h-1 rounded-full bg-white" />
+        <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0  cursor-default">
+          <div className="w-1 h-1  bg-white" />
           <span className="text-[10px] uppercase tracking-[0.2em] font-bold">
             Harness Invisible Power
           </span>
-          <div className="w-1 h-1 rounded-full bg-white" />
+          <div className="w-1 h-1  bg-white" />
         </div>
       </footer>
     </div>

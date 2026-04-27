@@ -71,14 +71,11 @@ export default function Select({
   }, [open, handleClickOutside, handleKeyDown]);
 
   return (
-    <div className={`space-y-1.5 ${className}`} ref={containerRef}>
+    <div className={`flex flex-col ${className}`} ref={containerRef}>
       {label && (
-        <label
-          className="block text-[13px] font-medium ml-0.5"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
+        <label className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mb-2">
           {label}
-          {required && <span className="text-red-400/70 ml-0.5">*</span>}
+          {required && <span className="text-accent ml-1 font-mono">*</span>}
         </label>
       )}
 
@@ -89,58 +86,26 @@ export default function Select({
           onClick={() => !disabled && setOpen((prev) => !prev)}
           className={`
             w-full flex items-center justify-between gap-2
-            rounded-xl px-4 py-2.5 text-[13px] text-left
-            outline-none transition-all duration-200
+            px-[14px] py-[12px] font-sans text-[15px] text-left border 
+            focus:outline-none focus:border-black
             disabled:opacity-40 disabled:cursor-not-allowed
-            focus-visible:ring-2 focus-visible:ring-blue-500/20
+            ${error ? "border-[#D83B2A]" : open ? "border-black" : "border-[#E8E6DE] bg-white"}
           `}
-          style={{
-            backgroundColor: "var(--d-surface)",
-            border: error
-              ? "1px solid rgba(239, 68, 68, 0.4)"
-              : open
-                ? "1px solid var(--d-border-hover)"
-                : "1px solid var(--d-border)",
-            color: selected
-              ? "var(--d-text-primary)"
-              : "var(--d-text-muted)",
-          }}
+          style={{ borderRadius: 0 }}
         >
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            {selected?.icon && (
-              <span className="shrink-0 w-4 h-4 flex items-center justify-center">
-                {selected.icon}
-              </span>
-            )}
-            <span className="truncate font-semibold">
-              {selected ? selected.label : placeholder}
-            </span>
-          </div>
-          <motion.div
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="shrink-0"
-          >
-            <ChevronDown
-              className="w-4 h-4"
-              style={{ color: "var(--d-text-muted)" }}
-            />
-          </motion.div>
+          <span className={`truncate ${!selected ? "text-[#888880]" : "text-black"}`}>
+            {selected ? selected.label : placeholder}
+          </span>
+          <span className="font-mono text-[18px] leading-none">↓</span>
         </button>
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ opacity: 0, y: -4, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -4, scale: 0.98 }}
-              transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute z-50 w-full mt-1.5 rounded-xl py-1 overflow-hidden backdrop-blur-xl max-h-60 overflow-y-auto"
-              style={{
-                backgroundColor: "var(--d-bg)",
-                border: "1px solid var(--d-border-hover)",
-                boxShadow:
-                  "0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15)",
-              }}
+              initial={{ opacity: 0, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 0 }}
+              className="absolute z-50 w-full mt-[-1px] bg-white border border-black overflow-hidden max-h-60 overflow-y-auto"
+              style={{ borderRadius: 0 }}
             >
               {options.map((option) => {
                 const isSelected = option.value === value;
@@ -152,59 +117,26 @@ export default function Select({
                       onChange(option.value);
                       setOpen(false);
                     }}
-                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-left text-[13px] transition-colors duration-150 outline-none"
-                    style={{
-                      backgroundColor: isSelected
-                        ? "var(--d-surface-active)"
-                        : "transparent",
-                      color: isSelected
-                        ? "var(--d-text-primary)"
-                        : "var(--d-text-secondary)",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.backgroundColor =
-                          "var(--d-surface-hover)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isSelected) {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }
-                    }}
+                    className={`
+                      w-full flex flex-col px-[14px] py-[10px] text-left transition-colors border-b border-[#E8E6DE] last:border-b-0
+                      ${isSelected ? "bg-[#F5F4EF]" : "bg-white hover:bg-[#F5F4EF]"}
+                    `}
                   >
-                    {option.icon && (
-                      <span className="shrink-0 w-4 h-4 flex items-center justify-center">
-                        {option.icon}
+                    <span className="font-sans text-[14px] font-medium text-black">
+                      {option.label}
+                    </span>
+                    {option.description && (
+                      <span className="font-mono text-[10px] text-[#888880] uppercase mt-0.5">
+                        {option.description}
                       </span>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <span className="block truncate">{option.label}</span>
-                      {option.description && (
-                        <span
-                          className="block text-[11px] truncate mt-0.5"
-                          style={{ color: "var(--d-text-muted)" }}
-                        >
-                          {option.description}
-                        </span>
-                      )}
-                    </div>
-                    {isSelected && (
-                      <Check
-                        className="w-3.5 h-3.5 shrink-0"
-                        style={{ color: "rgba(59, 130, 246, 0.7)" }}
-                      />
                     )}
                   </button>
                 );
               })}
 
               {options.length === 0 && (
-                <div
-                  className="px-4 py-3 text-[13px] text-center"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
-                  No options available
+                <div className="px-[14px] py-[12px] font-mono text-[11px] text-[#888880] text-center">
+                  NO_OPTIONS_AVAILABLE
                 </div>
               )}
             </motion.div>
@@ -213,13 +145,10 @@ export default function Select({
       </div>
 
       {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
+        <p className="font-mono text-[11px] text-[#D83B2A] mt-2">! {error}</p>
       )}
       {hint && !error && (
-        <p
-          className="text-[12px] ml-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="font-mono text-[10px] text-[#888880] mt-2">
           {hint}
         </p>
       )}

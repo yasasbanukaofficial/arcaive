@@ -32,11 +32,6 @@ export default function RootLayout({
         <ToastProvider>
           <QuotaExceededModal />
           <SmoothScroll>
-            <div className="bg-glows">
-              <div className="glow-blue" />
-              <div className="glow-purple" />
-              <div className="glow-center" />
-            </div>
             <div className="noise-overlay" />
             {children}
           </SmoothScroll>

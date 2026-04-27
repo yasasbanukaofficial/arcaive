@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import type { UIMessage } from "ai";
 import { ArrowDownIcon, DownloadIcon } from "lucide-react";
@@ -69,7 +69,12 @@ export const ConversationEmptyState = ({
   </div>
 );
 
-export type ConversationScrollButtonProps = ComponentProps<typeof Button>;
+export type ConversationScrollButtonProps = Omit<
+  ComponentProps<typeof Button>,
+  "children"
+> & {
+  children?: React.ReactNode;
+};
 
 export const ConversationScrollButton = ({
   className,
@@ -85,14 +90,14 @@ export const ConversationScrollButton = ({
     !isAtBottom && (
       <Button
         className={cn(
-          "absolute bottom-4 left-[50%] translate-x-[-50%] rounded-full dark:bg-background dark:hover:bg-muted",
+          "absolute bottom-4 left-[50%] translate-x-[-50%] dark:bg-background dark:hover:bg-muted",
           className
         )}
         onClick={handleScrollToBottom}
-        size="icon"
+        size="sm"
         type="button"
-        variant="outline"
-        {...props}
+        variant="ghost"
+        {...(props as any)}
       >
         <ArrowDownIcon className="size-4" />
       </Button>
@@ -108,11 +113,12 @@ const getMessageText = (message: UIMessage): string =>
 
 export type ConversationDownloadProps = Omit<
   ComponentProps<typeof Button>,
-  "onClick"
+  "onClick" | "children"
 > & {
   messages: UIMessage[];
   filename?: string;
   formatMessage?: (message: UIMessage, index: number) => string;
+  children?: React.ReactNode;
 };
 
 const defaultFormatMessage = (message: UIMessage): string => {
@@ -131,7 +137,7 @@ export const messagesToMarkdown = (
 
 export const ConversationDownload = ({
   messages,
-  filename = "conversation.md",
+  filename = "chat.md",
   formatMessage = defaultFormatMessage,
   className,
   children,
@@ -153,14 +159,14 @@ export const ConversationDownload = ({
   return (
     <Button
       className={cn(
-        "absolute top-4 right-4 rounded-full dark:bg-background dark:hover:bg-muted",
+        "absolute top-4 right-4 dark:bg-background dark:hover:bg-muted",
         className
       )}
       onClick={handleDownload}
-      size="icon"
+      size="sm"
       type="button"
-      variant="outline"
-      {...props}
+      variant="ghost"
+      {...(props as any)}
     >
       {children ?? <DownloadIcon className="size-4" />}
     </Button>

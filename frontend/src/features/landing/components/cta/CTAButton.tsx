@@ -8,12 +8,13 @@ interface CTAButtonProps {
 
 const CTAButton = ({ text, href }: CTAButtonProps) => {
   return (
-    <div className="pt-1.5 sm:pt-2">
+    <div className="pt-2">
       <Link
         href={href}
-        className="cursor-pointer inline-block bg-zinc-100 hover:bg-white text-black font-semibold py-1.5 px-4 sm:px-5 rounded-full text-[12px] sm:text-[13px] transition-all duration-200"
+        className="cursor-pointer inline-flex items-center justify-center bg-white text-black font-mono text-[11px] font-bold uppercase tracking-widest py-3 px-6 border border-white hover:bg-black hover:text-white transition-colors duration-200"
+        style={{ borderRadius: 0 }}
       >
-        {text}
+        {text.replace(/\s+/g, '_')}
       </Link>
     </div>
   );

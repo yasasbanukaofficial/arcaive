@@ -28,7 +28,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -71,127 +71,83 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-4 sm:top-6 md:top-8 left-0 right-0 z-[100] px-4 sm:px-6 flex justify-center pointer-events-none">
-        <motion.nav
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-          className={cn(
-            "pointer-events-auto flex items-center justify-between gap-4 sm:gap-6 md:gap-10 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/5 transition-all duration-500 w-auto max-w-full",
-            scrolled
-              ? "bg-black/40 backdrop-blur-2xl shadow-2xl border-white/10"
-              : "bg-white/[0.02] backdrop-blur-xl",
-          )}
-        >
-          <Logo
-            href="/"
-            size={20}
-            textSize="text-[12px] sm:text-[14px]"
-            textColor="white"
-            textClassName="font-bold"
-            imageClassName="w-4 h-4 sm:w-5 sm:h-5"
-            className="gap-2 sm:gap-2.5"
-            useNextImage
-          />
-          <div className="hidden lg:flex items-center gap-8 px-4">
+      <nav
+        className={cn(
+          "fixed top-0 left-0 right-0 z-[100] h-[64px] border-b border-[#E8E6DE] transition-colors duration-300",
+          scrolled ? "bg-white" : "bg-white/80 backdrop-blur-sm"
+        )}
+      >
+        <div className="h-full px-6 flex items-center justify-between">
+          <Link href="/" className="font-mono font-bold text-[16px] uppercase tracking-[0.2em]">
+            ARCAIVE
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-10">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 onClick={(e) => handleLinkClick(e, item.href)}
-                className="text-[13px] font-medium text-white/40 hover:text-white transition-colors tracking-tight"
+                className="font-mono text-[11px] uppercase tracking-widest text-black/60 hover:text-black transition-colors"
               >
                 {item.name}
               </Link>
             ))}
+            <Link
+              href="/register"
+              className="btn-primary py-2 px-6 h-auto min-h-0"
+            >
+              Get Started
+            </Link>
           </div>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="lg:hidden text-black p-2 transition-colors"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
-          <Link
-            href="/register"
-            className="hidden lg:inline-flex bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
-          >
-            Get Started
-          </Link>
-        </motion.nav>
-      </div>
+        </div>
+      </nav>
+
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[110] bg-[#0a0a0a] lg:hidden flex flex-col font-sans overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-[110] bg-white lg:hidden flex flex-col overflow-hidden"
           >
-            <div className="flex items-center justify-between p-6">
-              <Link href="/" className="flex items-center gap-2">
-                <Image
-                  width="20"
-                  height="20"
-                  alt="arcaive-logo-png"
-                  src={"/images/icon.png"}
-                  unoptimized
-                  className="w-5 h-5"
-                />
-                <span className="text-white text-lg font-bold tracking-tight">
-                  ARCAIVE
-                </span>
+            <div className="h-[64px] px-6 flex items-center justify-between border-b border-[#E8E6DE]">
+              <Link href="/" className="font-mono font-bold text-[16px] uppercase tracking-[0.2em]">
+                ARCAIVE
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-white/70 hover:text-white transition-colors p-1"
+                className="text-black p-2"
               >
-                <X size={28} strokeWidth={1.5} />
+                <X size={24} />
               </button>
             </div>
-            <nav className="flex-1 flex flex-col justify-center px-8">
-              <motion.ul
-                initial="hidden"
-                animate="visible"
-                className="space-y-6"
+            <nav className="flex-1 flex flex-col justify-center px-10 gap-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => handleLinkClick(e, item.href)}
+                  className="font-sans text-4xl font-bold tracking-tight hover:text-[#D4F461] transition-colors"
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <Link
+                href="/register"
+                className="btn-primary mt-4 w-full text-center"
               >
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1, duration: 0.5 }}
-                    className="overflow-hidden"
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.href)}
-                      className="block text-[42px] sm:text-6xl font-light text-white/90 hover:text-white transition-all duration-300 hover:translate-x-4 tracking-tight"
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
+                Get Started
+              </Link>
             </nav>
-            <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay">
-              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <filter id="noise">
-                  <feTurbulence
-                    type="fractalNoise"
-                    baseFrequency="0.65"
-                    numOctaves="3"
-                    stitchTiles="stitch"
-                  />
-                </filter>
-                <rect width="100%" height="100%" filter="url(#noise)" />
-              </svg>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

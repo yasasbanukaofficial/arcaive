@@ -69,18 +69,14 @@ export default function CVAnalysisModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-md" style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.4))" }} onClick={() => status !== "uploading" && onClose()} />
+        <div className="absolute inset-0 bg-black/70" onClick={() => status !== "uploading" && onClose()} />
         
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-xl overflow-hidden rounded-2xl border"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            borderColor: "var(--d-border)",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-          }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 0 }}
+          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          style={{ borderRadius: 0 }}
         >
           <AnimatePresence mode="wait">
             {status === "uploading" ? (
@@ -89,6 +85,7 @@ export default function CVAnalysisModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                className="p-[48px]"
               >
                 <CVAnalysisLoading />
               </motion.div>
@@ -98,28 +95,24 @@ export default function CVAnalysisModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="relative z-10 p-5 sm:p-8 space-y-5"
+                className="relative z-10 flex flex-col"
               >
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg sm:text-xl font-medium" style={{ color: "var(--d-text-primary)" }}>
-                    Analysis Configuration
+                <div className="flex items-center justify-between px-[48px] py-6">
+                  <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+                    Analysis Config.
                   </h2>
                   <button
                     onClick={onClose}
-                    className="p-2 rounded-lg hover:bg-white/5 transition-colors"
-                    style={{ color: "var(--d-text-muted)" }}
+                    className="font-mono text-[18px] text-black hover:opacity-60 transition-opacity"
                   >
-                    <X size={20} />
+                    ×
                   </button>
                 </div>
+                <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-                <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
-                  Provide your credentials and the target role description for semantic alignment.
-                </p>
-
-                <div className="space-y-5">
+                <div className="p-[48px] space-y-8">
                   <FileUpload
-                    label="Your Professional CV"
+                    label="YOUR_RESUME_DOC"
                     files={files}
                     onFilesChange={setFiles}
                     status={status}
@@ -129,26 +122,33 @@ export default function CVAnalysisModal({
                   />
 
                   <TextArea
-                    label="Target Job Description"
-                    placeholder="Paste the full job description here..."
+                    label="TARGET_JOB_DESCRIPTION"
+                    placeholder="PASTE_TEXT_HERE"
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
-                    rows={4}
+                    rows={6}
                     disabled={status === "uploading"}
-                    className="rounded-xl"
                   />
                 </div>
 
-                <div>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl"
-                    onClick={handleAnalyze}
-                    disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
-                  >
-                    Start Analysis
-                  </Button>
+                <div className="mt-4">
+                  <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+                  <div className="px-[48px] py-8 flex justify-end gap-4">
+                    <button
+                      className="btn-ghost"
+                      onClick={onClose}
+                      disabled={status === "uploading"}
+                    >
+                      CANCEL
+                    </button>
+                    <button
+                      className="btn-primary"
+                      onClick={handleAnalyze}
+                      disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
+                    >
+                      RUN ANALYSIS
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             )}

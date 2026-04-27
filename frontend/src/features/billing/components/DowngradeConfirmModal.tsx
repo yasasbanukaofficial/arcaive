@@ -37,189 +37,83 @@ export default function DowngradeConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/50 backdrop-blur-md"
-          style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.5))" }}
+          className="absolute inset-0 bg-black/70"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          className="relative w-full max-w-md overflow-hidden rounded-2xl border shadow-xl"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            borderColor: "var(--d-border)",
-          }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 0 }}
+          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          style={{ borderRadius: 0 }}
         >
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-lg transition-colors z-10"
-            style={{ color: "var(--d-text-muted)" }}
-          >
-            <X size={20} />
-          </button>
-
-          <div className="p-6 pt-8">
-            <div className="text-center mb-6">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
-                className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: "rgba(251, 113, 133, 0.1)" }}
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between px-[48px] py-6">
+              <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+                Downgrade to {targetPlan}
+              </h2>
+              <button
+                onClick={onClose}
+                className="font-mono text-[18px] text-black hover:opacity-60 transition-opacity"
               >
-                <Heart
-                  size={32}
-                  style={{ color: "rgb(251, 113, 133)" }}
-                  className="fill-rose-200/20"
-                />
-              </motion.div>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="text-xl sm:text-2xl font-semibold mb-2"
-                style={{ color: "var(--d-text-primary)" }}
-              >
-                We&apos;re Sorry to See You Go
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Before you downgrade from <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{currentPlan}</span> to <span className="font-medium" style={{ color: "var(--d-text-secondary)" }}>{targetPlan}</span>, we want you to know that you&apos;ll be leaving behind some amazing features.
-              </motion.p>
+                ×
+              </button>
             </div>
+            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="mb-4 p-4 rounded-xl"
-              style={{
-                backgroundColor: "rgba(239, 68, 68, 0.08)",
-                border: "1px solid rgba(239, 68, 68, 0.2)",
-              }}
-            >
-              <div className="flex items-start gap-3">
-                <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(239, 68, 68, 0.12)" }}>
-                  <AlertTriangle size={18} style={{ color: "rgb(239, 68, 68)" }} />
-                </div>
-                <div>
-                  <p className="text-sm font-medium mb-1" style={{ color: "rgb(239, 68, 68)" }}>
-                    Important Billing Notice
-                  </p>
-                  <p className="text-sm leading-relaxed font-semibold" style={{ color: "var(--d-text-secondary)" }}>
-                    Proceeding with this downgrade will cancel all your current billing cycles immediately. This action is permanent and cannot be undone. Your new plan will take effect right away.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {featuresLost.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="mb-6 p-4 rounded-xl"
-                style={{ backgroundColor: "var(--d-surface-hover)" }}
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles size={16} style={{ color: "var(--d-accent)" }} />
-                  <span
-                    className="text-sm font-medium"
-                    style={{ color: "var(--d-text-secondary)" }}
-                  >
-                    Features You&apos;ll Miss
-                  </span>
-                </div>
-                <ul className="space-y-2">
-                  {featuresLost.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-3 text-sm font-medium"
-                      style={{ color: "var(--d-text-secondary)" }}
-                    >
-                      <span style={{ color: "rgb(251, 113, 133)" }}>
-                        {feature.icon}
-                      </span>
-                      {feature.label}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="p-4 rounded-xl mb-6"
-              style={{
-                backgroundColor: "rgba(251, 191, 36, 0.08)",
-                border: "1px solid rgba(251, 191, 36, 0.15)",
-              }}
-            >
-              <div className="flex items-start gap-3">
-                <AlertTriangle
-                  size={18}
-                  style={{ color: "rgb(251, 191, 36)" }}
-                  className="shrink-0 mt-0.5"
-                />
-                <p className="text-sm leading-relaxed font-semibold" style={{ color: "rgb(251, 191, 36)" }}>
-                  You can always upgrade again later. Your data and settings will be preserved.
+            <div className="p-[48px] space-y-8">
+              <div className="space-y-4">
+                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                  You&apos;re about to downgrade from <span className="text-black font-bold uppercase">{currentPlan}</span> to <span className="text-black font-bold uppercase">{targetPlan}</span>.
+                </p>
+                <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                  We&apos;re sorry to see you go. Before you proceed, please review the changes.
                 </p>
               </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col gap-3"
-            >
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={onConfirm}
-                className="w-full h-12 text-sm font-medium rounded-xl"
-                backgroundColor="rgba(239, 68, 68, 0.1)"
-                textColor="rgba(239, 68, 68, 0.9)"
-              >
-                Yes, Downgrade My Plan
-              </Button>
+              {featuresLost.length > 0 && (
+                <div className="space-y-4">
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+                    FEATURES_YOU_WILL_MISS
+                  </span>
+                  <ul className="space-y-3">
+                    {featuresLost.map((feature, index) => (
+                      <li
+                        key={index}
+                        className="flex items-center gap-3 font-mono text-[12px] uppercase text-black"
+                      >
+                        <span className="text-[#888880]">→</span>
+                        {feature.label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={onClose}
-                className="w-full h-12 text-sm font-medium rounded-xl"
-              >
-                Keep My Current Plan
-              </Button>
-            </motion.div>
+              <div className="p-4 border border-[#D83B2A] bg-[#D83B2A]/5">
+                <p className="font-mono text-[11px] leading-relaxed text-[#D83B2A]">
+                  [!] Proceeding will cancel your current billing cycle immediately. This action is permanent. Your new plan takes effect right away.
+                </p>
+              </div>
+            </div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.45 }}
-              className="text-xs text-center mt-4"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Need help?{" "}
-              <span
-                className="underline cursor-pointer transition-colors"
-                style={{ color: "var(--d-text-secondary)" }}
-              >
-                Contact support
-              </span>
-            </motion.p>
+            <div className="mt-4">
+              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+              <div className="px-[48px] py-8 flex justify-end gap-4">
+                <button
+                  className="btn-ghost"
+                  onClick={onClose}
+                >
+                  KEEP MY PLAN
+                </button>
+                <button
+                  className="btn-ghost border-[#D83B2A] text-[#D83B2A] hover:bg-[#D83B2A] hover:text-white"
+                  onClick={onConfirm}
+                >
+                  YES, DOWNGRADE
+                </button>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -194,66 +194,32 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="space-y-2"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2 }}
+      className="space-y-4"
     >
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-[13px] font-medium text-gray-400 ml-1">
-          Resume / CV
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+          RESUME_DOC
         </span>
 
-        <motion.div
-          animate={{ opacity: [0.8, 1, 0.8] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide uppercase"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(139,92,246,0.18) 0%, rgba(16,185,129,0.12) 100%)",
-            border: "1px solid rgba(139,92,246,0.25)",
-            color: "rgba(167,139,250,0.9)",
-          }}
-        >
-          <Sparkles className="w-3 h-3" />
-          AI Powered
-        </motion.div>
+        <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-black border border-black px-2 py-0.5">
+          [ AI_POWERED ]
+        </div>
       </div>
 
-      <motion.div
+      <div
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onClick={() => !isProcessing && inputRef.current?.click()}
-        animate={{
-          scale: isDragging ? 1.015 : 1,
-        }}
-        transition={{ duration: 0.15 }}
-        className={`relative rounded-2xl px-5 py-7 text-center overflow-hidden transition-all duration-200 ${
-          isProcessing ? "cursor-default" : "cursor-pointer"
-        }`}
-        style={{
-          background: isDragging
-            ? "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(16,185,129,0.06) 100%)"
-            : isDone
-              ? "linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(6,182,212,0.04) 100%)"
-              : "linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-          border: isDragging
-            ? "1.5px dashed rgba(139,92,246,0.5)"
-            : isDone
-              ? "1.5px dashed rgba(16,185,129,0.35)"
-              : "1.5px dashed rgba(139,92,246,0.2)",
-        }}
+        className={`relative px-8 py-10 text-center border transition-colors ${
+          isDragging ? "bg-[#F5F4EF] border-black" : isDone ? "bg-white border-black" : "bg-white border-[#E8E6DE] border-dashed"
+        } ${isProcessing ? "cursor-default" : "cursor-pointer"}`}
+        style={{ borderRadius: 0 }}
       >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(139,92,246,0.07) 0%, transparent 70%)",
-          }}
-        />
-
         <input
           ref={inputRef}
           type="file"
@@ -272,52 +238,23 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center gap-3"
+              className="flex flex-col items-center gap-4"
             >
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center relative"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(16,185,129,0.1) 100%)",
-                  border: "1px solid rgba(139,92,246,0.2)",
-                }}
-              >
-                <UploadCloud
-                  className="w-5 h-5"
-                  style={{ color: "rgba(167,139,250,0.85)" }}
-                />
-                <motion.div
-                  animate={{ scale: [1, 1.5, 1], opacity: [0.4, 0, 0.4] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute inset-0 rounded-2xl"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, rgba(139,92,246,0.2), rgba(16,185,129,0.1))",
-                  }}
-                />
+              <div className="w-12 h-12 border border-black flex items-center justify-center bg-[#F5F4EF]">
+                <UploadCloud className="w-5 h-5 text-black" />
               </div>
 
               <div className="space-y-1">
-                <p className="text-[13px] font-semibold text-white/70">
-                  {isDragging
-                    ? "Drop your resume here"
-                    : "Drop your resume or click to upload"}
+                <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                  {isDragging ? "DROP_FILE_NOW" : "UPLOAD_RESUME_DOC"}
                 </p>
-                <p className="text-[11px] text-gray-600">
-                  PDF, DOC, DOCX · max 10 MB
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[#888880]">
+                  PDF, DOC, DOCX · MAX 10MB
                 </p>
               </div>
 
-              <div
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-medium"
-                style={{
-                  background: "rgba(16,185,129,0.06)",
-                  border: "1px solid rgba(16,185,129,0.12)",
-                  color: "rgba(52,211,153,0.7)",
-                }}
-              >
-                <Zap className="w-3 h-3" />
-                Auto-fills name, email, job role &amp; experience
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-tight text-[#888880]">
+                <span>→ AUTO_FILL_NAME_ROLE_EXPERIENCE</span>
               </div>
             </motion.div>
           )}
@@ -325,29 +262,20 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
           {(isProcessing || isDone) && file && (
             <motion.div
               key="processing"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-4"
+              className="space-y-6"
             >
-              <div className="flex items-center gap-3 text-left">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                  style={{
-                    background: "rgba(239,68,68,0.1)",
-                    border: "1px solid rgba(239,68,68,0.2)",
-                  }}
-                >
-                  <FileText
-                    className="w-4.5 h-4.5"
-                    style={{ color: "rgba(248,113,113,0.8)" }}
-                  />
+              <div className="flex items-center gap-4 text-left p-4 border border-[#E8E6DE] bg-[#F5F4EF]">
+                <div className="w-10 h-10 border border-black flex items-center justify-center bg-white shrink-0">
+                  <FileText className="w-5 h-5 text-black" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-medium text-white/70 truncate">
+                  <p className="font-mono text-[11px] font-bold text-black uppercase truncate">
                     {file.name}
                   </p>
-                  <p className="text-[11px] text-gray-600">
+                  <p className="font-mono text-[10px] text-[#888880] uppercase">
                     {formatFileSize(file.size)}
                   </p>
                 </div>
@@ -358,168 +286,54 @@ export default function CVResumeUpload({ onExtracted }: CVResumeUploadProps) {
                       e.stopPropagation();
                       removeFile();
                     }}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-150 text-gray-600 hover:text-red-400/70 hover:bg-red-500/10"
+                    className="font-mono text-[11px] text-[#888880] hover:text-black transition-colors"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    [ REMOVE ]
                   </button>
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    {isDone ? (
-                      <CheckCircle2
-                        className="w-3.5 h-3.5"
-                        style={{ color: "rgba(52,211,153,0.8)" }}
-                      />
-                    ) : (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1.2,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                        className="w-3.5 h-3.5"
-                      >
-                        <Sparkles
-                          className="w-3.5 h-3.5"
-                          style={{
-                            color:
-                              stage === "analyzing"
-                                ? "rgba(167,139,250,0.9)"
-                                : "rgba(96,165,250,0.8)",
-                          }}
-                        />
-                      </motion.div>
-                    )}
-                    <span
-                      className="text-[11px] font-medium"
-                      style={{
-                        color: isDone
-                          ? "rgba(52,211,153,0.8)"
-                          : stage === "analyzing"
-                            ? "rgba(167,139,250,0.8)"
-                            : "rgba(96,165,250,0.8)",
-                      }}
-                    >
-                      {isDone
-                        ? "Fields ready to auto-fill!"
-                        : stage === "analyzing"
-                          ? "AI is analyzing your resume..."
-                          : "Uploading resume..."}
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-black">
+                      {isDone ? "✓ READY_TO_FILL" : stage === "analyzing" ? "→ ANALYZING_DOC" : "→ UPLOADING_DOC"}
                     </span>
                   </div>
-                  <span className="text-[11px] tabular-nums text-gray-600">
+                  <span className="font-mono text-[11px] text-black">
                     {progress}%
                   </span>
                 </div>
 
-                <div
-                  className="h-1.5 rounded-full overflow-hidden"
-                  style={{ background: "rgba(255,255,255,0.05)" }}
-                >
+                <div className="h-[2px] bg-[#E8E6DE]">
                   <motion.div
                     animate={{ width: `${progress}%` }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="h-full rounded-full"
-                    style={{
-                      background: isDone
-                        ? "linear-gradient(90deg, rgba(16,185,129,0.6), rgba(52,211,153,0.8))"
-                        : stage === "analyzing"
-                          ? "linear-gradient(90deg, rgba(139,92,246,0.5), rgba(167,139,250,0.85), rgba(16,185,129,0.5))"
-                          : "linear-gradient(90deg, rgba(59,130,246,0.5), rgba(96,165,250,0.85))",
-                    }}
+                    transition={{ duration: 0.2 }}
+                    className="h-full bg-black"
                   />
                 </div>
-
-                {isProcessing && (
-                  <motion.div
-                    animate={{ x: ["-100%", "400%"] }}
-                    transition={{
-                      duration: 1.6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      repeatDelay: 0.3,
-                    }}
-                    className="absolute top-0 left-0 h-full w-1/4 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)",
-                    }}
-                  />
-                )}
               </div>
 
-              <AnimatePresence>
-                {stage === "analyzing" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="flex flex-wrap gap-1.5"
+              <div className="flex flex-wrap gap-2">
+                {["Name", "Email", "Job Role", "Experience", "Country"].map((field) => (
+                  <span
+                    key={field}
+                    className={`px-2 py-1 font-mono text-[10px] uppercase tracking-widest border  ${
+                      isDone ? "border-black bg-[#F5F4EF] text-black" : "border-[#E8E6DE] text-[#888880]"
+                    }`}
+                    style={{ borderRadius: 0 }}
                   >
-                    {["Name", "Email", "Job Role", "Experience", "Country"].map(
-                      (field, i) => (
-                        <motion.span
-                          key={field}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.15 }}
-                          className="px-2 py-0.5 rounded-lg text-[10px] font-medium"
-                          style={{
-                            background: "rgba(139,92,246,0.1)",
-                            border: "1px solid rgba(139,92,246,0.18)",
-                            color: "rgba(167,139,250,0.75)",
-                          }}
-                        >
-                          {field}
-                        </motion.span>
-                      ),
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <AnimatePresence>
-                {isDone && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="flex flex-wrap gap-1.5"
-                  >
-                    {["Name", "Email", "Job Role", "Experience", "Country"].map(
-                      (field, i) => (
-                        <motion.span
-                          key={field}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.08 }}
-                          className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-medium"
-                          style={{
-                            background: "rgba(16,185,129,0.08)",
-                            border: "1px solid rgba(16,185,129,0.18)",
-                            color: "rgba(52,211,153,0.8)",
-                          }}
-                        >
-                          <CheckCircle2 className="w-2.5 h-2.5" />
-                          {field}
-                        </motion.span>
-                      ),
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {isDone && "✓ "}{field}
+                  </span>
+                ))}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
 
-      <p className="text-[11px] text-gray-600 ml-1">
-        Upload to auto fill the required information in seconds, or fill it
-        manually below.
+      <p className="font-mono text-[10px] uppercase tracking-widest text-[#888880]">
+        UPLOAD_TO_AUTO_FILL_IN_SECONDS_OR_MANUAL_ENTRY_BELOW
       </p>
     </motion.div>
   );

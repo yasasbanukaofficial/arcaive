@@ -57,14 +57,14 @@ const TestimonialSlider = ({ testimonials }: Props) => {
         <div className="flex items-center justify-center gap-6">
           <button
             onClick={prevSlide}
-            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+            className="p-3  bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Previous"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
+            className="p-3  bg-white/10 text-white hover:bg-white/20 transition-colors cursor-pointer"
             aria-label="Next"
           >
             <ArrowRight className="w-5 h-5" />
@@ -99,14 +99,14 @@ const TestimonialSlider = ({ testimonials }: Props) => {
         <div className="flex items-center justify-center gap-5">
           <button
             onClick={prevSlide}
-            className="p-2.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-2.5  bg-white/10 text-white hover:bg-white/20 transition-colors"
             aria-label="Previous"
           >
             <ArrowLeft className="w-4.5 h-4.5" />
           </button>
           <button
             onClick={nextSlide}
-            className="p-2.5 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-2.5  bg-white/10 text-white hover:bg-white/20 transition-colors"
             aria-label="Next"
           >
             <ArrowRight className="w-4.5 h-4.5" />
@@ -136,14 +136,14 @@ const TestimonialSlider = ({ testimonials }: Props) => {
         <div className="flex items-center justify-center gap-5 mb-6">
           <button
             onClick={prevSlide}
-            className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-2  bg-white/10 text-white hover:bg-white/20 transition-colors"
             aria-label="Previous"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
           <button
             onClick={nextSlide}
-            className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+            className="p-2  bg-white/10 text-white hover:bg-white/20 transition-colors"
             aria-label="Next"
           >
             <ArrowRight className="w-4 h-4" />
@@ -154,7 +154,7 @@ const TestimonialSlider = ({ testimonials }: Props) => {
             <button
               key={i}
               onClick={() => setCurrentIndex(i)}
-              className={`w-2 h-2 rounded-full transition-transform duration-300 ${
+              className={`w-2 h-2  transition-transform duration-300 ${
                 currentIndex === i ? "bg-white scale-125" : "bg-white/30"
               }`}
               aria-label={`Go to slide ${i + 1}`}

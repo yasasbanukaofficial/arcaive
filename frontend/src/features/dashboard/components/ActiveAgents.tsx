@@ -12,106 +12,62 @@ export default function ActiveAgents() {
   return (
     <motion.div
       variants={fadeUp}
-      className="rounded-2xl p-7 transition-colors duration-200"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      className="p-8 border border-[#E8E6DE] bg-white transition-[border-color] duration-200"
+      style={{ borderRadius: 0 }}
     >
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#E8E6DE]">
         <div>
-          <h3
-            className="text-[17px] font-medium tracking-tight"
-            style={{ color: "var(--d-text-primary)" }}
-          >
+          <h3 className="font-sans text-[18px] font-bold text-black uppercase tracking-tight">
             Active Agents
           </h3>
-          <p
-            className="text-[13px] mt-0.5"
-            style={{ color: "var(--d-text-muted)" }}
-          >
-            Currently running workflows
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880] mt-1">
+            Running workflows
           </p>
         </div>
-        <button
-          className="text-[13px] transition-colors"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
-          Manage
+        <button className="font-mono text-[11px] uppercase tracking-widest text-[#888880] hover:text-black transition-colors">
+          [ MANAGE ]
         </button>
       </div>
 
-      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-3">
+      <motion.div variants={dashboardStagger(0.04, 0)} className="space-y-4">
         {agents.map((agent) => (
           <motion.div
             key={agent.name}
             variants={fadeUp}
-            className="flex items-center gap-3.5 p-3.5 rounded-xl transition-all duration-200 group cursor-pointer hover:translate-x-0.5"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border-subtle)",
-            }}
+            className="flex items-center gap-4 p-4 border border-[#E8E6DE] bg-white transition-[background-color,border-color] duration-200 hover:bg-[#F5F4EF] hover:border-black group cursor-pointer"
+            style={{ borderRadius: 0 }}
           >
-            <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-              style={{
-                backgroundColor: "var(--d-surface-hover)",
-                border: "1px solid var(--d-border)",
-              }}
-            >
-              {agent.icon}
+            <div className="w-12 h-12 border border-[#E8E6DE] flex items-center justify-center bg-[#F5F4EF] group-hover:border-black shrink-0">
+              <span className="font-sans text-[16px] font-bold text-black uppercase">
+                {agent.name.charAt(0)}
+              </span>
             </div>
 
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p
-                  className="text-[14px] font-medium truncate"
-                  style={{ color: "var(--d-text-secondary)" }}
-                >
+              <div className="flex items-center gap-3">
+                <p className="font-sans text-[14px] font-bold text-black uppercase truncate">
                   {agent.name}
                 </p>
-                <div className="flex items-center gap-1">
-                  {agent.status === "active" ? (
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  ) : (
-                    <Pause className="w-2.5 h-2.5 text-amber-400/60" />
-                  )}
-                  <span
-                    className={`text-[10px] font-medium ${agent.status === "active" ? "text-emerald-400/60" : "text-amber-400/50"}`}
-                  >
+                <div className="flex items-center gap-1.5 px-2 py-0.5 border border-[#E8E6DE] bg-white group-hover:border-black transition-colors">
+                  <span className={`w-1.5 h-1.5 ${agent.status === "active" ? "bg-black" : "bg-[#888880]"}`} style={{ borderRadius: 0 }} />
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-black">
                     {agent.status}
                   </span>
                 </div>
               </div>
-              <p
-                className="text-[12px] mt-0.5 truncate"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <p className="font-mono text-[11px] text-[#888880] uppercase tracking-tighter truncate mt-1">
                 {agent.description}
               </p>
             </div>
 
             <div className="text-right flex-shrink-0">
-              <p
-                className="text-[15px] font-medium"
-                style={{ color: "var(--d-text-tertiary)" }}
-              >
+              <p className="font-mono text-[14px] font-bold text-black">
                 {agent.tasks}
               </p>
-              <p
-                className="text-[11px]"
-                style={{ color: "var(--d-text-ghost)" }}
-              >
-                tasks
+              <p className="font-mono text-[9px] uppercase tracking-widest text-[#888880]">
+                TASKS
               </p>
             </div>
-
-            <button className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 p-1">
-              <MoreHorizontal
-                className="w-4 h-4"
-                style={{ color: "var(--d-text-muted)" }}
-              />
-            </button>
           </motion.div>
         ))}
       </motion.div>

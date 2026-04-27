@@ -18,21 +18,15 @@ export default function SocialButtons({
     return `${baseUrl}${separator}redirect_uri=${encodeURIComponent(oauthCallbackUrl)}`;
   };
 
+  const buttonStyle = "cursor-pointer flex items-center justify-center gap-3 py-[14px] px-[28px] border border-black bg-white text-black font-mono text-[11px] font-bold uppercase tracking-[0.15em]  hover:bg-[#F5F4EF]";
+
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <Link
-        href={buildOAuthUrl(googleUrl)}
-        className="cursor-pointer flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-medium"
-      >
-        <Chrome size={18} />
-        Google
+    <div className="grid grid-cols-1 gap-3">
+      <Link href={buildOAuthUrl(googleUrl)} className={buttonStyle} style={{ borderRadius: 0 }}>
+        Continue with Google
       </Link>
-      <Link
-        href={buildOAuthUrl(githubUrl)}
-        className="cursor-pointer flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-medium"
-      >
-        <Github size={18} />
-        GitHub
+      <Link href={buildOAuthUrl(githubUrl)} className={buttonStyle} style={{ borderRadius: 0 }}>
+        Continue with GitHub
       </Link>
     </div>
   );

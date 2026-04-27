@@ -10,160 +10,78 @@ import { MessageSquare, Sparkles, CheckCircle2 } from "lucide-react";
 
 const steps = [
   {
-    id: 1,
-    title: "Call",
-    icon: MessageSquare,
-    description: "Type or speak your request, a thought, a task, a question.",
-    image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1000",
+    week: "WEEK 01",
+    title: "Onboarding & Analysis",
+    description: "Upload your CV. Our multi-agent swarm deconstructs your experience and identifies market-aligned achievements.",
   },
   {
-    id: 2,
-    title: "Awaken",
-    icon: Sparkles,
-    description:
-      "The assistant weaves the answer, shaping text or insight in seconds.",
-    image:
-      "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1000",
+    week: "WEEK 02",
+    title: "Discovery & Matching",
+    description: "AI bots scan live job markets, matching you with high-signal roles that fit your exact profile and salary goals.",
   },
   {
-    id: 3,
-    title: "Embrace",
-    icon: CheckCircle2,
-    description:
-      "Take what appears — refine it, use it, and move forward with ease.",
-    image:
-      "https://images.unsplash.com/photo-1633167606207-d840b5070fc2?auto=format&fit=crop&q=80&w=1000",
+    week: "WEEK 03",
+    title: "Tailored Submission",
+    description: "Every application is sent with a bespoke, AI-optimized resume that bypasses ATS and catches human eyes.",
+  },
+  {
+    week: "WEEK 04",
+    title: "Mock Interview Prep",
+    description: "Prepare with role-specific AI interviewers. Refine your pitch and technical answers until you're ready to land it.",
   },
 ];
 
 const HowItWorksSection = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [hasSelected, setHasSelected] = useState(false);
-
   return (
     <section
       id="howitworks"
-      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a]"
+      className="py-32 px-6 bg-white border-t border-[#E8E6DE]"
     >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="How It Works"
-            title="One prompt to begin,"
-            subtitle="three steps to clarity."
-          />
+      <div className="max-w-[1440px] mx-auto">
+        {/* Section Index & Label */}
+        <div className="flex flex-col gap-4 mb-20">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">[03]</span>
+            <div className="w-12 h-[1px] bg-[#E8E6DE]" />
+          </div>
+          <h2 className="font-sans text-[48px] font-bold leading-tight tracking-[-0.03em] text-black">
+            Lightning-quick <br />
+            from zero to hired.
+          </h2>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.2, 0.1)}
-          className="hidden lg:grid lg:grid-cols-2 gap-32 items-center"
-        >
-          <motion.div variants={bounceIn}>
-            <HowItWorksVisual steps={steps} activeIndex={activeStep} />
-          </motion.div>
+        {/* Timeline Layout */}
+        <div className="relative mt-24">
+          {/* Horizontal Line (Desktop) */}
+          <div className="hidden md:block absolute top-[44px] left-0 w-full h-[1px] bg-[#E8E6DE]" />
 
-          <motion.div variants={bounceIn}>
-            <HowItWorksStepper
-              steps={steps}
-              activeIndex={activeStep}
-              onSelect={setActiveStep}
-            />
-          </motion.div>
-        </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+            {steps.map((step, index) => (
+              <div key={index} className="relative flex flex-col items-start">
+                <span className="font-mono text-[11px] text-[#888880] mb-8 uppercase tracking-widest">
+                  {step.week}
+                </span>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.2, 0.1)}
-          className="hidden md:grid md:grid-cols-2 lg:hidden gap-8 items-center"
-        >
-          <motion.div
-            variants={bounceIn}
-            className="relative aspect-[4/3] rounded-[24px] bg-[#0c0c0c] overflow-hidden border border-white/5"
-          >
-            <img
-              src={steps[activeStep].image}
-              alt={steps[activeStep].title}
-              className="w-full h-full object-cover grayscale brightness-[0.7]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
-          </motion.div>
+                {/* Node Circle (Desktop) */}
+                <div className="hidden md:block absolute top-[40px] left-0 w-2 h-2  bg-black z-10" />
 
-          <motion.div variants={bounceIn}>
-            <HowItWorksStepper
-              steps={steps}
-              activeIndex={activeStep}
-              onSelect={setActiveStep}
-            />
-          </motion.div>
-        </motion.div>
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.15, 0.1)}
-          className="md:hidden"
-        >
-          <motion.div variants={bounceIn} className="flex flex-col gap-4 mb-8">
-            {(() => {
-              const displayIndex = hasSelected ? activeStep : 0;
-              const step = steps[displayIndex];
-              return (
-                <div
-                  key={step.id}
-                  className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-neutral-900/40"
-                  style={{ transition: "opacity 0.3s ease" }}
-                >
-                  <img
-                    src={step.image}
-                    alt={step.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
+                <div className="pt-0 md:pt-12">
+                  <h3 className="font-sans text-[20px] font-bold text-black mb-4 uppercase">
+                    {step.title}
+                  </h3>
+                  <p className="font-sans text-[14px] text-[#888880] leading-[1.6]">
+                    {step.description}
+                  </p>
                 </div>
-              );
-            })()}
-          </motion.div>
-          <motion.div variants={bounceIn} className="flex flex-col">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              const isActive = activeStep === index;
-              return (
-                <div
-                  key={step.id}
-                  onClick={() => {
-                    setActiveStep(index);
-                    setHasSelected(true);
-                  }}
-                  className={`relative flex flex-col gap-3 py-5 px-4 cursor-pointer border-l-2 transition-all ${
-                    isActive
-                      ? "border-white"
-                      : "border-white/10 hover:border-white/30"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="text-white">
-                      <Icon size={20} strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-[15px] font-medium tracking-tight text-white">
-                      {step.id}. {step.title}
-                    </h3>
-                  </div>
-                  <div className="pl-8">
-                    <p className="text-[13px] leading-relaxed text-gray-400">
-                      {step.description}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </motion.div>
-        </motion.div>
+
+                {/* Vertical Line (Mobile) */}
+                {index !== steps.length - 1 && (
+                  <div className="md:hidden absolute top-[24px] left-[4px] w-[1px] h-[calc(100%+24px)] bg-[#E8E6DE]" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

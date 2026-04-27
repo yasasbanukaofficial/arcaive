@@ -45,7 +45,6 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export default function Sidebar() {
   const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } =
     useSidebar();
-  const { isDark } = useTheme();
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
@@ -67,44 +66,16 @@ export default function Sidebar() {
       <div key={item.name}>
         <Link
           href={item.href}
-          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-colors duration-150 group relative"
-          style={{
-            backgroundColor: active
-              ? isDark
-                ? "var(--d-surface-active)"
-                : "#000000"
-              : "transparent",
-            color: active
-              ? isDark
-                ? "var(--d-text-primary)"
-                : "#ffffff"
-              : "var(--d-text-tertiary)",
-          }}
+          className={`flex items-center gap-3 px-6 py-3 transition-colors duration-150 group relative ${
+            active ? "text-white" : "text-white/60 hover:text-white"
+          }`}
         >
           {active && (
-            <div
-              className="absolute inset-0 rounded-xl"
-              style={{
-                backgroundColor: isDark ? "var(--d-surface-active)" : "#000000",
-                border: isDark ? "1px solid var(--d-border)" : "none",
-              }}
-            />
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#D4F461]" />
           )}
-          <Icon
-            className="w-5 h-5 relative z-10 transition-colors duration-150"
-            style={{
-              color: active
-                ? isDark
-                  ? "var(--d-text-primary)"
-                  : "#ffffff"
-                : "var(--d-icon)",
-            }}
-          />
+          <Icon className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
           {!collapsed && (
-            <span
-              className="relative z-10 whitespace-nowrap overflow-hidden transition-opacity duration-150"
-              style={{ opacity: collapsed ? 0 : 1 }}
-            >
+            <span className="font-mono text-[11px] uppercase tracking-widest whitespace-nowrap">
               {item.name}
             </span>
           )}
@@ -113,7 +84,7 @@ export default function Sidebar() {
     );
   };
 
-  const sidebarWidth = isMobile ? 260 : collapsed ? 72 : 260;
+  const sidebarWidth = isMobile ? 240 : collapsed ? 72 : 240;
 
   return (
     <>
@@ -124,123 +95,103 @@ export default function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: CLOSE_DURATION_S, ease: "easeOut" }}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/60 lg:hidden"
             onClick={() => setMobileOpen(false)}
           />
         )}
       </AnimatePresence>
 
       <aside
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-md"
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-[#111111] border-r border-white/10"
         style={{
           width: sidebarWidth,
           transform: isMobile
             ? mobileOpen
               ? "translateX(0)"
-              : "translateX(-260px)"
+              : "translateX(-240px)"
             : "translateX(0)",
           transition: `transform ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")}), width ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")})`,
           willChange: "transform, width",
-          backgroundColor: "var(--d-bg-alpha)",
-          borderRight: "1px solid var(--d-border-subtle)",
         }}
       >
-        <div className="px-5 py-6 min-h-18">
-          <div
-            className="transition-opacity duration-200"
-            style={{
-              opacity: collapsed ? 0 : 1,
-              width: collapsed ? 0 : "auto",
-            }}
-          >
-            <Logo
-              size={28}
-              textSize="text-[17px]"
-              showText={!collapsed}
-              textColor="var(--d-text-primary)"
-              className="gap-3"
-            />
-          </div>
+        <div className="h-[64px] flex items-center px-6 border-b border-white/10">
+          <Link href="/" className="font-mono text-[13px] font-bold text-white uppercase tracking-[0.2em]">
+            {collapsed ? "A" : "ARCAIVE"}
+          </Link>
         </div>
-        <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
-          <div className="space-y-1">
+
+        <nav className="flex-1 py-6 space-y-8 overflow-y-auto no-scrollbar">
+          <div>
             {!collapsed && (
-              <p
-                className="px-3 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.2em]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Create
+              <p className="px-6 mb-4 font-mono text-[9px] text-white/30 uppercase tracking-[0.2em]">
+                Explore
               </p>
             )}
-            {mainNav.map(renderNavItem)}
+            <div className="space-y-1">{mainNav.map(renderNavItem)}</div>
           </div>
 
-          <div
-            className="my-4"
-            style={{ borderTop: "1px solid var(--d-border-subtle)" }}
-          />
+          <div className="w-full h-[1px] bg-white/10 mx-6" style={{ width: collapsed ? "24px" : "calc(100% - 48px)" }} />
 
-          <div className="space-y-1">
+          <div>
             {!collapsed && (
-              <p
-                className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <p className="px-6 mb-4 font-mono text-[9px] text-white/30 uppercase tracking-[0.2em]">
                 Manage
               </p>
             )}
-            {manageNav.map(renderNavItem)}
+            <div className="space-y-1">{manageNav.map(renderNavItem)}</div>
           </div>
         </nav>
-        <div
-          className="px-3 pb-4 space-y-2 pt-4"
-          style={{ borderTop: "1px solid var(--d-border-subtle)" }}
-        >
-          {!isMobile && (
-            <button
-              onClick={toggle}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 w-full"
-              style={{ color: "var(--d-text-tertiary)" }}
-            >
-              {collapsed ? (
-                <ChevronRight className="w-5 h-5" />
-              ) : (
-                <ChevronLeft className="w-5 h-5" />
-              )}
-              <span
-                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
-                style={{
-                  opacity: collapsed ? 0 : 1,
-                  width: collapsed ? 0 : "auto",
-                }}
-              >
-                Collapse
-              </span>
-            </button>
+
+        <div className="mt-auto border-t border-white/10 p-6 space-y-4">
+          {!collapsed && (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-[#222] border border-white/10 flex items-center justify-center font-sans font-bold text-white text-[12px]">
+                  Y
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-sans text-[13px] font-bold text-white truncate">Yasas Banuka</span>
+                  <span className="font-mono text-[10px] text-white/50 truncate">yasas@arcaive.ai</span>
+                </div>
+              </div>
+              <div>
+                <span className="inline-block font-mono text-[9px] text-[#D4F461] border border-[#D4F461] px-2 py-0.5 uppercase">
+                  EXPLORER TIER
+                </span>
+              </div>
+            </div>
           )}
 
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              onClick={() => {
-                localStorage.clear();
-                sessionStorage.clear();
-              }}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
-              style={{ color: "var(--d-text-tertiary)" }}
+          <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-2`}>
+            <Link 
+              href="/settings" 
+              className="text-white/50 hover:text-white transition-colors"
+              title="Settings"
             >
-              <LogOut className="w-5 h-5" />
-              <span
-                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
-                style={{
-                  opacity: collapsed ? 0 : 1,
-                  width: collapsed ? 0 : "auto",
-                }}
+              <Settings className="w-4 h-4" />
+            </Link>
+            
+            {!collapsed && (
+              <form action={logoutAction} className="flex-1">
+                <button
+                  type="submit"
+                  className="w-full text-left font-mono text-[11px] text-white/50 hover:text-white uppercase tracking-widest transition-colors flex items-center gap-2"
+                >
+                  <LogOut className="w-3 h-3" />
+                  Log out
+                </button>
+              </form>
+            )}
+
+            {!isMobile && (
+              <button
+                onClick={toggle}
+                className="text-white/30 hover:text-white transition-colors"
               >
-                Log out
-              </span>
-            </button>
-          </form>
+                {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+              </button>
+            )}
+          </div>
         </div>
       </aside>
     </>

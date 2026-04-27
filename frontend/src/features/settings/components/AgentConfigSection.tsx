@@ -108,7 +108,7 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
               {[20, 40, 60, 80, 100].map((mark) => (
                 <div
                   key={mark}
-                  className="w-8 h-1.5 rounded-full transition-colors duration-200"
+                  className="w-8 h-1.5  transition-colors duration-200"
                   style={{
                     backgroundColor:
                       applyThreshold >= mark
@@ -227,7 +227,7 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
+            className="flex items-center gap-2 px-3 py-2.5 "
             style={{
               backgroundColor: "rgba(139, 92, 246, 0.04)",
               border: "1px solid rgba(139, 92, 246, 0.1)",

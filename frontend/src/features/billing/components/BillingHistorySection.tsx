@@ -42,7 +42,7 @@ export default function BillingHistorySection({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl p-6"
+      className=" p-6"
       style={{
         backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
         border: "1px solid var(--d-border)",
@@ -67,7 +67,7 @@ export default function BillingHistorySection({
           history.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between p-4 rounded-xl transition-colors"
+              className="flex items-center justify-between p-4  transition-colors"
               style={{
                 backgroundColor: isDark
                   ? "var(--d-surface-hover)"

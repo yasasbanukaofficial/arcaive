@@ -15,7 +15,8 @@ const FinalCTASection = () => {
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
         variants={staggerContainer(0.2, 0.1)}
-        className="relative w-full max-w-6xl aspect-[1.4/1] sm:aspect-[2/1] md:aspect-[2.5/1] lg:aspect-[3.2/1] overflow-hidden rounded-lg sm:rounded-xl border border-zinc-900/50"
+        className="relative w-full max-w-6xl aspect-[1.4/1] sm:aspect-[2/1] md:aspect-[2.5/1] lg:aspect-[3.2/1] overflow-hidden border border-white/10"
+        style={{ borderRadius: 0 }}
       >
         <motion.div variants={bounceIn}>
           <CTABackground

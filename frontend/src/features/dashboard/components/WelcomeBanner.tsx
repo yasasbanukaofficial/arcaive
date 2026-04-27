@@ -13,40 +13,32 @@ export default function WelcomeBanner() {
   return (
     <motion.div
       variants={fadeUp}
-      className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent p-8 lg:p-10 transition-colors duration-300"
-      style={{ border: "1px solid var(--d-border)" }}
+      className="relative overflow-hidden bg-white p-8 lg:p-12 transition-[border-color] duration-300 border border-[#E8E6DE]"
+      style={{ borderRadius: 0 }}
     >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-bl from-blue-500/10 to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-linear-to-t from-purple-500/8 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-full bg-[#F5F4EF] opacity-50 pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-start gap-4">
-          <Logo size={40} showText={false} imageClassName="shrink-0" />
-          <div>
-            <h2
-              className="text-xl sm:text-2xl font-medium tracking-tight mb-1.5"
-              style={{ color: "var(--d-text-primary)" }}
-            >
+      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="flex items-start gap-6">
+          <div className="w-12 h-12 border border-black flex items-center justify-center bg-white shrink-0">
+            <Logo size={32} showText={false} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="font-sans text-[24px] font-bold text-black uppercase tracking-tight">
               Welcome back
             </h2>
-            <p
-              className="text-[15px] leading-relaxed max-w-lg"
-              style={{ color: "var(--d-text-tertiary)" }}
-            >
-              Your AI agents have been busy. 3 new applications submitted and 2
-              interviews scheduled while you were away.
+            <p className="font-sans text-[15px] leading-relaxed max-w-xl text-[#888880]">
+              Your AI agents have been busy. <span className="text-black font-bold">3 NEW APPLICATIONS</span> submitted and <span className="text-black font-bold">2 INTERVIEWS</span> scheduled while you were away.
             </p>
           </div>
         </div>
 
         <Button
-          variant="secondary"
-          size="lg"
-          icon={<ArrowRight className="w-4 h-4" />}
-          iconPosition="right"
+          variant="primary"
+          size="md"
           className="whitespace-nowrap"
         >
-          View Summary
+          VIEW_SUMMARY →
         </Button>
       </div>
     </motion.div>

@@ -67,25 +67,22 @@ export default function NotificationsSection({
       <Card
         title="Alert Preferences"
         description="Choose which notifications you'd like to receive."
-        icon={<Bell className="w-4 h-4" />}
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <AnimatePresence>
               {alertsSaved && (
                 <motion.span
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 8 }}
-                  className="flex items-center gap-1 text-[12px] font-medium"
-                  style={{ color: "rgba(34, 197, 94, 0.8)" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="font-mono text-[11px] uppercase tracking-widest text-[#888880]"
                 >
-                  <Check className="w-3.5 h-3.5" />
-                  Saved
+                  [ SAVED ]
                 </motion.span>
               )}
             </AnimatePresence>
             <Button variant="primary" size="sm" onClick={handleAlertsSave} loading={alertsSaving} disabled={alertsSaving}>
-              Save Changes
+              SAVE_CHANGES
             </Button>
           </div>
         }
@@ -98,7 +95,6 @@ export default function NotificationsSection({
             <Toggle
               checked={alertJobMatch}
               onChange={setAlertJobMatch}
-              size="md"
             />
           </CardRow>
 
@@ -109,7 +105,6 @@ export default function NotificationsSection({
             <Toggle
               checked={alertAutoApply}
               onChange={setAlertAutoApply}
-              size="md"
             />
           </CardRow>
 
@@ -120,15 +115,14 @@ export default function NotificationsSection({
             <Toggle
               checked={alertSimulation}
               onChange={setAlertSimulation}
-              size="md"
             />
           </CardRow>
         </div>
       </Card>
+
       <Card
         title="Theme"
         description="Customize the look and feel of your dashboard."
-        icon={<Palette className="w-4 h-4" />}
       >
         <CardRow
           label="Appearance"
@@ -140,136 +134,96 @@ export default function NotificationsSection({
               onClick={() => {
                 if (isDark) toggleTheme();
               }}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-[13px] font-medium transition-all duration-200"
-              style={{
-                backgroundColor: !isDark
-                  ? "var(--d-surface-active)"
-                  : "transparent",
-                border: !isDark
-                  ? "1px solid var(--d-border-hover)"
-                  : "1px solid var(--d-border)",
-                color: !isDark
-                  ? "var(--d-text-primary)"
-                  : "var(--d-text-muted)",
-              }}
+              className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
+                !isDark ? "bg-black text-white border-black" : "bg-white text-[#888880] border-[#E8E6DE] hover:border-black"
+              }`}
+              style={{ borderRadius: 0 }}
             >
-              <Sun className="w-4 h-4" />
-              Light
+              LIGHT
             </button>
             <button
               type="button"
               onClick={() => {
                 if (!isDark) toggleTheme();
               }}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-[13px] font-medium transition-all duration-200"
-              style={{
-                backgroundColor: isDark
-                  ? "var(--d-surface-active)"
-                  : "transparent",
-                border: isDark
-                  ? "1px solid var(--d-border-hover)"
-                  : "1px solid var(--d-border)",
-                color: isDark ? "var(--d-text-primary)" : "var(--d-text-muted)",
-              }}
+              className={`px-4 py-2 font-mono text-[11px] uppercase tracking-widest  border ${
+                isDark ? "bg-black text-white border-black" : "bg-white text-[#888880] border-[#E8E6DE] hover:border-black"
+              }`}
+              style={{ borderRadius: 0 }}
             >
-              <Moon className="w-4 h-4" />
-              Dark
+              DARK
             </button>
           </div>
         </CardRow>
       </Card>
+
       <Card
         title="Data Privacy"
         description="Manage your stored data across all connected databases."
-        icon={<ShieldAlert className="w-4 h-4" />}
       >
         <div className="space-y-4">
-          <div
-            className="flex items-start gap-3 p-4 rounded-xl"
-            style={{
-              backgroundColor: "rgba(239, 68, 68, 0.04)",
-              border: "1px solid rgba(239, 68, 68, 0.1)",
-            }}
-          >
-            <AlertTriangle
-              className="w-5 h-5 shrink-0 mt-0.5"
-              style={{ color: "rgba(239, 68, 68, 0.6)" }}
-            />
+          <div className="p-8 border border-[#D83B2A] bg-white">
             <div className="flex-1">
-              <p
-                className="text-[13px] font-medium mb-1"
-                style={{ color: "var(--d-text-secondary)" }}
-              >
-                Danger Zone
-              </p>
-              <p
-                className="text-[12px] leading-relaxed mb-3"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#D83B2A]">
+                  [ DANGER_ZONE ]
+                </span>
+              </div>
+              <p className="font-sans text-[13px] leading-relaxed text-[#888880] mb-6">
                 Deleting all data will permanently remove your profile,
                 achievements, agent configurations, and all records from both
                 Neon (PostgreSQL) and Chroma (Vector) databases. This action
                 cannot be undone.
               </p>
 
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {!showDeleteConfirm ? (
                   <Button
                     variant="danger"
                     size="sm"
-                    icon={<Trash2 className="w-3.5 h-3.5" />}
                     onClick={() => setShowDeleteConfirm(true)}
                   >
-                    Delete All Data
+                    DELETE ALL DATA
                   </Button>
                 ) : (
                   <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    className="space-y-3"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-6"
                   >
-                    <div>
-                      <label
-                        className="block text-[12px] font-medium mb-1.5"
-                        style={{ color: "rgba(239, 68, 68, 0.7)" }}
-                      >
-                        Type <strong>DELETE</strong> to confirm
+                    <div className="space-y-3">
+                      <label className="font-mono text-[11px] uppercase tracking-widest text-[#D83B2A]">
+                        TYPE <strong className="font-bold underline">DELETE</strong> TO_CONFIRM
                       </label>
                       <input
                         type="text"
                         value={deleteConfirmText}
                         onChange={(e) => setDeleteConfirmText(e.target.value)}
-                        placeholder="Type DELETE"
-                        className="w-full max-w-60 rounded-lg px-3 py-2 text-[13px] outline-none transition-all duration-200 focus:ring-2 focus:ring-red-500/20"
-                        style={{
-                          backgroundColor: "var(--d-bg)",
-                          border: "1px solid rgba(239, 68, 68, 0.2)",
-                          color: "var(--d-text-primary)",
-                        }}
+                        placeholder="TYPE_DELETE"
+                        className="w-full max-w-[240px] px-[14px] py-[10px] font-mono text-[13px] border border-[#D83B2A] focus:outline-none focus:border-black "
+                        style={{ borderRadius: 0 }}
                         autoFocus
                       />
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                       <Button
                         variant="danger"
                         size="sm"
                         disabled={deleteConfirmText !== "DELETE"}
                         onClick={handleDeleteAllData}
-                        icon={<Trash2 className="w-3.5 h-3.5" />}
                       >
-                        Permanently Delete
+                        PERMANENTLY DELETE
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
+                      <button
                         onClick={() => {
                           setShowDeleteConfirm(false);
                           setDeleteConfirmText("");
                         }}
+                        className="font-mono text-[11px] uppercase tracking-widest text-[#888880] hover:text-black transition-colors"
                       >
-                        Cancel
-                      </Button>
+                        CANCEL
+                      </button>
                     </div>
                   </motion.div>
                 )}

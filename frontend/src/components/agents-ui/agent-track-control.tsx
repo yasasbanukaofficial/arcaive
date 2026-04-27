@@ -17,12 +17,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { toggleVariants } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
+
+const toggleVariants = cva([], {
+  variants: {
+    variant: { default: '', outline: '' },
+    size: { default: '', sm: '', lg: '' },
+  },
+  defaultVariants: { variant: 'default', size: 'default' },
+});
 
 const selectVariants = cva(
   [
-    'rounded-l-none shadow-none pl-2 ',
+    '-none shadow-none pl-2 ',
     'text-foreground hover:text-muted-foreground',
     'peer-data-[state=on]/track:bg-muted peer-data-[state=on]/track:hover:bg-foreground/10',
     'peer-data-[state=off]/track:text-destructive',
@@ -271,7 +278,7 @@ export function AgentTrackControl({
   return (
     <div
       className={cn(
-        'flex items-center gap-0 rounded-md',
+        'flex items-center gap-0 ',
         variant === 'outline' && 'shadow-xs [&_button]:shadow-none',
         className,
       )}
@@ -283,7 +290,7 @@ export function AgentTrackControl({
         pending={pending}
         disabled={disabled}
         onPressedChange={onPressedChange}
-        className="peer/track group/track focus:z-10 has-[.audiovisualizer]:w-auto has-[.audiovisualizer]:px-3 has-[~_button]:rounded-r-none has-[~_button]:border-r-0 has-[~_button]:pr-2 has-[~_button]:pl-3"
+        className="peer/track group/track focus:z-10 has-[.audiovisualizer]:w-auto has-[.audiovisualizer]:px-3 has-[~_button]:-none has-[~_button]:border-r-0 has-[~_button]:pr-2 has-[~_button]:pl-3"
       >
         {audioTrack && (
           <AgentAudioVisualizerBar

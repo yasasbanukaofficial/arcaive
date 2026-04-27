@@ -1,109 +1,86 @@
 "use client";
 
 import Link from "next/link";
-import { Twitter, Disc as Discord, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 border-t border-white/5 bg-[#0a0a0a]">
-      <div className="max-w-[1240px] mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 md:gap-16 mb-12 sm:mb-16 md:mb-24">
-          <div className="col-span-1 sm:col-span-2 lg:col-span-2 space-y-5 sm:space-y-6 md:space-y-8">
-            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-white group-hover:scale-110 transition-all duration-500 sm:w-6 sm:h-6"
-              >
-                <path
-                  d="M12 4L14.5 9.5L20 12L14.5 14.5L12 20L9.5 14.5L4 12L9.5 9.5L12 4Z"
-                  fill="currentColor"
-                />
-              </svg>
-              <span className="text-lg sm:text-xl font-bold tracking-tight text-white">
-                Message
-              </span>
-            </Link>
-            <p className="text-white/30 font-medium max-w-sm leading-relaxed text-[13px] sm:text-[14px] md:text-[15px]">
-              An AI companion that whispers clarity, conjures ideas, and guides
-              your every move towards efficiency.
+    <footer className="bg-black text-white pt-24 pb-12 px-6">
+      <div className="max-w-[1440px] mx-auto">
+        {/* Top Row: Wordmark & Newsletter */}
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20">
+          <Link href="/" className="font-mono text-[24px] font-bold uppercase tracking-[0.2em]">
+            ARCAIVE
+          </Link>
+          
+          <div className="w-full lg:w-auto">
+            <p className="font-mono text-[11px] uppercase tracking-widest mb-4 text-white/50">
+              Subscribe to updates
             </p>
-            <div className="flex items-center gap-3 sm:gap-4">
-              {[Twitter, Discord, Linkedin].map((Icon, i) => (
-                <Link
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border border-white/5 flex items-center justify-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
-                >
-                  <Icon className="w-4 h-4 text-white/40 group-hover:text-white" />
-                </Link>
-              ))}
+            <form className="flex gap-0 w-full lg:w-[400px]" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder="EMAIL ADDRESS"
+                className="flex-1 bg-black border border-white px-4 py-3 font-mono text-[12px] uppercase tracking-widest focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="bg-white text-black border border-white px-6 py-3 font-mono text-[12px] uppercase tracking-widest hover:bg-black hover:text-white transition-colors"
+              >
+                JOIN
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Middle Row: Links Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 py-20 border-y border-white/20">
+          <div className="flex flex-col gap-6">
+            <h5 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/30">PRODUCT</h5>
+            <div className="flex flex-col gap-4 font-mono text-[11px] uppercase tracking-widest">
+              <Link href="#features" className="hover:text-[#D4F461] transition-colors">FEATURES</Link>
+              <Link href="#howitworks" className="hover:text-[#D4F461] transition-colors">HOW IT WORKS</Link>
+              <Link href="#pricing" className="hover:text-[#D4F461] transition-colors">PRICING</Link>
             </div>
           </div>
 
-          <div className="space-y-5 sm:space-y-6 md:space-y-8">
-            <h5 className="text-[10px] sm:text-[11px] font-bold text-white/30 uppercase tracking-[0.3em]">
-              Product
-            </h5>
-            <div className="flex flex-col gap-3 sm:gap-4 text-[13px] sm:text-[14px] font-medium text-white/40">
-              <Link
-                href="#features"
-                className="hover:text-white transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                href="#howitworks"
-                className="hover:text-white transition-colors"
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#benefits"
-                className="hover:text-white transition-colors"
-              >
-                Benefits
-              </Link>
-              <Link
-                href="#testimonials"
-                className="hover:text-white transition-colors"
-              >
-                Testimonials
-              </Link>
+          <div className="flex flex-col gap-6">
+            <h5 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/30">SUPPORT</h5>
+            <div className="flex flex-col gap-4 font-mono text-[11px] uppercase tracking-widest">
+              <Link href="#faq" className="hover:text-[#D4F461] transition-colors">FAQ</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">HELP CENTER</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">CONTACT</Link>
             </div>
           </div>
 
-          <div className="space-y-5 sm:space-y-6 md:space-y-8">
-            <h5 className="text-[10px] sm:text-[11px] font-bold text-white/30 uppercase tracking-[0.3em]">
-              Support
-            </h5>
-            <div className="flex flex-col gap-3 sm:gap-4 text-[13px] sm:text-[14px] font-medium text-white/40">
-              <Link
-                href="#pricing"
-                className="hover:text-white transition-colors"
-              >
-                Pricing
-              </Link>
-              <Link href="#faq" className="hover:text-white transition-colors">
-                FAQ
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
+          <div className="flex flex-col gap-6">
+            <h5 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/30">LEGAL</h5>
+            <div className="flex flex-col gap-4 font-mono text-[11px] uppercase tracking-widest">
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">PRIVACY</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">TERMS</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">SECURITY</Link>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-6">
+            <h5 className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/30">CONNECT</h5>
+            <div className="flex flex-col gap-4 font-mono text-[11px] uppercase tracking-widest">
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">X / TWITTER</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">LINKEDIN</Link>
+              <Link href="#" className="hover:text-[#D4F461] transition-colors">GITHUB</Link>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 sm:pt-10 md:pt-12 border-t border-white/5 gap-3 sm:gap-4 md:gap-6">
-          <p className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-white/20 uppercase tracking-[0.1em]">
-            © {new Date().getFullYear()} Message AI. All rights reserved.
+        {/* Bottom Row: Copyright */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mt-12">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+            © {new Date().getFullYear()} ARCAIVE. ALL RIGHTS RESERVED.
           </p>
-          <p className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-white/20 uppercase tracking-[0.2em]">
-            Created with Clarity
-          </p>
+          <div className="flex gap-8">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-white/30">
+              BUILT FOR BUILDERS
+            </span>
+          </div>
         </div>
       </div>
     </footer>

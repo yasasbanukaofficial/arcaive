@@ -13,7 +13,8 @@ import {
   Rocket,
   Crown,
   ChevronDown,
-  Lock
+  Lock,
+  Sparkles
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
@@ -22,19 +23,19 @@ import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 const PLAN_CONFIG = {
   strategist: {
     icon: Rocket,
-    gradient: "from-blue-500/12 via-purple-500/8 to-transparent",
-    accentColor: "#8b5cf6",
-    bgAccent: "rgba(59, 130, 246, 0.15)",
-    borderAccent: "rgba(139, 92, 246, 0.6)",
-    priceColor: "#ffffff",
+    gradient: "bg-white/5",
+    accentColor: "#000",
+    bgAccent: "rgba(0, 0, 0, 0.05)",
+    borderAccent: "rgba(0, 0, 0, 0.3)",
+    priceColor: "#000",
   },
   architect: {
     icon: Crown,
-    gradient: "from-blue-500/8 via-purple-500/5 to-transparent",
-    accentColor: "#fbbf24",
-    bgAccent: "rgba(245, 158, 11, 0.15)",
-    borderAccent: "rgba(245, 158, 11, 0.6)",
-    priceColor: "#ffffff",
+    gradient: "bg-white/5",
+    accentColor: "#000",
+    bgAccent: "rgba(0, 0, 0, 0.05)",
+    borderAccent: "rgba(0, 0, 0, 0.3)",
+    priceColor: "#000",
   },
 };
 
@@ -119,20 +120,7 @@ function CheckoutContent() {
 
   return (
     <div className="min-h-screen">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className="absolute top-[-10%] right-[5%] w-[60vw] h-[60vh] blur-[100px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="absolute bottom-[-10%] left-[10%] w-[50vw] h-[50vh] blur-[100px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
-          }}
-        />
-      </div>
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-black/5" />
 
       <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-8 sm:py-12">
         <motion.div
@@ -166,7 +154,7 @@ function CheckoutContent() {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
             <motion.div variants={fadeUp} className="lg:col-span-3 space-y-6">
               <div
-                className="rounded-2xl p-6 sm:p-8"
+                className=" p-6 sm:p-8"
                 style={{
                   backgroundColor: "var(--d-surface)",
                   border: "1px solid rgba(255, 255, 255, 0.12)",
@@ -190,7 +178,7 @@ function CheckoutContent() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlanChange(plan.id)}
-                        className={`relative p-4 sm:p-5 rounded-xl cursor-pointer transition-all duration-200`}
+                        className={`relative p-4 sm:p-5  cursor-pointer  duration-200`}
                         style={{
                           backgroundColor: isSelected
                             ? config?.bgAccent
@@ -203,7 +191,7 @@ function CheckoutContent() {
                         {plan.isPopular && (
                           <div className="absolute -top-2.5 right-4">
                             <span
-                              className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
+                              className="px-2.5 py-0.5  text-[10px] font-bold uppercase tracking-wider"
                               style={{
                                 background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
                                 color: "#ffffff",
@@ -216,7 +204,7 @@ function CheckoutContent() {
 
                         <div className="flex items-center gap-4">
                           <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                            className="w-12 h-12  flex items-center justify-center shrink-0"
                             style={{
                               backgroundColor: isSelected
                                 ? config?.bgAccent
@@ -261,7 +249,7 @@ function CheckoutContent() {
                           </div>
 
                           <div
-                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all`}
+                            className={`w-5 h-5  border-2 flex items-center justify-center shrink-0 `}
                             style={{
                               backgroundColor: isSelected
                                 ? config?.accentColor
@@ -283,7 +271,7 @@ function CheckoutContent() {
               </div>
 
               <div
-                className="rounded-2xl p-6 sm:p-8"
+                className=" p-6 sm:p-8"
                 style={{
                   backgroundColor: "var(--d-surface)",
                   border: "1px solid rgba(255, 255, 255, 0.12)",
@@ -300,7 +288,7 @@ function CheckoutContent() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBillingChange("month")}
-                    className={`p-4 rounded-xl transition-all text-left`}
+                    className={`p-4   text-left`}
                     style={{
                       backgroundColor:
                         billingPeriod === "month"
@@ -327,7 +315,7 @@ function CheckoutContent() {
 
                   <motion.button
                     disabled
-                    className={`p-4 rounded-xl transition-all text-left relative opacity-50 cursor-not-allowed`}
+                    className={`p-4   text-left relative opacity-50 cursor-not-allowed`}
                     style={{
                       backgroundColor: "rgba(255, 255, 255, 0.04)",
                       border: "1px solid rgba(255, 255, 255, 0.15)",
@@ -340,7 +328,7 @@ function CheckoutContent() {
                         color: "#9ca3af",
                       }}
                     >
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">
+                      <span className="px-2 py-0.5  text-[10px] font-bold uppercase">
                         Coming soon
                       </span>
                     </div>
@@ -359,7 +347,7 @@ function CheckoutContent() {
               </div>
 
               <div
-                className="rounded-2xl p-6 sm:p-8"
+                className=" p-6 sm:p-8"
                 style={{
                   backgroundColor: "var(--d-surface)",
                   border: "1px solid rgba(255, 255, 255, 0.12)",
@@ -381,7 +369,7 @@ function CheckoutContent() {
                       className="flex items-start gap-3"
                     >
                       <div
-                        className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${
+                        className={`w-5 h-5  flex items-center justify-center shrink-0 mt-0.5 ${
                           feature.included ? "" : "opacity-40"
                         }`}
                         style={{
@@ -409,7 +397,7 @@ function CheckoutContent() {
 
             <motion.div variants={fadeUp} className="lg:col-span-2">
               <div
-                className="rounded-2xl p-6 sm:p-8 sticky top-8"
+                className=" p-6 sm:p-8 sticky top-8"
                 style={{
                   backgroundColor: "rgba(30, 30, 30, 0.95)",
                   border: `1px solid ${
@@ -423,7 +411,7 @@ function CheckoutContent() {
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
+                    className="w-10 h-10  flex items-center justify-center"
                     style={{ backgroundColor: planConfig?.bgAccent }}
                   >
                     <Icon className="w-5 h-5" style={{ color: planConfig?.accentColor }} />
@@ -514,7 +502,7 @@ function CheckoutContent() {
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-12 px-6 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full h-12 px-6  font-semibold text-sm  flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isProcessing ? (
                         <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
@@ -575,7 +563,7 @@ export default function CheckoutPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse text-sm text-gray-400">
+          <div className="text-sm text-[#888880]">
             Loading...
           </div>
         </div>

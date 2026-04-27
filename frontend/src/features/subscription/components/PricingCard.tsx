@@ -22,11 +22,11 @@ export default function PricingCard({
 }) {
   return (
     <div
-      className="relative p-6 bg-[#121212]/50 border rounded-2xl flex flex-col h-full transition-transform hover:-translate-y-2 shadow-lg"
+      className="relative p-6 bg-[#121212]/50 border  flex flex-col h-full transition-transform hover:-translate-y-2 shadow-lg"
       style={{ borderColor: plan.isPopular ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)" }}
     >
       {plan.isPopular && (
-        <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs uppercase tracking-wider bg-white/5 text-white/90 border border-white/20">
+        <span className="absolute top-4 right-4 px-3 py-1  text-xs uppercase tracking-wider bg-white/5 text-white/90 border border-white/20">
           Popular
         </span>
       )}
@@ -60,7 +60,7 @@ export default function PricingCard({
       </div>
 
       <div className="mt-6">
-        <Button onClick={() => onSelect(plan.id)} className="w-full rounded-full py-2.5 bg-transparent border border-white/12 text-white hover:bg-white/6">
+        <Button onClick={() => onSelect(plan.id)} className="w-full  py-2.5 bg-transparent border border-white/12 text-white hover:bg-white/6">
           Choose {plan.name}
         </Button>
       </div>

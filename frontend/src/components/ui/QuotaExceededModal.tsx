@@ -41,66 +41,55 @@ export default function QuotaExceededModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="absolute inset-0 bg-black/40 backdrop-blur-md" style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.4))" }}
+          className="absolute inset-0 bg-black/70"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-md overflow-hidden rounded-2xl border shadow-xl"
-          style={{
-            backgroundColor: "var(--d-surface)",
-          }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 0 }}
+          className="relative w-full max-w-[560px] bg-white border border-[#E8E6DE] overflow-hidden"
+          style={{ borderRadius: 0 }}
         >
-          <div className="p-6 pt-8">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              <X size={20} />
-            </button>
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between px-[48px] py-6">
+              <h2 className="font-sans text-[20px] font-bold text-black uppercase">
+                Quota Limit Reached
+              </h2>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="font-mono text-[18px] text-black hover:opacity-60 transition-opacity"
+              >
+                ×
+              </button>
+            </div>
+            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-            <div className="text-center space-y-5">
-              <div className="space-y-2">
-                <h2
-                  className="text-lg sm:text-xl font-medium"
-                  style={{ color: "var(--d-text-primary)" }}
-                >
-                  Quota Limit Reached
-                </h2>
-                <p
-                  className="text-sm"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
-                  {message}
-                </p>
-              </div>
+            <div className="p-[48px] space-y-6">
+              <p className="font-sans text-[15px] leading-relaxed text-[#888880]">
+                {message}
+              </p>
+              <p className="font-mono text-[11px] uppercase tracking-widest text-[#888880]">
+                NEED_MORE_HELP? <span className="text-black underline cursor-pointer">CONTACT_SUPPORT</span>
+              </p>
+            </div>
 
-              <div className="pt-2 flex flex-col gap-3">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl"
-                  onClick={handleUpgrade}
-                >
-                  Upgrade Plan
-                </Button>
-                
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl border"
+            <div className="mt-4">
+              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+              <div className="px-[48px] py-8 flex justify-end gap-4">
+                <button
+                  className="btn-ghost"
                   onClick={handleViewBilling}
                 >
-                  View Billing
-                </Button>
+                  VIEW BILLING
+                </button>
+                <button
+                  className="btn-primary"
+                  onClick={handleUpgrade}
+                >
+                  UPGRADE PLAN
+                </button>
               </div>
-
-              <p className="text-xs" style={{ color: "var(--d-text-muted)" }}>
-                Need more help? <span className="underline cursor-pointer">Contact support</span>
-              </p>
             </div>
           </div>
         </motion.div>

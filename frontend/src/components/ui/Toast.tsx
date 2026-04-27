@@ -109,7 +109,7 @@ function ToastItem({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, x: 80, scale: 0.95 }}
       transition={{ type: "spring", damping: 25, stiffness: 350 }}
-      className="pointer-events-auto relative w-[360px] overflow-hidden rounded-xl border border-white/10 backdrop-blur-xl shadow-2xl"
+      className="pointer-events-auto relative w-[360px] overflow-hidden  border border-white/10 backdrop-blur-xl shadow-2xl"
       style={{ background: bgMap[toast.type] }}
     >
       <div className="flex items-start gap-3 px-4 pt-3.5 pb-4">

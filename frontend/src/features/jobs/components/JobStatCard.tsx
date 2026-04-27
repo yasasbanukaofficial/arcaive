@@ -18,14 +18,14 @@ export default function JobStatCard({
   return (
     <motion.div
       variants={fadeUp}
-      className="flex flex-col gap-2 p-4 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
+      className="flex flex-col gap-2 p-4   duration-300 hover:scale-[1.02]"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border-subtle)",
       }}
     >
       <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mb-1"
+        className="w-10 h-10  flex items-center justify-center shrink-0 mb-1"
         style={{
           backgroundColor: accent ? accent.bg : "var(--d-surface-hover)",
           border: accent ? `1px solid ${accent.border}` : "1px solid var(--d-border-subtle)",

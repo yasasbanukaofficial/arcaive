@@ -156,7 +156,7 @@ export default function MemberIdentitySection({
   if (isLoading) {
     return (
       <div className="p-20 flex flex-col items-center justify-center space-y-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <div className="animate-spin  h-8 w-8 border-b-2 border-blue-500"></div>
         <p className="text-[14px] text-gray-400">Loading profile data...</p>
       </div>
     );
@@ -327,7 +327,7 @@ export default function MemberIdentitySection({
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="rounded-xl px-4 py-2.5 text-[13px] font-medium"
+                className=" px-4 py-2.5 text-[13px] font-medium"
                 style={{
                   backgroundColor: "rgba(239, 68, 68, 0.06)",
                   border: "1px solid rgba(239, 68, 68, 0.15)",
@@ -416,7 +416,7 @@ export default function MemberIdentitySection({
                 </span>
               </div>
               <div
-                className="h-1 rounded-full overflow-hidden"
+                className="h-1  overflow-hidden"
                 style={{ backgroundColor: "var(--d-surface-active)" }}
               >
                 <motion.div
@@ -430,7 +430,7 @@ export default function MemberIdentitySection({
                           : "30%",
                   }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="h-full rounded-full"
+                  className="h-full "
                   style={{
                     background:
                       passwordFormik.values.newPassword.length >= 12
@@ -521,14 +521,14 @@ export default function MemberIdentitySection({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
-                      className="rounded-xl p-4 flex items-start gap-4"
+                      className=" p-4 flex items-start gap-4"
                       style={{
                         backgroundColor: "rgba(59, 130, 246, 0.04)",
                         border: "1px solid rgba(59, 130, 246, 0.1)",
                       }}
                     >
                       <div
-                        className="w-24 h-24 rounded-xl shrink-0 flex items-center justify-center"
+                        className="w-24 h-24  shrink-0 flex items-center justify-center"
                         style={{
                           backgroundColor: "var(--d-surface-active)",
                           border: "1px solid var(--d-border)",
@@ -538,7 +538,7 @@ export default function MemberIdentitySection({
                           {Array.from({ length: 16 }).map((_, i) => (
                             <div
                               key={i}
-                              className="rounded-xs"
+                              className=""
                               style={{
                                 backgroundColor:
                                   Math.random() > 0.4
@@ -632,7 +632,7 @@ export default function MemberIdentitySection({
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors duration-200"
+                    className="w-9 h-9  flex items-center justify-center shrink-0 transition-colors duration-200"
                     style={{
                       backgroundColor: account.connected
                         ? "var(--d-surface-active)"

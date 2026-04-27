@@ -10,22 +10,19 @@ const features = [
     title: "Multi-Agent Swarm",
     description:
       "Three specialized AI agents work in parallel. The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
-    image:
-      "https://framerusercontent.com/images/bgZEvWFyqIzjQSJmv4ytUskyjNc.jpg",
+    tag: "CV ANALYSIS",
   },
   {
     title: "Auto-Apply Intelligence",
     description:
       "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper tailored CVs while you focus on interviews.",
-    image:
-      "https://framerusercontent.com/images/90SenaC5dxwhBj330jLiE7wnyjU.jpg",
+    tag: "AI-POWERED",
   },
   {
     title: "Real-Time Agent Flow",
     description:
       "Watch your AI agents 'think' in real-time through an interactive React Flow visualization complete transparency in the discovery and refinement process.",
-    image:
-      "https://framerusercontent.com/images/UXYVZgG95Xo7GvB3Mj9Avi4ouU.jpg",
+    tag: "LIVE FLOW",
   },
 ];
 
@@ -33,50 +30,50 @@ export default function Features() {
   return (
     <section
       id="features"
-      className="pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 bg-[#0a0a0a]"
+      className="py-32 px-6 bg-white border-t border-[#E8E6DE]"
     >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="Core Features"
-            title="Autonomous agents working"
-            subtitle="for your career success."
-          />
+      <div className="max-w-[1440px] mx-auto">
+        {/* Section Index & Label */}
+        <div className="flex flex-col gap-4 mb-20">
+          <div className="flex items-center gap-4">
+            <span className="font-mono text-[11px] text-[#888880] uppercase tracking-widest">[02]</span>
+            <div className="w-12 h-[1px] bg-[#E8E6DE]" />
+          </div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#888880]">
+            WHAT WE DO
+          </p>
+          <h2 className="font-sans text-[48px] font-bold leading-tight tracking-[-0.03em] text-black">
+            The tools that <br />
+            get you hired.
+          </h2>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer(0.15, 0.1)}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-5 md:gap-6"
-        >
+        {/* Feature List (Numbered Rows) */}
+        <div className="border-t border-[#E8E6DE]">
           {features.map((feature, index) => (
-            <motion.div
+            <div
               key={feature.title}
-              variants={bounceIn}
-              className={`group relative overflow-hidden ${index === 2 ? "sm:col-span-2 md:col-span-1" : ""}`}
+              className="group flex flex-col md:flex-row items-start md:items-center py-10 px-6 border-b border-[#E8E6DE] hover:bg-[#F5F4EF] transition-colors cursor-default"
             >
-              <div className="aspect-[16/10] sm:aspect-[9/8] relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] mb-4 sm:mb-5 md:mb-6 bg-[#111]">
-                <Image
-                  src={feature.image}
-                  alt={feature.title}
-                  fill
-                  unoptimized
-                  className="object-cover transition-all duration-700 scale-100 group-hover:scale-105"
-                />
-              </div>
-              <div className="space-y-2 sm:space-y-3">
-                <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-light text-white tracking-tight dm-sans">
+              <span className="font-mono text-[32px] text-[#888880] md:w-32 mb-4 md:mb-0">
+                0{index + 1}
+              </span>
+              
+              <div className="flex-1 space-y-2">
+                <h3 className="font-sans text-[24px] font-bold text-black uppercase tracking-tight">
                   {feature.title}
                 </h3>
-                <p className="text-white/50 leading-relaxed text-[13px] sm:text-[14px] md:text-[15px] font-light dm-sans-300">
+                <p className="font-sans text-[14px] text-[#888880] max-w-[600px]">
                   {feature.description}
                 </p>
               </div>
-            </motion.div>
+
+              <div className="mt-6 md:mt-0">
+                <span className="tag">{feature.tag}</span>
+              </div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

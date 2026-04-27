@@ -19,13 +19,9 @@ export default function NotFound() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
-        <div className="absolute inset-0 bg-linear-to-b from-[#0a0a0a] via-transparent to-transparent" />
       </div>
 
       <div className="absolute inset-0 z-1 opacity-[0.035] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 pointer-events-none" />
-
-      <div className="absolute z-1 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 rounded-full bg-white/5 blur-[120px] pointer-events-none" />
 
       <motion.div
         initial="hidden"
@@ -62,14 +58,14 @@ export default function NotFound() {
         >
           <Link
             href="/"
-            className="group flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black text-[13px] font-semibold transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98]"
+            className="group flex items-center gap-2 px-6 py-3  bg-white text-black text-[13px] font-semibold  duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98]"
           >
             <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Back to home
           </Link>
           <Link
             href="/login"
-            className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm text-white/70 text-[13px] font-medium transition-all duration-200 hover:bg-white/10 hover:border-white/25 hover:text-white"
+            className="flex items-center gap-2 px-6 py-3  border border-white/15 bg-white/5 backdrop-blur-sm text-white/70 text-[13px] font-medium  duration-200 hover:bg-white/10 hover:border-white/25 hover:text-white"
           >
             Sign in
           </Link>
@@ -82,11 +78,11 @@ export default function NotFound() {
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-8 z-10 flex items-center justify-center gap-2 opacity-20"
       >
-        <div className="w-1 h-1 rounded-full bg-white" />
+        <div className="w-1 h-1  bg-white" />
         <span className="text-[10px] uppercase tracking-[0.25em] font-bold text-white">
           Harness Invisible Power
         </span>
-        <div className="w-1 h-1 rounded-full bg-white" />
+        <div className="w-1 h-1  bg-white" />
       </motion.div>
     </main>
   );
