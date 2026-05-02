@@ -10,6 +10,7 @@ import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { useSidebar } from "./SidebarContext";
 import { useTheme } from "./ThemeContext";
 import { logoutAction } from "@/features/auth/action";
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
 
 const PAGE_TITLES: Record<string, string> = {
   "/overview": "Overview",
@@ -28,6 +29,7 @@ export default function TopBar() {
   const pathname = usePathname();
   const { data: subscription } = useSubscription();
   const { isDark, toggleTheme } = useTheme();
+  const { data: member } = useMemberSettings();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const title = PAGE_TITLES[pathname] || "Dashboard";
@@ -73,11 +75,15 @@ export default function TopBar() {
             className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-[var(--radius)] border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] hover:border-[var(--text-secondary)] transition-all"
           >
             <div className="flex flex-col items-end text-right mr-1 hidden sm:flex">
-              <span className="font-sans text-[13px] font-medium text-[var(--text-primary)] leading-none mb-1">Yasas Banuka</span>
+              <span className="font-sans text-[13px] font-medium text-[var(--text-primary)] leading-none mb-1">
+                {member?.memberFullName || "User"}
+              </span>
               <span className="font-mono text-[9px] font-bold text-[var(--text-secondary)] tracking-tighter capitalize">{tier} member</span>
             </div>
             <div className="w-10 h-10 rounded-[var(--radius)] bg-[var(--text-primary)] border border-[var(--glass-border)] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-500">
-              <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
+              <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">
+                {member?.memberFullName ? member.memberFullName.charAt(0).toUpperCase() : "U"}
+              </span>
             </div>
           </button>
 
