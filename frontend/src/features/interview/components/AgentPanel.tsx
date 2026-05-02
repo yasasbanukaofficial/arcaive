@@ -22,6 +22,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
   const { messages } = useSessionMessages();
   const {
     microphoneToggle,
+    microphoneTrack: localTrack
   } = useInputControls();
 
   useEffect(() => {
@@ -87,9 +88,9 @@ export default function AgentPanel({ duration }: { duration: string }) {
             <BarVisualizer 
                 trackRef={microphoneTrack} 
                 barCount={4} 
-                className="w-full h-full flex text-[var(--text-primary)] items-center justify-center gap-6"
+                className="w-full h-full flex text-black dark:text-white items-center justify-center gap-6"
             >
-                <div className="w-20 min-w-[5rem] min-h-[5rem] rounded-full bg-current transition-all duration-300 opacity-90 shadow-[0_0_30px_rgba(255,255,255,0.1)]" />
+                <div className="w-20 min-w-[5rem] min-h-[5rem] rounded-full rounded-3xl bg-current transition-all duration-300 opacity-100" />
             </BarVisualizer>
             {/* Center Glow */}
             <div className="absolute inset-0 rounded-full bg-[var(--text-primary)] opacity-[0.02] blur-2xl pointer-events-none" />
@@ -112,13 +113,34 @@ export default function AgentPanel({ duration }: { duration: string }) {
             </button>
 
             {/* Mic Toggle */}
-            <button 
-              onClick={() => microphoneToggle.toggle()}
-              disabled={microphoneToggle.pending}
-              className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${microphoneToggle.enabled ? 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]' : 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'}`}
-            >
-              {microphoneToggle.enabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
-            </button>
+            <div className="flex items-center gap-1">
+              <button 
+                onClick={() => microphoneToggle.toggle()}
+                disabled={microphoneToggle.pending}
+                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all z-10 ${microphoneToggle.enabled ? 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]' : 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'}`}
+              >
+                {microphoneToggle.enabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+              </button>
+
+              <AnimatePresence>
+                  {microphoneToggle.enabled && localTrack && (
+                      <motion.div 
+                          initial={{ opacity: 0, width: 0 }}
+                          animate={{ opacity: 1, width: 72 }}
+                          exit={{ opacity: 0, width: 0 }}
+                          className="h-14 flex items-center justify-center overflow-hidden px-2"
+                      >
+                          <BarVisualizer 
+                              trackRef={localTrack} 
+                              barCount={5} 
+                              className="w-full h-full flex text-black dark:text-white items-center justify-center gap-0 p-0"
+                          >
+                              <div className="w-2 min-w-[5px] min-h-[8px] rounded-full bg-current transition-all duration-300" />
+                          </BarVisualizer>
+                      </motion.div>
+                  )}
+              </AnimatePresence>
+            </div>
 
             {/* Chat Transcript Toggle */}
             <button 
