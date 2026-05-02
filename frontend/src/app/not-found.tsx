@@ -38,7 +38,7 @@ export default function NotFound() {
             <div className="absolute inset-0 bg-[#f0ead6] border-2 border-black flex flex-col items-center justify-center shadow-[40px_60px_120px_-20px_rgba(240,234,214,0.4)]">
               <span className="font-display text-[140px] font-black leading-none tracking-tighter text-black">4</span>
               <div className="w-1/2 h-[1px] bg-black my-4" />
-              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.5em] text-black/40">Oryzo_Core</span>
+              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.5em] text-black/40">Oryzo Core</span>
             </div>
             
             {/* 3D Depth Layers */}
@@ -128,8 +128,8 @@ export default function NotFound() {
       
       <div className="absolute hidden sm:flex bottom-10 inset-x-10 items-end justify-between font-mono text-[9px] text-black/30 uppercase tracking-[0.4em]">
         <div className="flex gap-8">
-          <p>LOC: 404_VOID</p>
-          <p>NET: ARCAIVE_MAIN</p>
+          <p>LOC: 404 VOID</p>
+          <p>NET: ARCAIVE MAIN</p>
         </div>
         <div className="text-right">
           <p>System status: functional</p>

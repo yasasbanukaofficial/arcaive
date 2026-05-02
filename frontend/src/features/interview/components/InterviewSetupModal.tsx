@@ -96,7 +96,7 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
                   INITIALIZE SESSION
                 </button>
                 <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] text-center mt-6 opacity-40">
-                  ARCAIVE_OS | TECHNICAL_CORE_v2
+                  ARCAIVE OS | TECHNICAL CORE v2
                 </p>
             </div>
           </div>

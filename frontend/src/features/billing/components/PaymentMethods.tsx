@@ -28,8 +28,8 @@ export default function PaymentMethods({
       animate={{ opacity: 1, y: 0 }}
       className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--glass-bg)" : "#ffffff",
-        border: "1px solid var(--glass-border)",
+        backgroundColor: "var(--d-surface)",
+        border: "1px solid var(--d-border)",
       }}
     >
       <div className="flex items-center justify-between mb-4">
@@ -65,10 +65,10 @@ export default function PaymentMethods({
               style={{
                 backgroundColor: isDark
                   ? "var(--bg-color)"
-                  : "rgba(0,0,0,0.02)",
+                  : "var(--d-surface-hover)",
                 border: method.isDefault
-                  ? "2px solid var(--text-primary)"
-                  : "1px solid var(--glass-border)",
+                  ? "2px solid var(--d-text-primary)"
+                  : "1px solid var(--d-border)",
               }}
             >
               <div className="flex items-center gap-3">
@@ -96,7 +96,7 @@ export default function PaymentMethods({
                         className="text-xs px-2 py-0.5 "
                         style={{
                           backgroundColor: "var(--text-primary)",
-                          color: isDark ? "#000000" : "#ffffff",
+                          color: "var(--d-bg)",
                         }}
                       >
                         Default

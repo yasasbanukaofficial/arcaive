@@ -191,7 +191,7 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center font-mono text-[11px] text-[var(--text-secondary)]">
-                  NO_PREVIEW
+                  NO PREVIEW
                 </div>
               )}
             </div>

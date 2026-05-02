@@ -62,8 +62,8 @@ export default function SubscriptionCard({
         <div
           className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1.5 text-xs sm:text-sm font-black tracking-wide"
           style={{
-            backgroundColor: "#000000",
-            color: "#ffffff",
+            backgroundColor: "var(--d-text-primary)",
+            color: "var(--d-bg)",
             clipPath: "polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%)",
           }}
         >
@@ -121,9 +121,7 @@ export default function SubscriptionCard({
           ? undefined 
           : isDowngrade() 
             ? { backgroundColor: "#ef4444", color: "#ffffff", border: "1px solid #ef4444" }
-            : plan.isPopular 
-              ? { backgroundColor: "#000000", color: "#ffffff" }
-              : { backgroundColor: "#ffffff", color: "#000000", border: "1px solid #000000" }
+            : { backgroundColor: "var(--d-text-primary)", color: "var(--d-bg)" }
         }
       >
         {getButtonText()}

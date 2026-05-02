@@ -71,7 +71,7 @@ export default function Card({
       {!collapsed && (
         <div>
           {(title || actions) && (
-            <div className="h-[1px] bg-[var(--d-border)] mx-8 mt-4" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
+            <div className="h-[1px] bg-[var(--d-border)] mx-8 mt-4" />
           )}
           <div className={noPadding ? "" : "px-8 py-6"}>
             {children}
@@ -121,7 +121,7 @@ export function CardRow({
   return (
     <div
       className={`flex flex-col sm:flex-row sm:items-start justify-between gap-6 py-6 border-b last:border-b-0 ${className}`}
-      style={{ borderColor: "rgba(255,255,255,0.08)" }}
+      style={{ borderColor: "var(--d-border)" }}
     >
       <div className="sm:flex-1 min-w-0 sm:max-w-[50%]">
         <p className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--d-text-primary)]">

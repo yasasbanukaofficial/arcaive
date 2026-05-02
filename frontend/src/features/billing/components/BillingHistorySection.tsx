@@ -44,8 +44,8 @@ export default function BillingHistorySection({
       animate={{ opacity: 1, y: 0 }}
       className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--glass-bg)" : "#ffffff",
-        border: "1px solid var(--glass-border)",
+        backgroundColor: "var(--d-surface)",
+        border: "1px solid var(--d-border)",
       }}
     >
       <h2
@@ -71,8 +71,8 @@ export default function BillingHistorySection({
               style={{
                 backgroundColor: isDark
                   ? "var(--bg-color)"
-                  : "rgba(0,0,0,0.02)",
-                border: "1px solid var(--glass-border)",
+                  : "var(--d-surface-hover)",
+                border: "1px solid var(--d-border)",
               }}
             >
               <div className="flex items-center gap-3">

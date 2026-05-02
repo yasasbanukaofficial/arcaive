@@ -7,8 +7,8 @@
 @custom-variant light (&:is(.light *));
 
 :root {
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --radius: 10px;
 }
 
@@ -103,6 +103,18 @@
   --grid-color: rgba(0, 0, 0, 0.05);
   --accent-brand: #050505;
   --accent-brand-contrast: #f8f8f8;
+
+  /* Dashboard specific */
+  --d-bg: #f0f0f0;
+  --d-surface: #ffffff;
+  --d-surface-hover: #e8e8e8;
+  --d-surface-active: #e0e0e0;
+  --d-border: rgba(0, 0, 0, 0.08);
+  --d-border-subtle: rgba(0, 0, 0, 0.05);
+  --d-text-primary: #000000;
+  --d-text-secondary: rgba(0, 0, 0, 0.65);
+  --d-text-muted: rgba(0, 0, 0, 0.4);
+  --d-text-tertiary: rgba(0, 0, 0, 0.25);
 
   /* Shadcn overrides */
   --background: var(--bg-color);

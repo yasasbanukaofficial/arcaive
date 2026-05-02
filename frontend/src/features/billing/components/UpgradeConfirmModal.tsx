@@ -39,7 +39,7 @@ export default function UpgradeConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/70"
+          className="absolute inset-0 bg-[var(--bg-color)]/70"
         />
 
         <motion.div
@@ -61,7 +61,7 @@ export default function UpgradeConfirmModal({
                     ×
                   </button>
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
 
             <div className="p-[48px] space-y-8">
               <div className="space-y-4">
@@ -99,8 +99,8 @@ export default function UpgradeConfirmModal({
               </div>
             </div>
 
-            <div className="mt-4">
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+              <div className="mt-4">
+              <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
               <div className="px-[48px] py-8 flex justify-end gap-4">
                 <button
                   className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
@@ -109,10 +109,8 @@ export default function UpgradeConfirmModal({
                   Maybe later
                 </button>
                 <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95 bg-[var(--d-text-primary)] text-[var(--d-bg)] hover:bg-[var(--d-text-secondary)]"
                   style={{ 
-                    backgroundColor: "#000000", 
-                    color: "#ffffff",
                     borderRadius: "var(--radius)" 
                   }}
                   onClick={onConfirm}

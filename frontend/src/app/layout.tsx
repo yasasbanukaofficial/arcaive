@@ -1,21 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-host-grotesk",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "ARCAIVE | Where your career is automated",
@@ -29,9 +18,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html lang="en" className="font-sans">
       <body
-        className={`${spaceGrotesk.variable} antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden`}
+        className="antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden"
       >
         <ThemeProvider>
           <ToastProvider>

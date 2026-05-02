@@ -160,7 +160,7 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
 
               <div className="text-center">
                 <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
-                  EST_WAIT_TIME: 10-20_SECONDS
+                  EST WAIT TIME: 10-20 SECONDS
                 </p>
               </div>
             </div>

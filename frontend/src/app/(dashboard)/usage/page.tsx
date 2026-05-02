@@ -182,7 +182,6 @@ export default function UsagePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-[1px] h-10 bg-black/20" />
               <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
                 System Consumption
               </h1>
@@ -195,15 +194,15 @@ export default function UsagePage() {
           <div className="flex flex-col items-start md:items-end gap-5">
             <div className="flex flex-col items-start md:items-end gap-1.5">
               <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">Subscription Tier</span>
-              <span className="px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.15em] bg-black text-white" style={{ borderRadius: "var(--radius)" }}>
+              <span className="px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.15em] bg-[var(--d-text-primary)] text-[var(--d-bg)]" style={{ borderRadius: "var(--radius)" }}>
                 {subscription.currentPlan.toUpperCase()}
               </span>
             </div>
-            <button 
-              className="flex items-center gap-2.5 px-6 py-3 text-[11px] font-black uppercase tracking-widest border border-black transition-all hover:bg-black hover:text-white"
-              style={{ borderRadius: "var(--radius)" }}
-              onClick={() => router.push("/billing")}
-            >
+              <button 
+                className="flex items-center gap-2.5 px-6 py-3 text-[11px] font-black uppercase tracking-widest border border-[var(--d-text-primary)] text-[var(--d-text-primary)] transition-all hover:bg-[var(--d-text-primary)] hover:text-[var(--d-bg)]"
+                style={{ borderRadius: "var(--radius)" }}
+                onClick={() => router.push("/billing")}
+              >
               Manage Plan
             </button>
           </div>
@@ -235,8 +234,8 @@ export default function UsagePage() {
       >
         <div className="flex flex-col sm:flex-row items-center gap-12 py-4">
           <div className="flex-1 space-y-4">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-black/30">Next Reset Cycle</span>
-            <div className="font-display text-4xl sm:text-5xl font-black text-black">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-tertiary)]">Next Reset Cycle</span>
+            <div className="font-display text-4xl sm:text-5xl font-black text-[var(--d-text-primary)]">
               {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
             </div>
           </div>

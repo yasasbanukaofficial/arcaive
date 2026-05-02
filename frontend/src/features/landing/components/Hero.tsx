@@ -73,7 +73,7 @@ export default function Hero() {
         <span>Network: Encrypted</span>
       </div>
       <div className="absolute bottom-12 right-10 hidden lg:flex flex-col items-end gap-2 font-mono text-[9px] text-white/30 uppercase tracking-[2px]">
-        <span>Model: Arcaive_v4.2</span>
+        <span>Model: Arcaive v4.2</span>
         <span>Latency: 14ms</span>
       </div>
     </section>

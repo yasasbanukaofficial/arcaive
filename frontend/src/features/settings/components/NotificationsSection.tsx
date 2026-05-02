@@ -136,7 +136,7 @@ export default function NotificationsSection({
                 if (isDark) toggleTheme();
               }}
               className={`px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest border transition-all ${
-                !isDark ? "bg-black text-white border-black" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
+                !isDark ? "bg-[var(--d-text-primary)] text-[var(--d-bg)] border-[var(--d-text-primary)]" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
               }`}
               style={{ borderRadius: "var(--radius)" }}
             >
@@ -148,7 +148,7 @@ export default function NotificationsSection({
                 if (!isDark) toggleTheme();
               }}
               className={`px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest border transition-all ${
-                isDark ? "bg-black text-white border-black" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
+                isDark ? "bg-[var(--d-text-primary)] text-[var(--d-bg)] border-[var(--d-text-primary)]" : "bg-transparent text-[var(--text-secondary)] border-[var(--glass-border)] hover:border-[var(--text-primary)]"
               }`}
               style={{ borderRadius: "var(--radius)" }}
             >

@@ -12,9 +12,9 @@
   --color-panel-dark: #111111;
 
   /* Typography */
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Space Mono', monospace; /* Keep for specific technical elements if desired */
+  --font-serif: "Space Grotesk", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "Inter", monospace;
 
   /* Font sizes */
   --text-hero: clamp(48px, 6vw, 84px);

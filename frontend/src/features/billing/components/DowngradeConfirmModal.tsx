@@ -37,7 +37,7 @@ export default function DowngradeConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/70"
+          className="absolute inset-0 bg-[var(--bg-color)]/70"
         />
 
         <motion.div
@@ -59,7 +59,7 @@ export default function DowngradeConfirmModal({
                     ×
                   </button>
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
 
             <div className="p-[48px] space-y-8">
               <div className="space-y-4">
@@ -97,8 +97,8 @@ export default function DowngradeConfirmModal({
               </div>
             </div>
 
-            <div className="mt-4">
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+              <div className="mt-4">
+              <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
               <div className="px-[48px] py-8 flex justify-end gap-4">
                 <button
                   className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
@@ -107,7 +107,7 @@ export default function DowngradeConfirmModal({
                   Keep my plan
                 </button>
                 <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest bg-black text-[#D83B2A] border border-[#D83B2A] hover:bg-[#D83B2A] hover:text-white transition-all rounded-[var(--radius)]"
+                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest bg-[var(--d-surface)] text-red-500 border border-red-500 hover:bg-red-500 hover:text-[var(--d-bg)] transition-all rounded-[var(--radius)]"
                   onClick={onConfirm}
                 >
                   Yes, Downgrade

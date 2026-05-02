@@ -123,7 +123,7 @@ export default function AgentControls() {
 
           <div className="absolute top-6 left-6 flex items-center gap-2">
              <div className="w-2 h-2 rounded-full bg-[var(--text-primary)]" />
-             <span className="font-mono text-[9px] uppercase tracking-widest font-black">Arcaive_OS v2.0</span>
+             <span className="font-mono text-[9px] uppercase tracking-widest font-black">Arcaive OS v2.0</span>
           </div>
 
           <div className="absolute bottom-6 left-6 flex items-center gap-4 px-5 py-2.5 bg-[var(--text-primary)] text-[var(--bg-color)]">
@@ -141,7 +141,7 @@ export default function AgentControls() {
               </div>
             </div>
             <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-[var(--text-primary)] text-[var(--bg-color)]">
-              <span className="font-mono text-[9px] font-bold uppercase tracking-widest">Candidate_01</span>
+              <span className="font-mono text-[9px] font-bold uppercase tracking-widest">Candidate 01</span>
             </div>
           </div>
           

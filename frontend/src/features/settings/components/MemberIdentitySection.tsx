@@ -408,7 +408,7 @@ export default function MemberIdentitySection({
                 </span>
               </div>
               <div
-                className="h-1 bg-black/10 overflow-hidden"
+                className="h-1 bg-[var(--d-border)] overflow-hidden"
               >
                 <motion.div
                   initial={{ width: 0 }}
@@ -512,10 +512,10 @@ export default function MemberIdentitySection({
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 }}
-                      className="p-4 flex items-start gap-4 bg-white/5 border border-white/10"
+                      className="p-4 flex items-start gap-4 bg-[var(--d-surface-active)] border border-[var(--d-border)]"
                     >
                       <div
-                        className="w-24 h-24 shrink-0 flex items-center justify-center bg-white/5 border border-white/10"
+                        className="w-24 h-24 shrink-0 flex items-center justify-center bg-[var(--d-surface)] border border-[var(--d-border)]"
                       >
                         <div className="grid grid-cols-4 grid-rows-4 gap-0.5 w-14 h-14">
                           {Array.from({ length: 16 }).map((_, i) => (
@@ -609,7 +609,7 @@ export default function MemberIdentitySection({
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div
-                    className={`w-9 h-9 flex items-center justify-center shrink-0 transition-colors duration-200 border border-[var(--glass-border)] ${account.connected ? "bg-white/10 text-[var(--text-primary)]" : "bg-transparent text-[var(--text-secondary)]"}`}
+                    className={`w-9 h-9 flex items-center justify-center shrink-0 transition-colors duration-200 border border-[var(--glass-border)] ${account.connected ? "bg-[var(--d-surface-active)] text-[var(--text-primary)]" : "bg-transparent text-[var(--text-secondary)]"}`}
                   >
                     {Icon && <Icon className="w-4 h-4" />}
                   </div>

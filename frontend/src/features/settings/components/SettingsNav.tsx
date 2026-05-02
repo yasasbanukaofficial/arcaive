@@ -86,7 +86,7 @@ export default function SettingsNav({
               backgroundColor: isActive
                 ? isDark
                   ? "var(--d-surface-active)"
-                  : "#000000"
+                  : "var(--d-surface-active)"
                 : "transparent",
             }}
           >
@@ -97,8 +97,8 @@ export default function SettingsNav({
                 style={{
                   backgroundColor: isDark
                     ? "var(--d-surface-active)"
-                    : "#000000",
-                  border: isDark ? "1px solid var(--d-border)" : "none",
+                    : "var(--d-surface-active)",
+                  border: "1px solid var(--d-border)",
                 }}
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
@@ -110,12 +110,10 @@ export default function SettingsNav({
                 backgroundColor: isActive
                   ? isDark
                     ? "var(--d-surface-hover)"
-                    : "rgba(255,255,255,0.1)"
+                    : "var(--d-surface-hover)"
                   : "transparent",
                 border: isActive
-                  ? isDark
-                    ? "1px solid var(--d-border)"
-                    : "1px solid rgba(255,255,255,0.2)"
+                  ? "1px solid var(--d-border)"
                   : "1px solid transparent",
               }}
             >
@@ -123,9 +121,7 @@ export default function SettingsNav({
                 className="w-5 h-5 transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? isDark
-                      ? "var(--d-text-primary)"
-                      : "#ffffff"
+                    ? "var(--d-text-primary)"
                     : "var(--d-text-muted)",
                 }}
               />
@@ -136,9 +132,7 @@ export default function SettingsNav({
                 className="block text-[14px] font-medium leading-snug transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? isDark
-                      ? "var(--d-text-primary)"
-                      : "#ffffff"
+                    ? "var(--d-text-primary)"
                     : "var(--d-text-tertiary)",
                 }}
               >
@@ -148,9 +142,7 @@ export default function SettingsNav({
                 className="block text-[12px] leading-relaxed mt-0.5 transition-colors duration-200"
                 style={{
                   color: isActive
-                    ? isDark
-                      ? "var(--d-text-muted)"
-                      : "rgba(255,255,255,0.7)"
+                    ? "var(--d-text-muted)"
                     : "var(--d-text-ghost)",
                 }}
               >

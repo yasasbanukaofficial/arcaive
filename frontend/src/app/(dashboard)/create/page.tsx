@@ -638,7 +638,7 @@ export default function CreateCVPage() {
               ))}
               {data.workExperience.length === 0 && (
                 <div className="text-center py-16 border border-dashed border-[var(--glass-border)]">
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO_EXPERIENCE_ADDED</p>
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO EXPERIENCE ADDED</p>
                 </div>
               )}
             </div>
@@ -771,7 +771,7 @@ export default function CreateCVPage() {
               ))}
               {(!data.projects || data.projects.length === 0) && (
                 <div className="text-center py-16 border border-dashed border-[var(--glass-border)]">
-                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO_PROJECTS_ADDED</p>
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">NO PROJECTS ADDED</p>
                 </div>
               )}
             </div>
@@ -832,7 +832,7 @@ export default function CreateCVPage() {
           </div>
 
           <div className="hidden md:flex flex-col items-end text-right">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">DATA_COLLECTION_MODE</span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">DATA COLLECTION MODE</span>
             <span className="font-sans text-[12px] font-bold text-[var(--text-primary)]">STEP {step} OF 6</span>
           </div>
         </div>
@@ -847,7 +847,7 @@ export default function CreateCVPage() {
             className="max-w-3xl"
           >
             <div className="mb-12">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] block mb-2">SECTION_{step}</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] block mb-2">SECTION {step}</span>
               <h2 className="font-display text-[48px] font-bold uppercase leading-none text-[var(--text-primary)]">
                 {steps.find(s => s.id === step)?.title}
               </h2>
@@ -927,7 +927,7 @@ export default function CreateCVPage() {
           <div>
             <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase tracking-tight">Final Preview</h2>
             <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mt-2">
-              {selectedTemplate}_TEMPLATE_SELECTED
+              {selectedTemplate} TEMPLATE SELECTED
             </p>
           </div>
         </div>
@@ -945,7 +945,7 @@ export default function CreateCVPage() {
           >
             {isSaving ? "SAVING..." : "Save Draft"}
           </button>
-          <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName.replace(/\s+/g, "_")}_Resume.pdf`}>
+          <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName.replace(/\s+/g, " ")} Resume.pdf`}>
             {({ loading }) => (
               <button 
                 className="flex items-center gap-2 px-8 py-3 text-[12px] font-bold uppercase tracking-widest"
@@ -967,10 +967,10 @@ export default function CreateCVPage() {
       <div className="bg-[var(--glass-border)] border border-[var(--glass-border)] overflow-hidden oryzo-card-glow rounded-[var(--radius)]">
         <div className="bg-[var(--glass-bg)] px-8 py-4 border-b border-[var(--glass-border)] flex items-center justify-between">
           <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
-            DOCUMENT_OUTPUT
+            DOCUMENT OUTPUT
           </span>
           <span className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-widest">
-            ENGINE_STABLE
+            ENGINE STABLE
           </span>
         </div>
         <div className="block bg-white">

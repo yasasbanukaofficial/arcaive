@@ -80,7 +80,6 @@ export default function SettingsPage() {
     >
       <motion.div variants={fadeUp} className="mb-12">
         <div className="flex items-center gap-4 mb-3">
-          <div className="w-[1px] h-10 bg-black/20" />
           <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
             Control Center
           </h1>
@@ -102,7 +101,7 @@ export default function SettingsPage() {
                 key={id}
                 onClick={() => setActiveSection(id)}
                 className={`flex-shrink-0 px-6 py-3 text-[11px] font-black uppercase tracking-[0.2em] border transition-all ${
-                  isActive ? "bg-black text-white border-black" : "bg-white text-black/40 border-black/10"
+                  isActive ? "bg-[var(--d-text-primary)] text-[var(--d-bg)] border-[var(--d-text-primary)]" : "bg-[var(--d-surface)] text-[var(--d-text-muted)] border-[var(--d-border)]"
                 }`}
                 style={{ borderRadius: "var(--radius)" }}
               >
@@ -138,14 +137,14 @@ export default function SettingsPage() {
                  <h2 className="font-display text-3xl font-black tracking-tight text-[var(--text-primary)] uppercase">
                    {title.split(" & ")[0]}
                  </h2>
-                 <span className="text-black/20 font-display text-2xl font-light italic">
+                  <span className="text-[var(--text-tertiary)] font-display text-2xl font-light italic">
                    {title.split(" & ")[1] ? `& ${title.split(" & ")[1]}` : ""}
                  </span>
               </div>
               <p className="text-[14px] text-[var(--text-secondary)] max-w-xl leading-relaxed">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-black/5 mt-6" />
+              <div className="h-[1px] w-full bg-[var(--d-border)] mt-6" />
             </motion.div>
           </AnimatePresence>
           <AnimatePresence mode="wait">
