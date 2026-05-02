@@ -119,7 +119,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
 
       {/* Grouped Bottom Controls */}
       <div className="w-full flex flex-col items-center pb-12 z-20">
-        <div className="p-2 rounded-[2rem] bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-3xl shadow-2xl flex items-center gap-2">
+        <div className="p-2 px-6 rounded-[2.5rem] bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-3xl shadow-2xl flex items-center gap-4">
             {/* End Call */}
             <button 
                 onClick={() => setShowEndModal(true)}
@@ -129,42 +129,24 @@ export default function AgentPanel({ duration }: { duration: string }) {
             </button>
 
             {/* Mic Toggle */}
-            <div className="flex items-center gap-1">
-              <button 
-                onClick={() => microphoneToggle.toggle()}
-                disabled={microphoneToggle.pending}
-                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all z-10 ${microphoneToggle.enabled ? 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]' : 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'}`}
-              >
-                {microphoneToggle.enabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
-              </button>
-
-              <AnimatePresence>
-                  {microphoneToggle.enabled && localTrack && (
-                      <motion.div 
-                          initial={{ opacity: 0, width: 0 }}
-                          animate={{ opacity: 1, width: 72 }}
-                          exit={{ opacity: 0, width: 0 }}
-                          className="h-14 flex items-center justify-center overflow-hidden px-2"
-                      >
-                          <BarVisualizer 
-                              trackRef={localTrack} 
-                              barCount={5} 
-                              className="w-full h-full flex text-black dark:text-white items-center justify-center gap-0 p-0"
-                          >
-                              <div className="w-2 min-w-[7px] min-h-[8px] rounded-full bg-current transition-all duration-300" />
-                          </BarVisualizer>
-                      </motion.div>
-                  )}
-              </AnimatePresence>
-            </div>
-
-            {/* Chat Transcript Toggle */}
             <button 
-                onClick={() => setShowChat(!showChat)}
-                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${showChat ? 'bg-[var(--text-primary)] text-[var(--bg-color)]' : 'bg-transparent text-[var(--text-secondary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]'}`}
+              onClick={() => microphoneToggle.toggle()}
+              disabled={microphoneToggle.pending}
+              className={`w-14 h-14 rounded-full flex items-center justify-center transition-all z-10 ${microphoneToggle.enabled ? 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]' : 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'}`}
             >
-                <MessageSquare className="w-6 h-6" />
+              {microphoneToggle.enabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
             </button>
+
+            {/* User Visualizer (Always Visible) */}
+            <div className="h-14 flex items-center justify-center overflow-hidden border-l border-[var(--glass-border)] ml-3 pl-4 pr-2 min-w-[140px]">
+                <BarVisualizer 
+                    trackRef={localTrack} 
+                    barCount={5} 
+                    className="w-full h-full flex text-black dark:text-white items-center justify-center gap-1 p-0"
+                >
+                    <div className="w-2 min-w-[8px] min-h-[8px] rounded-full bg-current transition-all duration-300" />
+                </BarVisualizer>
+            </div>
         </div>
       </div>
 

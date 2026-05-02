@@ -107,7 +107,7 @@ export default function Sidebar() {
         }}
       >
         {/* Logo */}
-        <div className="h-[72px] flex items-center px-6 border-b border-[var(--glass-border)]">
+        <div className="h-[80px] flex items-center px-6 border-b border-[var(--glass-border)]">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-[var(--radius)] border border-[var(--glass-border)] flex items-center justify-center shrink-0">
               <span className="font-display text-[14px] font-bold text-[var(--text-primary)]">A</span>
