@@ -36,29 +36,29 @@ export default function Navbar() {
 
         {/* Desktop Navigation - Hidden on lg (tablets) now, shown on xl */}
         <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
-          <Link href="#intro" className="oryzo-label group relative text-[var(--text-primary)]">
+          <Link href="#intro" className="oryzo-label group relative text-[28px] text-[var(--text-primary)]">
             INTRO
             <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />
           </Link>
-          <Link href="#features" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#features" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             FEATURES
           </Link>
-          <Link href="#benefits" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#benefits" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             PRODUCT
           </Link>
-          <Link href="#faq" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#faq" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             CONTACT
           </Link>
           
           {!isLoggedIn && (
-            <Link href="/register" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            <Link href="/register" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
               SIGN UP
             </Link>
           )}
 
           <Link 
             href={isLoggedIn ? "/overview" : "/login"} 
-            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
+            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[28px] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
           >
             {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
           </Link>
@@ -92,19 +92,19 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 xl:hidden">
-          <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
-          <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
-          <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
-          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
+          <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
+          <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
+          <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
+          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
           
           {!isLoggedIn && (
-            <Link href="/register" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">SIGN UP</Link>
+            <Link href="/register" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">SIGN UP</Link>
           )}
 
           <Link 
             href={isLoggedIn ? "/overview" : "/login"} 
             onClick={() => setIsMenuOpen(false)} 
-            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
+            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[28px] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
           >
             {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
           </Link>

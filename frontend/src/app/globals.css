@@ -227,7 +227,7 @@
 /* Ultra minimal labels */
 .oryzo-label {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
