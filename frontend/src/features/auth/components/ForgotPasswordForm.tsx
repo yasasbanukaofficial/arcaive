@@ -2,9 +2,7 @@
 
 import React, { useEffect, useActionState, startTransition } from "react";
 import { ArrowRight } from "lucide-react";
-import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
 import { forgotPasswordAction } from "../action";
@@ -44,7 +42,7 @@ export default function ForgotPasswordForm() {
     <>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         <div className="space-y-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
+          <label className="oryzo-label text-[var(--text-secondary)] block">
             Email Address
           </label>
           <input
@@ -53,12 +51,13 @@ export default function ForgotPasswordForm() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="NAME@COMPANY.COM"
-            className={`w-full px-4 py-[14px] font-sans text-[15px] border  focus:outline-none ${
+            placeholder="name@example.com"
+            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
               formik.touched.email && formik.errors.email
-                ? "border-[#D83B2A] bg-[#D83B2A]/5 focus:border-[#D83B2A]"
-                : "border-[var(--glass-border)] bg-[var(--glass-bg)] focus:border-[var(--glass-border)]"
+                ? "border-red-500/50 focus:border-red-500"
+                : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
             }`}
+            style={{ borderRadius: "var(--radius)" }}
           />
           <AnimatePresence>
             {formik.touched.email && formik.errors.email && (
@@ -67,9 +66,9 @@ export default function ForgotPasswordForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="font-mono text-[11px] mt-2 text-[#D83B2A] uppercase tracking-wider"
+                className="font-sans text-[12px] mt-2 text-red-400"
               >
-                ! {formik.errors.email}
+                {formik.errors.email}
               </motion.p>
             )}
           </AnimatePresence>
@@ -77,10 +76,12 @@ export default function ForgotPasswordForm() {
 
         <button
           type="submit"
-          className="btn-primary w-full mt-4"
+          className="btn-hover w-full group flex items-center justify-center gap-2 border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-3 hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
           disabled={isPending}
         >
-          {isPending ? "SENDING..." : "SEND RESET LINK"}
+          <span>{isPending ? "Sending..." : "Send Reset Link"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
         </button>
       </form>
     </>

@@ -69,17 +69,17 @@ export default function RegisterForm() {
   }, [state]);
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] placeholder-[#444444] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] ${
+    `w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
       touched && error
         ? "border-red-500/50 focus:border-red-500"
-        : "border-[#222222] focus:border-[#666666]"
+        : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
     }`;
 
   const selectClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full px-4 py-3 bg-[#0a0a0a] font-sans text-[15px] text-[#ffffff] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[#888888] appearance-none cursor-pointer ${
+    `w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] appearance-none cursor-pointer ${
       touched && error
         ? "border-red-500/50 focus:border-red-500"
-        : "border-[#222222] focus:border-[#666666]"
+        : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
     }`;
 
   return (
@@ -88,16 +88,14 @@ export default function RegisterForm() {
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </div>
 
-      <div className="relative flex items-center gap-4 py-8">
-        <div className="h-[1px] flex-1 bg-[#222222]"></div>
-        <span className="font-sans text-[12px] text-[#888888]">or continue with email</span>
-        <div className="h-[1px] flex-1 bg-[#222222]"></div>
+      <div className="relative flex items-center justify-center py-6">
+        <span className="oryzo-label text-[var(--text-secondary)]">or continue with email</span>
       </div>
 
       <form className="space-y-5" onSubmit={formik.handleSubmit}>
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
               Full Name
             </label>
             <input
@@ -108,6 +106,7 @@ export default function RegisterForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={inputClass(formik.touched.memberFullName, formik.errors.memberFullName)}
+              style={{ borderRadius: "var(--radius)" }}
             />
             <AnimatePresence>
               {formik.touched.memberFullName && formik.errors.memberFullName && (
@@ -125,7 +124,7 @@ export default function RegisterForm() {
           </div>
 
           <div className="space-y-2">
-            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
               Email Address
             </label>
             <input
@@ -136,6 +135,7 @@ export default function RegisterForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={inputClass(formik.touched.memberEmail, formik.errors.memberEmail)}
+              style={{ borderRadius: "var(--radius)" }}
             />
             <AnimatePresence>
               {formik.touched.memberEmail && formik.errors.memberEmail && (
@@ -154,7 +154,7 @@ export default function RegisterForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
                 Password
               </label>
               <PasswordInput
@@ -167,7 +167,7 @@ export default function RegisterForm() {
               />
             </div>
             <div className="space-y-2">
-              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
                 Confirm Password
               </label>
               <PasswordInput
@@ -182,9 +182,9 @@ export default function RegisterForm() {
           </div>
         </div>
 
-        <div className="space-y-4 pt-4 border-t border-[#222222]">
+        <div className="space-y-4 pt-4 border-t border-[var(--glass-border)]">
           <div className="space-y-2">
-            <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
               Target Role
             </label>
             <input
@@ -195,6 +195,7 @@ export default function RegisterForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={inputClass(formik.touched.jobRole, formik.errors.jobRole)}
+              style={{ borderRadius: "var(--radius)" }}
             />
             <AnimatePresence>
               {formik.touched.jobRole && formik.errors.jobRole && (
@@ -213,7 +214,7 @@ export default function RegisterForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
                 Experience Level
               </label>
               <div className="relative">
@@ -223,6 +224,7 @@ export default function RegisterForm() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className={selectClass(formik.touched.experience, formik.errors.experience)}
+                  style={{ borderRadius: "var(--radius)" }}
                 >
                   <option value="" disabled>
                     Select experience
@@ -250,7 +252,7 @@ export default function RegisterForm() {
             </div>
 
             <div className="space-y-2">
-              <label className="font-sans text-[13px] font-medium text-[#cccccc] block">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
                 Location
               </label>
               <input
@@ -261,6 +263,7 @@ export default function RegisterForm() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={inputClass(formik.touched.country, formik.errors.country)}
+                style={{ borderRadius: "var(--radius)" }}
               />
               <AnimatePresence>
                 {formik.touched.country && formik.errors.country && (
@@ -281,20 +284,21 @@ export default function RegisterForm() {
 
         <button
           type="submit"
-          className="w-full mt-8 group flex items-center justify-center gap-2 bg-[#ffffff] text-[#000000] px-6 py-3 hover:bg-[#e0e0e0] transition-colors duration-200 rounded-lg"
+          className="w-full mt-8 group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:bg-[var(--text-secondary)] transition-colors duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
           disabled={isPending}
         >
-          <span className="font-sans text-[14px] font-semibold">{isPending ? "Creating account..." : "Sign Up"}</span>
+          <span>{isPending ? "Creating account..." : "Sign Up"}</span>
           {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
         </button>
       </form>
 
-      <div className="text-center pt-6">
-        <p className="text-center font-sans text-[14px] text-[#888888]">
+      <div className="text-center pt-8">
+        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)]">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="text-[#ffffff] font-medium hover:text-[#cccccc] transition-colors"
+            className="text-[var(--text-primary)] font-medium hover:underline transition-all"
           >
             Sign in
           </Link>

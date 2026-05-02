@@ -54,15 +54,13 @@ export default function LoginForm() {
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </div>
 
-      <div className="relative flex items-center gap-4 py-8">
-        <div className="h-[1px] flex-1 bg-[var(--glass-border)]"></div>
-        <span className="font-sans text-[12px] text-[var(--text-secondary)]">or continue with email</span>
-        <div className="h-[1px] flex-1 bg-[var(--glass-border)]"></div>
+      <div className="relative flex items-center justify-center py-6">
+        <span className="oryzo-label text-[var(--text-secondary)]">or continue with email</span>
       </div>
 
       <form onSubmit={formik.handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <label className="font-sans text-[13px] font-medium text-[var(--text-secondary)] block">
+          <label className="oryzo-label text-[var(--text-secondary)] block">
             Email Address
           </label>
           <input
@@ -72,11 +70,12 @@ export default function LoginForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="name@example.com"
-            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors rounded-lg focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
+            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
               formik.touched.email && formik.errors.email
                 ? "border-red-500/50 focus:border-red-500"
                 : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
             }`}
+            style={{ borderRadius: "var(--radius)" }}
           />
           <AnimatePresence>
             {formik.touched.email && formik.errors.email && (
@@ -95,12 +94,12 @@ export default function LoginForm() {
 
         <div className="space-y-2 pb-4">
           <div className="flex justify-between items-center mb-0">
-            <label className="font-sans text-[13px] font-medium text-[var(--text-secondary)]">
+            <label className="oryzo-label text-[var(--text-secondary)]">
               Password
             </label>
             <Link
               href="/forgot-password"
-              className="font-sans text-[12px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >
               Forgot password?
             </Link>
@@ -117,16 +116,17 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="w-full group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:opacity-90 transition-all duration-200 rounded-lg shadow-lg"
+          className="w-full group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:bg-[var(--text-secondary)] transition-colors duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
           disabled={isPending}
         >
-          <span className="font-sans text-[14px] font-semibold">{isPending ? "Signing in..." : "Sign In"}</span>
+          <span>{isPending ? "Signing in..." : "Sign In"}</span>
           {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
         </button>
       </form>
 
-      <div className="text-center">
-        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)] mt-8">
+      <div className="text-center pt-8">
+        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)]">
           Don't have an account?{" "}
           <Link
             href="/register"

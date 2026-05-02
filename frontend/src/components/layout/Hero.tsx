@@ -13,16 +13,7 @@ export default function Hero() {
       <div className="w-full relative z-10 flex flex-col justify-between h-full pb-12">
         
         {/* Massive Top Heading */}
-        <div className="flex flex-col w-full relative pt-[30vh] lg:pt-0">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex items-center gap-4 mb-2 oryzo-label ml-2"
-          >
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-brand)]" />
-            MADE FOR MACHINES. BUILT FOR HUMANS.
-          </motion.div>
+        <div className="flex flex-col w-full relative pt-[30vh] lg:pt-32">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -38,6 +29,15 @@ export default function Hero() {
           >
             ARCAIVE
           </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-4 mt-4 oryzo-label ml-2"
+          >
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-brand)]" />
+            Built for your career assistance.
+          </motion.div>
         </div>
 
         {/* Bottom floating panels - Left and Right */}

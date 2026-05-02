@@ -18,15 +18,15 @@ export default function SocialButtons({
     return `${baseUrl}${separator}redirect_uri=${encodeURIComponent(oauthCallbackUrl)}`;
   };
 
-  const buttonStyle = "w-full cursor-pointer flex items-center justify-center gap-3 py-3 px-4 border border-[#222222] bg-[#0a0a0a] text-[#ffffff] font-sans text-[14px] font-medium hover:bg-[#1a1a1a] transition-colors duration-200 rounded-lg";
-
   return (
     <div className="grid grid-cols-1 gap-3">
-      <Link href={buildOAuthUrl(googleUrl)} className={buttonStyle} style={{ borderRadius: "var(--radius)" }}>
-        Continue with Google
+      <Link href={buildOAuthUrl(googleUrl)} className="w-full cursor-pointer flex items-center justify-center gap-3 py-3.5 px-4 border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] font-sans text-[13px] font-medium hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200" style={{ borderRadius: "var(--radius)" }}>
+        <Chrome size={16} />
+        <span>Continue with Google</span>
       </Link>
-      <Link href={buildOAuthUrl(githubUrl)} className={buttonStyle} style={{ borderRadius: "var(--radius)" }}>
-        Continue with GitHub
+      <Link href={buildOAuthUrl(githubUrl)} className="w-full cursor-pointer flex items-center justify-center gap-3 py-3.5 px-4 border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] font-sans text-[13px] font-medium hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200" style={{ borderRadius: "var(--radius)" }}>
+        <Github size={16} />
+        <span>Continue with GitHub</span>
       </Link>
     </div>
   );
