@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export default function Hero() {
+  const { isDark } = useTheme();
+
   return (
     <section className="scene-section h-screen items-start pt-[15vh]">
       <div className="w-full relative z-10 flex flex-col justify-between h-full pb-12">
@@ -24,7 +27,14 @@ export default function Hero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[var(--text-primary)] w-full block"
+            className="text-[var(--text-primary)] w-full block transition-all"
+            style={{
+              WebkitTextStroke: isDark ? "3px #000000" : "4px #ffffff",
+              paintOrder: "stroke fill",
+              textShadow: isDark 
+                ? "0 0 40px rgba(255,255,255,0.05), 0 0 80px rgba(226, 62, 62, 0.1)" 
+                : "0 0 40px rgba(0,0,0,0.05)"
+            }}
           >
             ARCAIVE
           </motion.h1>
@@ -57,9 +67,9 @@ export default function Hero() {
           </motion.div>
 
           <div className="lg:col-span-4 lg:col-start-9 flex flex-col items-end justify-end pb-8">
-            <Link href="/register" className="group flex items-center justify-center gap-4 border border-[var(--accent-brand)] rounded-sm px-10 py-5 hover:bg-[var(--accent-brand)] transition-colors duration-500">
-              <span className="oryzo-label group-hover:text-[var(--bg-color)]">INITIALIZE</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] group-hover:bg-[var(--bg-color)] transition-colors" />
+            <Link href="/register" className="btn-hover group flex items-center justify-center gap-4 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-sm px-10 py-5 transition-colors duration-500">
+              <span className="oryzo-label btn-hover-text">INITIALIZE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] btn-hover-dot transition-colors" />
             </Link>
             
             <Link href="#features" className="oryzo-label opacity-40 hover:opacity-100 transition-opacity mt-6">

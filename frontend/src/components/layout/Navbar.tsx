@@ -3,11 +3,17 @@
 import Link from "next/link";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   return (
     <>
@@ -15,37 +21,59 @@ export default function Navbar() {
         
         {/* Left Logo */}
         <div className="pointer-events-auto">
-          <Link href="/" className="font-sans text-[18px] sm:text-[20px] font-bold tracking-tight text-[var(--text-primary)]">
+          <Link 
+            href="/" 
+            className="font-sans text-[18px] sm:text-[20px] font-bold tracking-tight text-[var(--text-primary)] transition-all"
+            style={{
+              WebkitTextStroke: isDark ? "2px #000000" : "2.5px #ffffff",
+              paintOrder: "stroke fill",
+              textShadow: isDark ? "0 0 20px rgba(255,255,255,0.1)" : "none"
+            }}
+          >
             ARCAIVE
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-12 pointer-events-auto">
-          <Link href="#intro" className="oryzo-label group relative">
+        {/* Desktop Navigation - Hidden on lg (tablets) now, shown on xl */}
+        <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
+          <Link href="#intro" className="oryzo-label group relative text-[var(--text-primary)]">
             INTRO
             <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />
           </Link>
-          <Link href="#features" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#features" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             FEATURES
           </Link>
-          <Link href="#benefits" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#benefits" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             PRODUCT
           </Link>
+          <Link href="#faq" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            CONTACT
+          </Link>
+          
+          {!isLoggedIn && (
+            <Link href="/register" className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+              SIGN UP
+            </Link>
+          )}
+
+          <Link 
+            href={isLoggedIn ? "/overview" : "/login"} 
+            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
+          >
+            {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+          </Link>
+
           <button 
             onClick={toggleTheme}
-            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)] transition-all duration-300"
+            className="btn-hover flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
             title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {isDark ? <Sun size={14} /> : <Moon size={14} />}
           </button>
-          <Link href="#faq" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">
-            CONTACT
-          </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <div className="lg:hidden flex items-center gap-4 pointer-events-auto">
+        {/* Mobile/Tablet Toggle - Shown up to xl */}
+        <div className="xl:hidden flex items-center gap-4 pointer-events-auto">
           <button 
             onClick={toggleTheme}
             className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)]"
@@ -63,12 +91,23 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 lg:hidden">
+        <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 xl:hidden">
           <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
           <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
           <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
           <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
-          <Link href="/login" onClick={() => setIsMenuOpen(false)} className="oryzo-label border border-[var(--text-primary)] px-8 py-4 rounded-sm mt-8">SIGN IN</Link>
+          
+          {!isLoggedIn && (
+            <Link href="/register" onClick={() => setIsMenuOpen(false)} className="text-[32px] font-bold tracking-tight text-[var(--text-primary)]">SIGN UP</Link>
+          )}
+
+          <Link 
+            href={isLoggedIn ? "/overview" : "/login"} 
+            onClick={() => setIsMenuOpen(false)} 
+            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
+          >
+            {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+          </Link>
         </div>
       )}
 

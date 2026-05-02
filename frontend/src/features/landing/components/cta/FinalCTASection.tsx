@@ -36,13 +36,14 @@ export default function FinalCTASection() {
           EVOLUTION.
         </h2>
         
-        <Link 
-          href="/register" 
-          className="group inline-flex items-center gap-6 px-12 py-6 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-sm font-sans text-[14px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[var(--accent-brand)] hover:text-[var(--accent-brand-contrast)]"
+        <Link
+          href="/register"
+          className="btn-hover group inline-flex items-center gap-6 px-12 py-6 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-sm font-sans text-[14px] font-bold uppercase tracking-[0.2em] transition-all duration-300"
         >
           INITIALIZE SWARM
           <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
         </Link>
+
       </div>
     </section>
   );

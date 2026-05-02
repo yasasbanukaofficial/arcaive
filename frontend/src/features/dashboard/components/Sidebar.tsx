@@ -209,7 +209,14 @@ export default function Sidebar() {
             )}
 
             {!collapsed && (
-              <form action={logoutAction} className="flex-1">
+              <form 
+                action={async () => {
+                  localStorage.removeItem("access_token");
+                  localStorage.removeItem("token");
+                  await logoutAction();
+                }} 
+                className="flex-1"
+              >
                 <button
                   type="submit"
                   className="w-full text-left font-sans text-[14px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 px-1"

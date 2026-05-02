@@ -31,6 +31,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state.success) {
+      localStorage.setItem("access_token", "true");
       addToast({
         type: "success",
         title: "Signed in",

@@ -84,6 +84,10 @@
   --accent-red-bg: rgba(239, 68, 68, 0.12);
   --accent-red-border: rgba(239, 68, 68, 0.25);
   --accent-red-dot: #f87171;
+  
+  /* Button hover states */
+  --btn-hover-bg: #ffffff;
+  --btn-hover-text: #000000;
 }
 
 /* ─── Light Mode ─── */
@@ -117,6 +121,10 @@
   --border: var(--glass-border);
   --input: rgba(0, 0, 0, 0.1);
   --ring: #000000;
+
+  /* Button hover states */
+  --btn-hover-bg: #000000;
+  --btn-hover-text: #ffffff;
 }
 
 @layer base {
@@ -204,6 +212,26 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-secondary);
+}
+
+.oryzo-label:hover {
+  color: var(--btn-hover-text);
+}
+
+/* Button hover states */
+.btn-hover {
+  transition: background-color 0.3s, color 0.3s;
+}
+.btn-hover:hover {
+  background-color: var(--btn-hover-bg);
+  color: var(--btn-hover-text);
+}
+.btn-hover:hover .oryzo-label,
+.btn-hover:hover .btn-hover-text {
+  color: var(--btn-hover-text);
+}
+.btn-hover:hover .btn-hover-dot {
+  background-color: var(--btn-hover-text);
 }
 
 .oryzo-card-glow {

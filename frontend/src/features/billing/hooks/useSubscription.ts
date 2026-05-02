@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { subscriptionAPI, type UsageQuotaResponse, type SubscriptionResponse } from "../api/subscriptionAPI";
+import { subscriptionAPI, type UsageQuotaResponse } from "../api/subscriptionAPI";
 import type { MemberSubscription, UsageQuota } from "@/@types/subscription";
 
 function mapToUsageQuota(data: UsageQuotaResponse | null): UsageQuota {
@@ -40,7 +40,7 @@ function mapToUsageQuota(data: UsageQuotaResponse | null): UsageQuota {
 }
 
 function mapToMemberSubscription(
-  subscriptionData: SubscriptionResponse | null,
+  subscriptionData: subscriptionAPI.SubscriptionResponse | null,
   usageQuota: UsageQuota
 ): MemberSubscription {
   if (!subscriptionData) {
@@ -65,7 +65,7 @@ function mapToMemberSubscription(
 
 export function useSubscription() {
   return useQuery({
-    queryKey: ["subscription"],
+    queryKey: ["subscription", "usage-quota"],
     queryFn: async () => {
       const [subscriptionData, usageQuotaData] = await Promise.all([
         subscriptionAPI.getMemberSubscription(),
@@ -77,8 +77,8 @@ export function useSubscription() {
       
       return memberSubscription;
     },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -89,7 +89,7 @@ export function useUsageQuota() {
       const data = await subscriptionAPI.getUsageQuota();
       return mapToUsageQuota(data);
     },
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000,
+    refetchOnWindowFocus: true,
   });
 }

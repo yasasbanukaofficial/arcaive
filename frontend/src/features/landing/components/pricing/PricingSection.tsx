@@ -65,13 +65,14 @@ export default function PricingSection() {
               <p className="font-sans text-[16px] text-[var(--text-secondary)] mb-12">
                 {plan.desc}
               </p>
-              <button 
+              <button
                 onClick={() => router.push(`/subscription/checkout?plan=${plan.name.toLowerCase()}&billing=month`)}
-                className="mt-auto group flex items-center justify-between w-full border border-[var(--text-primary)] px-6 py-4 hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)] transition-colors duration-500"
+                className="btn-hover mt-auto flex items-center justify-between w-full border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-4 transition-colors duration-500"
               >
-                <span className="oryzo-label group-hover:text-[var(--bg-color)]">SELECT PROTOCOL</span>
-                <ArrowUpRight className="w-4 h-4" />
+                <span className="oryzo-label btn-hover-text">SELECT PROTOCOL</span>
+                <ArrowUpRight className="w-4 h-4 btn-hover-dot" />
               </button>
+
             </div>
           ))}
         </div>

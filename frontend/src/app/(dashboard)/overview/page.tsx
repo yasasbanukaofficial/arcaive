@@ -12,6 +12,10 @@ import ActivityFeed from "@/features/dashboard/components/ActivityFeed";
 import WhatsNew from "@/features/dashboard/components/WhatsNew";
 
 export default function DashboardPage() {
+  React.useEffect(() => {
+    localStorage.setItem("access_token", "true");
+  }, []);
+
   return (
     <motion.div
       initial="hidden"
