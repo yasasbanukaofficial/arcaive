@@ -23,14 +23,14 @@ export default function ActiveAgents() {
             <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               Active Agents
             </h3>
-            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium tracking-[0.05em]">
               Running workflows
             </p>
           </div>
         </div>
-        <button className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-          Manage
-        </button>
+        <button className="font-sans text-[12px] font-bold tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            Manage
+          </button>
       </div>
 
       <motion.div variants={dashboardStagger(0.04, 0.1)} className="space-y-3">
@@ -55,7 +55,7 @@ export default function ActiveAgents() {
                   <span className={`w-1.5 h-1.5 rounded-full ${
                     agent.status === "active" ? "bg-green-500 animate-pulse" : "bg-[var(--glass-border)]"
                   }`} />
-                  <span className="font-sans text-[9px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
+                  <span className="font-sans text-[9px] font-bold tracking-widest text-[var(--text-secondary)] capitalize">
                     {agent.status}
                   </span>
                 </div>
@@ -69,9 +69,9 @@ export default function ActiveAgents() {
               <p className="font-sans text-[22px] font-medium text-[var(--text-primary)] leading-none">
                 {agent.tasks}
               </p>
-              <p className="font-sans text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)]">
-                Tasks
-              </p>
+                <p className="font-sans text-[9px] font-bold tracking-[0.1em] text-[var(--text-secondary)] capitalize">
+                  Tasks
+                </p>
             </div>
           </motion.div>
         ))}

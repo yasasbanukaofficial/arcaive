@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
-import WelcomeBanner from "@/features/dashboard/components/WelcomeBanner";
 import StatsGrid from "@/features/dashboard/components/StatsGrid";
 import UsageChart from "@/features/dashboard/components/UsageChart";
 import QuickActions from "@/features/dashboard/components/QuickActions";
@@ -23,9 +22,6 @@ export default function DashboardPage() {
       variants={dashboardStagger(0.04, 0.02)}
       className="space-y-8 max-w-[1600px] mx-auto"
     >
-      <motion.div variants={fadeUp}>
-        <WelcomeBanner />
-      </motion.div>
       <motion.div variants={fadeUp}>
         <StatsGrid />
       </motion.div>

@@ -80,12 +80,12 @@ export default function SettingsPage() {
     >
       <motion.div variants={fadeUp} className="mb-12">
         <div className="flex items-center gap-4 mb-3">
-          <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
-            Control Center
+          <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
+            Control center
           </h1>
         </div>
-        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
-          System <br /> Configuration.
+        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
+          System <br /> configuration
         </h2>
         <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
           Fine-tune your platform experience, manage AI agent parameters, and secure your 
@@ -100,7 +100,7 @@ export default function SettingsPage() {
               <button
                 key={id}
                 onClick={() => setActiveSection(id)}
-                className={`flex-shrink-0 px-6 py-3 text-[11px] font-black uppercase tracking-[0.2em] border transition-all ${
+                 className={`flex-shrink-0 px-6 py-3 text-[11px] font-black tracking-[0.2em] border transition-all ${
                   isActive ? "bg-[var(--d-text-primary)] text-[var(--d-bg)] border-[var(--d-text-primary)]" : "bg-[var(--d-surface)] text-[var(--d-text-muted)] border-[var(--d-border)]"
                 }`}
                 style={{ borderRadius: "var(--radius)" }}
@@ -134,9 +134,9 @@ export default function SettingsPage() {
               className="mb-10"
             >
               <div className="flex items-baseline gap-4 mb-2">
-                 <h2 className="font-display text-3xl font-black tracking-tight text-[var(--text-primary)] uppercase">
-                   {title.split(" & ")[0]}
-                 </h2>
+                  <h2 className="font-display text-3xl font-black tracking-tight text-[var(--text-primary)] capitalize">
+                    {title.split(" & ")[0]}
+                  </h2>
                   <span className="text-[var(--text-tertiary)] font-display text-2xl font-light italic">
                    {title.split(" & ")[1] ? `& ${title.split(" & ")[1]}` : ""}
                  </span>

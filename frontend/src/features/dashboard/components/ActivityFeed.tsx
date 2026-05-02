@@ -82,10 +82,10 @@ export default function ActivityFeed() {
             <Clock className="w-5 h-5 text-[var(--text-secondary)]" />
           </div>
           <div>
-            <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
-              System Logs
+            <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight capitalize">
+              System logs
             </h3>
-            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium tracking-[0.05em]">
               Real-time audit
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function ActivityFeed() {
               </p>
             </div>
 
-            <span className="font-sans text-[10px] sm:text-[11px] text-[var(--text-secondary)] font-bold uppercase tracking-[0.05em] whitespace-nowrap">
+            <span className="font-sans text-[10px] sm:text-[11px] text-[var(--text-secondary)] font-bold tracking-[0.05em] whitespace-nowrap">
               {activity.time}
             </span>
           </motion.div>

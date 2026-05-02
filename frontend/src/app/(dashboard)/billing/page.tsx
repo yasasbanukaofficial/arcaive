@@ -247,12 +247,12 @@ export default function BillingPageWrapper() {
     >
       <motion.div variants={fadeUp} className="mb-10">
         <div className="flex items-center gap-4 mb-3">
-          <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
-            Billing & Fiscal
+          <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
+            Billing & fiscal
           </h1>
         </div>
-        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
-          Platform <br /> Subscription.
+        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
+          Platform <br /> subscription
         </h2>
         <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
           Manage your system access level, billing cycles, and resource allowances. 
@@ -273,10 +273,10 @@ export default function BillingPageWrapper() {
         icon={<Zap className="w-4 h-4" />}
         actions={
           <div className="flex items-center gap-2 p-1 bg-[var(--d-border)]" style={{ borderRadius: "6px" }}>
-            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest bg-[var(--d-text-primary)] text-[var(--d-bg)] shadow-sm" style={{ borderRadius: "4px" }}>
+            <span className="px-4 py-1.5 text-[10px] font-black tracking-widest bg-[var(--d-text-primary)] text-[var(--d-bg)] shadow-sm" style={{ borderRadius: "4px" }}>
               Monthly
             </span>
-            <span className="px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-[var(--d-text-tertiary)] cursor-not-allowed">
+            <span className="px-4 py-1.5 text-[10px] font-black tracking-widest text-[var(--d-text-tertiary)] cursor-not-allowed">
               Annual
             </span>
           </div>

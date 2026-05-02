@@ -72,27 +72,27 @@ export default function CVAnalysisPage() {
     >
       <motion.div variants={fadeUp} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div className="space-y-2">
-          <h1 className="font-sans text-[28px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
-            CV Analysis.
+          <h1 className="font-sans text-[28px] font-bold text-[var(--text-primary)] capitalize tracking-tight">
+            CV analysis
           </h1>
           <p className="font-sans text-[14px] text-[var(--text-secondary)] max-w-xl">
-            Deep semantic alignment engine for precision profile matching.
+            Advanced semantic analysis engine for precise profile matching and optimization.
           </p>
         </div>
 
         {analysisResult && (
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleNewAnalysis}
-              className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80"
-              style={{
-                backgroundColor: "#ffffff",
-                color: "#000000",
-                border: "1px solid #000000",
-              }}
-            >
-              NEW ANALYSIS
-            </button>
+              <button
+                onClick={handleNewAnalysis}
+                className="px-6 py-3 text-[12px] font-bold tracking-widest transition-all hover:opacity-80"
+                style={{
+                  backgroundColor: "#ffffff",
+                  color: "#000000",
+                  border: "1px solid #000000",
+                }}
+              >
+                New analysis
+              </button>
           </div>
         )}
       </motion.div>
@@ -119,29 +119,29 @@ export default function CVAnalysisPage() {
               
               <div className="relative z-10 max-w-2xl mx-auto space-y-8 text-center">
                 <div className="space-y-4">
-                  <div className="inline-block px-3 py-1 border border-[var(--glass-border)] font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--text-secondary)] mb-4">
-                    Neural Alignment v4.0
+                  <div className="inline-block px-3 py-1 border border-[var(--glass-border)] font-mono text-[10px] tracking-[0.2em] text-[var(--text-secondary)] mb-4">
+                    Neural alignment v4.0
                   </div>
-                  <h2 className="font-display text-[40px] sm:text-[64px] font-bold leading-[0.9] uppercase tracking-tight text-[var(--text-primary)]">
-                    Precision AI <br />Profile Matching
+                  <h2 className="font-display text-[40px] sm:text-[64px] font-bold leading-[0.9] tracking-tight text-[var(--text-primary)] capitalize">
+                    Precision AI <br />profile matching
                   </h2>
                   <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] max-w-lg mx-auto">
-                    Upload your professional resume and a target job description. Our neural engine will perform deep semantic analysis.
+                    Upload your professional resume and a target job description. Our intelligent engine will perform comprehensive semantic analysis.
                   </p>
                 </div>
 
                 <div className="pt-8">
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="px-10 py-5 text-[14px] font-bold uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    style={{
-                      backgroundColor: "#ffffff",
-                      color: "#000000",
-                      border: "1px solid #000000",
-                    }}
-                  >
-                    Start Analysis →
-                  </button>
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="px-10 py-5 text-[14px] font-bold tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98]"
+                      style={{
+                        backgroundColor: "#ffffff",
+                        color: "#000000",
+                        border: "1px solid #000000",
+                      }}
+                    >
+                      Start analysis →
+                    </button>
                 </div>
               </div>
             </motion.div>

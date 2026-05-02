@@ -26,7 +26,7 @@ export default function WhatsNew() {
             <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               What&apos;s New
             </h3>
-            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium tracking-[0.05em]">
               Latest updates
             </p>
           </div>
@@ -51,7 +51,7 @@ export default function WhatsNew() {
                 <h4 className="font-sans text-[15px] font-medium text-[var(--text-primary)] tracking-tight truncate group-hover:text-[var(--text-primary)] transition-colors">
                   {item.title}
                 </h4>
-                <span className="font-sans text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] bg-[var(--glass-border)] border border-[var(--glass-border)] px-2 py-0.5 rounded-full shrink-0">
+                <span className="font-sans text-[9px] font-bold tracking-[0.1em] text-[var(--text-secondary)] bg-[var(--glass-border)] border border-[var(--glass-border)] px-2 py-0.5 rounded-full shrink-0 capitalize">
                   {item.tag}
                 </span>
               </div>

@@ -109,12 +109,12 @@ function MetricCard({ label, used, limit }: MetricCardProps) {
   return (
     <div className="space-y-4 py-6 border-b border-[var(--glass-border)]">
       <div className="flex justify-between items-end">
-        <span className="font-sans text-[16px] font-bold uppercase text-[var(--text-primary)]">
-          {label}
-        </span>
-        <span className="font-mono text-[12px] uppercase tracking-widest text-[var(--text-secondary)]">
-          {used} / {isUnlimited ? "∞" : limit} USED
-        </span>
+              <span className="font-sans text-[16px] font-bold text-[var(--text-primary)] capitalize">
+              {label}
+            </span>
+            <span className="font-mono text-[12px] tracking-widest text-[var(--text-secondary)]">
+              {used} / {isUnlimited ? "∞" : limit} used
+            </span>
       </div>
       <div className="h-[6px] w-full border border-[var(--glass-border)] bg-[var(--bg-color)]">
         <motion.div
@@ -182,20 +182,20 @@ export default function UsagePage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <h1 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-secondary)]">
-                System Consumption
+              <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
+                System consumption
               </h1>
             </div>
-            <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] uppercase leading-[0.9]">
-              Network <br /> Usage.
+             <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
+              Network <br /> usage
             </h2>
           </div>
 
           <div className="flex flex-col items-start md:items-end gap-5">
             <div className="flex flex-col items-start md:items-end gap-1.5">
-              <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">Subscription Tier</span>
-              <span className="px-5 py-2.5 text-[11px] font-black uppercase tracking-[0.15em] bg-[var(--d-text-primary)] text-[var(--d-bg)]" style={{ borderRadius: "var(--radius)" }}>
-                {subscription.currentPlan.toUpperCase()}
+               <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-secondary)]">Subscription tier</span>
+              <span className="px-5 py-2.5 text-[11px] font-black tracking-[0.15em] bg-[var(--d-text-primary)] text-[var(--d-bg)]" style={{ borderRadius: "var(--radius)" }}>
+                {subscription.currentPlan}
               </span>
             </div>
               <button 
@@ -203,7 +203,7 @@ export default function UsagePage() {
                 style={{ borderRadius: "var(--radius)" }}
                 onClick={() => router.push("/billing")}
               >
-              Manage Plan
+               Manage plan
             </button>
           </div>
         </div>
@@ -234,15 +234,15 @@ export default function UsagePage() {
       >
         <div className="flex flex-col sm:flex-row items-center gap-12 py-4">
           <div className="flex-1 space-y-4">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-tertiary)]">Next Reset Cycle</span>
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-tertiary)]">                 Next reset cycle</span>
             <div className="font-display text-4xl sm:text-5xl font-black text-[var(--d-text-primary)]">
-              {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase()}
+               {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </div>
           </div>
           <div className="flex-1 max-w-sm">
             <p className="font-sans text-[15px] text-[var(--text-secondary)] leading-relaxed">
-              All system quotas and resource allowances will be automatically restored to 
-              their maximum values on the synchronization date.
+               All system quotas and resource allowances will be automatically restored to
+               their maximum values on the synchronization date.
             </p>
           </div>
         </div>

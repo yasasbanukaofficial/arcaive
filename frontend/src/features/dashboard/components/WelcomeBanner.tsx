@@ -30,11 +30,11 @@ export default function WelcomeBanner() {
             <Sparkles className="w-6 h-6 text-[var(--text-primary)]" />
           </motion.div>
           <div className="space-y-4">
-            <h2 className="font-display text-[24px] sm:text-[28px] uppercase font-bold tracking-tight text-[var(--text-primary)]">
+            <h2 className="font-display text-[24px] sm:text-[28px] font-bold tracking-tight text-[var(--text-primary)] capitalize">
               Welcome back, {firstName}
             </h2>
             <p className="font-sans text-[16px] font-light leading-[1.6] max-w-xl text-[var(--text-secondary)]">
-              Your AI agents have been busy.{" "}
+              Your AI agents have been working diligently.{" "}
               <span className="text-[var(--text-primary)] font-medium">{member?.stats?.newApplications || 0} new applications</span> submitted and{" "}
               <span className="text-[var(--text-primary)] font-medium">{member?.stats?.interviewsScheduled || 0} interviews</span> scheduled while you were away.
             </p>

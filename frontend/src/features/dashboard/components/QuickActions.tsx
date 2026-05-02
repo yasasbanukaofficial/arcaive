@@ -27,17 +27,17 @@ export default function QuickActions() {
             <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               Quick Actions
             </h3>
-            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium tracking-[0.05em]">
               Start from a template
             </p>
           </div>
         </div>
-        <Link
-          href="/create"
-          className="font-sans text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--glass-border)] hover:border-[var(--glass-border)]"
-        >
-          Create New
-        </Link>
+          <Link
+            href="/create"
+            className="font-sans text-[12px] font-bold tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--glass-border)] hover:border-[var(--glass-border)]"
+          >
+            Create new
+          </Link>
       </div>
 
       <motion.div
@@ -51,7 +51,7 @@ export default function QuickActions() {
             className="group relative text-left p-6 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-2xl hover:-translate-y-1"
           >
             <div className="flex items-start justify-between mb-6">
-              <span className="font-sans text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-secondary)] border border-[var(--glass-border)]/[0.05] px-3 py-1 rounded-full group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all">
+              <span className="font-sans text-[10px] font-bold tracking-[0.1em] text-[var(--text-secondary)] border border-[var(--glass-border)]/[0.05] px-3 py-1 rounded-full group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all capitalize">
                 {template.tag}
               </span>
             </div>

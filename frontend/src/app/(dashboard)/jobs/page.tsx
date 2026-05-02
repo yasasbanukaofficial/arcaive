@@ -252,9 +252,9 @@ export default function JobsPage() {
                 key={r}
                 onClick={() => toggleRemote(r)}
                 className="tag border-[var(--glass-border)] bg-black text-white hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
-              >
-                {r.toUpperCase()} [X]
-              </button>
+                >
+                  {r} [X]
+                </button>
             ))}
           </div>
 

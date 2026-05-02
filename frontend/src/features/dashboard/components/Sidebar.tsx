@@ -3,8 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemberSettings } from "@/features/settings/hooks/useMember";
-import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -15,16 +13,11 @@ import {
   CreditCard,
   ChevronLeft,
   ChevronRight,
-  LogOut,
   Mic,
   FileSearch,
   FileText,
-  Sun,
-  Moon,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
-import { useTheme } from "./ThemeContext";
-import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
@@ -47,17 +40,15 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Sidebar() {
   const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } = useSidebar();
-  const { theme, toggleTheme, isDark } = useTheme();
   const pathname = usePathname();
-  
-  const { data: member, isLoading: memberLoading } = useMemberSettings();
-  const { data: subscription } = useSubscription();
 
   const isActive = (href: string) => pathname === href;
 
   React.useEffect(() => {
     if (isMobile) setMobileOpen(false);
   }, [pathname, isMobile, setMobileOpen]);
+
+  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
 
   const renderNavItem = (
     item: { name: string; href: string; icon: React.ElementType<{ className?: string }> },
@@ -122,7 +113,7 @@ export default function Sidebar() {
               <span className="font-display text-[14px] font-bold text-[var(--text-primary)]">A</span>
             </div>
             {!collapsed && (
-              <span className="font-display text-[18px] font-bold tracking-tight text-[var(--text-primary)] uppercase">
+              <span className="font-display text-[18px] font-bold tracking-tight text-[var(--text-primary)]">
                 Arcaive
               </span>
             )}
@@ -133,8 +124,8 @@ export default function Sidebar() {
         <nav className="flex-1 py-6 space-y-8 overflow-y-auto no-scrollbar">
           <div>
             {!collapsed && (
-              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)]">
-                Explore
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest text-[var(--text-secondary)]">
+                Discover
               </p>
             )}
             <div className="space-y-1">{mainNav.map(renderNavItem)}</div>
@@ -142,53 +133,16 @@ export default function Sidebar() {
 
           <div>
             {!collapsed && (
-              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)]">
-                Manage
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest text-[var(--text-secondary)]">
+                Configure
               </p>
             )}
             <div className="space-y-1">{manageNav.map(renderNavItem)}</div>
           </div>
         </nav>
 
-        {/* Bottom User Section */}
+        {/* Bottom Section */}
         <div className="mt-auto border-t p-6 space-y-6" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-          {!collapsed && (
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-[var(--radius)] bg-[var(--text-primary)] flex items-center justify-center shrink-0 border" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-                  {memberLoading ? (
-                    <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">?</span>
-                  ) : (
-                    <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">
-                      {member?.memberFullName?.charAt(0) || member?.memberName?.charAt(0) || "U"}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-sans text-[14px] font-medium text-[var(--text-primary)] truncate">
-                    {memberLoading ? "Loading..." : (member?.memberFullName || member?.memberName || "User")}
-                  </span>
-                  <span className="font-sans text-[12px] font-light text-[var(--text-secondary)] truncate">
-                    {member?.memberEmail || ""}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] tracking-widest uppercase rounded-full px-3 py-1 text-[var(--text-secondary)]" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-                  {(subscription?.currentPlan || "Explorer").toUpperCase()} TIER
-                </span>
-                <button
-                  onClick={toggleTheme}
-                  className="w-8 h-8 rounded-full border flex items-center justify-center transition-colors hover:opacity-80 text-[var(--text-primary)]"
-                  style={{ borderColor: "rgba(255,255,255,0.08)" }}
-                  title={`Switch to ${isDark ? "light" : "dark"} mode`}
-                >
-                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
-          )}
-
           <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-4`}>
             <Link
               href="/settings"
@@ -198,39 +152,11 @@ export default function Sidebar() {
               <Settings className="w-5 h-5" />
             </Link>
 
-            {collapsed && (
-              <button
-                onClick={toggleTheme}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1 mb-2"
-                title={`Switch to ${isDark ? "light" : "dark"} mode`}
-              >
-                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-            )}
-
-            {!collapsed && (
-              <form 
-                action={async () => {
-                  localStorage.removeItem("access_token");
-                  localStorage.removeItem("token");
-                  await logoutAction();
-                }} 
-                className="flex-1"
-              >
-                <button
-                  type="submit"
-                  className="w-full text-left font-sans text-[14px] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2 px-1"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Log out
-                </button>
-              </form>
-            )}
-
             {!isMobile && (
               <button
                 onClick={toggle}
                 className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1"
+                title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
                 {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
               </button>

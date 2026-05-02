@@ -71,7 +71,7 @@ export default function StatsGrid() {
                 <stat.icon className="w-5 h-5 text-[var(--text-primary)]" />
               </div>
               <div
-                className={`font-mono text-[10px] uppercase font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white`}
+                className={`font-mono text-[10px] font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white`}
               >
                 {stat.change}
               </div>
@@ -81,7 +81,7 @@ export default function StatsGrid() {
               <p className="font-display text-[42px] font-bold text-[var(--text-primary)] leading-none mb-4 tracking-tighter group-hover:scale-[1.02] transition-transform origin-left">
                 {stat.value}
               </p>
-              <p className="font-mono text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-widest">
+              <p className="font-mono text-[11px] font-bold text-[var(--text-secondary)] tracking-widest capitalize">
                 {stat.label}
               </p>
             </div>

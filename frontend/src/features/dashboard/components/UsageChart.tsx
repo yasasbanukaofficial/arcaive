@@ -28,15 +28,15 @@ export default function UsageChart() {
             <h3 className="font-sans text-[18px] font-medium text-[var(--text-primary)] tracking-tight">
               API Usage
             </h3>
-            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium uppercase tracking-[0.05em]">
+            <p className="font-sans text-[12px] text-[var(--text-secondary)] font-medium tracking-[0.05em]">
               Last 7 days
             </p>
           </div>
         </div>
         <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-[var(--glass-border)] rounded-full border border-[var(--glass-border)]">
-          <span className="font-sans text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)]">
-            Total Requests
-          </span>
+            <span className="font-sans text-[10px] font-bold tracking-widest text-[var(--text-secondary)]">
+              Total requests
+            </span>
         </div>
       </div>
 
@@ -58,12 +58,12 @@ export default function UsageChart() {
               
               {/* Tooltip */}
               <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 translate-y-2 group-hover:translate-y-0">
-                <span className="font-sans text-[11px] font-bold text-white bg-black px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap uppercase tracking-widest">
-                  {value} Req
+                <span className="font-sans text-[11px] font-bold text-white bg-black px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap tracking-widest">
+                  {value} req
                 </span>
               </div>
             </div>
-            <span className="font-sans text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest transition-colors group-hover:text-[var(--text-primary)]">
+            <span className="font-sans text-[10px] font-bold text-[var(--text-secondary)] tracking-widest transition-colors group-hover:text-[var(--text-primary)]">
               {days[i]}
             </span>
           </div>

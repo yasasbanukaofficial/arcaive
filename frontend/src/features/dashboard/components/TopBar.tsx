@@ -1,12 +1,15 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Bell, ChevronDown, Search } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sun, Moon, Settings, LogOut } from "lucide-react";
+import Link from "next/link";
 import { fadeUp } from "./animations";
 import { usePathname } from "next/navigation";
-import { useUsageQuota } from "@/features/billing/hooks/useSubscription";
+import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { useSidebar } from "./SidebarContext";
+import { useTheme } from "./ThemeContext";
+import { logoutAction } from "@/features/auth/action";
 
 const PAGE_TITLES: Record<string, string> = {
   "/overview": "Overview",
@@ -23,9 +26,12 @@ const PAGE_TITLES: Record<string, string> = {
 export default function TopBar() {
   const { setMobileOpen, isMobile } = useSidebar();
   const pathname = usePathname();
-  const { data: usage } = useUsageQuota();
+  const { data: subscription } = useSubscription();
+  const { isDark, toggleTheme } = useTheme();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const title = PAGE_TITLES[pathname] || "Dashboard";
+  const tier = subscription?.currentPlan || "explorer";
 
   return (
     <motion.header
@@ -47,56 +53,80 @@ export default function TopBar() {
           </button>
         )}
         <div className="flex flex-col">
-          <h1 className="font-display text-[20px] tracking-tight uppercase font-bold text-[var(--text-primary)] leading-none mb-1">
+          <h1 className="font-display text-[20px] tracking-tight font-bold text-[var(--text-primary)] leading-none mb-1 capitalize">
             {title}
           </h1>
-          <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest hidden sm:inline">
+          <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] tracking-widest hidden sm:inline">
             Arcaive / Platform
           </span>
         </div>
       </div>
 
-        <div className="flex items-center gap-8">
-        {/* Quota */}
-        {usage && (
-          <div className="hidden lg:flex items-center gap-4 bg-[var(--glass-border)] border border-[var(--glass-border)] px-4 py-2 rounded-[var(--radius)]">
-            <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-wider">
-              Token Usage
-            </span>
-            <div className="w-24 h-1 bg-[var(--glass-bg)] rounded-[var(--radius)] overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${Math.min((usage.cvAnalysisUsed / usage.cvAnalysisLimit) * 100, 100)}%` }}
-                className="h-full bg-[var(--text-primary)] rounded-[var(--radius)]"
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </div>
-            <span className="font-mono text-[12px] font-bold text-[var(--text-primary)]">
-              {usage.cvAnalysisUsed}/{usage.cvAnalysisLimit}
-            </span>
-          </div>
-        )}
-
-        <div className="flex items-center gap-3">
-          <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all p-2 rounded-[var(--radius)] hover:bg-[var(--glass-border)] border border-transparent hover:border-[var(--glass-border)] group">
-            <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
-          </button>
-          <button className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all p-2 rounded-[var(--radius)] hover:bg-[var(--glass-border)] border border-transparent hover:border-[var(--glass-border)] group relative">
-            <Bell className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span className="absolute top-2 right-2.5 w-2 h-2 bg-[var(--text-primary)] rounded-full border-2 border-[var(--bg-color)]" />
-          </button>
-
-          <div className="w-[1px] h-4 bg-[var(--glass-border)] mx-2" />
-
-          <button className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-[var(--radius)] border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] hover:border-[var(--text-secondary)] transition-all">
+      <div className="flex items-center gap-3">
+        <div
+          className="relative"
+          onMouseEnter={() => setUserMenuOpen(true)}
+          onMouseLeave={() => setUserMenuOpen(false)}
+        >
+          <button
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-[var(--radius)] border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] hover:border-[var(--text-secondary)] transition-all"
+          >
             <div className="flex flex-col items-end text-right mr-1 hidden sm:flex">
               <span className="font-sans text-[13px] font-medium text-[var(--text-primary)] leading-none mb-1">Yasas Banuka</span>
-              <span className="font-mono text-[9px] font-bold text-[var(--text-secondary)] uppercase tracking-tighter">Pro member</span>
+              <span className="font-mono text-[9px] font-bold text-[var(--text-secondary)] tracking-tighter capitalize">{tier} member</span>
             </div>
             <div className="w-10 h-10 rounded-[var(--radius)] bg-[var(--text-primary)] border border-[var(--glass-border)] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-500">
               <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">Y</span>
             </div>
           </button>
+
+          <AnimatePresence>
+            {userMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 top-full mt-2 w-48 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-[var(--radius)] shadow-xl z-50 overflow-hidden"
+              >
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                    setUserMenuOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-[14px] text-[var(--text-primary)] hover:bg-[var(--glass-border)] transition-colors"
+                >
+                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {isDark ? "Light mode" : "Dark mode"}
+                </button>
+                <Link
+                  href="/settings"
+                  onClick={() => setUserMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-[14px] text-[var(--text-primary)] hover:bg-[var(--glass-border)] transition-colors"
+                >
+                  <Settings className="w-4 h-4" />
+                  Settings
+                </Link>
+                <form
+                  action={async () => {
+                    localStorage.removeItem("access_token");
+                    localStorage.removeItem("token");
+                    await logoutAction();
+                  }}
+                  className="w-full"
+                >
+                  <button
+                    type="submit"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-[14px] text-red-500 hover:bg-red-500/10 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Log out
+                  </button>
+                </form>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </motion.header>
