@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useInputControls } from "@/hooks/agents-ui/use-agent-control-bar";
 import TranscriptionStream from "./TranscriptionStream";
 import { AgentChatTranscript } from "@/components/agents-ui/agent-chat-transcript";
+import InterviewLoadingScreen from "./InterviewLoadingScreen";
 
 export default function AgentPanel({ duration }: { duration: string }) {
   const router = useRouter();
@@ -50,9 +51,24 @@ export default function AgentPanel({ duration }: { duration: string }) {
     return `${m}:${s}`;
   }
 
+  const isAgentLoading = !state || state === 'connecting' || state === 'initializing';
+
   return (
     <div className="flex flex-col w-full h-full bg-[var(--bg-color)] items-center justify-between relative overflow-hidden text-[var(--text-primary)] font-sans selection:bg-[var(--text-primary)] selection:text-[var(--bg-color)]">
       
+      <AnimatePresence>
+        {isAgentLoading && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, filter: "blur(20px)" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute inset-0 z-30"
+          >
+            <InterviewLoadingScreen message="Initializing Agent..." />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Subtle Gradients */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[var(--text-primary)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[var(--text-primary)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
@@ -135,7 +151,7 @@ export default function AgentPanel({ duration }: { duration: string }) {
                               barCount={5} 
                               className="w-full h-full flex text-black dark:text-white items-center justify-center gap-0 p-0"
                           >
-                              <div className="w-2 min-w-[5px] min-h-[8px] rounded-full bg-current transition-all duration-300" />
+                              <div className="w-2 min-w-[7px] min-h-[8px] rounded-full bg-current transition-all duration-300" />
                           </BarVisualizer>
                       </motion.div>
                   )}

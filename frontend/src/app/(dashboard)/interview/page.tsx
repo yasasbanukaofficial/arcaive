@@ -5,6 +5,7 @@ import { LiveKitRoom, RoomAudioRenderer, SessionProvider, useSession } from "@li
 import "@livekit/components-styles";
 import AgentPanel from "@/features/interview/components/AgentPanel";
 import InterviewSetupModal from "@/features/interview/components/InterviewSetupModal";
+import InterviewLoadingScreen from "@/features/interview/components/InterviewLoadingScreen";
 import { jobAPI } from "@/features/jobs/api/jobAPI";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -44,12 +45,7 @@ export default function InterviewPage() {
       {!showSetup && (
         <div className="flex-1 flex flex-col min-h-0">
           {loading && (
-            <div className="flex-1 flex flex-col items-center justify-center gap-4">
-              <div className="w-12 h-12 border-4 border-[var(--glass-border)] border-t-[var(--text-primary)] animate-spin" />
-              <p className="text-[14px] font-medium" style={{ color: "var(--d-text-muted)" }}>
-                Establishing secure connection...
-              </p>
-            </div>
+            <InterviewLoadingScreen message="Establishing secure connection..." />
           )}
           
           {error && (

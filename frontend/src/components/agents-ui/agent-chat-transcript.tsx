@@ -71,10 +71,10 @@ export function AgentChatTranscript({
                 isUser ? "flex-row-reverse" : "flex-row"
               )}>
                 <div className={cn(
-                  "w-7 h-7  flex items-center justify-center border shrink-0 shadow-md",
+                  "w-7 h-7 flex items-center justify-center border shrink-0 shadow-md",
                   isUser 
-                    ? "!bg-[#ffffff] border-[#e2e8f0] !text-[#000000]" 
-                    : "!bg-[#000000] border-[#333333] !text-[#ffffff]"
+                    ? "bg-[var(--text-primary)] border-[var(--glass-border)] text-[var(--bg-color)]" 
+                    : "bg-black border-[var(--glass-border)] text-white"
                 )}>
                   {isUser ? (
                     <User className="w-4 h-4" />
@@ -90,10 +90,10 @@ export function AgentChatTranscript({
                     "flex items-baseline gap-2",
                     isUser ? "flex-row-reverse" : "flex-row"
                   )}>
-                    <span className="text-[10px] font-bold text-[var(--d-text-secondary)] uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">
                       {isUser ? 'Candidate' : 'AI Interviewer'}
                     </span>
-                    <span className="text-[9px] text-[var(--d-text-muted)] font-semibold uppercase">
+                    <span className="text-[9px] text-[var(--text-secondary)] font-semibold uppercase opacity-40">
                       {timeStr}
                     </span>
                   </div>
@@ -101,14 +101,14 @@ export function AgentChatTranscript({
               </div>
               
               <MessageContent className={cn(
-                " shadow-2xl !max-w-[88%] !px-5 !py-3.5 border  duration-200",
+                "shadow-2xl !max-w-[92%] !px-5 !py-3.5 border duration-200 rounded-2xl",
                 isUser 
-                  ? "!bg-[#ffffff] border-[#e2e8f0] !text-[#000000] -none ml-auto" 
-                  : "!bg-[#000000] border-[#333333] !text-[#ffffff] -none mr-auto"
+                  ? "bg-[var(--text-primary)] border-[var(--glass-border)] text-[var(--bg-color)] ml-auto" 
+                  : "bg-black border-[var(--glass-border)] text-white mr-auto"
               )}>
                 <MessageResponse className={cn(
                   "text-[13px] leading-relaxed font-bold tracking-tight",
-                  isUser ? "!text-[#000000]" : "!text-[#ffffff]"
+                  isUser ? "text-[var(--bg-color)]" : "text-white"
                 )}>
                   {message}
                 </MessageResponse>
@@ -120,19 +120,20 @@ export function AgentChatTranscript({
           {agentState === 'thinking' && (
             <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-1 duration-300">
               <div className="flex items-center gap-2 px-1">
-                <div className="w-7 h-7  bg-[#000000] flex items-center justify-center border border-[#333333] shadow-md">
+                <div className="w-7 h-7 bg-black flex items-center justify-center border border-[var(--glass-border)] shadow-md">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-[10px] font-bold text-[var(--d-text-tertiary)] uppercase tracking-widest">
+                <span className="text-[10px] font-bold text-[var(--text-secondary)] uppercase tracking-widest opacity-60">
                   AI is processing...
                 </span>
               </div>
-              <div className="bg-[#000000] border border-[#333333]  -none px-6 py-4 w-fit shadow-2xl">
-                <AgentChatIndicator size="sm" className="bg-[var(--glass-bg)]/60" />
+              <div className="bg-black border border-[var(--glass-border)] px-6 py-4 w-fit shadow-2xl rounded-2xl">
+                <AgentChatIndicator size="sm" className="bg-white/10" />
               </div>
             </div>
           )}
         </AnimatePresence>
+
       </ConversationContent>
       <ConversationScrollButton className="bg-[var(--glass-bg)] dark:bg-zinc-800 backdrop-blur-none border-zinc-200 dark:border-zinc-700 shadow-xl hover:scale-110 transition-transform" />
     </Conversation>
