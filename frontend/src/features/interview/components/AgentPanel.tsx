@@ -1,18 +1,28 @@
 "use client";
 
-import { AgentControlBar } from "@/components/agents-ui/agent-control-bar";
-import AgentControls from "./AgentControls";
-import { ChevronLeft, MoreVertical, LayoutGrid, Info, Clock, ShieldCheck } from "lucide-react";
+import { useAgent, useSessionMessages, BarVisualizer } from "@livekit/components-react";
+import { Mic, MicOff, MessageSquare, X, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import InterviewEndModal from "./InterviewEndModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInputControls } from "@/hooks/agents-ui/use-agent-control-bar";
+import TranscriptionStream from "./TranscriptionStream";
+import { AgentChatTranscript } from "@/components/agents-ui/agent-chat-transcript";
 
 export default function AgentPanel({ duration }: { duration: string }) {
   const router = useRouter();
 
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null);
   const [showEndModal, setShowEndModal] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
+  // LiveKit Hooks
+  const { state, microphoneTrack } = useAgent();
+  const { messages } = useSessionMessages();
+  const {
+    microphoneToggle,
+  } = useInputControls();
 
   useEffect(() => {
     setSecondsLeft(Number(duration));
@@ -33,96 +43,121 @@ export default function AgentPanel({ duration }: { duration: string }) {
   }, [secondsLeft]);
 
   function formatTime(secs: number) {
+    if (secs === null) return "00:00";
     const m = Math.floor(secs / 60).toString().padStart(2, "0");
     const s = (secs % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   }
 
   return (
-    <div className="flex flex-col w-full h-full bg-[var(--bg-color)] text-[var(--text-primary)] font-sans p-4 sm:p-8 gap-6 sm:gap-8 overflow-hidden relative">
-        {/* Aesthetic Background Accents */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--text-primary)] opacity-[0.02] rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[var(--text-primary)] opacity-[0.03] rounded-full blur-[80px] pointer-events-none" />
+    <div className="flex flex-col w-full h-full bg-[var(--bg-color)] items-center justify-between relative overflow-hidden text-[var(--text-primary)] font-sans selection:bg-[var(--text-primary)] selection:text-[var(--bg-color)]">
+      
+      {/* Background Subtle Gradients */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[var(--text-primary)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[var(--text-primary)] opacity-[0.03] blur-[120px] rounded-full pointer-events-none" />
 
-        <header className="relative z-10 flex items-center justify-between shrink-0 border-b border-[var(--glass-border)] pb-6 sm:pb-8">
-          <div className="flex items-center gap-6 sm:gap-8">
-            <button
-              onClick={() => router.back()}
-              className="w-12 h-12 flex items-center justify-center bg-[var(--glass-bg)] border border-[var(--glass-border)] hover:border-[var(--text-primary)] transition-all duration-300"
-              style={{ borderRadius: "var(--radius)" }}
-            >
-              <ChevronLeft className="w-5 h-5" />
+      {/* Top Header */}
+      <div className="w-full p-8 flex items-center justify-between z-20">
+        <div className="flex items-center gap-4">
+            <div className="flex flex-col">
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--text-secondary)] opacity-60 mb-1">Session Active</span>
+                <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-[var(--text-primary)] animate-pulse shadow-[0_0_10px_var(--text-primary)]" />
+                    <span className="text-sm font-medium opacity-90">Arcaive Intelligence</span>
+                </div>
+            </div>
+        </div>
+
+        <div className="flex items-center gap-6">
+            <div className="px-4 py-2 rounded-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-xl flex items-center gap-3">
+                <span className="text-sm font-mono font-bold">
+                    {secondsLeft === null ? "00:00" : formatTime(secondsLeft)}
+                </span>
+            </div>
+            <button className="p-2.5 rounded-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)] transition-all">
+                <Settings className="w-5 h-5" />
             </button>
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)]" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--text-secondary)]">Live Protocol</span>
-              </div>
-              <h1 className="font-sans text-[24px] sm:text-[28px] font-bold text-[var(--text-primary)] uppercase tracking-tight leading-none">
-                AI Technical Interview
-              </h1>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div className="hidden md:flex flex-col items-end">
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[var(--text-secondary)] mb-1">System Entropy</span>
-              <div className="flex items-center gap-2 px-4 py-2 bg-[var(--glass-bg)] border border-[var(--glass-border)] min-w-[200px] justify-between" style={{ borderRadius: "var(--radius)" }}>
-                 <div className={`w-2 h-2 rounded-full ${secondsLeft && secondsLeft > 0 ? 'bg-[var(--text-primary)]' : 'bg-red-500'} animate-pulse`} />
-                 <span className="font-mono text-[12px] font-black uppercase tracking-widest">
-                   {secondsLeft === null ? "Initializing..." : secondsLeft > 0 ? formatTime(secondsLeft) : "Node Terminated"}
-                 </span>
-                 <ShieldCheck className="w-3.5 h-3.5 text-[var(--text-secondary)]" />
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <button className="w-12 h-12 flex items-center justify-center border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] transition-colors" style={{ borderRadius: "var(--radius)" }}>
-                <LayoutGrid className="w-5 h-5 text-[var(--text-primary)]" />
-              </button>
-              <button className="w-12 h-12 flex items-center justify-center border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] transition-colors" style={{ borderRadius: "var(--radius)" }}>
-                <MoreVertical className="w-5 h-5 text-[var(--text-primary)]" />
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <main className="relative z-10 flex-1 min-h-0 flex flex-col lg:flex-row gap-8">
-          <AgentControls />
-        </main>
-
-        <footer className="relative z-10 shrink-0 flex items-center justify-between pt-6 border-t border-[var(--glass-border)]">
-          <div className="hidden lg:flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-[var(--glass-bg)] px-4 py-2 border border-[var(--glass-border)]" style={{ borderRadius: "var(--radius)" }}>
-               <div className="w-2 h-2 rounded-full bg-green-500" />
-               <span className="font-mono text-[10px] uppercase tracking-widest font-bold">Network Stable</span>
-            </div>
-          </div>
-
-          <div className="flex-1 flex justify-center">
-            <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] p-2.5 shadow-xl" style={{ borderRadius: "var(--radius)" }}>
-              <AgentControlBar
-                variant="livekit"
-                isChatOpen={false}
-                isConnected={true}
-                onDisconnect={() => setShowEndModal(true)}
-                controls={{
-                  leave: true,
-                  microphone: true,
-                  screenShare: true,
-                  camera: true,
-                  chat: true,
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-4 group cursor-help">
-            <Info className="w-4 h-4 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors" />
-            <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">Session: AD-912A</span>
-          </div>
-        </footer>
-        <InterviewEndModal isOpen={showEndModal} />
+        </div>
       </div>
+
+      {/* Main Interaction Area */}
+      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl z-10 px-6">
+        <div className="relative w-[480px] h-48 flex items-center justify-center">
+            {/* Official LiveKit Visualizer in Circle Layout */}
+            <BarVisualizer 
+                trackRef={microphoneTrack} 
+                barCount={4} 
+                className="w-full h-full flex text-[var(--text-primary)] items-center justify-center gap-6"
+            >
+                <div className="w-20 min-w-[5rem] min-h-[5rem] rounded-full bg-current transition-all duration-300 opacity-90 shadow-[0_0_30px_rgba(255,255,255,0.1)]" />
+            </BarVisualizer>
+            {/* Center Glow */}
+            <div className="absolute inset-0 rounded-full bg-[var(--text-primary)] opacity-[0.02] blur-2xl pointer-events-none" />
+        </div>
+        
+        <div className="mt-16 w-full flex justify-center">
+            <TranscriptionStream />
+        </div>
+      </div>
+
+      {/* Grouped Bottom Controls */}
+      <div className="w-full flex flex-col items-center pb-12 z-20">
+        <div className="p-2 rounded-[2rem] bg-[var(--glass-bg)] border border-[var(--glass-border)] backdrop-blur-3xl shadow-2xl flex items-center gap-2">
+            {/* End Call */}
+            <button 
+                onClick={() => setShowEndModal(true)}
+                className="w-14 h-14 rounded-full bg-transparent hover:bg-red-500/20 text-[var(--text-secondary)] hover:text-red-500 transition-all flex items-center justify-center group"
+            >
+                <X className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            </button>
+
+            {/* Mic Toggle */}
+            <button 
+              onClick={() => microphoneToggle.toggle()}
+              disabled={microphoneToggle.pending}
+              className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${microphoneToggle.enabled ? 'bg-transparent text-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]' : 'bg-red-500 text-white shadow-[0_0_20px_rgba(239,68,68,0.4)]'}`}
+            >
+              {microphoneToggle.enabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+            </button>
+
+            {/* Chat Transcript Toggle */}
+            <button 
+                onClick={() => setShowChat(!showChat)}
+                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${showChat ? 'bg-[var(--text-primary)] text-[var(--bg-color)]' : 'bg-transparent text-[var(--text-secondary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)]'}`}
+            >
+                <MessageSquare className="w-6 h-6" />
+            </button>
+        </div>
+      </div>
+
+      {/* Side Transcript Overlay */}
+      <AnimatePresence>
+        {showChat && (
+            <motion.div 
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                className="absolute top-0 right-0 w-full sm:w-[450px] h-full bg-[var(--bg-color)] border-l border-[var(--glass-border)] z-[100] shadow-2xl flex flex-col"
+            >
+                <div className="p-8 border-b border-[var(--glass-border)] flex items-center justify-between">
+                    <div>
+                        <h3 className="text-lg font-bold">Full Transcript</h3>
+                        <p className="text-xs opacity-40 uppercase tracking-widest mt-1">Live History</p>
+                    </div>
+                    <button onClick={() => setShowChat(false)} className="p-2.5 hover:bg-[var(--glass-bg)] border border-transparent hover:border-[var(--glass-border)] rounded-xl transition-all group">
+                        <X className="w-5 h-5 opacity-40 group-hover:opacity-100" />
+                    </button>
+                </div>
+                <div className="flex-1 overflow-hidden p-4">
+                    <AgentChatTranscript agentState={state} messages={messages} className="h-full" />
+                </div>
+            </motion.div>
+        )}
+      </AnimatePresence>
+
+      <InterviewEndModal isOpen={showEndModal} />
+    </div>
   );
 }
+
