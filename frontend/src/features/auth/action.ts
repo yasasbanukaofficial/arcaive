@@ -85,13 +85,21 @@ export async function forgotPasswordAction(
 }
 
 export async function logoutAction(): Promise<void> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+
   try {
-    await authAPI.logout();
+    // Call the logout API using native fetch
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (err: unknown) {
-    console.error("authAPI.logout failed:", err);
+    console.error("Logout API call failed:", err);
   }
 
-  const cookieStore = await cookies();
   const expire = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -103,6 +111,14 @@ export async function logoutAction(): Promise<void> {
   cookieStore.set("access_token", "", expire);
   cookieStore.set("access_token", "", { ...expire, secure: true }); 
   cookieStore.set("JSESSIONID", "", { ...expire, httpOnly: true });
+
+  // Clear any LiveKit session cookies (e.g., sb-hnhs...)
+  const allCookies = cookieStore.getAll();
+  allCookies.forEach((cookie) => {
+    if (cookie.name.startsWith("sb-")) {
+      cookieStore.set(cookie.name, "", expire);
+    }
+  });
 
   redirect("/login");
 }

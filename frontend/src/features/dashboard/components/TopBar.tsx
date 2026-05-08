@@ -118,6 +118,19 @@ export default function TopBar() {
                   action={async () => {
                     localStorage.removeItem("access_token");
                     localStorage.removeItem("token");
+                    
+                    // Clear LiveKit cookies on the client side
+                    if (typeof document !== "undefined") {
+                      const cookies = document.cookie.split(";");
+                      for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.startsWith("sb-")) {
+                          const cookieName = cookie.split("=")[0];
+                          document.cookie = `${cookieName}=; Max-Age=0; path=/;`;
+                        }
+                      }
+                    }
+                    
                     await logoutAction();
                   }}
                   className="w-full"

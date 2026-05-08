@@ -50,11 +50,7 @@ export default function Navbar() {
             CONTACT
           </Link>
           
-          {!isLoggedIn && (
-            <Link href="/register" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-              SIGN UP
-            </Link>
-          )}
+          {/* Removed text SIGN UP link; keeping only the signin/dashboard button */}
 
           <Link 
             href={isLoggedIn ? "/overview" : "/login"} 
@@ -97,9 +93,7 @@ export default function Navbar() {
           <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
           <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
           
-          {!isLoggedIn && (
-            <Link href="/register" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">SIGN UP</Link>
-          )}
+          {/* Removed mobile text SIGN UP link; keeping only the signin/dashboard button */}
 
           <Link 
             href={isLoggedIn ? "/overview" : "/login"} 
