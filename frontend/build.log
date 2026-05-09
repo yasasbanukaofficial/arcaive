@@ -1,0 +1,26 @@
+
+> frontend@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 10.4s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/22) ...
+⨯ useSearchParams() should be wrapped in a suspense boundary at page "/create". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at Q (/home/bezerk/Documents/dev/ijse/arcaive/frontend/.next/server/chunks/ssr/e3fa3_next_b40b2d27._.js:2:2111)
+    at o (/home/bezerk/Documents/dev/ijse/arcaive/frontend/.next/server/chunks/ssr/e3fa3_next_b40b2d27._.js:4:5310)
+    at t (/home/bezerk/Documents/dev/ijse/arcaive/frontend/.next/server/chunks/ssr/[root-of-the-server]__a412d4fe._.js:1:37117)
+    at an (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84360)
+    at ai (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86179)
+    at al (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:107953)
+    at as (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:105368)
+    at aa (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:84712)
+    at ai (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:86228)
+    at ai (/home/bezerk/Documents/dev/ijse/arcaive/frontend/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_@opentelemetry+api@1.9.0_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/next-server/app-page-turbo.runtime.prod.js:2:104708)
+Error occurred prerendering page "/create". Read more: https://nextjs.org/docs/messages/prerender-error
+Export encountered an error on /(dashboard)/create/page: /create, exiting the build.
+⨯ Next.js build worker exited with code: 1 and signal: null

@@ -2,8 +2,7 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Heart, Sparkles, AlertTriangle } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { AlertTriangle } from "lucide-react";
 
 interface FeatureLoss {
   label: string;
@@ -37,83 +36,67 @@ export default function DowngradeConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[var(--bg-color)]/70"
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: "var(--radius)" }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-[500px] bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden"
         >
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
+          <div className="p-8 space-y-6">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center">
+              <AlertTriangle className="w-6 h-6 text-red-400" />
+            </div>
+
+            <div>
+              <h2 className="font-sans text-[18px] font-semibold text-white mb-2">
                 Downgrade to {targetPlan}
               </h2>
-                  <button
-                    onClick={onClose}
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
-                  >
-                    ×
-                  </button>
-            </div>
-            <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
-
-            <div className="p-[48px] space-y-8">
-              <div className="space-y-4">
-                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  You&apos;re about to downgrade from <span className="text-[var(--text-primary)] font-bold uppercase">{currentPlan}</span> to <span className="text-[var(--text-primary)] font-bold uppercase">{targetPlan}</span>.
-                </p>
-                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  We&apos;re sorry to see you go. Before you proceed, please review the changes.
-                </p>
-              </div>
-
-              {featuresLost.length > 0 && (
-                <div className="space-y-4">
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-                    Features you will miss
-                  </span>
-                  <ul className="space-y-3">
-                    {featuresLost.map((feature, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center gap-3 font-mono text-[12px] uppercase text-[var(--text-primary)]"
-                      >
-                        <span className="text-[var(--text-secondary)]">→</span>
-                        {feature.label}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="p-4 border border-[#D83B2A] bg-[#D83B2A]/5">
-                <p className="font-mono text-[11px] leading-relaxed text-[#D83B2A]">
-                  [!] Proceeding will cancel your current billing cycle immediately. This action is permanent. Your new plan takes effect right away.
-                </p>
-              </div>
+              <p className="font-sans text-[14px] text-white/50 leading-relaxed">
+                You&apos;re about to downgrade from <span className="text-white font-medium">{currentPlan}</span> to <span className="text-white font-medium">{targetPlan}</span>.
+              </p>
             </div>
 
-              <div className="mt-4">
-              <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
-              <div className="px-[48px] py-8 flex justify-end gap-4">
-                <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                  onClick={onClose}
-                >
-                  Keep my plan
-                </button>
-                <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest bg-[var(--d-surface)] text-red-500 border border-red-500 hover:bg-red-500 hover:text-[var(--d-bg)] transition-all rounded-[var(--radius)]"
-                  onClick={onConfirm}
-                >
-                  Yes, Downgrade
-                </button>
+            {featuresLost.length > 0 && (
+              <div className="space-y-3">
+                <p className="font-sans text-[12px] text-white/30 uppercase tracking-wider">Features you&apos;ll lose</p>
+                <ul className="space-y-2">
+                  {featuresLost.map((feature, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2.5 font-sans text-[13px] text-white/70"
+                    >
+                      <span className="text-red-400 text-[10px]">✕</span>
+                      {feature.label}
+                    </li>
+                  ))}
+                </ul>
               </div>
+            )}
+
+            <div className="p-4 rounded-[16px] bg-red-500/5 border border-red-500/15">
+              <p className="font-sans text-[13px] leading-relaxed text-red-400/80">
+                This will cancel your current billing cycle immediately. This action is permanent.
+              </p>
             </div>
+          </div>
+
+          <div className="border-t border-[#2a2a2a] px-8 py-6 flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white/60 hover:text-white hover:bg-[#2a2a2a] transition-colors font-sans text-[13px] font-medium"
+            >
+              Keep my plan
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-5 py-2.5 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors font-sans text-[13px] font-semibold"
+            >
+              Yes, downgrade
+            </button>
           </div>
         </motion.div>
       </div>

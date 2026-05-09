@@ -2,8 +2,7 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Rocket, Sparkles, ArrowUp, Info } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Sparkles } from "lucide-react";
 
 interface FeatureGain {
   label: string;
@@ -39,86 +38,70 @@ export default function UpgradeConfirmModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-[var(--bg-color)]/70"
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: "var(--radius)" }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-[500px] bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden"
         >
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
+          <div className="p-8 space-y-6">
+            <div className="w-12 h-12 rounded-full bg-[#e6efdf] flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-[#111]" />
+            </div>
+
+            <div>
+              <h2 className="font-sans text-[18px] font-semibold text-white mb-2">
                 Upgrade to {targetPlan}
               </h2>
-                  <button
-                    onClick={onClose}
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
-                  >
-                    ×
-                  </button>
-            </div>
-            <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
-
-            <div className="p-[48px] space-y-8">
-              <div className="space-y-4">
-                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  You&apos;re about to upgrade from <span className="text-[var(--text-primary)] font-bold uppercase">{currentPlan}</span> to <span className="text-[var(--text-primary)] font-bold uppercase">{targetPlan}</span>.
-                </p>
-                <p className="font-mono text-[16px] text-[var(--text-primary)] font-bold">
-                  New Price: ${newPrice}/month
-                </p>
-              </div>
-
-              {featuresGained.length > 0 && (
-                <div className="space-y-4">
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-                    Unlocked Features
-                  </span>
-                  <ul className="space-y-4">
-                    {featuresGained.map((feature, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center gap-3 font-sans text-[15px] font-medium text-[var(--text-primary)]"
-                      >
-                        <span className="text-green-500">✓</span>
-                        {feature.label}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div className="p-5 border border-red-500/30 bg-red-500/5">
-                <p className="font-sans text-[16px] leading-relaxed text-red-400">
-                  [!] Your current subscription will be cancelled and the new plan will take effect immediately. No refunds for unused credits.
-                </p>
-              </div>
+              <p className="font-sans text-[14px] text-white/50 leading-relaxed">
+                You&apos;re upgrading from <span className="text-white font-medium">{currentPlan}</span> to <span className="text-white font-medium">{targetPlan}</span>.
+              </p>
+              <p className="font-mono text-[15px] text-white font-semibold mt-2">
+                ${newPrice}/month
+              </p>
             </div>
 
-              <div className="mt-4">
-              <div className="h-[1px] bg-[var(--d-border)] mx-[48px]" />
-              <div className="px-[48px] py-8 flex justify-end gap-4">
-                <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                  onClick={onClose}
-                >
-                  Maybe later
-                </button>
-                <button
-                  className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95 bg-[var(--d-text-primary)] text-[var(--d-bg)] hover:bg-[var(--d-text-secondary)]"
-                  style={{ 
-                    borderRadius: "var(--radius)" 
-                  }}
-                  onClick={onConfirm}
-                >
-                  Yes, Upgrade Now
-                </button>
+            {featuresGained.length > 0 && (
+              <div className="space-y-3">
+                <p className="font-sans text-[12px] text-white/30 uppercase tracking-wider">Unlocked features</p>
+                <ul className="space-y-2.5">
+                  {featuresGained.map((feature, index) => (
+                    <li
+                      key={index}
+                      className="flex items-center gap-2.5 font-sans text-[13px] text-white/70"
+                    >
+                      <span className="text-[#4a7c59] text-[12px]">✓</span>
+                      {feature.label}
+                    </li>
+                  ))}
+                </ul>
               </div>
+            )}
+
+            <div className="p-4 rounded-[16px] bg-amber-500/5 border border-amber-500/15">
+              <p className="font-sans text-[13px] leading-relaxed text-amber-400/80">
+                Your current subscription will be cancelled and the new plan takes effect immediately.
+              </p>
             </div>
+          </div>
+
+          <div className="border-t border-[#2a2a2a] px-8 py-6 flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white/60 hover:text-white hover:bg-[#2a2a2a] transition-colors font-sans text-[13px] font-medium"
+            >
+              Maybe later
+            </button>
+            <button
+              onClick={onConfirm}
+              className="px-5 py-2.5 rounded-full bg-[#e6efdf] text-[#111] hover:opacity-90 transition-opacity font-sans text-[13px] font-semibold"
+            >
+              Yes, upgrade now
+            </button>
           </div>
         </motion.div>
       </div>

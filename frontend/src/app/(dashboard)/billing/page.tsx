@@ -109,6 +109,14 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
   );
 }
 
+import { 
+  DashboardPageWrapper,
+  DashboardHeader,
+  DashboardGrid,
+  DashboardCard,
+  DashboardLightCard
+} from "@/features/dashboard/components/DashboardLayoutComponents";
+
 export default function BillingPageWrapper() {
   const router = useRouter();
   const { data: memberSubscription, isLoading, error, refetch } = useSubscription();
@@ -239,107 +247,89 @@ export default function BillingPageWrapper() {
   const isUnlimited = subscription.currentPlan === "architect";
 
   return (
-    <motion.div
-      initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-7xl mx-auto space-y-8 pb-20 px-4 sm:px-6"
-    >
-      <motion.div variants={fadeUp} className="mb-10">
-        <div className="flex items-center gap-4 mb-3">
-          <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
-            Billing & fiscal
-          </h1>
-        </div>
-        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
-          Platform <br /> subscription
-        </h2>
-        <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
-          Manage your system access level, billing cycles, and resource allowances. 
-          All transactions are processed through encrypted channels.
-        </p>
-      </motion.div>
+    <DashboardPageWrapper>
+      <DashboardHeader 
+        title="Platform subscription" 
+        subtitle="Manage your system access level, billing cycles, and resource allowances. All transactions are processed through encrypted channels."
+      />
+      <DashboardGrid>
+        <DashboardCard className="lg:col-span-12 p-0 overflow-hidden" title={null}>
+          <CurrentSubscription
+            subscription={subscription}
+            plan={currentPlan!}
+          />
+        </DashboardCard>
 
-      <motion.div variants={fadeUp}>
-        <CurrentSubscription
-          subscription={subscription}
-          plan={currentPlan!}
-        />
-      </motion.div>
-
-      <Card
-        title="Available Packages"
-        description="Select the architectural tier that best aligns with your career objectives."
-        icon={<Zap className="w-4 h-4" />}
-        actions={
-          <div className="flex items-center gap-2 p-1 bg-[var(--d-border)]" style={{ borderRadius: "6px" }}>
-            <span className="px-4 py-1.5 text-[10px] font-black tracking-widest bg-[var(--d-text-primary)] text-[var(--d-bg)] shadow-sm" style={{ borderRadius: "4px" }}>
-              Monthly
-            </span>
-            <span className="px-4 py-1.5 text-[10px] font-black tracking-widest text-[var(--d-text-tertiary)] cursor-not-allowed">
-              Annual
-            </span>
+        <DashboardCard
+          className="lg:col-span-12"
+          title="Available Packages"
+          action={
+            <div className="flex items-center gap-2 p-1 bg-[#2a2a2a] rounded-[6px]">
+              <span className="px-4 py-1.5 text-[10px] font-black tracking-widest bg-[#e6efdf] text-[#111111] shadow-sm rounded-[4px]">
+                Monthly
+              </span>
+              <span className="px-4 py-1.5 text-[10px] font-black tracking-widest text-[var(--text-secondary)] cursor-not-allowed">
+                Annual
+              </span>
+            </div>
+          }
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {filteredPlans.map((plan) => (
+              <SubscriptionCard
+                key={`${plan.id}-${plan.billingPeriod}`}
+                plan={plan}
+                isCurrentPlan={
+                  plan.id === subscription.currentPlan &&
+                  plan.billingPeriod === selectedPeriod
+                }
+                currentPlanTier={subscription.currentPlan}
+                onSelect={handleUpgrade}
+                onDowngrade={handleDowngrade}
+              />
+            ))}
           </div>
-        }
-      >
+        </DashboardCard>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {filteredPlans.map((plan) => (
-            <SubscriptionCard
-              key={`${plan.id}-${plan.billingPeriod}`}
-              plan={plan}
-              isCurrentPlan={
-                plan.id === subscription.currentPlan &&
-                plan.billingPeriod === selectedPeriod
-              }
-              currentPlanTier={subscription.currentPlan}
-              onSelect={handleUpgrade}
-              onDowngrade={handleDowngrade}
+        <DashboardCard
+          className="lg:col-span-12"
+          title={`System Resource Usage (${new Date(usage.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })})`}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <UsageMetric
+              icon={<BrainCircuit size={16} className="text-[var(--text-primary)]" />}
+              label="CV Analyses"
+              used={usage.cvAnalysisUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
             />
-          ))}
-        </div>
-      </Card>
-
-      <Card
-        title="System Resource Usage"
-        description={`${new Date(usage.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} - ${new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} cycle`}
-        icon={<BrainCircuit className="w-4 h-4" />}
-      >
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <UsageMetric
-            icon={<BrainCircuit size={16} style={{ color: "var(--text-primary)" }} />}
-            label="CV Analyses"
-            used={usage.cvAnalysisUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<FileSearch size={16} style={{ color: "var(--text-primary)" }} />}
-            label="Job Searches"
-            used={usage.jobSearchUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
-            sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
-          />
-          <UsageMetric
-            icon={<Mic2 size={16} style={{ color: "var(--text-primary)" }} />}
-            label="Interview Sessions"
-            used={usage.interviewUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<Rocket size={16} style={{ color: "var(--text-primary)" }} />}
-            label="Auto Applications"
-            used={usage.autoApplyUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<FileText size={16} style={{ color: "var(--text-primary)" }} />}
-            label="CV Versions"
-            used={usage.cvVersionsStored}
-            limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
-          />
-        </div>
-      </Card>
+            <UsageMetric
+              icon={<FileSearch size={16} className="text-[var(--text-primary)]" />}
+              label="Job Searches"
+              used={usage.jobSearchUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
+              sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
+            />
+            <UsageMetric
+              icon={<Mic2 size={16} className="text-[var(--text-primary)]" />}
+              label="Interview Sessions"
+              used={usage.interviewUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
+            />
+            <UsageMetric
+              icon={<Rocket size={16} className="text-[var(--text-primary)]" />}
+              label="Auto Applications"
+              used={usage.autoApplyUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
+            />
+            <UsageMetric
+              icon={<FileText size={16} className="text-[var(--text-primary)]" />}
+              label="CV Versions"
+              used={usage.cvVersionsStored}
+              limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
+            />
+          </div>
+        </DashboardCard>
+      </DashboardGrid>
 
       <DowngradeConfirmModal
         isOpen={showDowngradeModal}
@@ -389,6 +379,6 @@ export default function BillingPageWrapper() {
             : "0"
         }
       />
-    </motion.div>
+    </DashboardPageWrapper>
   );
 }

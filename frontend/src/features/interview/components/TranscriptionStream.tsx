@@ -8,26 +8,18 @@ export default function TranscriptionStream() {
   const { microphoneTrack: agentTrack } = useAgent();
   const { local: { microphoneTrack: userTrack } } = useSessionContext();
 
-  // useTranscriptions returns an array of TranscriptionSegment
-  const agentSegments = useTranscriptions(agentTrack);
-  const userSegments = useTranscriptions(userTrack);
+  const segments = useTranscriptions();
 
-  // Combine segments from both and get the latest active one
+  // Get the latest active segment overall
   const activeTranscription = useMemo(() => {
-    const agentSegment = agentSegments[agentSegments.length - 1];
-    const userSegment = userSegments[userSegments.length - 1];
-
-    if (!agentSegment && !userSegment) return null;
-    
-    // Simple logic: show whichever was updated most recently
-    if (!agentSegment) return { text: userSegment.text, id: userSegment.id, isUser: true };
-    if (!userSegment) return { text: agentSegment.text, id: agentSegment.id, isUser: false };
-
-    // Compare timestamps to find the most recent interaction
-    return (agentSegment.firstReceivedTime ?? 0) > (userSegment.firstReceivedTime ?? 0)
-      ? { text: agentSegment.text, id: agentSegment.id, isUser: false }
-      : { text: userSegment.text, id: userSegment.id, isUser: true };
-  }, [agentSegments, userSegments]);
+    if (!segments || segments.length === 0) return null;
+    const latest = segments[segments.length - 1] as any;
+    return {
+      text: latest.text,
+      id: latest.id || Math.random().toString(),
+      isUser: latest.participant?.isLocal ?? false
+    };
+  }, [segments]);
 
   return (
     <div className="w-full max-w-2xl px-6 min-h-[6rem] flex items-center justify-center text-center">

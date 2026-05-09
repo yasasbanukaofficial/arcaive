@@ -20,22 +20,16 @@ import Button from "@/components/ui/Button";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 
+import { 
+  DashboardCard,
+} from "@/features/dashboard/components/DashboardLayoutComponents";
+
 const PLAN_CONFIG = {
   strategist: {
     icon: Rocket,
-    gradient: "bg-white/5",
-    accentColor: "#000",
-    bgAccent: "rgba(0, 0, 0, 0.05)",
-    borderAccent: "var(--text-primary)",
-    priceColor: "#000",
   },
   architect: {
     icon: Crown,
-    gradient: "bg-white/5",
-    accentColor: "#000",
-    bgAccent: "rgba(0, 0, 0, 0.05)",
-    borderAccent: "var(--text-primary)",
-    priceColor: "#000",
   },
 };
 
@@ -119,11 +113,15 @@ function CheckoutContent() {
     : 0;
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[#fbfbfb] text-black">
-      <div className="noise-overlay opacity-[0.03]" />
-      <div className="bg-grid-mat opacity-[0.2]" style={{ backgroundImage: 'linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px)' }} />
+    <div className="min-h-screen relative overflow-hidden bg-[#0e0e0e] text-[#e4e4e4]">
+      {/* Dark Ambient Grid */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ 
+             backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
+             backgroundSize: '40px 40px' 
+           }} 
+      />
       
-      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-white to-transparent pointer-events-none" />
       <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-12 sm:py-20">
         <motion.div
           initial="hidden"
@@ -133,39 +131,20 @@ function CheckoutContent() {
           <motion.div variants={fadeUp} className="mb-12">
             <Link
               href="/subscription"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-black hover:text-white border border-black mb-12"
-              style={{
-                borderRadius: "var(--radius)",
-              }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[#1f1f1f] border border-[#2a2a2a] mb-8 rounded-[24px]"
             >
               <ArrowLeft className="w-4 h-4" />
               Change Selection
             </Link>
 
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-[1px] bg-black/20"></div>
-                <h1 className="text-[11px] font-bold uppercase tracking-[0.25em] text-black/40">
-                  Secure Checkout
-                </h1>
-              </div>
-              <h2 className="font-display text-6xl sm:text-8xl font-bold tracking-tighter text-black uppercase leading-[0.9]">
-                Order <br /> Summary.
-              </h2>
-            </div>
+            <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
+              Order Summary
+            </h1>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
             <motion.div variants={fadeUp} className="lg:col-span-3 space-y-6">
-              <div
-                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
-                  <span className="w-2 h-2 bg-black"></span>
-                  Package Selection
-                </h2>
-
+              <DashboardCard title="Package Selection">
                 <div className="space-y-4">
                   {PLANS.map((plan) => {
                     const config = PLAN_CONFIG[plan.id as keyof typeof PLAN_CONFIG];
@@ -178,38 +157,37 @@ function CheckoutContent() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlanChange(plan.id)}
-                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-500 group ${isSelected ? "bg-black text-white shadow-xl shadow-black/10" : "bg-white text-black hover:bg-black/5"}`}
+                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-300 group rounded-[24px] ${isSelected ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] hover:bg-[#2a2a2a]"}`}
                         style={{
-                          border: `1px solid ${isSelected ? "black" : "rgba(0,0,0,0.1)"}`,
-                          borderRadius: "var(--radius)",
+                          border: `1px solid ${isSelected ? "transparent" : "#2a2a2a"}`,
                         }}
                       >
-                          <div className="absolute -top-3 left-8">
-                            <span
-                              className={`px-3 py-1 text-[9px] font-black tracking-widest uppercase border ${isSelected ? "bg-white text-black border-white" : "bg-black text-white border-black"}`}
-                              style={{ borderRadius: "4px" }}
-                            >
-                              Preferred Selection
-                            </span>
-                          </div>
+                          {isSelected && (
+                            <div className="absolute -top-3 left-8">
+                              <span
+                                className="px-3 py-1 text-[9px] font-black tracking-widest uppercase border bg-[#111111] text-[#e6efdf] border-[#111111] rounded-[6px]"
+                              >
+                                Preferred Selection
+                              </span>
+                            </div>
+                          )}
 
                         <div className="flex items-center gap-4">
                           <div
-                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-500 ${isSelected ? "bg-white/15" : "bg-black/5"}`}
-                            style={{ borderRadius: "var(--radius)" }}
+                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-300 rounded-[16px] ${isSelected ? "bg-[#111111]/10" : "bg-[#2a2a2a]"}`}
                           >
                             <PlanIcon
-                              className={`w-6 h-6 ${isSelected ? "text-white" : "text-black"}`}
+                              className={`w-6 h-6 ${isSelected ? "text-[#111111]" : "text-[#e4e4e4]"}`}
                             />
                           </div>
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h3 className="text-xl font-bold uppercase tracking-tight">
+                              <h3 className="text-xl font-bold capitalize tracking-tight">
                                 {plan.name}
                               </h3>
                             </div>
-                            <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-white/50" : "text-black/40"}`}>
+                            <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-[#111111]/60" : "text-white/40"}`}>
                               {plan.description}
                             </p>
                           </div>
@@ -224,11 +202,10 @@ function CheckoutContent() {
                           </div>
 
                           <div
-                            className={`w-5 h-5 border flex items-center justify-center shrink-0 ${isSelected ? "border-white bg-white" : "border-black/20"}`}
-                            style={{ borderRadius: "var(--radius)" }}
+                            className={`w-5 h-5 flex items-center justify-center shrink-0 rounded-[6px] border ${isSelected ? "border-[#111111] bg-[#111111]" : "border-[#3a3a3a]"}`}
                           >
                             {isSelected && (
-                              <Check className="w-3 h-3 text-black" strokeWidth={3} />
+                              <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
                             )}
                           </div>
                         </div>
@@ -236,145 +213,113 @@ function CheckoutContent() {
                     );
                   })}
                 </div>
-              </div>
+              </DashboardCard>
 
-              <div
-                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
-                  <span className="w-2 h-2 bg-black"></span>
-                  Billing Schedule
-                </h2>
-
+              <DashboardCard title="Billing Schedule">
                 <div className="grid grid-cols-2 gap-3">
                   <motion.button
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBillingChange("month")}
-                    className={`p-8 text-left transition-all duration-500 ${billingPeriod === "month" ? "bg-black text-white shadow-xl shadow-black/10" : "bg-white text-black hover:bg-black/5 border border-black/10"}`}
-                    style={{
-                      borderRadius: "var(--radius)",
-                    }}
+                    className={`p-6 sm:p-8 text-left transition-all duration-300 rounded-[24px] ${billingPeriod === "month" ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] border border-[#2a2a2a] hover:bg-[#2a2a2a]"}`}
                   >
-                    <div className="font-bold text-lg uppercase tracking-tight">
+                    <div className="font-bold text-lg capitalize tracking-tight">
                       Monthly
                     </div>
-                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-white/40" : "text-black/30"}`}>
+                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-[#111111]/50" : "text-white/30"}`}>
                       Standard cycle
                     </div>
                   </motion.button>
 
                   <div
-                    className="p-8 text-left relative opacity-30 grayscale cursor-not-allowed bg-black/[0.02] border border-black/5"
-                    style={{
-                      borderRadius: "var(--radius)",
-                    }}
+                    className="p-6 sm:p-8 text-left relative opacity-40 grayscale cursor-not-allowed bg-[#1f1f1f] border border-[#2a2a2a] rounded-[24px]"
                   >
-                    <div className="absolute -top-3 right-8 bg-white border border-black px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em]">
+                    <div className="absolute -top-3 right-6 bg-[#2a2a2a] px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em] rounded-[6px]">
                       Locked
                     </div>
-                    <div className="font-bold text-lg uppercase tracking-tight">
+                    <div className="font-bold text-lg capitalize tracking-tight">
                       Annual
                     </div>
-                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-black/30">
+                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-white/30">
                       Savings plan
                     </div>
                   </div>
                 </div>
-              </div>
+              </DashboardCard>
 
-              <div
-                className="p-8 sm:p-12 bg-white border border-black/5 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.05)]"
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-3">
-                  <span className="w-2 h-2 bg-black"></span>
-                  Included Utilities
-                </h2>
-
-                <div className="space-y-4">
+              <DashboardCard title="Included Utilities">
+                <div className="space-y-3">
                   {selectedPlanData?.features.map((feature, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.02 }}
-                      className="flex items-start gap-5 p-5 hover:bg-black/5 transition-all duration-300 border border-transparent hover:border-black/5"
-                      style={{ borderRadius: "var(--radius)" }}
+                      className="flex items-start gap-4 p-4 hover:bg-[#1f1f1f] transition-all duration-300 rounded-[16px] border border-transparent hover:border-[#2a2a2a]"
                     >
                       <div
-                        className="w-6 h-6 flex items-center justify-center shrink-0 mt-0.5 border border-black/10 bg-white shadow-sm"
-                        style={{ borderRadius: "6px" }}
+                        className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 border border-[#4a7c59] bg-[#4a7c59]/10 rounded-[6px]"
                       >
-                        <Check className="w-3.5 h-3.5 text-black" strokeWidth={3} />
+                        <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
                       </div>
-                      <span className="text-sm font-medium leading-[1.6] text-black/80">
+                      <span className="text-sm font-medium leading-[1.6] text-white/80">
                         {feature.text}
                       </span>
                     </motion.div>
                   ))}
                 </div>
-              </div>
+              </DashboardCard>
             </motion.div>
 
             <motion.div variants={fadeUp} className="lg:col-span-2">
-              <div
-                className="p-10 sticky top-12 bg-white border-2 border-black"
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                <h2 className="font-mono text-[11px] font-bold uppercase tracking-widest mb-10 text-black flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-black"></span>
-                  Summary
-                </h2>
-                <div className="flex items-center gap-5 mb-10 pb-10 border-b border-black/5">
+              <DashboardCard title="Summary" className="sticky top-12">
+                <div className="flex items-center gap-5 mb-8 pb-8 border-b border-[#2a2a2a]">
                   <div
-                    className="w-16 h-16 flex items-center justify-center bg-black text-white shadow-xl shadow-black/10"
-                    style={{ borderRadius: "var(--radius)" }}
+                    className="w-16 h-16 flex items-center justify-center bg-[#e6efdf] text-[#111111] rounded-[20px] shadow-xl"
                   >
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-black text-black leading-none">
+                    <h3 className="text-2xl font-bold text-[#e4e4e4] leading-none capitalize">
                       {selectedPlanData?.name}
                     </h3>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/30 mt-2">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mt-2">
                       Active collection
                     </p>
                   </div>
                 </div>
 
-                <div className="space-y-5 mb-10">
+                <div className="space-y-4 mb-8">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-black/40 font-bold uppercase tracking-widest text-[10px]">
+                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
                       Package
                     </span>
-                    <span className="font-bold text-black">
+                    <span className="font-bold text-[#e4e4e4]">
                       {selectedPlanData?.priceDisplay}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-black/40 font-bold uppercase tracking-widest text-[10px]">
+                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
                       Service Charge
                     </span>
-                    <span className="font-bold text-black uppercase text-xs">
+                    <span className="font-bold text-[#e4e4e4] uppercase text-xs">
                       Free
                     </span>
                   </div>
                 </div>
 
-                <div className="mb-12 bg-black/[0.02] p-8 -mx-10 border-t border-b border-black/5">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/40">
+                <div className="mb-8 bg-[#1f1f1f] p-6 -mx-6 lg:-mx-8 border-t border-b border-[#2a2a2a]">
+                  <div className="flex items-baseline justify-between px-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
                       Total Due
                     </span>
                     <div className="text-right">
-                      <span className="text-6xl font-black text-black tracking-tighter">
+                      <span className="text-5xl font-bold text-[#e4e4e4] tracking-tighter">
                         {selectedPlanData?.price === 0
                           ? "0"
                           : `${selectedPlanData?.price}`}
                       </span>
-                      <span className="text-[10px] ml-3 font-bold uppercase tracking-widest text-black/40">
+                      <span className="text-[10px] ml-2 font-bold uppercase tracking-widest text-white/40">
                         USD
                       </span>
                     </div>
@@ -383,24 +328,21 @@ function CheckoutContent() {
 
                 <div className="space-y-3">
                   {selectedPlanData?.price === 0 ? (
-                    <Button
-                      variant="white"
-                      size="lg"
-                      fullWidth
+                    <button
                       onClick={handleCheckout}
-                      className="font-bold"
+                      disabled={isProcessing}
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
                     >
-                      Continue with Free Plan
-                    </Button>
+                      {isProcessing ? "Processing..." : "Continue with Free Plan"}
+                    </button>
                   ) : (
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-16 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:bg-black/90 active:scale-[0.98] bg-black text-white"
-                      style={{ borderRadius: "var(--radius)" }}
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
                     >
                       {isProcessing ? (
-                        <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-[#111111]/20 border-t-[#111111] rounded-full animate-spin" />
                       ) : (
                         <CreditCard className="w-4 h-4" />
                       )}
@@ -409,35 +351,35 @@ function CheckoutContent() {
                   )}
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-black/10">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-black/40">
-                      <Shield className="w-4 h-4 text-black" />
+                <div className="mt-6 pt-6 border-t border-[#2a2a2a]">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      <Shield className="w-4 h-4 text-white/40" />
                       <span>Encrypted Transaction via Stripe</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-black/40">
-                      <Zap className="w-4 h-4 text-black" />
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      <Zap className="w-4 h-4 text-white/40" />
                       <span>Instant deployment upon success</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-center gap-4">
+                <div className="mt-8 flex items-center justify-center gap-4">
                   <Link
                     href="/subscription"
-                    className="text-xs transition-colors hover:underline text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
                   >
                     Compare Plans
                   </Link>
-                  <span style={{ color: "var(--d-border)" }}>|</span>
+                  <span className="text-[#2a2a2a]">|</span>
                   <Link
                     href="/billing"
-                    className="text-xs transition-colors hover:underline text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
                   >
                     Manage Billing
                   </Link>
                 </div>
-              </div>
+              </DashboardCard>
             </motion.div>
           </div>
         </motion.div>
@@ -450,8 +392,8 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-sm text-[var(--text-secondary)]">
+        <div className="min-h-screen flex items-center justify-center bg-[#0e0e0e]">
+          <div className="text-sm text-white/50">
             Loading...
           </div>
         </div>

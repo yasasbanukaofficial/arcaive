@@ -18,7 +18,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[var(--text-primary)] w-full block transition-all"
+            className="text-[var(--text-primary)] w-full block transition-all text-[clamp(80px,20vw,350px)] font-bold leading-[0.75] tracking-[-0.05em]"
             style={{
               WebkitTextStroke: isDark ? "3px #000000" : "4px #ffffff",
               paintOrder: "stroke fill",

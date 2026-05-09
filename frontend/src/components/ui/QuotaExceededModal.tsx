@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
-import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import { AlertTriangle } from "lucide-react";
 
 export default function QuotaExceededModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +12,7 @@ export default function QuotaExceededModal() {
 
   useEffect(() => {
     const handleQuotaExceeded = (event: any) => {
-      setMessage(event.detail?.message || "You've reached your free quota limit.");
+      setMessage(event.detail?.message || "You've reached your free quota limit for this billing period.");
       setIsOpen(true);
     };
 
@@ -22,11 +21,6 @@ export default function QuotaExceededModal() {
   }, []);
 
   const handleUpgrade = () => {
-    setIsOpen(false);
-    router.push("/billing");
-  };
-
-  const handleViewBilling = () => {
     setIsOpen(false);
     router.push("/billing");
   };
@@ -41,65 +35,55 @@ export default function QuotaExceededModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="absolute inset-0 bg-black/70"
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
-          style={{ borderRadius: "var(--radius)" }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-[480px] bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden"
         >
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between px-[48px] py-6">
-              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
-                Quota Limit Reached
-              </h2>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
-                  >
-                    ×
-                  </button>
+          <div className="p-8 space-y-6">
+            {/* Icon */}
+            <div className="w-12 h-12 rounded-full bg-[#e6efdf] flex items-center justify-center">
+              <AlertTriangle className="w-6 h-6 text-[#111]" />
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-            <div className="p-[48px] space-y-6">
-              <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
+            {/* Title */}
+            <div>
+              <h2 className="font-sans text-[20px] font-semibold text-white mb-2">
+                Quota limit reached
+              </h2>
+              <p className="font-sans text-[14px] text-white/50 leading-relaxed">
                 {message}
               </p>
-              <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)]">
-                Need more help? <span className="text-[var(--text-primary)] underline cursor-pointer">Contact Support</span>
-              </p>
             </div>
 
-            <div className="mt-4">
-              <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
-              <div className="px-[48px] py-8 flex justify-end gap-4">
-                <button
-                  className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80 rounded-[var(--radius)]"
-                  style={{
-                    backgroundColor: "#ffffff",
-                    color: "#000000",
-                    border: "1px solid #000000",
-                  }}
-                  onClick={handleViewBilling}
-                >
-                  View Billing
-                </button>
-                <button
-                  className="flex items-center gap-2 px-6 py-3 text-[12px] font-bold uppercase tracking-widest transition-all hover:opacity-80 rounded-[var(--radius)]"
-                  style={{
-                    backgroundColor: "#000000",
-                    color: "#ffffff",
-                  }}
-                  onClick={handleUpgrade}
-                >
-                  Upgrade Plan
-                </button>
-              </div>
-            </div>
+            {/* Help */}
+            <p className="font-sans text-[12px] text-white/30">
+              Need more help?{" "}
+              <span className="text-white/60 underline cursor-pointer hover:text-white transition-colors">
+                Contact Support
+              </span>
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="border-t border-[#2a2a2a] px-8 py-6 flex justify-end gap-3">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white/60 hover:text-white hover:bg-[#2a2a2a] transition-colors font-sans text-[13px] font-medium"
+            >
+              Dismiss
+            </button>
+            <button
+              onClick={handleUpgrade}
+              className="px-5 py-2.5 rounded-full bg-[#e6efdf] text-[#111] hover:opacity-90 transition-opacity font-sans text-[13px] font-semibold"
+            >
+              Upgrade plan
+            </button>
           </div>
         </motion.div>
       </div>

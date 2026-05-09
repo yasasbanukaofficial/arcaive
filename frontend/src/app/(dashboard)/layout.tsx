@@ -1,47 +1,23 @@
 "use client";
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import Sidebar from "@/features/dashboard/components/Sidebar";
+import React, { Suspense } from "react";
 import TopBar from "@/features/dashboard/components/TopBar";
-import OnboardingModal from "@/features/dashboard/components/OnboardingModal";
-import {
-  SidebarProvider,
-  useSidebar,
-} from "@/features/dashboard/components/SidebarContext";
-import { ThemeProvider, useTheme } from "@/features/dashboard/components/ThemeContext";
+import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
-  const { collapsed, isMobile } = useSidebar();
-  const { theme } = useTheme();
-  const pathname = usePathname();
-
-  const marginLeft = isMobile ? 0 : collapsed ? 72 : 240;
-  const isNoPaddingPage = pathname === "/workflow" || pathname === "/interview";
-
   return (
-    <div className="dashboard-theme min-h-screen z-0 font-sans transition-colors duration-300 scroll-smooth bg-[var(--bg-color)] text-[var(--text-primary)]">
-      <div className="bg-grid-mat" />
-      <div className="noise-overlay" />
-      <Sidebar />
-      <OnboardingModal />
-
-      <div
-        className="relative z-10 min-h-screen flex flex-col"
-        style={{
-          marginLeft,
-          transition: "margin-left 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          willChange: "margin-left",
-        }}
-      >
-        <TopBar />
-        <main
-          className={`flex-1 ${isNoPaddingPage ? "" : "p-6 sm:p-10 lg:p-12"}`}
-        >
+    <div className="min-h-screen bg-[#0e0e0e] text-[#e4e4e4] font-sans selection:bg-[#4a7c59] selection:text-white">
+      {/* Dark Tech Noise Overlay - Scoped to Dashboard */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <TopBar />
+      <main className="max-w-[1400px] mx-auto p-6 md:p-8 lg:p-12">
+        <Suspense fallback={<div className="text-white/50 animate-pulse">Loading dashboard...</div>}>
           {children}
-        </main>
-      </div>
+        </Suspense>
+      </main>
+      <QuotaExceededModal />
     </div>
   );
 }
@@ -51,12 +27,30 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: (failureCount, error: any) => {
+              // Never retry on 429 (rate limit) or 401 (unauthorized)
+              if (error?.response?.status === 429 || error?.response?.status === 401) {
+                return false;
+              }
+              return failureCount < 1;
+            },
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
   return (
     <QueryClientProvider client={queryClient}>
-      <SidebarProvider>
+      <ThemeProvider defaultTheme="dark">
         <DashboardShell>{children}</DashboardShell>
-      </SidebarProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

@@ -75,8 +75,7 @@ export default function CVAnalysisModal({
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden oryzo-card-glow"
-          style={{ borderRadius: "var(--radius)" }}
+          className="relative w-full max-w-[560px] bg-[#161616] border border-[#2a2a2a] overflow-hidden rounded-[24px]"
         >
           <AnimatePresence mode="wait">
             {status === "uploading" ? (
@@ -144,14 +143,13 @@ export default function CVAnalysisModal({
                     <button
                       onClick={handleAnalyze}
                       disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
-                      className="px-8 py-3 text-[12px] font-bold uppercase tracking-widest transition-transform active:scale-95"
+                      className="px-6 py-2.5 text-[13px] font-semibold transition-all active:scale-95 rounded-full disabled:opacity-30"
                       style={{ 
-                        backgroundColor: "#000000", 
-                        color: "#ffffff",
-                        borderRadius: "var(--radius)"
+                        backgroundColor: "#e6efdf", 
+                        color: "#111111",
                       }}
                     >
-                      RUN ANALYSIS
+                      Run analysis
                     </button>
                   </div>
                 </div>

@@ -9,112 +9,35 @@
 :root {
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --radius: 10px;
+  --radius: 24px;
 }
 
-/* ─── Dark Mode (Default) ─── */
-:root, .dark {
-  --bg-color: #050505; 
-  --text-primary: #e4e4e4;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-tertiary: rgba(255, 255, 255, 0.4);
-  --border-light: rgba(255, 255, 255, 0.12);
-  --glass-bg: rgba(12, 12, 14, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --grid-color: rgba(255, 255, 255, 0.03);
-  --accent-brand: #f0ead6;
-  --accent-brand-contrast: #050505;
-  
-  /* Dashboard specific */
-  --d-bg: #030303;
-  --d-surface: #0c0c0e;
-  --d-surface-hover: #151517;
-  --d-surface-active: #1c1c1f;
-  --d-border: rgba(255, 255, 255, 0.08);
-  --d-border-subtle: rgba(255, 255, 255, 0.05);
-  --d-text-primary: #e4e4e4;
-  --d-text-secondary: rgba(255, 255, 255, 0.65);
-  --d-text-muted: rgba(255, 255, 255, 0.4);
-  --d-text-tertiary: rgba(255, 255, 255, 0.25);
-
-  /* Shadcn overrides */
-  --background: var(--bg-color);
-  --foreground: var(--text-primary);
-  --card: rgba(12, 12, 14, 0.95);
-  --card-foreground: var(--text-primary);
-  --popover: #0a0a0a;
-  --popover-foreground: var(--text-primary);
-  --primary: #e4e4e4;
-  --primary-foreground: #050505;
-  --secondary: rgba(255, 255, 255, 0.06);
-  --secondary-foreground: var(--text-primary);
-  --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: var(--text-secondary);
-  --accent: #e4e4e4;
-  --accent-foreground: #050505;
-  --destructive: #ef4444;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.06);
-  --ring: #a3a3a3;
-
-  /* Monochrome Accents - with colors! */
-  --accent-blue-bg: rgba(59, 130, 246, 0.12);
-  --accent-blue-border: rgba(59, 130, 246, 0.25);
-  --accent-blue-dot: #60a5fa;
-  
-  --accent-emerald-bg: rgba(16, 185, 129, 0.12);
-  --accent-emerald-border: rgba(16, 185, 129, 0.25);
-  --accent-emerald-dot: #34d399;
-  
-  --accent-violet-bg: rgba(139, 92, 246, 0.12);
-  --accent-violet-border: rgba(139, 92, 246, 0.25);
-  --accent-violet-dot: #a78bfa;
-  
-  --accent-amber-bg: rgba(245, 158, 11, 0.12);
-  --accent-amber-border: rgba(245, 158, 11, 0.25);
-  --accent-amber-dot: #fbbf24;
-  
-  --accent-pink-bg: rgba(236, 72, 153, 0.12);
-  --accent-pink-border: rgba(236, 72, 153, 0.25);
-  --accent-pink-dot: #f472b6;
-  
-  --accent-teal-bg: rgba(20, 184, 166, 0.12);
-  --accent-teal-border: rgba(20, 184, 166, 0.25);
-  --accent-teal-dot: #2dd4bf;
-  
-  --accent-red-bg: rgba(239, 68, 68, 0.12);
-  --accent-red-border: rgba(239, 68, 68, 0.25);
-  --accent-red-dot: #f87171;
-  
-  /* Button hover states */
-  --btn-hover-bg: #ffffff;
-  --btn-hover-text: #000000;
-}
-
-/* ─── Light Mode ─── */
-.light {
+:root, .light {
   --bg-color: #f8f8f8;
   --text-primary: #000000;
-  --text-secondary: rgba(0, 0, 0, 0.65);
-  --text-tertiary: rgba(0, 0, 0, 0.4);
-  --border-light: rgba(0, 0, 0, 0.12);
+  --text-secondary: rgba(0, 0, 0, 0.55);
+  --text-tertiary: rgba(0, 0, 0, 0.35);
+  --border-light: rgba(0, 0, 0, 0.08);
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.12);
   --grid-color: rgba(0, 0, 0, 0.05);
   --accent-brand: #050505;
   --accent-brand-contrast: #f8f8f8;
 
-  /* Dashboard specific */
+  /* Dashboard specific (Light fallback) */
   --d-bg: #f0f0f0;
   --d-surface: #ffffff;
   --d-surface-hover: #e8e8e8;
   --d-surface-active: #e0e0e0;
   --d-border: rgba(0, 0, 0, 0.08);
   --d-border-subtle: rgba(0, 0, 0, 0.05);
+  --d-border-hover: rgba(0, 0, 0, 0.15);
   --d-text-primary: #000000;
-  --d-text-secondary: rgba(0, 0, 0, 0.65);
-  --d-text-muted: rgba(0, 0, 0, 0.4);
-  --d-text-tertiary: rgba(0, 0, 0, 0.25);
+  --d-text-secondary: rgba(0, 0, 0, 0.55);
+  --d-text-muted: rgba(0, 0, 0, 0.35);
+  --d-text-tertiary: rgba(0, 0, 0, 0.2);
+  --d-error: #e11d48;
+  --d-sage: #e6efdf;
 
   /* Shadcn overrides */
   --background: var(--bg-color);
@@ -141,9 +64,62 @@
   --btn-hover-text: #ffffff;
 }
 
+/* ─── Dark Mode Dashboard Energy Aesthetic ─── */
+.dark {
+  --bg-color: #0e0e0e;
+  --text-primary: #e4e4e4;
+  --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-tertiary: rgba(255, 255, 255, 0.3);
+  --border-light: rgba(255, 255, 255, 0.08);
+  --glass-bg: #161616;
+  --glass-border: #2a2a2a;
+  --grid-color: rgba(255, 255, 255, 0.03);
+  --accent-brand: #e6efdf;
+  --accent-brand-contrast: #111111;
+
+  /* Dashboard specific */
+  --d-bg: #0e0e0e;
+  --d-surface: #161616;
+  --d-surface-hover: #1f1f1f;
+  --d-surface-active: #2a2a2a;
+  --d-border: #2a2a2a;
+  --d-border-subtle: #222222;
+  --d-border-hover: #3a3a3a;
+  --d-text-primary: #e4e4e4;
+  --d-text-secondary: rgba(255, 255, 255, 0.5);
+  --d-text-muted: rgba(255, 255, 255, 0.35);
+  --d-text-tertiary: rgba(255, 255, 255, 0.2);
+  --d-error: #ef4444;
+  --d-sage: #e6efdf;
+
+  /* Shadcn overrides */
+  --background: var(--bg-color);
+  --foreground: var(--text-primary);
+  --card: #161616;
+  --card-foreground: var(--text-primary);
+  --popover: #161616;
+  --popover-foreground: var(--text-primary);
+  --primary: #e4e4e4;
+  --primary-foreground: #0e0e0e;
+  --secondary: #1f1f1f;
+  --secondary-foreground: var(--text-primary);
+  --muted: #1a1a1a;
+  --muted-foreground: var(--text-secondary);
+  --accent: #e6efdf;
+  --accent-foreground: #111111;
+  --destructive: #ef4444;
+  --border: #2a2a2a;
+  --input: #1a1a1a;
+  --ring: #4a7c59;
+
+  /* Button hover states */
+  --btn-hover-bg: #ffffff;
+  --btn-hover-text: #000000;
+}
+
 @layer base {
   html {
-    scroll-behavior: auto; /* Handled by lenis/gsap if we want, but let's keep smooth disabled for scrub */
+    scroll-behavior: auto;
     @apply font-sans;
   }
 
@@ -163,46 +139,123 @@
     color: var(--text-tertiary);
   }
 
-  /* Oryzo Typography */
-  h1, .h1 {
-    font-family: var(--font-display);
-    font-size: clamp(80px, 20vw, 300px);
-    line-height: 0.8;
-    letter-spacing: -0.06em;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-  
-  h2, .h2 {
-    font-family: var(--font-display);
-    font-size: clamp(40px, 8vw, 120px);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-
-  h3, .h3 {
-    font-family: var(--font-sans);
-    font-size: clamp(24px, 4vw, 48px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 500;
-  }
-
   ::selection {
-    background: var(--text-primary);
-    color: var(--bg-color);
+    background: var(--accent-brand);
+    color: var(--accent-brand-contrast);
   }
 
   ::-webkit-scrollbar { width: 0; }
 }
 
 /* ═══════════════════════════════════════════
-   ORYZO SPECIFIC LAYOUT SCENES
+   DASHBOARD CARD & PANEL STYLES
    ═══════════════════════════════════════════ */
 
-/* Full viewport scrolling sections - totally transparent */
+.dashboard-card {
+  background: var(--d-surface);
+  border: 1px solid var(--d-border);
+  border-radius: var(--radius);
+  transition: border-color 0.3s ease;
+}
+
+.dashboard-card:hover {
+  border-color: var(--d-border-hover);
+}
+
+/* Sage green accent card */
+.dashboard-card-accent {
+  background: var(--d-sage);
+  border-radius: var(--radius);
+  color: #111111;
+}
+
+/* Top glow line on cards */
+.oryzo-card-glow {
+  position: relative;
+}
+
+.oryzo-card-glow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+}
+
+/* ═══════════════════════════════════════════
+   BUTTON SYSTEM
+   ═══════════════════════════════════════════ */
+
+.btn-primary {
+  background: var(--d-text-primary);
+  color: var(--d-bg);
+  border: 1px solid transparent;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--d-text-secondary);
+  border: 1px solid var(--d-border);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--d-surface-hover);
+  color: var(--d-text-primary);
+  border-color: var(--d-border-hover);
+}
+
+/* Tag pills */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 999px;
+  border: 1px solid var(--d-border);
+  background: var(--d-surface);
+  color: var(--d-text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background: var(--d-surface-hover);
+  color: var(--d-text-primary);
+  border-color: var(--d-border-hover);
+}
+
+/* ═══════════════════════════════════════════
+   FORM INPUT STYLES
+   ═══════════════════════════════════════════ */
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+  color: var(--text-primary);
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT HELPERS
+   ═══════════════════════════════════════════ */
+
 .scene-section {
   position: relative;
   min-height: 100vh;
@@ -214,17 +267,13 @@
   padding: 0 5vw;
 }
 
-/* Big floaty glass panels */
 .oryzo-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   padding: 40px;
   border-radius: var(--radius);
 }
 
-/* Ultra minimal labels */
 .oryzo-label {
   font-family: var(--font-display);
   font-size: 16px;
@@ -234,39 +283,12 @@
   color: var(--text-secondary);
 }
 
-.oryzo-label:hover {
-  color: var(--btn-hover-text);
-}
-
-/* Button hover states */
 .btn-hover {
   transition: background-color 0.3s, color 0.3s;
 }
 .btn-hover:hover {
   background-color: var(--btn-hover-bg);
   color: var(--btn-hover-text);
-}
-.btn-hover:hover .oryzo-label,
-.btn-hover:hover .btn-hover-text {
-  color: var(--btn-hover-text);
-}
-.btn-hover:hover .btn-hover-dot {
-  background-color: var(--btn-hover-text);
-}
-
-.oryzo-card-glow {
-  position: relative;
-}
-
-.oryzo-card-glow::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--text-secondary), transparent);
-  opacity: 0.3;
 }
 
 .noise-overlay {
@@ -278,7 +300,9 @@
   z-index: 9999;
   mix-blend-mode: overlay;
 }
+
 .writing-vertical-rl { writing-mode: vertical-rl; }
+
 .bg-grid-mat {
   position: fixed;
   inset: 0;
@@ -291,3 +315,6 @@
   mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%);
   -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 80%);
 }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

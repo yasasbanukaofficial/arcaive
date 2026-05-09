@@ -18,34 +18,33 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
   };
 
   return (
-<div
-        role="checkbox"
-        aria-checked={checked}
-        tabIndex={0}
-        onClick={onChange}
-        onKeyDown={handleKeyDown}
-        className="flex items-center gap-4 py-2 cursor-pointer group outline-none"
+    <div
+      role="checkbox"
+      aria-checked={checked}
+      tabIndex={0}
+      onClick={onChange}
+      onKeyDown={handleKeyDown}
+      className="flex items-center gap-3 py-2 cursor-pointer group outline-none"
+    >
+      <div
+        className={`relative w-4 h-4 rounded-[6px] border flex items-center justify-center shrink-0 transition-colors ${
+          checked ? "bg-[#e6efdf] border-[#e6efdf]" : "bg-transparent border-[#3a3a3a]"
+        }`}
       >
-        <div
-          className={`relative w-[14px] h-[14px] border flex items-center justify-center shrink-0 ${
-            checked ? "bg-white" : "bg-white"
-          }`}
-          style={{ borderRadius: "var(--radius)", borderColor: checked ? "#000" : "#222" }}
-        >
-          {checked && (
-            <span className="font-mono text-[10px] text-black pointer-events-none">
-              ✓
-            </span>
-          )}
-        </div>
-        <span
-          className={`font-mono text-[11px] uppercase tracking-widest transition-colors ${
-            checked ? "font-bold text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
-          }`}
-        >
-          {label}
-        </span>
+        {checked && (
+          <span className="text-[10px] text-[#111] font-bold pointer-events-none">
+            ✓
+          </span>
+        )}
       </div>
+      <span
+        className={`font-sans text-[13px] transition-colors ${
+          checked ? "font-medium text-white/80" : "text-white/40"
+        }`}
+      >
+        {label}
+      </span>
+    </div>
   );
 }
 
@@ -72,7 +71,6 @@ interface JobFiltersProps {
   onToggleRemote: (r: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
-  // salary filters
   salaryMin: number;
   salaryMax: number;
   onSalaryMinChange: (v: number) => void;
@@ -97,24 +95,24 @@ export default function JobFilterPanel({
 }: JobFiltersProps) {
   return (
     <div
-      className="p-8 space-y-10 border border-[var(--glass-border)] bg-[var(--glass-bg)] sticky top-24"
+      className="p-6 space-y-8 border border-[#2a2a2a] bg-[#161616] rounded-[24px] sticky top-24"
     >
-      <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-4">
-        <h3 className="font-sans text-[16px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
+      <div className="flex items-center justify-between pb-4 border-b border-[#2a2a2a]">
+        <h3 className="font-sans text-[14px] font-semibold text-white/80">
           Filters
         </h3>
         <button
           onClick={onToggleCollapse}
-          className="px-3 py-1 bg-black text-white font-mono text-[10px] font-bold uppercase tracking-widest rounded-[var(--radius)]"
+          className="px-3 py-1.5 bg-[#2a2a2a] text-white/60 font-sans text-[11px] font-medium rounded-full hover:bg-[#3a3a3a] transition-colors"
         >
-          Hide Filters
+          Hide
         </button>
       </div>
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
-          Employment Type
+        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+          Employment type
         </p>
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {EMPLOYMENT_TYPES.map((t) => (
             <FilterCheckbox
               key={t.value}
@@ -126,10 +124,10 @@ export default function JobFilterPanel({
         </div>
       </div>
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
-          Work Mode
+        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+          Work mode
         </p>
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           {REMOTE_OPTIONS.map((r) => (
             <FilterCheckbox
               key={r.value}
@@ -142,16 +140,16 @@ export default function JobFilterPanel({
       </div>
       
       <div>
-        <p className="font-mono text-[11px] font-bold uppercase tracking-widest mb-4 text-[var(--text-secondary)]">
-          Salary Range
+        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+          Salary range
         </p>
-        <div className="space-y-6">
+        <div className="space-y-5">
           <FilterCheckbox
             label="Has salary info"
             checked={filterHasSalary}
             onChange={onToggleHasSalary}
           />
-          <div className="pt-2">
+          <div className="pt-1">
             <Slider
               label="Min Salary"
               value={salaryMin}

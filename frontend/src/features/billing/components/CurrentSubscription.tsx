@@ -24,93 +24,42 @@ export default function CurrentSubscription({
           transition: { type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1] },
         },
       }}
-      className="sm: p-6 sm:p-8 lg:p-10 oryzo-card-glow"
-      style={{
-        backgroundColor: "var(--glass-bg)",
-        border: "1px solid var(--glass-border)",
-      }}
+      className="p-6 sm:p-8 lg:p-10 bg-[#161616] border border-[#2a2a2a] rounded-[24px]"
     >
       <div className="flex items-center gap-4 mb-8">
-        <div
-          className="w-12 h-12 sm:w-14 sm:h-14  flex items-center justify-center"
-          style={{ backgroundColor: "var(--bg-color)" }}
-        >
-          <Zap
-            size={24}
-            style={{ color: "var(--text-primary)" }}
-          />
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#e6efdf] flex items-center justify-center">
+          <Zap size={24} className="text-[#111]" />
         </div>
         <div>
-          <h2
-            className="text-lg sm:text-xl lg:text-2xl font-semibold"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <h2 className="text-lg sm:text-xl font-semibold text-white/90">
             {plan.name} Plan
           </h2>
-          <p
-            className="text-sm sm:text-base"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="text-sm text-white/40">
             Your current subscription tier
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div
-          className="p-4 sm:p-5  sm:"
-          style={{
-            backgroundColor: "var(--bg-color)",
-          }}
-        >
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
+        <div className="p-5 bg-[#0e0e0e] rounded-[16px] border border-[#2a2a2a]">
           <div className="flex items-center gap-2 mb-3">
-            <TrendingUp
-              className="w-4 h-4"
-              style={{ color: "var(--text-primary)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Price
-            </span>
+            <TrendingUp className="w-4 h-4 text-white/40" />
+            <span className="text-[12px] font-medium text-white/40">Price</span>
           </div>
-          <p
-            className="text-2xl sm:text-3xl font-bold"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <p className="text-2xl sm:text-3xl font-bold text-white">
             ${plan.price}
-            <span
-              className="text-sm font-normal"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <span className="text-sm font-normal text-white/40">
               /{subscription.billingPeriod}
             </span>
           </p>
         </div>
 
-        <div
-          className="p-4 sm:p-5  sm:"
-          style={{
-            backgroundColor: "var(--bg-color)",
-          }}
-        >
+        <div className="p-5 bg-[#0e0e0e] rounded-[16px] border border-[#2a2a2a]">
           <div className="flex items-center gap-2 mb-3">
-            <Calendar
-              className="w-4 h-4"
-              style={{ color: "var(--text-primary)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Renewal Date
-            </span>
+            <Calendar className="w-4 h-4 text-white/40" />
+            <span className="text-[12px] font-medium text-white/40">Renewal</span>
           </div>
-          <p
-            className="text-lg sm:text-xl font-semibold"
-            style={{ color: "var(--text-primary)" }}
-          >
+          <p className="text-lg sm:text-xl font-semibold text-white">
             {new Date(subscription.renewalDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
@@ -119,30 +68,15 @@ export default function CurrentSubscription({
           </p>
         </div>
 
-        <div
-          className="p-4 sm:p-5  sm:"
-          style={{
-            backgroundColor: "var(--bg-color)",
-          }}
-        >
+        <div className="p-5 bg-[#0e0e0e] rounded-[16px] border border-[#2a2a2a]">
           <div className="flex items-center gap-2 mb-3">
-            <AlertCircle
-              className="w-4 h-4"
-              style={{ color: "var(--text-primary)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              Status
-            </span>
+            <AlertCircle className="w-4 h-4 text-white/40" />
+            <span className="text-[12px] font-medium text-white/40">Status</span>
           </div>
           <p
             className="text-lg sm:text-xl font-semibold"
             style={{
-              color: subscription.isActive
-                ? "#4ade80"
-                : "#f87171",
+              color: subscription.isActive ? "#4ade80" : "#f87171",
             }}
           >
             {subscription.isActive ? "Active" : "Inactive"}
@@ -151,20 +85,9 @@ export default function CurrentSubscription({
       </div>
 
       {subscription.cancelAtPeriodEnd && (
-        <div
-          className="mt-6 p-4 sm: flex items-start gap-3 border border-red-500/20"
-          style={{
-            backgroundColor: "rgba(248, 113, 113, 0.05)",
-          }}
-        >
-          <AlertCircle
-            className="w-5 h-5 shrink-0 mt-0.5"
-            style={{ color: "#f87171" }}
-          />
-          <p
-            className="text-sm"
-            style={{ color: "#f87171" }}
-          >
+        <div className="p-4 rounded-[16px] bg-red-500/5 border border-red-500/15 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-red-400" />
+          <p className="text-[13px] text-red-400">
             Your subscription will be cancelled at the end of the billing period
           </p>
         </div>

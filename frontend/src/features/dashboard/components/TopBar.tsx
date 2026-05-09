@@ -1,153 +1,125 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Settings, LogOut } from "lucide-react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { fadeUp } from "./animations";
 import { usePathname } from "next/navigation";
-import { useSubscription } from "@/features/billing/hooks/useSubscription";
-import { useSidebar } from "./SidebarContext";
-import { useTheme } from "./ThemeContext";
-import { logoutAction } from "@/features/auth/action";
+import { ChevronDown, Menu, X, LogOut, Settings as SettingsIcon } from "lucide-react";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
-
-const PAGE_TITLES: Record<string, string> = {
-  "/overview": "Overview",
-  "/create": "Create CV",
-  "/jobs": "Jobs",
-  "/cv-analysis": "CV Analysis",
-  "/workflow": "Workflow",
-  "/interview": "Interview",
-  "/usage": "Usage",
-  "/billing": "Billing",
-  "/settings": "Settings",
-};
+import { useSubscription } from "@/features/billing/hooks/useSubscription";
+import { logoutAction } from "@/features/auth/action";
 
 export default function TopBar() {
-  const { setMobileOpen, isMobile } = useSidebar();
   const pathname = usePathname();
-  const { data: subscription } = useSubscription();
-  const { isDark, toggleTheme } = useTheme();
   const { data: member } = useMemberSettings();
+  const { data: subscription } = useSubscription();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  const title = PAGE_TITLES[pathname] || "Dashboard";
   const tier = subscription?.currentPlan || "explorer";
 
+  const navLinks = [
+    { name: "Overview", href: "/overview" },
+    { name: "Create CV", href: "/create" },
+    { name: "Jobs", href: "/jobs" },
+    { name: "CV Analysis", href: "/cv-analysis" },
+    { name: "Interview", href: "/interview" },
+    { name: "Usage", href: "/usage" },
+    { name: "Billing", href: "/billing" },
+    { name: "Settings", href: "/settings" },
+  ];
+
   return (
-    <motion.header
-      initial="hidden"
-      animate="show"
-      variants={fadeUp}
-      className="h-[80px] flex items-center justify-between px-6 lg:px-12 bg-[var(--glass-bg)] backdrop-blur-xl border-b border-[var(--glass-border)] sticky top-0 z-40 transition-all duration-300"
-    >
-      <div className="flex items-center gap-6">
-        {isMobile && (
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="flex flex-col gap-[4px] shrink-0 lg:hidden p-2 group"
-            aria-label="Open menu"
+    <>
+      <header className="h-[80px] flex items-center justify-between px-6 lg:px-12 sticky top-0 z-40 bg-[#0e0e0e]/80 backdrop-blur-md">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 rounded-[12px] border border-[#2a2a2a] flex items-center justify-center shrink-0 bg-[#161616] group-hover:border-[#4a7c59] transition-colors">
+              <span className="font-mono text-[16px] font-bold text-white">A</span>
+            </div>
+          </Link>
+          <button 
+            className="md:hidden text-white/50 hover:text-white"
+            onClick={() => setMobileMenuOpen(true)}
           >
-            <div className="w-5 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-4 transition-all" />
-            <div className="w-4 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-5 transition-all" />
-            <div className="w-5 h-[1.5px] bg-[var(--text-primary)] rounded-full group-hover:w-3 transition-all" />
+            <Menu className="w-6 h-6" />
           </button>
-        )}
-        <div className="flex flex-col">
-          <h1 className="font-display text-[20px] tracking-tight font-bold text-[var(--text-primary)] leading-none mb-1 capitalize">
-            {title}
-          </h1>
-          <span className="font-mono text-[10px] font-bold text-[var(--text-secondary)] tracking-widest hidden sm:inline">
-            Arcaive / Platform
-          </span>
         </div>
-      </div>
 
-      <div className="flex items-center gap-3">
-        <div
-          className="relative"
-          onMouseEnter={() => setUserMenuOpen(true)}
-          onMouseLeave={() => setUserMenuOpen(false)}
-        >
-          <button
+        <nav className="hidden md:flex items-center gap-6 overflow-x-auto no-scrollbar">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`font-sans text-[13px] font-medium transition-colors whitespace-nowrap ${
+                pathname === link.href || (pathname === "/overview" && link.name === "Overview")
+                  ? "text-[#fff]"
+                  : "text-white/50 hover:text-white"
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center relative">
+          <button 
             onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="flex items-center gap-3 pl-3 pr-1 py-1 group rounded-[var(--radius)] border border-[var(--glass-border)] hover:bg-[var(--glass-bg)] hover:border-[var(--text-secondary)] transition-all"
+            className="flex items-center gap-2 group text-left"
           >
-            <div className="flex flex-col items-end text-right mr-1 hidden sm:flex">
-              <span className="font-sans text-[13px] font-medium text-[var(--text-primary)] leading-none mb-1">
-                {member?.memberFullName || "User"}
-              </span>
-              <span className="font-mono text-[9px] font-bold text-[var(--text-secondary)] tracking-tighter capitalize">{tier} member</span>
-            </div>
-            <div className="w-10 h-10 rounded-[var(--radius)] bg-[var(--text-primary)] border border-[var(--glass-border)] flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform duration-500">
-              <span className="font-display font-bold text-[var(--bg-color)] text-[14px]">
-                {member?.memberFullName ? member.memberFullName.charAt(0).toUpperCase() : "U"}
-              </span>
-            </div>
+            <span className="font-sans text-[12px] font-medium text-white/50 hidden sm:block">
+              Account
+            </span>
+            <span className="font-sans text-[13px] font-medium text-white flex items-center gap-1 group-hover:text-white/80 transition-colors">
+              {member?.memberFullName || "User"} <ChevronDown className="w-3 h-3 text-white/50" />
+            </span>
           </button>
 
-          <AnimatePresence>
-            {userMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="absolute right-0 top-full mt-2 w-48 bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-[var(--radius)] shadow-xl z-50 overflow-hidden"
-              >
-                <button
-                  onClick={() => {
-                    toggleTheme();
-                    setUserMenuOpen(false);
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-[14px] text-[var(--text-primary)] hover:bg-[var(--glass-border)] transition-colors"
-                >
-                  {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                  {isDark ? "Light mode" : "Dark mode"}
+          {userMenuOpen && (
+            <div className="absolute right-0 top-full mt-4 w-48 bg-[#161616] border border-[#2a2a2a] rounded-[16px] shadow-2xl py-2 z-50">
+              <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2 hover:bg-[#2a2a2a] text-white/70 hover:text-white transition-colors text-[13px]">
+                <SettingsIcon className="w-4 h-4" /> Settings
+              </Link>
+              <form action={async () => {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("token");
+                await logoutAction();
+              }}>
+                <button type="submit" className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-500/10 text-red-500/70 hover:text-red-500 transition-colors text-[13px] text-left">
+                  <LogOut className="w-4 h-4" /> Log out
                 </button>
-                <Link
-                  href="/settings"
-                  onClick={() => setUserMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-3 text-[14px] text-[var(--text-primary)] hover:bg-[var(--glass-border)] transition-colors"
-                >
-                  <Settings className="w-4 h-4" />
-                  Settings
-                </Link>
-                <form
-                  action={async () => {
-                    localStorage.removeItem("access_token");
-                    localStorage.removeItem("token");
-                    
-                    // Clear LiveKit cookies on the client side
-                    if (typeof document !== "undefined") {
-                      const cookies = document.cookie.split(";");
-                      for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.startsWith("sb-")) {
-                          const cookieName = cookie.split("=")[0];
-                          document.cookie = `${cookieName}=; Max-Age=0; path=/;`;
-                        }
-                      }
-                    }
-                    
-                    await logoutAction();
-                  }}
-                  className="w-full"
-                >
-                  <button
-                    type="submit"
-                    className="w-full flex items-center gap-3 px-4 py-3 text-[14px] text-red-500 hover:bg-red-500/10 transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Log out
-                  </button>
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </form>
+            </div>
+          )}
         </div>
-      </div>
-    </motion.header>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#0e0e0e] flex flex-col p-6">
+          <div className="flex justify-between items-center mb-12">
+            <div className="w-10 h-10 rounded-[12px] border border-[#2a2a2a] flex items-center justify-center bg-[#161616]">
+              <span className="font-mono text-[16px] font-bold text-white">A</span>
+            </div>
+            <button onClick={() => setMobileMenuOpen(false)} className="text-white/50 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <nav className="flex flex-col gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`font-sans text-[24px] font-medium transition-colors ${
+                  pathname === link.href ? "text-white" : "text-white/50"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { subscriptionAPI, type UsageQuotaResponse } from "../api/subscriptionAPI";
+import { subscriptionAPI, type UsageQuotaResponse, type SubscriptionResponse } from "../api/subscriptionAPI";
 import type { MemberSubscription, UsageQuota } from "@/@types/subscription";
 
 function mapToUsageQuota(data: UsageQuotaResponse | null): UsageQuota {
@@ -40,7 +40,7 @@ function mapToUsageQuota(data: UsageQuotaResponse | null): UsageQuota {
 }
 
 function mapToMemberSubscription(
-  subscriptionData: subscriptionAPI.SubscriptionResponse | null,
+  subscriptionData: SubscriptionResponse | null,
   usageQuota: UsageQuota
 ): MemberSubscription {
   if (!subscriptionData) {

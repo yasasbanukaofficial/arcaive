@@ -36,9 +36,9 @@ export default function TextField({
   return (
     <div className={`flex flex-col ${className}`}>
       {label && (
-        <label className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] mb-2">
+        <label className="font-sans text-[12px] font-medium text-white/40 uppercase tracking-widest mb-2">
           {label}
-          {required && <span className="text-accent ml-1 font-mono">*</span>}
+          {required && <span className="text-[#e6efdf] ml-1">*</span>}
         </label>
       )}
       <div className="relative">
@@ -52,12 +52,14 @@ export default function TextField({
           required={required}
           disabled={disabled}
           className={`
-            w-full px-[14px] py-[12px] font-sans text-[15px] border 
-            focus:outline-none focus:border-[var(--text-primary)]
+            w-full px-4 py-3 font-sans text-[14px] rounded-[16px]
+            bg-[#1a1a1a] text-white/90
+            border focus:outline-none focus:ring-1 focus:ring-[#4a7c59]/50 focus:border-[#4a7c59]
             disabled:opacity-40 disabled:cursor-not-allowed
-            ${error ? "border-[#D83B2A]" : "border-[var(--glass-border)] bg-[var(--glass-bg)]"}
+            placeholder:text-white/20
+            transition-colors duration-200
+            ${error ? "border-red-500/50 bg-red-500/5" : "border-[#2a2a2a] hover:border-[#3a3a3a]"}
           `}
-          style={{ borderRadius: "var(--radius)" }}
         />
       </div>
       <AnimatePresence>
@@ -66,14 +68,14 @@ export default function TextField({
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            className="font-mono text-[11px] text-[#D83B2A] mt-2"
+            className="font-sans text-[11px] text-red-400 mt-1.5"
           >
-            ! {error}
+            {error}
           </motion.p>
         )}
       </AnimatePresence>
       {hint && !error && (
-        <p className="font-mono text-[10px] text-[var(--text-secondary)] mt-2">
+        <p className="font-sans text-[11px] text-white/25 mt-1.5">
           {hint}
         </p>
       )}

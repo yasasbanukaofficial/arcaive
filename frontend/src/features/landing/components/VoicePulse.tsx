@@ -18,7 +18,7 @@ function PulseSphere() {
       ringsRef.current.children.forEach((child, i) => {
         const s = (t * 2 + i * 0.5) % 3;
         child.scale.setScalar(s);
-        (child as THREE.Mesh).material.opacity = (3 - s) / 3;
+        ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).opacity = (3 - s) / 3;
       });
     }
   });

@@ -217,6 +217,13 @@ const steps = [
   { id: 6, title: "Projects", subtitle: "Showcase your best work (Optional)" }
 ];
 
+import { 
+  DashboardPageWrapper,
+  DashboardHeader,
+  DashboardGrid,
+  DashboardCard,
+} from "@/features/dashboard/components/DashboardLayoutComponents";
+
 export default function CreateCVPage() {
   const searchParams = useSearchParams();
   const [data, setData] = useState<ResumeData>(emptyResumeData);
@@ -782,7 +789,7 @@ export default function CreateCVPage() {
   };
 
   const renderWizard = () => (
-    <div className="flex flex-col min-h-[calc(100vh-200px)] border border-[var(--glass-border)] bg-[var(--glass-bg)] overflow-hidden relative">
+    <div className="flex flex-col min-h-[calc(100vh-200px)] overflow-hidden relative">
       {/* Decorative Grid Background for Focus */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
            style={{ 
@@ -909,7 +916,7 @@ export default function CreateCVPage() {
   );
 
   const renderPreview = () => (
-    <div className="space-y-12 bg-[var(--glass-bg)] p-12 border border-[var(--glass-border)]">
+    <div className="space-y-12 p-6 md:p-12">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[var(--glass-border)] pb-10">
         <div className="flex items-center gap-6">
           <button 
@@ -981,12 +988,29 @@ export default function CreateCVPage() {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto min-h-[calc(100vh-100px)]">
-      <AnimatePresence mode="wait">
-        {stage === 1 && <motion.div key="stage1" initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }} variants={fadeUp}>{renderTemplateGallery()}</motion.div>}
-        {stage === 2 && <motion.div key="stage2" initial="hidden" animate="show" exit={{ opacity: 0, scale: 0.98 }} variants={fadeUp}>{renderWizard()}</motion.div>}
-        {stage === 3 && <motion.div key="stage3" initial="hidden" animate="show" variants={scaleIn}>{renderPreview()}</motion.div>}
-      </AnimatePresence>
-    </div>
+    <DashboardPageWrapper>
+      <DashboardHeader title="Create CV" />
+      <DashboardGrid>
+        <DashboardCard className="lg:col-span-12 p-0 overflow-hidden" title={null}>
+          <AnimatePresence mode="wait">
+            {stage === 1 && (
+              <motion.div key="stage1" initial="hidden" animate="show" exit={{ opacity: 0, y: -20 }} variants={fadeUp} className="p-6 md:p-12">
+                {renderTemplateGallery()}
+              </motion.div>
+            )}
+            {stage === 2 && (
+              <motion.div key="stage2" initial="hidden" animate="show" exit={{ opacity: 0, scale: 0.98 }} variants={fadeUp}>
+                {renderWizard()}
+              </motion.div>
+            )}
+            {stage === 3 && (
+              <motion.div key="stage3" initial="hidden" animate="show" variants={scaleIn}>
+                {renderPreview()}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </DashboardCard>
+      </DashboardGrid>
+    </DashboardPageWrapper>
   );
 }
