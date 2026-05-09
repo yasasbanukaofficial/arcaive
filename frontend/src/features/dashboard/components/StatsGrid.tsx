@@ -11,32 +11,35 @@ import { Activity, Zap, FileText, Bot } from "lucide-react";
 export default function StatsGrid() {
   const { data: usage, isLoading } = useUsageQuota();
 
+  const formatLimit = (limit: number) => limit === -1 ? "∞" : limit.toString();
+  const formatChange = (used: number, limit: number) => limit === -1 ? "∞" : `${Math.round((used / limit) * 100)}%`;
+
   const stats = [
     {
       label: "CV Analyses",
-      value: usage ? `${usage.cvAnalysisUsed}/${usage.cvAnalysisLimit}` : "...",
-      change: usage ? `${Math.round((usage.cvAnalysisUsed / usage.cvAnalysisLimit) * 100)}%` : "0%",
+      value: usage ? `${usage.cvAnalysisUsed}/${formatLimit(usage.cvAnalysisLimit)}` : "...",
+      change: usage ? formatChange(usage.cvAnalysisUsed, usage.cvAnalysisLimit) : "0%",
       trending: "up" as const,
       icon: FileText,
     },
     {
       label: "Job Searches",
-      value: usage ? `${usage.jobSearchUsed}/${usage.jobSearchLimit}` : "...",
-      change: usage ? `${Math.round((usage.jobSearchUsed / usage.jobSearchLimit) * 100)}%` : "0%",
+      value: usage ? `${usage.jobSearchUsed}/${formatLimit(usage.jobSearchLimit)}` : "...",
+      change: usage ? formatChange(usage.jobSearchUsed, usage.jobSearchLimit) : "0%",
       trending: "up" as const,
       icon: Zap,
     },
     {
       label: "Auto Applications",
-      value: usage ? `${usage.autoApplyUsed}/${usage.autoApplyLimit}` : "...",
-      change: usage ? `${Math.round((usage.autoApplyUsed / usage.autoApplyLimit) * 100)}%` : "0%",
+      value: usage ? `${usage.autoApplyUsed}/${formatLimit(usage.autoApplyLimit)}` : "...",
+      change: usage ? formatChange(usage.autoApplyUsed, usage.autoApplyLimit) : "0%",
       trending: "up" as const,
       icon: Bot,
     },
     {
       label: "Interview Sessions",
-      value: usage ? `${usage.interviewUsed}/${usage.interviewLimit}` : "...",
-      change: usage ? `${Math.round((usage.interviewUsed / usage.interviewLimit) * 100)}%` : "0%",
+      value: usage ? `${usage.interviewUsed}/${formatLimit(usage.interviewLimit)}` : "...",
+      change: usage ? formatChange(usage.interviewUsed, usage.interviewLimit) : "0%",
       trending: "up" as const,
       icon: Activity,
     },

@@ -5,21 +5,18 @@ import { useRouter } from "next/navigation";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
-import { MoreHorizontal, ChevronDown, Activity, Globe, Zap, ShieldCheck } from "lucide-react";
+import { MoreHorizontal, ChevronDown, Activity, Globe, Zap, ShieldCheck, ArrowRight, Sparkles, RefreshCcw } from "lucide-react";
 import { useUsageQuota } from "@/features/billing/hooks/useSubscription";
-import { useMemberSettings } from "@/features/settings/hooks/useMember";
 import { 
   DUMMY_AGENTS, 
   DUMMY_QUICK_ACTIONS, 
   USAGE_DAYS, 
-  USAGE_DATA,
-  DUMMY_ACTIVITIES 
+  USAGE_DATA
 } from "@/features/dashboard/constants/mockData";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { data: usage } = useUsageQuota();
-  const { data: member } = useMemberSettings();
   const [time, setTime] = useState(new Date());
   const [mounted, setMounted] = useState(false);
 
@@ -37,18 +34,19 @@ export default function DashboardPage() {
 
   // Fallbacks for data
   const cvUsed = usage?.cvAnalysisUsed || 0;
-  const cvLimit = usage?.cvAnalysisLimit || 1;
+  const cvLimit = usage?.cvAnalysisLimit ?? 0;
   const jobUsed = usage?.jobSearchUsed || 0;
-  const jobLimit = usage?.jobSearchLimit || 1;
+  const jobLimit = usage?.jobSearchLimit ?? 0;
   const intUsed = usage?.interviewUsed || 0;
-  const intLimit = usage?.interviewLimit || 1;
+  const intLimit = usage?.interviewLimit ?? 0;
+  const autoUsed = usage?.autoApplyUsed || 0;
+  const autoLimit = usage?.autoApplyLimit ?? 0;
 
   // Calculate system capacity based on real usage
-  const totalLimit = cvLimit + jobLimit + intLimit;
-  const totalUsed = cvUsed + jobUsed + intUsed;
+  const getSafeLimit = (limit: number) => limit === -1 ? 100 : Math.max(1, limit);
+  const totalLimit = getSafeLimit(cvLimit) + getSafeLimit(jobLimit) + getSafeLimit(intLimit) + getSafeLimit(autoLimit);
+  const totalUsed = cvUsed + jobUsed + intUsed + autoUsed;
   const capacityPercentage = Math.max(0, Math.round((1 - (totalUsed / totalLimit)) * 100));
-
-  const mainAgent = DUMMY_AGENTS[0] || { name: "Office", status: "Connected" };
 
   return (
     <div className="w-full flex flex-col gap-6 mx-auto px-2 pb-12">
@@ -83,10 +81,10 @@ export default function DashboardPage() {
           </div>
           
           <div className="grid grid-cols-2 gap-x-12 gap-y-16 relative z-10">
-            <MiniChart title="Neural Latency" trend="↓" range="142ms" subLabel="ms delay" icon={Activity} />
-            <MiniChart title="System Throughput" trend="↑" range="8.4" subLabel="gb/s flux" icon={Globe} />
-            <MiniChart title="Token Inference" trend="↑" range="24.5" subLabel="ops/sec" icon={Zap} />
-            <MiniChart title="Buffer Integrity" trend="−" range="98%" subLabel="health" icon={ShieldCheck} />
+            <MiniChart title="CV Analysis" used={cvUsed} limit={cvLimit} subLabel="Documents" icon={Activity} />
+            <MiniChart title="Job Search" used={jobUsed} limit={jobLimit} subLabel="Queries" icon={Globe} />
+            <MiniChart title="Interview Sessions" used={intUsed} limit={intLimit} subLabel="Active" icon={Zap} />
+            <MiniChart title="Auto-Apply Credits" used={autoUsed} limit={autoLimit} subLabel="Available" icon={ShieldCheck} />
           </div>
         </div>
 
@@ -320,17 +318,36 @@ function TimelineLine({ active }: { active?: boolean }) {
   )
 }
 
-function MiniChart({ title, trend, range, icon: Icon, subLabel = "Units used" }: { title: string, trend: string, range: string, icon?: any, subLabel?: string }) {
-  // We expand the array a bit to give more density like the reference image
-  const leftBars = [30, 45, 35, 50, 45, 30, 40, 55, 60, 45, 35, 75, 80, 65, 50];
-  const rightBars = [20, 25, 30, 50, 100, 95, 80, 85, 90, 85, 80, 90, 85, 80, 75];
+interface MiniChartProps {
+  title: string;
+  used: number;
+  limit: number;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  subLabel?: string;
+}
+
+function MiniChart({ title, used, limit, icon: Icon, subLabel = "Units used" }: MiniChartProps) {
+  const percentage = limit === -1 ? (used > 0 ? 50 : 10) : Math.min(100, Math.round((used / Math.max(1, limit)) * 100));
+  
+  // Deterministic bars based on actual usage (stable across renders)
+  const rightBars = Array.from({ length: 15 }).map((_, i) => {
+    const base = percentage === 0 ? 15 : Math.max(15, percentage);
+    const variance = Math.sin(i * 2.5) * 15 + (i % 3) * 5;
+    return Math.max(8, Math.min(100, base + variance));
+  });
+
+  const leftBars = Array.from({ length: 15 }).map((_, i) => {
+    return 20 + Math.sin(i * 1.8) * 12 + (i % 4) * 4;
+  });
+
+  const displayLimit = limit === -1 ? "∞" : limit.toString();
 
   return (
     <div className="flex flex-col h-full min-h-[160px]">
       <div className="flex items-center justify-between mb-8">
          <div className="flex items-center gap-2">
-            {Icon && <Icon size={14} className="text-white/40" />}
-            <span className="font-sans text-[14px] font-medium text-white/50 truncate pr-2">{title} <span className="text-white ml-2">{trend}</span></span>
+            <Icon size={14} className="text-white/40" />
+            <span className="font-sans text-[14px] font-medium text-white/50 truncate pr-2">{title}</span>
          </div>
          <button className="shrink-0 opacity-30 hover:opacity-100 transition-opacity"><MoreHorizontal className="w-4 h-4 text-white" /></button>
       </div>
@@ -350,7 +367,7 @@ function MiniChart({ title, trend, range, icon: Icon, subLabel = "Units used" }:
       </div>
 
       <div className="mt-auto">
-        <p className="font-sans text-[44px] font-normal text-white leading-none tracking-tight mb-3">{range}</p>
+        <p className="font-sans text-[44px] font-normal text-white leading-none tracking-tight mb-3">{used}/{displayLimit}</p>
         <p className="font-sans text-[11px] font-bold text-white/30 tracking-widest uppercase">{subLabel}</p>
       </div>
     </div>

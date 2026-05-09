@@ -3,13 +3,15 @@
 import useLiveKitToken from "@/features/interview/hooks/useLiveKitToken";
 import { LiveKitRoom, RoomAudioRenderer } from "@livekit/components-react";
 import "@livekit/components-styles";
-import AgentPanel from "@/features/interview/components/AgentPanel";
+import AgentSessionWrapper from "@/features/interview/components/AgentSessionWrapper";
 import InterviewSetupModal from "@/features/interview/components/InterviewSetupModal";
 import InterviewLoadingScreen from "@/features/interview/components/InterviewLoadingScreen";
+import SessionErrorBoundary from "@/features/interview/components/SessionErrorBoundary";
 import { jobAPI } from "@/features/jobs/api/jobAPI";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { JobListing } from "@/@types/jobs";
+import { AlertCircle } from "lucide-react";
 
 
 import { 
@@ -93,7 +95,9 @@ export default function InterviewPage() {
                   className="flex-1 flex flex-col min-h-0 h-full"
                 >
                   <RoomAudioRenderer />
-                  <AgentPanel duration={duration}/>
+                  <SessionErrorBoundary>
+                    <AgentSessionWrapper duration={duration}/>
+                  </SessionErrorBoundary>
                 </LiveKitRoom>
               )}
             </div>
