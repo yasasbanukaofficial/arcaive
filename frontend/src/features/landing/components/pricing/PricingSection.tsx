@@ -66,10 +66,17 @@ export default function PricingSection() {
                 {plan.desc}
               </p>
               <button
-                onClick={() => router.push(`/subscription/checkout?plan=${plan.name.toLowerCase()}&billing=month`)}
+                onClick={() => {
+                  const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+                  if (token) {
+                    router.push("/billing");
+                  } else {
+                    router.push("/login");
+                  }
+                }}
                 className="btn-hover mt-auto flex items-center justify-between w-full border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-4 transition-colors duration-500"
               >
-                <span className="oryzo-label btn-hover-text">SELECT PROTOCOL</span>
+                <span className="oryzo-label btn-hover-text">GET ACCESS</span>
                 <ArrowUpRight className="w-4 h-4 btn-hover-dot" />
               </button>
 
