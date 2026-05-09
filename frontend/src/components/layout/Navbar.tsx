@@ -11,6 +11,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState("#intro");
   const pathname = usePathname();
 
   useEffect(() => {
@@ -41,22 +42,23 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
-          <Link href="#intro" className="oryzo-label font-['DM_Sans'] group relative text-[20px] text-[var(--text-primary)]">
+          <Link href="#intro" onClick={() => setActiveSection("#intro")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#intro" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
             INTRO
-            <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />
+            {activeSection === "#intro" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
           </Link>
-          <Link href="#features" className="oryzo-label font-['DM_Sans'] text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#features" onClick={() => setActiveSection("#features")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#features" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
             FEATURES
+            {activeSection === "#features" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
           </Link>
-          <Link href="#benefits" className="oryzo-label font-['DM_Sans'] text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#benefits" onClick={() => setActiveSection("#benefits")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#benefits" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
             PRODUCT
+            {activeSection === "#benefits" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
           </Link>
-          <Link href="#pricing" className="oryzo-label font-['DM_Sans'] text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#pricing" onClick={() => setActiveSection("#pricing")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#pricing" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
             PRICING
+            {activeSection === "#pricing" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
           </Link>
-          <Link href="#faq" className="oryzo-label font-['DM_Sans'] text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-            CONTACT
-          </Link>
+
           
           {isLoaded && (
             <Link 
@@ -96,11 +98,10 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 xl:hidden">
-          <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
-          <Link href="#features" onClick={() => setIsMenuOpen(false)} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
-          <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
-          <Link href="#pricing" onClick={() => setIsMenuOpen(false)} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
-          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
+          <Link href="#intro" onClick={() => { setActiveSection("#intro"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
+          <Link href="#features" onClick={() => { setActiveSection("#features"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
+          <Link href="#benefits" onClick={() => { setActiveSection("#benefits"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
+          <Link href="#pricing" onClick={() => { setActiveSection("#pricing"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
           
           {isLoaded && (
             <Link 
