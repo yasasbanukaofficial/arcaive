@@ -12,7 +12,7 @@ export function DashboardPageWrapper({ children }: { children: React.ReactNode }
   );
 }
 
-export function DashboardHeader({ title, subtitle }: { title: string, subtitle?: React.ReactNode }) {
+export function DashboardHeader({ title, subtitle, action }: { title: string, subtitle?: React.ReactNode, action?: React.ReactNode }) {
   return (
     <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
       <div className="space-y-3">
@@ -26,15 +26,7 @@ export function DashboardHeader({ title, subtitle }: { title: string, subtitle?:
         )}
       </div>
       <div className="flex flex-wrap items-center gap-6 md:gap-16 mt-2 md:mt-0">
-        <div className="flex items-baseline gap-2">
-          <span className="font-mono text-[20px] font-medium text-white">
-            {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </span>
-          <span className="font-sans text-[12px] font-medium text-white/50 tracking-wide uppercase">Time</span>
-        </div>
-        <div className="font-sans text-[20px] font-medium text-white">
-          {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
-        </div>
+        {action}
       </div>
     </div>
   );

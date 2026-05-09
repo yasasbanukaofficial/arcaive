@@ -129,13 +129,13 @@ function CheckoutContent() {
           variants={dashboardStagger(0.05, 0.02)}
         >
           <motion.div variants={fadeUp} className="mb-12">
-            <Link
-              href="/subscription"
+            <button
+              onClick={() => router.back()}
               className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[#1f1f1f] border border-[#2a2a2a] mb-8 rounded-[24px]"
             >
               <ArrowLeft className="w-4 h-4" />
-              Change Selection
-            </Link>
+              Go Back
+            </button>
 
             <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
               Order Summary

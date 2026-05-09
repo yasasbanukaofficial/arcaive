@@ -3,21 +3,20 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  Shield as MemberIcon,
-  Brain,
-  Cpu,
-  Bell,
+  CreditCard,
+  BarChart3,
+  Receipt,
   type LucideIcon,
 } from "lucide-react";
 
-export type SettingsSection =
-  | "identity"
-  | "career"
-  | "agents"
-  | "notifications";
+export type BillingSection =
+  | "subscription"
+  | "resources"
+  | "payment"
+  | "invoices";
 
 type NavItem = {
-  id: SettingsSection;
+  id: BillingSection;
   label: string;
   description: string;
   icon: LucideIcon;
@@ -25,46 +24,46 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    id: "identity",
-    label: "Identity & Auth",
-    description: "Profile, password, MFA",
-    icon: MemberIcon,
+    id: "subscription",
+    label: "Subscription",
+    description: "Plan, upgrades, downgrades",
+    icon: CreditCard,
   },
   {
-    id: "career",
-    label: "Career Intelligence",
-    description: "CV, achievements, skills",
-    icon: Brain,
+    id: "resources",
+    label: "Resource Usage",
+    description: "Monthly consumption",
+    icon: BarChart3,
   },
   {
-    id: "agents",
-    label: "Agent Configuration",
-    description: "Thresholds, persona, model",
-    icon: Cpu,
+    id: "payment",
+    label: "Payment Method",
+    description: "Cards, billing address",
+    icon: CreditCard,
   },
   {
-    id: "notifications",
-    label: "Notifications & System",
-    description: "Alerts, privacy, theme",
-    icon: Bell,
+    id: "invoices",
+    label: "Invoices",
+    description: "Billing history, downloads",
+    icon: Receipt,
   },
 ];
 
-type SettingsNavProps = {
-  activeSection: SettingsSection;
-  onSectionChange: (section: SettingsSection) => void;
+type BillingNavProps = {
+  activeSection: BillingSection;
+  onSectionChange: (section: BillingSection) => void;
   className?: string;
 };
 
-export default function SettingsNav({
+export default function BillingNav({
   activeSection,
   onSectionChange,
   className = "",
-}: SettingsNavProps) {
+}: BillingNavProps) {
   return (
     <nav className={`space-y-1 ${className}`}>
       <p className="px-3 pb-3 pt-1 text-[11px] font-medium uppercase tracking-widest text-white/25">
-        Settings
+        Billing
       </p>
 
       {navItems.map((item) => {
@@ -82,7 +81,7 @@ export default function SettingsNav({
           >
             {isActive && (
               <motion.div
-                layoutId="settings-nav-active"
+                layoutId="billing-nav-active"
                 className="absolute inset-0 rounded-[16px] bg-[#e6efdf] border border-[#d4e8cf]"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />

@@ -78,20 +78,14 @@ export default function SettingsPage() {
       variants={dashboardStagger(0.04, 0.02)}
       className="max-w-7xl mx-auto"
     >
-      <motion.div variants={fadeUp} className="mb-12">
-        <div className="flex items-center gap-4 mb-3">
-          <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
-            Control center
-          </h1>
-        </div>
-        <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
-          System <br /> configuration
-        </h2>
-        <p className="text-[15px] mt-6 max-w-2xl text-[var(--text-secondary)] leading-relaxed">
-          Fine-tune your platform experience, manage AI agent parameters, and secure your 
-          digital identity through our centralized command interface.
+      <div className="mb-12">
+        <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize mb-3">
+          System Configuration
+        </h1>
+        <p className="font-sans text-[15px] max-w-2xl text-[rgba(255,255,255,0.5)] leading-relaxed">
+          Fine-tune your platform experience, manage AI agent parameters, and secure your digital identity through our centralized command interface.
         </p>
-      </motion.div>
+      </div>
       <motion.div variants={fadeUp} className="lg:hidden mb-8">
         <div className="flex gap-2 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar">
           {(["identity", "career", "agents", "notifications"] as SettingsSection[]).map((id) => {
@@ -101,8 +95,8 @@ export default function SettingsPage() {
                 key={id}
                 onClick={() => setActiveSection(id)}
                  className={`flex-shrink-0 px-6 py-3 text-[11px] font-black tracking-[0.2em] border transition-all ${
-                  isActive ? "bg-[var(--d-text-primary)] text-[var(--d-bg)] border-[var(--d-text-primary)]" : "bg-[var(--d-surface)] text-[var(--d-text-muted)] border-[var(--d-border)]"
-                }`}
+                   isActive ? "bg-[#e6efdf] text-[#111111] border-[#e6efdf]" : "bg-[#161616] text-white/50 border-[#2a2a2a]"
+                 }`}
                 style={{ borderRadius: "var(--radius)" }}
               >
                 {sectionTitles[id].title.split(" ")[0]}

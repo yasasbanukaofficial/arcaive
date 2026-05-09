@@ -46,6 +46,9 @@ export default function Navbar() {
           <Link href="#benefits" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             PRODUCT
           </Link>
+          <Link href="#pricing" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+            PRICING
+          </Link>
           <Link href="#faq" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             CONTACT
           </Link>
@@ -91,6 +94,7 @@ export default function Navbar() {
           <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
           <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
           <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
+          <Link href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
           <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
           
           {/* Removed mobile text SIGN UP link; keeping only the signin/dashboard button */}

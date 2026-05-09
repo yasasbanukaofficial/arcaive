@@ -178,36 +178,31 @@ export default function UsagePage() {
       variants={dashboardStagger(0.04, 0.02)}
       className="max-w-7xl mx-auto space-y-8 pb-20 px-4 sm:px-6"
     >
-      <motion.div variants={fadeUp} className="mb-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <h1 className="text-[11px] font-black tracking-[0.3em] text-[var(--text-secondary)]">
-                System consumption
-              </h1>
-            </div>
-             <h2 className="font-display text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)] leading-[0.9] capitalize">
-              Network <br /> usage
-            </h2>
-          </div>
-
-          <div className="flex flex-col items-start md:items-end gap-5">
-            <div className="flex flex-col items-start md:items-end gap-1.5">
-               <span className="font-mono text-[9px] tracking-[0.2em] text-[var(--text-secondary)]">Subscription tier</span>
-              <span className="px-5 py-2.5 text-[11px] font-black tracking-[0.15em] bg-[var(--d-text-primary)] text-[var(--d-bg)]" style={{ borderRadius: "var(--radius)" }}>
-                {subscription.currentPlan}
-              </span>
-            </div>
-              <button 
-                className="flex items-center gap-2.5 px-6 py-3 text-[11px] font-black uppercase tracking-widest border border-[var(--d-text-primary)] text-[var(--d-text-primary)] transition-all hover:bg-[var(--d-text-primary)] hover:text-[var(--d-bg)]"
-                style={{ borderRadius: "var(--radius)" }}
-                onClick={() => router.push("/billing")}
-              >
-               Manage plan
-            </button>
-          </div>
+      <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-6 px-2">
+        <div className="space-y-3">
+          <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
+            Network Usage
+          </h1>
+          <p className="font-sans text-[15px] max-w-2xl text-[rgba(255,255,255,0.5)] leading-relaxed">
+            System consumption and resource allocation details.
+          </p>
         </div>
-      </motion.div>
+        
+        <div className="flex flex-col items-start md:items-end gap-3 mt-2 md:mt-0">
+          <div className="flex items-center gap-3">
+             <span className="font-mono text-[11px] uppercase tracking-widest text-white/50">Plan:</span>
+            <span className="px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest bg-[#2a2a2a] text-white rounded-[6px]">
+              {subscription.currentPlan}
+            </span>
+          </div>
+          <button 
+            className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold uppercase tracking-widest border border-[#2a2a2a] text-white transition-all hover:bg-[#e6efdf] hover:text-[#111111] hover:border-[#e6efdf] rounded-[8px]"
+            onClick={() => router.push("/billing")}
+          >
+           Manage plan
+          </button>
+        </div>
+      </div>
 
       <Card
         title="Resource Boundaries"

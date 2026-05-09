@@ -96,20 +96,22 @@ export default function CVAnalysisModal({
                 exit={{ opacity: 0 }}
                 className="relative z-10 flex flex-col"
               >
-                <div className="flex items-center justify-between px-[48px] py-6">
-                  <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
-                    Analysis Config.
-                  </h2>
+                <div className="flex items-center justify-between px-10 py-8">
+                  <div className="space-y-1">
+                    <h2 className="font-sans text-[20px] font-medium text-white tracking-tight">
+                      Analysis Configuration
+                    </h2>
+                    <p className="font-sans text-[12px] text-white/40">Set parameters for the matching engine.</p>
+                  </div>
                   <button
                     onClick={onClose}
-                    className="w-8 h-8 flex items-center justify-center font-mono text-[18px] text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
+                    className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white border border-[#2a2a2a] hover:bg-[#1f1f1f] transition-all rounded-full"
                   >
-                    ×
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="h-[1px] bg-[var(--glass-border)] mx-[48px]" />
 
-                <div className="p-[48px] space-y-8">
+                <div className="px-10 space-y-8">
                   <FileUpload
                     label="Your Resume Document"
                     files={files}
@@ -125,33 +127,26 @@ export default function CVAnalysisModal({
                     placeholder="Paste the job description here..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
-                    rows={6}
+                    rows={8}
                     disabled={status === "uploading"}
                   />
                 </div>
 
-                <div className="mt-4">
-                  <div className="h-[1px] bg-[var(--glass-border)] mx-[48px]" />
-                  <div className="px-[48px] py-8 flex justify-end gap-4">
-                    <button
-                      className="px-6 py-3 text-[12px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
-                      onClick={onClose}
-                      disabled={status === "uploading"}
-                    >
-                      CANCEL
-                    </button>
-                    <button
-                      onClick={handleAnalyze}
-                      disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
-                      className="px-6 py-2.5 text-[13px] font-semibold transition-all active:scale-95 rounded-full disabled:opacity-30"
-                      style={{ 
-                        backgroundColor: "#e6efdf", 
-                        color: "#111111",
-                      }}
-                    >
-                      Run analysis
-                    </button>
-                  </div>
+                <div className="px-10 py-10 flex justify-end gap-6 border-t border-[#2a2a2a] mt-8 bg-[#1a1a1a]/40">
+                  <button
+                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+                    onClick={onClose}
+                    disabled={status === "uploading"}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAnalyze}
+                    disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
+                    className="px-8 py-3 text-[12px] font-bold uppercase tracking-widest transition-all bg-[#e6efdf] text-[#111] hover:opacity-90 active:scale-[0.98] rounded-full disabled:opacity-20 shadow-[0_4px_20px_rgba(230,239,223,0.15)]"
+                  >
+                    Run alignment →
+                  </button>
                 </div>
               </motion.div>
             )}
