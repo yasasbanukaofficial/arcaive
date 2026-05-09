@@ -19,41 +19,49 @@ import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 function MetricCard({ label, used, limit }: { label: string; used: number; limit: number }) {
   const isUnlimited = limit === -1;
-  const percentage = isUnlimited ? 100 : Math.min((used / limit) * 100, 100);
+  const notApplicable = limit === 0;
+  const percentage = isUnlimited ? 100 : notApplicable ? 0 : Math.min((used / limit) * 100, 100);
+  const displayEfficiency = notApplicable ? "N/A" : `${Math.round(percentage)}%`;
   
   return (
     <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[24px] p-6 hover:bg-[var(--glass-bg)]/80 transition-all duration-300 group">
       <div className="flex justify-between items-start mb-6">
         <div className="space-y-1">
           <p className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-[0.1em]">{label}</p>
-          <div className="flex items-baseline gap-1">
-            <span className="text-[28px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">{used}</span>
-            <span className="text-[13px] font-medium text-[var(--text-secondary)]">/ {isUnlimited ? "∞" : limit}</span>
-          </div>
+          {isUnlimited ? (
+            <p className="text-[22px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">Unlimited</p>
+          ) : (
+            <div className="flex items-baseline gap-1">
+              <span className="text-[28px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">{used}</span>
+              <span className="text-[13px] font-medium text-[var(--text-secondary)]">/ {limit}</span>
+            </div>
+          )}
         </div>
         <div className="w-8 h-8 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
           <Activity size={14} />
         </div>
       </div>
       
-      <div className="space-y-3">
-        <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${percentage}%` }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className={`h-full rounded-full transition-all duration-500 ${percentage > 90 ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
-          />
+      {!notApplicable && (
+        <div className="space-y-3">
+          <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${percentage}%` }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className={`h-full rounded-full transition-all duration-500 ${percentage > 90 ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Efficiency: {displayEfficiency}</span>
+            {percentage > 80 && (
+              <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-1">
+                <AlertCircle size={10} /> Near Limit
+              </span>
+            )}
+          </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Efficiency: {Math.round(percentage)}%</span>
-          {percentage > 80 && (
-            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-1">
-              <AlertCircle size={10} /> Near Limit
-            </span>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

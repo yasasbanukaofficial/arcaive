@@ -340,7 +340,7 @@ function MiniChart({ title, used, limit, icon: Icon, subLabel = "Units used" }: 
     return 20 + Math.sin(i * 1.8) * 12 + (i % 4) * 4;
   });
 
-  const displayLimit = limit === -1 ? "∞" : limit.toString();
+  const isUnlimited = limit === -1;
 
   return (
     <div className="flex flex-col h-full min-h-[160px]">
@@ -367,7 +367,11 @@ function MiniChart({ title, used, limit, icon: Icon, subLabel = "Units used" }: 
       </div>
 
       <div className="mt-auto">
-        <p className="font-sans text-[44px] font-normal text-white leading-none tracking-tight mb-3">{used}/{displayLimit}</p>
+        {isUnlimited ? (
+          <p className="font-sans text-[28px] font-normal text-white leading-none tracking-tight mb-3">Unlimited</p>
+        ) : (
+          <p className="font-sans text-[44px] font-normal text-white leading-none tracking-tight mb-3">{used}/{limit}</p>
+        )}
         <p className="font-sans text-[11px] font-bold text-white/30 tracking-widest uppercase">{subLabel}</p>
       </div>
     </div>

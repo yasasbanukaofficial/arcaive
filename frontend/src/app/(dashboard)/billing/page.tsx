@@ -380,13 +380,6 @@ export default function BillingPage() {
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
-            <div className="px-6 py-6 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-[24px]">
-               <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.15em] mb-3">Sync Status</p>
-               <div className="flex items-center gap-2 text-[var(--accent-brand)]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                  <span className="text-[13px] font-semibold tracking-tight">Active Connection</span>
-               </div>
-            </div>
           </div>
         </div>
 

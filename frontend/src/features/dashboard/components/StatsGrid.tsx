@@ -11,34 +11,34 @@ import { Activity, Zap, FileText, Bot } from "lucide-react";
 export default function StatsGrid() {
   const { data: usage, isLoading } = useUsageQuota();
 
-  const formatLimit = (limit: number) => limit === -1 ? "∞" : limit.toString();
+  const formatValue = (used: number, limit: number) => limit === -1 ? "Unlimited" : `${used}/${limit}`;
   const formatChange = (used: number, limit: number) => limit === -1 ? "∞" : `${Math.round((used / limit) * 100)}%`;
 
   const stats = [
     {
       label: "CV Analyses",
-      value: usage ? `${usage.cvAnalysisUsed}/${formatLimit(usage.cvAnalysisLimit)}` : "...",
+      value: usage ? formatValue(usage.cvAnalysisUsed, usage.cvAnalysisLimit) : "...",
       change: usage ? formatChange(usage.cvAnalysisUsed, usage.cvAnalysisLimit) : "0%",
       trending: "up" as const,
       icon: FileText,
     },
     {
       label: "Job Searches",
-      value: usage ? `${usage.jobSearchUsed}/${formatLimit(usage.jobSearchLimit)}` : "...",
+      value: usage ? formatValue(usage.jobSearchUsed, usage.jobSearchLimit) : "...",
       change: usage ? formatChange(usage.jobSearchUsed, usage.jobSearchLimit) : "0%",
       trending: "up" as const,
       icon: Zap,
     },
     {
       label: "Auto Applications",
-      value: usage ? `${usage.autoApplyUsed}/${formatLimit(usage.autoApplyLimit)}` : "...",
+      value: usage ? formatValue(usage.autoApplyUsed, usage.autoApplyLimit) : "...",
       change: usage ? formatChange(usage.autoApplyUsed, usage.autoApplyLimit) : "0%",
       trending: "up" as const,
       icon: Bot,
     },
     {
       label: "Interview Sessions",
-      value: usage ? `${usage.interviewUsed}/${formatLimit(usage.interviewLimit)}` : "...",
+      value: usage ? formatValue(usage.interviewUsed, usage.interviewLimit) : "...",
       change: usage ? formatChange(usage.interviewUsed, usage.interviewLimit) : "0%",
       trending: "up" as const,
       icon: Activity,
