@@ -15,7 +15,6 @@ import {
   Briefcase,
   Sparkles,
   ArrowRight,
-  Eye,
   FileText,
   User,
   History,
@@ -339,7 +338,7 @@ export default function CreateCVPage() {
                 <span className="text-[10px] font-bold tracking-[0.15em] text-[var(--text-primary)] uppercase">Module {step} / 6</span>
              </div>
              <button onClick={() => setStage(3)} className="hidden md:flex items-center gap-2 px-5 py-2 hover:bg-[#111111] border border-[var(--glass-border)] rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all">
-                <Eye size={12} /> Live Preview
+                PREVIEW
              </button>
           </div>
         </div>

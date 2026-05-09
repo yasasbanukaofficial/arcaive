@@ -1,8 +1,9 @@
 "use client";
-import React, { useActionState, useEffect, startTransition } from "react";
+import React, { useActionState, useEffect, startTransition, useState } from "react";
 import Link from "next/link";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
+import CVUploadModal from "./CVUploadModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { registerAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
@@ -24,6 +25,7 @@ export default function RegisterForm() {
   const router = useRouter();
   const { addToast } = useToast();
   const [state, formAction, isPending] = useActionState(registerAction, {});
+  const [showUpload, setShowUpload] = useState(false);
   const backendLink = `${process.env.NEXT_PUBLIC_BACKEND_URL!}oauth2/authorization`;
 
   const formik = useFormik({
@@ -52,12 +54,7 @@ export default function RegisterForm() {
 
   useEffect(() => {
     if (state.success) {
-      addToast({
-        type: "success",
-        title: "Account created",
-        description: "Redirecting you to login...",
-      });
-      setTimeout(() => router.push("/login"), 1500);
+      setShowUpload(true);
     }
     if (state.error) {
       addToast({
@@ -67,6 +64,11 @@ export default function RegisterForm() {
       });
     }
   }, [state]);
+
+  const handleUpload = async (file: File) => {
+    addToast({ type: "success", title: "Upload successful", description: "Proceeding to verification..." });
+    router.push("/verify-email");
+  };
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
     `w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
@@ -84,6 +86,8 @@ export default function RegisterForm() {
 
   return (
     <>
+      <CVUploadModal isOpen={showUpload} onClose={() => router.push("/verify-email")} onUpload={handleUpload} />
+
       <div className="w-full">
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
       </div>

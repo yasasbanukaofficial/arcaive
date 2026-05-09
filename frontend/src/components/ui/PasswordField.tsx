@@ -66,10 +66,10 @@ export default function PasswordField({
           type="button"
           onClick={() => setShow((s) => !s)}
           disabled={disabled}
-          className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
           aria-label={show ? "Hide password" : "Show password"}
         >
-          {show ? "HIDE" : "SHOW"}
+          {show ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
       </div>
       <AnimatePresence>
