@@ -3,8 +3,6 @@
 import React, { Suspense } from "react";
 import TopBar from "@/features/dashboard/components/TopBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
-
 function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-brand)] selection:text-[var(--accent-brand-contrast)] antialiased transition-colors duration-300">
@@ -16,7 +14,6 @@ function DashboardShell({ children }: { children: React.ReactNode }) {
           {children}
         </Suspense>
       </main>
-      <QuotaExceededModal />
     </div>
   );
 }
