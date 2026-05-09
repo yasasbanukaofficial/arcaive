@@ -68,7 +68,7 @@ export default function Hero() {
 
           <div className="lg:col-span-4 lg:col-start-9 flex flex-col items-end justify-end pb-8">
             <Link href="/register" className="btn-hover group flex items-center justify-center gap-4 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-sm px-10 py-5 transition-colors duration-500">
-              <span className="oryzo-label text-[36px] sm:text-[40px] btn-hover-text">INITIALIZE</span>
+              <span className="oryzo-label btn-hover-text">INITIALIZE</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] btn-hover-dot transition-colors" />
             </Link>
             

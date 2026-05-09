@@ -27,7 +27,7 @@ export default function Navbar() {
         <div className="pointer-events-auto">
           <Link 
             href="/" 
-            className="font-sans text-[18px] sm:text-[20px] font-bold tracking-tight transition-all"
+            className="font-sans text-[16px] sm:text-[18px] font-bold tracking-tight transition-all"
             style={{
               color: isDark ? "#ffffff" : "#111111",
               WebkitTextStroke: isDark ? "1px #ffffff" : "1px #111111",
@@ -41,20 +41,20 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
-          <Link href="#intro" className="oryzo-label group relative text-[28px] text-[var(--text-primary)]">
+          <Link href="#intro" className="oryzo-label group relative text-[20px] text-[var(--text-primary)]">
             INTRO
             <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />
           </Link>
-          <Link href="#features" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#features" className="oryzo-label text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             FEATURES
           </Link>
-          <Link href="#benefits" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#benefits" className="oryzo-label text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             PRODUCT
           </Link>
-          <Link href="#pricing" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#pricing" className="oryzo-label text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             PRICING
           </Link>
-          <Link href="#faq" className="oryzo-label text-[28px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <Link href="#faq" className="oryzo-label text-[20px] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             CONTACT
           </Link>
           
@@ -96,11 +96,11 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 xl:hidden">
-          <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
-          <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
-          <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
-          <Link href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
-          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
+          <Link href="#intro" onClick={() => setIsMenuOpen(false)} className="text-[28px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
+          <Link href="#features" onClick={() => setIsMenuOpen(false)} className="text-[28px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
+          <Link href="#benefits" onClick={() => setIsMenuOpen(false)} className="text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
+          <Link href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
+          <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[28px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
           
           {isLoaded && (
             <Link 
