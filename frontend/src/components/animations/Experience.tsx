@@ -19,7 +19,7 @@ if (typeof window !== "undefined") {
 
 import { MeshDistortMaterial } from "@react-three/drei";
 
-import { ThemeProvider, useTheme } from "@/features/dashboard/components/ThemeContext";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 type Theme = "light" | "dark";
 

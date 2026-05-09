@@ -2,7 +2,6 @@
 
 import React, { Suspense } from "react";
 import TopBar from "@/features/dashboard/components/TopBar";
-import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 
@@ -48,9 +47,7 @@ export default function DashboardLayout({
   );
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="dark">
-        <DashboardShell>{children}</DashboardShell>
-      </ThemeProvider>
+      <DashboardShell>{children}</DashboardShell>
     </QueryClientProvider>
   );
 }

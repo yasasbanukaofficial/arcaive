@@ -142,7 +142,7 @@ export default function Sidebar() {
         </nav>
 
         {/* Bottom Section */}
-        <div className="mt-auto border-t p-6 space-y-6" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+        <div className="mt-auto border-t border-[var(--glass-border)] p-6 space-y-6">
           <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-4`}>
             <Link
               href="/settings"

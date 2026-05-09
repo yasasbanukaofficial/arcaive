@@ -22,7 +22,7 @@ export default function RootLayout({
       <body
         className="antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden"
       >
-        <ThemeProvider>
+        <ThemeProvider defaultTheme="dark">
           <ToastProvider>
              <QuotaExceededModal />
              <SmoothScroll>
