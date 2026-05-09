@@ -70,8 +70,9 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
 
               <div className="space-y-6">
                 {[
+                  { title: "Profile Integration", desc: "The agent references the data you provided during signup to personalize your interview." },
+                  { title: "Privacy Shield", desc: "Your conversation is not recorded or used for illegal purposes; your data remains secure." },
                   { title: "Standard Protocol", desc: "Enable microphone for high-fidelity communication analysis." },
-                  { title: "Secure Buffer", desc: "No session data is archived or processed externally." },
                   { title: "Network Link", desc: "Refreshing the node will terminate the active session." },
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-6 items-start group">
