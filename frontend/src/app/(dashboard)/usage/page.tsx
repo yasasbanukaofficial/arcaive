@@ -1,128 +1,58 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
-  BrainCircuit, 
-  FileSearch, 
-  Mic2, 
-  Rocket, 
-  FileText, 
-  Zap, 
-  AlertCircle,
   TrendingUp,
-  BarChart3,
-  Calendar,
-  CheckCircle2,
   Clock,
-  RefreshCcw
+  AlertCircle,
+  RefreshCcw,
+  ArrowUpRight,
+  Zap,
+  Activity,
+  BarChart3,
+  Calendar
 } from "lucide-react";
-import { dashboardStagger, fadeUp, barGrow } from "@/features/dashboard/components/animations";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
-import Card from "@/components/ui/Card";
-import { 
-  MOCK_MEMBER_SUBSCRIPTION, 
-  MOCK_PLANS 
-} from "@/features/billing/constants/mockData";
 
-function Skeleton({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <div 
-      className={`bg-[var(--glass-bg)]/5 ${className}`} 
-      style={{ 
-        backgroundColor: "var(--bg-color)",
-        ...style 
-      }} 
-    />
-  );
-}
-
-function UsageSkeleton() {
-  return (
-    <div className="max-w-[1200px] mx-auto space-y-8 pb-20">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="space-y-2">
-          <Skeleton className="h-10 w-64" />
-          <Skeleton className="h-5 w-80" />
-        </div>
-        <Skeleton className="h-20 w-48 " />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Skeleton className="lg:col-span-2 h-64 " />
-        <div className="grid grid-cols-2 gap-4">
-          {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-32 " />)}
-        </div>
-      </div>
-
-      <Skeleton className="h-80 " />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-44 " />)}
-      </div>
-    </div>
-  );
-}
-
-function ErrorState({ message, retry }: { message: string; retry: () => void }) {
-  return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-16 h-16 bg-red-500/10 flex items-center justify-center mb-6">
-        <AlertCircle size={32} className="text-red-500" />
-      </div>
-      <h2 className="text-xl font-semibold mb-2" style={{ color: "var(--text-primary)" }}>
-        Failed to load usage data
-      </h2>
-      <p className="text-sm max-w-md mb-8" style={{ color: "var(--text-secondary)" }}>
-        {message}
-      </p>
-      <button
-        onClick={retry}
-        className="flex items-center gap-2 px-6 py-3 font-medium transition-all hover:bg-[var(--glass-border)]"
-        style={{ 
-          backgroundColor: "var(--bg-color)",
-          border: "1px solid var(--glass-border)",
-          color: "var(--text-primary)"
-        }}
-      >
-        <RefreshCcw size={18} />
-        Try Again
-      </button>
-    </div>
-  );
-}
-
-interface MetricCardProps {
-  icon: React.ReactNode;
-  label: string;
-  used: number;
-  limit: number;
-  sublabel?: string;
-}
-
-function MetricCard({ label, used, limit }: MetricCardProps) {
+function MetricCard({ label, used, limit }: { label: string; used: number; limit: number }) {
   const isUnlimited = limit === -1;
   const percentage = isUnlimited ? 100 : Math.min((used / limit) * 100, 100);
   
   return (
-    <div className="space-y-4 py-6 border-b border-[var(--glass-border)]">
-      <div className="flex justify-between items-end">
-              <span className="font-sans text-[16px] font-bold text-[var(--text-primary)] capitalize">
-              {label}
-            </span>
-            <span className="font-mono text-[12px] tracking-widest text-[var(--text-secondary)]">
-              {used} / {isUnlimited ? "∞" : limit} used
-            </span>
+    <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[24px] p-6 hover:bg-[var(--glass-bg)]/80 transition-all duration-300 group">
+      <div className="flex justify-between items-start mb-6">
+        <div className="space-y-1">
+          <p className="text-[11px] font-bold text-[var(--text-secondary)] uppercase tracking-[0.1em]">{label}</p>
+          <div className="flex items-baseline gap-1">
+            <span className="text-[28px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">{used}</span>
+            <span className="text-[13px] font-medium text-[var(--text-secondary)]">/ {isUnlimited ? "∞" : limit}</span>
+          </div>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
+          <Activity size={14} />
+        </div>
       </div>
-      <div className="h-[6px] w-full border border-[var(--glass-border)] bg-[var(--bg-color)]">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${percentage}%` }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="h-full bg-[var(--text-primary)]"
-        />
+      
+      <div className="space-y-3">
+        <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${percentage}%` }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className={`h-full rounded-full transition-all duration-500 ${percentage > 90 ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Efficiency: {Math.round(percentage)}%</span>
+          {percentage > 80 && (
+            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-1">
+              <AlertCircle size={10} /> Near Limit
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -130,118 +60,175 @@ function MetricCard({ label, used, limit }: MetricCardProps) {
 
 export default function UsagePage() {
   const router = useRouter();
+  const { isDark } = useTheme();
   const { data: subscription, isLoading, error, refetch } = useSubscription();
 
-  if (isLoading) return <UsageSkeleton />;
-  if (error) return <ErrorState message={(error as any).message || "An unexpected error occurred"} retry={refetch} />;
-  if (!subscription) return <ErrorState message="No subscription data found" retry={refetch} />;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as any }
+    }
+  };
+
+  if (isLoading) return (
+    <div className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8 animate-pulse">
+       <div className="h-20 w-1/3 bg-[var(--text-primary)]/[0.03] rounded-2xl" />
+       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+         {[1, 2, 3, 4, 5, 6].map(i => (
+           <div key={i} className="h-44 bg-[var(--text-primary)]/[0.03] rounded-[24px]" />
+         ))}
+       </div>
+    </div>
+  );
+
+  if (error || !subscription) return (
+    <div className="flex flex-col items-center justify-center py-32 text-center px-6">
+      <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-8 border border-red-500/20">
+        <AlertCircle size={32} className="text-red-500/60" />
+      </div>
+      <h2 className="text-[24px] font-bold text-[var(--text-primary)] mb-3 tracking-tight">Sync Failure</h2>
+      <p className="text-[15px] text-[var(--text-secondary)] max-w-md mb-10 leading-relaxed font-medium">
+        System was unable to synchronize usage metrics with the cloud. Please verify your connection and try again.
+      </p>
+      <button
+        onClick={() => refetch()}
+        className="flex items-center gap-2 px-8 py-4 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[13px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl"
+      >
+        <RefreshCcw size={16} />
+        Initialize Sync
+      </button>
+    </div>
+  );
 
   const { usage } = subscription;
   
   const metrics = [
-    {
-      id: "cv-analysis",
-      label: "CV Analyses",
-      used: usage.cvAnalysisUsed,
-      limit: usage.cvAnalysisLimit,
-    },
-    {
-      id: "job-search",
-      label: "Job Searches",
-      used: usage.jobSearchUsed,
-      limit: usage.jobSearchLimit,
-    },
-    {
-      id: "interviews",
-      label: "Interview Sessions",
-      used: usage.interviewUsed,
-      limit: usage.interviewLimit,
-    },
-    {
-      id: "auto-apply",
-      label: "Auto Applications",
-      used: usage.autoApplyUsed,
-      limit: usage.autoApplyLimit,
-    },
-    {
-      id: "cv-versions",
-      label: "CV Versions",
-      used: usage.cvVersionsStored,
-      limit: usage.cvVersionsLimit,
-    },
+    { label: "CV Analyses", used: usage.cvAnalysisUsed, limit: usage.cvAnalysisLimit },
+    { label: "Job Searches", used: usage.jobSearchUsed, limit: usage.jobSearchLimit },
+    { label: "Interview Sessions", used: usage.interviewUsed, limit: usage.interviewLimit },
+    { label: "Auto Applications", used: usage.autoApplyUsed, limit: usage.autoApplyLimit },
+    { label: "CV Versions", used: usage.cvVersionsStored, limit: usage.cvVersionsLimit },
   ];
 
   return (
     <motion.div
       initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-7xl mx-auto space-y-8 pb-20 px-4 sm:px-6"
+      animate="visible"
+      variants={containerVariants}
+      className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8"
     >
-      <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-6 px-2">
-        <div className="space-y-3">
-          <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
-            Network Usage
+      {/* Header Row */}
+      <motion.div variants={itemVariants} className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="space-y-1">
+          <h1 className="text-[44px] md:text-[56px] font-semibold text-[var(--text-primary)] tracking-[-0.04em] leading-none">
+            Usage
           </h1>
-          <p className="font-sans text-[15px] max-w-2xl text-[rgba(255,255,255,0.5)] leading-relaxed">
-            System consumption and resource allocation details.
-          </p>
+          <p className="text-[var(--text-secondary)] text-[14px] font-medium tracking-tight">System consumption and resource allocation</p>
         </div>
         
-        <div className="flex flex-col items-start md:items-end gap-3 mt-2 md:mt-0">
-          <div className="flex items-center gap-3">
-             <span className="font-mono text-[11px] uppercase tracking-widest text-white/50">Plan:</span>
-            <span className="px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest bg-[#2a2a2a] text-white rounded-[6px]">
-              {subscription.currentPlan}
-            </span>
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col items-end px-6 py-3 bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[18px]">
+             <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest leading-tight">Current Plan</span>
+             <span className="text-[18px] font-bold text-[var(--text-primary)] tracking-tight leading-tight capitalize">{subscription.currentPlan}</span>
           </div>
           <button 
-            className="flex items-center gap-2 px-5 py-2 text-[11px] font-bold uppercase tracking-widest border border-[#2a2a2a] text-white transition-all hover:bg-[#e6efdf] hover:text-[#111111] hover:border-[#e6efdf] rounded-[8px]"
             onClick={() => router.push("/billing")}
+            className="h-[52px] px-8 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[12px] uppercase tracking-widest hover:opacity-90 transition-all flex items-center justify-center gap-2"
           >
-           Manage plan
+            Upgrade Plan <Zap size={14} className="fill-current" />
           </button>
         </div>
+      </motion.div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
+        
+        {/* Resource Boundaries Card */}
+        <motion.div variants={itemVariants} className="lg:col-span-8 flex flex-col gap-6">
+          <div className="flex items-center gap-3 ml-1 mb-2">
+            <BarChart3 className="w-5 h-5 text-[var(--accent-brand)]" />
+            <h2 className="text-[20px] font-semibold text-[var(--text-primary)] tracking-tight">Resource Boundaries</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {metrics.map((metric, idx) => (
+              <MetricCard
+                key={idx}
+                label={metric.label}
+                used={metric.used}
+                limit={metric.limit}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Sync Card */}
+        <motion.div variants={itemVariants} className="lg:col-span-4">
+          <div className="bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] p-8 h-full flex flex-col relative overflow-hidden shadow-2xl group">
+             <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.03] to-transparent pointer-events-none" />
+             
+             <div className="flex items-center gap-3 mb-10 relative z-10">
+                <Clock className="w-5 h-5 text-[var(--text-tertiary)]" />
+                <h2 className="text-[18px] font-bold text-[var(--text-primary)] tracking-tight">Synchronization Cycle</h2>
+             </div>
+
+             <div className="flex-1 flex flex-col justify-center relative z-10">
+                <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.2em] mb-4">Quota Restoration</p>
+                <div className="space-y-1">
+                  <p className="text-[44px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
+                    {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </p>
+                  <p className="text-[16px] font-medium text-[var(--text-secondary)] tracking-tight">Automatic system reset</p>
+                </div>
+             </div>
+
+             <div className="mt-12 p-6 bg-[var(--text-primary)]/[0.03] rounded-[24px] border border-[var(--glass-border)] relative z-10 group-hover:bg-[var(--text-primary)]/[0.05] transition-colors">
+                <p className="text-[14px] text-[var(--text-secondary)] leading-relaxed font-medium">
+                  All system quotas and resource allowances will be automatically restored to their maximum values on the synchronization date.
+                </p>
+             </div>
+             
+             <div className="absolute bottom-[-20px] right-[-20px] w-40 h-40 bg-[var(--accent-brand)]/[0.02] rounded-full blur-3xl" />
+          </div>
+        </motion.div>
       </div>
 
-      <Card
-        title="Resource Boundaries"
-        description="Detailed breakdown of your current billing cycle's resource allocation."
-        icon={<TrendingUp className="w-4 h-4" />}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 px-2">
-          {metrics.map((metric) => (
-            <MetricCard
-              key={metric.id}
-              label={metric.label}
-              used={metric.used}
-              limit={metric.limit}
-              icon={null}
-            />
+      {/* Activity Log Placeholder */}
+      <motion.div variants={itemVariants} className="w-full bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] p-8 mt-8">
+        <div className="flex justify-between items-center mb-10">
+          <div className="flex items-center gap-3">
+             <Calendar className="w-5 h-5 text-[var(--text-tertiary)]" />
+             <h2 className="text-[18px] font-bold text-[var(--text-primary)] tracking-tight">System Events</h2>
+          </div>
+          <button className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest hover:text-[var(--text-primary)] transition-colors">View full log</button>
+        </div>
+        
+        <div className="space-y-4">
+          {[1, 2, 3].map(i => (
+             <div key={i} className="flex items-center justify-between py-4 border-b border-[var(--glass-border)] last:border-0 opacity-40 hover:opacity-100 transition-opacity group">
+                <div className="flex items-center gap-5">
+                   <div className="w-2 h-2 rounded-full bg-[var(--accent-brand)]" />
+                   <p className="text-[14px] font-medium text-[var(--text-primary)]">System-wide resource synchronization complete</p>
+                </div>
+                <div className="flex items-center gap-4">
+                   <span className="text-[12px] font-medium text-[var(--text-tertiary)]">{i} day ago</span>
+                   <ArrowUpRight size={14} className="text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)] transition-colors" />
+                </div>
+             </div>
           ))}
         </div>
-      </Card>
-
-      <Card
-        title="Cycle Synchronization"
-        description="System recovery and quota restoration details."
-        icon={<Clock className="w-4 h-4" />}
-      >
-        <div className="flex flex-col sm:flex-row items-center gap-12 py-4">
-          <div className="flex-1 space-y-4">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-tertiary)]">                 Next reset cycle</span>
-            <div className="font-display text-4xl sm:text-5xl font-black text-[var(--d-text-primary)]">
-               {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
-            </div>
-          </div>
-          <div className="flex-1 max-w-sm">
-            <p className="font-sans text-[15px] text-[var(--text-secondary)] leading-relaxed">
-               All system quotas and resource allowances will be automatically restored to
-               their maximum values on the synchronization date.
-            </p>
-          </div>
-        </div>
-      </Card>
+      </motion.div>
     </motion.div>
   );
 }
+

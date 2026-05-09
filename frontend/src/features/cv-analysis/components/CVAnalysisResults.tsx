@@ -29,14 +29,13 @@ const itemVariants = {
 export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps) {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"strengths" | "weaknesses">("strengths");
+  const { isDark } = useTheme();
 
   useEffect(() => {
     if (file && file instanceof File) {
       const url = URL.createObjectURL(file);
       setPdfUrl(url);
-      return () => {
-        if (url) URL.revokeObjectURL(url);
-      };
+      return () => { if (url) URL.revokeObjectURL(url); };
     }
   }, [file]);
 
@@ -55,64 +54,66 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
       className="space-y-8"
     >
       {/* Overview Card */}
-      <motion.div variants={itemVariants} className="bg-[#161616] border border-[#2a2a2a] rounded-[32px] overflow-hidden">
-        <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-[#2a2a2a]">
-          <div className="p-8 lg:p-12 flex flex-col items-center justify-center lg:min-w-[300px] bg-[#e6efdf] text-[#111]">
-            <span className="font-mono text-[11px] uppercase tracking-[0.2em] opacity-60 mb-4">MATCH SCORE</span>
-            <div className="font-sans text-[84px] font-bold leading-none tracking-tighter">
+      <motion.div variants={itemVariants} className="bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] overflow-hidden shadow-2xl relative group">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.02] to-transparent pointer-events-none" />
+        <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-[var(--glass-border)] relative z-10">
+          <div className="p-10 lg:p-16 flex flex-col items-center justify-center lg:min-w-[360px] bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] shadow-xl relative overflow-hidden group/score">
+            <div className="absolute inset-0 bg-white/[0.05] translate-y-full group-hover/score:translate-y-0 transition-transform duration-700" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] opacity-60 mb-6 relative z-10">Operational Match</span>
+            <div className="font-sans text-[104px] font-bold leading-none tracking-tighter relative z-10">
               {displayScore}<span className="text-[32px] opacity-40">%</span>
             </div>
-            <div className="mt-6 px-4 py-1.5 rounded-full bg-[#111] text-[#e6efdf] text-[10px] font-bold tracking-widest uppercase">
-              {data.seniorityFit?.replace(/_/g, " ")}
+            <div className="mt-8 px-6 py-2 rounded-full bg-[var(--bg-color)]/20 border border-white/10 text-[10px] font-bold tracking-widest uppercase relative z-10 backdrop-blur-md">
+              Fit: {data.seniorityFit?.replace(/_/g, " ")}
             </div>
           </div>
           
-          <div className="p-8 lg:p-12 flex-1 space-y-6">
+          <div className="p-10 lg:p-16 flex-1 space-y-8 flex flex-col justify-center">
             <div className="space-y-2">
-              <h2 className="font-sans text-[32px] font-medium tracking-tight text-white leading-tight">
+              <h2 className="text-[36px] font-bold tracking-tight text-[var(--text-primary)] leading-tight">
                 {data.targetJobTitle}
               </h2>
               <div className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-[#e6efdf]" />
-                <span className="font-mono text-[10px] tracking-widest text-white/40 uppercase">SEMANTIC VERDICT</span>
+                <div className="w-2 h-2 rounded-full bg-[var(--accent-brand)] animate-pulse" />
+                <span className="text-[11px] font-bold tracking-[0.2em] text-[var(--text-tertiary)] uppercase">Semantic Protocol Verdict</span>
               </div>
             </div>
-            <p className="font-sans text-[18px] text-white/70 leading-relaxed italic max-w-3xl">
+            <p className="text-[20px] text-[var(--text-secondary)] leading-relaxed italic max-w-3xl font-medium">
               &quot;{data.semanticVerdict}&quot;
             </p>
           </div>
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
         <div className="lg:col-span-7 space-y-8">
           {/* Dimensional Alignment */}
-          <div className="bg-[#161616] border border-[#2a2a2a] rounded-[24px] p-8 space-y-8">
+          <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] p-10 space-y-10 shadow-lg">
             <div className="flex items-center justify-between">
-              <h3 className="font-sans text-[16px] font-medium text-white tracking-tight">Dimensional Alignment</h3>
-              <div className="w-10 h-[1px] bg-[#2a2a2a]" />
+              <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight">Dimensional Alignment</h3>
+              <div className="w-12 h-[1px] bg-[var(--glass-border)]" />
             </div>
             
-            <div className="space-y-8">
+            <div className="space-y-10">
               {[
-                { label: "Technical Skills", value: Math.round(data.skillGap?.technicalAlignmentScore * 100 || 0) },
-                { label: "Experience Relevance", value: displayScore },
-                { label: "Critical Flags", value: data.redFlags?.length || 0, isCount: true }
+                { label: "Technical Capabilities", value: Math.round(data.skillGap?.technicalAlignmentScore * 100 || 0) },
+                { label: "Temporal Experience", value: displayScore },
+                { label: "Mission Critical Flags", value: data.redFlags?.length || 0, isCount: true }
               ].map((item, idx) => (
-                <div key={idx} className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-[13px] font-medium text-white/60 tracking-wide uppercase">{item.label}</span>
-                    <span className="font-mono text-[18px] font-medium text-white">
+                <div key={idx} className="space-y-4">
+                  <div className="flex items-end justify-between px-1">
+                    <span className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">{item.label}</span>
+                    <span className="text-[24px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
                       {item.value}{!item.isCount && "%"}
                     </span>
                   </div>
                   {!item.isCount && (
-                    <div className="h-[2px] w-full bg-[#2a2a2a] overflow-hidden rounded-full">
+                    <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] overflow-hidden rounded-full">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${item.value}%` }}
-                        transition={{ duration: 1.2, delay: 0.5 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                        className="h-full bg-[#e6efdf] shadow-[0_0_10px_rgba(230,239,223,0.3)]"
+                        transition={{ duration: 1.5, delay: 0.5 + idx * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        className="h-full bg-[var(--accent-brand)] shadow-[0_0_15px_rgba(223,231,216,0.3)] rounded-full"
                       />
                     </div>
                   )}
@@ -122,131 +123,115 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
           </div>
 
           {/* Feedback Tabs */}
-          <div className="bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden">
-            <div className="flex border-b border-[#2a2a2a]">
+          <div className="bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] overflow-hidden shadow-lg">
+            <div className="flex p-2 bg-[var(--text-primary)]/[0.02] border-b border-[var(--glass-border)] gap-2">
               <button 
                 onClick={() => setActiveTab("strengths")}
-                className={`flex-1 px-6 py-5 font-sans text-[13px] font-medium tracking-wide transition-all
+                className={`flex-1 px-6 py-4 rounded-[24px] text-[13px] font-bold tracking-tight transition-all duration-300
                   ${activeTab === "strengths" 
-                    ? "bg-[#1f1f1f] text-white border-b-2 border-[#e6efdf]" 
-                    : "text-white/30 hover:text-white/50 hover:bg-[#1a1a1a]"}`}
+                    ? "bg-[var(--bg-color)] text-[var(--text-primary)] shadow-sm border border-[var(--glass-border)]" 
+                    : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/[0.02]"}`}
               >
-                Core Strengths
+                Core Competencies
               </button>
               <button 
                 onClick={() => setActiveTab("weaknesses")}
-                className={`flex-1 px-6 py-5 font-sans text-[13px] font-medium tracking-wide transition-all
+                className={`flex-1 px-6 py-4 rounded-[24px] text-[13px] font-bold tracking-tight transition-all duration-300
                   ${activeTab === "weaknesses" 
-                    ? "bg-[#1f1f1f] text-[#ff6b6b] border-b-2 border-[#ff6b6b]" 
-                    : "text-white/30 hover:text-white/50 hover:bg-[#1a1a1a]"}`}
+                    ? "bg-red-500/10 text-red-500 shadow-sm border border-red-500/20" 
+                    : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/[0.02]"}`}
               >
-                Skill Gaps
+                Critical Gaps
               </button>
             </div>
 
-            <div className="p-8">
+            <div className="p-10">
               {activeTab === "strengths" ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {data.skillGap?.matchedSkills?.map((skill, i) => (
-                    <div key={i} className="flex items-center gap-3 p-4 bg-[#1a1a1a] border border-[#2a2a2a] rounded-[16px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#e6efdf]" />
-                      <span className="font-sans text-[14px] text-white/80">{skill}</span>
+                    <div key={i} className="flex items-center gap-4 p-5 bg-[var(--bg-color)]/40 border border-[var(--glass-border)] rounded-[20px] hover:border-[var(--accent-brand)]/30 transition-colors group">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] group-hover:scale-150 transition-transform" />
+                      <span className="text-[14px] font-bold text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{skill}</span>
                     </div>
                   ))}
                   {(!data.skillGap?.matchedSkills || data.skillGap.matchedSkills.length === 0) && (
-                    <p className="font-sans text-[14px] text-white/30 italic">No specific strengths highlighted.</p>
+                    <p className="text-[14px] text-[var(--text-tertiary)] italic font-medium">No specific strengths highlighted.</p>
                   )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {data.skillGap?.missingEssentials?.map((skill, i) => (
-                    <div key={i} className="flex items-center gap-3 p-4 bg-[#1a1a1a] border border-[#ff6b6b]/20 rounded-[16px]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#ff6b6b]" />
-                      <span className="font-sans text-[14px] text-[#ff6b6b]/80">{skill}</span>
+                    <div key={i} className="flex items-center gap-4 p-5 bg-red-500/[0.02] border border-red-500/10 rounded-[20px] hover:border-red-500/30 transition-colors group">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 group-hover:scale-150 transition-transform" />
+                      <span className="text-[14px] font-bold text-red-500/70 group-hover:text-red-500 transition-colors">{skill}</span>
                     </div>
                   ))}
                   {(!data.skillGap?.missingEssentials || data.skillGap.missingEssentials.length === 0) && (
-                    <p className="font-sans text-[14px] text-white/30 italic">No critical skill gaps detected.</p>
+                    <p className="text-[14px] text-[var(--text-tertiary)] italic font-medium">No critical skill gaps detected.</p>
                   )}
                 </div>
               )}
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] tracking-widest text-white/30 uppercase">EXPECTED INTERVIEW PROBES</span>
-              <div className="flex-1 h-[1px] bg-[#2a2a2a]" />
-            </div>
-            <div className="grid grid-cols-1 gap-4">
-              {data.interviewProbes?.map((probe, i) => (
-                <div key={i} className="p-6 border border-[#2a2a2a] bg-[#161616] rounded-[24px] font-sans text-[15px] leading-relaxed text-white/60 hover:text-white hover:border-[#3a3a3a] transition-all group">
-                  <div className="flex gap-4">
-                    <span className="font-mono text-[#e6efdf] opacity-40 group-hover:opacity-100 transition-opacity">0{i+1}</span>
-                    &quot;{probe}&quot;
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
 
         {/* Sidebar */}
         <div className="lg:col-span-5 space-y-8">
-          <div className="bg-[#161616] border border-[#2a2a2a] rounded-[24px] p-8 space-y-8">
-            <div className="flex items-center justify-between border-b border-[#2a2a2a] pb-6">
+          <div className="bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] p-10 space-y-10 shadow-xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[var(--text-primary)]/[0.01] to-transparent pointer-events-none" />
+            <div className="flex items-center justify-between border-b border-[var(--glass-border)] pb-8 relative z-10">
               <div className="space-y-1">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-white/30">DOCUMENT SOURCE</span>
-                <p className="font-sans text-[14px] font-medium text-white truncate max-w-[200px]">{file?.name}</p>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-tertiary)]">System Input</span>
+                <p className="text-[15px] font-bold text-[var(--text-primary)] truncate max-w-[220px] tracking-tight">{file?.name}</p>
               </div>
-              <div className="px-3 py-1 rounded-full bg-[#1a1a1a] border border-[#2a2a2a] font-mono text-[10px] text-[#e6efdf] uppercase tracking-widest">
-                {file?.name?.split('.').pop()}
+              <div className="px-4 py-1.5 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] text-[10px] font-bold text-[var(--accent-brand)] uppercase tracking-widest backdrop-blur-md">
+                {file?.name?.split('.').pop()} Node
               </div>
             </div>
 
-            <div className="aspect-[1/1.4] w-full border border-[#2a2a2a] bg-[#0d0d0d] overflow-hidden rounded-[16px] relative group shadow-inner">
+            <div className="aspect-[1/1.4] w-full border border-[var(--glass-border)] bg-[var(--bg-color)] overflow-hidden rounded-[24px] relative group shadow-inner transition-all duration-500 hover:scale-[1.01]">
               {pdfUrl ? (
                 <iframe 
                   src={pdfUrl + "#toolbar=0&navpanes=0&scrollbar=0"} 
-                  className="w-full h-full border-none grayscale invert contrast-[1.1] opacity-60 group-hover:opacity-100 transition-opacity"
+                  className={`w-full h-full border-none opacity-60 group-hover:opacity-100 transition-opacity ${isDark ? 'grayscale invert contrast-[1.1]' : ''}`}
                   title="CV Preview"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center font-mono text-[11px] text-white/10">
-                  NO PREVIEW AVAILABLE
+                <div className="w-full h-full flex items-center justify-center font-bold text-[10px] text-[var(--text-tertiary)] uppercase tracking-widest">
+                  Buffer Empty
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)]/60 via-transparent to-transparent pointer-events-none" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 relative z-10">
               <button 
-                className="px-4 py-3 text-[11px] font-bold uppercase tracking-widest transition-all bg-transparent text-white border border-[#2a2a2a] hover:bg-[#1f1f1f] rounded-full"
+                className="h-14 flex items-center justify-center text-[11px] font-bold uppercase tracking-widest transition-all bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full shadow-lg hover:opacity-90"
                 onClick={() => window.open(pdfUrl || "", "_blank")}
               >
-                EXPAND PREVIEW
+                Expand View
               </button>
               <button 
-                className="px-4 py-3 text-[11px] font-bold uppercase tracking-widest transition-all bg-[#1a1a1a] text-white/40 hover:text-white border border-[#2a2a2a] rounded-full"
+                className="h-14 flex items-center justify-center text-[11px] font-bold uppercase tracking-widest transition-all bg-transparent text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--text-primary)]/[0.05] rounded-full"
                 onClick={() => window.location.reload()}
               >
-                RESET ENGINE
+                Reset Engine
               </button>
             </div>
           </div>
 
           {/* Red Flags Section */}
           {data.redFlags?.length > 0 && (
-            <div className="bg-red-500/5 border border-red-500/20 rounded-[24px] p-8 space-y-6">
-               <div className="flex items-center gap-3">
-                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                 <span className="font-mono text-[10px] uppercase tracking-widest text-red-500">Critical Red Flags</span>
+            <div className="bg-red-500/[0.02] border border-red-500/20 rounded-[32px] p-10 space-y-8 shadow-xl">
+               <div className="flex items-center gap-4">
+                 <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-red-500">System Integrity Alerts</span>
                </div>
               <div className="space-y-4">
                 {data.redFlags.map((flag, i) => (
-                  <div key={i} className="font-sans text-[14px] text-red-500/80 flex items-start gap-4 p-4 bg-red-500/5 rounded-[16px] border border-red-500/10">
-                    <span className="font-mono text-[12px] opacity-40">!</span>
-                    <span>{flag}</span>
+                  <div key={i} className="text-[14px] text-red-500/80 font-medium flex items-start gap-4 p-5 bg-red-500/[0.03] rounded-[24px] border border-red-500/10">
+                    <span className="font-bold text-[16px] opacity-40 shrink-0">!</span>
+                    <span className="leading-relaxed">{flag}</span>
                   </div>
                 ))}
               </div>

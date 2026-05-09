@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap, Briefcase, Layout, FileSearch } from "lucide-react";
+import { BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap, Briefcase, Layout, FileSearch, TrendingUp, Calendar, AlertCircle, CreditCard, Receipt } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
 import BillingNav, {
   type BillingSection,
@@ -19,13 +19,6 @@ import {
   MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
 } from "@/features/billing/constants/mockData";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -43,50 +36,54 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
   const isExhausted = !isUnlimited && used >= limit;
 
   return (
-    <div className="p-4 sm:p-5 bg-[#161616] rounded-[16px] border border-[#2a2a2a]">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-[12px] flex items-center justify-center bg-[#2a2a2a]">
+    <div className="p-6 bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[24px] hover:bg-[var(--glass-bg)]/80 transition-all duration-300 group">
+      <div className="flex items-start justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] transition-colors group-hover:bg-[var(--accent-brand)] group-hover:border-[var(--accent-brand)] group-hover:text-[var(--accent-brand-contrast)]">
             {icon}
           </div>
           <div>
-            <p className="text-sm font-medium text-white/80">
+            <p className="text-[14px] font-bold text-[var(--text-primary)] tracking-tight">
               {label}
             </p>
             {sublabel && (
-              <p className="text-xs text-white/35">
+              <p className="text-[11px] font-medium text-[var(--text-tertiary)] mt-0.5">
                 {sublabel}
               </p>
             )}
           </div>
         </div>
         {isUnlimited ? (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold bg-[#e6efdf] text-[#111111] rounded-full">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/>
-            </svg>
-            Unlimited
-          </span>
+          <div className="px-3 py-1 rounded-full bg-[var(--accent-brand)]/10 border border-[var(--accent-brand)]/20">
+             <span className="text-[10px] font-bold text-[var(--accent-brand)] uppercase tracking-widest flex items-center gap-1.5">
+               <Infinity size={10} /> Unlimited
+             </span>
+          </div>
         ) : (
-          <p className="text-xl sm:text-2xl font-bold text-white">
-            {used}
-            <span className="text-sm font-normal text-white/50">
-              /{limit}
-            </span>
-          </p>
+          <div className="flex flex-col items-end">
+             <p className="text-[20px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
+               {used}
+             </p>
+             <p className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest mt-1">
+               Of {limit}
+             </p>
+          </div>
         )}
       </div>
       {!isUnlimited && (
-        <div className="h-2 overflow-hidden rounded-full bg-[#2a2a2a]">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${percentage}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-full rounded-full"
-            style={{
-              backgroundColor: isExhausted ? "var(--d-error)" : "#e6efdf",
-            }}
-          />
+        <div className="space-y-3">
+          <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${percentage}%` }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className={`h-full rounded-full transition-all duration-500 ${isExhausted ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+             <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">{Math.round(percentage)}% capacity used</span>
+             {isExhausted && <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Exhausted</span>}
+          </div>
         </div>
       )}
     </div>
@@ -110,24 +107,20 @@ export default function BillingPage() {
     { title: string; description: string }
   > = {
     subscription: {
-      title: "Platform Subscription",
-      description:
-        "Manage your system access level and upgrade or downgrade your plan.",
+      title: "Active Access Level",
+      description: "Manage your system tier and platform capabilities.",
     },
     resources: {
-      title: "Resource Usage",
-      description:
-        "Track your monthly consumption across all AI-powered features.",
+      title: "Resource Allocation",
+      description: "Temporal consumption of AI-powered system units.",
     },
     payment: {
-      title: "Payment Method",
-      description:
-        "Add or update your payment methods and billing address.",
+      title: "Financial Interface",
+      description: "Secure management of transaction protocols and entities.",
     },
     invoices: {
-      title: "Billing History",
-      description:
-        "View and download invoices for all your past transactions.",
+      title: "Transaction Ledger",
+      description: "Archival record of platform value exchanges.",
     },
   };
 
@@ -255,25 +248,29 @@ export default function BillingPage() {
       case "subscription":
         return (
           <>
-            <div className="bg-[#161616] rounded-[16px] border border-[#2a2a2a] overflow-hidden mb-8">
+            <div className="mb-10">
               <CurrentSubscription
                 subscription={subscription}
                 plan={currentPlan!}
               />
             </div>
 
-            <div className="mb-8">
-              <div className="flex items-center gap-2 p-1 bg-[#1f1f1f] rounded-[8px] w-fit">
-                <span className="px-4 py-1.5 text-[10px] font-black tracking-widest bg-[#e6efdf] text-[#111111] shadow-sm rounded-[6px]">
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="space-y-1">
+                 <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight">Available Architecture</h3>
+                 <p className="text-[14px] text-[var(--text-tertiary)] font-medium">Select a node tier for your system operations</p>
+              </div>
+              <div className="flex items-center gap-2 p-1 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-full w-fit">
+                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] shadow-lg rounded-full">
                   Monthly
-                </span>
-                <span className="px-4 py-1.5 text-[10px] font-black tracking-widest text-white/30 cursor-not-allowed">
+                </button>
+                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--text-tertiary)] cursor-not-allowed">
                   Annual
-                </span>
+                </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {filteredPlans.map((plan) => (
                 <SubscriptionCard
                   key={`${plan.id}-${plan.billingPeriod}`}
@@ -292,34 +289,34 @@ export default function BillingPage() {
         );
       case "resources":
         return (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <UsageMetric
-              icon={<BrainCircuit size={16} className="text-[#e6efdf]" />}
+              icon={<BrainCircuit size={16} />}
               label="CV Analyses"
               used={usage.cvAnalysisUsed}
               limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
             />
             <UsageMetric
-              icon={<FileSearch size={16} className="text-[#e6efdf]" />}
+              icon={<FileSearch size={16} />}
               label="Job Searches"
               used={usage.jobSearchUsed}
               limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
               sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
             />
             <UsageMetric
-              icon={<Mic2 size={16} className="text-[#e6efdf]" />}
+              icon={<Mic2 size={16} />}
               label="Interview Sessions"
               used={usage.interviewUsed}
               limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
             />
             <UsageMetric
-              icon={<Rocket size={16} className="text-[#e6efdf]" />}
+              icon={<Rocket size={16} />}
               label="Auto Applications"
               used={usage.autoApplyUsed}
               limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
             />
             <UsageMetric
-              icon={<FileText size={16} className="text-[#e6efdf]" />}
+              icon={<FileText size={16} />}
               label="CV Versions"
               used={usage.cvVersionsStored}
               limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
@@ -328,14 +325,22 @@ export default function BillingPage() {
         );
       case "payment":
         return (
-          <div className="bg-[#161616] rounded-[16px] border border-[#2a2a2a] p-8 text-center">
-            <p className="text-white/50">Payment method management coming soon</p>
+          <div className="bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center mx-auto mb-6">
+               <CreditCard className="text-[var(--text-tertiary)]" size={24} />
+            </div>
+            <h3 className="text-[20px] font-bold text-[var(--text-primary)] mb-2">Financial Interface Offline</h3>
+            <p className="text-[var(--text-secondary)] font-medium max-w-xs mx-auto">Payment method management is currently undergoing maintenance.</p>
           </div>
         );
       case "invoices":
         return (
-          <div className="bg-[#161616] rounded-[16px] border border-[#2a2a2a] p-8 text-center">
-            <p className="text-white/50">Invoice history coming soon</p>
+          <div className="bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center mx-auto mb-6">
+               <Receipt className="text-[var(--text-tertiary)]" size={24} />
+            </div>
+            <h3 className="text-[20px] font-bold text-[var(--text-primary)] mb-2">Archive Records</h3>
+            <p className="text-[var(--text-secondary)] font-medium max-w-xs mx-auto">Invoice history will be available shortly after your first transaction.</p>
           </div>
         );
       default:
@@ -346,49 +351,42 @@ export default function BillingPage() {
   return (
     <motion.div
       initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-7xl mx-auto"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+      }}
+      className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8"
     >
-      <div className="mb-12">
-        <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize mb-3">
-          System Configuration
-        </h1>
-        <p className="font-sans text-[15px] max-w-2xl text-[rgba(255,255,255,0.5)] leading-relaxed">
-          Manage your platform subscription, billing cycles, and resource allowances.
-        </p>
-      </div>
-
-      <motion.div variants={fadeUp} className="lg:hidden mb-8">
-        <div className="flex gap-2 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar">
-          {(["subscription", "resources", "payment", "invoices"] as BillingSection[]).map((id) => {
-            const isActive = activeSection === id;
-            return (
-              <button
-                key={id}
-                onClick={() => setActiveSection(id)}
-                className={`flex-shrink-0 px-6 py-3 text-[11px] font-black tracking-[0.2em] border transition-all ${
-                  isActive ? "bg-[#e6efdf] text-[#111111] border-[#e6efdf]" : "bg-[#161616] text-white/50 border-[#2a2a2a]"
-                }`}
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                {sectionTitles[id].title.split(" ")[0]}
-              </button>
-            );
-          })}
+      <motion.div 
+        variants={{
+          hidden: { y: 20, opacity: 0 },
+          visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: smoothEase } }
+        }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-8"
+      >
+        <div className="space-y-1">
+          <h1 className="text-[44px] md:text-[56px] font-semibold text-[var(--text-primary)] tracking-[-0.04em] leading-none">
+            Billing
+          </h1>
+          <p className="text-[var(--text-secondary)] text-[14px] font-medium tracking-tight">System tiers and resource synchronization</p>
         </div>
       </motion.div>
 
-      <motion.div
-        variants={fadeUp}
-        className="flex flex-col lg:flex-row gap-8 lg:gap-10"
-      >
-        <div className="w-60 shrink-0 hidden lg:block">
-          <div className="sticky top-24">
+      <div className="flex flex-col lg:flex-row gap-10 mt-4">
+        <div className="w-full lg:w-72 shrink-0">
+          <div className="sticky top-28 space-y-6">
             <BillingNav
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
+            <div className="px-6 py-6 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-[24px]">
+               <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.15em] mb-3">Sync Status</p>
+               <div className="flex items-center gap-2 text-[var(--accent-brand)]">
+                  <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                  <span className="text-[13px] font-semibold tracking-tight">Active Connection</span>
+               </div>
+            </div>
           </div>
         </div>
 
@@ -396,40 +394,36 @@ export default function BillingPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              transition={{ duration: 0.25, ease: smoothEase }}
-              className="mb-10"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              className="mb-12"
             >
-              <div className="flex items-baseline gap-4 mb-2">
-                <h2 className="font-display text-3xl font-black tracking-tight text-white capitalize">
-                  {title.split(" & ")[0]}
+              <div className="flex items-baseline gap-4 mb-3">
+                <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
+                  {title}
                 </h2>
-                <span className="text-white/30 font-display text-2xl font-light italic">
-                  {title.split(" & ")[1] ? `& ${title.split(" & ")[1]}` : ""}
-                </span>
               </div>
-              <p className="text-[14px] text-white/50 max-w-xl leading-relaxed">
+              <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-[#2a2a2a] mt-6" />
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-8" />
             </motion.div>
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${activeSection}`}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, y: -4, transition: { duration: 0.12 } }}
-              variants={dashboardStagger(0.03, 0.02)}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: smoothEase }}
             >
               {renderSection(activeSection)}
             </motion.div>
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
 
       <DowngradeConfirmModal
         isOpen={showDowngradeModal}

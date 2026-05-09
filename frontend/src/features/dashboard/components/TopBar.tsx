@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, Menu, X, LogOut, Settings as SettingsIcon } from "lucide-react";
+import { ChevronDown, Menu, X, LogOut, Settings as SettingsIcon, Sun, Moon } from "lucide-react";
 import { useMemberSettings } from "@/features/settings/hooks/useMember";
 import { useSubscription } from "@/features/billing/hooks/useSubscription";
 import { logoutAction } from "@/features/auth/action";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export default function TopBar() {
   const pathname = usePathname();
+  const { isDark, toggleTheme } = useTheme();
   const { data: member } = useMemberSettings();
   const { data: subscription } = useSubscription();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,36 +27,35 @@ export default function TopBar() {
     { name: "Billing", href: "/billing" },
     { name: "Settings", href: "/settings" },
   ];
-
   return (
     <>
-      <header className="h-[72px] flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40 bg-[#070707]/60 backdrop-blur-xl border-b border-white/[0.03]">
+      <header className="h-[72px] flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40 bg-[var(--bg-color)]/60 backdrop-blur-xl border-b border-[var(--glass-border)] transition-colors duration-300">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="font-sans text-[15px] font-semibold tracking-[-0.03em] text-white">arcaive</span>
+            <span className="font-sans text-[15px] font-semibold tracking-[-0.03em] text-[var(--text-primary)]">arcaive</span>
           </Link>
-          <div className="h-4 w-[1px] bg-white/10 hidden md:block" />
-          <nav className="hidden md:flex items-center gap-5">
+          <div className="h-4 w-[1px] bg-[var(--text-primary)]/10 hidden md:block" />
+          <nav className="hidden md:flex items-center gap-6 overflow-x-auto no-scrollbar">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href || (pathname === "/" && link.href === "/overview");
+              const isActive = pathname === link.href || (pathname === "/overview" && link.name === "Overview");
               return (
                 <Link
                   key={link.name}
                   href={link.href}
                   className={`font-sans text-[12px] font-medium transition-all duration-200 whitespace-nowrap relative py-1 ${
-                    isActive ? "text-white" : "text-white/40 hover:text-white/70"
+                    isActive ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]/70"
                   }`}
                 >
                   {link.name}
                   {isActive && (
-                    <div className="absolute -bottom-[26px] left-0 right-0 h-[1px] bg-white/60" />
+                    <div className="absolute -bottom-[26px] left-0 right-0 h-[1px] bg-[var(--text-primary)]/60" />
                   )}
                 </Link>
               );
             })}
           </nav>
           <button 
-            className="md:hidden text-white/50 hover:text-white"
+            className="md:hidden text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="w-5 h-5" />
@@ -63,24 +64,36 @@ export default function TopBar() {
 
         <div className="flex items-center gap-4 relative">
           <button 
-            onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="flex items-center gap-2.5 group pl-3 py-1.5 border-l border-white/5"
+            onClick={toggleTheme}
+            className="w-9 h-9 flex items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)]/50 text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all duration-300 group/theme mr-2"
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-white/10 to-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-               <span className="text-[10px] text-white/60 font-medium uppercase">{member?.memberFullName?.charAt(0) || "U"}</span>
+            {isDark ? (
+              <Sun className="w-[14px] h-[14px] text-[var(--text-primary)]/60 group-hover/theme:text-[var(--text-primary)] transition-colors" />
+            ) : (
+              <Moon className="w-[14px] h-[14px] text-[var(--text-primary)]/60 group-hover/theme:text-[var(--text-primary)] transition-colors" />
+            )}
+          </button>
+
+          <button 
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            className="flex items-center gap-2.5 group pl-3 py-1.5 border-l border-[var(--glass-border)]"
+          >
+            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[var(--text-primary)]/10 to-[var(--text-primary)]/5 border border-[var(--glass-border)] flex items-center justify-center overflow-hidden">
+               <span className="text-[10px] text-[var(--text-primary)]/60 font-medium uppercase">{member?.memberFullName?.charAt(0) || "U"}</span>
             </div>
-            <span className="font-sans text-[12px] font-medium text-white/80 group-hover:text-white transition-colors">
+            <span className="font-sans text-[12px] font-medium text-[var(--text-primary)]/80 group-hover:text-[var(--text-primary)] transition-colors">
               {member?.memberFullName?.split(' ')[0] || "Account"}
             </span>
-            <ChevronDown className={`w-3 h-3 text-white/30 transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`w-3 h-3 text-[var(--text-primary)]/30 transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {userMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-52 bg-[#0d0d0d] border border-white/[0.05] rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] py-2.5 z-50 backdrop-blur-2xl">
-              <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.03] text-white/60 hover:text-white transition-colors text-[12px] font-medium">
+            <div className="absolute right-0 top-full mt-2 w-52 bg-[var(--bg-color)] border border-[var(--glass-border)] rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] py-2.5 z-50 backdrop-blur-2xl">
+              <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--text-primary)]/[0.03] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-[12px] font-medium">
                 <SettingsIcon className="w-3.5 h-3.5" /> Settings
               </Link>
-              <div className="my-1 border-t border-white/[0.03]" />
+              <div className="my-1 border-t border-[var(--glass-border)]" />
               <form action={async () => {
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("token");

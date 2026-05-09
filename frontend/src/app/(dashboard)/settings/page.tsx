@@ -29,24 +29,24 @@ export default function SettingsPage() {
     { title: string; description: string }
   > = {
     identity: {
-      title: "Identity & Authentication",
+      title: "Digital Identity",
       description:
-        "Manage your profile, password, multi-factor authentication, and linked accounts.",
+        "Manage your profile parameters, cryptographic security, and linked access nodes.",
     },
     career: {
       title: "Career Intelligence",
       description:
-        "Upload your resume, manage achievements, and define target roles for the Discovery Agent.",
+        "Archival records and role vector suggestions for AI discovery agents.",
     },
     agents: {
       title: "Agent Configuration",
       description:
-        "Fine-tune your AI agents — thresholds, persona, model selection, and filters.",
+        "Threshold optimization, persona selection, and LLM model routing.",
     },
     notifications: {
-      title: "Notifications & System",
+      title: "System Synchronization",
       description:
-        "Configure alerts, theme preferences, and data privacy options.",
+        "Configure temporal alerts, theme preference, and data privacy protocols.",
     },
   };
 
@@ -74,86 +74,79 @@ export default function SettingsPage() {
   return (
     <motion.div
       initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-7xl mx-auto"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+      }}
+      className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8"
     >
-      <div className="mb-12">
-        <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize mb-3">
-          System Configuration
-        </h1>
-        <p className="font-sans text-[15px] max-w-2xl text-[rgba(255,255,255,0.5)] leading-relaxed">
-          Fine-tune your platform experience, manage AI agent parameters, and secure your digital identity through our centralized command interface.
-        </p>
-      </div>
-      <motion.div variants={fadeUp} className="lg:hidden mb-8">
-        <div className="flex gap-2 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar">
-          {(["identity", "career", "agents", "notifications"] as SettingsSection[]).map((id) => {
-            const isActive = activeSection === id;
-            return (
-              <button
-                key={id}
-                onClick={() => setActiveSection(id)}
-                 className={`flex-shrink-0 px-6 py-3 text-[11px] font-black tracking-[0.2em] border transition-all ${
-                   isActive ? "bg-[#e6efdf] text-[#111111] border-[#e6efdf]" : "bg-[#161616] text-white/50 border-[#2a2a2a]"
-                 }`}
-                style={{ borderRadius: "var(--radius)" }}
-              >
-                {sectionTitles[id].title.split(" ")[0]}
-              </button>
-            );
-          })}
+      <motion.div 
+        variants={{
+          hidden: { y: 20, opacity: 0 },
+          visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: smoothEase } }
+        }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-8"
+      >
+        <div className="space-y-1">
+          <h1 className="text-[44px] md:text-[56px] font-semibold text-[var(--text-primary)] tracking-[-0.04em] leading-none">
+            Settings
+          </h1>
+          <p className="text-[var(--text-secondary)] text-[14px] font-medium tracking-tight">System configuration and identity management</p>
         </div>
       </motion.div>
-      <motion.div
-        variants={fadeUp}
-        className="flex flex-col lg:flex-row gap-8 lg:gap-10"
-      >
-        <div className="w-60 shrink-0 hidden lg:block">
-          <div className="sticky top-24">
+
+      <div className="flex flex-col lg:flex-row gap-10 mt-4">
+        <div className="w-full lg:w-72 shrink-0">
+          <div className="sticky top-28 space-y-6">
             <SettingsNav
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
+            <div className="px-6 py-6 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-[24px]">
+               <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.15em] mb-3">System Integrity</p>
+               <div className="flex items-center gap-2 text-[var(--accent-brand)]">
+                  <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                  <span className="text-[13px] font-semibold tracking-tight">Verified Protocol</span>
+               </div>
+            </div>
           </div>
         </div>
+
         <div className="flex-1 min-w-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              transition={{ duration: 0.25, ease: smoothEase }}
-              className="mb-10"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              className="mb-12"
             >
-              <div className="flex items-baseline gap-4 mb-2">
-                  <h2 className="font-display text-3xl font-black tracking-tight text-[var(--text-primary)] capitalize">
-                    {title.split(" & ")[0]}
-                  </h2>
-                  <span className="text-[var(--text-tertiary)] font-display text-2xl font-light italic">
-                   {title.split(" & ")[1] ? `& ${title.split(" & ")[1]}` : ""}
-                 </span>
+              <div className="flex items-baseline gap-4 mb-3">
+                <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
+                  {title}
+                </h2>
               </div>
-              <p className="text-[14px] text-[var(--text-secondary)] max-w-xl leading-relaxed">
+              <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-[var(--d-border)] mt-6" />
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-8" />
             </motion.div>
           </AnimatePresence>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${activeSection}`}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, y: -4, transition: { duration: 0.12 } }}
-              variants={dashboardStagger(0.03, 0.02)}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: smoothEase }}
             >
               {renderSection(activeSection)}
             </motion.div>
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

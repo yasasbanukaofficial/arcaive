@@ -8,12 +8,12 @@ import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 
 function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#070707] text-[#e4e4e4] font-sans selection:bg-[#dfe7d8] selection:text-black antialiased">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-brand)] selection:text-[var(--accent-brand-contrast)] antialiased transition-colors duration-300">
       {/* Dark Tech Noise Overlay - Scoped to Dashboard */}
       <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.015] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       <TopBar />
       <main className="w-full px-4 md:px-6 lg:px-8 py-6 md:py-8">
-        <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh] text-white/20 animate-pulse font-medium tracking-widest uppercase text-xs">Loading arcaive dashboard...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh] text-[var(--text-primary)]/20 animate-pulse font-medium tracking-widest uppercase text-xs">Loading arcaive dashboard...</div>}>
           {children}
         </Suspense>
       </main>

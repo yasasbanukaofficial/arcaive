@@ -69,13 +69,14 @@ export default function CVAnalysisModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="absolute inset-0 bg-black/70" onClick={() => status !== "uploading" && onClose()} />
+        <div className="absolute inset-0 bg-[var(--bg-color)]/80 backdrop-blur-md" onClick={() => status !== "uploading" && onClose()} />
         
         <motion.div
-          initial={{ opacity: 0, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 0 }}
-          className="relative w-full max-w-[560px] bg-[#161616] border border-[#2a2a2a] overflow-hidden rounded-[24px]"
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full max-w-[600px] bg-[var(--d-surface)] border border-[var(--glass-border)] overflow-hidden rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.5)]"
         >
           <AnimatePresence mode="wait">
             {status === "uploading" ? (
@@ -84,7 +85,7 @@ export default function CVAnalysisModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="p-[48px]"
+                className="p-16"
               >
                 <CVAnalysisLoading />
               </motion.div>
@@ -96,24 +97,24 @@ export default function CVAnalysisModal({
                 exit={{ opacity: 0 }}
                 className="relative z-10 flex flex-col"
               >
-                <div className="flex items-center justify-between px-10 py-8">
+                <div className="flex items-center justify-between px-10 py-10">
                   <div className="space-y-1">
-                    <h2 className="font-sans text-[20px] font-medium text-white tracking-tight">
-                      Analysis Configuration
+                    <h2 className="text-[24px] font-bold text-[var(--text-primary)] tracking-tight">
+                      Protocol Configuration
                     </h2>
-                    <p className="font-sans text-[12px] text-white/40">Set parameters for the matching engine.</p>
+                    <p className="text-[13px] font-medium text-[var(--text-secondary)]">Define parameters for semantic alignment.</p>
                   </div>
                   <button
                     onClick={onClose}
-                    className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white border border-[#2a2a2a] hover:bg-[#1f1f1f] transition-all rounded-full"
+                    className="w-10 h-10 flex items-center justify-center text-[var(--text-tertiary)] hover:text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--text-primary)]/[0.05] transition-all rounded-full"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="px-10 space-y-8">
+                <div className="px-10 space-y-10">
                   <FileUpload
-                    label="Your Resume Document"
+                    label="Source Document"
                     files={files}
                     onFilesChange={setFiles}
                     status={status}
@@ -123,8 +124,8 @@ export default function CVAnalysisModal({
                   />
 
                   <TextArea
-                    label="Target Job Description"
-                    placeholder="Paste the job description here..."
+                    label="Target parameters (Job Description)"
+                    placeholder="Input organizational requirements here..."
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                     rows={8}
@@ -132,20 +133,20 @@ export default function CVAnalysisModal({
                   />
                 </div>
 
-                <div className="px-10 py-10 flex justify-end gap-6 border-t border-[#2a2a2a] mt-8 bg-[#1a1a1a]/40">
+                <div className="px-10 py-10 flex justify-end gap-6 border-t border-[var(--glass-border)] mt-12 bg-[var(--text-primary)]/[0.02]">
                   <button
-                    className="text-[12px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors"
+                    className="text-[12px] font-bold uppercase tracking-widest text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
                     onClick={onClose}
                     disabled={status === "uploading"}
                   >
-                    Cancel
+                    Terminate
                   </button>
                   <button
                     onClick={handleAnalyze}
                     disabled={files.length === 0 || !jobDescription.trim() || status === "uploading"}
-                    className="px-8 py-3 text-[12px] font-bold uppercase tracking-widest transition-all bg-[#e6efdf] text-[#111] hover:opacity-90 active:scale-[0.98] rounded-full disabled:opacity-20 shadow-[0_4px_20px_rgba(230,239,223,0.15)]"
+                    className="px-10 py-4 text-[13px] font-bold uppercase tracking-widest transition-all bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 active:scale-95 rounded-full disabled:opacity-20 shadow-xl"
                   >
-                    Run alignment →
+                    Execute Alignment →
                   </button>
                 </div>
               </motion.div>

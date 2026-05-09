@@ -17,61 +17,61 @@ export default function CVAnalysisLoading() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, 2000);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center py-10 text-center">
-      <div className="relative mb-12">
-        <div className="w-20 h-20 rounded-full border border-[#2a2a2a] flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center py-12 text-center">
+      <div className="relative mb-16">
+        <div className="w-24 h-24 rounded-full border border-[var(--glass-border)] flex items-center justify-center relative">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 rounded-full border-t-2 border-r-2 border-[#e6efdf] shadow-[0_0_15px_rgba(230,239,223,0.3)]"
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="w-20 h-20 rounded-full border-t-2 border-r-2 border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.2)]"
           />
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-mono text-[10px] text-[#e6efdf] font-bold">AI</span>
+          <div className="absolute inset-0 flex items-center justify-center">
+             <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] animate-pulse" />
+          </div>
         </div>
       </div>
 
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-10">
         <div className="space-y-3">
-          <h3 className="font-sans text-[24px] font-medium text-white tracking-tight">
-            Neural Alignment
+          <h3 className="text-[28px] font-bold text-[var(--text-primary)] tracking-tight">
+            Neural Processing
           </h3>
-          <p className="font-sans text-[13px] text-white/40 max-w-[280px] mx-auto">
-            Our multi-agent system is processing your professional data.
+          <p className="text-[14px] font-medium text-[var(--text-secondary)] max-w-[320px] mx-auto leading-relaxed">
+            Initializing high-precision semantic alignment between entities.
           </p>
         </div>
         
-        <div className="h-12 flex items-center justify-center">
+        <div className="h-14 flex items-center justify-center bg-[var(--text-primary)]/[0.02] border border-[var(--glass-border)] rounded-[20px] px-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#e6efdf] font-bold">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent-brand)]">
                 {steps[currentStep]}
               </p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-3">
           {steps.map((_, i) => (
             <motion.div 
               key={i} 
               animate={{ 
-                scale: i === currentStep ? 1.2 : 1,
-                backgroundColor: i === currentStep ? "#e6efdf" : "#2a2a2a",
-                opacity: i === currentStep ? 1 : 0.3
+                scaleY: i === currentStep ? 1.5 : 1,
+                backgroundColor: i === currentStep ? "var(--accent-brand)" : "var(--glass-border)",
+                opacity: i === currentStep ? 1 : 0.4
               }}
-              className="h-1 w-8 rounded-full transition-colors duration-500"
+              className="h-1 w-10 rounded-full transition-all duration-700"
             />
           ))}
         </div>

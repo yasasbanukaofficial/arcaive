@@ -40,27 +40,27 @@ export default function TextArea({
   return (
     <div className={`flex flex-col ${className}`}>
       {label && (
-        <div className="flex items-center justify-between mb-2.5">
-          <label className="font-sans text-[12px] font-medium text-white/60 flex items-center gap-1.5">
+        <div className="flex items-center justify-between mb-3 ml-1">
+          <label className="text-[12px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.1em] flex items-center gap-1.5">
             {label}
-            {required && <span className="text-[#e6efdf]">*</span>}
+            {required && <span className="text-[var(--accent-brand)]">*</span>}
           </label>
           {maxLength && (
-            <span className={`font-mono text-[10px] ${value.length >= maxLength * 0.9 ? "text-[#e6efdf]" : "text-white/25"}`}>
-              {value.length}/{maxLength}
+            <span className={`text-[10px] font-bold uppercase tracking-widest ${value.length >= maxLength * 0.9 ? "text-[var(--accent-brand)]" : "text-[var(--text-tertiary)]"}`}>
+              {value.length} / {maxLength}
             </span>
           )}
         </div>
       )}
       <div className={`
-        relative rounded-[16px] bg-[#0d0d0d] border transition-all duration-200
+        relative rounded-[24px] bg-[var(--text-primary)]/[0.03] border transition-all duration-300
         ${error 
-          ? "border-red-500/50 focus-within:border-red-500/70 focus-within:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]" 
+          ? "border-red-500/30 focus-within:border-red-500/50" 
           : isFocused 
-            ? "border-[#e6efdf]/50 shadow-[0_0_0_3px_rgba(230,239,223,0.1)]" 
-            : "border-[#2a2a2a] hover:border-[#3a3a3a]"
+            ? "border-[var(--text-primary)]/20 bg-[var(--bg-color)] shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
+            : "border-[var(--glass-border)] hover:border-[var(--text-primary)]/10"
         }
-        ${disabled ? "opacity-40 cursor-not-allowed" : ""}
+        ${disabled ? "opacity-20 cursor-not-allowed" : ""}
       `}>
         <textarea
           name={name}
@@ -74,14 +74,14 @@ export default function TextArea({
           rows={rows}
           maxLength={maxLength}
           className={`
-            w-full px-4 py-3.5 font-sans text-[14px] text-white placeholder:text-white/20 outline-none bg-transparent
-            transition-colors duration-200 min-h-[120px]
+            w-full px-6 py-5 text-[14px] font-medium text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] outline-none bg-transparent
+            transition-colors duration-300 min-h-[140px]
             ${resize === "none" ? "resize-none" : "resize-y"}
           `}
         />
         {error && (
-          <div className="absolute top-3 right-3">
-            <AlertCircle className="w-4 h-4 text-red-400" />
+          <div className="absolute top-4 right-4">
+            <AlertCircle className="w-4 h-4 text-red-400/60" />
           </div>
         )}
       </div>
@@ -91,14 +91,14 @@ export default function TextArea({
             initial={{ opacity: 0, y: -4, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -4, height: 0 }}
-            className="font-sans text-[11px] text-red-400 mt-2 flex items-center gap-1"
+            className="text-[11px] font-semibold text-red-500/80 mt-2.5 ml-1 flex items-center gap-1.5"
           >
             {error}
           </motion.p>
         )}
       </AnimatePresence>
       {hint && !error && (
-        <p className="font-sans text-[11px] text-white/30 mt-2">
+        <p className="text-[11px] font-medium text-[var(--text-tertiary)] mt-2.5 ml-1 tracking-tight">
           {hint}
         </p>
       )}
