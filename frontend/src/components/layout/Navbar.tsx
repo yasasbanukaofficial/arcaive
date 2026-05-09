@@ -4,37 +4,42 @@ import Link from "next/link";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const { isDark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const token = localStorage.getItem("access_token") || localStorage.getItem("token");
     setIsLoggedIn(!!token);
+    setIsLoaded(true);
   }, []);
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-6 sm:py-10 flex items-center justify-between pointer-events-none">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-6 sm:py-10 flex items-center justify-between pointer-events-auto">
         
-        {/* Left Logo */}
+        {/* Left Logo - Hardcoded white */}
         <div className="pointer-events-auto">
           <Link 
             href="/" 
-            className="font-sans text-[18px] sm:text-[20px] font-bold tracking-tight text-[var(--text-primary)] transition-all"
+            className="font-sans text-[18px] sm:text-[20px] font-bold tracking-tight transition-all"
             style={{
-              WebkitTextStroke: isDark ? "2px #000000" : "2.5px #ffffff",
+              color: isDark ? "#ffffff" : "#111111",
+              WebkitTextStroke: isDark ? "1px #ffffff" : "1px #111111",
               paintOrder: "stroke fill",
-              textShadow: isDark ? "0 0 20px rgba(255,255,255,0.1)" : "none"
+              textShadow: "none"
             }}
           >
             ARCAIVE
           </Link>
         </div>
 
-        {/* Desktop Navigation - Hidden on lg (tablets) now, shown on xl */}
+        {/* Desktop Navigation */}
         <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
           <Link href="#intro" className="oryzo-label group relative text-[28px] text-[var(--text-primary)]">
             INTRO
@@ -53,15 +58,15 @@ export default function Navbar() {
             CONTACT
           </Link>
           
-          {/* Removed text SIGN UP link; keeping only the signin/dashboard button */}
-
-          <Link 
-            href={isLoggedIn ? "/overview" : "/login"} 
-            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[28px] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
-          >
-            {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
-          </Link>
-
+          {isLoaded && (
+            <Link 
+              href={isLoggedIn ? "/overview" : "/login"} 
+              className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
+            >
+              {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+            </Link>
+          )}
+          
           <button 
             onClick={toggleTheme}
             className="btn-hover flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
@@ -71,17 +76,17 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile/Tablet Toggle - Shown up to xl */}
+        {/* Mobile/Tablet Toggle */}
         <div className="xl:hidden flex items-center gap-4 pointer-events-auto">
           <button 
             onClick={toggleTheme}
-            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)]"
+            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
           >
             {isDark ? <Sun size={14} /> : <Moon size={14} />}
           </button>
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)]"
+            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
           >
             {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -97,22 +102,22 @@ export default function Navbar() {
           <Link href="#pricing" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
           <Link href="#faq" onClick={() => setIsMenuOpen(false)} className="text-[36px] font-bold tracking-tight text-[var(--text-primary)]">CONTACT</Link>
           
-          {/* Removed mobile text SIGN UP link; keeping only the signin/dashboard button */}
-
-          <Link 
-            href={isLoggedIn ? "/overview" : "/login"} 
-            onClick={() => setIsMenuOpen(false)} 
-            className="btn-hover oryzo-label border border-[var(--text-primary)] text-[28px] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
-          >
-            {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
-          </Link>
+          {isLoaded && (
+            <Link 
+              href={isLoggedIn ? "/overview" : "/login"} 
+              onClick={() => setIsMenuOpen(false)} 
+              className="btn-hover oryzo-label border border-[var(--text-primary)] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
+            >
+              {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+            </Link>
+          )}
         </div>
       )}
 
       {/* Floating Right Bar */}
-      <div className="fixed right-0 top-32 z-40 bg-[#f0ead6] text-[#0A0908] px-2 py-8 pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.5)] hidden lg:block">
+      <div className="fixed right-0 top-32 z-40 bg-[var(--d-surface)] text-[var(--text-primary)] px-2 py-8 pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.5)] hidden lg:block">
          <div className="writing-vertical-rl rotate-180 flex items-center gap-4">
-           <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+           <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] animate-pulse" />
            <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] whitespace-nowrap">
              ARCAIVE-1 MODEL
            </span>

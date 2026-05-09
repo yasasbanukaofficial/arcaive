@@ -18,20 +18,22 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <span className="oryzo-label mb-4 opacity-50">INTELLIGENCE</span>
+          <span className="oryzo-label mb-4 opacity-50">QUICK LINKS</span>
+          <Link href="#intro" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">INTRO</Link>
           <Link href="#features" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">FEATURES</Link>
-          <Link href="#howitworks" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">METHODOLOGY</Link>
-          <Link href="#pricing" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">TOPOLOGY</Link>
+          <Link href="#benefits" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">PRODUCT</Link>
+          <Link href="#pricing" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">PRICING</Link>
+          <Link href="#faq" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">CONTACT</Link>
         </div>
 
         <div className="flex flex-col gap-4">
           <span className="oryzo-label mb-4 opacity-50">NETWORK</span>
-          <Link href="#" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">TWITTER</Link>
-          <Link href="#" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">LINKEDIN</Link>
+          <a href="https://www.linkedin.com/in/yasasbanukagunasena/" target="_blank" rel="noopener noreferrer" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">LINKEDIN</a>
+          <a href="https://github.com/yasasbanukaofficial" target="_blank" rel="noopener noreferrer" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">GITHUB</a>
         </div>
 
         <div className="flex flex-col justify-end text-right">
-           <span className="oryzo-label opacity-50">© {new Date().getFullYear()} ARCAIVE INT.</span>
+           <span className="oryzo-label opacity-50">© {new Date().getFullYear()} ARCAIVE by YASAS BANU.</span>
         </div>
       </div>
     </footer>
