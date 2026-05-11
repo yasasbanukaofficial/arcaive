@@ -41,6 +41,32 @@ export async function registerAction(
   }
 }
 
+export async function verifyEmailAction(
+  _prevState: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  const email = formData.get("email") as string;
+  const code = formData.get("code") as string;
+
+  try {
+    await authAPI.verifyEmail(email, code);
+    return { success: true };
+  } catch (err: unknown) {
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "Invalid or expired verification code." };
+  }
+}
+
+export async function resendCodeAction(email: string): Promise<FormState> {
+  try {
+    await authAPI.resendCode(email);
+    return { success: true };
+  } catch (err: unknown) {
+    const msg = (err as any)?.response?.data?.message;
+    return { error: msg || "Failed to resend verification code." };
+  }
+}
+
 export async function loginAction(_prevState : FormState, formData: FormData): Promise<FormState> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;

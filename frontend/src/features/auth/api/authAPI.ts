@@ -38,4 +38,20 @@ export const authAPI = {
         data: { email },
       })
     ).data,
+  verifyEmail: async (email: string, code: string) =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/verify`,
+        data: { email, code },
+      })
+    ).data,
+  resendCode: async (email: string) =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/resend-code`,
+        params: { email },
+      })
+    ).data,
 };

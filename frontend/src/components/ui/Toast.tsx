@@ -82,9 +82,9 @@ const accentMap: Record<ToastType, string> = {
 };
 
 const bgMap: Record<ToastType, string> = {
-  success: "rgba(16,185,129,0.08)",
-  error: "rgba(239,68,68,0.08)",
-  warning: "rgba(245,158,11,0.08)",
+  success: "rgba(16,185,129,0.05)",
+  error: "rgba(239,68,68,0.05)",
+  warning: "rgba(245,158,11,0.05)",
 };
 
 function ToastItem({
@@ -109,20 +109,27 @@ function ToastItem({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, x: 80, scale: 0.95 }}
       transition={{ type: "spring", damping: 25, stiffness: 350 }}
-      className="pointer-events-auto relative w-[360px] overflow-hidden  border border-white/10 backdrop-blur-xl shadow-2xl"
-      style={{ background: bgMap[toast.type] }}
+      className="pointer-events-auto relative w-[360px] overflow-hidden border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl shadow-2xl"
+      style={{ 
+        borderRadius: "16px",
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
+      }}
     >
-      <div className="flex items-start gap-3 px-4 pt-3.5 pb-4">
+      <div 
+        className="absolute inset-0 opacity-[0.4]" 
+        style={{ background: bgMap[toast.type] }} 
+      />
+      <div className="flex items-start gap-3 px-4 pt-4 pb-4 relative z-10">
         <span className="mt-0.5 shrink-0" style={{ color: accent }}>
           {iconMap[toast.type]}
         </span>
 
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-semibold text-white leading-tight">
+          <p className="text-[13px] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
             {toast.title}
           </p>
           {toast.description && (
-            <p className="mt-1 text-[12px] text-gray-400 leading-snug">
+            <p className="mt-1.5 text-[12px] text-[var(--text-secondary)] font-medium leading-snug">
               {toast.description}
             </p>
           )}
@@ -130,14 +137,14 @@ function ToastItem({
 
         <button
           onClick={onDismiss}
-          className="shrink-0 mt-0.5 text-gray-500 hover:text-white transition-colors"
+          className="shrink-0 mt-0.5 text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors"
           aria-label="Dismiss"
         >
           <X size={14} />
         </button>
       </div>
 
-      <div className="h-[2px] w-full" style={{ background: "rgba(255,255,255,0.05)" }}>
+      <div className="h-[2px] w-full relative z-10" style={{ background: "var(--border-light)" }}>
         <motion.div
           className="h-full origin-left"
           style={{ background: accent }}

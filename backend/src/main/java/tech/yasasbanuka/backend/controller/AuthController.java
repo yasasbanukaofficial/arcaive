@@ -10,6 +10,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.yasasbanuka.backend.dto.auth.AuthRequestDTO;
+import tech.yasasbanuka.backend.dto.auth.VerificationRequestDTO;
 import tech.yasasbanuka.backend.dto.member.MemberCreateRequestDTO;
 import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.impl.AuthServiceImpl;
@@ -26,8 +27,22 @@ public class AuthController {
     public ResponseEntity<APIResponse<String>> registerUser(@RequestBody @Valid MemberCreateRequestDTO dto) {
         log.info("Received registration request for email: {}", dto.getMemberEmail());
         authService.register(dto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new APIResponse<>(true, 201, "Account created successfully. Please sign in.", null));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new APIResponse<>(true, 200, "Verification code sent to your email.", null));
+    }
+
+    @PostMapping("verify")
+    public ResponseEntity<APIResponse<String>> verifyUser(@RequestBody @Valid VerificationRequestDTO dto) {
+        log.info("Received verification request for email: {}", dto.getEmail());
+        authService.verifyEmail(dto.getEmail(), dto.getCode());
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "Account verified successfully. Please sign in.", null));
+    }
+
+    @PostMapping("resend-code")
+    public ResponseEntity<APIResponse<String>> resendCode(@RequestParam String email) {
+        log.info("Received resend request for email: {}", email);
+        authService.resendVerificationCode(email);
+        return ResponseEntity.ok(new APIResponse<>(true, 200, "Verification code resent successfully.", null));
     }
 
     @PostMapping("login")

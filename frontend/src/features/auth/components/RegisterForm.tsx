@@ -55,6 +55,11 @@ export default function RegisterForm() {
   useEffect(() => {
     if (state.success) {
       setShowUpload(true);
+      addToast({
+        type: "success",
+        title: "Code sent",
+        description: "A verification code has been sent to your email.",
+      });
     }
     if (state.error) {
       addToast({
@@ -67,7 +72,11 @@ export default function RegisterForm() {
 
   const handleUpload = async (file: File) => {
     addToast({ type: "success", title: "Upload successful", description: "Proceeding to verification..." });
-    router.push("/verify-email");
+    router.push(`/verify-email?email=${encodeURIComponent(formik.values.memberEmail)}`);
+  };
+
+  const handleCloseModal = () => {
+    router.push(`/verify-email?email=${encodeURIComponent(formik.values.memberEmail)}`);
   };
 
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
@@ -86,7 +95,7 @@ export default function RegisterForm() {
 
   return (
     <>
-      <CVUploadModal isOpen={showUpload} onClose={() => router.push("/verify-email")} onUpload={handleUpload} />
+      <CVUploadModal isOpen={showUpload} onClose={handleCloseModal} onUpload={handleUpload} />
 
       <div className="w-full">
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />

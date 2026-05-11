@@ -17,13 +17,13 @@ import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.EmailNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.AuthService;
+import tech.yasasbanuka.backend.service.EmailService;
+import tech.yasasbanuka.backend.service.VerificationService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
 import tech.yasasbanuka.backend.util.JwtUtil;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +33,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final MemberMapper memberMapper;
+    private final EmailService emailService;
+    private final VerificationService verificationService;
 
     @Override
     public AuthResponseDTO authenticate(AuthRequestDTO dto) {
@@ -53,11 +55,52 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void register(MemberCreateRequestDTO dto) {
-        log.info("Registering new user with email: {}", dto.getMemberEmail());
+        log.info("Initiating registration for email: {}", dto.getMemberEmail());
         if (memberRepo.existsByEmail(dto.getMemberEmail())) {
             log.warn("Registration failed: Email {} already exists", dto.getMemberEmail());
             throw new AlreadyExistsException("An account with this email already exists. Please sign in instead.");
         }
+
+        String code = verificationService.generateCode(dto.getMemberEmail(), dto);
+        emailService.sendVerificationCode(dto.getMemberEmail(), code);
+        log.info("Verification code generated and sent to {}", dto.getMemberEmail());
+    }
+
+    @Override
+    public void verifyEmail(String email, String code) {
+        log.info("Verifying email: {} with code: {}", email, code);
+        if (!verificationService.verifyCode(email, code)) {
+            log.warn("Verification failed for email: {}", email);
+            throw new RuntimeException("Invalid or expired verification code.");
+        }
+
+        MemberCreateRequestDTO dto = verificationService.getRegistrationData(email);
+        if (dto == null) {
+            log.warn("No registration data found for email: {}", email);
+            throw new RuntimeException("Registration data not found or expired.");
+        }
+
+        saveUser(dto);
+        verificationService.clearVerification(email);
+        log.info("Email {} verified and user saved successfully", email);
+    }
+
+    @Override
+    public void resendVerificationCode(String email) {
+        log.info("Resending verification code to email: {}", email);
+        MemberCreateRequestDTO dto = verificationService.getRegistrationData(email);
+        if (dto == null) {
+            log.warn("Resend failed: No registration data found for email: {}", email);
+            throw new RuntimeException("Registration data not found or expired. Please register again.");
+        }
+
+        String code = verificationService.generateCode(email, dto);
+        emailService.sendVerificationCode(email, code);
+        log.info("Verification code re-generated and sent to {}", email);
+    }
+
+    private void saveUser(MemberCreateRequestDTO dto) {
+        log.info("Saving new user with email: {}", dto.getMemberEmail());
 
         Member newUser = memberMapper.createRequestToEntity(dto);
         newUser.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
@@ -88,12 +131,11 @@ public class AuthServiceImpl implements AuthService {
                 .autoApplyUsed(0)
                 .cvCreationsStored(0)
                 .build();
-        
+
         newUser.setSubscription(freeSub);
         newUser.setUsageQuota(usageQuota);
 
         memberRepo.save(newUser);
-
-        log.info("User {} registered successfully with username: {}", dto.getMemberEmail(), username);
+        log.info("User {} saved successfully with username: {}", dto.getMemberEmail(), username);
     }
 }
