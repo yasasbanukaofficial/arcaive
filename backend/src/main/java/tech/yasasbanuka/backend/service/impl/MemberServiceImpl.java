@@ -77,23 +77,33 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDTO createMemberInternal(MemberInternalDTO dto) {
         log.info("Creating internal member with email: {}", dto.getMemberEmail());
-        if (memberRepo.existsByEmail(dto.getMemberEmail())) {
-            log.warn("Internal member creation failed: Email {} already exists", dto.getMemberEmail());
-            throw new AlreadyExistsException("An account with this email already exists.");
-        }
-        Member entity = memberMapper.internalDtoToEntity(dto);
-        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
-            entity.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
-        }
+        
+        return memberRepo.findByEmail(dto.getMemberEmail())
+                .map(existingMember -> {
+                    log.info("Internal member already exists for email: {}, returning existing.", dto.getMemberEmail());
+                    return memberMapper.toResponseDTO(existingMember);
+                })
+                .orElseGet(() -> {
+                    Member entity = memberMapper.internalDtoToEntity(dto);
+                    if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+                        entity.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
+                    }
 
-        initializeNewMember(entity);
+                    initializeNewMember(entity);
 
-        MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(entity));
-        log.info("Internal member created successfully with ID: {}", response.getMemberId());
-        return response;
+                    MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(entity));
+                    log.info("Internal member created successfully with ID: {}", response.getMemberId());
+                    return response;
+                });
     }
 
     private void initializeNewMember(Member member) {
+        String randomSuffix = UUID.randomUUID().toString().replace("-", "");
+        String email = member.getEmail();
+        String prefix = (email != null && email.contains("@")) ? email.split("@")[0] : "user";
+        String username = prefix + randomSuffix.substring(0, 4) + randomSuffix.substring(randomSuffix.length() - 4);
+        member.setUsername(username);
+
         Instant now = Instant.now();
         Instant periodEnd = now.plus(30, ChronoUnit.DAYS);
 

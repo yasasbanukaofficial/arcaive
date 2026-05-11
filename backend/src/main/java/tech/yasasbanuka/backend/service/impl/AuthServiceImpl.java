@@ -26,6 +26,7 @@ import tech.yasasbanuka.backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -167,7 +168,13 @@ public class AuthServiceImpl implements AuthService {
         Member newUser = memberMapper.createRequestToEntity(dto);
         newUser.setHashedPassword(passwordEncoder.encode(dto.getPassword()));
 
-        String username = dto.getMemberEmail().split("@")[0];
+        UUID id = UUID.randomUUID();
+        newUser.setId(id);
+        
+        String idStr = id.toString().replace("-", "");
+        String prefix = dto.getMemberEmail().split("@")[0];
+        String username = prefix + idStr.substring(0, 4) + idStr.substring(idStr.length() - 4);
+        
         newUser.setUsername(username);
 
         Instant now = Instant.now();

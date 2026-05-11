@@ -45,7 +45,14 @@ apiInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await apiInstance.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {}, { withCredentials: true });
+        const response = await apiInstance.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {}, { withCredentials: true });
+        const newAccessToken = response.data?.data?.accessToken;
+
+        if (newAccessToken && typeof document !== "undefined") {
+          const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+          document.cookie = `access_token=${newAccessToken}; expires=${expires.toUTCString()}; path=/; SameSite=Strict; Secure`;
+        }
+
         isRefreshing = false;
         processQueue(null);
         return apiInstance(originalRequest);

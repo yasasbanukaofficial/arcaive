@@ -110,12 +110,12 @@ export default function TopBar() {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0e0e0e] flex flex-col p-6">
+        <div className="fixed inset-0 z-50 bg-[var(--bg-color)] flex flex-col p-6">
           <div className="flex justify-between items-center mb-12">
-            <div className="w-10 h-10 rounded-[12px] border border-[#2a2a2a] flex items-center justify-center bg-[#161616]">
-              <span className="font-mono text-[16px] font-bold text-white">A</span>
+            <div className="w-10 h-10 rounded-[12px] border border-[var(--glass-border)] flex items-center justify-center bg-[var(--glass-bg)]">
+              <span className="font-mono text-[16px] font-bold text-[var(--text-primary)]">A</span>
             </div>
-            <button onClick={() => setMobileMenuOpen(false)} className="text-white/50 hover:text-white">
+            <button onClick={() => setMobileMenuOpen(false)} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -126,7 +126,7 @@ export default function TopBar() {
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`font-sans text-[24px] font-medium transition-colors ${
-                  pathname === link.href ? "text-white" : "text-white/50"
+                  pathname === link.href ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
                 }`}
               >
                 {link.name}

@@ -77,7 +77,7 @@ public class OauthController implements AuthenticationSuccessHandler {
         String jwtToken = jwtUtil.generateToken(memberUsername);
         ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .path("/")
                 .maxAge(3600)
                 .sameSite("Lax")

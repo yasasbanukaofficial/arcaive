@@ -3,6 +3,7 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { CvAnalysisResponseDTO } from "../api/cvAnalysisAPI";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 import Button from "@/components/ui/Button";
 
 interface CVAnalysisResultsProps {
@@ -129,8 +130,8 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
                 onClick={() => setActiveTab("strengths")}
                 className={`flex-1 px-6 py-4 rounded-[24px] text-[13px] font-bold tracking-tight transition-all duration-300
                   ${activeTab === "strengths" 
-                    ? "bg-[var(--bg-color)] text-[var(--text-primary)] shadow-sm border border-[var(--glass-border)]" 
-                    : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/[0.02]"}`}
+                    ? "bg-[var(--d-surface)] text-[var(--d-text-primary)] shadow-sm border border-[var(--d-border)]" 
+                    : "text-[var(--d-text-muted)] hover:text-[var(--d-text-secondary)] hover:bg-[var(--d-surface-hover)]"}`}
               >
                 Core Competencies
               </button>
@@ -138,8 +139,8 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
                 onClick={() => setActiveTab("weaknesses")}
                 className={`flex-1 px-6 py-4 rounded-[24px] text-[13px] font-bold tracking-tight transition-all duration-300
                   ${activeTab === "weaknesses" 
-                    ? "bg-red-500/10 text-red-500 shadow-sm border border-red-500/20" 
-                    : "text-[var(--text-tertiary)] hover:text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/[0.02]"}`}
+                    ? "bg-[var(--d-error)]/10 text-[var(--d-error)] shadow-sm border border-[var(--d-error)]/20" 
+                    : "text-[var(--d-text-muted)] hover:text-[var(--d-text-secondary)] hover:bg-[var(--d-surface-hover)]"}`}
               >
                 Critical Gaps
               </button>
@@ -161,13 +162,13 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {data.skillGap?.missingEssentials?.map((skill, i) => (
-                    <div key={i} className="flex items-center gap-4 p-5 bg-red-500/[0.02] border border-red-500/10 rounded-[20px] hover:border-red-500/30 transition-colors group">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 group-hover:scale-150 transition-transform" />
-                      <span className="text-[14px] font-bold text-red-500/70 group-hover:text-red-500 transition-colors">{skill}</span>
+                    <div key={i} className="flex items-center gap-4 p-5 bg-[var(--d-error)]/[0.03] border border-[var(--d-error)]/10 rounded-[20px] hover:border-[var(--d-error)]/30 transition-colors group">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--d-error)] group-hover:scale-150 transition-transform" />
+                      <span className="text-[14px] font-bold text-[var(--d-error)]/70 group-hover:text-[var(--d-error)] transition-colors">{skill}</span>
                     </div>
                   ))}
                   {(!data.skillGap?.missingEssentials || data.skillGap.missingEssentials.length === 0) && (
-                    <p className="text-[14px] text-[var(--text-tertiary)] italic font-medium">No critical skill gaps detected.</p>
+                    <p className="text-[14px] text-[var(--d-text-muted)] italic font-medium">No critical skill gaps detected.</p>
                   )}
                 </div>
               )}
@@ -222,14 +223,14 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
 
           {/* Red Flags Section */}
           {data.redFlags?.length > 0 && (
-            <div className="bg-red-500/[0.02] border border-red-500/20 rounded-[32px] p-10 space-y-8 shadow-xl">
+            <div className="bg-[var(--d-error)]/[0.02] border border-[var(--d-error)]/20 rounded-[32px] p-10 space-y-8 shadow-xl">
                <div className="flex items-center gap-4">
-                 <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
-                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-red-500">System Integrity Alerts</span>
+                 <div className="w-3 h-3 rounded-full bg-[var(--d-error)] animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
+                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--d-error)]">System Integrity Alerts</span>
                </div>
               <div className="space-y-4">
                 {data.redFlags.map((flag, i) => (
-                  <div key={i} className="text-[14px] text-red-500/80 font-medium flex items-start gap-4 p-5 bg-red-500/[0.03] rounded-[24px] border border-red-500/10">
+                  <div key={i} className="text-[14px] text-[var(--d-error)]/80 font-medium flex items-start gap-4 p-5 bg-[var(--d-error)]/[0.03] rounded-[24px] border border-[var(--d-error)]/10">
                     <span className="font-bold text-[16px] opacity-40 shrink-0">!</span>
                     <span className="leading-relaxed">{flag}</span>
                   </div>

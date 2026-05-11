@@ -82,7 +82,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
 
       cookieStore.set("access_token", accessToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV == "production",
         sameSite: "strict",
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7 days (matching Refresh Token)
@@ -90,7 +90,7 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
 
       cookieStore.set("refresh_token", refreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV == "production",
         sameSite: "strict",
         path: "/",
         maxAge: 60 * 60 * 24 * 7,

@@ -27,7 +27,7 @@ export const authAPI = {
         baseURL: `${AUTH_URL}/refresh`,
         withCredentials: true,
       })
-    ).data,
+    ).data.data,
 
   logout: async () =>
     (

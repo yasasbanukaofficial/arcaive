@@ -64,7 +64,7 @@ const PremiumInput = ({ label, value, onChange, placeholder, type = "text", hint
           {hint && <span className="text-[10px] text-[var(--text-tertiary)] italic">{hint}</span>}
         </div>
       )}
-      <div className={`relative flex items-center transition-all duration-300 rounded-[18px] bg-[#0a0a0a] border ${isFocused ? "border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.05)] scale-[1.01]" : "border-[var(--glass-border)] hover:border-[var(--text-primary)]/20"}`}>
+      <div className={`relative flex items-center transition-all duration-300 rounded-[18px] bg-[var(--d-surface)] border ${isFocused ? "border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.05)] scale-[1.01]" : "border-[var(--d-border)] hover:border-[var(--d-text-primary)]/20"}`}>
         <input
           type={type}
           value={value ?? ""}
@@ -88,7 +88,7 @@ const PremiumTextArea = ({ label, value, onChange, placeholder, rows = 4 }: any)
           {label}
         </label>
       )}
-      <div className={`relative transition-all duration-300 rounded-[24px] bg-[#0a0a0a] border ${isFocused ? "border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.05)] scale-[1.005]" : "border-[var(--glass-border)] hover:border-[var(--text-primary)]/20"}`}>
+      <div className={`relative transition-all duration-300 rounded-[24px] bg-[var(--d-surface)] border ${isFocused ? "border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.05)] scale-[1.005]" : "border-[var(--d-border)] hover:border-[var(--d-text-primary)]/20"}`}>
         <textarea
           value={value ?? ""}
           onChange={onChange}
@@ -168,10 +168,10 @@ const resolveTailoredProfile = (payload: unknown): MemberProfileDTO | null => {
 type TemplateType = "classic" | "modern" | "minimal" | "bold" | null;
 
 const templates = [
-  { id: "classic" as const, name: "Classic", tag: "ATS Optimized", mockup: ( <div className="flex flex-col gap-2 w-full"><div className="w-1/3 h-1 bg-[var(--text-primary)]/20 mb-1" /><div className="w-full h-[1px] bg-[var(--glass-border)]" /><div className="w-full flex flex-col gap-1.5 mt-2"><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /><div className="w-3/4 h-0.5 bg-[var(--text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10 mt-2" /><div className="w-1/2 h-1 bg-[var(--text-primary)]/20" /></div></div> ) },
-  { id: "modern" as const, name: "Modern", tag: "Modern Clean", mockup: ( <div className="flex w-full h-full gap-2"><div className="w-1/3 bg-[var(--text-primary)]/5 p-2 flex flex-col gap-2"><div className="w-full h-1 bg-[var(--text-primary)]/20" /><div className="w-3/4 h-0.5 bg-[var(--text-primary)]/10" /></div><div className="flex-1 flex flex-col gap-2 pt-2"><div className="w-1/2 h-1 bg-[var(--text-primary)]/20" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /></div></div> ) },
-  { id: "minimal" as const, name: "Minimal", tag: "Clean & Simple", mockup: ( <div className="flex flex-col gap-3 w-full px-4"><div className="w-1/2 h-2 bg-[var(--text-primary)]/20" /><div className="w-full h-[1px] bg-[var(--glass-border)]" /><div className="w-full flex flex-col gap-2"><div className="w-1/4 h-0.5 bg-[var(--text-primary)]/20 mt-4" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /></div></div> ) },
-  { id: "bold" as const, name: "Bold", tag: "Strong Impact", mockup: ( <div className="flex flex-col w-full h-full"><div className="w-full h-[30%] bg-[var(--text-primary)]/5 p-3 flex flex-col gap-2"><div className="w-3/4 h-2 bg-[var(--text-primary)]/30" /><div className="w-1/2 h-1 bg-[var(--text-primary)]/10" /></div><div className="flex-1 p-3 flex flex-col gap-3"><div className="w-1/4 h-1 bg-[var(--text-primary)]/20" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--text-primary)]/10" /></div></div> ) }
+  { id: "classic" as const, name: "Classic", tag: "ATS Optimized", mockup: ( <div className="flex flex-col gap-2 w-full"><div className="w-1/3 h-1 bg-[var(--d-text-primary)]/20 mb-1" /><div className="w-full h-[1px] bg-[var(--d-border)]" /><div className="w-full flex flex-col gap-1.5 mt-2"><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /><div className="w-3/4 h-0.5 bg-[var(--d-text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10 mt-2" /><div className="w-1/2 h-1 bg-[var(--d-text-primary)]/20" /></div></div> ) },
+  { id: "modern" as const, name: "Modern", tag: "Modern Clean", mockup: ( <div className="flex w-full h-full gap-2"><div className="w-1/3 bg-[var(--d-text-primary)]/5 p-2 flex flex-col gap-2"><div className="w-full h-1 bg-[var(--d-text-primary)]/20" /><div className="w-3/4 h-0.5 bg-[var(--d-text-primary)]/10" /></div><div className="flex-1 flex flex-col gap-2 pt-2"><div className="w-1/2 h-1 bg-[var(--d-text-primary)]/20" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /></div></div> ) },
+  { id: "minimal" as const, name: "Minimal", tag: "Clean & Simple", mockup: ( <div className="flex flex-col gap-3 w-full px-4"><div className="w-1/2 h-2 bg-[var(--d-text-primary)]/20" /><div className="w-full h-[1px] bg-[var(--d-border)]" /><div className="w-full flex flex-col gap-2"><div className="w-1/4 h-0.5 bg-[var(--d-text-primary)]/20 mt-4" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /></div></div> ) },
+  { id: "bold" as const, name: "Bold", tag: "Strong Impact", mockup: ( <div className="flex flex-col w-full h-full"><div className="w-full h-[30%] bg-[var(--d-text-primary)]/5 p-3 flex flex-col gap-2"><div className="w-3/4 h-2 bg-[var(--d-text-primary)]/30" /><div className="w-1/2 h-1 bg-[var(--d-text-primary)]/10" /></div><div className="flex-1 p-3 flex flex-col gap-3"><div className="w-1/4 h-1 bg-[var(--d-text-primary)]/20" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /><div className="w-full h-0.5 bg-[var(--d-text-primary)]/10" /></div></div> ) }
 ];
 
 const steps = [
@@ -299,15 +299,15 @@ export default function CreateCVPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.1, ease: smoothEase }}
             whileHover={{ y: -10 }}
-            className={`group cursor-pointer flex flex-col h-full bg-[#0d0d0d] border rounded-[28px] p-8 transition-all duration-500 relative overflow-hidden ${selectedTemplate === tpl.id ? "border-[var(--accent-brand)] shadow-[0_0_40px_rgba(223,231,216,0.1)]" : "border-[var(--glass-border)] hover:border-[var(--text-primary)]/20 hover:shadow-2xl hover:shadow-black/40"}`}
+            className={`group cursor-pointer flex flex-col h-full bg-[var(--d-surface)] border rounded-[28px] p-8 transition-all duration-500 relative overflow-hidden ${selectedTemplate === tpl.id ? "border-[var(--accent-brand)] shadow-[0_0_40px_rgba(223,231,216,0.1)]" : "border-[var(--d-border)] hover:border-[var(--d-text-primary)]/20 hover:shadow-2xl hover:shadow-black/40"}`}
             onClick={() => { setSelectedTemplate(tpl.id); setStage(2); setStep(1); }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             
-            <div className="relative aspect-[3/4] p-8 flex items-center justify-center overflow-hidden bg-[#050505] rounded-[20px] border border-[var(--glass-border)] group-hover:bg-[#080808] transition-all duration-500">
+            <div className="relative aspect-[3/4] p-8 flex items-center justify-center overflow-hidden bg-[var(--d-bg)] rounded-[20px] border border-[var(--d-border)] group-hover:bg-[var(--d-surface-hover)] transition-all duration-500">
               <div className="w-full scale-100 opacity-30 group-hover:opacity-100 group-hover:scale-[1.05] transition-all duration-700">{tpl.mockup}</div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-8">
-                 <div className="px-6 py-2.5 bg-[var(--text-primary)] text-black rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-xl">Activate Blueprint</div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--d-bg)]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-8">
+                 <div className="px-6 py-2.5 bg-[var(--d-text-primary)] text-[var(--d-bg)] rounded-full text-[10px] font-bold uppercase tracking-[0.2em] shadow-xl">Activate Blueprint</div>
               </div>
             </div>
             <div className="mt-8 space-y-2 relative z-10">
@@ -384,7 +384,7 @@ export default function CreateCVPage() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.99 }}
             transition={{ duration: 0.4, ease: smoothEase }}
-            className="bg-[#0d0d0d] border border-[var(--glass-border)] rounded-[32px] p-8 md:p-14 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden min-h-[500px]"
+            className="bg-[var(--d-surface)] border border-[var(--d-border)] rounded-[32px] p-8 md:p-14 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden min-h-[500px]"
           >
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--accent-brand)]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
             <div className="relative z-10 flex flex-col gap-10">
@@ -397,7 +397,7 @@ export default function CreateCVPage() {
         <div className="mt-12 flex items-center justify-between gap-6">
           <button 
             onClick={() => step > 1 ? setStep(step - 1) : setStage(1)}
-            className="group flex items-center gap-3 px-8 py-4 bg-[#0d0d0d] border border-[var(--glass-border)] rounded-full font-bold text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/20 transition-all"
+            className="group flex items-center gap-3 px-8 py-4 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-full font-bold text-[11px] uppercase tracking-[0.2em] text-[var(--d-text-secondary)] hover:text-[var(--d-text-primary)] hover:border-[var(--d-text-primary)]/20 transition-all"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> 
             {step === 1 ? "Blueprint Selection" : "Previous Phase"}
@@ -450,7 +450,7 @@ export default function CreateCVPage() {
               placeholder="Synthesize your career trajectory, core strengths, and systemic value..." 
               rows={12} 
             />
-            <div className="flex items-center gap-5 p-8 bg-[#111111] border border-[var(--glass-border)] rounded-[28px] relative overflow-hidden group">
+            <div className="flex items-center gap-5 p-8 bg-[var(--d-surface-active)] border border-[var(--d-border)] rounded-[28px] relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-brand)]/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="w-12 h-12 rounded-2xl bg-[var(--accent-brand)]/10 flex items-center justify-center shrink-0 border border-[var(--accent-brand)]/20 shadow-inner">
                 <Sparkles size={20} className="text-[var(--accent-brand)]" />
@@ -485,7 +485,7 @@ export default function CreateCVPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   key={idx} 
-                  className="p-10 bg-[#080808] border border-[var(--glass-border)] rounded-[32px] flex flex-col gap-10 relative group"
+                  className="p-10 bg-[var(--d-surface)] border border-[var(--d-border)] rounded-[32px] flex flex-col gap-10 relative group"
                 >
                   <button onClick={() => setData(prev => ({ ...prev, workExperience: prev.workExperience.filter((_, i) => i !== idx) }))} className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-red-500/5 text-red-500/40 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 shadow-xl border border-red-500/10">
                     <Trash2 size={16} />
@@ -502,8 +502,8 @@ export default function CreateCVPage() {
               ))}
               
               {data.workExperience.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-24 bg-[#080808] border border-dashed border-[var(--glass-border)] rounded-[32px] group hover:border-[var(--text-primary)]/20 transition-all">
-                   <div className="w-16 h-16 rounded-3xl bg-[#0a0a0a] border border-[var(--glass-border)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><Briefcase size={28} className="text-[var(--text-tertiary)]" /></div>
+                <div className="flex flex-col items-center justify-center py-24 bg-[var(--d-surface)] border border-dashed border-[var(--d-border)] rounded-[32px] group hover:border-[var(--d-text-primary)]/20 transition-all">
+                   <div className="w-16 h-16 rounded-3xl bg-[var(--d-surface-active)] border border-[var(--d-border)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"><Briefcase size={28} className="text-[var(--d-text-muted)]" /></div>
                    <p className="text-[14px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.2em]">Operational record is currently offline</p>
                 </div>
               )}
@@ -588,7 +588,7 @@ export default function CreateCVPage() {
                     {data.certifications.map((cert, idx) => (
                       <div key={idx} className="flex gap-4 group items-end animate-in fade-in slide-in-from-left-2 duration-300">
                         <PremiumInput className="flex-1" placeholder="AWS Certified Architect" value={cert} onChange={(e: any) => { const n = [...data.certifications]; n[idx] = e.target.value; setData(p => ({...p, certifications: n})); }} />
-                        <button onClick={() => setData(prev => ({ ...prev, certifications: prev.certifications.filter((_, i) => i !== idx) }))} className="mb-1 w-12 h-12 flex items-center justify-center rounded-2xl bg-[#0a0a0a] border border-[var(--glass-border)] text-red-500/40 hover:bg-red-500 hover:text-white transition-all shadow-lg group-hover:opacity-100 md:opacity-0">
+                        <button onClick={() => setData(prev => ({ ...prev, certifications: prev.certifications.filter((_, i) => i !== idx) }))} className="mb-1 w-12 h-12 flex items-center justify-center rounded-2xl bg-[var(--d-surface-active)] border border-[var(--d-border)] text-red-500/40 hover:bg-red-500 hover:text-white transition-all shadow-lg group-hover:opacity-100 md:opacity-0">
                           <Trash2 size={16} />
                         </button>
                       </div>
@@ -645,7 +645,7 @@ export default function CreateCVPage() {
           <p className="text-[var(--text-secondary)] text-[16px] font-medium leading-relaxed max-w-lg">Your structural profile has been compiled and is ready for export and system integration.</p>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={() => { setStage(2); setStep(6); }} className="h-[56px] px-8 bg-[#0d0d0d] border border-[var(--glass-border)] text-[var(--text-secondary)] rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/20 transition-all flex items-center gap-3 shadow-xl"><ArrowLeft size={16} /> Re-Enter Wizard</button>
+          <button onClick={() => { setStage(2); setStep(6); }} className="h-[56px] px-8 bg-[var(--d-surface)] border border-[var(--d-border)] text-[var(--d-text-secondary)] rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:text-[var(--d-text-primary)] hover:border-[var(--d-text-primary)]/20 transition-all flex items-center gap-3 shadow-xl"><ArrowLeft size={16} /> Re-Enter Wizard</button>
           
           <PDFDownloadLink document={<ActiveResume />} fileName={`${data.personalInfo.fullName} Resume.pdf`}>
             {({ loading }) => (
@@ -655,15 +655,15 @@ export default function CreateCVPage() {
             )}
           </PDFDownloadLink>
           
-          <button onClick={handleSave} disabled={isSaving} className="h-[56px] w-[56px] flex items-center justify-center bg-[#0d0d0d] border border-[var(--glass-border)] text-[var(--accent-brand)] rounded-full hover:scale-110 transition-all shadow-xl group">
+          <button onClick={handleSave} disabled={isSaving} className="h-[56px] w-[56px] flex items-center justify-center bg-[var(--d-surface)] border border-[var(--d-border)] text-[var(--accent-brand)] rounded-full hover:scale-110 transition-all shadow-xl group">
              {isSaving ? <div className="w-5 h-5 border-2 border-[var(--accent-brand)] border-t-transparent rounded-full animate-spin" /> : <Save size={20} className="group-hover:rotate-12 transition-transform" />}
           </button>
         </div>
       </div>
 
-      <div className="bg-[#0a0a0a] border border-[var(--glass-border)] rounded-[48px] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative group">
+      <div className="bg-[var(--d-surface)] border border-[var(--d-border)] rounded-[48px] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)] relative group">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.02] to-transparent pointer-events-none" />
-        <div className="bg-[#0d0d0d]/80 backdrop-blur-2xl px-12 py-8 border-b border-[var(--glass-border)] flex items-center justify-between relative z-10">
+        <div className="bg-[var(--d-surface)]/80 backdrop-blur-2xl px-12 py-8 border-b border-[var(--d-border)] flex items-center justify-between relative z-10">
           <div className="flex items-center gap-6">
             <div className="flex flex-col">
               <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[var(--text-tertiary)] mb-1">Engine Module</span>

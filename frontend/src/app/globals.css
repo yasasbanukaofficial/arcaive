@@ -13,32 +13,32 @@
 }
 
 :root, .light {
-  --bg-color: #f6f6f3;
-  --text-primary: #111111;
-  --text-secondary: rgba(0, 0, 0, 0.55);
-  --text-tertiary: rgba(0, 0, 0, 0.35);
-  --border-light: rgba(0, 0, 0, 0.06);
+  --bg-color: #fbfbf8;
+  --text-primary: #0a0a0a;
+  --text-secondary: rgba(10, 10, 10, 0.65);
+  --text-tertiary: rgba(10, 10, 10, 0.45);
+  --border-light: rgba(0, 0, 0, 0.08);
   --glass-bg: #ffffff;
-  --glass-border: rgba(0, 0, 0, 0.06);
-  --grid-color: rgba(0, 0, 0, 0.03);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --grid-color: rgba(0, 0, 0, 0.04);
   --accent-brand: #dfe7d8;
-  --accent-brand-contrast: #111111;
-  --btn-hover-bg: #000000;
+  --accent-brand-contrast: #0a0a0a;
+  --btn-hover-bg: #0a0a0a;
   --btn-hover-text: #ffffff;
 
   /* Dashboard specific */
-  --d-bg: #f6f6f3;
+  --d-bg: #fbfbf8;
   --d-surface: #ffffff;
-  --d-surface-hover: #fcfcfc;
-  --d-surface-active: #f8f8f8;
-  --d-border: rgba(0, 0, 0, 0.06);
-  --d-border-subtle: rgba(0, 0, 0, 0.03);
-  --d-border-hover: rgba(0, 0, 0, 0.1);
-  --d-text-primary: #111111;
-  --d-text-secondary: rgba(0, 0, 0, 0.55);
-  --d-text-muted: rgba(0, 0, 0, 0.35);
-  --d-text-tertiary: rgba(0, 0, 0, 0.2);
-  --d-error: #e11d48;
+  --d-surface-hover: #f7f7f3;
+  --d-surface-active: #f1f1ec;
+  --d-border: rgba(0, 0, 0, 0.08);
+  --d-border-subtle: rgba(0, 0, 0, 0.04);
+  --d-border-hover: rgba(0, 0, 0, 0.15);
+  --d-text-primary: #0a0a0a;
+  --d-text-secondary: rgba(10, 10, 10, 0.65);
+  --d-text-muted: rgba(10, 10, 10, 0.45);
+  --d-text-tertiary: rgba(10, 10, 10, 0.25);
+  --d-error: #dc2626;
   --d-sage: #dfe7d8;
 
   /* Shadcn overrides */
@@ -48,18 +48,43 @@
   --card-foreground: var(--text-primary);
   --popover: #ffffff;
   --popover-foreground: var(--text-primary);
-  --primary: #111111;
+  --primary: #0a0a0a;
   --primary-foreground: #ffffff;
   --secondary: rgba(0, 0, 0, 0.04);
   --secondary-foreground: var(--text-primary);
   --muted: rgba(0, 0, 0, 0.04);
   --muted-foreground: var(--text-secondary);
   --accent: #dfe7d8;
-  --accent-foreground: #111111;
-  --destructive: #e11d48;
-  --border: rgba(0, 0, 0, 0.06);
-  --input: rgba(0, 0, 0, 0.03);
-  --ring: #111111;
+  --accent-foreground: #0a0a0a;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(0, 0, 0, 0.04);
+  --ring: #0a0a0a;
+
+  /* Accent Colors - Light */
+  --accent-blue-bg: rgba(59, 130, 246, 0.08);
+  --accent-blue-border: rgba(59, 130, 246, 0.15);
+  --accent-blue-dot: #2563eb;
+  
+  --accent-emerald-bg: rgba(16, 185, 129, 0.08);
+  --accent-emerald-border: rgba(16, 185, 129, 0.15);
+  --accent-emerald-dot: #059669;
+
+  --accent-violet-bg: rgba(139, 92, 246, 0.08);
+  --accent-violet-border: rgba(139, 92, 246, 0.15);
+  --accent-violet-dot: #7c3aed;
+
+  --accent-amber-bg: rgba(245, 158, 11, 0.08);
+  --accent-amber-border: rgba(245, 158, 11, 0.15);
+  --accent-amber-dot: #d97706;
+
+  --accent-pink-bg: rgba(236, 72, 153, 0.08);
+  --accent-pink-border: rgba(236, 72, 153, 0.15);
+  --accent-pink-dot: #db2777;
+
+  --accent-teal-bg: rgba(20, 184, 166, 0.08);
+  --accent-teal-border: rgba(20, 184, 166, 0.15);
+  --accent-teal-dot: #0d9488;
 }
 
 /* ─── Premium Futuristic Dark UI ─── */
@@ -111,6 +136,31 @@
   --border: rgba(255, 255, 255, 0.06);
   --input: rgba(255, 255, 255, 0.02);
   --ring: #dfe7d8;
+
+  /* Accent Colors - Dark */
+  --accent-blue-bg: rgba(59, 130, 246, 0.15);
+  --accent-blue-border: rgba(59, 130, 246, 0.3);
+  --accent-blue-dot: #60a5fa;
+
+  --accent-emerald-bg: rgba(16, 185, 129, 0.15);
+  --accent-emerald-border: rgba(16, 185, 129, 0.3);
+  --accent-emerald-dot: #34d399;
+
+  --accent-violet-bg: rgba(139, 92, 246, 0.15);
+  --accent-violet-border: rgba(139, 92, 246, 0.3);
+  --accent-violet-dot: #a78bfa;
+
+  --accent-amber-bg: rgba(245, 158, 11, 0.15);
+  --accent-amber-border: rgba(245, 158, 11, 0.3);
+  --accent-amber-dot: #fbbf24;
+
+  --accent-pink-bg: rgba(236, 72, 153, 0.15);
+  --accent-pink-border: rgba(236, 72, 153, 0.3);
+  --accent-pink-dot: #f472b6;
+
+  --accent-teal-bg: rgba(20, 184, 166, 0.15);
+  --accent-teal-border: rgba(20, 184, 166, 0.3);
+  --accent-teal-dot: #2dd4bf;
 }
 
 @layer base {
@@ -171,9 +221,9 @@
 }
 
 .tag:hover {
-  background: var(--text-primary)/[0.05];
+  background: color-mix(in srgb, var(--text-primary), transparent 95%);
   color: var(--text-primary);
-  border-color: var(--text-primary)/[0.1];
+  border-color: color-mix(in srgb, var(--text-primary), transparent 90%);
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

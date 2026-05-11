@@ -14,6 +14,10 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Version
+    private Long version;
+
     private String fullName;
     @Column(unique = true, nullable = false)
     private String username;

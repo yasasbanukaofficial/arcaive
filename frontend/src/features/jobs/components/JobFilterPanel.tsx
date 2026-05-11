@@ -28,18 +28,18 @@ function FilterCheckbox({ label, checked, onChange }: FilterCheckboxProps) {
     >
       <div
         className={`relative w-4 h-4 rounded-[6px] border flex items-center justify-center shrink-0 transition-colors ${
-          checked ? "bg-[#e6efdf] border-[#e6efdf]" : "bg-transparent border-[#3a3a3a]"
+          checked ? "bg-[var(--d-sage)] border-[var(--d-sage)]" : "bg-transparent border-[var(--d-border)]"
         }`}
       >
         {checked && (
-          <span className="text-[10px] text-[#111] font-bold pointer-events-none">
+          <span className="text-[10px] text-[var(--accent-brand-contrast)] font-bold pointer-events-none">
             ✓
           </span>
         )}
       </div>
       <span
         className={`font-sans text-[13px] transition-colors ${
-          checked ? "font-medium text-white/80" : "text-white/40"
+          checked ? "font-medium text-[var(--d-text-primary)]/80" : "text-[var(--d-text-muted)]"
         }`}
       >
         {label}
@@ -95,21 +95,21 @@ export default function JobFilterPanel({
 }: JobFiltersProps) {
   return (
     <div
-      className="p-6 space-y-8 border border-[#2a2a2a] bg-[#161616] rounded-[24px] sticky top-24"
+      className="p-6 space-y-8 border border-[var(--d-border)] bg-[var(--d-surface)] rounded-[24px] sticky top-24 shadow-sm"
     >
-      <div className="flex items-center justify-between pb-4 border-b border-[#2a2a2a]">
-        <h3 className="font-sans text-[14px] font-semibold text-white/80">
+      <div className="flex items-center justify-between pb-4 border-b border-[var(--d-border)]">
+        <h3 className="font-sans text-[14px] font-semibold text-[var(--d-text-primary)]/80">
           Filters
         </h3>
         <button
           onClick={onToggleCollapse}
-          className="px-3 py-1.5 bg-[#2a2a2a] text-white/60 font-sans text-[11px] font-medium rounded-full hover:bg-[#3a3a3a] transition-colors"
+          className="px-3 py-1.5 bg-[var(--d-border)] text-[var(--d-text-secondary)] font-sans text-[11px] font-medium rounded-full hover:bg-[var(--d-surface-hover)] transition-colors"
         >
           Hide
         </button>
       </div>
       <div>
-        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+        <p className="font-sans text-[12px] font-medium text-[var(--d-text-muted)] uppercase tracking-wider mb-3">
           Employment type
         </p>
         <div className="space-y-0.5">
@@ -124,7 +124,7 @@ export default function JobFilterPanel({
         </div>
       </div>
       <div>
-        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+        <p className="font-sans text-[12px] font-medium text-[var(--d-text-muted)] uppercase tracking-wider mb-3">
           Work mode
         </p>
         <div className="space-y-0.5">
@@ -140,7 +140,7 @@ export default function JobFilterPanel({
       </div>
       
       <div>
-        <p className="font-sans text-[12px] font-medium text-white/30 uppercase tracking-wider mb-3">
+        <p className="font-sans text-[12px] font-medium text-[var(--d-text-muted)] uppercase tracking-wider mb-3">
           Salary range
         </p>
         <div className="space-y-5">

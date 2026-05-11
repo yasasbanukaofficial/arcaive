@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 import tech.yasasbanuka.backend.dto.member.LinkedAccountDTO;
 import tech.yasasbanuka.backend.dto.member.MemberInternalDTO;
-import tech.yasasbanuka.backend.entity.Subscription;
-import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
-import tech.yasasbanuka.backend.entity.constants.Tier;
+import tech.yasasbanuka.backend.entity.Member;
+import tech.yasasbanuka.backend.entity.embeddable.LinkedAccount;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.MemberService;
 import tech.yasasbanuka.backend.service.OAuthService;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,36 +27,40 @@ public class OAuthServiceImpl implements OAuthService {
     private final MemberRepo memberRepo;
 
     @Override
+    @Transactional
     public String processOAuthLogin(String provider, String email, String fullName,
                                     String username, String socialUrl, String oauthId) {
         log.info("Processing OAuth login for provider: {}, email: {}", provider, email);
-        MemberInternalDTO existingMember = memberService.getMemberInternalByEmail(email);
 
-        if (existingMember != null) {
+        return memberRepo.findByEmailWithLock(email).map(member -> {
             log.info("Existing member found for email: {}. Checking linked accounts.", email);
-            List<LinkedAccountDTO> existingAccounts = existingMember.getLinkedAccounts();
-            if (existingAccounts != null) {
-                boolean alreadyLinked = existingAccounts.stream()
-                        .anyMatch(acc -> provider.equals(acc.getProvider()));
-                if (!alreadyLinked) {
-                    log.info("Linking new provider {} to existing member {}", provider, email);
-                    existingAccounts.add(LinkedAccountDTO.builder()
-                            .provider(provider)
-                            .label(provider.equals("github") ? "Github" : "Google")
-                            .connected(true)
-                            .email(email)
-                            .url(socialUrl)
-                            .build()
-                    );
-                    existingMember.setLinkedAccounts(existingAccounts);
-                    memberService.updateMember(existingMember);
-                } else {
-                    log.debug("Provider {} already linked for member {}", provider, email);
-                }
+            List<LinkedAccount> existingAccounts = member.getLinkedAccounts();
+            if (existingAccounts == null) {
+                existingAccounts = new ArrayList<>();
             }
-        } else {
+            
+            boolean alreadyLinked = existingAccounts.stream()
+                    .anyMatch(acc -> provider.equals(acc.getProvider()));
+            
+            if (!alreadyLinked) {
+                log.info("Linking new provider {} to existing member {}", provider, email);
+                existingAccounts.add(LinkedAccount.builder()
+                        .provider(provider)
+                        .label(provider.equals("github") ? "Github" : "Google")
+                        .connected(true)
+                        .email(email)
+                        .url(socialUrl)
+                        .build()
+                );
+                member.setLinkedAccounts(existingAccounts);
+                memberRepo.save(member);
+            } else {
+                log.debug("Provider {} already linked for member {}", provider, email);
+            }
+            return member.getUsername();
+        }).orElseGet(() -> {
             log.info("No existing member found for email: {}. Creating new member via OAuth.", email);
-            existingMember = MemberInternalDTO.builder()
+            MemberInternalDTO newMember = MemberInternalDTO.builder()
                     .memberUsername(username)
                     .memberFullName(fullName)
                     .memberEmail(email)
@@ -70,12 +73,8 @@ public class OAuthServiceImpl implements OAuthService {
                             .build()
                     ))
                     .build();
-            memberService.createMemberInternal(existingMember);
-        }
-
-        return existingMember.getMemberUsername() != null
-                ? existingMember.getMemberUsername()
-                : username;
+            return memberService.createMemberInternal(newMember).getMemberUsername();
+        });
     }
 
     @Override
