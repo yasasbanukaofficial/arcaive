@@ -83,30 +83,40 @@ public class EmailServiceImpl implements EmailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
-        message.setFrom(fromEmail);
+        message.setFrom("Arcaive <" + fromEmail + ">");
         mailSender.send(message);
     }
 
     @Override
     public void sendHtml(String to, String subject, String htmlBody) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(htmlBody, true);
-        helper.setFrom(fromEmail);
-        mailSender.send(message);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+            helper.setFrom(fromEmail, "Arcaive");
+            mailSender.send(message);
+        } catch (Exception e) {
+            log.error("Failed to set HTML email properties: {}", e.getMessage());
+            throw new MessagingException("Failed to send HTML email", e);
+        }
     }
 
     @Override
     public void sendWithAttachment(String to, String subject, String body, File file) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(body);
-        helper.addAttachment(file.getName(), file);
-        helper.setFrom(fromEmail);
-        mailSender.send(message);
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body);
+            helper.addAttachment(file.getName(), file);
+            helper.setFrom(fromEmail, "Arcaive");
+            mailSender.send(message);
+        } catch (Exception e) {
+            log.error("Failed to set attachment email properties: {}", e.getMessage());
+            throw new MessagingException("Failed to send email with attachment", e);
+        }
     }
 }

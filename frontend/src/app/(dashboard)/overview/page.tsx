@@ -13,12 +13,23 @@ import {
   USAGE_DAYS, 
   USAGE_DATA
 } from "@/features/dashboard/constants/mockData";
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
+import CVUploadModal from "@/features/auth/components/CVUploadModal";
+import { memberAPI } from "@/features/settings/api/memberAPI";
+import { useToast } from "@/components/ui/Toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DashboardPage() {
   const router = useRouter();
   const { data: usage } = useUsageQuota();
+  const { data: member, isLoading: memberLoading } = useMemberSettings();
+  const { addToast } = useToast();
+  const queryClient = useQueryClient();
+  
   const [time, setTime] = useState(new Date());
   const [mounted, setMounted] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("access_token", "true");
@@ -26,6 +37,32 @@ export default function DashboardPage() {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (mounted && member && !memberLoading) {
+      const hasSkills = member.skills && member.skills.length > 0;
+      const hasSummary = !!member.summary;
+      
+      if (!hasSkills && !hasSummary) {
+        setShowUpload(true);
+      }
+    }
+  }, [mounted, member, memberLoading]);
+
+  const handleUpload = async (file: File) => {
+    setIsUploading(true);
+    try {
+      addToast({ type: "warning", title: "Uploading CV", description: "Extracting your professional data..." });
+      await memberAPI.extractAtomicSkills(file);
+      addToast({ type: "success", title: "CV Processed", description: "Your profile has been updated with your CV data." });
+      queryClient.invalidateQueries({ queryKey: ["member", "settings"] });
+      setShowUpload(false);
+    } catch (error) {
+      addToast({ type: "error", title: "Upload failed", description: "We couldn't process your CV. Please try again." });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   if (!mounted) return null;
 
@@ -50,6 +87,11 @@ export default function DashboardPage() {
 
   return (
     <div className="w-full flex flex-col gap-6 mx-auto px-2 pb-12">
+      <CVUploadModal 
+        isOpen={showUpload} 
+        onClose={() => setShowUpload(false)} 
+        onUpload={handleUpload} 
+      />
       {/* Header Row */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-2">
         <h1 className="font-sans text-[36px] font-medium text-white tracking-tight leading-none">
