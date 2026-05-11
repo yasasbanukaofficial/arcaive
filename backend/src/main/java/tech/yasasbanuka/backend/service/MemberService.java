@@ -27,7 +27,7 @@ public interface MemberService {
     MemberResponseDTO updateLinkedAccountsByUsername(String username, List<LinkedAccountDTO> linkedAccounts);
     MemberResponseDTO updateJobDetailsByUsername(String username, JobDetailsDTO dto);
     MemberInternalDTO extractMemberDetails(MultipartFile file);
-    OnboardingAutofillResponseDTO extractOnboardingDetails(MultipartFile file);
-    AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file);
+    OnboardingAutofillResponseDTO extractOnboardingDetails(String username, MultipartFile file);
+    AtomicSkillResponseDTO extractAtomicSkillsFromCV(String username, MultipartFile file);
     MemberResponseDTO completeOnboarding(String username);
 }

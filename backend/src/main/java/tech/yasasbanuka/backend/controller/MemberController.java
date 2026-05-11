@@ -50,15 +50,15 @@ public class MemberController {
     }
 
     @PostMapping("/upload-cv/onboarding")
-    public ResponseEntity<APIResponse<OnboardingAutofillResponseDTO>> extractOnboardingDetails(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<APIResponse<OnboardingAutofillResponseDTO>> extractOnboardingDetails(Authentication authentication, @RequestParam("file") MultipartFile file) {
         log.info("Received request to extract onboarding details from CV: {}", file.getOriginalFilename());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Onboarding details extracted successfully", memberservice.extractOnboardingDetails(file)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Onboarding details extracted successfully", memberservice.extractOnboardingDetails(authentication.getName(), file)), HttpStatus.CREATED);
     }
 
     @PostMapping("/upload-cv/skills")
-    public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(Authentication authentication, @RequestParam("file") MultipartFile file) {
         log.info("Received request to extract skills from CV: {}", file.getOriginalFilename());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Skills extracted successfully", memberservice.extractAtomicSkillsFromCV(file)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Skills extracted successfully", memberservice.extractAtomicSkillsFromCV(authentication.getName(), file)), HttpStatus.CREATED);
     }
 
     @PutMapping("/me")

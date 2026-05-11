@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
 import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
+import BackgroundUploadTracker from "@/features/auth/components/BackgroundUploadTracker";
 
 export const metadata: Metadata = {
   title: "ARCAIVE | Where your career is automated",
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body
         className="antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden"
       >
-        <ThemeProvider defaultTheme="dark">
+        <ThemeProvider defaultTheme="light">
           <ToastProvider>
              <QuotaExceededModal />
              <SmoothScroll>
@@ -30,6 +31,7 @@ export default function RootLayout({
               <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
               
               {children}
+              <BackgroundUploadTracker />
               
             </SmoothScroll>
           </ToastProvider>

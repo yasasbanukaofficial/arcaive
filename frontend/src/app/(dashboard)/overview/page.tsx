@@ -18,6 +18,7 @@ import CVUploadModal from "@/features/auth/components/CVUploadModal";
 import { memberAPI } from "@/features/settings/api/memberAPI";
 import { useToast } from "@/components/ui/Toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { uploadTracker } from "@/features/auth/components/BackgroundUploadTracker";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -50,12 +51,52 @@ export default function DashboardPage() {
   }, [mounted, member, memberLoading]);
 
   const handleUpload = async (file: File) => {
+    const uploadId = Math.random().toString(36).substring(7);
+    let processingInterval: NodeJS.Timeout | null = null;
+    
+    // Automatically close the modal after 10s if it's still processing, moving it to background tracker
+    const minimizeTimer = setTimeout(() => {
+      setShowUpload(false);
+    }, 10000);
+
     try {
-      await memberAPI.extractAtomicSkills(file);
-      await memberAPI.completeOnboarding(); // Mark as complete after successful upload
+      uploadTracker.start(uploadId, file.name);
+      
+      // Phase 1: Physical Upload (tracked by Axios)
+      const uploadPromise = memberAPI.extractOnboardingFromCV(file, (progressEvent: any) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        // Map upload to 0-40%
+        uploadTracker.update(uploadId, percentCompleted * 0.4);
+      });
+
+      // Phase 2: Start the crawl as soon as physical upload is likely done or ongoing
+      let currentProgress = 40;
+      processingInterval = setInterval(() => {
+        if (currentProgress < 98) {
+          // Slow incremental crawl to show "life" while waiting for AI
+          currentProgress += Math.random() * 0.8;
+          uploadTracker.update(uploadId, Math.min(currentProgress, 98), "processing");
+        }
+      }, 1200);
+
+      // WAIT for the ACTUAL backend response (this is the true completion signal)
+      await uploadPromise;
+      
+      if (processingInterval) clearInterval(processingInterval);
+      clearTimeout(minimizeTimer);
+      
+      // Phase 3: Finalize UI
+      uploadTracker.complete(uploadId);
+      setShowUpload(false); 
+      addToast({ type: "success", title: "Identity Built", description: "Your professional profile has been analyzed and synchronized." });
+      
+      // Invalidate queries to refresh the dashboard data
       queryClient.invalidateQueries({ queryKey: ["member", "settings"] });
     } catch (error) {
-      addToast({ type: "error", title: "Upload failed", description: "We couldn't process your CV. Please try again." });
+      if (processingInterval) clearInterval(processingInterval);
+      clearTimeout(minimizeTimer);
+      uploadTracker.update(uploadId, 0, "error");
+      addToast({ type: "error", title: "Build failed", description: "Our AI couldn't parse this CV package. Please retry." });
       throw error;
     }
   };

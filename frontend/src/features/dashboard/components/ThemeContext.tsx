@@ -17,16 +17,16 @@ type ThemeContextType = {
 };
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
-  isDark: true,
+  isDark: false,
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ 
   children,
-  defaultTheme = "dark"
+  defaultTheme = "light"
 }: { 
   children: React.ReactNode;
   defaultTheme?: Theme;
