@@ -49,7 +49,7 @@ export default function SubscriptionCard({
     <motion.div
       whileHover={{ y: -4, scale: 1.02 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative p-8 h-full flex flex-col rounded-[32px] border transition-all duration-300 ${
+      className={`relative p-6 h-full flex flex-col rounded-[32px] border transition-all duration-300 ${
         plan.isPopular 
           ? "border-[var(--accent-brand)] bg-[var(--d-surface)] shadow-[var(--shadow-premium)]" 
           : "border-[var(--glass-border)] bg-[var(--glass-bg)] hover:border-[var(--text-primary)]/20 shadow-[var(--shadow-premium)]"
@@ -61,7 +61,7 @@ export default function SubscriptionCard({
         </div>
       )}
 
-      <div className="mb-6">
+      <div className="mb-4">
         <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight mb-2 capitalize">
           {plan.name}
         </h3>
@@ -75,9 +75,9 @@ export default function SubscriptionCard({
         </div>
       </div>
 
-      <div className="h-[1px] w-full bg-[var(--glass-border)] mb-6" />
+      <div className="h-[1px] w-full bg-[var(--glass-border)] mb-4" />
 
-      <ul className="space-y-3 mb-6 flex-1">
+      <ul className="space-y-2 mb-6 flex-1">
         {plan.features.map((feature, index) => (
           <li key={index} className="flex items-start gap-3">
             <div className="w-5 h-5 rounded-full bg-[var(--accent-brand)]/10 flex items-center justify-center shrink-0 mt-0.5">

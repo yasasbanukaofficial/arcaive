@@ -248,7 +248,7 @@ export default function BillingPage() {
       case "subscription":
         return (
           <>
-            <div className="mb-10">
+            <div className="mb-[-250px]">
               <CurrentSubscription
                 subscription={subscription}
                 plan={currentPlan!}
@@ -376,9 +376,9 @@ export default function BillingPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: smoothEase }}
-              className="mb-6"
+              className="mb-4"
             >
-              <div className="flex items-baseline gap-4 mb-1">
+              <div className="flex items-baseline gap-4 mb-0.5">
                 <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
                   {title}
                 </h2>
@@ -386,7 +386,7 @@ export default function BillingPage() {
               <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-4" />
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-3" />
             </motion.div>
           </AnimatePresence>
 
