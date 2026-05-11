@@ -84,14 +84,18 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             log.warn("User {} attempted to create a second subscription while ACTIVE", memberUsername);
             log.info("Removing user's previous subscription: {}", member.getSubscription());
 
-            try {
-                com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(member.getSubscription().getExternalSubscriptionId());
-                SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
-                com.stripe.model.Subscription subscription = resource.cancel(params);
-                log.info("Subscription cancelled: {}", subscription.getStatus());
-            } catch (StripeException e) {
-                log.info("Error when cancelling the subscription: {}", e.getMessage());
-                throw new RuntimeException(e.getMessage());
+            String externalSubId = member.getSubscription().getExternalSubscriptionId();
+            if (externalSubId != null && !externalSubId.isEmpty()) {
+                try {
+                    com.stripe.model.Subscription resource = com.stripe.model.Subscription.retrieve(externalSubId);
+                    SubscriptionCancelParams params = SubscriptionCancelParams.builder().build();
+                    com.stripe.model.Subscription subscription = resource.cancel(params);
+                    log.info("Subscription cancelled: {}", subscription.getStatus());
+                } catch (StripeException e) {
+                    log.error("Error when cancelling Stripe subscription: {}", e.getMessage());
+                }
+            } else {
+                log.info("No external ID found for user {}. Cleaning up local record only.", memberUsername);
             }
 
             cancel(member);

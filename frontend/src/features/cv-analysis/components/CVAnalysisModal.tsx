@@ -76,7 +76,7 @@ export default function CVAnalysisModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-[600px] bg-[var(--d-surface)] border border-[var(--glass-border)] overflow-hidden rounded-[40px] shadow-[0_40px_100px_rgba(0,0,0,0.5)]"
+          className="relative w-full max-w-[600px] bg-[var(--d-surface)] border border-[var(--glass-border)] overflow-hidden rounded-[40px] shadow-[var(--shadow-premium)]"
         >
           <AnimatePresence mode="wait">
             {status === "uploading" ? (

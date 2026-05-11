@@ -152,19 +152,25 @@ class InterviewAgent(Agent):
         logger.info(f"candidate_details type: {type(candidate_details)} value: {candidate_details}")
         logger.info(f"job_details type: {type(job_details)} value: {job_details}")
 
-        self.candidate_name = (
-            candidate_details.get("name", "there")
+        def _clean_str(s):
+            if s is None: return None
+            s = str(s).strip()
+            if s.lower() in ("null", "none", "", "undefined"): return None
+            return s
+
+        self.candidate_name = _clean_str(
+            candidate_details.get("name")
             if isinstance(candidate_details, dict)
-            else "there"
+            else None
         )
 
-        self.job_title = (
-            job_details.get("title", "this position")
+        self.job_title = _clean_str(
+            job_details.get("title")
             if isinstance(job_details, dict)
             else (
-                candidate_details.get("role", "this position")
+                candidate_details.get("role")
                 if isinstance(candidate_details, dict)
-                else "this position"
+                else None
             )
         )
 
@@ -215,11 +221,16 @@ class InterviewAgent(Agent):
                 You are familiar with the job requirements, compensation, and expectations listed in the job details.
                 If the candidate asks about salary, benefits, responsibilities, or the role, answer based on the job details provided.
 
-                The candidate is applying for: {self.job_title}
+                The candidate is applying for: {self.job_title or "unknown position"}
                 Candidate level on file: {candidate_level}
                 Required level for this role: {job_level}
                 {job_context}
-                Candidate background on file: {candidate_details or "not provided"}
+                Candidate background on file: {candidate_details if (isinstance(candidate_details, dict) and any(candidate_details.values())) else "not provided"}
+
+                MANDATORY CHECK: 
+                - If the candidate's name is not on file (labeled as "unknown" or None), politely ask for it in your first response.
+                - If the job title is missing or generic, ask the candidate to confirm the role they are interviewing for.
+                - If the background/CV is missing, ask them to provide a brief overview of their experience.
 
                 {fit_guidance}
 
@@ -319,12 +330,20 @@ class InterviewAgent(Agent):
 
     async def on_enter(self):
         self._start_time = time.time()
-        await self.session.say(
-            f"Hello {self.candidate_name}, welcome to your mock interview for the "
-            f"{self.job_title} position. I've reviewed the profile data you provided earlier. "
-            f"Let's begin, tell me a little about yourself.",
-            allow_interruptions=False,
-        )
+        
+        greeting = f"Hello {self.candidate_name or 'there'}, welcome to your mock interview."
+        
+        if self.job_title:
+            greeting += f" I see you're here for the {self.job_title} position."
+        else:
+            greeting += " I don't seem to have your target job role on file; could you mention what position you're interviewing for?"
+            
+        if not self.candidate_name:
+            greeting += " Also, I didn't see your name in the profile data, may I ask who I'm speaking with?"
+
+        greeting += " To start, could you introduce yourself and tell me a bit about your background?"
+        
+        await self.session.say(greeting, allow_interruptions=False)
 
     async def on_user_turn_completed(
         self, turn_ctx: ChatContext, new_message: ChatMessage

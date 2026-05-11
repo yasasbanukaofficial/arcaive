@@ -113,11 +113,11 @@ function CheckoutContent() {
     : 0;
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-[#0e0e0e] text-[#e4e4e4]">
-      {/* Dark Ambient Grid */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+    <div className="min-h-screen relative overflow-hidden bg-[var(--bg-color)] text-[var(--text-secondary)]">
+      {/* Dynamic Ambient Grid */}
+      <div className="absolute inset-0 opacity-[0.4] pointer-events-none" 
            style={{ 
-             backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
+             backgroundImage: `linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)`,
              backgroundSize: '40px 40px' 
            }} 
       />
@@ -131,13 +131,13 @@ function CheckoutContent() {
           <motion.div variants={fadeUp} className="mb-12">
             <button
               onClick={() => router.back()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[#1f1f1f] border border-[#2a2a2a] mb-8 rounded-[24px]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[var(--d-surface-active)] border border-[var(--d-border)] text-[var(--text-primary)] mb-8 rounded-[24px]"
             >
               <ArrowLeft className="w-4 h-4" />
               Go Back
             </button>
 
-            <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
+            <h1 className="font-sans text-[32px] font-medium text-[var(--text-primary)] tracking-tight leading-none capitalize">
               Order Summary
             </h1>
           </motion.div>
@@ -157,9 +157,9 @@ function CheckoutContent() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlanChange(plan.id)}
-                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-300 group rounded-[24px] ${isSelected ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] hover:bg-[#2a2a2a]"}`}
+                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-300 group rounded-[24px] ${isSelected ? "bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)]" : "bg-[var(--d-surface)] text-[var(--text-secondary)] hover:bg-[var(--d-surface-hover)] shadow-sm"}`}
                         style={{
-                          border: `1px solid ${isSelected ? "transparent" : "#2a2a2a"}`,
+                          border: `1px solid ${isSelected ? "transparent" : "var(--d-border)"}`,
                         }}
                       >
                           {isSelected && (
@@ -174,10 +174,10 @@ function CheckoutContent() {
 
                         <div className="flex items-center gap-4">
                           <div
-                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-300 rounded-[16px] ${isSelected ? "bg-[#111111]/10" : "bg-[#2a2a2a]"}`}
+                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-300 rounded-[16px] ${isSelected ? "bg-[var(--accent-brand-contrast)]/10" : "bg-[var(--d-surface-active)]"}`}
                           >
                             <PlanIcon
-                              className={`w-6 h-6 ${isSelected ? "text-[#111111]" : "text-[#e4e4e4]"}`}
+                              className={`w-6 h-6 ${isSelected ? "text-[var(--accent-brand-contrast)]" : "text-[var(--text-primary)]"}`}
                             />
                           </div>
 
@@ -187,25 +187,25 @@ function CheckoutContent() {
                                 {plan.name}
                               </h3>
                             </div>
-                            <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-[#111111]/60" : "text-white/40"}`}>
-                              {plan.description}
-                            </p>
+                             <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-[var(--accent-brand-contrast)]/60" : "text-[var(--text-tertiary)]"}`}>
+                               {plan.description}
+                             </p>
                           </div>
 
                           <div className="text-right shrink-0">
-                            <div className="text-2xl font-black">
+                            <div className="text-2xl font-black text-[var(--text-primary)]">
                               {plan.priceDisplay}
                             </div>
-                            <div className={`text-[10px] uppercase tracking-widest opacity-60`}>
+                            <div className={`text-[10px] uppercase tracking-widest text-[var(--text-tertiary)]`}>
                               /month
                             </div>
                           </div>
 
                           <div
-                            className={`w-5 h-5 flex items-center justify-center shrink-0 rounded-[6px] border ${isSelected ? "border-[#111111] bg-[#111111]" : "border-[#3a3a3a]"}`}
+                            className={`w-5 h-5 flex items-center justify-center shrink-0 rounded-[6px] border ${isSelected ? "border-[var(--accent-brand-contrast)] bg-[var(--accent-brand-contrast)]" : "border-[var(--d-border)]"}`}
                           >
                             {isSelected && (
-                              <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
+                              <Check className="w-3 h-3 text-[var(--accent-brand)]" strokeWidth={3} />
                             )}
                           </div>
                         </div>
@@ -221,26 +221,26 @@ function CheckoutContent() {
                     whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBillingChange("month")}
-                    className={`p-6 sm:p-8 text-left transition-all duration-300 rounded-[24px] ${billingPeriod === "month" ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] border border-[#2a2a2a] hover:bg-[#2a2a2a]"}`}
+                    className={`p-6 sm:p-8 text-left transition-all duration-300 rounded-[24px] ${billingPeriod === "month" ? "bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)]" : "bg-[var(--d-surface)] text-[var(--text-secondary)] border border-[var(--d-border)] hover:bg-[var(--d-surface-hover)] shadow-sm"}`}
                   >
                     <div className="font-bold text-lg capitalize tracking-tight">
                       Monthly
                     </div>
-                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-[#111111]/50" : "text-white/30"}`}>
+                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-[var(--accent-brand-contrast)]/50" : "text-[var(--text-tertiary)]"}`}>
                       Standard cycle
                     </div>
                   </motion.button>
 
                   <div
-                    className="p-6 sm:p-8 text-left relative opacity-40 grayscale cursor-not-allowed bg-[#1f1f1f] border border-[#2a2a2a] rounded-[24px]"
+                    className="p-6 sm:p-8 text-left relative opacity-40 grayscale cursor-not-allowed bg-[var(--d-surface-active)] border border-[var(--d-border)] rounded-[24px]"
                   >
-                    <div className="absolute -top-3 right-6 bg-[#2a2a2a] px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em] rounded-[6px]">
+                    <div className="absolute -top-3 right-6 bg-[var(--d-surface-active)] text-[var(--text-tertiary)] border border-[var(--d-border)] px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em] rounded-[6px]">
                       Locked
                     </div>
-                    <div className="font-bold text-lg capitalize tracking-tight">
+                    <div className="font-bold text-lg capitalize tracking-tight text-[var(--text-primary)]">
                       Annual
                     </div>
-                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-white/30">
+                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-[var(--text-tertiary)]">
                       Savings plan
                     </div>
                   </div>
@@ -255,14 +255,14 @@ function CheckoutContent() {
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.02 }}
-                      className="flex items-start gap-4 p-4 hover:bg-[#1f1f1f] transition-all duration-300 rounded-[16px] border border-transparent hover:border-[#2a2a2a]"
+                      className="flex items-start gap-4 p-4 hover:bg-[var(--d-surface-hover)] transition-all duration-300 rounded-[16px] border border-transparent hover:border-[var(--d-border)]"
                     >
                       <div
                         className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 border border-[#4a7c59] bg-[#4a7c59]/10 rounded-[6px]"
                       >
-                        <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
+                        <Check className="w-3 h-3 text-[#4a7c59]" strokeWidth={3} />
                       </div>
-                      <span className="text-sm font-medium leading-[1.6] text-white/80">
+                      <span className="text-sm font-medium leading-[1.6] text-[var(--text-secondary)]">
                         {feature.text}
                       </span>
                     </motion.div>
@@ -273,17 +273,17 @@ function CheckoutContent() {
 
             <motion.div variants={fadeUp} className="lg:col-span-2">
               <DashboardCard title="Summary" className="sticky top-12">
-                <div className="flex items-center gap-5 mb-8 pb-8 border-b border-[#2a2a2a]">
+                <div className="flex items-center gap-5 mb-8 pb-8 border-b border-[var(--d-border)]">
                   <div
-                    className="w-16 h-16 flex items-center justify-center bg-[#e6efdf] text-[#111111] rounded-[20px] shadow-xl"
+                    className="w-16 h-16 flex items-center justify-center bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] rounded-[20px] shadow-lg"
                   >
                     <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-[#e4e4e4] leading-none capitalize">
+                    <h3 className="text-2xl font-bold text-[var(--text-primary)] leading-none capitalize">
                       {selectedPlanData?.name}
                     </h3>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mt-2">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-tertiary)] mt-2">
                       Active collection
                     </p>
                   </div>
@@ -291,35 +291,35 @@ function CheckoutContent() {
 
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
+                    <span className="text-[var(--text-tertiary)] font-bold uppercase tracking-widest text-[10px]">
                       Package
                     </span>
-                    <span className="font-bold text-[#e4e4e4]">
+                    <span className="font-bold text-[var(--text-primary)]">
                       {selectedPlanData?.priceDisplay}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
+                    <span className="text-[var(--text-tertiary)] font-bold uppercase tracking-widest text-[10px]">
                       Service Charge
                     </span>
-                    <span className="font-bold text-[#e4e4e4] uppercase text-xs">
+                    <span className="font-bold text-[var(--text-primary)] uppercase text-xs">
                       Free
                     </span>
                   </div>
                 </div>
 
-                <div className="mb-8 bg-[#1f1f1f] p-6 -mx-6 lg:-mx-8 border-t border-b border-[#2a2a2a]">
+                <div className="mb-8 bg-[var(--d-surface-active)] p-6 -mx-6 lg:-mx-8 border-t border-b border-[var(--d-border)]">
                   <div className="flex items-baseline justify-between px-2">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[var(--text-tertiary)]">
                       Total Due
                     </span>
                     <div className="text-right">
-                      <span className="text-5xl font-bold text-[#e4e4e4] tracking-tighter">
+                      <span className="text-5xl font-bold text-[var(--text-primary)] tracking-tighter">
                         {selectedPlanData?.price === 0
                           ? "0"
                           : `${selectedPlanData?.price}`}
                       </span>
-                      <span className="text-[10px] ml-2 font-bold uppercase tracking-widest text-white/40">
+                      <span className="text-[10px] ml-2 font-bold uppercase tracking-widest text-[var(--text-tertiary)]">
                         USD
                       </span>
                     </div>
@@ -331,7 +331,7 @@ function CheckoutContent() {
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] rounded-[24px]"
                     >
                       {isProcessing ? "Processing..." : "Continue with Free Plan"}
                     </button>
@@ -339,10 +339,10 @@ function CheckoutContent() {
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] rounded-[24px]"
                     >
                       {isProcessing ? (
-                        <div className="w-5 h-5 border-2 border-[#111111]/20 border-t-[#111111] rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-[var(--accent-brand-contrast)]/20 border-t-[var(--accent-brand-contrast)] rounded-full animate-spin" />
                       ) : (
                         <CreditCard className="w-4 h-4" />
                       )}
@@ -351,14 +351,14 @@ function CheckoutContent() {
                   )}
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-[#2a2a2a]">
+                <div className="mt-6 pt-6 border-t border-[var(--d-border)]">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
-                      <Shield className="w-4 h-4 text-white/40" />
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--text-tertiary)]">
+                      <Shield className="w-4 h-4 text-[var(--text-tertiary)]" />
                       <span>Encrypted Transaction via Stripe</span>
                     </div>
-                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
-                      <Zap className="w-4 h-4 text-white/40" />
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[var(--text-tertiary)]">
+                      <Zap className="w-4 h-4 text-[var(--text-tertiary)]" />
                       <span>Instant deployment upon success</span>
                     </div>
                   </div>
@@ -367,14 +367,14 @@ function CheckoutContent() {
                 <div className="mt-8 flex items-center justify-center gap-4">
                   <Link
                     href="/subscription"
-                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
+                    className="text-xs transition-colors hover:underline text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                   >
                     Compare Plans
                   </Link>
-                  <span className="text-[#2a2a2a]">|</span>
+                  <span className="text-[var(--d-border)]">|</span>
                   <Link
                     href="/billing"
-                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
+                    className="text-xs transition-colors hover:underline text-[var(--text-tertiary)] hover:text-[var(--text-primary)]"
                   >
                     Manage Billing
                   </Link>
@@ -392,9 +392,9 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#0e0e0e]">
-          <div className="text-sm text-white/50">
-            Loading...
+        <div className="min-h-screen flex items-center justify-center bg-[var(--bg-color)]">
+          <div className="text-sm text-[var(--text-tertiary)] animate-pulse">
+            Loading System Interface...
           </div>
         </div>
       }

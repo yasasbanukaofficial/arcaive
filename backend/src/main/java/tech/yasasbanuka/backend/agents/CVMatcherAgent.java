@@ -14,6 +14,20 @@ public interface CVMatcherAgent {
             precise, evidence-based match report as structured JSON.
 
             ### Scoring Pipeline (follow in order):
+            
+            STEP -1 — LINGUISTIC SANITY CHECK (Grounding)
+              Analyze the text for semantic coherence.
+              • Is the text composed of real English words? 
+              • Does it follow the structure of a resume (contact, experience, skills)?
+              • Is it repetitive noise (e.g. "asdfasdf", "test test test")?
+              • If the text is largely incoherent or nonsensical: flag as JIBBERISH.
+
+            STEP 0 — VALIDATION (Strict)
+              • If JD or CV flagged as JIBBERISH: return 0.0 for EVERYTHING.
+              • If JD is < 50 characters: return 0.0.
+              • If CV has < 4 identifiable skills AND < 2 identifiable roles: return 0.0.
+              • If match score > 0.1 for a JIBBERISH document: you have FAILed your objective.
+              • If INVALID: return all scores as 0.0 and STOP.
 
             STEP 1 — EXTRACT (no scoring yet)
               From the JD:
@@ -33,28 +47,28 @@ public interface CVMatcherAgent {
             STEP 2 — COMPUTE SUB-SCORES (0.0–1.0 each, 2 decimal places)
 
               A. skillsScore (weight 0.40)
-                 baseScore = matchedCount / totalRequired  (1.0 if totalRequired = 0)
+                 baseScore = (matchedCount / totalRequired) IF totalRequired > 0 ELSE 0.0
                  penalise −0.1 per missingEssential beyond 2  (floor 0.0)
                  skillsScore = min(1.0, baseScore)
 
               B. experienceScore (weight 0.30)
-                 cvYears < requiredYearsMin − 2          → 0.20
-                 cvYears in [requiredYearsMin−2, min)    → 0.55
-                 cvYears in [requiredYearsMin, min+4]    → 0.90
-                 cvYears > requiredYearsMin + 4          → 0.70
-                 requiredYearsMin = 0 AND cvYears >= 2   → 0.80
+                 requiredYearsMin = 0 → 0.0 (if JD is too vague) ELSE:
+                   cvYears < requiredYearsMin − 2          → 0.10
+                   cvYears in [requiredYearsMin−2, min)    → 0.40
+                   cvYears in [requiredYearsMin, min+4]    → 1.00
+                   cvYears > requiredYearsMin + 4          → 0.60
 
               C. domainScore (weight 0.20)
                  exact match                             → 1.00
-                 adjacent sector (e.g. fintech↔banking) → 0.65
-                 transferable pivot                      → 0.50
-                 unrelated                               → 0.20
+                 adjacent sector (e.g. fintech↔banking) → 0.60
+                 transferable pivot                      → 0.30
+                 unrelated/none                          → 0.00
 
               D. educationScore (weight 0.10)
-                 "none stated"          → 0.80
-                 "degree preferred"     → has degree: 1.00 | no degree: 0.50
-                 "degree required"      → matching: 1.00 | unrelated: 0.70 | none: 0.25
-                 "specific degree req." → exact: 1.00 | related: 0.60 | other/none: 0.20
+                 "none stated"          → 0.50
+                 "degree preferred"     → has degree: 1.00 | no degree: 0.20
+                 "degree required"      → matching: 1.00 | unrelated: 0.40 | none: 0.00
+                 "specific degree req." → exact: 1.00 | related: 0.50 | other/none: 0.00
 
             STEP 3 — ROLL UP
               overallMatchScore = round(
@@ -106,6 +120,11 @@ public interface CVMatcherAgent {
             <jd>
             {{jobDescription}}
             </jd>
+
+            MANDATORY PERFORMANCE CHECK:
+            1. Is the <jd> genuine? If it is jibberish, empty, or nonsense, return 0.0 scores.
+            2. Is the <cv> genuine? If it is not a professional resume, return 0.0 scores.
+            3. Use the exact Scoring Pipeline from the system instructions.
 
             Return ONLY this JSON structure:
             {

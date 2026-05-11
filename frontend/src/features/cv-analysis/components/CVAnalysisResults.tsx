@@ -59,12 +59,12 @@ export default function CVAnalysisResults({ data, file }: CVAnalysisResultsProps
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.02] to-transparent pointer-events-none" />
         <div className="flex flex-col lg:flex-row divide-y lg:divide-y-0 lg:divide-x divide-[var(--glass-border)] relative z-10">
           <div className="p-10 lg:p-16 flex flex-col items-center justify-center lg:min-w-[360px] bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] shadow-xl relative overflow-hidden group/score">
-            <div className="absolute inset-0 bg-white/[0.05] translate-y-full group-hover/score:translate-y-0 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-[var(--text-primary)]/[0.05] translate-y-full group-hover/score:translate-y-0 transition-transform duration-700" />
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] opacity-60 mb-6 relative z-10">Operational Match</span>
             <div className="font-sans text-[104px] font-bold leading-none tracking-tighter relative z-10">
               {displayScore}<span className="text-[32px] opacity-40">%</span>
             </div>
-            <div className="mt-8 px-6 py-2 rounded-full bg-[var(--bg-color)]/20 border border-white/10 text-[10px] font-bold tracking-widest uppercase relative z-10 backdrop-blur-md">
+            <div className="mt-8 px-6 py-2 rounded-full bg-[var(--bg-color)]/20 border border-[var(--text-primary)]/10 text-[10px] font-bold tracking-widest uppercase relative z-10 backdrop-blur-md">
               Fit: {data.seniorityFit?.replace(/_/g, " ")}
             </div>
           </div>
