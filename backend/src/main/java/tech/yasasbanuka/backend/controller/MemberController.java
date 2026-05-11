@@ -104,4 +104,10 @@ public class MemberController {
         log.info("Received request to update job details for user: {}", authentication.getName());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.updateJobDetailsByUsername(authentication.getName(), dto)), HttpStatus.OK);
     }
+
+    @PatchMapping("/me/complete-onboarding")
+    public ResponseEntity<APIResponse<MemberResponseDTO>> completeOnboarding(Authentication authentication) {
+        log.info("Received request to complete onboarding for user: {}", authentication.getName());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Onboarding completed successfully", memberservice.completeOnboarding(authentication.getName())), HttpStatus.OK);
+    }
 }

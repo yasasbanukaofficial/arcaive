@@ -29,4 +29,5 @@ public interface MemberService {
     MemberInternalDTO extractMemberDetails(MultipartFile file);
     OnboardingAutofillResponseDTO extractOnboardingDetails(MultipartFile file);
     AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file);
+    MemberResponseDTO completeOnboarding(String username);
 }

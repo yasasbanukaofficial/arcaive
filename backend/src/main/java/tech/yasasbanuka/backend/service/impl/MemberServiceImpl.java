@@ -447,4 +447,18 @@ public class MemberServiceImpl implements MemberService {
         log.info("Atomic skills extracted successfully from CV");
         return result;
     }
+
+    @Override
+    public MemberResponseDTO completeOnboarding(String username) {
+        log.info("Completing onboarding for user: {}", username);
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("Onboarding completion failed: Username {} not found", username);
+                    return new ResourceNotFoundException("Member not found with username: " + username);
+                });
+        existingMember.setOnboardingCompleted(true);
+        MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(existingMember));
+        log.info("Onboarding completed successfully for user: {}", username);
+        return response;
+    }
 }

@@ -144,4 +144,16 @@ export const memberAPI = {
       })
     ).data.data;
   },
+  completeOnboarding: async () => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/complete-onboarding`,
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      })
+    ).data.data;
+  },
 };
