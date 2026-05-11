@@ -20,13 +20,18 @@ import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.EmailService;
 import tech.yasasbanuka.backend.service.VerificationService;
 import tech.yasasbanuka.backend.service.mapper.MemberMapper;
+import tech.yasasbanuka.backend.repo.RefreshTokenRepository;
+import tech.yasasbanuka.backend.entity.RefreshToken;
 import tech.yasasbanuka.backend.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final MemberRepo memberRepo;
@@ -35,6 +40,10 @@ public class AuthServiceImpl implements AuthService {
     private final MemberMapper memberMapper;
     private final EmailService emailService;
     private final VerificationService verificationService;
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    @Value("${jwt.refresh.expiration:${jwt.expiration}}")
+    private long refreshExpiration;
 
     @Override
     public AuthResponseDTO authenticate(AuthRequestDTO dto) {
@@ -48,9 +57,62 @@ public class AuthServiceImpl implements AuthService {
             log.warn("Authentication failed: Incorrect password for email {}", dto.getEmail());
             throw new BadCredentialsException("Incorrect password.");
         }
-        String token = jwtUtil.generateToken(member.getUsername());
+        
+        String accessToken = jwtUtil.generateToken(member.getUsername());
+        String refreshToken = createRefreshToken(member);
+        
         log.info("User {} authenticated successfully", member.getUsername());
-        return new AuthResponseDTO(token);
+        return new AuthResponseDTO(accessToken, refreshToken);
+    }
+
+    @Override
+    public AuthResponseDTO refresh(String token) {
+        log.info("Attempting to refresh session with token");
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(token)
+                .orElseThrow(() -> new BadCredentialsException("Invalid refresh token."));
+
+        if (refreshToken.isRevoked()) {
+            log.warn("Token reuse detected for user: {}", refreshToken.getMember().getUsername());
+            refreshTokenRepository.deleteByMember(refreshToken.getMember());
+            throw new BadCredentialsException("Refresh token has been revoked.");
+        }
+
+        if (refreshToken.getExpiryDate().isBefore(Instant.now())) {
+            refreshTokenRepository.delete(refreshToken);
+            throw new BadCredentialsException("Refresh token has expired.");
+        }
+
+        Member member = refreshToken.getMember();
+        String accessToken = jwtUtil.generateToken(member.getUsername());
+        
+        // Rotate token
+        refreshTokenRepository.delete(refreshToken);
+        String newRefreshToken = createRefreshToken(member);
+
+        log.info("Session refreshed successfully for user: {}", member.getUsername());
+        return new AuthResponseDTO(accessToken, newRefreshToken);
+    }
+
+    @Override
+    public void logout(String token) {
+        log.info("Invalidating refresh token on logout");
+        refreshTokenRepository.findByToken(token).ifPresent(t -> {
+            t.setRevoked(true);
+            refreshTokenRepository.save(t);
+        });
+    }
+
+    private String createRefreshToken(Member member) {
+        RefreshToken refreshToken = refreshTokenRepository.findByMember(member)
+                .orElseGet(() -> RefreshToken.builder().member(member).build());
+        
+        String token = java.util.UUID.randomUUID().toString();
+        refreshToken.setToken(token);
+        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshExpiration));
+        refreshToken.setRevoked(false);
+        
+        refreshTokenRepository.save(refreshToken);
+        return token;
     }
 
     @Override

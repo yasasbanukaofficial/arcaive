@@ -76,14 +76,24 @@ export async function loginAction(_prevState : FormState, formData: FormData): P
     
     const token = response.data; 
 
-    if (token) {
+    if (response.success && response.data) {
+      const { accessToken, refreshToken } = response.data;
       const cookieStore = await cookies();
-      cookieStore.set('access_token', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: 'strict',
-          path: '/', 
-          maxAge: 60 * 60 * 24 * 7
+
+      cookieStore.set("access_token", accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7, // 7 days (matching Refresh Token)
+      });
+
+      cookieStore.set("refresh_token", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
       });
 
       return { success: true };
@@ -135,7 +145,7 @@ export async function logoutAction(): Promise<void> {
   };
 
   cookieStore.set("access_token", "", expire);
-  cookieStore.set("access_token", "", { ...expire, secure: true }); 
+  cookieStore.set("refresh_token", "", expire);
   cookieStore.set("JSESSIONID", "", { ...expire, httpOnly: true });
 
   // Clear any LiveKit session cookies (e.g., sb-hnhs...)

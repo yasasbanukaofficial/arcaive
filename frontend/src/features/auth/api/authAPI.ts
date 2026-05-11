@@ -20,6 +20,14 @@ export const authAPI = {
         data: payload,
       })
     ).data,
+  refresh: async () =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/refresh`,
+        withCredentials: true,
+      })
+    ).data,
 
   logout: async () =>
     (

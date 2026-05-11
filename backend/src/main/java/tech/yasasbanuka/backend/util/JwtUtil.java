@@ -17,6 +17,8 @@ import java.util.Date;
 public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
+    @Value("${jwt.refresh.expiration:${jwt.expiration}}")
+    private long refreshExpiration;
     @Value("${jwt.secret}")
     private String secretKey;
 
