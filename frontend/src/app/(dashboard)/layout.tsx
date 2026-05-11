@@ -1,64 +1,19 @@
 "use client";
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import Sidebar from "@/features/dashboard/components/Sidebar";
+import React, { Suspense } from "react";
 import TopBar from "@/features/dashboard/components/TopBar";
-import OnboardingModal from "@/features/dashboard/components/OnboardingModal";
-import {
-  SidebarProvider,
-  useSidebar,
-} from "@/features/dashboard/components/SidebarContext";
-import { ThemeProvider, useTheme } from "@/features/dashboard/components/ThemeContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 function DashboardShell({ children }: { children: React.ReactNode }) {
-  const { collapsed, isMobile } = useSidebar();
-  const { theme } = useTheme();
-  const pathname = usePathname();
-
-  const marginLeft = isMobile ? 0 : collapsed ? 72 : 260;
-  const isNoPaddingPage = pathname === "/workflow" || pathname === "/interview";
-
   return (
-    <div
-      className="dashboard-theme min-h-screen font-sans transition-colors duration-300 scroll-smooth"
-      data-theme={theme}
-      style={{ backgroundColor: "var(--d-bg)", color: "var(--d-text-primary)" }}
-    >
-      <div className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-500 will-change-auto">
-        <div
-          className="absolute top-[-5%] right-[10%] w-[50vw] h-[50vh] blur-[80px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="absolute bottom-[-10%] left-[5%] w-[60vw] h-[60vh] blur-[80px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
-          }}
-        />
-      </div>
-
-      <Sidebar />
-      <OnboardingModal />
-
-      <div
-        className="relative z-10 min-h-screen flex flex-col"
-        style={{
-          marginLeft,
-          transition: "margin-left 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
-          willChange: "margin-left",
-        }}
-      >
-        <TopBar />
-        <main
-          className={`flex-1 ${isNoPaddingPage ? "" : "p-5 sm:p-8 lg:p-10"}`}
-        >
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-primary)] font-sans selection:bg-[var(--accent-brand)] selection:text-[var(--accent-brand-contrast)] antialiased transition-colors duration-300">
+      {/* Dark Tech Noise Overlay - Scoped to Dashboard */}
+      <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.015] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <TopBar />
+      <main className="w-full px-4 md:px-6 lg:px-8 py-6 md:py-8">
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[60vh] text-[var(--text-primary)]/20 animate-pulse font-medium tracking-widest uppercase text-xs">Loading arcaive dashboard...</div>}>
           {children}
-        </main>
-      </div>
+        </Suspense>
+      </main>
     </div>
   );
 }
@@ -68,14 +23,28 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const queryClient = new QueryClient();
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: (failureCount, error: any) => {
+              // Never retry on 429 (rate limit) or 401 (unauthorized)
+              if (error?.response?.status === 429 || error?.response?.status === 401) {
+                return false;
+              }
+              return failureCount < 1;
+            },
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
   return (
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <SidebarProvider>
-          <DashboardShell>{children}</DashboardShell>
-        </SidebarProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <DashboardShell>{children}</DashboardShell>
+    </QueryClientProvider>
   );
 }

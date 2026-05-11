@@ -50,15 +50,15 @@ public class MemberController {
     }
 
     @PostMapping("/upload-cv/onboarding")
-    public ResponseEntity<APIResponse<OnboardingAutofillResponseDTO>> extractOnboardingDetails(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<APIResponse<OnboardingAutofillResponseDTO>> extractOnboardingDetails(Authentication authentication, @RequestParam("file") MultipartFile file) {
         log.info("Received request to extract onboarding details from CV: {}", file.getOriginalFilename());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Onboarding details extracted successfully", memberservice.extractOnboardingDetails(file)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Onboarding details extracted successfully", memberservice.extractOnboardingDetails(authentication.getName(), file)), HttpStatus.CREATED);
     }
 
     @PostMapping("/upload-cv/skills")
-    public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<APIResponse<AtomicSkillResponseDTO>> extractAtomicSkills(Authentication authentication, @RequestParam("file") MultipartFile file) {
         log.info("Received request to extract skills from CV: {}", file.getOriginalFilename());
-        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Skills extracted successfully", memberservice.extractAtomicSkillsFromCV(file)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.CREATED.value(), "Skills extracted successfully", memberservice.extractAtomicSkillsFromCV(authentication.getName(), file)), HttpStatus.CREATED);
     }
 
     @PutMapping("/me")
@@ -103,5 +103,11 @@ public class MemberController {
     public ResponseEntity<APIResponse<MemberResponseDTO>> updateJobDetails(Authentication authentication, @RequestBody @Valid JobDetailsDTO dto) {
         log.info("Received request to update job details for user: {}", authentication.getName());
         return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Job details updated successfully", memberservice.updateJobDetailsByUsername(authentication.getName(), dto)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/me/complete-onboarding")
+    public ResponseEntity<APIResponse<MemberResponseDTO>> completeOnboarding(Authentication authentication) {
+        log.info("Received request to complete onboarding for user: {}", authentication.getName());
+        return new ResponseEntity<>(new APIResponse<>(true, HttpStatus.OK.value(), "Onboarding completed successfully", memberservice.completeOnboarding(authentication.getName())), HttpStatus.OK);
     }
 }

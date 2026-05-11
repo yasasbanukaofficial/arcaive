@@ -61,6 +61,7 @@ public interface MemberMapper {
     @Mapping(source = "skills", target = "skills")
     @Mapping(source = "certifications", target = "certifications")
     @Mapping(source = "languages", target = "languages")
+    @Mapping(target = "onboardingCompleted", ignore = true)
     Member createRequestToEntity(MemberCreateRequestDTO dto);
 
     @Mapping(source = "memberFullName", target = "fullName")
@@ -84,6 +85,7 @@ public interface MemberMapper {
     @Mapping(source = "skills", target = "skills")
     @Mapping(source = "certifications", target = "certifications")
     @Mapping(source = "languages", target = "languages")
+    @Mapping(target = "onboardingCompleted", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateRequestToEntity(MemberUpdateRequestDTO dto, @MappingTarget Member member);
 
@@ -107,6 +109,7 @@ public interface MemberMapper {
     @Mapping(source = "skills", target = "skills")
     @Mapping(source = "certifications", target = "certifications")
     @Mapping(source = "languages", target = "languages")
+    @Mapping(target = "onboardingCompleted", ignore = true)
     Member internalDtoToEntity(MemberInternalDTO dto);
 
     @Mapping(source = "id", target = "memberId")

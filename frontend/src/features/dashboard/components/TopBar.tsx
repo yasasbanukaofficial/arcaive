@@ -1,118 +1,140 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Search, Bell, Plus, ChevronDown, Menu } from "lucide-react";
-import { fadeUp } from "./animations";
-
-const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
-import ThemeToggle from "./ThemeToggle";
-import { useSidebar } from "./SidebarContext";
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronDown, Menu, X, LogOut, Settings as SettingsIcon, Sun, Moon } from "lucide-react";
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
+import { useSubscription } from "@/features/billing/hooks/useSubscription";
+import { logoutAction } from "@/features/auth/action";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export default function TopBar() {
-  const { setMobileOpen, isMobile } = useSidebar();
+  const pathname = usePathname();
+  const { isDark, toggleTheme } = useTheme();
+  const { data: member } = useMemberSettings();
+  const { data: subscription } = useSubscription();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
+  const navLinks = [
+    { name: "Overview", href: "/overview" },
+    { name: "Create CV", href: "/create" },
+    { name: "Jobs", href: "/jobs" },
+    { name: "CV Analysis", href: "/cv-analysis" },
+    { name: "Interview", href: "/interview" },
+    { name: "Usage", href: "/usage" },
+    { name: "Billing", href: "/billing" },
+    { name: "Settings", href: "/settings" },
+  ];
   return (
-    <motion.header
-      initial="hidden"
-      animate="show"
-      variants={fadeUp}
-      className="flex items-center justify-between px-5 sm:px-8 lg:px-10 py-4 sm:py-5 border-b backdrop-blur-md sticky top-0 z-40 transition-colors duration-200 gap-4"
-      style={{
-        borderColor: "var(--d-border-subtle)",
-        backgroundColor: "var(--d-bg-alpha)",
-      }}
-    >
-      <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-        {isMobile && (
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-200 lg:hidden"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
-            }}
-            aria-label="Open menu"
+    <>
+      <header className="h-[72px] flex items-center justify-between px-6 lg:px-8 sticky top-0 z-40 bg-[var(--bg-color)]/60 backdrop-blur-xl border-b border-[var(--glass-border)] transition-colors duration-300">
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="font-sans text-[15px] font-semibold tracking-[-0.03em] text-[var(--text-primary)]">arcaive</span>
+          </Link>
+          <div className="h-4 w-[1px] bg-[var(--text-primary)]/10 hidden md:block" />
+          <nav className="hidden md:flex items-center gap-6 overflow-x-auto no-scrollbar">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || (pathname === "/overview" && link.name === "Overview");
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`font-sans text-[12px] font-medium transition-all duration-200 whitespace-nowrap relative py-1 ${
+                    isActive ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]/70"
+                  }`}
+                >
+                  {link.name}
+                  {isActive && (
+                    <div className="absolute -bottom-[26px] left-0 right-0 h-[1px] bg-[var(--text-primary)]/60" />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+          <button 
+            className="md:hidden text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+            onClick={() => setMobileMenuOpen(true)}
           >
-            <Menu className="w-5 h-5" style={{ color: "var(--d-icon)" }} />
+            <Menu className="w-5 h-5" />
           </button>
-        )}
-        <div
-          className="flex items-center gap-3 px-4 py-2.5 rounded-xl w-full max-w-lg group transition-all duration-200"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            border: "1px solid var(--d-border)",
-          }}
-        >
-          <Search
-            className="w-4.5 h-4.5 transition-colors"
-            style={{ color: "var(--d-text-muted)" }}
-          />
-          <input
-            type="text"
-            placeholder="Search anything..."
-            className="bg-transparent text-[14px] placeholder:opacity-50 outline-none w-full"
-            style={{ color: "var(--d-text-secondary)" }}
-          />
-          <kbd
-            className="hidden sm:inline-flex text-[11px] rounded-md px-2 py-0.5 font-mono"
-            style={{
-              color: "var(--d-text-ghost)",
-              backgroundColor: "var(--d-kbd-bg)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            ⌘K
-          </kbd>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ type: "tween", duration: 0.15, ease: smoothEase }}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-200"
-          style={{
-            backgroundColor: "var(--d-surface-active)",
-            border: "1px solid var(--d-border-hover)",
-            color: "var(--d-text-secondary)",
-          }}
-        >
-          <Plus className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Create</span>
-        </motion.button>
 
-        <ThemeToggle />
-
-        <button
-          className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            border: "1px solid var(--d-border)",
-          }}
-        >
-          <Bell className="w-4.5 h-4.5" style={{ color: "var(--d-icon)" }} />
-          <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-blue-500" />
-        </button>
-
-        <button className="flex items-center gap-2 px-2 py-1.5 rounded-xl transition-all duration-200 hover:opacity-80">
-          <div
-            className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500/30 to-purple-500/30 flex items-center justify-center"
-            style={{ border: "1px solid var(--d-border-hover)" }}
+        <div className="flex items-center gap-4 relative">
+          <button 
+            onClick={toggleTheme}
+            className="w-9 h-9 flex items-center justify-center rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)]/50 text-[var(--text-primary)] hover:bg-[var(--glass-bg)] transition-all duration-300 group/theme mr-2"
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <span
-              className="text-[12px] font-bold"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              Y
+            {isDark ? (
+              <Sun className="w-[14px] h-[14px] text-[var(--text-primary)]/60 group-hover/theme:text-[var(--text-primary)] transition-colors" />
+            ) : (
+              <Moon className="w-[14px] h-[14px] text-[var(--text-primary)]/60 group-hover/theme:text-[var(--text-primary)] transition-colors" />
+            )}
+          </button>
+
+          <button 
+            onClick={() => setUserMenuOpen(!userMenuOpen)}
+            className="flex items-center gap-2.5 group pl-3 py-1.5 border-l border-[var(--glass-border)]"
+          >
+            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[var(--text-primary)]/10 to-[var(--text-primary)]/5 border border-[var(--glass-border)] flex items-center justify-center overflow-hidden">
+               <span className="text-[10px] text-[var(--text-primary)]/60 font-medium uppercase">{member?.memberFullName?.charAt(0) || "U"}</span>
+            </div>
+            <span className="font-sans text-[12px] font-medium text-[var(--text-primary)]/80 group-hover:text-[var(--text-primary)] transition-colors">
+              {member?.memberFullName?.split(' ')[0] || "Account"}
             </span>
+            <ChevronDown className={`w-3 h-3 text-[var(--text-primary)]/30 transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {userMenuOpen && (
+            <div className="absolute right-0 top-full mt-2 w-52 bg-[var(--bg-color)] border border-[var(--glass-border)] rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] py-2.5 z-50 backdrop-blur-2xl">
+              <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--text-primary)]/[0.03] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-[12px] font-medium">
+                <SettingsIcon className="w-3.5 h-3.5" /> Settings
+              </Link>
+              <div className="my-1 border-t border-[var(--glass-border)]" />
+              <form action={async () => {
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("token");
+                await logoutAction();
+              }}>
+                <button type="submit" className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-red-500/[0.03] text-red-500/60 hover:text-red-500 transition-colors text-[12px] font-medium text-left">
+                  <LogOut className="w-3.5 h-3.5" /> Log out
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#0e0e0e] flex flex-col p-6">
+          <div className="flex justify-between items-center mb-12">
+            <div className="w-10 h-10 rounded-[12px] border border-[#2a2a2a] flex items-center justify-center bg-[#161616]">
+              <span className="font-mono text-[16px] font-bold text-white">A</span>
+            </div>
+            <button onClick={() => setMobileMenuOpen(false)} className="text-white/50 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
           </div>
-          <ChevronDown
-            className="w-3 h-3 hidden sm:block"
-            style={{ color: "var(--d-text-muted)" }}
-          />
-        </button>
-      </div>
-    </motion.header>
+          <nav className="flex flex-col gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`font-sans text-[24px] font-medium transition-colors ${
+                  pathname === link.href ? "text-white" : "text-white/50"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      )}
+    </>
   );
 }

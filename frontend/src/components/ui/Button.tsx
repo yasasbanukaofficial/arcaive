@@ -25,9 +25,9 @@ type ButtonProps = {
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: "px-3 py-1.5 text-[12px] rounded-lg gap-1.5",
-  md: "px-4 py-2.5 text-[13px] rounded-xl gap-2",
-  lg: "px-6 py-3 text-[14px] rounded-xl gap-2.5",
+  sm: "px-3 py-1.5 text-[12px]  gap-1.5",
+  md: "px-4 py-2.5 text-[13px]  gap-2",
+  lg: "px-6 py-3 text-[14px]  gap-2.5",
 };
 
 function getVariantStyles(variant: ButtonVariant): React.CSSProperties {
@@ -112,58 +112,53 @@ export default function Button({
   fullWidth = false,
   className = "",
   style: customStyle,
-  backgroundColor,
-  textColor,
-  borderColor,
 }: ButtonProps) {
-  const baseStyle = getVariantStyles(variant);
-  const hoverStyle = getHoverStyles(variant);
-
-  const finalBaseStyle = {
-    ...baseStyle,
-    ...(backgroundColor && { backgroundColor }),
-    ...(textColor && { color: textColor }),
-    ...(borderColor && { border: `1px solid ${borderColor}` }),
-    ...customStyle,
+  const getVariantClass = () => {
+    switch (variant) {
+      case "primary":
+        return "btn-primary";
+      case "ghost":
+        return "btn-ghost";
+      case "danger":
+        return "btn-ghost border-[#D83B2A] text-[#D83B2A] hover:bg-[#D83B2A] hover:text-white";
+      case "secondary":
+      default:
+        return "btn-ghost";
+    }
   };
 
-  const finalHoverStyle = {
-    ...hoverStyle,
-    ...(backgroundColor && { backgroundColor }),
-    ...(textColor && { color: textColor }),
+  const getSizeClass = () => {
+    switch (size) {
+      case "sm":
+        return "px-4 py-2 text-[10px]";
+      case "lg":
+        return "px-8 py-4 text-[13px]";
+      case "md":
+      default:
+        return "px-[28px] py-[14px] text-[12px]";
+    }
   };
 
   return (
-    <motion.button
+    <button
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      whileHover={disabled || loading ? undefined : { scale: 1.02 }}
-      whileTap={disabled || loading ? undefined : { scale: 0.97 }}
       className={`
-        inline-flex items-center justify-center font-medium
-        transition-all duration-200
+        ${getVariantClass()}
+        ${getSizeClass()}
+        inline-flex items-center justify-center font-mono uppercase tracking-[0.15em]
+         duration-200
         disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20
-        ${sizeStyles[size]}
+        focus:outline-none
         ${fullWidth ? "w-full" : ""}
         ${className}
       `}
-      style={finalBaseStyle}
-      onMouseEnter={(e) => {
-        if (!disabled && !loading) {
-          Object.assign(e.currentTarget.style, finalHoverStyle);
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!disabled && !loading) {
-          Object.assign(e.currentTarget.style, finalBaseStyle);
-        }
-      }}
+      style={{ borderRadius: "var(--radius)", ...customStyle }}
     >
       {loading && (
         <svg
-          className="animate-spin w-3.5 h-3.5 shrink-0"
+          className="animate-spin w-3.5 h-3.5 mr-2 shrink-0"
           viewBox="0 0 24 24"
           fill="none"
         >
@@ -183,16 +178,16 @@ export default function Button({
         </svg>
       )}
       {!loading && icon && iconPosition === "left" && (
-        <span className="shrink-0 w-4 h-4 flex items-center justify-center">
+        <span className="shrink-0 mr-2 flex items-center justify-center">
           {icon}
         </span>
       )}
       <span>{children}</span>
       {!loading && icon && iconPosition === "right" && (
-        <span className="shrink-0 w-4 h-4 flex items-center justify-center">
+        <span className="shrink-0 ml-2 flex items-center justify-center">
           {icon}
         </span>
       )}
-    </motion.button>
+    </button>
   );
 }

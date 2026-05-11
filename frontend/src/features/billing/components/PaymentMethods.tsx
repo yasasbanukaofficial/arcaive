@@ -26,16 +26,16 @@ export default function PaymentMethods({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl p-6"
+      className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
+        backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
       <div className="flex items-center justify-between mb-4">
         <h2
           className="text-xl font-semibold"
-          style={{ color: "var(--d-text-primary)" }}
+          style={{ color: "var(--text-primary)" }}
         >
           Payment Methods
         </h2>
@@ -61,31 +61,31 @@ export default function PaymentMethods({
           methods.map((method) => (
             <div
               key={method.id}
-              className="flex items-center justify-between p-4 rounded-xl"
+              className="flex items-center justify-between p-4 "
               style={{
                 backgroundColor: isDark
-                  ? "var(--d-surface-hover)"
-                  : "rgba(0,0,0,0.02)",
+                  ? "var(--bg-color)"
+                  : "var(--d-surface-hover)",
                 border: method.isDefault
-                  ? "2px solid var(--d-accent)"
-                  : "1px solid var(--d-border-subtle)",
+                  ? "2px solid var(--d-text-primary)"
+                  : "1px solid var(--d-border)",
               }}
             >
               <div className="flex items-center gap-3">
                 <div
-                  className="p-2 rounded-lg"
-                  style={{ backgroundColor: "var(--d-accent)", opacity: 0.1 }}
+                  className="p-2 "
+                  style={{ backgroundColor: "var(--text-primary)", opacity: 0.1 }}
                 >
                   <CreditCard
                     className="w-5 h-5"
-                    style={{ color: "var(--d-accent)" }}
+                    style={{ color: "var(--text-primary)" }}
                   />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <p
                       className="text-sm font-medium"
-                      style={{ color: "var(--d-text-primary)" }}
+                      style={{ color: "var(--text-primary)" }}
                     >
                       {method.type === "card"
                         ? `${method.brand} •••• ${method.last4}`
@@ -93,10 +93,10 @@ export default function PaymentMethods({
                     </p>
                     {method.isDefault && (
                       <span
-                        className="text-xs px-2 py-0.5 rounded-full"
+                        className="text-xs px-2 py-0.5 "
                         style={{
-                          backgroundColor: "var(--d-accent)",
-                          color: isDark ? "#000000" : "#ffffff",
+                          backgroundColor: "var(--text-primary)",
+                          color: "var(--d-bg)",
                         }}
                       >
                         Default
@@ -126,7 +126,7 @@ export default function PaymentMethods({
                 )}
                 <button
                   onClick={() => onRemove(method.id)}
-                  className="p-2 rounded-lg transition-colors"
+                  className="p-2  transition-colors"
                   style={{
                     color: "var(--d-error)",
                   }}

@@ -1,114 +1,89 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { fadeInUp, staggerContainer } from "@/components/animations/variants";
-import PricingCard from "./PricingCard";
-import SectionHeader from "@/components/layout/SectionHeader";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
 
-const PricingSection = () => {
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const plans = [
+  {
+    name: "STRATEGIST",
+    price: 19,
+    desc: "Advanced tools for serious seekers. 20 AI analyses & 10 auto-applications per month.",
+  },
+  {
+    name: "ARCHITECT",
+    price: 42,
+    desc: "Unlimited access for professionals. Priority queue and infinite mock interviews.",
+  },
+];
+
+export default function PricingSection() {
   const router = useRouter();
+  const container = useRef(null);
 
-  const planIdMap: Record<string, string> = {
-    Explorer: "explorer",
-    Strategist: "strategist",
-    Architect: "architect",
-  };
-
-  const handlePlanSelect = (planName: string) => {
-    const planId = planIdMap[planName];
-    if (planId) {
-      router.push(`/subscription/checkout?plan=${planId}&billing=month`);
-    }
-  };
-  const pricingPlans = [
-    {
-      plan: "Explorer",
-      price: 0,
-      description:
-        "Essential AI tools to get started with AI-powered job hunting.",
-      buttonText: "Start for Free",
-      features: [
-        "3 CV analyses/month",
-        "1 mock interview/month",
-        "5 job results/set",
-        "Manual job input",
-        "1 CV version stored",
-      ],
-    },
-    {
-      plan: "Strategist",
-      price: 12,
-      description:
-        "Advanced AI tools for serious job seekers who want to scale.",
-      buttonText: "Upgrade to Strategist",
-      popular: true,
-      features: [
-        "20 CV analyses/month",
-        "15 mock interviews/month",
-        "20 job results/set",
-        "10 auto-applications/month",
-        "AI CV rewriting",
-        "5 CV versions stored",
-        "Agent transparency",
-      ],
-    },
-    {
-      plan: "Architect",
-      price: 29,
-      description:
-        "Unlimited access with priority processing for maximum productivity.",
-      buttonText: "Get Architect",
-      features: [
-        "Unlimited CV analyses",
-        "Unlimited mock interviews",
-        "50 job results/set",
-        "Unlimited auto-apply",
-        "Priority AI queue",
-        "Unlimited CV versions",
-        "Early feature access",
-      ],
-    },
-  ];
+  useGSAP(() => {
+    gsap.from(".pricing-reveal", {
+      opacity: 0,
+      y: 60,
+      duration: 1.5,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 60%",
+      },
+    });
+  }, { scope: container });
 
   return (
-    <section
-      id="pricing"
-      className="py-20 sm:py-28 bg-[#0a0a0a]"
-    >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          variants={staggerContainer(0.1, 0.1)}
-          className="text-left mb-12 sm:mb-16"
-        >
-          <SectionHeader
-            label="Pricing"
-            title="Simple, transparent"
-            subtitle="pricing."
-          />
-          <p className="text-white/40 text-base sm:text-lg max-w-xl mt-4">
-            Choose the plan that fits your needs. Upgrade or downgrade anytime.
-          </p>
-        </motion.div>
+    <section id="pricing" ref={container} className="scene-section items-end pb-32">
+      <div className="w-full relative z-10 flex flex-col justify-end">
+        <div className="pricing-reveal mb-24">
+          <h2 className="leading-[1] text-[var(--text-primary)] font-bold font-sans tracking-tight" style={{ fontSize: "clamp(48px, 8vw, 120px)"}}>
+            ACCESS THE<br/>
+            INTELLIGENCE.
+          </h2>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer(0.15, 0.1)}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
-        >
-          {pricingPlans.map((plan, index) => (
-            <PricingCard key={index} {...plan} onSelect={handlePlanSelect} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:w-2/3 ml-auto">
+          {plans.map((plan, i) => (
+            <div
+              key={plan.name}
+              className="pricing-reveal oryzo-panel flex flex-col"
+            >
+              <div className="flex items-center justify-between mb-16 border-b border-[var(--border-light)] pb-6">
+                <h3 className="font-sans text-[24px] font-bold tracking-tight">{plan.name}</h3>
+                <span className="font-sans text-[32px] font-medium tracking-tight">€{plan.price}</span>
+              </div>
+              <p className="font-sans text-[16px] text-[var(--text-secondary)] mb-12">
+                {plan.desc}
+              </p>
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+                  if (token) {
+                    router.push("/billing");
+                  } else {
+                    router.push("/login");
+                  }
+                }}
+                className="btn-hover mt-auto flex items-center justify-between w-full border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-4 transition-colors duration-500"
+              >
+                <span className="oryzo-label btn-hover-text">GET ACCESS</span>
+                <ArrowUpRight className="w-4 h-4 btn-hover-dot" />
+              </button>
+
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default PricingSection;
+}

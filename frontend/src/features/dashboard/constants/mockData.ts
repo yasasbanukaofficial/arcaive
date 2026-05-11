@@ -22,22 +22,22 @@ export interface AgentData {
 
 export const DUMMY_AGENTS: AgentData[] = [
   {
-    name: "Recruiter Agent",
-    description: "Screening roles & scoring fit",
+    name: "Talent scout",
+    description: "Screening opportunities and evaluating compatibility",
     status: "active",
     tasks: 24,
     icon: "🎯",
   },
   {
-    name: "Resume Agent",
-    description: "Tailoring CVs for applications",
+    name: "Resume architect",
+    description: "Crafting tailored resumes for target positions",
     status: "active",
     tasks: 18,
     icon: "📄",
   },
   {
-    name: "Interview Prep",
-    description: "Generating mock questions",
+    name: "Interview coach",
+    description: "Preparing personalized practice questions",
     status: "paused",
     tasks: 7,
     icon: "🎤",
@@ -55,36 +55,36 @@ export interface ActivityData {
 export const DUMMY_ACTIVITIES: ActivityData[] = [
   {
     icon: Bot,
-    title: "Resume Agent completed tailoring",
-    description: "Tailored CV for Senior Frontend role at Stripe",
+    title: "Resume architect finished customization",
+    description: "Optimized CV for senior frontend position at Stripe",
     time: "2 min ago",
     status: "success",
   },
   {
     icon: Send,
-    title: "Auto-apply submitted",
-    description: "Application sent to Google — ML Engineer",
+    title: "Automated application dispatched",
+    description: "Submitted application to Google for ML engineer role",
     time: "15 min ago",
     status: "success",
   },
   {
     icon: AlertCircle,
-    title: "API rate limit warning",
-    description: "Approaching daily limit — 92% usage",
+    title: "API rate limit alert",
+    description: "Approaching daily quota — currently at 92% capacity",
     time: "1 hr ago",
     status: "warning",
   },
   {
     icon: FileText,
-    title: "Cover letter generated",
-    description: "For Product Designer position at Figma",
+    title: "Cover letter crafted",
+    description: "Generated personalized cover letter for product designer role at Figma",
     time: "3 hrs ago",
     status: "success",
   },
   {
     icon: CheckCircle2,
-    title: "Interview prep completed",
-    description: "Mock interview for System Design round",
+    title: "Interview preparation completed",
+    description: "Completed mock interview session for system design assessment",
     time: "5 hrs ago",
     status: "success",
   },
@@ -102,7 +102,7 @@ export interface StatData {
 
 export const DUMMY_STATS: StatData[] = [
   {
-    label: "Total API Requests",
+    label: "Total API requests",
     value: "12,847",
     change: "+14.2%",
     trending: "up",
@@ -111,7 +111,7 @@ export const DUMMY_STATS: StatData[] = [
     borderColor: "border-blue-500/10",
   },
   {
-    label: "Active Agents",
+    label: "Active agents",
     value: "6",
     change: "+2",
     trending: "up",
@@ -120,7 +120,7 @@ export const DUMMY_STATS: StatData[] = [
     borderColor: "border-amber-500/10",
   },
   {
-    label: "Applications Sent",
+    label: "Applications sent",
     value: "342",
     change: "+28.5%",
     trending: "up",
@@ -129,7 +129,7 @@ export const DUMMY_STATS: StatData[] = [
     borderColor: "border-emerald-500/10",
   },
   {
-    label: "Avg Response Time",
+    label: "Avg response time",
     value: "1.2s",
     change: "-8.3%",
     trending: "down",
@@ -152,27 +152,27 @@ export interface WhatsNewItem {
 export const DUMMY_WHATS_NEW: WhatsNewItem[] = [
   {
     icon: "✨",
-    title: "Multi-Agent Swarm v2",
-    description: "Our most intelligent orchestration yet.",
+    title: "Multi-agent swarm v2",
+    description: "Our most sophisticated AI orchestration system to date.",
     tag: "New",
   },
   {
     icon: "🖼️",
-    title: "Visual Resume Builder",
-    description: "State-of-the-art template generation.",
+    title: "Visual resume builder",
+    description: "Next-generation template generation with intelligent design.",
     tag: "Beta",
   },
   {
     icon: "🎬",
-    title: "Interview Simulator 3.0",
-    description: "Now with real-time video analysis.",
+    title: "Interview simulator 3.0",
+    description: "Enhanced with real-time video analysis and adaptive questioning.",
     tag: "New",
   },
   {
     icon: "🔊",
-    title: "Voice Practice Mode",
-    description: "Practice verbal responses with AI feedback.",
-    tag: "Coming Soon",
+    title: "Voice practice mode",
+    description: "Refine your verbal communication with intelligent AI feedback.",
+    tag: "Coming soon",
   },
 ];
 
@@ -186,29 +186,29 @@ export interface QuickActionTemplate {
 
 export const DUMMY_QUICK_ACTIONS: QuickActionTemplate[] = [
   {
-    title: "Resume Builder",
-    description: "AI-powered resume tailoring for specific job descriptions",
+    title: "Resume builder",
+    description: "AI-powered resume optimization for targeted job opportunities",
     icon: FileText,
     gradient: "from-blue-500/10 to-cyan-500/5",
     tag: "Popular",
   },
   {
-    title: "Mock Interview",
-    description: "Practice with AI interviewers and get instant feedback",
+    title: "Mock interview",
+    description: "Simulate interviews with AI coaches and receive real-time feedback",
     icon: MessageSquare,
     gradient: "from-purple-500/10 to-pink-500/5",
     tag: "New",
   },
   {
-    title: "Auto Apply",
-    description: "Let our agents find and apply to matching roles for you",
+    title: "Auto apply",
+    description: "Deploy intelligent agents to discover and apply for matching positions",
     icon: Bot,
     gradient: "from-amber-500/10 to-orange-500/5",
     tag: "Template",
   },
   {
-    title: "Cover Letter",
-    description: "Generate tailored cover letters in seconds with AI",
+    title: "Cover letter",
+    description: "Craft compelling cover letters instantly with advanced AI assistance",
     icon: Sparkles,
     gradient: "from-emerald-500/10 to-teal-500/5",
     tag: "Template",

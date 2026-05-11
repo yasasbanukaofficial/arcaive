@@ -22,66 +22,56 @@ export default function CVAnalysisLoading() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[320px] sm:min-h-[380px] py-8 sm:py-10 px-4 sm:px-6 text-center">
-      <div className="mb-6 sm:mb-8">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center relative"
-             style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border)" }}>
+    <div className="flex flex-col items-center justify-center py-12 text-center">
+      <div className="relative mb-16">
+        <div className="w-24 h-24 rounded-full border border-[var(--glass-border)] flex items-center justify-center relative">
           <motion.div
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute inset-0 rounded-2xl border-2 border-dashed"
-            style={{ borderColor: "var(--d-border-subtle)" }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="w-20 h-20 rounded-full border-t-2 border-r-2 border-[var(--accent-brand)] shadow-[0_0_20px_rgba(223,231,216,0.2)]"
           />
-          <div className="relative z-10 w-8 h-8 sm:w-10 sm:h-10 rounded-xl"
-               style={{ backgroundColor: "var(--d-surface)", border: "1px solid var(--d-border)" }}>
-            <motion.div
-              className="w-full h-full rounded-xl border-2 border-t-blue-500"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
+          <div className="absolute inset-0 flex items-center justify-center">
+             <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] animate-pulse" />
           </div>
         </div>
       </div>
 
-      <div className="max-w-sm w-full space-y-5 sm:space-y-6">
-        <div className="space-y-2">
-          <h3 className="text-lg sm:text-xl font-medium" style={{ color: "var(--d-text-primary)" }}>
-            Processing
+      <div className="max-w-md w-full space-y-10">
+        <div className="space-y-3">
+          <h3 className="text-[28px] font-bold text-[var(--text-primary)] tracking-tight">
+            Neural Processing
           </h3>
-          <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
-            Analyzing your CV against job requirements
+          <p className="text-[14px] font-medium text-[var(--text-secondary)] max-w-[320px] mx-auto leading-relaxed">
+            Initializing high-precision semantic alignment between entities.
           </p>
         </div>
         
-        <div className="h-10 sm:h-12 rounded-xl border flex items-center justify-center overflow-hidden"
-             style={{ backgroundColor: "var(--d-surface-hover)", borderColor: "var(--d-border)" }}>
+        <div className="h-14 flex items-center justify-center bg-[var(--text-primary)]/[0.02] border border-[var(--glass-border)] rounded-[20px] px-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="px-3 sm:px-4"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.02 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="text-xs sm:text-sm font-medium" style={{ color: "var(--d-text-secondary)" }}>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent-brand)]">
                 {steps[currentStep]}
               </p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <div className="flex justify-center gap-1.5 sm:gap-2">
+        <div className="flex justify-center gap-3">
           {steps.map((_, i) => (
-            <div 
+            <motion.div 
               key={i} 
-              className={`h-1 rounded-full transition-all duration-300 ${i === currentStep ? "w-5 sm:w-6 bg-blue-500" : "w-1.5 sm:w-2 bg-white/10"}`} 
+              animate={{ 
+                scaleY: i === currentStep ? 1.5 : 1,
+                backgroundColor: i === currentStep ? "var(--accent-brand)" : "var(--glass-border)",
+                opacity: i === currentStep ? 1 : 0.4
+              }}
+              className="h-1 w-10 rounded-full transition-all duration-700"
             />
           ))}
         </div>

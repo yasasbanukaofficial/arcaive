@@ -1,102 +1,82 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
+import React, { useState, useRef } from "react";
 import FAQItem from "./FAQItem";
-import SectionHeader from "@/components/layout/SectionHeader";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const faqData = [
   {
-    question: "What is this AI platform designed for?",
-    answer:
-      "It helps you generate, test, and deploy ideas with advanced AI models — all in one simple workspace.",
+    question: "What is the Intelligence Swarm?",
+    answer: "Our Intelligence Swarm consists of three specialized AI agents that work in parallel to deconstruct, synchronize, and optimize your professional narrative for the modern job market.",
   },
   {
-    question: "Do I need technical knowledge to use it?",
-    answer:
-      "No. Our interface is built for everyone. Whether you're a developer or a creative, you can leverage high-end AI without writing a single line of code.",
+    question: "Do I need to be a technical expert?",
+    answer: "No. Arcaive is designed to handle the complexity for you. Our interface is minimal and declarative, allowing you to focus on your career strategy while we manage the execution.",
   },
   {
-    question: "Which AI models power the tool?",
-    answer:
-      "We integrate with the latest state-of-the-art models including GPT-4o, Claude 3.5 Sonnet, and specialized open-source models to ensure the best output for every task.",
+    question: "How does the auto-apply system work?",
+    answer: "Once you approve a target role, our agents autonomously handle the submission process—including hyper-tailored resume generation and form completion—with precision tracking.",
   },
   {
-    question: "Is there a free plan available?",
-    answer:
-      "Yes, we offer a generous free tier that allows you to explore our core features and get a feel for the platform's capabilities.",
-  },
-  {
-    question: "Can I use this for business purposes?",
-    answer:
-      "Absolutely. Our Pro and Enterprise plans are specifically designed with commercial licensing, team collaboration tools, and enhanced security in mind.",
-  },
-  {
-    question: "How can I get support if I have issues?",
-    answer:
-      "Our support team is available via live chat and email. Pro members get priority response times, while Enterprise customers have access to a dedicated account manager.",
+    question: "Is my data secure?",
+    answer: "Security is built into our core. Every piece of your professional data is encrypted and stored in an isolated vector database, used exclusively for your personal career optimizations.",
   },
 ];
 
-const FAQSection = () => {
+export default function FAQSection() {
+  const container = useRef(null);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  return (
-    <section
-      id="faq"
-      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] text-white font-sans selection:bg-white/20"
-    >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="FAQ"
-            title="Your questions,"
-            subtitle="answered with clarity"
-          />
-        </div>
+  useGSAP(() => {
+    gsap.from(".faq-reveal", {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      stagger: 0.1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 70%",
+      },
+    });
+  }, { scope: container });
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.1, 0.1)}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 md:gap-x-12 lg:gap-x-16 gap-y-0 items-start"
-        >
-          <div className="flex flex-col">
-            {faqData.slice(0, 3).map((item, index) => (
-              <motion.div key={index} variants={bounceIn}>
+  return (
+    <section id="faq" ref={container} className="scene-container py-32 px-6 lg:px-12 border-b border-[var(--border-light)]">
+      <div className="content-wrapper w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          <div className="lg:col-span-5 flex flex-col gap-8 faq-reveal">
+            <div>
+              <span className="oryzo-label mb-6 block text-[var(--text-secondary)]">Knowledge Base</span>
+              <h2 className="font-sans text-[clamp(36px,5vw,56px)] font-bold leading-[1] tracking-tight text-[var(--text-primary)] max-w-[400px]">
+                Seeking <br/><span className="italic text-[var(--text-secondary)] font-light">understanding.</span>
+              </h2>
+            </div>
+            <p className="font-sans text-[16px] text-[var(--text-secondary)] leading-relaxed max-w-[320px] font-light">
+              We operate with absolute transparency. Every mechanism and protocol is fully documented below.
+            </p>
+          </div>
+
+          <div className="lg:col-span-7 flex flex-col border-t border-[var(--border-light)]">
+            {faqData.map((item, index) => (
+              <div key={index} className="faq-reveal">
                 <FAQItem
                   question={item.question}
                   answer={item.answer}
                   isOpen={openIndex === index}
                   onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
-
-          <div className="flex flex-col">
-            {faqData.slice(3).map((item, index) => {
-              const actualIndex = index + 3;
-              return (
-                <motion.div key={actualIndex} variants={bounceIn}>
-                  <FAQItem
-                    question={item.question}
-                    answer={item.answer}
-                    isOpen={openIndex === actualIndex}
-                    onClick={() =>
-                      setOpenIndex(openIndex === actualIndex ? -1 : actualIndex)
-                    }
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-};
-
-export default FAQSection;
+}

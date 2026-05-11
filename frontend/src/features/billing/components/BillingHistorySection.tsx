@@ -42,15 +42,15 @@ export default function BillingHistorySection({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl p-6"
+      className=" p-6"
       style={{
-        backgroundColor: isDark ? "var(--d-surface)" : "#ffffff",
+        backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
       }}
     >
       <h2
         className="text-xl font-semibold mb-4"
-        style={{ color: "var(--d-text-primary)" }}
+        style={{ color: "var(--text-primary)" }}
       >
         Billing History
       </h2>
@@ -67,12 +67,12 @@ export default function BillingHistorySection({
           history.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between p-4 rounded-xl transition-colors"
+              className="flex items-center justify-between p-4  transition-colors"
               style={{
                 backgroundColor: isDark
-                  ? "var(--d-surface-hover)"
-                  : "rgba(0,0,0,0.02)",
-                border: "1px solid var(--d-border-subtle)",
+                  ? "var(--bg-color)"
+                  : "var(--d-surface-hover)",
+                border: "1px solid var(--d-border)",
               }}
             >
               <div className="flex items-center gap-3">
@@ -80,7 +80,7 @@ export default function BillingHistorySection({
                 <div>
                   <p
                     className="text-sm font-medium"
-                    style={{ color: "var(--d-text-primary)" }}
+                    style={{ color: "var(--text-primary)" }}
                   >
                     {new Date(item.date).toLocaleDateString("en-US", {
                       month: "long",
@@ -100,7 +100,7 @@ export default function BillingHistorySection({
               <div className="flex items-center gap-4">
                 <span
                   className="text-lg font-semibold"
-                  style={{ color: "var(--d-text-primary)" }}
+                  style={{ color: "var(--text-primary)" }}
                 >
                   ${item.amount.toFixed(2)}
                 </span>

@@ -10,9 +10,9 @@ interface InterviewSetupModalProps {
 }
 
 const SetupPoint = ({ icon: Icon, title, description, color }: { icon: any, title: string, description: string, color: string }) => (
-  <div className="flex gap-4 p-4 rounded-2xl transition-all" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
+  <div className="flex gap-4 p-4  " style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
     <div 
-      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" 
+      className="w-10 h-10  flex items-center justify-center shrink-0" 
       style={{ backgroundColor: `${color}15`, color: color }}
     >
       <Icon size={20} />
@@ -29,109 +29,78 @@ export default function InterviewSetupModal({ isOpen, onStart }: InterviewSetupM
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          className="relative w-full max-w-[560px] bg-[#161616] border border-[#2a2a2a] overflow-hidden shadow-2xl rounded-[24px]"
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg rounded-[2.5rem] border p-8 shadow-2xl overflow-hidden"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: "var(--d-border)",
-            }}
-          >
-            {/* Background Decor */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[100px] rounded-full" />
-            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 blur-[100px] rounded-full" />
-
-            <div className="relative z-10">
-              {/* Header */}
-              <div className="flex flex-col items-center text-center mb-8">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 shadow-xl"
-                  style={{ 
-                    background: "linear-gradient(135deg, var(--d-accent-blue) 0%, #6366f1 100%)",
-                    boxShadow: "0 8px 30px rgba(59, 130, 246, 0.3)"
-                  }}
-                >
-                  <Mic size={32} className="text-white" />
-                </div>
-                <h2
-                  className="text-2xl font-bold tracking-tight mb-2"
-                  style={{ color: "var(--d-text-primary)" }}
-                >
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between px-8 sm:px-12 py-8 bg-[#161616]">
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-[var(--text-secondary)] mb-1 block">Protocol Initialization</span>
+                <h2 className="font-sans text-[20px] sm:text-[24px] font-bold text-[var(--text-primary)] uppercase tracking-tight">
                   Interview Setup
                 </h2>
-                <p
-                  className="text-[14px] max-w-[300px]"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
-                  Please review these important details before starting your mock interview.
-                </p>
               </div>
-
-              {/* Points Grid */}
-              <div className="grid gap-3 mb-8">
-                <SetupPoint 
-                  icon={Mic}
-                  title="Allow Microphone Access"
-                  description="You need to enable your microphone so the interviewer can hear you clearly."
-                  color="#3b82f6"
-                />
-                <SetupPoint 
-                  icon={Shield}
-                  title="Privacy Guaranteed"
-                  description="Your interview is completely private. No audio or video is recorded during the session."
-                  color="#10b981"
-                />
-                <SetupPoint 
-                  icon={Database}
-                  title="Temporary Data"
-                  description="Any details you provide are temporary and will not be stored in our database."
-                  color="#f59e0b"
-                />
-                <SetupPoint 
-                  icon={RefreshCcw}
-                  title="Refresh to Reset"
-                  description="Refreshing the page clears all session data and automatically ends the call."
-                  color="#ef4444"
-                />
-              </div>
-
-              {/* Action */}
               <button
                 onClick={onStart}
-                className="group relative w-full py-4 rounded-2xl text-[15px] font-bold text-white transition-all overflow-hidden"
-                style={{ backgroundColor: "var(--d-accent-blue)" }}
+                className="w-10 h-10 flex items-center justify-center text-[var(--text-primary)] border border-[var(--glass-border)] hover:bg-[var(--glass-border)] transition-all rounded-[var(--radius)]"
               >
-                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative flex items-center justify-center gap-2">
-                  <Play size={18} fill="currentColor" />
-                  Start Mock Interview
-                </div>
+                <X className="w-5 h-5" />
               </button>
+            </div>
+            
+            <div className="h-[1px] bg-[#2a2a2a]" />
 
-              <div className="flex items-center justify-center gap-1.5 mt-4">
-                <Info size={12} className="text-muted-foreground" style={{ color: "var(--d-text-muted)" }} />
-                <p className="text-[11px] font-medium uppercase tracking-wider" style={{ color: "var(--d-text-muted)" }}>
-                  Secure Session Powered by Arcaive AI
+            <div className="px-8 sm:px-12 py-10 space-y-10">
+              <div className="space-y-4">
+                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                  Verify your environment and permissions before proceeding to the session.
                 </p>
               </div>
+
+              <div className="space-y-6">
+                {[
+                  { title: "Profile Integration", desc: "The agent references the data you provided during signup to personalize your interview." },
+                  { title: "Privacy Shield", desc: "Your conversation is not recorded or used for illegal purposes; your data remains secure." },
+                  { title: "Standard Protocol", desc: "Enable microphone for high-fidelity communication analysis." },
+                  { title: "Network Link", desc: "Refreshing the node will terminate the active session." },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-6 items-start group">
+                    <span className="font-mono text-[11px] text-[var(--text-secondary)] opacity-30 mt-1 shrink-0">0{idx + 1}</span>
+                    <div className="space-y-1">
+                       <h3 className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-primary)] font-black group-hover:translate-x-1 transition-transform">{item.title}</h3>
+                       <p className="font-sans text-[13px] text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </motion.div>
+
+            <div className="p-8 sm:p-12 pt-0">
+               <button
+                  className="w-full py-5 text-[12px] font-black uppercase tracking-[0.3em] transition-all hover:opacity-90 active:scale-95 shadow-xl rounded-[24px]"
+                  style={{ backgroundColor: "#e6efdf", color: "#111111" }}
+                  onClick={onStart}
+                >
+                  INITIALIZE SESSION
+                </button>
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] text-center mt-6 opacity-40">
+                  ARCAIVE OS | TECHNICAL CORE v2
+                </p>
+            </div>
+          </div>
         </motion.div>
-      )}
+      </div>
     </AnimatePresence>
   );
 }

@@ -22,6 +22,7 @@ public class MemberResponseDTO {
     private MfaUpdateRequestDTO mfa;
     private List<LinkedAccountDTO> linkedAccounts;
     private String subscriptionId;
+    private boolean onboardingCompleted;
     @JsonUnwrapped
     private MemberProfileDTO profile;
 }

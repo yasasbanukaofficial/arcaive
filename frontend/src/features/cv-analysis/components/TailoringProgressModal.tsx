@@ -84,99 +84,85 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/70"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-lg overflow-hidden rounded-3xl border shadow-2xl"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            borderColor: "rgba(255, 255, 255, 0.1)",
-          }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 0 }}
+          className="relative w-full max-w-[560px] bg-[var(--glass-bg)] border border-[var(--glass-border)] overflow-hidden"
+          style={{ borderRadius: "var(--radius)" }}
         >
-          {/* Progress Bar Background */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-white/5">
-            <motion.div 
-              className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"
-              initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
-              transition={{ ease: "linear" }}
-            />
-          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center justify-between px-[48px] py-6">
+              <h2 className="font-sans text-[20px] font-bold text-[var(--text-primary)] uppercase">
+                Tailoring CV
+              </h2>
+            </div>
+            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
 
-          <div className="p-8 space-y-8">
-            <div className="flex items-center gap-4">
-              <div className="p-3 rounded-2xl bg-blue-500/10 border border-blue-500/20">
-                <Sparkles className="w-8 h-8 text-blue-400 animate-pulse" />
-              </div>
-              <div className="space-y-1">
-                <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-                  Tailoring your CV
-                </h2>
-                <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+            <div className="p-[48px] space-y-8">
+              <div className="space-y-4">
+                <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
                   Our AI agents are optimizing your profile for this specific role.
                 </p>
+                <div className="h-[2px] w-full bg-[#E8E6DE]">
+                  <motion.div 
+                    className="h-full bg-black"
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ ease: "linear" }}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-4">
-              {STEPS.map((step) => {
-                const isActive = currentStep === step.id;
-                const isCompleted = currentStep > step.id;
+              <div className="space-y-4">
+                {STEPS.map((step) => {
+                  const isActive = currentStep === step.id;
+                  const isCompleted = currentStep > step.id;
 
-                return (
-                  <motion.div
-                    key={step.id}
-                    initial={false}
-                    animate={{ 
-                      opacity: isActive || isCompleted ? 1 : 0.4,
-                      scale: isActive ? 1.02 : 1
-                    }}
-                    className={`flex items-start gap-4 p-4 rounded-2xl transition-all duration-300 ${
-                      isActive ? "bg-white/5 border border-white/10" : "bg-transparent border border-transparent"
-                    }`}
-                  >
-                    <div className={`p-2 rounded-xl flex-shrink-0 ${
-                      isCompleted ? "bg-green-500/10 text-green-400" : 
-                      isActive ? "bg-blue-500/10 text-blue-400" : "bg-white/5 text-white/40"
-                    }`}>
-                      {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : step.icon}
-                    </div>
-                    
-                    <div className="flex-1 space-y-1 pt-1">
-                      <div className="flex items-center justify-between">
-                        <span className={`text-[15px] font-semibold ${
-                          isCompleted ? "text-green-400" : isActive ? "text-blue-400" : "text-white/40"
-                        }`}>
-                          {step.label}
-                        </span>
+                  return (
+                    <motion.div
+                      key={step.id}
+                      initial={false}
+                      animate={{ 
+                        opacity: isActive || isCompleted ? 1 : 0.4,
+                      }}
+                      className={`flex items-start gap-4 p-4 border  duration-300 ${
+                        isActive ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"
+                      }`}
+                    >
+                      <span className="font-mono text-[14px] text-[var(--text-primary)] pt-0.5">
+                        {isCompleted ? "✓" : "→"}
+                      </span>
+                      
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
+                            {step.label}
+                          </span>
+                        </div>
                         {isActive && (
-                          <Loader2 className="w-4 h-4 text-blue-400 animate-spin" />
+                          <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="font-sans text-[13px] leading-relaxed text-[var(--text-secondary)]" 
+                          >
+                            {step.description}
+                          </motion.p>
                         )}
                       </div>
-                      {isActive && (
-                        <motion.p 
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="text-xs leading-relaxed" 
-                          style={{ color: "var(--d-text-muted)" }}
-                        >
-                          {step.description}
-                        </motion.p>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
 
-            <div className="text-center">
-              <p className="text-[11px] font-medium tracking-wider uppercase opacity-40">
-                This usually takes about 10-20 seconds
-              </p>
+              <div className="text-center">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]">
+                  EST WAIT TIME: 10-20 SECONDS
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>

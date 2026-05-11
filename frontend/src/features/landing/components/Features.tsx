@@ -1,82 +1,59 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import Image from "next/image";
-import SectionHeader from "@/components/layout/SectionHeader";
+import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-const features = [
-  {
-    title: "Multi-Agent Swarm",
-    description:
-      "Three specialized AI agents work in parallel. The Recruiter critiques, The Engineer optimizes technical depth, and The Editor polishes tone for perfection.",
-    image:
-      "https://framerusercontent.com/images/bgZEvWFyqIzjQSJmv4ytUskyjNc.jpg",
-  },
-  {
-    title: "Auto-Apply Intelligence",
-    description:
-      "Our AI Agent Bot searches job APIs, displays matches with scores, and automatically applies using hyper tailored CVs while you focus on interviews.",
-    image:
-      "https://framerusercontent.com/images/90SenaC5dxwhBj330jLiE7wnyjU.jpg",
-  },
-  {
-    title: "Real-Time Agent Flow",
-    description:
-      "Watch your AI agents 'think' in real-time through an interactive React Flow visualization complete transparency in the discovery and refinement process.",
-    image:
-      "https://framerusercontent.com/images/UXYVZgG95Xo7GvB3Mj9Avi4ouU.jpg",
-  },
-];
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Features() {
+  const container = useRef(null);
+
+  useGSAP(() => {
+    gsap.from(".feature-reveal", {
+      opacity: 0,
+      y: 50,
+      duration: 1.2,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 65%",
+      }
+    });
+  }, { scope: container });
+
   return (
     <section
       id="features"
-      className="pt-20 sm:pt-24 md:pt-32 pb-12 sm:pb-16 px-4 sm:px-6 bg-[#0a0a0a]"
+      ref={container}
+      className="scene-section justify-between"
     >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="Core Features"
-            title="Autonomous agents working"
-            subtitle="for your career success."
-          />
+      <div className="w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+        {/* Left Side: Massive Statement */}
+        <div className="feature-reveal">
+          <h2 className="leading-[1.1] text-[var(--text-primary)] font-bold font-sans tracking-tight" style={{ fontSize: "clamp(48px, 6vw, 90px)"}}>
+            ISN'T JUST<br/>
+            A RESUME.
+          </h2>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer(0.15, 0.1)}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-5 md:gap-6"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              variants={bounceIn}
-              className={`group relative overflow-hidden ${index === 2 ? "sm:col-span-2 md:col-span-1" : ""}`}
-            >
-              <div className="aspect-[16/10] sm:aspect-[9/8] relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] mb-4 sm:mb-5 md:mb-6 bg-[#111]">
-                <Image
-                  src={feature.image}
-                  alt={feature.title}
-                  fill
-                  unoptimized
-                  className="object-cover transition-all duration-700 scale-100 group-hover:scale-105"
-                />
-              </div>
-              <div className="space-y-2 sm:space-y-3">
-                <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-light text-white tracking-tight dm-sans">
-                  {feature.title}
-                </h3>
-                <p className="text-white/50 leading-relaxed text-[13px] sm:text-[14px] md:text-[15px] font-light dm-sans-300">
-                  {feature.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* Right Side: Description */}
+        <div className="feature-reveal flex flex-col justify-end h-full">
+          <p className="font-sans text-[28px] sm:text-[36px] text-[var(--text-primary)] leading-[1.3] font-medium max-w-[500px]">
+            Arcaive isn't just a tool. It's the result of unprecedented AI* breakthroughs, executing submissions while you sleep.
+          </p>
+
+          <div className="mt-32 w-full max-w-[500px]">
+            <div className="w-full border-b border-[var(--border-light)] border-dashed mb-4" />
+            <span className="oryzo-label text-right w-full block">
+              * ARTIFICIAL INTELLIGENCE
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );

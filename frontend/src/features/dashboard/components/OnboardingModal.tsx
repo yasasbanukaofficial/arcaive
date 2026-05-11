@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FileUp, Loader2, Sparkles, UserPlus, CheckCircle2, ShieldCheck, BrainCircuit } from "lucide-react";
+import { FileUp, Loader2, UserPlus, CheckCircle2, ShieldCheck, ArrowRight } from "lucide-react";
 import { memberAPI } from "@/features/settings/api/memberAPI";
 import { Member, MemberUpdatePayload, OnboardingAutofillResponse } from "@/@types/member";
 import { useToast } from "@/components/ui/Toast";
@@ -201,42 +201,31 @@ export default function OnboardingModal() {
     <AnimatePresence>
       {open && !minimized && (
         <motion.div
-          className="fixed inset-0 z-1000 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[1000] flex items-center justify-center p-4 backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+          <div className="absolute inset-0 bg-black/40" />
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-[2.5rem] border shadow-2xl"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: "rgba(255, 255, 255, 0.08)",
-            }}
+            className="relative w-full max-w-[560px] bg-[var(--glass-bg)] rounded-[40px] border border-[var(--glass-border)] shadow-2xl overflow-hidden"
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden">
-              <motion.div 
-                className="h-full bg-blue-500"
-                initial={{ width: "0%" }}
-                animate={{ width: `${progress}%` }}
-              />
-            </div>
+            {/* Background glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-100/20 rounded-full blur-[80px] pointer-events-none" />
 
-            <div className="p-8 sm:p-10">
-              <div className="mb-8 text-center space-y-3">
-                <div className="mx-auto w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                  <Sparkles className="w-8 h-8 text-blue-400" />
-                </div>
-                <div className="space-y-1">
-                  <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-                    Welcome to Arcaive
+            <div className="flex flex-col p-12">
+              <div className="flex flex-col gap-4 mb-12">
+
+                <div>
+                  <h2 className="font-sans text-[28px] font-medium text-[var(--text-primary)] tracking-tight leading-tight mb-2">
+                    Start your automated journey.
                   </h2>
-                  <p className="text-[15px]" style={{ color: "var(--d-text-muted)" }}>
-                    Let&apos;s personalize your experience. How would you like to set up your profile?
+                  <p className="font-sans text-[16px] font-light text-[var(--text-secondary)] leading-relaxed max-w-[360px]">
+                    Let's personalize your experience. How would you like to set up your profile?
                   </p>
                 </div>
               </div>
@@ -245,27 +234,29 @@ export default function OnboardingModal() {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="group relative w-full p-6 rounded-3xl border text-left transition-all hover:bg-white/5 active:scale-[0.98] disabled:opacity-50"
-                  style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
+                  className="group relative w-full p-8 bg-[var(--bg-color)] rounded-[32px] border border-[var(--glass-border)]/[0.03] text-left hover:bg-[var(--glass-bg)] hover:shadow-xl transition-all duration-500 disabled:opacity-50"
                 >
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-500/20 transition-colors">
-                      {uploading ? <BrainCircuit className="w-7 h-7 text-blue-400 animate-pulse" /> : <FileUp className="w-7 h-7 text-blue-400" />}
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] flex items-center justify-center group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all duration-500">
+                      <FileUp className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1">
-                      <p className="font-bold text-lg" style={{ color: "var(--d-text-primary)" }}>
+                      <p className="font-sans text-[16px] font-medium text-[var(--text-primary)] tracking-tight">
                         {uploading ? "Analyzing CV..." : "Upload CV PDF"}
                       </p>
-                      <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+                      <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light">
                         {uploading ? steps[currentStep] : "Autofill your profile in seconds"}
                       </p>
                     </div>
                   </div>
-                  
                   {uploading && (
-                    <div className="mt-4 flex items-center gap-2 text-xs font-medium text-blue-400/80 uppercase tracking-widest">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      AI Processing...
+                    <div className="mt-6 h-1 w-full bg-[var(--glass-border)] rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-black origin-left"
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ ease: "linear" }}
+                      />
                     </div>
                   )}
                 </button>
@@ -273,18 +264,17 @@ export default function OnboardingModal() {
                 <button
                   onClick={handleManualSetup}
                   disabled={uploading}
-                  className="group relative w-full p-6 rounded-3xl border text-left transition-all hover:bg-white/5 active:scale-[0.98] disabled:opacity-50"
-                  style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
+                  className="group relative w-full p-8 bg-[var(--bg-color)] rounded-[32px] border border-[var(--glass-border)]/[0.03] text-left hover:bg-[var(--glass-bg)] hover:shadow-xl transition-all duration-500 disabled:opacity-50"
                 >
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 group-hover:bg-emerald-500/20 transition-colors">
-                      <UserPlus className="w-7 h-7 text-emerald-400" />
+                  <div className="flex items-center gap-6">
+                    <div className="w-12 h-12 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] flex items-center justify-center group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all duration-500">
+                      <ArrowRight className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1">
-                      <p className="font-bold text-lg" style={{ color: "var(--d-text-primary)" }}>
+                      <p className="font-sans text-[16px] font-medium text-[var(--text-primary)] tracking-tight">
                         Manual Setup
                       </p>
-                      <p className="text-sm" style={{ color: "var(--d-text-muted)" }}>
+                      <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light">
                         Fill in your professional details manually
                       </p>
                     </div>
@@ -292,25 +282,24 @@ export default function OnboardingModal() {
                 </button>
               </div>
 
-              <div className="mt-8 flex items-center justify-center gap-6 py-2 opacity-40">
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                  <ShieldCheck className="w-3 h-3" />
+              <div className="flex items-center justify-center gap-8 py-10 opacity-30">
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
+                  <ShieldCheck className="w-3.5 h-3.5" />
                   Secure Data
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest">
-                  <CheckCircle2 className="w-3 h-3" />
+                <div className="flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
                   ATS Optimized
                 </div>
               </div>
 
               {error && (
-                <motion.p 
+                <motion.div 
                   initial={{ opacity: 0, y: 10 }} 
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 text-center text-sm font-medium text-red-400 bg-red-400/10 py-3 rounded-xl border border-red-400/20"
+                  className="p-4 rounded-[20px] border border-orange-500/10 bg-orange-500/5 font-sans text-[12px] text-orange-600 text-center"
                 >
                   {error}
-                </motion.p>
+                </motion.div>
               )}
 
               <input
@@ -330,38 +319,31 @@ export default function OnboardingModal() {
 
       {minimized && (
         <motion.div
-          initial={{ opacity: 0, y: 50, x: 50 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          className="fixed bottom-6 right-6 z-1000 w-72 overflow-hidden rounded-2xl border shadow-2xl cursor-pointer hover:scale-[1.02] transition-transform"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            borderColor: "rgba(255, 255, 255, 0.08)",
-          }}
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="fixed bottom-8 right-8 z-[1000] w-80 bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-6 shadow-2xl cursor-pointer hover:bg-[var(--bg-color)] transition-all duration-500 flex flex-col gap-4"
           onClick={() => setMinimized(false)}
         >
-          <div className="absolute top-0 left-0 w-full h-1 bg-white/5 overflow-hidden">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+              <p className="font-sans text-[12px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
+                Analyzing_CV
+              </p>
+            </div>
+            <span className="font-sans text-[12px] font-bold text-[var(--text-secondary)]">{Math.round(progress)}%</span>
+          </div>
+          <p className="font-sans text-[13px] text-[var(--text-secondary)] font-light truncate">
+            {steps[currentStep]}
+          </p>
+          <div className="h-1 w-full bg-[var(--glass-border)] rounded-full overflow-hidden">
             <motion.div 
-              className="h-full bg-blue-500"
+              className="h-full bg-black origin-left"
               initial={{ width: "0%" }}
               animate={{ width: `${progress}%` }}
+              transition={{ ease: "linear" }}
             />
-          </div>
-          <div className="p-4 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-              <BrainCircuit className="w-5 h-5 text-blue-400 animate-pulse" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold truncate" style={{ color: "var(--d-text-primary)" }}>
-                Analyzing CV...
-              </p>
-              <p className="text-[11px] truncate" style={{ color: "var(--d-text-muted)" }}>
-                {steps[currentStep]}
-              </p>
-            </div>
-            <div className="text-[10px] font-bold text-blue-400">
-              {Math.round(progress)}%
-            </div>
           </div>
         </motion.div>
       )}

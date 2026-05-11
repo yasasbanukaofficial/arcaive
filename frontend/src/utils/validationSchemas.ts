@@ -59,3 +59,11 @@ export const passwordChangeSchema = (hasPassword: boolean) =>
       .oneOf([Yup.ref("newPassword")], "Passwords do not match")
       .required("Please confirm your new password"),
   });
+
+export const verifyEmailSchema = Yup.object({
+  code: Yup.string()
+    .length(6, "Verification code must be exactly 6 digits")
+    .matches(/^\d+$/, "Code must contain only numbers")
+    .required("Verification code is required"),
+});
+

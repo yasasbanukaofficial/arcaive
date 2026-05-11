@@ -1,200 +1,129 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import Logo from "@/components/ui/Logo";
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { Moon, Sun, Menu, X } from "lucide-react";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navItems = [
-    { name: "Features", href: "#features" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "How It Works", href: "#howitworks" },
-    { name: "Benefits", href: "#benefits" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "FAQ", href: "#faq" },
-  ];
+  const { isDark, toggleTheme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [activeSection, setActiveSection] = useState("#intro");
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const token = localStorage.getItem("access_token") || localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+    setIsLoaded(true);
   }, []);
-
-  const handleLinkClick = (
-    e?: React.MouseEvent<HTMLAnchorElement> | null,
-    href?: string,
-  ) => {
-    try {
-      if (e) e.preventDefault();
-      setMobileMenuOpen(false);
-
-      const targetHash =
-        href ?? (e && (e.currentTarget.getAttribute("href") || ""));
-      const id = targetHash ? targetHash.replace("#", "") : "";
-      if (!id) return;
-
-      const el = document.getElementById(id);
-      if (el) {
-        const lenis = (window as any).lenis;
-        if (lenis && typeof lenis.scrollTo === "function") {
-          try {
-            lenis.scrollTo(el, { duration: 1.2 });
-          } catch (err) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        } else {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-
-        try {
-          history.replaceState(null, "", `#${id}`);
-        } catch (e) {}
-      }
-    } catch (err) {
-      setMobileMenuOpen(false);
-    }
-  };
 
   return (
     <>
-      <div className="fixed top-4 sm:top-6 md:top-8 left-0 right-0 z-[100] px-4 sm:px-6 flex justify-center pointer-events-none">
-        <motion.nav
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-          className={cn(
-            "pointer-events-auto flex items-center justify-between gap-4 sm:gap-6 md:gap-10 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/5 transition-all duration-500 w-auto max-w-full",
-            scrolled
-              ? "bg-black/40 backdrop-blur-2xl shadow-2xl border-white/10"
-              : "bg-white/[0.02] backdrop-blur-xl",
-          )}
-        >
-          <Logo
-            href="/"
-            size={20}
-            textSize="text-[12px] sm:text-[14px]"
-            textColor="white"
-            textClassName="font-bold"
-            imageClassName="w-4 h-4 sm:w-5 sm:h-5"
-            className="gap-2 sm:gap-2.5"
-            useNextImage
-          />
-          <div className="hidden lg:flex items-center gap-8 px-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={(e) => handleLinkClick(e, item.href)}
-                className="text-[13px] font-medium text-white/40 hover:text-white transition-colors tracking-tight"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors"
-            aria-label="Toggle menu"
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 sm:px-10 py-6 sm:py-10 flex items-center justify-between pointer-events-auto">
+        
+        {/* Left Logo - Hardcoded white */}
+        <div className="pointer-events-auto">
+          <Link 
+            href="/" 
+            className="font-sans text-[16px] sm:text-[18px] font-bold tracking-tight transition-all"
+            style={{
+              color: isDark ? "#ffffff" : "#111111",
+              WebkitTextStroke: isDark ? "1px #ffffff" : "1px #111111",
+              paintOrder: "stroke fill",
+              textShadow: "none"
+            }}
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
-          </button>
-          <Link
-            href="/register"
-            className="hidden lg:inline-flex bg-white text-[#0f0f0f] px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all duration-300"
-          >
-            Get Started
+            ARCAIVE
           </Link>
-        </motion.nav>
-      </div>
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[110] bg-[#0a0a0a] lg:hidden flex flex-col font-sans overflow-hidden"
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden xl:flex items-center gap-12 pointer-events-auto">
+          <Link href="#intro" onClick={() => setActiveSection("#intro")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#intro" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
+            INTRO
+            {activeSection === "#intro" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
+          </Link>
+          <Link href="#features" onClick={() => setActiveSection("#features")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#features" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
+            FEATURES
+            {activeSection === "#features" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
+          </Link>
+          <Link href="#benefits" onClick={() => setActiveSection("#benefits")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#benefits" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
+            PRODUCT
+            {activeSection === "#benefits" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
+          </Link>
+          <Link href="#pricing" onClick={() => setActiveSection("#pricing")} className={`oryzo-label font-['DM_Sans'] relative text-[20px] transition-colors ${activeSection === "#pricing" ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"}`}>
+            PRICING
+            {activeSection === "#pricing" && <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-[var(--text-primary)]" />}
+          </Link>
+
+          
+          {isLoaded && (
+            <Link 
+              href={isLoggedIn ? "/overview" : "/login"} 
+              className="btn-hover oryzo-label font-['DM_Sans'] border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-2 rounded-sm transition-all duration-300"
+            >
+              {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+            </Link>
+          )}
+          
+          <button 
+            onClick={toggleTheme}
+            className="btn-hover flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <div className="flex items-center justify-between p-6">
-              <Link href="/" className="flex items-center gap-2">
-                <Image
-                  width="20"
-                  height="20"
-                  alt="arcaive-logo-png"
-                  src={"/images/icon.png"}
-                  unoptimized
-                  className="w-5 h-5"
-                />
-                <span className="text-white text-lg font-bold tracking-tight">
-                  ARCAIVE
-                </span>
-              </Link>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-white/70 hover:text-white transition-colors p-1"
-              >
-                <X size={28} strokeWidth={1.5} />
-              </button>
-            </div>
-            <nav className="flex-1 flex flex-col justify-center px-8">
-              <motion.ul
-                initial="hidden"
-                animate="visible"
-                className="space-y-6"
-              >
-                {navItems.map((item, index) => (
-                  <motion.li
-                    key={item.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + index * 0.1, duration: 0.5 }}
-                    className="overflow-hidden"
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={(e) => handleLinkClick(e, item.href)}
-                      className="block text-[42px] sm:text-6xl font-light text-white/90 hover:text-white transition-all duration-300 hover:translate-x-4 tracking-tight"
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </nav>
-            <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay">
-              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <filter id="noise">
-                  <feTurbulence
-                    type="fractalNoise"
-                    baseFrequency="0.65"
-                    numOctaves="3"
-                    stitchTiles="stitch"
-                  />
-                </filter>
-                <rect width="100%" height="100%" filter="url(#noise)" />
-              </svg>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {isDark ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+        </div>
+
+        {/* Mobile/Tablet Toggle */}
+        <div className="xl:hidden flex items-center gap-4 pointer-events-auto">
+          <button 
+            onClick={toggleTheme}
+            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
+          >
+            {isDark ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="flex items-center justify-center p-2 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] transition-all duration-300"
+          >
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-[45] bg-[var(--bg-color)] flex flex-col items-center justify-center gap-8 xl:hidden">
+          <Link href="#intro" onClick={() => { setActiveSection("#intro"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">INTRO</Link>
+          <Link href="#features" onClick={() => { setActiveSection("#features"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">FEATURES</Link>
+          <Link href="#benefits" onClick={() => { setActiveSection("#benefits"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRODUCT</Link>
+          <Link href="#pricing" onClick={() => { setActiveSection("#pricing"); setIsMenuOpen(false); }} className="font-['DM_Sans'] text-[28px] font-bold tracking-tight text-[var(--text-primary)]">PRICING</Link>
+          
+          {isLoaded && (
+            <Link 
+              href={isLoggedIn ? "/overview" : "/login"} 
+              onClick={() => setIsMenuOpen(false)} 
+              className="btn-hover oryzo-label font-['DM_Sans'] border border-[var(--text-primary)] text-[var(--text-primary)] px-8 py-4 rounded-sm mt-8 transition-all duration-300"
+            >
+              {isLoggedIn ? "DASHBOARD" : "SIGN IN"}
+            </Link>
+          )}
+        </div>
+      )}
+
+      {/* Floating Right Bar */}
+      <div className="fixed right-0 top-32 z-40 bg-[var(--d-surface)] text-[var(--text-primary)] px-2 py-8 pointer-events-auto shadow-[0_0_20px_rgba(0,0,0,0.5)] hidden lg:block">
+         <div className="writing-vertical-rl rotate-180 flex items-center gap-4">
+           <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] animate-pulse" />
+           <span className="font-sans text-[11px] font-bold uppercase tracking-[0.2em] whitespace-nowrap">
+             ARCAIVE-1 MODEL
+           </span>
+         </div>
+      </div>
     </>
   );
 }

@@ -29,24 +29,24 @@ export default function SettingsPage() {
     { title: string; description: string }
   > = {
     identity: {
-      title: "Identity & Authentication",
+      title: "Digital Identity",
       description:
-        "Manage your profile, password, multi-factor authentication, and linked accounts.",
+        "Manage your profile parameters, cryptographic security, and linked access nodes.",
     },
     career: {
       title: "Career Intelligence",
       description:
-        "Upload your resume, manage achievements, and define target roles for the Discovery Agent.",
+        "Archival records and role vector suggestions for AI discovery agents.",
     },
     agents: {
       title: "Agent Configuration",
       description:
-        "Fine-tune your AI agents — thresholds, persona, model selection, and filters.",
+        "Threshold optimization, persona selection, and LLM model routing.",
     },
     notifications: {
-      title: "Notifications & System",
+      title: "System Synchronization",
       description:
-        "Configure alerts, theme preferences, and data privacy options.",
+        "Configure temporal alerts, theme preference, and data privacy protocols.",
     },
   };
 
@@ -74,129 +74,79 @@ export default function SettingsPage() {
   return (
     <motion.div
       initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-7xl mx-auto"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+      }}
+      className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8"
     >
-      <motion.div variants={fadeUp} className="mb-8">
-        <div className="flex items-center gap-3 mb-1">
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center"
-            style={{
-              backgroundColor: "var(--d-surface-active)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            <Settings
-              className="w-6 h-6"
-              style={{ color: "var(--d-text-tertiary)" }}
-            />
-          </div>
-          <div>
-            <h1
-              className="text-[26px] font-bold tracking-tight"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Settings
-            </h1>
-            <p
-              className="text-[15px] mt-1"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Configure your account, agents, and preferences
-            </p>
-          </div>
-        </div>
-      </motion.div>
-      <motion.div variants={fadeUp} className="lg:hidden mb-6">
-        <div
-          className="overflow-x-auto pb-2 -mx-1 px-1 rounded-xl"
-          style={{
-            backgroundColor: "var(--d-surface)",
-            border: "1px solid var(--d-border)",
-          }}
-        >
-          <div className="flex gap-1 p-1.5 min-w-max">
-            {(
-              [
-                "identity",
-                "career",
-                "agents",
-                "notifications",
-              ] as SettingsSection[]
-            ).map((id) => {
-              const isActive = activeSection === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => {
-                    setActiveSection(id);
-                    console.log(id);
-                  }}
-                  className="relative px-4 py-2.5 rounded-lg text-[13px] font-medium whitespace-nowrap transition-all duration-200"
-                  style={{
-                    backgroundColor: isActive ? "#000000" : "transparent",
-                    color: isActive ? "#ffffff" : "var(--d-text-muted)",
-                    border: "1px solid transparent",
-                  }}
-                >
-                  {sectionTitles[id].title.split(" ")[0]}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </motion.div>
-      <motion.div
-        variants={fadeUp}
-        className="flex flex-col lg:flex-row gap-8 lg:gap-10"
+      <motion.div 
+        variants={{
+          hidden: { y: 20, opacity: 0 },
+          visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: smoothEase } }
+        }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-8"
       >
-        <div className="w-60 shrink-0 hidden lg:block">
-          <div className="sticky top-24">
+        <div className="space-y-1">
+          <h1 className="text-[44px] md:text-[56px] font-semibold text-[var(--text-primary)] tracking-[-0.04em] leading-none">
+            Settings
+          </h1>
+          <p className="text-[var(--text-secondary)] text-[14px] font-medium tracking-tight">System configuration and identity management</p>
+        </div>
+      </motion.div>
+
+      <div className="flex flex-col lg:flex-row gap-10 mt-4">
+        <div className="w-full lg:w-72 shrink-0">
+          <div className="sticky top-28 space-y-6">
             <SettingsNav
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
+            <div className="px-6 py-6 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-[24px]">
+               <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.15em] mb-3">System Integrity</p>
+               <div className="flex items-center gap-2 text-[var(--accent-brand)]">
+                  <div className="w-1.5 h-1.5 rounded-full bg-current" />
+                  <span className="text-[13px] font-semibold tracking-tight">Verified Protocol</span>
+               </div>
+            </div>
           </div>
         </div>
+
         <div className="flex-1 min-w-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSection}
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.18, ease: smoothEase }}
-              className="mb-6"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              className="mb-12"
             >
-              <h2
-                className="text-[20px] font-semibold tracking-tight mb-1.5"
-                style={{ color: "var(--d-text-primary)" }}
-              >
-                {title}
-              </h2>
-              <p
-                className="text-[14px]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <div className="flex items-baseline gap-4 mb-3">
+                <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
+                  {title}
+                </h2>
+              </div>
+              <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-8" />
             </motion.div>
           </AnimatePresence>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={`content-${activeSection}`}
-              initial="hidden"
-              animate="show"
-              exit={{ opacity: 0, y: -4, transition: { duration: 0.12 } }}
-              variants={dashboardStagger(0.03, 0.02)}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: smoothEase }}
             >
               {renderSection(activeSection)}
             </motion.div>
           </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

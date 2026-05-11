@@ -1,141 +1,116 @@
 "use client";
 
+import { useState, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import SectionHeader from "@/components/layout/SectionHeader";
-import UnfoldText from "@/components/ui/UnfoldText";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const tabs = [
   {
     id: "discovery",
-    label: "Job Discovery",
-    title:
-      "The Discovery Agent searches through APIs to find hidden job requirements and displays available positions with match scores.",
-    image: "/images/hero-bg.png",
+    label: "Discovery",
+    title: "The Agent Swarm searches through global ecosystems for hidden high-signal roles.",
+    desc: "By deconstructing complex job descriptions into raw semantic data, we match your profile with 98% accuracy to roles you didn't even know existed.",
   },
   {
     id: "apply",
-    label: "Auto-Apply",
-    title:
-      "AI Agent Bot automatically searches LinkedIn, Indeed, and other platforms, then applies to high-match jobs with tailored CVs.",
-    image: "/images/hero-bg.png",
+    label: "Automation",
+    title: "AI Bot autonomously handles the entire submission lifecycle with precision.",
+    desc: "From profile synchronization to hyper-tailored resume generation, every application is optimized to clear tracking systems and reach human eyes.",
   },
   {
     id: "simulation",
-    label: "Mock Interviews",
-    title:
-      "The Simulation Loop generates tough interview questions from a recruiter persona to stress-test your profile before the real thing.",
-    image: "/images/hero-bg.png",
-  },
-  {
-    id: "profile",
-    label: "Profile Sync",
-    title:
-      "Semantic Profile Synchronization stores your experience as Atomic Achievements in a vector database for high-fidelity matching.",
-    image: "/images/hero-bg.png",
+    label: "Simulation",
+    title: "Refine your narrative with role-specific AI interviewers before the real thing.",
+    desc: "Our simulation loop generates high-pressure scenarios derived from millions of real-world hiring processes to stress-test your professional readiness.",
   },
 ];
 
 export default function TabsSection() {
+  const container = useRef(null);
   const [activeTab, setActiveTab] = useState(tabs[0].id);
-  const activeContent = tabs.find((t) => t.id === activeTab)!;
+  const active = tabs.find((t) => t.id === activeTab)!;
+
+  useGSAP(() => {
+    gsap.from(".tab-reveal", {
+      opacity: 0,
+      x: -40,
+      duration: 1.2,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 65%",
+      },
+    });
+  }, { scope: container });
 
   return (
-    <section className="py-16 sm:py-20 md:py-32 px-4 sm:px-6 bg-[#0a0a0a]">
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-8 sm:mb-10 md:mb-12 text-left">
-          <SectionHeader
-            label="Use Cases"
-            title="From discovery to application — fully automated by intelligent agents."
-          />
-        </div>
+    <section ref={container} className="scene-container py-40 px-6 lg:px-12 border-b border-[var(--border-light)]">
+      <div className="content-wrapper w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          {/* Controls - Left side */}
+          <div className="lg:col-span-5 flex flex-col gap-12">
+            <div className="tab-reveal">
+              <span className="oryzo-label mb-8 block text-[var(--text-secondary)]">Capabilities</span>
+              <h2 className="font-sans text-[clamp(42px,5vw,64px)] font-bold leading-[1.05] tracking-tight text-[var(--text-primary)]">
+                Engineered for <br/>
+                <span className="text-[var(--text-secondary)] font-light italic">outcome.</span>
+              </h2>
+            </div>
 
-        <div className="flex overflow-x-auto no-scrollbar gap-6 sm:gap-8 md:gap-12 mb-10 sm:mb-12 md:mb-16 border-b border-white/5 -mx-4 px-4 sm:mx-0 sm:px-0">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`cursor-pointer pb-4 sm:pb-5 md:pb-6 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all relative whitespace-nowrap flex-shrink-0 ${
-                activeTab === tab.id
-                  ? "text-white"
-                  : "text-white/30 hover:text-white/50"
-              }`}
-            >
-              {tab.label}
-              {activeTab === tab.id && (
-                <motion.div
-                  layoutId="activeTabUnderline"
-                  className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-white"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-            </button>
-          ))}
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={staggerContainer(0.2, 0.1)}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-24 items-center min-h-0 lg:min-h-[400px]"
-        >
-          <motion.div
-            variants={bounceIn}
-            className="relative aspect-[16/10] sm:aspect-[4/3] rounded-[20px] sm:rounded-[28px] md:rounded-[40px] overflow-hidden bg-white/[0.02] border border-white/5 group"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={activeContent.image}
-                  alt={activeContent.label}
-                  fill
-                  className="object-cover opacity-30 group-hover:scale-105 transition-transform duration-700 saturate-0 group-hover:saturate-100"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-
-          <motion.div variants={bounceIn}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                variants={bounceIn}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="space-y-5 sm:space-y-6 md:space-y-8"
-              >
-                <div className="space-y-3 sm:space-y-4 md:space-y-6">
-                  <div className="text-[9px] sm:text-[10px] font-medium text-white/40 uppercase tracking-[0.3em]">
-                    {activeContent.label}
-                  </div>
-                  <h3 className="text-xl sm:text-2xl md:text-[36px] font-normal leading-[1.2] tracking-tight text-white/90">
-                    {activeContent.title}
-                  </h3>
-                </div>
-
-                <Link
-                  href="/register"
-                  className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-[12px] sm:text-[13px] font-bold hover:scale-[1.05] transition-all"
+            <div className="flex flex-col border-t border-[var(--border-light)]">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`tab-reveal py-8 border-b border-[var(--border-light)] text-left transition-all relative group ${
+                    activeTab === tab.id ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  }`}
                 >
-                  Get started
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
+                  <span className="font-sans text-[22px] font-medium tracking-tight">
+                    {tab.label}
+                  </span>
+                  {activeTab === tab.id && (
+                    <motion.div
+                      layoutId="tabUnderline"
+                      className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[var(--accent-brand)]"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Content - Right side */}
+          <div className="lg:col-span-7 tab-reveal">
+            <div className="oryzo-panel aspect-[4/3] rounded-[48px] overflow-hidden p-12 lg:p-20 flex flex-col justify-center translate-y-0 hover:-translate-y-2 transition-transform duration-700">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, scale: 0.98, filter: "blur(10px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 1.02, filter: "blur(10px)" }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="max-w-[600px] relative z-10"
+                >
+                  <span className="oryzo-label block mb-8 text-[var(--text-secondary)]">Module: {active.label}</span>
+                  <h3 className="font-sans text-[28px] sm:text-[36px] font-medium leading-[1.3] tracking-tight text-[var(--text-primary)] mb-8">
+                    {active.title}
+                  </h3>
+                  <p className="font-sans text-[16px] text-[var(--text-secondary)] leading-relaxed font-light italic">
+                    {active.desc}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

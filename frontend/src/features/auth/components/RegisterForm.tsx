@@ -1,17 +1,15 @@
 "use client";
-import React, { useActionState, useEffect, startTransition } from "react";
+import React, { useActionState, useEffect, startTransition, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Briefcase, Globe, Clock } from "lucide-react";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import Button from "@/components/ui/Button";
-import { useRouter } from "next/navigation";
 import { registerAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
+import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { registerSchema } from "@/utils/validationSchemas";
+import { ArrowRight } from "lucide-react";
 
 const EXPERIENCE_OPTIONS = [
   "Fresh Graduate",
@@ -56,10 +54,10 @@ export default function RegisterForm() {
     if (state.success) {
       addToast({
         type: "success",
-        title: "Account created",
-        description: "Redirecting you to login...",
+        title: "Code sent",
+        description: "A verification code has been sent to your email.",
       });
-      setTimeout(() => router.push("/login"), 1500);
+      router.push(`/verify-email?email=${encodeURIComponent(formik.values.memberEmail)}`);
     }
     if (state.error) {
       addToast({
@@ -70,56 +68,46 @@ export default function RegisterForm() {
     }
   }, [state]);
 
+
   const inputClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+    `w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
       touched && error
-        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+        ? "border-red-500/50 focus:border-red-500"
+        : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
     }`;
 
   const selectClass = (touched: boolean | undefined, error: string | undefined) =>
-    `w-full rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 transition-all appearance-none cursor-pointer ${
+    `w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] appearance-none cursor-pointer ${
       touched && error
-        ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-        : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+        ? "border-red-500/50 focus:border-red-500"
+        : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
     }`;
 
   return (
     <>
-      <motion.div variants={bounceIn}>
+      <div className="w-full">
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={bounceIn}
-        className="relative flex items-center gap-4 py-2"
-      >
-        <div className="h-px flex-1 bg-white/5"></div>
-        <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold">
-          Or use email
-        </span>
-        <div className="h-px flex-1 bg-white/5"></div>
-      </motion.div>
+      <div className="relative flex items-center justify-center py-6">
+        <span className="oryzo-label text-[var(--text-secondary)]">or continue with email</span>
+      </div>
 
-      <motion.form
-        variants={staggerContainer(0.025, 0)}
-        className="space-y-5"
-        onSubmit={formik.handleSubmit}
-      >
-        {/* ─── Account Details ─── */}
-        <motion.div variants={bounceIn} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-gray-400 ml-1">
-              Full name
+      <form className="space-y-5" onSubmit={formik.handleSubmit}>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
+              Full Name
             </label>
             <input
               name="memberFullName"
               type="text"
-              placeholder="Your name"
+              placeholder="John Doe"
               value={formik.values.memberFullName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={inputClass(formik.touched.memberFullName, formik.errors.memberFullName)}
+              style={{ borderRadius: "var(--radius)" }}
             />
             <AnimatePresence>
               {formik.touched.memberFullName && formik.errors.memberFullName && (
@@ -128,7 +116,7 @@ export default function RegisterForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="text-[12px] mt-1 ml-1 text-red-400/90"
+                  className="font-sans text-[12px] mt-2 text-red-400"
                 >
                   {formik.errors.memberFullName}
                 </motion.p>
@@ -136,18 +124,19 @@ export default function RegisterForm() {
             </AnimatePresence>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-gray-400 ml-1">
+          <div className="space-y-2">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
               Email Address
             </label>
             <input
               name="memberEmail"
               type="email"
-              placeholder="name@company.com"
+              placeholder="name@example.com"
               value={formik.values.memberEmail}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={inputClass(formik.touched.memberEmail, formik.errors.memberEmail)}
+              style={{ borderRadius: "var(--radius)" }}
             />
             <AnimatePresence>
               {formik.touched.memberEmail && formik.errors.memberEmail && (
@@ -156,7 +145,7 @@ export default function RegisterForm() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="text-[12px] mt-1 ml-1 text-red-400/90"
+                  className="font-sans text-[12px] mt-2 text-red-400"
                 >
                   {formik.errors.memberEmail}
                 </motion.p>
@@ -164,169 +153,158 @@ export default function RegisterForm() {
             </AnimatePresence>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-gray-400">
-              Password
-            </label>
-            <PasswordInput
-              name="memberPassword"
-              value={formik.values.memberPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.memberPassword && formik.errors.memberPassword ? formik.errors.memberPassword : undefined}
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-gray-400">
-              Confirm password
-            </label>
-            <PasswordInput
-              name="confirmPassword"
-              value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : undefined}
-            />
-          </div>
-        </motion.div>
-
-        {/* ─── Job Details Section ─── */}
-        <motion.div variants={bounceIn}>
-          <div className="relative flex items-center gap-4 pt-1 pb-3">
-            <div className="h-px flex-1 bg-white/5"></div>
-            <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold whitespace-nowrap">
-              Job Details
-            </span>
-            <div className="h-px flex-1 bg-white/5"></div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-[13px] font-medium text-gray-400 ml-1 flex items-center gap-1.5">
-                <Briefcase className="w-3.5 h-3.5" />
-                Job Role
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
+                Password
               </label>
-              <input
-                name="jobRole"
-                type="text"
-                placeholder="Software Engineer"
-                value={formik.values.jobRole}
+              <PasswordInput
+                name="memberPassword"
+                placeholder="••••••••"
+                value={formik.values.memberPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={inputClass(formik.touched.jobRole, formik.errors.jobRole)}
+                error={formik.touched.memberPassword && formik.errors.memberPassword ? formik.errors.memberPassword : undefined}
               />
-              <AnimatePresence>
-                {formik.touched.jobRole && formik.errors.jobRole && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.15 }}
-                    className="text-[12px] mt-1 ml-1 text-red-400/90"
-                  >
-                    {formik.errors.jobRole}
-                  </motion.p>
-                )}
-              </AnimatePresence>
             </div>
+            <div className="space-y-2">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
+                Confirm Password
+              </label>
+              <PasswordInput
+                name="confirmPassword"
+                placeholder="••••••••"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.confirmPassword && formik.errors.confirmPassword ? formik.errors.confirmPassword : undefined}
+              />
+            </div>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <label className="text-[13px] font-medium text-gray-400 ml-1 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5" />
-                  Experience
-                </label>
+        <div className="space-y-4 pt-4 border-t border-[var(--glass-border)]">
+          <div className="space-y-2">
+            <label className="oryzo-label text-[var(--text-secondary)] block">
+              Target Role
+            </label>
+            <input
+              name="jobRole"
+              type="text"
+              placeholder="e.g. Software Engineer"
+              value={formik.values.jobRole}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={inputClass(formik.touched.jobRole, formik.errors.jobRole)}
+              style={{ borderRadius: "var(--radius)" }}
+            />
+            <AnimatePresence>
+              {formik.touched.jobRole && formik.errors.jobRole && (
+                <motion.p
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="font-sans text-[12px] mt-2 text-red-400"
+                >
+                  {formik.errors.jobRole}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
+                Experience Level
+              </label>
+              <div className="relative">
                 <select
                   name="experience"
                   value={formik.values.experience}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className={selectClass(formik.touched.experience, formik.errors.experience)}
+                  style={{ borderRadius: "var(--radius)" }}
                 >
-                  <option value="" disabled className="bg-[#111] text-gray-500">
-                    Select…
+                  <option value="" disabled>
+                    Select experience
                   </option>
                   {EXPERIENCE_OPTIONS.map((opt) => (
-                    <option key={opt} value={opt} className="bg-[#111] text-white">
+                    <option key={opt} value={opt}>
                       {opt}
                     </option>
                   ))}
                 </select>
-                <AnimatePresence>
-                  {formik.touched.experience && formik.errors.experience && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.15 }}
-                      className="text-[12px] mt-1 ml-1 text-red-400/90"
-                    >
-                      {formik.errors.experience}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
               </div>
+              <AnimatePresence>
+                {formik.touched.experience && formik.errors.experience && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                    className="font-sans text-[12px] mt-2 text-red-400"
+                  >
+                    {formik.errors.experience}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </div>
 
-              <div className="space-y-1.5">
-                <label className="text-[13px] font-medium text-gray-400 ml-1 flex items-center gap-1.5">
-                  <Globe className="w-3.5 h-3.5" />
-                  Country
-                </label>
-                <input
-                  name="country"
-                  type="text"
-                  placeholder="USA"
-                  value={formik.values.country}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className={inputClass(formik.touched.country, formik.errors.country)}
-                />
-                <AnimatePresence>
-                  {formik.touched.country && formik.errors.country && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.15 }}
-                      className="text-[12px] mt-1 ml-1 text-red-400/90"
-                    >
-                      {formik.errors.country}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
+            <div className="space-y-2">
+              <label className="oryzo-label text-[var(--text-secondary)] block">
+                Location
+              </label>
+              <input
+                name="country"
+                type="text"
+                placeholder="e.g. United States"
+                value={formik.values.country}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={inputClass(formik.touched.country, formik.errors.country)}
+                style={{ borderRadius: "var(--radius)" }}
+              />
+              <AnimatePresence>
+                {formik.touched.country && formik.errors.country && (
+                  <motion.p
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                    className="font-sans text-[12px] mt-2 text-red-400"
+                  >
+                    {formik.errors.country}
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div variants={bounceIn}>
-          <Button
-            type="submit"
-            variant="white"
-            size="lg"
-            fullWidth
-            icon={<ArrowRight size={18} />}
-            iconPosition="right"
-            className="mt-4 font-semibold py-3.5 rounded-full"
-            disabled={isPending}
-          >
-            {isPending ? "Creating..." : "Create account"}
-          </Button>
-        </motion.div>
-      </motion.form>
+        <button
+          type="submit"
+          className="w-full mt-8 group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:bg-[var(--text-secondary)] transition-colors duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
+          disabled={isPending}
+        >
+          <span>{isPending ? "Creating account..." : "Sign Up"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
+        </button>
+      </form>
 
-      <motion.div variants={bounceIn} className="text-center">
-        <p className="text-center text-sm text-gray-500 mt-8">
+      <div className="text-center pt-8">
+        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)]">
           Already have an account?{" "}
           <Link
             href="/login"
-            className="text-white hover:underline decoration-white/30 underline-offset-4"
+            className="text-[var(--text-primary)] font-medium hover:underline transition-all"
           >
-            Login
+            Sign in
           </Link>
         </p>
-      </motion.div>
+      </div>
     </>
   );
 }

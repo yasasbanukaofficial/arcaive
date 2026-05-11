@@ -20,22 +20,21 @@ const HowItWorksVisual = ({ steps, activeIndex }: Props) => {
   const step = steps[activeIndex];
 
   return (
-    <div className="relative aspect-[4/3] rounded-[40px] bg-[#0c0c0c] overflow-hidden border border-white/5 flex items-center justify-center">
+    <div className="relative aspect-[4/3] bg-black overflow-hidden border border-white/10 flex items-center justify-center" style={{ borderRadius: "var(--radius)" }}>
       <AnimatePresence mode="wait">
         <motion.div
           key={activeIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
           className="absolute inset-0"
         >
           <img
             src={step.image}
             alt={step.title}
-            className="w-full h-full object-cover grayscale brightness-[0.7]"
+            className="w-full h-full object-cover grayscale opacity-50"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
         </motion.div>
       </AnimatePresence>
     </div>

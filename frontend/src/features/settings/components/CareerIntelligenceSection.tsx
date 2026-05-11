@@ -77,7 +77,7 @@ function AchievementItem({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95, height: 0, marginBottom: 0 }}
       transition={{ type: "spring", stiffness: 400, damping: 28 }}
-      className="group relative rounded-2xl transition-all duration-200"
+      className="group relative   duration-200"
       style={{
         backgroundColor: "var(--d-surface)",
         border: "1px solid var(--d-border)",
@@ -89,7 +89,7 @@ function AchievementItem({
       >
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+            className="w-7 h-7  flex items-center justify-center shrink-0"
             style={{
               backgroundColor: achievement.source === "ai"
                 ? "rgba(139, 92, 246, 0.1)"
@@ -109,7 +109,7 @@ function AchievementItem({
               onChange={(e) => setEditTerm(e.target.value)}
               onKeyDown={handleKeyDown}
               autoFocus
-              className="flex-1 rounded-lg px-2.5 py-1 text-[13px] font-semibold outline-none transition-all duration-200 focus:ring-2 focus:ring-blue-500/20"
+              className="flex-1  px-2.5 py-1 text-[13px] font-semibold outline-none  duration-200 focus:ring-2 focus:ring-blue-500/20"
               style={{
                 backgroundColor: "var(--d-bg)",
                 border: "1px solid var(--d-border-hover)",
@@ -133,7 +133,7 @@ function AchievementItem({
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
+                className="w-7 h-7  flex items-center justify-center transition-colors duration-150"
                 style={{ color: "var(--d-text-muted)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = "var(--d-surface-hover)";
@@ -150,7 +150,7 @@ function AchievementItem({
               <button
                 type="button"
                 onClick={() => onDelete(achievement.id)}
-                className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
+                className="w-7 h-7  flex items-center justify-center transition-colors duration-150"
                 style={{ color: "var(--d-text-muted)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = "rgba(239, 68, 68, 0.08)";
@@ -189,7 +189,7 @@ function AchievementItem({
                 value={editDesc}
                 onChange={(e) => setEditDesc(e.target.value)}
                 rows={3}
-                className="w-full rounded-lg px-3 py-2 text-[13px] leading-relaxed outline-none transition-all duration-200 resize-none focus:ring-2 focus:ring-blue-500/20"
+                className="w-full  px-3 py-2 text-[13px] leading-relaxed outline-none  duration-200 resize-none focus:ring-2 focus:ring-blue-500/20"
                 style={{
                   backgroundColor: "var(--d-bg)",
                   border: "1px solid var(--d-border-hover)",
@@ -209,7 +209,7 @@ function AchievementItem({
         ) : (
           <>
             <div
-              className="rounded-xl px-3.5 py-2.5"
+              className=" px-3.5 py-2.5"
               style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
                 border: "1px solid rgba(255,255,255,0.1)",
@@ -416,7 +416,7 @@ export default function CareerIntelligenceSection({
       >
         <div className="mb-3">
           <span
-            className="inline-flex items-center px-2.5 py-1 rounded-full text-[12px] font-semibold"
+            className="inline-flex items-center px-2.5 py-1  text-[12px] font-semibold"
             style={{
               backgroundColor: "rgba(139, 92, 246, 0.08)",
               color: "rgba(139, 92, 246, 0.95)",
@@ -487,7 +487,7 @@ export default function CareerIntelligenceSection({
 
             {achievements.length === 0 && (
               <div
-                className="col-span-full text-center py-10 rounded-2xl"
+                className="col-span-full text-center py-10 "
                 style={{
                   backgroundColor: "var(--d-surface)",
                   border: "1px dashed var(--d-border)",
@@ -565,7 +565,7 @@ export default function CareerIntelligenceSection({
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="mb-4 rounded-2xl p-3.5"
+            className="mb-4  p-3.5"
             style={{
               background: "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(139,92,246,0.04) 100%)",
               border: "1px solid rgba(139,92,246,0.18)",
@@ -578,7 +578,7 @@ export default function CareerIntelligenceSection({
                   AI Suggested Roles
                 </span>
                 <span
-                  className="px-1.5 py-0.5 rounded-full text-[10px] font-bold"
+                  className="px-1.5 py-0.5  text-[10px] font-bold"
                   style={{
                     backgroundColor: "rgba(139,92,246,0.15)",
                     color: "rgba(139,92,246,0.9)",
@@ -590,7 +590,7 @@ export default function CareerIntelligenceSection({
               <button
                 type="button"
                 onClick={acceptAllAiRoles}
-                className="flex cursor-pointer items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors duration-150"
+                className="flex cursor-pointer items-center gap-1 px-2.5 py-1  text-[11px] font-semibold transition-colors duration-150"
                 style={{
                   backgroundColor: "rgba(139,92,246,0.15)",
                   color: "rgba(139,92,246,0.9)",
@@ -610,7 +610,7 @@ export default function CareerIntelligenceSection({
                     initial={{ opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.85 }}
-                    className="flex items-center gap-1.5 pl-2.5 pr-1 py-1 rounded-xl text-[12px] font-medium"
+                    className="flex items-center gap-1.5 pl-2.5 pr-1 py-1  text-[12px] font-medium"
                     style={{
                       backgroundColor: "rgba(139,92,246,0.1)",
                       border: "1px solid rgba(139,92,246,0.2)",
@@ -622,7 +622,7 @@ export default function CareerIntelligenceSection({
                       <button
                         type="button"
                         onClick={() => acceptAiRole(role)}
-                        className="w-5 h-5 rounded-md flex items-center justify-center transition-colors duration-150"
+                        className="w-5 h-5  flex items-center justify-center transition-colors duration-150"
                         style={{ color: "rgba(139,92,246,0.7)" }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = "rgba(139,92,246,0.2)";
@@ -639,7 +639,7 @@ export default function CareerIntelligenceSection({
                       <button
                         type="button"
                         onClick={() => dismissAiRole(role)}
-                        className="w-5 h-5 rounded-md flex items-center justify-center transition-colors duration-150"
+                        className="w-5 h-5  flex items-center justify-center transition-colors duration-150"
                         style={{ color: "rgba(139,92,246,0.5)" }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = "rgba(239,68,68,0.1)";

@@ -5,17 +5,18 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import Logo from "@/components/ui/Logo";
-import Button from "@/components/ui/Button";
 import { bounceIn } from "@/components/animations/variants";
 
 export default function SubscriptionSuccessPage() {
   return (
-    <div className="min-h-screen w-full bg-[#0a0c0d] flex flex-col font-sans">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-emerald-500/10 blur-[120px] rounded-full opacity-50" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/4 w-[300px] h-[200px] bg-white/5 blur-[80px] rounded-full" />
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
-      </div>
+    <div className="min-h-screen w-full bg-[#0e0e0e] flex flex-col font-sans text-[#e4e4e4]">
+      {/* Dark Ambient Grid */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ 
+             backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
+             backgroundSize: '40px 40px' 
+           }} 
+      />
 
       <header className="relative z-10 p-6">
         <Logo size={32} href="/overview" />
@@ -29,11 +30,7 @@ export default function SubscriptionSuccessPage() {
         >
           <motion.div
             variants={bounceIn}
-            className="relative overflow-hidden rounded-2xl p-10 sm:p-12 text-center"
-            style={{
-              backgroundColor: "rgba(18, 18, 18, 0.6)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-            }}
+            className="relative overflow-hidden p-10 sm:p-12 text-center bg-[#161616] border border-[#2a2a2a] rounded-[24px]"
           >
             <motion.div
               variants={bounceIn}
@@ -50,10 +47,10 @@ export default function SubscriptionSuccessPage() {
                 }}
                 className="relative"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-emerald-500/10 border border-emerald-500/30">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-[#4a7c59]/10 border border-[#4a7c59]/30 rounded-[24px]">
                   <CheckCircle2
                     size={44}
-                    className="text-emerald-400"
+                    className="text-[#e6efdf]"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -69,21 +66,21 @@ export default function SubscriptionSuccessPage() {
                     repeat: 2,
                     repeatDelay: 1,
                   }}
-                  className="absolute inset-0 rounded-full border-2 border-emerald-500/50"
+                  className="absolute inset-0 border-2 border-[#e6efdf]/50 rounded-[24px]"
                 />
               </motion.div>
             </motion.div>
 
-            <div className="space-y-3 mb-8">
+            <div className="space-y-3 mb-10">
               <motion.h1
                 variants={bounceIn}
-                className="text-3xl sm:text-4xl font-semibold text-white tracking-tight"
+                className="text-3xl sm:text-4xl font-bold text-[#e4e4e4] tracking-tight"
               >
                 Welcome to Pro!
               </motion.h1>
               <motion.p
                 variants={bounceIn}
-                className="text-[15px] text-white/60 leading-relaxed"
+                className="text-[15px] text-white/50 leading-relaxed"
               >
                 Your subscription has been activated successfully. You now have access to all premium features.
               </motion.p>
@@ -91,36 +88,32 @@ export default function SubscriptionSuccessPage() {
 
             <motion.div variants={bounceIn}>
               <Link href="/overview" className="block">
-                <Button
-                  variant="white"
-                  size="lg"
-                  fullWidth
-                  icon={<ArrowRight size={18} />}
-                  iconPosition="right"
-                  className="mt-4 font-semibold py-3.5 rounded-full"
+                <button
+                  className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
                 >
                   Go to Dashboard
-                </Button>
+                  <ArrowRight size={16} />
+                </button>
               </Link>
             </motion.div>
           </motion.div>
 
           <motion.p
             variants={bounceIn}
-            className="text-center text-[13px] text-white/40 mt-6"
+            className="text-center text-[11px] font-bold uppercase tracking-widest text-white/30 mt-6"
           >
             A confirmation email has been sent to your inbox
           </motion.p>
         </motion.div>
       </main>
 
-      <footer className="relative z-10 py-8 text-center border-t border-white/5">
-        <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0 transition-all cursor-default">
-          <div className="w-1 h-1 rounded-full bg-white" />
+      <footer className="relative z-10 py-8 text-center border-t border-[#2a2a2a]">
+        <div className="flex items-center justify-center gap-2 opacity-30 grayscale hover:grayscale-0 cursor-default">
+          <div className="w-1 h-1 bg-[#2a2a2a]" />
           <span className="text-[10px] uppercase tracking-[0.2em] font-bold">
             Harness Invisible Power
           </span>
-          <div className="w-1 h-1 rounded-full bg-white" />
+          <div className="w-1 h-1 bg-[#2a2a2a]" />
         </div>
       </footer>
     </div>

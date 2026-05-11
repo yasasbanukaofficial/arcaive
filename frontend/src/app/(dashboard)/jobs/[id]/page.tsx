@@ -108,14 +108,14 @@ export default function JobDetailsPage() {
   if (loading) {
     return (
       <div className="max-w-300 mx-auto space-y-6 py-4 px-4 sm:px-6">
-        <div className="h-5 w-28 rounded-lg animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
-        <div className="h-80 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+        <div className="h-5 w-28 bg-[var(--glass-bg)]/5" />
+        <div className="h-80 w-full bg-[var(--glass-bg)]/5" />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
            <div className="lg:col-span-2 space-y-6">
-              <div className="h-64 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-64 w-full bg-[var(--glass-bg)]/5" />
            </div>
            <div className="space-y-6">
-              <div className="h-96 w-full rounded-2xl animate-pulse" style={{ backgroundColor: "var(--d-surface-hover)" }} />
+              <div className="h-96 w-full bg-[var(--glass-bg)]/5" />
            </div>
         </div>
       </div>
@@ -129,13 +129,13 @@ export default function JobDetailsPage() {
         animate={{ opacity: 1 }}
         className="flex flex-col items-center justify-center py-32 text-center"
       >
-        <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20">
+        <div className="w-20 h-20  bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/20">
           <Info className="w-10 h-10 text-red-500" />
         </div>
-        <p className="text-[24px] font-bold mb-2" style={{ color: "var(--d-text-primary)" }}>
+        <p className="text-[24px] font-bold mb-2" style={{ color: "var(--text-primary)" }}>
           Job not found
         </p>
-        <p className="text-[15px] mb-8 max-w-sm" style={{ color: "var(--d-text-muted)" }}>
+        <p className="text-[15px] mb-8 max-w-sm" style={{ color: "var(--text-secondary)" }}>
           The job listing you&apos;re looking for doesn&apos;t exist or has been removed.
         </p>
         <Button
@@ -208,381 +208,137 @@ export default function JobDetailsPage() {
         initial="hidden"
         animate="show"
         variants={dashboardStagger(0.05, 0.02)}
-        className="max-w-[1200px] mx-auto space-y-8 pb-20 px-4 sm:px-6"
+        className="max-w-[1200px] mx-auto space-y-10 pb-20 px-4 sm:px-6"
       >
-      {/* Navigation & Actions Header */}
-      <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <motion.button
-          whileHover={{ x: -3 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => router.push("/jobs")}
-          className="flex items-center gap-2.5 text-[14px] font-bold uppercase tracking-wider group py-2"
-          style={{ color: "var(--d-text-tertiary)" }}
-        >
-          <div className="w-8 h-8 rounded-full flex items-center justify-center transition-colors group-hover:bg-[var(--d-surface-hover)] border border-transparent group-hover:border-[var(--d-border-subtle)]">
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+        {/* Navigation Header */}
+        <motion.div variants={fadeUp} className="flex items-center justify-between">
+          <motion.button
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.push("/jobs")}
+            className="flex items-center gap-3 text-[13px] font-bold uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+          >
+            <div className="w-10 h-10 rounded-full bg-[var(--d-surface)] border border-[var(--glass-border)] flex items-center justify-center">
+              <ArrowLeft className="w-4 h-4" />
+            </div>
+            Back to Listings
+          </motion.button>
+
+          <div className="flex items-center gap-2">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleCopyLink}
+              className="w-10 h-10 rounded-full bg-[var(--d-surface)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
+            >
+              {linkCopied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setBookmarked(!bookmarked)}
+              className="w-10 h-10 rounded-full bg-[var(--d-surface)] border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all"
+            >
+              {bookmarked ? <BookmarkCheck className="w-5 h-5 text-amber-500" /> : <Bookmark className="w-5 h-5" />}
+            </motion.button>
           </div>
-          Back to Explorers
-        </motion.button>
+        </motion.div>
 
-        <div className="flex items-center gap-3">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCopyLink}
-            className="px-4 h-10 rounded-xl flex items-center justify-center gap-2 transition-all border font-semibold text-[13px]"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: linkCopied ? "var(--accent-emerald-border)" : "var(--d-border-subtle)",
-              color: linkCopied ? "var(--accent-emerald-dot)" : "var(--d-text-secondary)",
-            }}
-          >
-            {linkCopied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {linkCopied ? "Copied!" : "Copy Link"}
-          </motion.button>
+        {/* Hero Section - Futuristic SaaS Aesthetic */}
+        <motion.div
+          variants={fadeUp}
+          className="relative p-10 sm:p-12 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] overflow-hidden shadow-2xl"
+        >
+          {/* Ambient Glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--accent-brand)]/5 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setBookmarked(!bookmarked)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all border"
-            style={{
-              backgroundColor: bookmarked ? "var(--accent-amber-bg)" : "var(--d-surface)",
-              borderColor: bookmarked ? "var(--accent-amber-border)" : "var(--d-border-subtle)",
-              color: bookmarked ? "var(--accent-amber-dot)" : "var(--d-icon)",
-            }}
-          >
-            {bookmarked ? <BookmarkCheck className="w-5 h-5" /> : <Bookmark className="w-5 h-5" />}
-          </motion.button>
-        </div>
-      </motion.div>
-
-      {/* Hero Section */}
-      <motion.div
-        variants={fadeUp}
-        className="relative rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl shadow-black/20"
-        style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
-        }}
-      >
-        {/* Animated Background Gradients */}
-        <div
-          className="absolute top-0 right-0 w-[600px] h-[600px] blur-[120px] opacity-20 pointer-events-none"
-          style={{ background: `radial-gradient(circle, ${accent.dot}, transparent)` }}
-        />
-        <div
-          className="absolute -bottom-20 -left-20 w-[400px] h-[400px] blur-[100px] opacity-10 pointer-events-none"
-          style={{ background: `radial-gradient(circle, var(--accent-blue-dot), transparent)` }}
-        />
-
-        <div className="relative z-10">
-          <div className="flex flex-col md:flex-row items-start gap-8">
-            {/* Logo Wrapper */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              className="w-20 h-20 sm:w-28 sm:h-28 rounded-3xl flex items-center justify-center shrink-0 overflow-hidden shadow-xl border-4"
-              style={{
-                backgroundColor: "var(--d-surface-hover)",
-                borderColor: accent.bg,
-              }}
+          <div className="relative z-10 flex flex-col md:flex-row items-start gap-8">
+            <div
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-[24px] flex items-center justify-center shrink-0 border border-[var(--glass-border)] bg-[var(--bg-color)] shadow-xl"
             >
               {job.companyLogo ? (
-                <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover p-2" />
+                <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover p-4" />
               ) : (
-                <Building2 className="w-10 h-10 sm:w-14 h-14" style={{ color: accent.dot }} />
+                <Building2 className="w-12 h-12 opacity-30" />
               )}
-            </motion.div>
+            </div>
 
-            <div className="flex-1 min-w-0 space-y-4">
+            <div className="flex-1 space-y-5">
               <div className="flex flex-wrap items-center gap-3">
                 <span
-                  className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-[0.2em] border"
+                  className="px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] border"
                   style={{ backgroundColor: accent.bg, borderColor: accent.border, color: accent.dot }}
                 >
                   {job.publisher}
                 </span>
-                <span className="flex items-center gap-1.5 text-[13px] font-medium opacity-60">
+                <span className="text-[12px] font-bold text-[var(--text-secondary)] uppercase tracking-wider flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5" />
-                  Posted {job.postedAt}
+                  {job.postedAt}
                 </span>
               </div>
 
-              <h1 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] sm:leading-tight">
-                <span
-                  style={{
-                    background: "linear-gradient(to bottom right, var(--d-text-primary), var(--d-text-muted))",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  {job.title}
-                </span>
+              <h1 className="text-[36px] sm:text-[52px] font-bold tracking-tight text-[var(--text-primary)] leading-[1.05]">
+                {job.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-4 text-[15px] font-semibold">
-                <div
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl transition-colors"
-                  style={{
-                    backgroundColor: "var(--d-surface-hover)",
-                    border: "1px solid var(--d-border-subtle)",
-                    color: "var(--d-text-secondary)",
-                  }}
-                >
-                  <MapPin className="w-4 h-4 text-blue-400" />
+              <div className="flex flex-wrap items-center gap-4 text-[13px] font-bold text-[var(--text-secondary)]">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--glass-border)] bg-[var(--bg-color)]/50">
+                  <MapPin className="w-3.5 h-3.5 text-[var(--accent-brand)]" />
                   {job.location}
                 </div>
-                {(job.salary || job.minSalary) && (
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                    <DollarSign className="w-4 h-4" />
-                    {formatSalary(job)}
-                  </div>
-                )}
                 {job.isRemote && (
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
-                    <Wifi className="w-4 h-4" />
-                    Remote Available
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--glass-border)] bg-[var(--bg-color)]/50">
+                    <Wifi className="w-3.5 h-3.5 text-[var(--accent-brand)]" />
+                    Remote
                   </div>
                 )}
               </div>
             </div>
           </div>
+        </motion.div>
 
-          <div className="mt-10 flex flex-wrap gap-2.5">
-            {allTags.map((t) => (
-              <JobTag key={t}>{t}</JobTag>
-            ))}
+        {/* Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-8 space-y-8">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <JobStatCard icon={TrendingUp} label="Salary" value={formatSalary(job)} accent={getTagColor("Salary")} />
+              <JobStatCard icon={Briefcase} label="Type" value={job.employmentType} accent={getTagColor("Type")} />
+              <JobStatCard icon={Globe} label="Country" value={job.country} accent={getTagColor("Region")} />
+              <JobStatCard icon={Search} label="Source" value={job.publisher} accent={accent} />
+            </div>
+
+            {/* Description Card */}
+            <motion.div variants={fadeUp} className="p-8 sm:p-10 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px]">
+              <h2 className="text-[20px] font-bold text-[var(--text-primary)] mb-8">Detailed Description</h2>
+              <div className="text-[15px] text-[var(--text-secondary)] leading-[1.8] whitespace-pre-line space-y-4">
+                {job.description}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Action Sidebar */}
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+            <motion.div variants={fadeUp} className="p-8 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] shadow-xl">
+              <h3 className="text-[18px] font-bold text-[var(--text-primary)] mb-6">Actions</h3>
+              <div className="space-y-4">
+                <Button variant="primary" size="lg" className="w-full h-14 font-bold text-[14px]" onClick={() => window.open(job.applyLink, "_blank")}>
+                  Apply Directly
+                </Button>
+                <Button variant="secondary" size="lg" className="w-full h-14 font-bold text-[14px]" onClick={() => router.push(`/interview?jobId=${id}`)}>
+                  Simulate Interview
+                </Button>
+                <Button variant="secondary" size="lg" className="w-full h-14 font-bold text-[14px]" onClick={() => router.push(`/cv-analysis?jobId=${encodeURIComponent(id)}`)}>
+                  Analyze CV
+                </Button>
+                <Button variant="secondary" size="lg" className="w-full h-14 font-bold text-[14px]" onClick={handleCreateTailoredCV} loading={isTailoring}>
+                  Create Tailored CV
+                </Button>
+              </div>
+            </motion.div>
           </div>
         </div>
       </motion.div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-8 space-y-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <JobStatCard icon={TrendingUp} label="Salary Range" value={formatSalary(job)} accent={getTagColor("Salary")} />
-            <JobStatCard icon={Briefcase} label="Job Type" value={job.employmentType} accent={getTagColor("Type")} />
-            <JobStatCard icon={Globe} label="Country" value={job.country} accent={getTagColor("Region")} />
-            <JobStatCard icon={Search} label="Source" value={job.publisher} accent={accent} />
-          </div>
-
-          {Object.entries(job.highlights).map(([title, items]) => (
-            <JobHighlightSection key={title} title={title} items={items as string[]} />
-          ))}
-
-          {/* Benefits */}
-          {job.benefits && job.benefits.length > 0 && (
-            <motion.div variants={fadeUp} className="space-y-4">
-               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
-                  <Zap className="w-5 h-5 text-amber-400" />
-                </div>
-                <h3 className="text-[18px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-                  Employee Benefits
-                </h3>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {job.benefits.map((benefit, i) => (
-                  <span
-                    key={i}
-                    className="px-4 py-2.5 rounded-xl border flex items-center gap-2 text-[14px] font-medium transition-all hover:translate-y-[-2px] hover:shadow-lg"
-                    style={{
-                      backgroundColor: "var(--d-surface)",
-                      borderColor: "var(--d-border-subtle)",
-                      color: "var(--d-text-secondary)",
-                    }}
-                  >
-                    <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    {benefit}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Full Description */}
-          <motion.div
-            variants={fadeUp}
-            className="rounded-3xl p-8 space-y-6"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            <h2 className="text-[20px] font-bold tracking-tight" style={{ color: "var(--d-text-primary)" }}>
-              Detailed Description
-            </h2>
-            <div
-              className="text-[15px] leading-[1.8] whitespace-pre-line space-y-4"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              {job.description}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column: Sidebar */}
-        <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-          {/* Main Action Card */}
-          <motion.div
-            variants={fadeUp}
-            className="rounded-[2rem] p-8 space-y-6 border-2"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              borderColor: accent.bg,
-            }}
-          >
-            <div className="space-y-2">
-              <h3 className="text-[20px] font-bold tracking-tight">Ready to Apply?</h3>
-              <p className="text-[14px] opacity-70 leading-relaxed">
-                Take the next step in your career with <span className="font-bold" style={{ color: "var(--d-text-primary)" }}>{job.company}</span>.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-
-              <a href={job.applyLink} target="_blank" rel="noopener noreferrer" className="block">
-                <Button
-                  variant="white"
-                  size="lg"
-                  className="w-full h-14 text-[16px] font-bold rounded-2xl shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20"
-                  icon={<ExternalLink className="w-4 h-4" />}
-                  iconPosition="right"
-                >
-                  Apply Directly
-                </Button>
-              </a>
-              <Button
-                variant="primary"
-                size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl simulate-interview-btn"
-                onClick={() => router.push(`/interview?jobId=${id}`)}
-              >
-                Simulate Interview
-              </Button>
-
-              <Button
-                variant="secondary"
-                size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
-                onClick={() => router.push(`/cv-analysis?jobId=${encodeURIComponent(id)}`)}
-                icon={<FileSearch className="w-5 h-5" />}
-              >
-                Analyze CV
-              </Button>
-
-              <Button
-                variant="secondary"
-                size="lg"
-                className="w-full h-14 text-[16px] font-bold rounded-2xl border-2"
-                onClick={handleCreateTailoredCV}
-                icon={<Sparkles className="w-5 h-5" />}
-                loading={isTailoring}
-              >
-                Create Tailored CV
-              </Button>
-
-              {job.googleLink && (
-                <a href={job.googleLink} target="_blank" rel="noopener noreferrer" className="block">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full h-12 flex items-center justify-center gap-2 rounded-2xl text-[14px] font-bold border transition-all"
-                    style={{
-                      backgroundColor: "rgba(66, 133, 244, 0.1)",
-                      borderColor: "rgba(66, 133, 244, 0.2)",
-                      color: "#4285F4",
-                    }}
-                  >
-                    🔍 View on Google Jobs
-                  </motion.button>
-                </a>
-              )}
-            </div>
-
-            <div className="pt-4 space-y-4" style={{ borderTop: "1px solid var(--d-border-subtle)" }}>
-              <p className="text-[11px] font-bold uppercase tracking-[0.1em] opacity-40">
-                Other Platforms
-              </p>
-              <div className="space-y-2.5">
-                {job.applyOptions.slice(0, 4).map((opt, i) => (
-                  <a
-                    key={i}
-                    href={opt.applyLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl transition-all group"
-                    style={{ border: "1px solid var(--d-border-subtle)" }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--d-surface-hover)")}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-[18px] grayscale group-hover:grayscale-0 transition-all">
-                        {getSourceIcon(opt.publisher)}
-                      </span>
-                      <span className="text-[13px] font-semibold opacity-80 group-hover:opacity-100">
-                        {opt.publisher}
-                      </span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 opacity-30 group-hover:opacity-100 transition-all" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Company Profile Card */}
-          <motion.div
-            variants={fadeUp}
-            className="rounded-[2rem] p-8 space-y-6"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden" style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)" }}>
-                {job.companyLogo ? (
-                  <img src={job.companyLogo} alt={job.company} className="w-full h-full object-cover p-1.5" />
-                ) : (
-                  <Building2 className="w-6 h-6 opacity-40" />
-                )}
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-[18px] font-bold truncate tracking-tight">{job.company}</h3>
-                <p className="text-[13px] opacity-50 flex items-center gap-1">
-                  <MapPin className="w-3 h-3" /> {job.city || job.location}
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2.5">
-              {job.companyWebsite && (
-                <a
-                  href={job.companyWebsite}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[13px] font-bold transition-all"
-                  style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
-                >
-                  <Globe className="w-3.5 h-3.5" />
-                  Visit Website
-                </a>
-              )}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full h-11 flex items-center justify-center gap-2 rounded-xl text-[13px] font-bold transition-all"
-                style={{ backgroundColor: "var(--d-surface-hover)", border: "1px solid var(--d-border-subtle)", color: "var(--d-text-secondary)" }}
-              >
-                <Building2 className="w-3.5 h-3.5" />
-                Company Profile
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </motion.div>
-  </>
+    </>
   );
 }

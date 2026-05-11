@@ -9,7 +9,6 @@ import {
   Bell,
   type LucideIcon,
 } from "lucide-react";
-import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export type SettingsSection =
   | "identity"
@@ -62,14 +61,10 @@ export default function SettingsNav({
   onSectionChange,
   className = "",
 }: SettingsNavProps) {
-  const { isDark } = useTheme();
   return (
-    <nav className={`space-y-1 ${className}`}>
-      <p
-        className="px-3 pb-2 pt-1 text-[11px] font-bold uppercase tracking-[0.2em]"
-        style={{ color: "var(--d-text-muted)" }}
-      >
-        Settings
+    <nav className={`space-y-2 ${className}`}>
+      <p className="px-4 pb-4 pt-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text-tertiary)]">
+        Control Interface
       </p>
 
       {navItems.map((item) => {
@@ -81,78 +76,34 @@ export default function SettingsNav({
             key={item.id}
             type="button"
             onClick={() => onSectionChange(item.id)}
-            className="relative flex items-start gap-3 w-full px-3 py-3 rounded-xl text-left transition-all duration-200 group"
-            style={{
-              backgroundColor: isActive
-                ? isDark
-                  ? "var(--d-surface-active)"
-                  : "#000000"
-                : "transparent",
-            }}
+            className={`relative flex items-center gap-4 w-full px-4 py-4 rounded-[20px] text-left transition-all duration-300 group ${
+              isActive ? "bg-[var(--accent-brand)] shadow-lg shadow-[var(--accent-brand)]/10" : "hover:bg-[var(--text-primary)]/[0.03]"
+            }`}
           >
-            {isActive && (
-              <motion.div
-                layoutId="settings-nav-active"
-                className="absolute inset-0 rounded-xl"
-                style={{
-                  backgroundColor: isDark
-                    ? "var(--d-surface-active)"
-                    : "#000000",
-                  border: isDark ? "1px solid var(--d-border)" : "none",
-                }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              />
-            )}
-
             <div
-              className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 relative z-10 transition-colors duration-200 mt-0.5"
-              style={{
-                backgroundColor: isActive
-                  ? isDark
-                    ? "var(--d-surface-hover)"
-                    : "rgba(255,255,255,0.1)"
-                  : "transparent",
-                border: isActive
-                  ? isDark
-                    ? "1px solid var(--d-border)"
-                    : "1px solid rgba(255,255,255,0.2)"
-                  : "1px solid transparent",
-              }}
+              className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                isActive ? "bg-[var(--bg-color)]/20" : "bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)]"
+              }`}
             >
               <Icon
-                className="w-5 h-5 transition-colors duration-200"
-                style={{
-                  color: isActive
-                    ? isDark
-                      ? "var(--d-text-primary)"
-                      : "#ffffff"
-                    : "var(--d-text-muted)",
-                }}
+                className={`w-[18px] h-[18px] transition-colors duration-300 ${
+                  isActive ? "text-[var(--accent-brand-contrast)]" : "text-[var(--text-tertiary)] group-hover:text-[var(--text-primary)]"
+                }`}
               />
             </div>
 
-            <div className="relative z-10 min-w-0 flex-1">
+            <div className="min-w-0 flex-1">
               <span
-                className="block text-[14px] font-medium leading-snug transition-colors duration-200"
-                style={{
-                  color: isActive
-                    ? isDark
-                      ? "var(--d-text-primary)"
-                      : "#ffffff"
-                    : "var(--d-text-tertiary)",
-                }}
+                className={`block text-[14px] font-bold tracking-tight transition-colors duration-300 ${
+                  isActive ? "text-[var(--accent-brand-contrast)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"
+                }`}
               >
                 {item.label}
               </span>
               <span
-                className="block text-[12px] leading-relaxed mt-0.5 transition-colors duration-200"
-                style={{
-                  color: isActive
-                    ? isDark
-                      ? "var(--d-text-muted)"
-                      : "rgba(255,255,255,0.7)"
-                    : "var(--d-text-ghost)",
-                }}
+                className={`block text-[11px] font-medium mt-0.5 transition-colors duration-300 ${
+                  isActive ? "text-[var(--accent-brand-contrast)]/60" : "text-[var(--text-tertiary)]"
+                }`}
               >
                 {item.description}
               </span>

@@ -6,5 +6,9 @@ import tech.yasasbanuka.backend.dto.member.MemberCreateRequestDTO;
 
 public interface AuthService {
     AuthResponseDTO authenticate(AuthRequestDTO dto);
+    AuthResponseDTO refresh(String refreshToken);
+    void logout(String refreshToken);
     void register(MemberCreateRequestDTO dto);
+    void verifyEmail(String email, String code);
+    void resendVerificationCode(String email);
 }

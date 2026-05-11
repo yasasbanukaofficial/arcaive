@@ -2,9 +2,7 @@
 
 import React, { useEffect, useActionState, startTransition } from "react";
 import { ArrowRight } from "lucide-react";
-import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
 import { forgotPasswordAction } from "../action";
@@ -42,13 +40,9 @@ export default function ForgotPasswordForm() {
 
   return (
     <>
-      <motion.form
-        onSubmit={formik.handleSubmit}
-        variants={staggerContainer(0.08, 0)}
-        className="space-y-4"
-      >
-        <motion.div variants={bounceIn} className="space-y-1.5">
-          <label className="text-[13px] font-medium text-gray-400 ml-1">
+      <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <label className="oryzo-label text-[var(--text-secondary)] block">
             Email Address
           </label>
           <input
@@ -57,12 +51,13 @@ export default function ForgotPasswordForm() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="name@company.com"
-            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+            placeholder="name@example.com"
+            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
               formik.touched.email && formik.errors.email
-                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-                : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+                ? "border-red-500/50 focus:border-red-500"
+                : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
             }`}
+            style={{ borderRadius: "var(--radius)" }}
           />
           <AnimatePresence>
             {formik.touched.email && formik.errors.email && (
@@ -71,29 +66,24 @@ export default function ForgotPasswordForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="text-[12px] mt-1 ml-1 text-red-400/90"
+                className="font-sans text-[12px] mt-2 text-red-400"
               >
                 {formik.errors.email}
               </motion.p>
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
-        <motion.div variants={bounceIn}>
-          <Button
-            type="submit"
-            variant="white"
-            size="lg"
-            fullWidth
-            icon={<ArrowRight size={18} />}
-            iconPosition="right"
-            className="mt-4 font-semibold py-3.5 rounded-full"
-            disabled={isPending}
-          >
-            {isPending ? "Sending..." : "Send reset link"}
-          </Button>
-        </motion.div>
-      </motion.form>
+        <button
+          type="submit"
+          className="btn-hover w-full group flex items-center justify-center gap-2 border border-[var(--text-primary)] text-[var(--text-primary)] px-6 py-3 hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
+          disabled={isPending}
+        >
+          <span>{isPending ? "Sending..." : "Send Reset Link"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
+        </button>
+      </form>
     </>
   );
 }

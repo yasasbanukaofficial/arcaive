@@ -2,52 +2,54 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { fadeUp } from "./animations";
-import Button from "@/components/ui/Button";
-import { useTheme } from "./ThemeContext";
-import Logo from "@/components/ui/Logo";
+import Link from "next/link";
+
+import { useMemberSettings } from "@/features/settings/hooks/useMember";
 
 export default function WelcomeBanner() {
-  const { isDark } = useTheme();
+  const { data: member } = useMemberSettings();
+  const firstName = member?.memberName?.split(" ")[0] || "there";
+
   return (
     <motion.div
       variants={fadeUp}
-      className="relative overflow-hidden rounded-2xl bg-linear-to-r from-blue-500/8 via-purple-500/5 to-transparent p-8 lg:p-10 transition-colors duration-300"
-      style={{ border: "1px solid var(--d-border)" }}
+      className="relative overflow-hidden bg-[var(--glass-bg)] backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl p-8 lg:p-10 shadow-sm group hover:border-[var(--text-secondary)] transition-colors duration-500"
     >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-linear-to-bl from-blue-500/10 to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-linear-to-t from-purple-500/8 to-transparent blur-3xl pointer-events-none" />
-
-      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-start gap-4">
-          <Logo size={40} showText={false} imageClassName="shrink-0" />
-          <div>
-            <h2
-              className="text-xl sm:text-2xl font-medium tracking-tight mb-1.5"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Welcome back
+      {/* Subtle background glow */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--text-secondary)] rounded-full blur-[100px] -mr-32 -mt-32 pointer-events-none group-hover:bg-[var(--text-primary)] opacity-5 transition-colors duration-700" />
+      
+      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <div className="flex items-start gap-6">
+          <motion.div 
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-14 h-14 bg-[var(--bg-color)] rounded-full flex items-center justify-center shrink-0 border border-[var(--glass-border)] shadow-inner"
+          >
+            <Sparkles className="w-6 h-6 text-[var(--text-primary)]" />
+          </motion.div>
+          <div className="space-y-4">
+            <h2 className="font-display text-[24px] sm:text-[28px] font-bold tracking-tight text-[var(--text-primary)] capitalize">
+              Welcome back, {firstName}
             </h2>
-            <p
-              className="text-[15px] leading-relaxed max-w-lg"
-              style={{ color: "var(--d-text-tertiary)" }}
-            >
-              Your AI agents have been busy. 3 new applications submitted and 2
-              interviews scheduled while you were away.
+            <p className="font-sans text-[16px] font-light leading-[1.6] max-w-xl text-[var(--text-secondary)]">
+              Your AI agents have been working diligently.{" "}
+              <span className="text-[var(--text-primary)] font-medium">{member?.stats?.newApplications || 0} new applications</span> submitted and{" "}
+              <span className="text-[var(--text-primary)] font-medium">{member?.stats?.interviewsScheduled || 0} interviews</span> scheduled while you were away.
             </p>
           </div>
         </div>
 
-        <Button
-          variant="secondary"
-          size="lg"
-          icon={<ArrowRight className="w-4 h-4" />}
-          iconPosition="right"
-          className="whitespace-nowrap"
+        <Link
+          href="/overview"
+          className="btn-icon-capsule shrink-0 group/btn !border-[var(--glass-border)] !text-[var(--text-primary)] hover:!border-[var(--text-primary)]"
         >
+          <span className="icon-circle !bg-[var(--glass-border)] group-hover/btn:!bg-[var(--text-primary)] group-hover/btn:!text-[var(--bg-color)] transition-colors duration-300">
+            <ArrowRight className="w-4 h-4" />
+          </span>
           View Summary
-        </Button>
+        </Link>
       </div>
     </motion.div>
   );

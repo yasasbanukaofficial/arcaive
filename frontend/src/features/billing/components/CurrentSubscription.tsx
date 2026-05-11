@@ -17,100 +17,57 @@ export default function CurrentSubscription({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 8 },
+        hidden: { opacity: 0, scale: 0.98 },
         show: {
           opacity: 1,
-          y: 0,
-          transition: { type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+          scale: 1,
+          transition: { type: "tween", duration: 0.5, ease: [0.22, 1, 0.36, 1] },
         },
       }}
-      className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
-      style={{
-        backgroundColor: "var(--d-surface)",
-        border: "1px solid var(--d-border)",
-      }}
+      className="p-8 sm:p-10 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] shadow-2xl relative overflow-hidden group"
     >
-      <div className="flex items-center gap-4 mb-8">
-        <div
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center"
-          style={{ backgroundColor: "var(--d-surface-hover)" }}
-        >
-          <Zap
-            size={24}
-            style={{ color: "var(--d-accent)" }}
-          />
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.02] to-transparent pointer-events-none" />
+      
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 relative z-10">
+        <div className="flex items-center gap-6">
+          <div className="w-16 h-16 rounded-full bg-[var(--accent-brand)]/10 border border-[var(--accent-brand)]/20 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-500">
+            <Zap size={28} className="text-[var(--accent-brand)] fill-current" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.2em] mb-1">Active Cluster Tier</p>
+            <h2 className="text-[28px] font-bold text-[var(--text-primary)] tracking-tight leading-none capitalize">
+              {plan.name} Node
+            </h2>
+          </div>
         </div>
-        <div>
-          <h2
-            className="text-lg sm:text-xl lg:text-2xl font-semibold"
-            style={{ color: "var(--d-text-primary)" }}
-          >
-            {plan.name} Plan
-          </h2>
-          <p
-            className="text-sm sm:text-base"
-            style={{ color: "var(--d-text-muted)" }}
-          >
-            Your current subscription tier
-          </p>
+        <div className="flex items-center gap-3 px-6 py-3 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-full">
+           <div className={`w-2 h-2 rounded-full animate-pulse ${subscription.isActive ? 'bg-[var(--accent-brand)]' : 'bg-red-500'}`} />
+           <span className="text-[13px] font-bold tracking-tight text-[var(--text-primary)]">
+             Status: {subscription.isActive ? "Operational" : "Offline"}
+           </span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8">
-        <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-          }}
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp
-              className="w-4 h-4"
-              style={{ color: "var(--d-accent)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              Price
-            </span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
+        <div className="p-6 bg-[var(--bg-color)] rounded-[24px] border border-[var(--glass-border)] hover:border-[var(--text-primary)]/10 transition-colors">
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp className="w-4 h-4 text-[var(--text-tertiary)]" />
+            <span className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Rate Limit</span>
           </div>
-          <p
-            className="text-2xl sm:text-3xl font-bold"
-            style={{ color: "var(--d-text-primary)" }}
-          >
+          <p className="text-[28px] font-bold text-[var(--text-primary)] tracking-tighter">
             ${plan.price}
-            <span
-              className="text-sm font-normal"
-              style={{ color: "var(--d-text-muted)" }}
-            >
+            <span className="text-[14px] font-medium text-[var(--text-tertiary)] tracking-normal ml-1">
               /{subscription.billingPeriod}
             </span>
           </p>
         </div>
 
-        <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-          }}
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <Calendar
-              className="w-4 h-4"
-              style={{ color: "var(--d-accent)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              Renewal Date
-            </span>
+        <div className="p-6 bg-[var(--bg-color)] rounded-[24px] border border-[var(--glass-border)] hover:border-[var(--text-primary)]/10 transition-colors">
+          <div className="flex items-center gap-2 mb-4">
+            <Calendar className="w-4 h-4 text-[var(--text-tertiary)]" />
+            <span className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">Next Sync</span>
           </div>
-          <p
-            className="text-lg sm:text-xl font-semibold"
-            style={{ color: "var(--d-text-primary)" }}
-          >
+          <p className="text-[22px] font-bold text-[var(--text-primary)] tracking-tight">
             {new Date(subscription.renewalDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
@@ -119,54 +76,25 @@ export default function CurrentSubscription({
           </p>
         </div>
 
-        <div
-          className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
-          style={{
-            backgroundColor: "var(--d-surface-hover)",
-          }}
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <AlertCircle
-              className="w-4 h-4"
-              style={{ color: "var(--d-accent)" }}
-            />
-            <span
-              className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
-              Status
-            </span>
+        <div className="p-6 bg-[var(--accent-brand)] rounded-[24px] border border-[var(--accent-brand)]/20 shadow-lg shadow-[var(--accent-brand)]/5 group/cta cursor-pointer overflow-hidden relative">
+          <div className="absolute inset-0 bg-white/[0.05] translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500" />
+          <div className="flex items-center gap-2 mb-4 relative z-10">
+            <Zap className="w-4 h-4 text-[var(--accent-brand-contrast)]/60" />
+            <span className="text-[11px] font-bold text-[var(--accent-brand-contrast)]/60 uppercase tracking-widest">Resource Optimizer</span>
           </div>
-          <p
-            className="text-lg sm:text-xl font-semibold"
-            style={{
-              color: subscription.isActive
-                ? "var(--d-success)"
-                : "var(--d-error)",
-            }}
-          >
-            {subscription.isActive ? "Active" : "Inactive"}
+          <p className="text-[18px] font-bold text-[var(--accent-brand-contrast)] tracking-tight leading-tight relative z-10">
+            Upgrade for 2x performance limits
           </p>
         </div>
       </div>
 
       {subscription.cancelAtPeriodEnd && (
-        <div
-          className="mt-6 p-4 rounded-xl sm:rounded-2xl flex items-start gap-3"
-          style={{
-            backgroundColor: "var(--d-error)",
-            opacity: 0.1,
-          }}
-        >
-          <AlertCircle
-            className="w-5 h-5 shrink-0 mt-0.5"
-            style={{ color: "var(--d-error)" }}
-          />
-          <p
-            className="text-sm"
-            style={{ color: "var(--d-error)" }}
-          >
-            Your subscription will be cancelled at the end of the billing period
+        <div className="mt-8 p-5 rounded-[20px] bg-red-500/5 border border-red-500/10 flex items-center gap-4 relative z-10">
+          <div className="w-8 h-8 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+             <AlertCircle className="w-4 h-4 text-red-500" />
+          </div>
+          <p className="text-[13px] font-semibold text-red-500/80 tracking-tight">
+            Subscription termination scheduled for the end of current cycle.
           </p>
         </div>
       )}

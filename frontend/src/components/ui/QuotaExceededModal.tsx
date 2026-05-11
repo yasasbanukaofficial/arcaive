@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
-import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import { AlertTriangle } from "lucide-react";
 
 export default function QuotaExceededModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +12,7 @@ export default function QuotaExceededModal() {
 
   useEffect(() => {
     const handleQuotaExceeded = (event: any) => {
-      setMessage(event.detail?.message || "You've reached your free quota limit.");
+      setMessage(event.detail?.message || "You've reached your free quota limit for this billing period.");
       setIsOpen(true);
     };
 
@@ -22,11 +21,6 @@ export default function QuotaExceededModal() {
   }, []);
 
   const handleUpgrade = () => {
-    setIsOpen(false);
-    router.push("/billing");
-  };
-
-  const handleViewBilling = () => {
     setIsOpen(false);
     router.push("/billing");
   };
@@ -41,67 +35,55 @@ export default function QuotaExceededModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="absolute inset-0 bg-black/40 backdrop-blur-md" style={{ backgroundColor: "var(--d-bg-alpha, rgba(0,0,0,0.4))" }}
+          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         />
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-md overflow-hidden rounded-2xl border shadow-xl"
-          style={{
-            backgroundColor: "var(--d-surface)",
-          }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="relative w-full max-w-[480px] bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden"
         >
-          <div className="p-6 pt-8">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              <X size={20} />
-            </button>
+          <div className="p-8 space-y-6">
+            {/* Icon */}
+            <div className="w-12 h-12 rounded-full bg-[#e6efdf] flex items-center justify-center">
+              <AlertTriangle className="w-6 h-6 text-[#111]" />
+            </div>
 
-            <div className="text-center space-y-5">
-              <div className="space-y-2">
-                <h2
-                  className="text-lg sm:text-xl font-medium"
-                  style={{ color: "var(--d-text-primary)" }}
-                >
-                  Quota Limit Reached
-                </h2>
-                <p
-                  className="text-sm"
-                  style={{ color: "var(--d-text-muted)" }}
-                >
-                  {message}
-                </p>
-              </div>
-
-              <div className="pt-2 flex flex-col gap-3">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl"
-                  onClick={handleUpgrade}
-                >
-                  Upgrade Plan
-                </Button>
-                
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="w-full h-11 sm:h-12 text-sm font-medium rounded-xl border"
-                  onClick={handleViewBilling}
-                >
-                  View Billing
-                </Button>
-              </div>
-
-              <p className="text-xs" style={{ color: "var(--d-text-muted)" }}>
-                Need more help? <span className="underline cursor-pointer">Contact support</span>
+            {/* Title */}
+            <div>
+              <h2 className="font-sans text-[20px] font-semibold text-white mb-2">
+                Quota limit reached
+              </h2>
+              <p className="font-sans text-[14px] text-white/50 leading-relaxed">
+                {message}
               </p>
             </div>
+
+            {/* Help */}
+            <p className="font-sans text-[12px] text-white/30">
+              Need more help?{" "}
+              <span className="text-white/60 underline cursor-pointer hover:text-white transition-colors">
+                Contact Support
+              </span>
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="border-t border-[#2a2a2a] px-8 py-6 flex justify-end gap-3">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white/60 hover:text-white hover:bg-[#2a2a2a] transition-colors font-sans text-[13px] font-medium"
+            >
+              Dismiss
+            </button>
+            <button
+              onClick={handleUpgrade}
+              className="px-5 py-2.5 rounded-full bg-[#e6efdf] text-[#111] hover:opacity-90 transition-opacity font-sans text-[13px] font-semibold"
+            >
+              Upgrade plan
+            </button>
           </div>
         </motion.div>
       </div>

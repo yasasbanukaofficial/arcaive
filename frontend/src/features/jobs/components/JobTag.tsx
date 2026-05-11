@@ -1,12 +1,10 @@
-import {
-  getTagColor,
-} from "@/styles/jobColors";
+import { getTagColor } from "@/styles/jobColors";
 
 export default function JobTag({ children }: { children: string }) {
   const accent = getTagColor(children);
   return (
     <span
-      className="text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-transform hover:scale-105 select-none"
+      className="text-[11px] font-medium px-3 py-1.5 rounded-full border flex items-center gap-1.5 transition-transform hover:scale-105 select-none"
       style={{
         backgroundColor: accent.bg,
         borderColor: accent.border,

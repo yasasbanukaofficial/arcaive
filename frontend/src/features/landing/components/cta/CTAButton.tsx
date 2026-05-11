@@ -8,10 +8,11 @@ interface CTAButtonProps {
 
 const CTAButton = ({ text, href }: CTAButtonProps) => {
   return (
-    <div className="pt-1.5 sm:pt-2">
+    <div className="pt-2">
       <Link
         href={href}
-        className="cursor-pointer inline-block bg-zinc-100 hover:bg-white text-black font-semibold py-1.5 px-4 sm:px-5 rounded-full text-[12px] sm:text-[13px] transition-all duration-200"
+        className="cursor-pointer inline-flex items-center justify-center text-[var(--text-primary)] font-mono text-[11px] font-bold uppercase tracking-widest py-3 px-6 border border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--bg-color)] transition-colors duration-200"
+        style={{ borderRadius: "var(--radius)" }}
       >
         {text}
       </Link>

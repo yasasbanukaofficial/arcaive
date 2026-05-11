@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Host_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import { ToastProvider } from "@/components/ui/Toast";
 import QuotaExceededModal from "@/components/ui/QuotaExceededModal";
-import { cn } from "@/lib/utils";
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const hostGrotesk = Host_Grotesk({
-  variable: "--font-host-grotesk",
-  subsets: ["latin"],
-});
+import { ThemeProvider } from "@/features/dashboard/components/ThemeContext";
+import BackgroundUploadTracker from "@/features/auth/components/BackgroundUploadTracker";
 
 export const metadata: Metadata = {
   title: "ARCAIVE | Where your career is automated",
@@ -25,22 +19,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("dark", "font-sans", inter.variable)}>
+    <html lang="en" className="font-sans">
       <body
-        className={`${hostGrotesk.variable} antialiased selection:bg-white/20 relative`}
+        className="antialiased bg-[var(--bg-color)] text-[var(--text-primary)] transition-colors duration-300 relative flex min-h-screen flex-col overflow-x-hidden"
       >
-        <ToastProvider>
-          <QuotaExceededModal />
-          <SmoothScroll>
-            <div className="bg-glows">
-              <div className="glow-blue" />
-              <div className="glow-purple" />
-              <div className="glow-center" />
-            </div>
-            <div className="noise-overlay" />
-            {children}
-          </SmoothScroll>
-        </ToastProvider>
+        <ThemeProvider defaultTheme="light">
+          <ToastProvider>
+             <QuotaExceededModal />
+             <SmoothScroll>
+              {/* Dark Tech Noise Overlay */}
+              <div className="fixed inset-0 z-[9999] pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+              
+              {children}
+              <BackgroundUploadTracker />
+              
+            </SmoothScroll>
+          </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

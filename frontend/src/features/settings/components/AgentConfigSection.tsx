@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Cpu, Gauge, Theater, Zap, Ban, Info, Check } from "lucide-react";
 import Card, { CardRow } from "@/components/ui/Card";
 import Slider from "@/components/ui/Slider";
-import Select from "@/components/ui/Select";
+import Select from "@/components/ui/SelectInput";
 import Toggle from "@/components/ui/Toggle";
 import TextArea from "@/components/ui/TextArea";
 import Badge from "@/components/ui/Badge";
@@ -108,19 +108,18 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
               {[20, 40, 60, 80, 100].map((mark) => (
                 <div
                   key={mark}
-                  className="w-8 h-1.5 rounded-full transition-colors duration-200"
+                  className="w-8 h-1.5 transition-colors duration-200"
                   style={{
                     backgroundColor:
                       applyThreshold >= mark
-                        ? "rgba(59, 130, 246, 0.5)"
-                        : "var(--d-surface-active)",
+                        ? "var(--text-primary)"
+                        : "var(--glass-border)",
                   }}
                 />
               ))}
             </div>
             <span
-              className="text-[12px]"
-              style={{ color: "var(--d-text-muted)" }}
+              className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]"
             >
               {applyThreshold >= 80
                 ? "Conservative"
@@ -201,22 +200,22 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
           >
             <div className="flex items-center gap-3">
               <span
-                className="text-[12px] font-medium"
+                className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]"
                 style={{
                   color: !useGpt4o
-                    ? "var(--d-text-primary)"
-                    : "var(--d-text-muted)",
+                    ? "var(--text-primary)"
+                    : "var(--text-secondary)",
                 }}
               >
                 Claude 3.5
               </span>
               <Toggle checked={useGpt4o} onChange={setUseGpt4o} size="md" />
               <span
-                className="text-[12px] font-medium"
+                className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]"
                 style={{
                   color: useGpt4o
-                    ? "var(--d-text-primary)"
-                    : "var(--d-text-muted)",
+                    ? "var(--text-primary)"
+                    : "var(--text-secondary)",
                 }}
               >
                 GPT-4o
@@ -227,7 +226,7 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
+            className="flex items-center gap-2 px-3 py-2.5 "
             style={{
               backgroundColor: "rgba(139, 92, 246, 0.04)",
               border: "1px solid rgba(139, 92, 246, 0.1)",
@@ -237,8 +236,7 @@ export default function AgentConfigSection({ data }: AgentConfigSectionProps) {
               Strategist
             </Badge>
             <span
-              className="text-[12px]"
-              style={{ color: "var(--d-text-muted)" }}
+              className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-secondary)]"
             >
               Model selection is available exclusively on the Strategist tier.
             </span>

@@ -2,18 +2,15 @@
 
 import React, { useActionState, useEffect, startTransition } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import Button from "@/components/ui/Button";
 import SocialButtons from "./SocialButtons";
 import PasswordInput from "./PasswordInput";
 import { motion, AnimatePresence } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-// Single stagger on form only — no nested stagger wrappers
 import { loginAction } from "../action";
 import { useToast } from "@/components/ui/Toast";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { loginSchema } from "@/utils/validationSchemas";
+import { ArrowRight } from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -34,6 +31,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state.success) {
+      localStorage.setItem("access_token", "true");
       addToast({
         type: "success",
         title: "Signed in",
@@ -52,28 +50,17 @@ export default function LoginForm() {
 
   return (
     <>
-      <motion.div variants={bounceIn}>
+      <div className="w-full">
         <SocialButtons googleUrl={`${backendLink}/google`} githubUrl={`${backendLink}/github`} />
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={bounceIn}
-        className="relative flex items-center gap-4 py-2"
-      >
-        <div className="h-px flex-1 bg-white/5"></div>
-        <span className="text-[11px] uppercase tracking-widest text-gray-500 font-bold">
-          Or use email
-        </span>
-        <div className="h-px flex-1 bg-white/5"></div>
-      </motion.div>
+      <div className="relative flex items-center justify-center py-6">
+        <span className="oryzo-label text-[var(--text-secondary)]">or continue with email</span>
+      </div>
 
-      <motion.form
-        onSubmit={formik.handleSubmit}
-        variants={staggerContainer(0.08, 0)}
-        className="space-y-4"
-      >
-        <motion.div variants={bounceIn} className="space-y-1.5">
-          <label className="text-[13px] font-medium text-gray-400 ml-1">
+      <form onSubmit={formik.handleSubmit} className="space-y-5">
+        <div className="space-y-2">
+          <label className="oryzo-label text-[var(--text-secondary)] block">
             Email Address
           </label>
           <input
@@ -82,12 +69,13 @@ export default function LoginForm() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="name@company.com"
-            className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+            placeholder="name@example.com"
+            className={`w-full px-4 py-3 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
               formik.touched.email && formik.errors.email
-                ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-                : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+                ? "border-red-500/50 focus:border-red-500"
+                : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
             }`}
+            style={{ borderRadius: "var(--radius)" }}
           />
           <AnimatePresence>
             {formik.touched.email && formik.errors.email && (
@@ -96,22 +84,22 @@ export default function LoginForm() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="text-[12px] mt-1 ml-1 text-red-400/90"
+                className="font-sans text-[12px] mt-2 text-red-400"
               >
                 {formik.errors.email}
               </motion.p>
             )}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
-        <motion.div variants={bounceIn} className="space-y-1.5">
-          <div className="flex justify-between items-center px-1">
-            <label className="text-[13px] font-medium text-gray-400">
+        <div className="space-y-2 pb-4">
+          <div className="flex justify-between items-center mb-0">
+            <label className="oryzo-label text-[var(--text-secondary)]">
               Password
             </label>
             <Link
               href="/forgot-password"
-              className="text-[12px] text-emerald-500/80 hover:text-emerald-400 transition-colors"
+              className="oryzo-label text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >
               Forgot password?
             </Link>
@@ -121,37 +109,33 @@ export default function LoginForm() {
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            placeholder="••••••••"
             error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
           />
-        </motion.div>
+        </div>
 
-        <motion.div variants={bounceIn}>
-          <Button
-            type="submit"
-            variant="white"
-            size="lg"
-            fullWidth
-            icon={<ArrowRight size={18} />}
-            iconPosition="right"
-            className="mt-4 font-semibold py-3.5 rounded-full"
-            disabled={isPending}
-          >
-            {isPending ? "Logging in..." : "Login"}
-          </Button>
-        </motion.div>
-      </motion.form>
+        <button
+          type="submit"
+          className="w-full group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-6 py-3 hover:bg-[var(--text-secondary)] transition-colors duration-200 font-sans text-[13px] font-bold uppercase tracking-[0.15em]"
+          style={{ borderRadius: "var(--radius)" }}
+          disabled={isPending}
+        >
+          <span>{isPending ? "Signing in..." : "Sign In"}</span>
+          {!isPending && <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />}
+        </button>
+      </form>
 
-      <motion.div variants={bounceIn} className="text-center">
-        <p className="text-center text-sm text-gray-500 mt-8">
+      <div className="text-center pt-8">
+        <p className="text-center font-sans text-[14px] text-[var(--text-secondary)]">
           Don't have an account?{" "}
           <Link
             href="/register"
-            className="text-white hover:underline decoration-white/30 underline-offset-4"
+            className="text-[var(--text-primary)] font-medium hover:underline transition-all"
           >
-            Create one for free
+            Sign up
           </Link>
         </p>
-      </motion.div>
+      </div>
     </>
   );
 }

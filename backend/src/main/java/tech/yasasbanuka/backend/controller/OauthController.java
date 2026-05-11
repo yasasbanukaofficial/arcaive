@@ -63,8 +63,9 @@ public class OauthController implements AuthenticationSuccessHandler {
             case "google" -> "https://profiles.google.com/" + oAuth2User.getAttribute("sub");
             default -> "";
         };
+        Object githubId = oAuth2User.getAttribute("id");
         String oauthId = switch (provider) {
-            case "github" -> String.valueOf(oAuth2User.getAttribute("id"));
+            case "github" -> githubId != null ? githubId.toString() : null;
             case "google" -> (String) oAuth2User.getAttribute("sub");
             default -> authentication.getName();
         };

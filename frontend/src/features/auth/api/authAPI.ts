@@ -20,6 +20,14 @@ export const authAPI = {
         data: payload,
       })
     ).data,
+  refresh: async () =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/refresh`,
+        withCredentials: true,
+      })
+    ).data,
 
   logout: async () =>
     (
@@ -36,6 +44,22 @@ export const authAPI = {
         baseURL: `${AUTH_URL}/forgot-password`,
         headers: { "Content-Type": "application/json" },
         data: { email },
+      })
+    ).data,
+  verifyEmail: async (email: string, code: string) =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/verify`,
+        data: { email, code },
+      })
+    ).data,
+  resendCode: async (email: string) =>
+    (
+      await apiInstance({
+        method: "POST",
+        baseURL: `${AUTH_URL}/resend-code`,
+        params: { email },
       })
     ).data,
 };

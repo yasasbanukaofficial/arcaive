@@ -2,78 +2,95 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { TrendingUp, TrendingDown } from "lucide-react";
 import { fadeUp, dashboardStagger } from "./animations";
 import { DUMMY_STATS } from "@/features/dashboard/constants/mockData";
 
-const stats = DUMMY_STATS;
+import { useUsageQuota } from "@/features/billing/hooks/useSubscription";
+import { Activity, Zap, FileText, Bot } from "lucide-react";
 
 export default function StatsGrid() {
+  const { data: usage, isLoading } = useUsageQuota();
+
+  const formatValue = (used: number, limit: number) => limit === -1 ? "Unlimited" : `${used}/${limit}`;
+  const formatChange = (used: number, limit: number) => limit === -1 ? "∞" : `${Math.round((used / limit) * 100)}%`;
+
+  const stats = [
+    {
+      label: "CV Analyses",
+      value: usage ? formatValue(usage.cvAnalysisUsed, usage.cvAnalysisLimit) : "...",
+      change: usage ? formatChange(usage.cvAnalysisUsed, usage.cvAnalysisLimit) : "0%",
+      trending: "up" as const,
+      icon: FileText,
+    },
+    {
+      label: "Job Searches",
+      value: usage ? formatValue(usage.jobSearchUsed, usage.jobSearchLimit) : "...",
+      change: usage ? formatChange(usage.jobSearchUsed, usage.jobSearchLimit) : "0%",
+      trending: "up" as const,
+      icon: Zap,
+    },
+    {
+      label: "Auto Applications",
+      value: usage ? formatValue(usage.autoApplyUsed, usage.autoApplyLimit) : "...",
+      change: usage ? formatChange(usage.autoApplyUsed, usage.autoApplyLimit) : "0%",
+      trending: "up" as const,
+      icon: Bot,
+    },
+    {
+      label: "Interview Sessions",
+      value: usage ? formatValue(usage.interviewUsed, usage.interviewLimit) : "...",
+      change: usage ? formatChange(usage.interviewUsed, usage.interviewLimit) : "0%",
+      trending: "up" as const,
+      icon: Activity,
+    },
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="h-[200px] rounded-[32px] bg-[var(--glass-bg)] border border-[var(--glass-border)] animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <motion.div
-      variants={dashboardStagger(0.04, 0)}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+      variants={dashboardStagger(0.06, 0.2)}
+      initial="initial"
+      animate="animate"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
     >
-      {stats.map((stat) => {
-        const Icon = stat.icon;
-        return (
-          <motion.div
-            key={stat.label}
-            variants={fadeUp}
-            whileHover={{ y: -2, transition: { duration: 0.2 } }}
-            className="relative group rounded-2xl p-6 overflow-hidden transition-colors duration-300"
-            style={{
-              backgroundColor: "var(--d-surface)",
-              border: "1px solid var(--d-border)",
-            }}
-          >
-            <div
-              className={`absolute inset-0 bg-linear-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-            />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-5">
-                <div
-                  className={`w-11 h-11 rounded-xl border ${stat.borderColor} flex items-center justify-center`}
-                  style={{ backgroundColor: "var(--d-surface-hover)" }}
-                >
-                  <Icon
-                    className="w-5 h-5"
-                    style={{ color: "var(--d-icon)" }}
-                  />
-                </div>
-                <div
-                  className={`flex items-center gap-1 text-[12px] font-medium ${
-                    stat.trending === "up"
-                      ? "text-emerald-400/70"
-                      : "text-blue-400/70"
-                  }`}
-                >
-                  {stat.trending === "up" ? (
-                    <TrendingUp className="w-3.5 h-3.5" />
-                  ) : (
-                    <TrendingDown className="w-3.5 h-3.5" />
-                  )}
-                  {stat.change}
-                </div>
+      {stats.map((stat, i) => (
+        <motion.div
+          key={stat.label}
+          variants={fadeUp}
+          className={`relative group p-8 rounded-[32px] border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl oryzo-card-glow transition-all duration-700 hover:shadow-2xl hover:border-[var(--text-primary)] hover:-translate-y-1 cursor-default`}
+        >
+          <div className="relative z-10 flex flex-col h-full justify-between">
+            <div className="flex items-center justify-between mb-10">
+              <div className="w-12 h-12 rounded-full border border-[var(--glass-border)] flex items-center justify-center bg-[var(--bg-color)] group-hover:scale-110 transition-transform duration-500">
+                <stat.icon className="w-5 h-5 text-[var(--text-primary)]" />
               </div>
-
-              <p
-                className="text-3xl font-semibold tracking-tight mb-1.5"
-                style={{ color: "var(--d-text-primary)" }}
+              <div
+                className={`font-mono text-[10px] font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white`}
               >
+                {stat.change}
+              </div>
+            </div>
+
+            <div>
+              <p className="font-display text-[42px] font-bold text-[var(--text-primary)] leading-none mb-4 tracking-tighter group-hover:scale-[1.02] transition-transform origin-left">
                 {stat.value}
               </p>
-              <p
-                className="text-[13px] font-medium"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <p className="font-mono text-[11px] font-bold text-[var(--text-secondary)] tracking-widest capitalize">
                 {stat.label}
               </p>
             </div>
-          </motion.div>
-        );
-      })}
+          </div>
+        </motion.div>
+      ))}
     </motion.div>
   );
 }

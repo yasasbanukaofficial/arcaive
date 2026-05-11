@@ -55,4 +55,5 @@ public class MemberInternalDTO {
     private List<String> certifications;
     @Nullable
     private List<String> languages;
+    private boolean onboardingCompleted;
 }

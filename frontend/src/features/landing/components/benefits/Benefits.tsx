@@ -1,87 +1,57 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import {
-  Hourglass,
-  Feather,
-  Target,
-  BookOpen,
-  Handshake,
-  ShieldCheck,
-} from "lucide-react";
-import SectionHeader from "@/components/layout/SectionHeader";
-import BenefitsCard from "@/features/landing/components/benefits/BenefitsCard";
+import React, { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-const benefits = [
-  {
-    title: "Time Returned",
-    description:
-      "Automate the routine and reclaim hours for what matters most.",
-    icon: Hourglass,
-  },
-  {
-    title: "Words with Ease",
-    description:
-      "Turn thoughts into polished writing — clear, natural, and fast.",
-    icon: Feather,
-  },
-  {
-    title: "Guided Focus",
-    description: "Stay sharp with gentle nudges that keep distractions away.",
-    icon: Target,
-  },
-  {
-    title: "Instant Knowledge",
-    description: "Condense research and insights into clarity within seconds.",
-    icon: BookOpen,
-  },
-  {
-    title: "Always Available",
-    description: "Your silent partner, ready to help whenever you need it.",
-    icon: Handshake,
-  },
-  {
-    title: "Built-in Trust",
-    description: "Protected by design — your data, your ideas, always secure.",
-    icon: ShieldCheck,
-  },
-];
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Benefits() {
-  return (
-    <section
-      id="benefits"
-      className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 bg-[#0a0a0a]"
-    >
-      <div className="max-w-[1240px] mx-auto">
-        <div className="mb-10 sm:mb-14 md:mb-20">
-          <SectionHeader
-            label="Benefits"
-            title="Invisible power at your side"
-            subtitle="delivering tangible benefits every day."
-          />
-        </div>
+  const container = useRef(null);
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          variants={staggerContainer(0.12, 0.1)}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-white/10"
-        >
-          {benefits.map((b, i) => (
-            <div key={i} className="border-r border-b border-white/10">
-              <motion.div variants={bounceIn} className="h-full">
-                <BenefitsCard
-                  icon={b.icon}
-                  title={b.title}
-                  description={b.description}
-                />
-              </motion.div>
-            </div>
-          ))}
-        </motion.div>
+  useGSAP(() => {
+    gsap.from(".benefit-reveal", {
+      opacity: 0,
+      y: 40,
+      duration: 1.5,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 60%",
+      },
+    });
+  }, { scope: container });
+
+  return (
+    <section id="benefits" ref={container} className="scene-section">
+      <div className="w-full relative z-10 flex flex-col justify-end min-h-[50vh]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-end">
+          <div className="benefit-reveal">
+            <h2 className="leading-[1] text-[var(--text-primary)] font-bold font-sans tracking-tight" style={{ fontSize: "clamp(42px, 6vw, 90px)"}}>
+              ALIGNMENT<br/>
+              ENGINE.
+            </h2>
+          </div>
+          
+          <div className="flex justify-end benefit-reveal">
+             <div className="oryzo-panel max-w-[400px]">
+               <h3 className="font-sans text-[22px] font-bold tracking-tight leading-[1.2] mb-6">
+                 ABSOLUTE PRECISION
+               </h3>
+               <p className="font-sans text-[16px] text-[var(--text-secondary)] leading-relaxed mb-8">
+                 We eliminate the variance of the human element. Our agents synchronize your vector space with live market requirements.
+               </p>
+               <div className="flex gap-8 text-[var(--text-primary)] font-bold font-sans text-[24px]">
+                 <div>98% <span className="oryzo-label block mt-2">ACCURACY</span></div>
+                 <div>14K+ <span className="oryzo-label block mt-2">SUBMISSIONS</span></div>
+               </div>
+             </div>
+          </div>
+        </div>
       </div>
     </section>
   );

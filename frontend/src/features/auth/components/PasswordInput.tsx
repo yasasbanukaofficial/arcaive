@@ -32,16 +32,17 @@ export default function PasswordInput({
           onChange={onChange ?? (() => {})}
           onBlur={onBlur}
           placeholder={placeholder}
-          className={`w-full rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 transition-all ${
+          className={`w-full px-4 py-3 pr-14 bg-[var(--bg-color)] font-sans text-[15px] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] border transition-colors focus:outline-none focus:ring-1 focus:ring-[var(--text-secondary)] ${
             error
-              ? "bg-red-500/[0.03] border border-red-500/30 focus:ring-red-500/20 focus:border-red-500/40"
-              : "bg-white/[0.03] border border-white/10 focus:ring-emerald-500/20 focus:border-emerald-500/40"
+              ? "border-red-500/50 focus:border-red-500"
+              : "border-[var(--glass-border)] focus:border-[var(--text-secondary)]"
           }`}
+          style={{ borderRadius: "var(--radius)" }}
         />
         <button
           type="button"
           onClick={() => setShow(!show)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
           aria-label={show ? "Hide password" : "Show password"}
         >
           {show ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -54,9 +55,9 @@ export default function PasswordInput({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.15 }}
-            className="text-[12px] mt-1.5 ml-1 text-red-400/90"
+            className="font-mono text-[11px] mt-2 text-[#D83B2A]"
           >
-            {error}
+            ! {error}
           </motion.p>
         )}
       </AnimatePresence>

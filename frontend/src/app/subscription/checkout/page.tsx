@@ -13,28 +13,23 @@ import {
   Rocket,
   Crown,
   ChevronDown,
-  Lock
+  Lock,
+  Sparkles
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { dashboardStagger, fadeUp } from "@/components/animations/animations";
 import { checkoutAPI } from "@/features/subscription/api/checkoutAPI";
 
+import { 
+  DashboardCard,
+} from "@/features/dashboard/components/DashboardLayoutComponents";
+
 const PLAN_CONFIG = {
   strategist: {
     icon: Rocket,
-    gradient: "from-blue-500/12 via-purple-500/8 to-transparent",
-    accentColor: "#8b5cf6",
-    bgAccent: "rgba(59, 130, 246, 0.15)",
-    borderAccent: "rgba(139, 92, 246, 0.6)",
-    priceColor: "#ffffff",
   },
   architect: {
     icon: Crown,
-    gradient: "from-blue-500/8 via-purple-500/5 to-transparent",
-    accentColor: "#fbbf24",
-    bgAccent: "rgba(245, 158, 11, 0.15)",
-    borderAccent: "rgba(245, 158, 11, 0.6)",
-    priceColor: "#ffffff",
   },
 };
 
@@ -118,66 +113,38 @@ function CheckoutContent() {
     : 0;
 
   return (
-    <div className="min-h-screen">
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div
-          className="absolute top-[-10%] right-[5%] w-[60vw] h-[60vh] blur-[100px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-purple) 0%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="absolute bottom-[-10%] left-[10%] w-[50vw] h-[50vh] blur-[100px]"
-          style={{
-            background: `radial-gradient(circle, var(--d-glow-blue) 0%, transparent 70%)`,
-          }}
-        />
-      </div>
-
-      <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-8 sm:py-12">
+    <div className="min-h-screen relative overflow-hidden bg-[#0e0e0e] text-[#e4e4e4]">
+      {/* Dark Ambient Grid */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ 
+             backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
+             backgroundSize: '40px 40px' 
+           }} 
+      />
+      
+      <div className="relative z-10 max-w-[1200px] mx-auto space-y-8 px-4 sm:px-6 py-12 sm:py-20">
         <motion.div
           initial="hidden"
           animate="show"
           variants={dashboardStagger(0.05, 0.02)}
         >
-          <motion.div variants={fadeUp} className="mb-8">
+          <motion.div variants={fadeUp} className="mb-12">
             <button
               onClick={() => router.back()}
-              className="inline-flex items-center gap-2 text-sm transition-colors hover:opacity-80 mb-6 text-gray-300 hover:text-white"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[#1f1f1f] border border-[#2a2a2a] mb-8 rounded-[24px]"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Plans
+              Go Back
             </button>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-              <div className="text-center sm:text-left">
-                <h1
-                  className="text-2xl sm:text-3xl lg:text-[36px] font-semibold text-white"
-                >
-                  Checkout
-                </h1>
-                <p className="text-sm sm:text-base mt-1 text-gray-400">
-                  Complete your subscription
-                </p>
-              </div>
-            </div>
+            <h1 className="font-sans text-[32px] font-medium text-white tracking-tight leading-none capitalize">
+              Order Summary
+            </h1>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8">
             <motion.div variants={fadeUp} className="lg:col-span-3 space-y-6">
-              <div
-                className="rounded-2xl p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
-              >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Select Plan
-                </h2>
-
+              <DashboardCard title="Package Selection">
                 <div className="space-y-4">
                   {PLANS.map((plan) => {
                     const config = PLAN_CONFIG[plan.id as keyof typeof PLAN_CONFIG];
@@ -190,89 +157,55 @@ function CheckoutContent() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         onClick={() => handlePlanChange(plan.id)}
-                        className={`relative p-4 sm:p-5 rounded-xl cursor-pointer transition-all duration-200`}
+                        className={`relative p-6 sm:p-8 cursor-pointer transition-all duration-300 group rounded-[24px] ${isSelected ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] hover:bg-[#2a2a2a]"}`}
                         style={{
-                          backgroundColor: isSelected
-                            ? config?.bgAccent
-                            : "rgba(255, 255, 255, 0.04)",
-                          border: `1px solid ${
-                            isSelected ? config?.borderAccent : "rgba(255, 255, 255, 0.15)"
-                          }`,
+                          border: `1px solid ${isSelected ? "transparent" : "#2a2a2a"}`,
                         }}
                       >
-                        {plan.isPopular && (
-                          <div className="absolute -top-2.5 right-4">
-                            <span
-                              className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider"
-                              style={{
-                                background: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-                                color: "#ffffff",
-                              }}
-                            >
-                              Most Popular
-                            </span>
-                          </div>
-                        )}
+                          {isSelected && (
+                            <div className="absolute -top-3 left-8">
+                              <span
+                                className="px-3 py-1 text-[9px] font-black tracking-widest uppercase border bg-[#111111] text-[#e6efdf] border-[#111111] rounded-[6px]"
+                              >
+                                Preferred Selection
+                              </span>
+                            </div>
+                          )}
 
                         <div className="flex items-center gap-4">
                           <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                            style={{
-                              backgroundColor: isSelected
-                                ? config?.bgAccent
-                                : "rgba(255, 255, 255, 0.06)",
-                              border: `1px solid ${
-                                isSelected ? config?.borderAccent : "rgba(255, 255, 255, 0.1)"
-                              }`,
-                            }}
+                            className={`w-14 h-14 flex items-center justify-center shrink-0 transition-colors duration-300 rounded-[16px] ${isSelected ? "bg-[#111111]/10" : "bg-[#2a2a2a]"}`}
                           >
                             <PlanIcon
-                              className="w-5 h-5"
-                              style={{ color: config?.accentColor }}
+                              className={`w-6 h-6 ${isSelected ? "text-[#111111]" : "text-[#e4e4e4]"}`}
                             />
                           </div>
 
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h3
-                                className="font-semibold text-white"
-                              >
+                              <h3 className="text-xl font-bold capitalize tracking-tight">
                                 {plan.name}
                               </h3>
                             </div>
-                            <p
-                              className="text-xs mt-0.5 truncate text-gray-300"
-                            >
+                            <p className={`text-[13px] mt-1 font-medium ${isSelected ? "text-[#111111]/60" : "text-white/40"}`}>
                               {plan.description}
                             </p>
                           </div>
 
                           <div className="text-right shrink-0">
-                            <div
-                              className="text-xl font-bold text-white"
-                            >
+                            <div className="text-2xl font-black">
                               {plan.priceDisplay}
                             </div>
-                            <div
-                              className="text-xs text-gray-400"
-                            >
+                            <div className={`text-[10px] uppercase tracking-widest opacity-60`}>
                               /month
                             </div>
                           </div>
 
                           <div
-                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all`}
-                            style={{
-                              backgroundColor: isSelected
-                                ? config?.accentColor
-                                : "transparent",
-                              borderColor: isSelected
-                                ? config?.accentColor
-                                : "rgba(255, 255, 255, 0.3)",
-                            }}
+                            className={`w-5 h-5 flex items-center justify-center shrink-0 rounded-[6px] border ${isSelected ? "border-[#111111] bg-[#111111]" : "border-[#3a3a3a]"}`}
                           >
                             {isSelected && (
-                              <Check className="w-3 h-3 text-black" />
+                              <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
                             )}
                           </div>
                         </div>
@@ -280,288 +213,173 @@ function CheckoutContent() {
                     );
                   })}
                 </div>
-              </div>
+              </DashboardCard>
 
-              <div
-                className="rounded-2xl p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
-              >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Billing Period
-                </h2>
-
+              <DashboardCard title="Billing Schedule">
                 <div className="grid grid-cols-2 gap-3">
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -4 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBillingChange("month")}
-                    className={`p-4 rounded-xl transition-all text-left`}
-                    style={{
-                      backgroundColor:
-                        billingPeriod === "month"
-                          ? "rgba(59, 130, 246, 0.15)"
-                          : "rgba(255, 255, 255, 0.04)",
-                      border: `1px solid ${
-                        billingPeriod === "month"
-                          ? "rgba(59, 130, 246, 0.5)"
-                          : "rgba(255, 255, 255, 0.15)"
-                      }`,
-                    }}
+                    className={`p-6 sm:p-8 text-left transition-all duration-300 rounded-[24px] ${billingPeriod === "month" ? "bg-[#e6efdf] text-[#111111]" : "bg-[#1f1f1f] text-[#e4e4e4] border border-[#2a2a2a] hover:bg-[#2a2a2a]"}`}
                   >
-                    <div
-                      className="font-semibold text-white"
-                    >
+                    <div className="font-bold text-lg capitalize tracking-tight">
                       Monthly
                     </div>
-                    <div
-                      className="text-sm mt-1 text-gray-300"
-                    >
-                      Billed monthly
+                    <div className={`text-[11px] mt-1 font-bold uppercase tracking-widest ${billingPeriod === "month" ? "text-[#111111]/50" : "text-white/30"}`}>
+                      Standard cycle
                     </div>
                   </motion.button>
 
-                  <motion.button
-                    disabled
-                    className={`p-4 rounded-xl transition-all text-left relative opacity-50 cursor-not-allowed`}
-                    style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.04)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)",
-                    }}
+                  <div
+                    className="p-6 sm:p-8 text-left relative opacity-40 grayscale cursor-not-allowed bg-[#1f1f1f] border border-[#2a2a2a] rounded-[24px]"
                   >
-                    <div
-                      className="absolute -top-2 right-3"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        color: "#9ca3af",
-                      }}
-                    >
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase">
-                        Coming soon
-                      </span>
+                    <div className="absolute -top-3 right-6 bg-[#2a2a2a] px-3 py-1 text-[8px] font-bold uppercase tracking-[0.25em] rounded-[6px]">
+                      Locked
                     </div>
-                    <div
-                      className="font-semibold text-white"
-                    >
-                      Yearly
+                    <div className="font-bold text-lg capitalize tracking-tight">
+                      Annual
                     </div>
-                    <div
-                      className="text-sm mt-1 text-gray-400"
-                    >
-                      On the way
+                    <div className="text-[11px] mt-1 font-bold uppercase tracking-widest text-white/30">
+                      Savings plan
                     </div>
-                  </motion.button>
+                  </div>
                 </div>
-              </div>
+              </DashboardCard>
 
-              <div
-                className="rounded-2xl p-6 sm:p-8"
-                style={{
-                  backgroundColor: "var(--d-surface)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
-                }}
-              >
-                <h2
-                  className="text-lg font-semibold mb-6 text-white"
-                >
-                  Features Included
-                </h2>
-
-                <div className="space-y-4">
+              <DashboardCard title="Included Utilities">
+                <div className="space-y-3">
                   {selectedPlanData?.features.map((feature, index) => (
                     <motion.div
                       key={index}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="flex items-start gap-3"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.02 }}
+                      className="flex items-start gap-4 p-4 hover:bg-[#1f1f1f] transition-all duration-300 rounded-[16px] border border-transparent hover:border-[#2a2a2a]"
                     >
                       <div
-                        className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${
-                          feature.included ? "" : "opacity-40"
-                        }`}
-                        style={{
-                          backgroundColor: feature.included
-                            ? "rgba(59, 130, 246, 0.2)"
-                            : "rgba(255, 255, 255, 0.06)",
-                        }}
+                        className="w-5 h-5 flex items-center justify-center shrink-0 mt-0.5 border border-[#4a7c59] bg-[#4a7c59]/10 rounded-[6px]"
                       >
-                        <Check
-                          className="w-3 h-3 text-white"
-                        />
+                        <Check className="w-3 h-3 text-[#e6efdf]" strokeWidth={3} />
                       </div>
-                      <span
-                        className={`text-sm leading-relaxed ${
-                          feature.included ? "" : "line-through opacity-50"
-                        } text-gray-200`}
-                      >
+                      <span className="text-sm font-medium leading-[1.6] text-white/80">
                         {feature.text}
                       </span>
                     </motion.div>
                   ))}
                 </div>
-              </div>
+              </DashboardCard>
             </motion.div>
 
             <motion.div variants={fadeUp} className="lg:col-span-2">
-              <div
-                className="rounded-2xl p-6 sm:p-8 sticky top-8"
-                style={{
-                  backgroundColor: "rgba(30, 30, 30, 0.95)",
-                  border: `1px solid ${
-                    selectedPlan === "strategist"
-                      ? "rgba(59, 130, 246, 0.5)"
-                      : selectedPlan === "architect"
-                      ? "rgba(245, 158, 11, 0.5)"
-                      : "rgba(255, 255, 255, 0.15)"
-                  }`,
-                }}
-              >
-                <div className="flex items-center gap-3 mb-6">
+              <DashboardCard title="Summary" className="sticky top-12">
+                <div className="flex items-center gap-5 mb-8 pb-8 border-b border-[#2a2a2a]">
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: planConfig?.bgAccent }}
+                    className="w-16 h-16 flex items-center justify-center bg-[#e6efdf] text-[#111111] rounded-[20px] shadow-xl"
                   >
-                    <Icon className="w-5 h-5" style={{ color: planConfig?.accentColor }} />
+                    <Icon className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3
-                      className="font-semibold text-white"
-                    >
+                    <h3 className="text-2xl font-bold text-[#e4e4e4] leading-none capitalize">
                       {selectedPlanData?.name}
                     </h3>
-                    <p className="text-xs text-gray-400">
-                      {billingPeriod === "year" ? "Yearly billing" : "Monthly billing"}
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mt-2">
+                      Active collection
                     </p>
                   </div>
                 </div>
 
-                <div className="border-t border-b py-6 my-6 border-gray-600">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-300">
-                        {selectedPlanData?.name} plan
-                      </span>
-                      <span className="text-white font-medium">
-                        {selectedPlanData?.priceDisplay}/mo
-                      </span>
-                    </div>
-                    {billingPeriod === "year" && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-300">
-                          Billing period
-                        </span>
-                        <span className="text-white font-medium">
-                          12 months
-                        </span>
-                      </div>
-                    )}
-                    {billingPeriod === "year" && savings > 0 && (
-                      <div className="flex items-center justify-between">
-                        <span style={{ color: "#60a5fa" }}>
-                          Yearly discount
-                        </span>
-                        <span style={{ color: "#60a5fa" }}>
-                          -€{savings}
-                        </span>
-                      </div>
-                    )}
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
+                      Package
+                    </span>
+                    <span className="font-bold text-[#e4e4e4]">
+                      {selectedPlanData?.priceDisplay}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-white/40 font-bold uppercase tracking-widest text-[10px]">
+                      Service Charge
+                    </span>
+                    <span className="font-bold text-[#e4e4e4] uppercase text-xs">
+                      Free
+                    </span>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-gray-300">
-                      Total
+                <div className="mb-8 bg-[#1f1f1f] p-6 -mx-6 lg:-mx-8 border-t border-b border-[#2a2a2a]">
+                  <div className="flex items-baseline justify-between px-2">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+                      Total Due
                     </span>
                     <div className="text-right">
-                      <span
-                        className="text-3xl font-bold text-white"
-                      >
-                        {billingPeriod === "year"
-                          ? `€${yearlyPrice}`
-                          : selectedPlanData?.price === 0
-                          ? "Free"
-                          : `€${selectedPlanData?.price}`}
+                      <span className="text-5xl font-bold text-[#e4e4e4] tracking-tighter">
+                        {selectedPlanData?.price === 0
+                          ? "0"
+                          : `${selectedPlanData?.price}`}
                       </span>
-                      {billingPeriod === "year" && (
-                        <span
-                          className="text-sm ml-1 text-gray-400"
-                        >
-                          /year
-                        </span>
-                      )}
+                      <span className="text-[10px] ml-2 font-bold uppercase tracking-widest text-white/40">
+                        USD
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   {selectedPlanData?.price === 0 ? (
-                    <Button
-                      variant="white"
-                      size="lg"
-                      fullWidth
+                    <button
                       onClick={handleCheckout}
-                      className="font-semibold"
+                      disabled={isProcessing}
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
                     >
-                      Continue with Free Plan
-                    </Button>
+                      {isProcessing ? "Processing..." : "Continue with Free Plan"}
+                    </button>
                   ) : (
                     <button
                       onClick={handleCheckout}
                       disabled={isProcessing}
-                      className="w-full h-12 px-6 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 bg-white text-black hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full h-14 px-8 font-bold text-[12px] uppercase tracking-widest flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-[0.98] bg-[#e6efdf] text-[#111111] rounded-[24px]"
                     >
                       {isProcessing ? (
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
+                        <div className="w-5 h-5 border-2 border-[#111111]/20 border-t-[#111111] rounded-full animate-spin" />
                       ) : (
                         <CreditCard className="w-4 h-4" />
                       )}
-                      {isProcessing ? "Processing..." : "Complete Purchase"}
+                      {isProcessing ? "Authorizing..." : "Complete Order"}
                     </button>
                   )}
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-gray-600">
+                <div className="mt-6 pt-6 border-t border-[#2a2a2a]">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Shield className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Secure checkout powered by Stripe</span>
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      <Shield className="w-4 h-4 text-white/40" />
+                      <span>Encrypted Transaction via Stripe</span>
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Zap className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Cancel anytime, no questions asked</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-300">
-                      <Lock className="w-3.5 h-3.5 text-gray-400" />
-                      <span>Your data is encrypted and secure</span>
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      <Zap className="w-4 h-4 text-white/40" />
+                      <span>Instant deployment upon success</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-center gap-4">
+                <div className="mt-8 flex items-center justify-center gap-4">
                   <Link
                     href="/subscription"
-                    className="text-xs transition-colors hover:underline text-gray-400 hover:text-gray-200"
+                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
                   >
                     Compare Plans
                   </Link>
-                  <span className="text-gray-600">|</span>
+                  <span className="text-[#2a2a2a]">|</span>
                   <Link
                     href="/billing"
-                    className="text-xs transition-colors hover:underline text-gray-400 hover:text-gray-200"
+                    className="text-xs transition-colors hover:underline text-white/40 hover:text-white"
                   >
                     Manage Billing
                   </Link>
                 </div>
-              </div>
+              </DashboardCard>
             </motion.div>
           </div>
         </motion.div>
@@ -574,8 +392,8 @@ export default function CheckoutPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="animate-pulse text-sm text-gray-400">
+        <div className="min-h-screen flex items-center justify-center bg-[#0e0e0e]">
+          <div className="text-sm text-white/50">
             Loading...
           </div>
         </div>

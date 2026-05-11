@@ -34,80 +34,65 @@ const PricingCard = ({
       : price;
 
   return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      className={`relative p-6 sm:p-8 bg-[#0f0f0f] border-2 rounded-2xl h-full flex flex-col transition-all duration-300 ${
-        popular
-          ? "border-emerald-500/50 shadow-lg shadow-emerald-500/10"
-          : "border-white/10 hover:border-white/20"
+    <div
+      className={`relative p-10 h-full flex flex-col transition-[background-color,border-color] duration-300 border ${
+        popular ? "bg-[var(--glass-border)] border-[var(--glass-border)]" : "bg-[var(--glass-bg)] border-[var(--glass-border)]"
       }`}
+      style={{ borderRadius: "var(--radius)" }}
     >
       {popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="px-4 py-1 rounded-full bg-emerald-500 text-black text-xs font-semibold uppercase tracking-wider">
-            Most Popular
+        <div className="absolute top-6 right-6">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-primary)] border border-[var(--glass-border)] px-2 py-1">
+            MOST POPULAR
           </span>
         </div>
       )}
 
-      <div className="mb-6">
-        <h4 className="text-white text-lg font-semibold mb-2">
+      <div className="mb-10">
+        <h4 className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] mb-8">
           {plan}
         </h4>
-        <p className="text-white/50 text-sm leading-relaxed">
-          {description}
-        </p>
-      </div>
-
-      <div className="mb-6">
-        <div className="flex items-baseline gap-1">
-          <span className="text-4xl sm:text-5xl font-bold text-white">
+        <div className="flex items-baseline gap-1 mb-4">
+          <span className="font-sans text-[56px] font-bold text-[var(--text-primary)] leading-tight tracking-tight">
             {typeof price === "number" && "€"}
             <AnimatePresence mode="wait">
               <AnimatedPrice value={displayPrice} />
             </AnimatePresence>
           </span>
           {typeof price === "number" && (
-            <span className="text-white/50 text-sm">
+            <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-secondary)] ml-2">
               /month
             </span>
           )}
         </div>
+        <p className="font-sans text-[14px] text-[var(--text-secondary)] leading-relaxed">
+          {description}
+        </p>
       </div>
 
-      <button
-        onClick={() => onSelect?.(plan)}
-        className={`w-full py-3 px-6 rounded-xl text-sm font-semibold transition-all ${
-          popular
-            ? "bg-emerald-500 text-black hover:bg-emerald-400"
-            : "bg-white text-black hover:bg-gray-200"
-        }`}
-      >
-        {buttonText}
-      </button>
+      <div className="w-full h-[1px] bg-[#E8E6DE] mb-10" />
 
-      <div className="mt-8">
-        <p className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-4">
-          What's included
-        </p>
-        <ul className="space-y-3">
+      <div className="flex-1">
+        <ul className="space-y-4 mb-12">
           {features.map((feature, i) => (
             <li
               key={i}
-              className="flex items-start gap-3 text-sm text-white/80"
+              className="flex items-start gap-3 font-sans text-[14px] text-[var(--text-primary)]"
             >
-              <Check
-                size={18}
-                className={`mt-0.5 shrink-0 ${
-                  popular ? "text-emerald-400" : "text-white/60"
-                }`}
-              />
+              <span className="text-[var(--text-secondary)]">—</span>
               <span>{feature}</span>
             </li>
           ))}
         </ul>
       </div>
-    </motion.div>
+
+      <button
+        onClick={() => onSelect?.(plan)}
+        className="btn-primary w-full"
+      >
+        {buttonText}
+      </button>
+    </div>
   );
 };
 

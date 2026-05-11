@@ -19,20 +19,14 @@ export default function SocialButtons({
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <Link
-        href={buildOAuthUrl(googleUrl)}
-        className="cursor-pointer flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-medium"
-      >
-        <Chrome size={18} />
-        Google
+    <div className="grid grid-cols-1 gap-3">
+      <Link href={buildOAuthUrl(googleUrl)} className="w-full cursor-pointer flex items-center justify-center gap-3 py-3.5 px-4 border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] font-sans text-[13px] font-medium hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200" style={{ borderRadius: "var(--radius)" }}>
+        <Chrome size={16} />
+        <span>Continue with Google</span>
       </Link>
-      <Link
-        href={buildOAuthUrl(githubUrl)}
-        className="cursor-pointer flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-sm font-medium"
-      >
-        <Github size={18} />
-        GitHub
+      <Link href={buildOAuthUrl(githubUrl)} className="w-full cursor-pointer flex items-center justify-center gap-3 py-3.5 px-4 border border-[var(--glass-border)] bg-[var(--glass-bg)] text-[var(--text-primary)] font-sans text-[13px] font-medium hover:bg-[var(--btn-hover-bg)] hover:text-[var(--btn-hover-text)] transition-all duration-200" style={{ borderRadius: "var(--radius)" }}>
+        <Github size={16} />
+        <span>Continue with GitHub</span>
       </Link>
     </div>
   );

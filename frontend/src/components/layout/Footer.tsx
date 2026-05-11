@@ -1,109 +1,39 @@
 "use client";
 
 import Link from "next/link";
-import { Twitter, Disc as Discord, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 border-t border-white/5 bg-[#0a0a0a]">
-      <div className="max-w-[1240px] mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 md:gap-16 mb-12 sm:mb-16 md:mb-24">
-          <div className="col-span-1 sm:col-span-2 lg:col-span-2 space-y-5 sm:space-y-6 md:space-y-8">
-            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-white group-hover:scale-110 transition-all duration-500 sm:w-6 sm:h-6"
-              >
-                <path
-                  d="M12 4L14.5 9.5L20 12L14.5 14.5L12 20L9.5 14.5L4 12L9.5 9.5L12 4Z"
-                  fill="currentColor"
-                />
-              </svg>
-              <span className="text-lg sm:text-xl font-bold tracking-tight text-white">
-                Message
-              </span>
-            </Link>
-            <p className="text-white/30 font-medium max-w-sm leading-relaxed text-[13px] sm:text-[14px] md:text-[15px]">
-              An AI companion that whispers clarity, conjures ideas, and guides
-              your every move towards efficiency.
-            </p>
-            <div className="flex items-center gap-3 sm:gap-4">
-              {[Twitter, Discord, Linkedin].map((Icon, i) => (
-                <Link
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border border-white/5 flex items-center justify-center hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
-                >
-                  <Icon className="w-4 h-4 text-white/40 group-hover:text-white" />
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-5 sm:space-y-6 md:space-y-8">
-            <h5 className="text-[10px] sm:text-[11px] font-bold text-white/30 uppercase tracking-[0.3em]">
-              Product
-            </h5>
-            <div className="flex flex-col gap-3 sm:gap-4 text-[13px] sm:text-[14px] font-medium text-white/40">
-              <Link
-                href="#features"
-                className="hover:text-white transition-colors"
-              >
-                Features
-              </Link>
-              <Link
-                href="#howitworks"
-                className="hover:text-white transition-colors"
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#benefits"
-                className="hover:text-white transition-colors"
-              >
-                Benefits
-              </Link>
-              <Link
-                href="#testimonials"
-                className="hover:text-white transition-colors"
-              >
-                Testimonials
-              </Link>
-            </div>
-          </div>
-
-          <div className="space-y-5 sm:space-y-6 md:space-y-8">
-            <h5 className="text-[10px] sm:text-[11px] font-bold text-white/30 uppercase tracking-[0.3em]">
-              Support
-            </h5>
-            <div className="flex flex-col gap-3 sm:gap-4 text-[13px] sm:text-[14px] font-medium text-white/40">
-              <Link
-                href="#pricing"
-                className="hover:text-white transition-colors"
-              >
-                Pricing
-              </Link>
-              <Link href="#faq" className="hover:text-white transition-colors">
-                FAQ
-              </Link>
-              <Link href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </Link>
-            </div>
-          </div>
+    <footer className="w-full px-10 py-10 relative z-20 bg-[var(--bg-color)]">
+      <div className="w-full h-[1px] bg-[var(--border-light)] mb-10" />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="flex flex-col gap-6">
+          <Link href="/" className="font-sans text-[20px] font-bold tracking-tight text-[var(--text-primary)]">
+            ARCAIVE
+          </Link>
+          <p className="oryzo-label max-w-[200px]">
+            THE AUTONOMOUS CAREER ENGINE.
+          </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 sm:pt-10 md:pt-12 border-t border-white/5 gap-3 sm:gap-4 md:gap-6">
-          <p className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-white/20 uppercase tracking-[0.1em]">
-            © {new Date().getFullYear()} Message AI. All rights reserved.
-          </p>
-          <p className="text-[10px] sm:text-[11px] md:text-[12px] font-bold text-white/20 uppercase tracking-[0.2em]">
-            Created with Clarity
-          </p>
+        <div className="flex flex-col gap-4">
+          <span className="oryzo-label mb-4 opacity-50">QUICK LINKS</span>
+          <Link href="#intro" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">INTRO</Link>
+          <Link href="#features" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">FEATURES</Link>
+          <Link href="#benefits" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">PRODUCT</Link>
+          <Link href="#pricing" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">PRICING</Link>
+          <Link href="#faq" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">CONTACT</Link>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <span className="oryzo-label mb-4 opacity-50">NETWORK</span>
+          <a href="https://www.linkedin.com/in/yasasbanukagunasena/" target="_blank" rel="noopener noreferrer" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">LINKEDIN</a>
+          <a href="https://github.com/yasasbanukaofficial" target="_blank" rel="noopener noreferrer" className="oryzo-label hover:text-[var(--text-primary)] transition-colors">GITHUB</a>
+        </div>
+
+        <div className="flex flex-col justify-end text-right">
+           <span className="oryzo-label opacity-50">© {new Date().getFullYear()} ARCAIVE by YASAS BANU.</span>
         </div>
       </div>
     </footer>

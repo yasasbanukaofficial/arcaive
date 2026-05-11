@@ -60,4 +60,7 @@ public class Member {
 
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
     private UsageQuota usageQuota;
+
+    @Builder.Default
+    private boolean onboardingCompleted = false;
 }

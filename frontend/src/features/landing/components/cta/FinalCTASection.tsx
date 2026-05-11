@@ -1,44 +1,50 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import CTABackground from "./CTABackground";
-import CTAContent from "./CTAContent";
-import CTAButton from "./CTAButton";
+import React, { useRef } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-const FinalCTASection = () => {
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+export default function FinalCTASection() {
+  const container = useRef(null);
+
+  useGSAP(() => {
+    gsap.from(".cta-reveal", {
+      opacity: 0,
+      y: 60,
+      duration: 1.5,
+      stagger: 0.2,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top 60%",
+      },
+    });
+  }, { scope: container });
+
   return (
-    <div className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-[#0a0a0a] flex items-center justify-center">
-      <motion.section
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={staggerContainer(0.2, 0.1)}
-        className="relative w-full max-w-6xl aspect-[1.4/1] sm:aspect-[2/1] md:aspect-[2.5/1] lg:aspect-[3.2/1] overflow-hidden rounded-lg sm:rounded-xl border border-zinc-900/50"
-      >
-        <motion.div variants={bounceIn}>
-          <CTABackground
-            imageUrl="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000"
-            imageAlt="Atmospheric Landscape"
-          />
-        </motion.div>
-
-        <motion.div
-          variants={bounceIn}
-          className="relative z-10 h-full w-full flex flex-col justify-center px-5 sm:px-8 md:px-16"
+    <section ref={container} className="scene-section items-center justify-center min-h-[90vh]">
+      <div className="w-full relative z-10 flex flex-col items-center text-center cta-reveal">
+        <h2 className="leading-[0.85] text-[var(--text-primary)] font-bold font-sans tracking-tight mb-20" style={{ fontSize: "clamp(60px, 12vw, 200px)"}}>
+          OWN YOUR<br/>
+          EVOLUTION.
+        </h2>
+        
+        <Link
+          href="/register"
+          className="dark:bg-[#050505] dark:text-white dark:border-[#050505] light:bg-white light:text-black light:border-white group inline-flex items-center gap-6 px-12 py-6 border rounded-sm font-sans text-[14px] font-bold uppercase tracking-[0.2em] transition-colors duration-300"
         >
-          <CTAContent
-            heading="Step into the future,"
-            headingHighlight="guided by AI clarity"
-            subtext="Experience the tool right now. Just dive in and see what AI can do for you."
-          />
+          JOIN US
+          <ArrowUpRight className="w-5 h-5 dark:text-white light:text-black group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </Link>
 
-          <CTAButton text="Try It Now" href="/register" />
-        </motion.div>
-      </motion.section>
-    </div>
+      </div>
+    </section>
   );
-};
-
-export default FinalCTASection;
+}

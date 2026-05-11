@@ -13,15 +13,11 @@ import {
   CreditCard,
   ChevronLeft,
   ChevronRight,
-  LogOut,
   Mic,
   FileSearch,
   FileText,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
-import { useTheme } from "./ThemeContext";
-import Logo from "@/components/ui/Logo";
-import { logoutAction } from "@/features/auth/action";
 
 const mainNav = [
   { name: "Overview", href: "/overview", icon: LayoutDashboard },
@@ -43,68 +39,37 @@ const CLOSE_DURATION_S = CLOSE_DURATION_MS / 1000;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function Sidebar() {
-  const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } =
-    useSidebar();
-  const { isDark } = useTheme();
+  const { collapsed, toggle, mobileOpen, setMobileOpen, isMobile } = useSidebar();
   const pathname = usePathname();
 
   const isActive = (href: string) => pathname === href;
 
   React.useEffect(() => {
-    if (isMobile) {
-      setMobileOpen(false);
-    }
+    if (isMobile) setMobileOpen(false);
   }, [pathname, isMobile, setMobileOpen]);
 
+  const [userMenuOpen, setUserMenuOpen] = React.useState(false);
+
   const renderNavItem = (
-    item: { name: string; href: string; icon: React.ElementType },
-    _index: number,
+    item: { name: string; href: string; icon: React.ElementType<{ className?: string }> },
+    _index: number
   ) => {
     const Icon = item.icon;
     const active = isActive(item.href);
 
     return (
-      <div key={item.name}>
+      <div key={item.name} className="px-3">
         <Link
           href={item.href}
-          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-colors duration-150 group relative"
-          style={{
-            backgroundColor: active
-              ? isDark
-                ? "var(--d-surface-active)"
-                : "#000000"
-              : "transparent",
-            color: active
-              ? isDark
-                ? "var(--d-text-primary)"
-                : "#ffffff"
-              : "var(--d-text-tertiary)",
-          }}
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
+            active
+              ? "bg-[var(--text-primary)] text-[var(--bg-color)]"
+              : "text-[var(--text-secondary)] hover:bg-[var(--glass-border)] hover:text-[var(--text-primary)]"
+          }`}
         >
-          {active && (
-            <div
-              className="absolute inset-0 rounded-xl"
-              style={{
-                backgroundColor: isDark ? "var(--d-surface-active)" : "#000000",
-                border: isDark ? "1px solid var(--d-border)" : "none",
-              }}
-            />
-          )}
-          <Icon
-            className="w-5 h-5 relative z-10 transition-colors duration-150"
-            style={{
-              color: active
-                ? isDark
-                  ? "var(--d-text-primary)"
-                  : "#ffffff"
-                : "var(--d-icon)",
-            }}
-          />
+          <Icon className={`w-5 h-5 shrink-0 transition-colors ${active ? "text-[var(--bg-color)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"}`} />
           {!collapsed && (
-            <span
-              className="relative z-10 whitespace-nowrap overflow-hidden transition-opacity duration-150"
-              style={{ opacity: collapsed ? 0 : 1 }}
-            >
+            <span className="font-sans text-[14px] font-medium whitespace-nowrap">
               {item.name}
             </span>
           )}
@@ -113,7 +78,7 @@ export default function Sidebar() {
     );
   };
 
-  const sidebarWidth = isMobile ? 260 : collapsed ? 72 : 260;
+  const sidebarWidth = isMobile ? 240 : collapsed ? 72 : 240;
 
   return (
     <>
@@ -131,116 +96,72 @@ export default function Sidebar() {
       </AnimatePresence>
 
       <aside
-        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col backdrop-blur-md"
+        className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-[var(--glass-bg)] backdrop-blur-xl border-r border-[var(--glass-border)]"
         style={{
           width: sidebarWidth,
           transform: isMobile
-            ? mobileOpen
-              ? "translateX(0)"
-              : "translateX(-260px)"
+            ? mobileOpen ? "translateX(0)" : "translateX(-240px)"
             : "translateX(0)",
           transition: `transform ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")}), width ${CLOSE_DURATION_MS}ms cubic-bezier(${EASE.join(",")})`,
           willChange: "transform, width",
-          backgroundColor: "var(--d-bg-alpha)",
-          borderRight: "1px solid var(--d-border-subtle)",
         }}
       >
-        <div className="px-5 py-6 min-h-18">
-          <div
-            className="transition-opacity duration-200"
-            style={{
-              opacity: collapsed ? 0 : 1,
-              width: collapsed ? 0 : "auto",
-            }}
-          >
-            <Logo
-              size={28}
-              textSize="text-[17px]"
-              showText={!collapsed}
-              textColor="var(--d-text-primary)"
-              className="gap-3"
-            />
-          </div>
+        {/* Logo */}
+        <div className="h-[80px] flex items-center px-6 border-b border-[var(--glass-border)]">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-[var(--radius)] border border-[var(--glass-border)] flex items-center justify-center shrink-0">
+              <span className="font-display text-[14px] font-bold text-[var(--text-primary)]">A</span>
+            </div>
+            {!collapsed && (
+              <span className="font-display text-[18px] font-bold tracking-tight text-[var(--text-primary)]">
+                Arcaive
+              </span>
+            )}
+          </Link>
         </div>
-        <nav className="flex-1 px-3 space-y-1 overflow-y-auto overflow-x-hidden">
-          <div className="space-y-1">
+
+        {/* Navigation */}
+        <nav className="flex-1 py-6 space-y-8 overflow-y-auto no-scrollbar">
+          <div>
             {!collapsed && (
-              <p
-                className="px-3 pt-2 pb-2 text-[11px] font-bold uppercase tracking-[0.2em]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Create
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest text-[var(--text-secondary)]">
+                Discover
               </p>
             )}
-            {mainNav.map(renderNavItem)}
+            <div className="space-y-1">{mainNav.map(renderNavItem)}</div>
           </div>
 
-          <div
-            className="my-4"
-            style={{ borderTop: "1px solid var(--d-border-subtle)" }}
-          />
-
-          <div className="space-y-1">
+          <div>
             {!collapsed && (
-              <p
-                className="px-3 pt-2 pb-2 text-[10px] font-bold uppercase tracking-[0.2em]"
-                style={{ color: "var(--d-text-muted)" }}
-              >
-                Manage
+              <p className="px-6 mb-3 font-mono text-[10px] tracking-widest text-[var(--text-secondary)]">
+                Configure
               </p>
             )}
-            {manageNav.map(renderNavItem)}
+            <div className="space-y-1">{manageNav.map(renderNavItem)}</div>
           </div>
         </nav>
-        <div
-          className="px-3 pb-4 space-y-2 pt-4"
-          style={{ borderTop: "1px solid var(--d-border-subtle)" }}
-        >
-          {!isMobile && (
-            <button
-              onClick={toggle}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium transition-all duration-200 w-full"
-              style={{ color: "var(--d-text-tertiary)" }}
-            >
-              {collapsed ? (
-                <ChevronRight className="w-5 h-5" />
-              ) : (
-                <ChevronLeft className="w-5 h-5" />
-              )}
-              <span
-                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
-                style={{
-                  opacity: collapsed ? 0 : 1,
-                  width: collapsed ? 0 : "auto",
-                }}
-              >
-                Collapse
-              </span>
-            </button>
-          )}
 
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              onClick={() => {
-                localStorage.clear();
-                sessionStorage.clear();
-              }}
-              className="flex items-center gap-3 px-3 py-3 rounded-xl text-[14px] font-medium hover:text-red-400/70 hover:bg-red-500/5 transition-all duration-200 w-full"
-              style={{ color: "var(--d-text-tertiary)" }}
+        {/* Bottom Section */}
+        <div className="mt-auto border-t border-[var(--glass-border)] p-6 space-y-6">
+          <div className={`flex ${collapsed ? "flex-col items-center" : "items-center justify-between"} gap-4`}>
+            <Link
+              href="/settings"
+              className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1"
+              title="Settings"
             >
-              <LogOut className="w-5 h-5" />
-              <span
-                className="whitespace-nowrap overflow-hidden transition-opacity duration-150"
-                style={{
-                  opacity: collapsed ? 0 : 1,
-                  width: collapsed ? 0 : "auto",
-                }}
+              <Settings className="w-5 h-5" />
+            </Link>
+
+            {!isMobile && (
+              <button
+                onClick={toggle}
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors p-1"
+                title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
-                Log out
-              </span>
-            </button>
-          </form>
+                {collapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+              </button>
+            )}
+          </div>
         </div>
       </aside>
     </>

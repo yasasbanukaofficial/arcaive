@@ -34,6 +34,7 @@ import tech.yasasbanuka.backend.util.PDFTextExtract;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -310,8 +311,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public OnboardingAutofillResponseDTO extractOnboardingDetails(MultipartFile file) {
-        log.info("Extracting onboarding details from CV file: {}", file.getOriginalFilename());
+    public OnboardingAutofillResponseDTO extractOnboardingDetails(String username, MultipartFile file) {
+        log.info("Extracting onboarding details from CV file: {} for user: {}", file.getOriginalFilename(), username);
+        
+        Member member = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+
         String extractedText = pdfTextExtract.extract(file);
         String clippedText = extractedText == null
                 ? ""
@@ -331,16 +336,56 @@ public class MemberServiceImpl implements MemberService {
             MemberProfileDTO profile = onboardingAgent.extractOnboardingDetails(clippedText);
             if (!isProfileEmpty(profile)) {
                 normalizeProfile(profile);
-                log.info("Onboarding details extracted successfully from CV");
+                persistOnboardingData(member, profile);
+                log.info("Onboarding details extracted and persisted successfully from CV");
                 return OnboardingAutofillResponseDTO.builder().profile(profile).build();
             }
 
             log.warn("Primary onboarding extraction returned empty data, running fallback extractor");
-            return extractOnboardingDetailsFromFallback(clippedText);
+            OnboardingAutofillResponseDTO fallbackResult = extractOnboardingDetailsFromFallback(clippedText);
+            if (fallbackResult.getProfile() != null) {
+                persistOnboardingData(member, fallbackResult.getProfile());
+            }
+            return fallbackResult;
         } catch (Exception ex) {
             log.warn("Onboarding CV extraction failed, attempting fallback extractor", ex);
-            return extractOnboardingDetailsFromFallback(clippedText);
+            OnboardingAutofillResponseDTO fallbackResult = extractOnboardingDetailsFromFallback(clippedText);
+            if (fallbackResult.getProfile() != null) {
+                persistOnboardingData(member, fallbackResult.getProfile());
+            }
+            return fallbackResult;
         }
+    }
+
+    private void persistOnboardingData(Member member, MemberProfileDTO profile) {
+        if (isNotBlank(profile.getJobRole())) member.setJobRole(profile.getJobRole());
+        if (isNotBlank(profile.getExperience())) member.setExperience(profile.getExperience());
+        if (isNotBlank(profile.getCountry())) member.setCountry(profile.getCountry());
+        if (isNotBlank(profile.getSummary())) member.setSummary(profile.getSummary());
+        if (isNotBlank(profile.getPhone())) member.setPhone(profile.getPhone());
+        if (isNotBlank(profile.getLocation())) member.setLocation(profile.getLocation());
+
+        if (profile.getExperiences() != null && !profile.getExperiences().isEmpty()) {
+            member.setExperiences(new ArrayList<>(profile.getExperiences().stream().map(memberMapper::toExperience).toList()));
+        }
+        if (profile.getEducations() != null && !profile.getEducations().isEmpty()) {
+            member.setEducations(new ArrayList<>(profile.getEducations().stream().map(memberMapper::toEducation).toList()));
+        }
+        if (profile.getProjects() != null && !profile.getProjects().isEmpty()) {
+            member.setProjects(new ArrayList<>(profile.getProjects().stream().map(memberMapper::toProject).toList()));
+        }
+        if (profile.getSkills() != null && !profile.getSkills().isEmpty()) {
+            member.setSkills(new ArrayList<>(profile.getSkills().stream().map(memberMapper::toSkillCategory).toList()));
+        }
+        if (profile.getCertifications() != null && !profile.getCertifications().isEmpty()) {
+            member.setCertifications(new ArrayList<>(profile.getCertifications()));
+        }
+        if (profile.getLanguages() != null && !profile.getLanguages().isEmpty()) {
+            member.setLanguages(new ArrayList<>(profile.getLanguages()));
+        }
+        
+        member.setOnboardingCompleted(true);
+        memberRepo.save(member);
     }
 
     private OnboardingAutofillResponseDTO extractOnboardingDetailsFromFallback(String clippedText) {
@@ -389,22 +434,22 @@ public class MemberServiceImpl implements MemberService {
         }
 
         if (profile.getExperiences() == null) {
-            profile.setExperiences(Collections.emptyList());
+            profile.setExperiences(new ArrayList<>());
         }
         if (profile.getEducations() == null) {
-            profile.setEducations(Collections.emptyList());
+            profile.setEducations(new ArrayList<>());
         }
         if (profile.getProjects() == null) {
-            profile.setProjects(Collections.emptyList());
+            profile.setProjects(new ArrayList<>());
         }
         if (profile.getSkills() == null) {
-            profile.setSkills(Collections.emptyList());
+            profile.setSkills(new ArrayList<>());
         }
         if (profile.getCertifications() == null) {
-            profile.setCertifications(Collections.emptyList());
+            profile.setCertifications(new ArrayList<>());
         }
         if (profile.getLanguages() == null) {
-            profile.setLanguages(Collections.emptyList());
+            profile.setLanguages(new ArrayList<>());
         }
     }
 
@@ -436,15 +481,42 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public AtomicSkillResponseDTO extractAtomicSkillsFromCV(MultipartFile file) {
-        log.info("Extracting atomic skills from CV file: {}", file.getOriginalFilename());
+    public AtomicSkillResponseDTO extractAtomicSkillsFromCV(String username, MultipartFile file) {
+        log.info("Extracting atomic skills from CV for user: {}", username);
+        Member member = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+
         String extractedText = pdfTextExtract.extract(file);
         CareerIntelligenceAgent careerIntelligenceAgent = AgenticServices
                 .agentBuilder(CareerIntelligenceAgent.class)
                 .chatModel(openAiChatModel)
                 .build();
         AtomicSkillResponseDTO result = careerIntelligenceAgent.extract(extractedText);
-        log.info("Atomic skills extracted successfully from CV");
+
+        // Persist analyzed data to member profile
+        if (isNotBlank(result.getDetectedJobRole())) member.setJobRole(result.getDetectedJobRole());
+        if (isNotBlank(result.getDetectedExperience())) member.setExperience(result.getDetectedExperience());
+        if (isNotBlank(result.getDetectedCountry())) member.setCountry(result.getDetectedCountry());
+        
+        // Mark onboarding as completed once analysis is done and saved
+        member.setOnboardingCompleted(true);
+        memberRepo.save(member);
+
+        log.info("Atomic skills extracted and persisted successfully for user: {}", username);
         return result;
+    }
+
+    @Override
+    public MemberResponseDTO completeOnboarding(String username) {
+        log.info("Completing onboarding for user: {}", username);
+        Member existingMember = memberRepo.findByUsername(username)
+                .orElseThrow(() -> {
+                    log.error("Onboarding completion failed: Username {} not found", username);
+                    return new ResourceNotFoundException("Member not found with username: " + username);
+                });
+        existingMember.setOnboardingCompleted(true);
+        MemberResponseDTO response = memberMapper.toResponseDTO(memberRepo.save(existingMember));
+        log.info("Onboarding completed successfully for user: {}", username);
+        return response;
     }
 }

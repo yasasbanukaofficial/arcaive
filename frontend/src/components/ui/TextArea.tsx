@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { AlertCircle } from "lucide-react";
 
 type TextAreaProps = {
   label?: string;
@@ -33,88 +35,70 @@ export default function TextArea({
   resize = "vertical",
   className = "",
 }: TextAreaProps) {
-  const resizeClass =
-    resize === "none"
-      ? "resize-none"
-      : resize === "vertical"
-        ? "resize-y"
-        : resize === "horizontal"
-          ? "resize-x"
-          : "resize";
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className={`space-y-1.5 ${className}`}>
+    <div className={`flex flex-col ${className}`}>
       {label && (
-        <div className="flex items-center justify-between">
-          <label
-            className="block text-xs font-bold ml-0.5 tracking-widest uppercase"
-            style={{ color: "var(--d-text-secondary)" }}
-          >
+        <div className="flex items-center justify-between mb-3 ml-1">
+          <label className="text-[12px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.1em] flex items-center gap-1.5">
             {label}
-            {required && (
-              <span className="text-red-400/70 ml-0.5">*</span>
-            )}
+            {required && <span className="text-[var(--accent-brand)]">*</span>}
           </label>
           {maxLength && (
-            <span
-              className="text-[11px] tabular-nums"
-              style={{
-                color:
-                  value.length > maxLength * 0.9
-                    ? "rgba(239, 68, 68, 0.7)"
-                    : "var(--d-text-muted)",
-              }}
-            >
-              {value.length}/{maxLength}
+            <span className={`text-[10px] font-bold uppercase tracking-widest ${value.length >= maxLength * 0.9 ? "text-[var(--accent-brand)]" : "text-[var(--text-tertiary)]"}`}>
+              {value.length} / {maxLength}
             </span>
           )}
         </div>
       )}
-      <textarea
-        name={name}
-        value={value ?? ""}
-        onChange={onChange}
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        rows={rows}
-        maxLength={maxLength}
-        className={`
-          w-full rounded-xl px-4 py-3 text-sm font-semibold leading-relaxed
-          outline-none transition-all duration-200
-          placeholder:text-white/40 placeholder:font-medium
-          disabled:opacity-40 disabled:cursor-not-allowed
-          focus:ring-2 focus:ring-blue-500/30
-          ${resizeClass}
-        `}
-        style={{
-          backgroundColor: "rgba(255, 255, 255, 0.05)",
-          border: error
-            ? "1.5px solid rgba(239, 68, 68, 0.5)"
-            : "1.5px solid rgba(255, 255, 255, 0.12)",
-          color: "var(--d-text-primary)",
-        }}
-        onFocus={(e) => {
-          e.currentTarget.style.borderColor = error
-            ? "rgba(239, 68, 68, 0.8)"
-            : "#3b82f6";
-          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
-        }}
-        onBlur={(e) => {
-          e.currentTarget.style.borderColor = error
-            ? "rgba(239, 68, 68, 0.5)"
-            : "rgba(255, 255, 255, 0.12)";
-          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-        }}
-      />
-      {error && (
-        <p className="text-[12px] ml-0.5 text-red-400/80">{error}</p>
-      )}
+      <div className={`
+        relative rounded-[24px] bg-[var(--text-primary)]/[0.03] border transition-all duration-300
+        ${error 
+          ? "border-red-500/30 focus-within:border-red-500/50" 
+          : isFocused 
+            ? "border-[var(--text-primary)]/20 bg-[var(--bg-color)] shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
+            : "border-[var(--glass-border)] hover:border-[var(--text-primary)]/10"
+        }
+        ${disabled ? "opacity-20 cursor-not-allowed" : ""}
+      `}>
+        <textarea
+          name={name}
+          value={value ?? ""}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholder={placeholder}
+          required={required}
+          disabled={disabled}
+          rows={rows}
+          maxLength={maxLength}
+          className={`
+            w-full px-6 py-5 text-[14px] font-medium text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] outline-none bg-transparent
+            transition-colors duration-300 min-h-[140px]
+            ${resize === "none" ? "resize-none" : "resize-y"}
+          `}
+        />
+        {error && (
+          <div className="absolute top-4 right-4">
+            <AlertCircle className="w-4 h-4 text-red-400/60" />
+          </div>
+        )}
+      </div>
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -4, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: "auto" }}
+            exit={{ opacity: 0, y: -4, height: 0 }}
+            className="text-[11px] font-semibold text-red-500/80 mt-2.5 ml-1 flex items-center gap-1.5"
+          >
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
       {hint && !error && (
-        <p
-          className="text-[12px] ml-0.5"
-          style={{ color: "var(--d-text-muted)" }}
-        >
+        <p className="text-[11px] font-medium text-[var(--text-tertiary)] mt-2.5 ml-1 tracking-tight">
           {hint}
         </p>
       )}

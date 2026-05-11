@@ -22,7 +22,7 @@ function FeatureCheckItem({ feature }: { feature: PlanFeature }) {
   return (
     <div className="flex items-center gap-2.5 py-1.5">
       <div
-        className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
+        className="w-5 h-5  flex items-center justify-center shrink-0"
         style={{
           backgroundColor: feature.active
             ? "rgba(34, 197, 94, 0.1)"
@@ -68,7 +68,7 @@ function InvoiceRow({ invoice }: { invoice: Invoice }) {
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
         <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+          className="w-8 h-8  flex items-center justify-center shrink-0"
           style={{
             backgroundColor: "var(--d-surface-active)",
             border: "1px solid var(--d-border)",
@@ -107,7 +107,7 @@ function InvoiceRow({ invoice }: { invoice: Invoice }) {
         </Badge>
         <button
           type="button"
-          className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors duration-150"
+          className="w-7 h-7  flex items-center justify-center transition-colors duration-150"
           style={{
             color: "var(--d-text-muted)",
             backgroundColor: "transparent",
@@ -201,7 +201,7 @@ export default function BillingSection({ data }: BillingSectionProps) {
       >
         <div className="space-y-4">
           <div
-            className="flex items-center justify-between p-4 rounded-xl"
+            className="flex items-center justify-between p-4 "
             style={{
               backgroundColor: "var(--d-surface-active)",
               border: "1px solid var(--d-border)",
@@ -209,7 +209,7 @@ export default function BillingSection({ data }: BillingSectionProps) {
           >
             <div className="flex items-center gap-3">
               <div
-                className="w-10 h-7 rounded-md flex items-center justify-center"
+                className="w-10 h-7  flex items-center justify-center"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2))",

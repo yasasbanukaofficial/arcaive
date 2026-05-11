@@ -142,21 +142,18 @@ export default function DropdownMenu<T extends string | number>({
         aria-expanded={open}
         onClick={() => setOpen((s) => !s)}
         onKeyDown={onKeyDown}
-        className={`flex items-center gap-2 px-4 py-2 rounded-xl cursor-pointer ${buttonClassName}`}
+        className={`flex items-center justify-between gap-4 px-[14px] py-[10px] border cursor-pointer transition-all ${buttonClassName}`}
         style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
-          color: "var(--d-text-primary)",
-          boxShadow: "0 8px 24px rgba(2,6,23,0.12)",
+          backgroundColor: open ? "var(--text-primary)" : "transparent",
+          borderColor: "var(--text-primary)",
+          color: open ? "var(--bg-color)" : "var(--text-primary)",
+          borderRadius: "var(--radius)",
         }}
       >
-        <span className="text-[13px] font-semibold truncate">
+        <span className="font-sans text-[13px] font-bold uppercase tracking-tight truncate">
           {current.label}
         </span>
-        <ArrowUpDown
-          className="w-4 h-4 ml-1"
-          style={{ color: "var(--d-icon)" }}
-        />
+        <span className="font-mono text-[16px] leading-none">↓</span>
       </button>
 
       {open && (
@@ -164,13 +161,11 @@ export default function DropdownMenu<T extends string | number>({
           ref={panelRef}
           role="listbox"
           tabIndex={-1}
-          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] rounded-xl z-[9999] max-h-[300px] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500"
+          className="fixed min-w-[200px] w-max max-w-[calc(100vw-1.5rem)] z-[9999] max-h-[300px] overflow-y-auto bg-[var(--glass-bg)] backdrop-blur-md border border-[var(--text-primary)] shadow-2xl"
           style={{
             top: panelPos.top,
             left: panelPos.left,
-            backgroundColor: "var(--d-dropdown-bg)",
-            border: "1px solid var(--d-border)",
-            boxShadow: "0 8px 32px rgba(2,6,23,0.28)",
+            borderRadius: "var(--radius)",
           }}
           onKeyDown={onKeyDown}
         >
@@ -184,15 +179,14 @@ export default function DropdownMenu<T extends string | number>({
                   onChange(opt.value);
                   setOpen(false);
                 }}
-                className={`text-left px-4 py-2.5 transition-colors duration-100 ease-out ${
+                className={`text-left px-[14px] py-[10px] transition-colors border-b border-[var(--glass-border)] last:border-b-0 ${
                   opt.value === value
-                    ? "bg-[var(--d-surface-active)] text-[var(--d-text-primary)]"
-                    : "hover:bg-[var(--d-surface-hover)]"
+                    ? "bg-[var(--glass-border)] text-[var(--text-primary)]"
+                    : "bg-[var(--glass-bg)] hover:bg-[var(--glass-border)] text-[var(--text-primary)]"
                 }`}
-                style={{ color: "var(--d-text-secondary)" }}
                 onMouseEnter={() => (focusedIndexRef.current = idx)}
               >
-                <span className="block text-[14px] font-medium">
+                <span className="block font-sans text-[13px] font-medium uppercase tracking-tight">
                   {opt.label}
                 </span>
               </button>

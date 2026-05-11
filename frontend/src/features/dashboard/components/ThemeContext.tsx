@@ -17,15 +17,21 @@ type ThemeContextType = {
 };
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
-  isDark: true,
+  isDark: false,
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+export function ThemeProvider({ 
+  children,
+  defaultTheme = "light"
+}: { 
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+}) {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
     const stored = localStorage.getItem("dashboard-theme") as Theme | null;
@@ -35,7 +41,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
     localStorage.setItem("dashboard-theme", theme);
+
+    return () => {
+      root.classList.remove("light", "dark");
+    };
   }, [theme]);
 
   const toggleTheme = useCallback(() => {

@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { FileSearch, BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap } from "lucide-react";
+import { BrainCircuit, Mic2, Rocket, FileText, Crown, Infinity, Users, Zap, Briefcase, Layout, FileSearch, TrendingUp, Calendar, AlertCircle, CreditCard, Receipt } from "lucide-react";
 import { dashboardStagger, fadeUp } from "@/features/dashboard/components/animations";
+import BillingNav, {
+  type BillingSection,
+} from "@/features/billing/components/BillingNav";
 import CurrentSubscription from "@/features/billing/components/CurrentSubscription";
 import SubscriptionCard from "@/features/billing/components/SubscriptionCard";
 import DowngradeConfirmModal from "@/features/billing/components/DowngradeConfirmModal";
@@ -16,6 +19,8 @@ import {
   MOCK_MEMBER_SUBSCRIPTION,
   MOCK_PLANS,
 } from "@/features/billing/constants/mockData";
+
+const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 interface UsageMetricProps {
   icon: React.ReactNode;
@@ -31,94 +36,95 @@ function UsageMetric({ icon, label, used, limit, sublabel }: UsageMetricProps) {
   const isExhausted = !isUnlimited && used >= limit;
 
   return (
-    <div
-      className="p-4 sm:p-5 rounded-xl sm:rounded-2xl"
-      style={{ backgroundColor: "var(--d-surface-hover)" }}
-    >
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: "var(--d-accent-subtle)" }}
-          >
+    <div className="p-6 bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[24px] hover:bg-[var(--glass-bg)]/80 transition-all duration-300 group">
+      <div className="flex items-start justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] transition-colors group-hover:bg-[var(--accent-brand)] group-hover:border-[var(--accent-brand)] group-hover:text-[var(--accent-brand-contrast)]">
             {icon}
           </div>
           <div>
-            <p
-              className="text-sm font-medium"
-              style={{ color: "var(--d-text-secondary)" }}
-            >
+            <p className="text-[14px] font-bold text-[var(--text-primary)] tracking-tight">
               {label}
             </p>
             {sublabel && (
-              <p
-                className="text-xs"
-                style={{ color: "var(--d-text-muted)" }}
-              >
+              <p className="text-[11px] font-medium text-[var(--text-tertiary)] mt-0.5">
                 {sublabel}
               </p>
             )}
           </div>
         </div>
         {isUnlimited ? (
-          <span
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold"
-            style={{
-              background: "linear-gradient(135deg, var(--d-accent) 0%, #a855f7 100%)",
-              color: "#ffffff",
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/>
-            </svg>
-            Unlimited
-          </span>
+          <div className="px-3 py-1 rounded-full bg-[var(--accent-brand)]/10 border border-[var(--accent-brand)]/20">
+             <span className="text-[10px] font-bold text-[var(--accent-brand)] uppercase tracking-widest flex items-center gap-1.5">
+               <Infinity size={10} /> Unlimited
+             </span>
+          </div>
         ) : (
-          <p
-            className="text-xl sm:text-2xl font-bold"
-            style={{ color: "var(--d-text-primary)" }}
-          >
-            {used}
-            <span
-              className="text-sm font-normal"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              /{limit}
-            </span>
-          </p>
+          <div className="flex flex-col items-end">
+             <p className="text-[20px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
+               {used}
+             </p>
+             <p className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest mt-1">
+               Of {limit}
+             </p>
+          </div>
         )}
       </div>
       {!isUnlimited && (
-        <div
-          className="h-2 rounded-full overflow-hidden"
-          style={{ backgroundColor: "var(--d-border)" }}
-        >
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${percentage}%` }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="h-full rounded-full"
-            style={{
-              backgroundColor: isExhausted ? "var(--d-error)" : "var(--d-accent)",
-            }}
-          />
+        <div className="space-y-3">
+          <div className="h-[4px] w-full bg-[var(--text-primary)]/[0.03] rounded-full overflow-hidden">
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${percentage}%` }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className={`h-full rounded-full transition-all duration-500 ${isExhausted ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
+            />
+          </div>
+          <div className="flex justify-between items-center">
+             <span className="text-[10px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">{Math.round(percentage)}% capacity used</span>
+             {isExhausted && <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Exhausted</span>}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
-export default function BillingPageWrapper() {
+export default function BillingPage() {
   const router = useRouter();
   const { data: memberSubscription, isLoading, error, refetch } = useSubscription();
   const { addToast } = useToast();
+
+  const [activeSection, setActiveSection] = useState<BillingSection>("subscription");
 
   const [showDowngradeModal, setShowDowngradeModal] = useState(false);
   const [targetDowngradePlan, setTargetDowngradePlan] = useState<string | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [targetUpgradePlan, setTargetUpgradePlan] = useState<string | null>(null);
 
-  const tierOrder = ["explorer", "strategist", "architect"];
+  const sectionTitles: Record<
+    BillingSection,
+    { title: string; description: string }
+  > = {
+    subscription: {
+      title: "Active Access Level",
+      description: "Manage your system tier and platform capabilities.",
+    },
+    resources: {
+      title: "Resource Allocation",
+      description: "Temporal consumption of AI-powered system units.",
+    },
+    payment: {
+      title: "Financial Interface",
+      description: "Secure management of transaction protocols and entities.",
+    },
+    invoices: {
+      title: "Transaction Ledger",
+      description: "Archival record of platform value exchanges.",
+    },
+  };
+
+  const { title, description } = sectionTitles[activeSection];
 
   const getFeaturesLostOnDowngrade = (fromPlan: string, toPlan: string) => {
     const featuresLost = [];
@@ -161,7 +167,7 @@ export default function BillingPageWrapper() {
       featuresGained.push({ label: "5 CV versions stored (from 1)", icon: <FileText size={16} /> });
     }
 
-    if (fromPlan === "strategist" || fromPlan === "explorer") {
+    if (fromPlan === "strategist" || toPlan === "architect") {
       if (toPlan === "architect") {
         featuresGained.push({ label: "Unlimited CV analyses", icon: <BrainCircuit size={16} /> });
         featuresGained.push({ label: "Unlimited mock interviews", icon: <Mic2 size={16} /> });
@@ -237,159 +243,180 @@ export default function BillingPageWrapper() {
   const { usage } = subscription;
   const isUnlimited = subscription.currentPlan === "architect";
 
+  function renderSection(section: BillingSection) {
+    switch (section) {
+      case "subscription":
+        return (
+          <>
+            <div className="mb-10">
+              <CurrentSubscription
+                subscription={subscription}
+                plan={currentPlan!}
+              />
+            </div>
+
+            <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="space-y-1">
+                 <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight">Available Architecture</h3>
+                 <p className="text-[14px] text-[var(--text-tertiary)] font-medium">Select a node tier for your system operations</p>
+              </div>
+              <div className="flex items-center gap-2 p-1 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-full w-fit">
+                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] shadow-lg rounded-full">
+                  Monthly
+                </button>
+                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--text-tertiary)] cursor-not-allowed">
+                  Annual
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {filteredPlans.map((plan) => (
+                <SubscriptionCard
+                  key={`${plan.id}-${plan.billingPeriod}`}
+                  plan={plan}
+                  isCurrentPlan={
+                    plan.id === subscription.currentPlan &&
+                    plan.billingPeriod === selectedPeriod
+                  }
+                  currentPlanTier={subscription.currentPlan}
+                  onSelect={handleUpgrade}
+                  onDowngrade={handleDowngrade}
+                />
+              ))}
+            </div>
+          </>
+        );
+      case "resources":
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <UsageMetric
+              icon={<BrainCircuit size={16} />}
+              label="CV Analyses"
+              used={usage.cvAnalysisUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
+            />
+            <UsageMetric
+              icon={<FileSearch size={16} />}
+              label="Job Searches"
+              used={usage.jobSearchUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
+              sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
+            />
+            <UsageMetric
+              icon={<Mic2 size={16} />}
+              label="Interview Sessions"
+              used={usage.interviewUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
+            />
+            <UsageMetric
+              icon={<Rocket size={16} />}
+              label="Auto Applications"
+              used={usage.autoApplyUsed}
+              limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
+            />
+            <UsageMetric
+              icon={<FileText size={16} />}
+              label="CV Versions"
+              used={usage.cvVersionsStored}
+              limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
+            />
+          </div>
+        );
+      case "payment":
+        return (
+          <div className="bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center mx-auto mb-6">
+               <CreditCard className="text-[var(--text-tertiary)]" size={24} />
+            </div>
+            <h3 className="text-[20px] font-bold text-[var(--text-primary)] mb-2">Financial Interface Offline</h3>
+            <p className="text-[var(--text-secondary)] font-medium max-w-xs mx-auto">Payment method management is currently undergoing maintenance.</p>
+          </div>
+        );
+      case "invoices":
+        return (
+          <div className="bg-[var(--glass-bg)] rounded-[32px] border border-[var(--glass-border)] p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] flex items-center justify-center mx-auto mb-6">
+               <Receipt className="text-[var(--text-tertiary)]" size={24} />
+            </div>
+            <h3 className="text-[20px] font-bold text-[var(--text-primary)] mb-2">Archive Records</h3>
+            <p className="text-[var(--text-secondary)] font-medium max-w-xs mx-auto">Invoice history will be available shortly after your first transaction.</p>
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
+
   return (
     <motion.div
       initial="hidden"
-      animate="show"
-      variants={dashboardStagger(0.04, 0.02)}
-      className="max-w-[1200px] mx-auto space-y-6 sm:space-y-8 pb-20 px-3 sm:px-6"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+      }}
+      className="w-full flex flex-col gap-8 pb-20 px-4 md:px-8"
     >
-      <motion.div variants={fadeUp} className="text-center sm:text-left">
-        <h1
-          className="text-2xl sm:text-3xl lg:text-[36px] font-semibold"
-          style={{ color: "var(--d-text-primary)" }}
-        >
-          Billing & Subscription
-        </h1>
-        <p
-          className="text-sm sm:text-base mt-1"
-          style={{ color: "var(--d-text-muted)" }}
-        >
-          Manage your subscription, billing, and payment methods
-        </p>
-      </motion.div>
-
-      <motion.div variants={fadeUp}>
-        <CurrentSubscription
-          subscription={subscription}
-          plan={currentPlan!}
-        />
-      </motion.div>
-
-      <motion.div
-        variants={fadeUp}
-        className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
-        style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
+      <motion.div 
+        variants={{
+          hidden: { y: 20, opacity: 0 },
+          visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: smoothEase } }
         }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-8"
       >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-          <div className="text-center sm:text-left">
-            <h2
-              className="text-lg sm:text-xl lg:text-2xl font-semibold"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Available Plans
-            </h2>
-            <p
-              className="text-sm sm:text-base mt-1"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              Choose the plan that fits your needs
-            </p>
-          </div>
-
-          <div
-            className="flex items-center gap-2 p-1 rounded-lg"
-            style={{
-              backgroundColor: "var(--d-surface-hover)",
-            }}
-          >
-            <span
-              className="px-4 py-2 rounded-md text-sm font-medium"
-              style={{
-                backgroundColor: "var(--d-accent)",
-                color: "#ffffff",
-              }}
-            >
-              Monthly
-            </span>
-          </div>
+        <div className="space-y-1">
+          <h1 className="text-[44px] md:text-[56px] font-semibold text-[var(--text-primary)] tracking-[-0.04em] leading-none">
+            Billing
+          </h1>
+          <p className="text-[var(--text-secondary)] text-[14px] font-medium tracking-tight">System tiers and resource synchronization</p>
         </div>
+      </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {filteredPlans.map((plan) => (
-            <SubscriptionCard
-              key={`${plan.id}-${plan.billingPeriod}`}
-              plan={plan}
-              isCurrentPlan={
-                plan.id === subscription.currentPlan &&
-                plan.billingPeriod === selectedPeriod
-              }
-              currentPlanTier={subscription.currentPlan}
-              onSelect={handleUpgrade}
-              onDowngrade={handleDowngrade}
+      <div className="flex flex-col lg:flex-row gap-10 mt-4">
+        <div className="w-full lg:w-72 shrink-0">
+          <div className="sticky top-28 space-y-6">
+            <BillingNav
+              activeSection={activeSection}
+              onSectionChange={setActiveSection}
             />
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div
-        variants={fadeUp}
-        className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-10"
-        style={{
-          backgroundColor: "var(--d-surface)",
-          border: "1px solid var(--d-border)",
-        }}
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <div
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center"
-            style={{ backgroundColor: "var(--d-surface-hover)" }}
-          >
-            <FileSearch size={20} style={{ color: "var(--d-accent)" }} />
-          </div>
-          <div>
-            <h2
-              className="text-lg sm:text-xl lg:text-2xl font-semibold"
-              style={{ color: "var(--d-text-primary)" }}
-            >
-              Usage This Month
-            </h2>
-            <p
-              className="text-sm sm:text-base"
-              style={{ color: "var(--d-text-muted)" }}
-            >
-              {new Date(usage.periodStart).toLocaleDateString("en-US", { month: "short", day: "numeric" })} - {new Date(usage.periodEnd).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-            </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          <UsageMetric
-            icon={<BrainCircuit size={16} style={{ color: "var(--d-accent)" }} />}
-            label="CV Analyses"
-            used={usage.cvAnalysisUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.cvAnalysisLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<FileSearch size={16} style={{ color: "var(--d-accent)" }} />}
-            label="Job Searches"
-            used={usage.jobSearchUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.jobSearchLimit ?? 0)}
-            sublabel={currentPlan?.jobResultsPerSearch ? `${currentPlan!.jobResultsPerSearch} results each` : undefined}
-          />
-          <UsageMetric
-            icon={<Mic2 size={16} style={{ color: "var(--d-accent)" }} />}
-            label="Interview Sessions"
-            used={usage.interviewUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.interviewLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<Rocket size={16} style={{ color: "var(--d-accent)" }} />}
-            label="Auto Applications"
-            used={usage.autoApplyUsed}
-            limit={isUnlimited ? -1 : (currentPlan?.autoApplyLimit ?? 0)}
-          />
-          <UsageMetric
-            icon={<FileText size={16} style={{ color: "var(--d-accent)" }} />}
-            label="CV Versions"
-            used={usage.cvVersionsStored}
-            limit={isUnlimited ? -1 : (currentPlan?.cvVersionsLimit ?? 0)}
-          />
+        <div className="flex-1 min-w-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeSection}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              className="mb-12"
+            >
+              <div className="flex items-baseline gap-4 mb-3">
+                <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
+                  {title}
+                </h2>
+              </div>
+              <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
+                {description}
+              </p>
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-8" />
+            </motion.div>
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`content-${activeSection}`}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, ease: smoothEase }}
+            >
+              {renderSection(activeSection)}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </motion.div>
+      </div>
 
       <DowngradeConfirmModal
         isOpen={showDowngradeModal}

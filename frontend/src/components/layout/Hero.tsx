@@ -1,106 +1,97 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { bounceIn, staggerContainer } from "@/components/animations/variants";
-import UnfoldText from "@/components/ui/UnfoldText";
-import UnfoldTextLetters from "@/components/ui/UnfoldTextLetters";
+import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { useTheme } from "@/features/dashboard/components/ThemeContext";
 
 export default function Hero() {
-  const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const { isDark } = useTheme();
 
   return (
-    <section
-      ref={containerRef}
-      className="relative h-screen w-screen flex flex-col items-center justify-center overflow-hidden pt-20 sm:pt-24 md:pt-28 lg:pt-32"
-    >
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0">
-            <Image
-              src="/images/lg-bg.png"
-              alt=""
-              fill
-              className="object-cover object-center"
-              unoptimized
-              sizes="100vw"
-            />
-          </div>
-        </motion.div>
-        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
-      </motion.div>
-
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={staggerContainer(0.1, 0.15)}
-        className="relative z-10 text-center max-w-[1200px] px-4 sm:px-6 mx-auto flex flex-col items-center gap-5 sm:gap-6 md:gap-8"
-      >
-        <motion.div
-          variants={bounceIn}
-          className="space-y-3 sm:space-y-4 host-grotesk"
-        >
-          <h1 className="text-[1.75rem] sm:text-[2.25rem] md:text-[3rem] lg:text-[4rem] tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] text-white">
-            <UnfoldText text="Where your seeking is automated" />
-          </h1>
-
-          <p className="dm-sans-300 text-[0.75rem] sm:text-[0.8125rem] md:text-[1rem] lg:text-[1.2rem] text-white/70 max-w-xs sm:max-w-md md:max-w-2xl mx-auto leading-relaxed">
-            <UnfoldTextLetters
-              text="An engine that does the hard work for you while you relax.
-A digital intelligence that uncovers hidden roles, aligns your achievements, and secures your entry into the world’s leading companies."
-            />
-          </p>
-        </motion.div>
-
-        <motion.div variants={bounceIn}>
-          <Link
-            href="/journey"
-            className="inline-flex items-center justify-center bg-white text-[#0f0f0f] px-7 sm:px-8 md:px-10 py-3 sm:py-3.5 md:py-4 h-[44px] sm:h-[48px] md:h-[52px] rounded-full font-semibold text-[13px] sm:text-sm md:text-base hover:bg-[rgb(213,255,69)] transition-all active:scale-95 shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-white/10"
+    <section className="scene-section h-screen items-start pt-[15vh]">
+      <div className="w-full relative z-10 flex flex-col justify-between h-full pb-12">
+        
+        {/* Massive Top Heading */}
+        <div className="flex flex-col w-full relative pt-[30vh] lg:pt-32">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[var(--text-primary)] w-full block transition-all text-[clamp(80px,20vw,350px)] font-bold leading-[0.75] tracking-[-0.05em]"
+            style={{
+              WebkitTextStroke: isDark ? "3px #000000" : "4px #ffffff",
+              paintOrder: "stroke fill",
+              textShadow: isDark 
+                ? "0 0 40px rgba(255,255,255,0.05), 0 0 80px rgba(226, 62, 62, 0.1)" 
+                : "0 0 40px rgba(0,0,0,0.05)"
+            }}
           >
-            Begin Journey
-          </Link>
-        </motion.div>
-      </motion.div>
+            ARCAIVE
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-4 mt-4 oryzo-label ml-2"
+          >
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-brand)]" />
+            Built for your career assistance.
+          </motion.div>
+        </div>
 
+        {/* Bottom floating panels - Left and Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 w-full gap-8 mt-auto">
+          
+          <motion.div 
+             initial={{ opacity: 0, x: -20 }}
+             animate={{ opacity: 1, x: 0 }}
+             transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+             className="lg:col-span-4 oryzo-panel flex flex-col justify-between min-h-[300px]"
+          >
+            <h3 className="font-sans text-[22px] font-bold tracking-tight leading-[1.2] mb-12">
+              DESIGNED BY AI,<br/>
+              FOR THE MODERN<br/>
+              JOB SEEKER.
+            </h3>
+            
+            <div className="mt-auto">
+              <div className="w-full h-[1px] bg-[var(--glass-bg)]/20 mb-6" />
+              <div className="w-full h-[1px] bg-[var(--text-primary)]/20 mb-6" />
+              <p className="font-sans text-[14px] text-right text-[var(--text-primary)]">
+                The world's most<br/>
+                unnecessarily<br/>
+                sophisticated application engine.
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="lg:col-span-4 lg:col-start-9 flex flex-col items-end justify-end pb-8">
+            <Link href="/register" className="btn-hover group flex items-center justify-center gap-4 border border-[var(--text-primary)] text-[var(--text-primary)] rounded-sm px-10 py-5 transition-colors duration-500">
+              <span className="oryzo-label btn-hover-text">INITIALIZE</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--text-primary)] btn-hover-dot transition-colors" />
+            </Link>
+            
+            <Link href="#features" className="oryzo-label opacity-40 hover:opacity-100 transition-opacity mt-6">
+              BROWSE ARCHITECTURE
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      {/* Scroll to continue */}
       <motion.div
-        variants={bounceIn}
-        initial="hidden"
-        animate="show"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
-        className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 pointer-events-none"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4"
       >
-        <svg
-          className="w-5 h-5 text-white/30"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 5v14m0 0l-7-7m7 7l7-7"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span
-          className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold"
-          style={{ pointerEvents: "auto" }}
-        >
-          Scroll to explore
-        </span>
+        <div className="w-6 h-6 rounded-full border border-[var(--border-light)] flex items-center justify-center">
+           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L5 5L9 1" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+           </svg>
+        </div>
+        <span className="oryzo-label">SCROLL TO CONTINUE</span>
       </motion.div>
     </section>
   );

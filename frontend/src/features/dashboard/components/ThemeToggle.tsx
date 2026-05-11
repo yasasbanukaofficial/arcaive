@@ -11,12 +11,13 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      whileTap={{ scale: 0.9 }}
-      className={`relative w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 border ${
+      whileTap={{ scale: 0.95 }}
+      className={`relative w-10 h-10 flex items-center justify-center transition-[background-color,border-color] duration-200 border ${
         isDark
-          ? "bg-white/3 border-white/6 hover:bg-white/6"
-          : "bg-black/[0.04] border-black/[0.08] hover:bg-black/[0.06]"
+          ? "bg-black border-white hover:bg-[var(--glass-bg)]/10"
+          : "bg-[var(--glass-bg)] border-[var(--glass-border)] hover:bg-[var(--glass-border)]"
       }`}
+      style={{ borderRadius: "var(--radius)" }}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       <motion.div
@@ -27,7 +28,7 @@ export default function ThemeToggle() {
         {isDark ? (
           <Sun className="w-4 h-4 text-white/40 hover:text-white/70 transition-colors" />
         ) : (
-          <Moon className="w-4 h-4 text-black/40 hover:text-black/70 transition-colors" />
+          <Moon className="w-4 h-4 text-[var(--text-secondary)] hover:text-[var(--text-secondary)] transition-colors" />
         )}
       </motion.div>
     </motion.button>

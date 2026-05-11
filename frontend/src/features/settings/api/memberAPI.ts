@@ -27,7 +27,10 @@ export const memberAPI = {
       })
     ).data.data;
   },
-  extractOnboardingFromCV: async (payload: File) => {
+  extractOnboardingFromCV: async (
+    payload: File,
+    onUploadProgress?: (progressEvent: any) => void,
+  ) => {
     const token = await getToken();
     const formData = new FormData();
     formData.append("file", payload);
@@ -38,11 +41,13 @@ export const memberAPI = {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
         data: formData,
+        onUploadProgress,
       })
     ).data.data as OnboardingAutofillResponse;
   },
   extractAtomicSkills: async (
     payload: File,
+    onUploadProgress?: (progressEvent: any) => void,
   ) => {
     const token = await getToken();
     const formData = new FormData();
@@ -54,6 +59,7 @@ export const memberAPI = {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
         data: formData,
+        onUploadProgress,
       })
     ).data.data;
   },
@@ -141,6 +147,18 @@ export const memberAPI = {
         },
         withCredentials: true,
         data: payload,
+      })
+    ).data.data;
+  },
+  completeOnboarding: async () => {
+    const token = await getToken();
+    if (!token) throw new Error("No authentication token found");
+    return (
+      await apiInstance({
+        method: "PATCH",
+        baseURL: `${MEMBER_DATA_URL}/me/complete-onboarding`,
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       })
     ).data.data;
   },

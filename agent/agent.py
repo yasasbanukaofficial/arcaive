@@ -321,7 +321,7 @@ class InterviewAgent(Agent):
         self._start_time = time.time()
         await self.session.say(
             f"Hello {self.candidate_name}, welcome to your mock interview for the "
-            f"{self.job_title} position. "
+            f"{self.job_title} position. I've reviewed the profile data you provided earlier. "
             f"Let's begin, tell me a little about yourself.",
             allow_interruptions=False,
         )

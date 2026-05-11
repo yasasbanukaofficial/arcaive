@@ -23,7 +23,7 @@ const HowItWorksStepper = ({
 }: Props) => {
   return (
     <div className="flex flex-col relative">
-      <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-white/5" />
+      <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[var(--glass-bg)]/5" />
 
       {steps.map((step, index) => {
         const isActive = activeIndex === index;
@@ -38,7 +38,7 @@ const HowItWorksStepper = ({
             {isActive && (
               <motion.div
                 layoutId="active-line-segment"
-                className="absolute left-0 top-0 bottom-0 w-[1px] bg-white z-10"
+                className="absolute left-0 top-0 bottom-0 w-[1px] bg-[var(--glass-bg)] z-10"
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               />
             )}
