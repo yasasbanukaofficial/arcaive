@@ -70,7 +70,7 @@ const PricingCard = ({
         </p>
       </div>
 
-      <div className="w-full h-[1px] bg-[#E8E6DE] mb-10" />
+      <div className="w-full h-[1px] bg-[var(--glass-border)] mb-10" />
 
       <div className="flex-1">
         <ul className="space-y-4 mb-12">

@@ -9,7 +9,7 @@ export default function JobPromoBanner() {
   return (
     <motion.div
       variants={fadeUp}
-      className="overflow-hidden relative p-7 flex flex-col justify-between min-h-[250px] bg-[var(--d-sage)] rounded-[24px] shadow-sm"
+      className="overflow-hidden relative p-7 flex flex-col justify-between min-h-[250px] bg-[var(--d-sage)] rounded-[24px] shadow-[var(--shadow-premium)]"
     >
       <div className="relative z-10">
         <img

@@ -72,9 +72,9 @@ export default function ActivityFeed() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-6 sm:p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)] oryzo-card-glow rounded-[32px] shadow-sm relative overflow-hidden h-full"
+      className="p-6 sm:p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] shadow-[var(--shadow-premium)] relative overflow-hidden h-full"
     >
-      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100/10 rounded-full blur-[40px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-[40px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">

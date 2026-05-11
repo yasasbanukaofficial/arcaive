@@ -100,16 +100,16 @@ export default function TailoringProgressModal({ isOpen }: { isOpen: boolean }) 
                 Tailoring CV
               </h2>
             </div>
-            <div className="h-[1px] bg-[#E8E6DE] mx-[48px]" />
+            <div className="h-[1px] bg-[var(--glass-border)] mx-[48px]" />
 
             <div className="p-[48px] space-y-8">
               <div className="space-y-4">
                 <p className="font-sans text-[15px] leading-relaxed text-[var(--text-secondary)]">
                   Our AI agents are optimizing your profile for this specific role.
                 </p>
-                <div className="h-[2px] w-full bg-[#E8E6DE]">
+                <div className="h-[2px] w-full bg-[var(--glass-border)]">
                   <motion.div 
-                    className="h-full bg-black"
+                    className="h-full bg-[var(--text-primary)]"
                     initial={{ width: "0%" }}
                     animate={{ width: `${progress}%` }}
                     transition={{ ease: "linear" }}

@@ -71,7 +71,7 @@ export default function CVAnalysisPage() {
         {analysisResult && (
           <button
             onClick={handleNewAnalysis}
-            className="h-[52px] px-8 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[12px] uppercase tracking-widest hover:opacity-90 transition-all shadow-xl flex items-center gap-2"
+            className="h-[52px] px-8 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[12px] uppercase tracking-widest hover:opacity-90 transition-all shadow-[var(--shadow-premium)] flex items-center gap-2"
           >
             New Analysis
           </button>
@@ -87,7 +87,7 @@ export default function CVAnalysisPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.02 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative min-h-[640px] flex items-center justify-center overflow-hidden bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] p-8 sm:p-20 shadow-2xl"
+              className="relative min-h-[640px] flex items-center justify-center overflow-hidden bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] p-8 sm:p-20 shadow-[var(--shadow-premium)]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.03] to-transparent pointer-events-none" />
               <div className="absolute inset-0 opacity-[0.015] pointer-events-none" 
@@ -110,7 +110,7 @@ export default function CVAnalysisPage() {
                 <div className="pt-4">
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="px-12 py-5 text-[14px] font-bold tracking-widest transition-all bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 hover:scale-105 active:scale-95 rounded-full shadow-[0_20px_40px_rgba(0,0,0,0.3)]"
+                      className="px-12 py-5 text-[14px] font-bold tracking-widest transition-all bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 hover:scale-105 active:scale-95 rounded-full shadow-[var(--shadow-premium)]"
                     >
                       INITIALIZE ENGINE →
                     </button>

@@ -16,22 +16,22 @@ export default function JobStatCard({
   return (
     <motion.div
       variants={fadeUp}
-      className="flex flex-col gap-2 p-5 rounded-[20px] duration-300 hover:scale-[1.02] bg-[#161616] border border-[#2a2a2a]"
+      className="flex flex-col gap-2 p-5 rounded-[20px] duration-300 hover:scale-[1.02] bg-[var(--d-surface)] border border-[var(--d-border)]"
     >
       <div
         className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 mb-1"
         style={{
-          backgroundColor: accent ? accent.bg : "#0e0e0e",
-          border: accent ? `1px solid ${accent.border}` : "1px solid #2a2a2a",
+          backgroundColor: accent ? accent.bg : "var(--d-surface-hover)",
+          border: accent ? `1px solid ${accent.border}` : "1px solid var(--d-border)",
         }}
       >
-        <Icon className="w-5 h-5 transition-colors" style={{ color: accent ? accent.dot : "white" }} />
+        <Icon className="w-5 h-5 transition-colors" style={{ color: accent ? accent.dot : "var(--d-text-primary)" }} />
       </div>
       <div>
-        <p className="text-[11px] font-medium text-white/35 uppercase tracking-wider mb-0.5">
+        <p className="text-[11px] font-medium text-[var(--d-text-muted)] uppercase tracking-wider mb-0.5">
           {label}
         </p>
-        <p className="text-[15px] font-semibold text-white/90 truncate">
+        <p className="text-[15px] font-semibold text-[var(--d-text-primary)] truncate">
           {value}
         </p>
       </div>

@@ -98,18 +98,11 @@ export default function SettingsPage() {
 
       <div className="flex flex-col lg:flex-row gap-10 mt-4">
         <div className="w-full lg:w-72 shrink-0">
-          <div className="sticky top-28 space-y-6">
+          <div className="sticky top-28">
             <SettingsNav
               activeSection={activeSection}
               onSectionChange={setActiveSection}
             />
-            <div className="px-6 py-6 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-[24px]">
-               <p className="text-[11px] font-bold text-[var(--text-tertiary)] uppercase tracking-[0.15em] mb-3">System Integrity</p>
-               <div className="flex items-center gap-2 text-[var(--accent-brand)]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-current" />
-                  <span className="text-[13px] font-semibold tracking-tight">Verified Protocol</span>
-               </div>
-            </div>
           </div>
         </div>
 

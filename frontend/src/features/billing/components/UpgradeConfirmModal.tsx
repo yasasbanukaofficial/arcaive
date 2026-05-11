@@ -46,35 +46,35 @@ export default function UpgradeConfirmModal({
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.2 }}
-          className="relative w-full max-w-[500px] bg-[#161616] border border-[#2a2a2a] rounded-[24px] overflow-hidden"
+          className="relative w-full max-w-[500px] bg-[var(--bg-color)] border border-[var(--glass-border)] rounded-[24px] overflow-hidden shadow-[var(--shadow-premium)]"
         >
           <div className="p-8 space-y-6">
-            <div className="w-12 h-12 rounded-full bg-[#e6efdf] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-[#111]" />
+            <div className="w-12 h-12 rounded-full bg-[var(--accent-brand)] flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-[var(--accent-brand-contrast)]" />
             </div>
 
             <div>
-              <h2 className="font-sans text-[18px] font-semibold text-white mb-2">
+              <h2 className="font-sans text-[18px] font-semibold text-[var(--text-primary)] mb-2">
                 Upgrade to {targetPlan}
               </h2>
-              <p className="font-sans text-[14px] text-white/50 leading-relaxed">
-                You&apos;re upgrading from <span className="text-white font-medium">{currentPlan}</span> to <span className="text-white font-medium">{targetPlan}</span>.
+              <p className="font-sans text-[14px] text-[var(--text-secondary)] leading-relaxed">
+                You&apos;re upgrading from <span className="text-[var(--text-primary)] font-medium">{currentPlan}</span> to <span className="text-[var(--text-primary)] font-medium">{targetPlan}</span>.
               </p>
-              <p className="font-mono text-[15px] text-white font-semibold mt-2">
+              <p className="font-mono text-[15px] text-[var(--text-primary)] font-semibold mt-2">
                 ${newPrice}/month
               </p>
             </div>
 
             {featuresGained.length > 0 && (
               <div className="space-y-3">
-                <p className="font-sans text-[12px] text-white/30 uppercase tracking-wider">Unlocked features</p>
+                <p className="font-sans text-[12px] text-[var(--text-tertiary)] uppercase tracking-wider">Unlocked features</p>
                 <ul className="space-y-2.5">
                   {featuresGained.map((feature, index) => (
                     <li
                       key={index}
-                      className="flex items-center gap-2.5 font-sans text-[13px] text-white/70"
+                      className="flex items-center gap-2.5 font-sans text-[13px] text-[var(--text-secondary)]"
                     >
-                      <span className="text-[#4a7c59] text-[12px]">✓</span>
+                      <span className="text-[var(--accent-brand)] text-[12px]">✓</span>
                       {feature.label}
                     </li>
                   ))}
@@ -82,23 +82,23 @@ export default function UpgradeConfirmModal({
               </div>
             )}
 
-            <div className="p-4 rounded-[16px] bg-amber-500/5 border border-amber-500/15">
-              <p className="font-sans text-[13px] leading-relaxed text-amber-400/80">
+            <div className="p-4 rounded-[16px] bg-amber-500/5 border border-amber-500/10">
+              <p className="font-sans text-[13px] leading-relaxed text-amber-600/80">
                 Your current subscription will be cancelled and the new plan takes effect immediately.
               </p>
             </div>
           </div>
 
-          <div className="border-t border-[#2a2a2a] px-8 py-6 flex justify-end gap-3">
+          <div className="border-t border-[var(--glass-border)] px-8 py-6 flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="px-5 py-2.5 rounded-full border border-[#2a2a2a] text-white/60 hover:text-white hover:bg-[#2a2a2a] transition-colors font-sans text-[13px] font-medium"
+              className="px-5 py-2.5 rounded-full border border-[var(--glass-border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/[0.03] transition-colors font-sans text-[13px] font-medium"
             >
               Maybe later
             </button>
             <button
               onClick={onConfirm}
-              className="px-5 py-2.5 rounded-full bg-[#e6efdf] text-[#111] hover:opacity-90 transition-opacity font-sans text-[13px] font-semibold"
+              className="px-5 py-2.5 rounded-full bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] hover:opacity-90 transition-opacity font-sans text-[13px] font-semibold"
             >
               Yes, upgrade now
             </button>

@@ -24,13 +24,13 @@ export default function CurrentSubscription({
           transition: { type: "tween", duration: 0.5, ease: [0.22, 1, 0.36, 1] },
         },
       }}
-      className="p-8 sm:p-10 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] shadow-2xl relative overflow-hidden group"
+      className="p-8 sm:p-10 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] shadow-[var(--shadow-premium)] relative overflow-hidden group"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.02] to-transparent pointer-events-none" />
       
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-12 relative z-10">
         <div className="flex items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-[var(--accent-brand)]/10 border border-[var(--accent-brand)]/20 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-500">
+          <div className="w-16 h-16 rounded-full bg-[var(--accent-brand)]/10 border border-[var(--accent-brand)]/20 flex items-center justify-center shadow-[var(--shadow-premium)] group-hover:scale-105 transition-transform duration-500">
             <Zap size={28} className="text-[var(--accent-brand)] fill-current" />
           </div>
           <div>
@@ -76,7 +76,7 @@ export default function CurrentSubscription({
           </p>
         </div>
 
-        <div className="p-6 bg-[var(--accent-brand)] rounded-[24px] border border-[var(--accent-brand)]/20 shadow-lg shadow-[var(--accent-brand)]/5 group/cta cursor-pointer overflow-hidden relative">
+        <div className="p-6 bg-[var(--accent-brand)] rounded-[24px] border border-[var(--accent-brand)]/20 shadow-[var(--shadow-premium)] group/cta cursor-pointer overflow-hidden relative">
           <div className="absolute inset-0 bg-white/[0.05] translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500" />
           <div className="flex items-center gap-2 mb-4 relative z-10">
             <Zap className="w-4 h-4 text-[var(--accent-brand-contrast)]/60" />

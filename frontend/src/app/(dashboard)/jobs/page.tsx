@@ -242,7 +242,7 @@ export default function JobsPage() {
               <button 
                 key={t}
                 onClick={() => toggleEmploymentType(t)}
-                className="tag border-[var(--glass-border)] bg-black text-white hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
+                className="tag border-[var(--glass-border)] bg-[var(--text-primary)] text-[var(--bg-color)] hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
               >
                 {t} [X]
               </button>
@@ -251,7 +251,7 @@ export default function JobsPage() {
               <button 
                 key={r}
                 onClick={() => toggleRemote(r)}
-                className="tag border-[var(--glass-border)] bg-black text-white hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
+                className="tag border-[var(--glass-border)] bg-[var(--text-primary)] text-[var(--bg-color)] hover:bg-[var(--glass-bg)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   {r} [X]
                 </button>

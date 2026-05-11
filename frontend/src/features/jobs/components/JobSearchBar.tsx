@@ -21,7 +21,7 @@ export default function JobSearchBar({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full flex flex-col md:flex-row items-stretch border border-[var(--d-border)] bg-[var(--d-surface)] rounded-[24px] overflow-hidden shadow-sm"
+      className="w-full flex flex-col md:flex-row items-stretch border border-[var(--d-border)] bg-[var(--d-surface)] rounded-[24px] overflow-hidden shadow-[var(--shadow-premium)]"
     >
       <div className="flex-1 flex items-center px-6 py-4">
         <input

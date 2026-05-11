@@ -89,7 +89,7 @@ export default function TopBar() {
           </button>
 
           {userMenuOpen && (
-            <div className="absolute right-0 top-full mt-2 w-52 bg-[var(--bg-color)] border border-[var(--glass-border)] rounded-[18px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] py-2.5 z-50 backdrop-blur-2xl">
+            <div className="absolute right-0 top-full mt-2 w-52 bg-[var(--bg-color)] border border-[var(--glass-border)] rounded-[18px] shadow-[var(--shadow-premium)] py-2.5 z-50 backdrop-blur-2xl">
               <Link href="/settings" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--text-primary)]/[0.03] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-[12px] font-medium">
                 <SettingsIcon className="w-3.5 h-3.5" /> Settings
               </Link>

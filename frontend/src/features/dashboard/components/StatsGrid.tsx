@@ -66,7 +66,7 @@ export default function StatsGrid() {
         <motion.div
           key={stat.label}
           variants={fadeUp}
-          className={`relative group p-8 rounded-[32px] border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl oryzo-card-glow transition-all duration-700 hover:shadow-2xl hover:border-[var(--text-primary)] hover:-translate-y-1 cursor-default`}
+          className={`relative group p-8 rounded-[32px] border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-xl transition-all duration-700 hover:shadow-[var(--shadow-premium)] hover:border-[var(--text-primary)] hover:-translate-y-1 cursor-default`}
         >
           <div className="relative z-10 flex flex-col h-full justify-between">
             <div className="flex items-center justify-between mb-10">
@@ -74,7 +74,7 @@ export default function StatsGrid() {
                 <stat.icon className="w-5 h-5 text-[var(--text-primary)]" />
               </div>
               <div
-                className={`font-mono text-[10px] font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white`}
+                className={`font-mono text-[10px] font-bold tracking-wider flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--text-primary)]/10 text-[var(--text-primary)]`}
               >
                 {stat.change}
               </div>

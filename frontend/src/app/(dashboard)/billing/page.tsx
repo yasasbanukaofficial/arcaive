@@ -107,8 +107,8 @@ export default function BillingPage() {
     { title: string; description: string }
   > = {
     subscription: {
-      title: "Active Access Level",
-      description: "Manage your system tier and platform capabilities.",
+      title: "Available Architecture",
+      description: "Select a node tier for your system operations.",
     },
     resources: {
       title: "Resource Allocation",
@@ -255,22 +255,7 @@ export default function BillingPage() {
               />
             </div>
 
-            <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div className="space-y-1">
-                 <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight">Available Architecture</h3>
-                 <p className="text-[14px] text-[var(--text-tertiary)] font-medium">Select a node tier for your system operations</p>
-              </div>
-              <div className="flex items-center gap-2 p-1 bg-[var(--text-primary)]/[0.03] border border-[var(--glass-border)] rounded-full w-fit">
-                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] shadow-lg rounded-full">
-                  Monthly
-                </button>
-                <button className="px-5 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--text-tertiary)] cursor-not-allowed">
-                  Annual
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {filteredPlans.map((plan) => (
                 <SubscriptionCard
                   key={`${plan.id}-${plan.billingPeriod}`}
@@ -391,9 +376,9 @@ export default function BillingPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: smoothEase }}
-              className="mb-12"
+              className="mb-6"
             >
-              <div className="flex items-baseline gap-4 mb-3">
+              <div className="flex items-baseline gap-4 mb-2">
                 <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
                   {title}
                 </h2>
@@ -401,7 +386,7 @@ export default function BillingPage() {
               <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-8" />
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-6" />
             </motion.div>
           </AnimatePresence>
 

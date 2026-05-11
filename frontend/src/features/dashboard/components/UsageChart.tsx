@@ -14,10 +14,10 @@ export default function UsageChart() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)] oryzo-card-glow rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] shadow-[var(--shadow-premium)] relative overflow-hidden"
     >
       {/* Background subtle mono glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-[var(--radius)] blur-[40px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--text-primary)]/5 rounded-[var(--radius)] blur-[40px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-12">
         <div className="flex items-center gap-4">
@@ -52,13 +52,13 @@ export default function UsageChart() {
                 className="w-full relative rounded-t-[12px] overflow-hidden transition-all duration-500 group-hover:shadow-lg origin-bottom"
                 style={{ height: `${(value / maxVal) * 100}%` }}
               >
-                <div className="absolute inset-0 bg-[var(--text-secondary)]/10 border-t border-x border-[var(--glass-border)] group-hover:bg-gradient-to-t group-hover:from-white/20 group-hover:to-white/5 transition-all duration-500" />
-                <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-[var(--text-primary)] transition-all group-hover:bg-white" />
+                <div className="absolute inset-0 bg-[var(--text-secondary)]/10 border-t border-x border-[var(--glass-border)] group-hover:bg-gradient-to-t group-hover:from-[var(--text-primary)]/20 group-hover:to-[var(--text-primary)]/5 transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-[var(--text-primary)] transition-all group-hover:bg-[var(--text-primary)]" />
               </motion.div>
               
               {/* Tooltip */}
               <div className="absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 translate-y-2 group-hover:translate-y-0">
-                <span className="font-sans text-[11px] font-bold text-white bg-black px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap tracking-widest">
+                <span className="font-sans text-[11px] font-bold text-[var(--bg-color)] bg-[var(--text-primary)] px-3 py-1.5 rounded-full shadow-xl whitespace-nowrap tracking-widest">
                   {value} req
                 </span>
               </div>

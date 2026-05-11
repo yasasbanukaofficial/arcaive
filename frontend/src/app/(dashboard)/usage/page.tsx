@@ -49,7 +49,7 @@ function MetricCard({ label, used, limit }: { label: string; used: number; limit
               initial={{ width: 0 }}
               animate={{ width: `${percentage}%` }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className={`h-full rounded-full transition-all duration-500 ${percentage > 90 ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[0_0_12px_rgba(223,231,216,0.3)]'}`}
+              className={`h-full rounded-full transition-all duration-500 ${percentage > 90 ? 'bg-red-500' : 'bg-[var(--accent-brand)] shadow-[var(--shadow-premium)]'}`}
             />
           </div>
           <div className="flex justify-between items-center">
@@ -110,7 +110,7 @@ export default function UsagePage() {
       </p>
       <button
         onClick={() => refetch()}
-        className="flex items-center gap-2 px-8 py-4 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[13px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl"
+        className="flex items-center gap-2 px-8 py-4 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[13px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[var(--shadow-premium)]"
       >
         <RefreshCcw size={16} />
         Initialize Sync
@@ -182,7 +182,7 @@ export default function UsagePage() {
 
         {/* Sync Card */}
         <motion.div variants={itemVariants} className="lg:col-span-4">
-          <div className="bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] p-8 h-full flex flex-col relative overflow-hidden shadow-2xl group">
+          <div className="bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[32px] p-8 h-full flex flex-col relative overflow-hidden shadow-[var(--shadow-premium)] group">
              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-brand)]/[0.03] to-transparent pointer-events-none" />
              
              <div className="flex items-center gap-3 mb-10 relative z-10">

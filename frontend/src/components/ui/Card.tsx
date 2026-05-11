@@ -31,7 +31,7 @@ export default function Card({
   return (
     <motion.div
       variants={fadeUp}
-      className={`bg-[#161616] border border-[#2a2a2a] rounded-[24px] transition-colors duration-300 ${className}`}
+      className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[24px] transition-colors duration-300 shadow-[var(--shadow-premium)] ${className}`}
     >
       {(title || actions) && (
         <div
@@ -41,12 +41,12 @@ export default function Card({
         >
           <div className="flex flex-col min-w-0 flex-1">
             {title && (
-              <h3 className="font-sans text-[16px] font-semibold text-white/90 tracking-tight">
+              <h3 className="font-sans text-[16px] font-semibold text-[var(--text-primary)]/90 tracking-tight">
                 {title}
               </h3>
             )}
             {description && !collapsed && (
-              <p className="font-sans text-[13px] text-white/40 mt-1.5">
+              <p className="font-sans text-[13px] text-[var(--text-secondary)] mt-1.5">
                 {description}
               </p>
             )}
@@ -58,7 +58,7 @@ export default function Card({
               <button
                 type="button"
                 onClick={() => setCollapsed((c) => !c)}
-                className="w-8 h-8 rounded-full border border-[#2a2a2a] flex items-center justify-center text-white/40 hover:text-white hover:bg-[#2a2a2a] transition-colors text-[12px]"
+                className="w-8 h-8 rounded-full border border-[var(--glass-border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--glass-border)] transition-colors text-[12px]"
                 aria-label={collapsed ? "Expand section" : "Collapse section"}
               >
                 {collapsed ? "+" : "−"}
@@ -70,7 +70,7 @@ export default function Card({
       {!collapsed && (
         <div>
           {(title || actions) && (
-            <div className="h-[1px] bg-[#2a2a2a] mx-8 mt-4" />
+            <div className="h-[1px] bg-[var(--glass-border)] mx-8 mt-4" />
           )}
           <div className={noPadding ? "" : "px-8 py-6"}>
             {children}
@@ -119,14 +119,14 @@ export function CardRow({
 }: CardRowProps) {
   return (
     <div
-      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-6 py-6 border-b last:border-b-0 border-[#2a2a2a] ${className}`}
+      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-6 py-6 border-b last:border-b-0 border-[var(--glass-border)] ${className}`}
     >
       <div className="sm:flex-1 min-w-0 sm:max-w-[50%]">
-        <p className="font-sans text-[13px] font-medium text-white/80">
+        <p className="font-sans text-[13px] font-medium text-[var(--text-primary)]/80">
           {label}
         </p>
         {description && (
-          <p className="font-sans text-[11px] text-white/35 mt-1">
+          <p className="font-sans text-[11px] text-[var(--text-secondary)]/35 mt-1">
             {description}
           </p>
         )}

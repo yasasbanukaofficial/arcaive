@@ -333,11 +333,11 @@ export default function CreateCVPage() {
             <p className="text-[12px] text-[var(--text-tertiary)] font-medium uppercase tracking-[0.1em]">{steps.find(s => s.id === step)?.subtitle}</p>
           </div>
           <div className="flex items-center gap-4">
-             <div className="px-4 py-2 bg-[#0d0d0d] border border-[var(--glass-border)] rounded-full flex items-center gap-3">
+             <div className="px-4 py-2 bg-[var(--d-surface-active)] border border-[var(--glass-border)] rounded-full flex items-center gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-brand)] animate-pulse" />
                 <span className="text-[10px] font-bold tracking-[0.15em] text-[var(--text-primary)] uppercase">Module {step} / 6</span>
              </div>
-             <button onClick={() => setStage(3)} className="hidden md:flex items-center gap-2 px-5 py-2 hover:bg-[#111111] border border-[var(--glass-border)] rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all">
+             <button onClick={() => setStage(3)} className="hidden md:flex items-center gap-2 px-5 py-2 hover:bg-[var(--d-surface-hover)] border border-[var(--glass-border)] rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all">
                 PREVIEW
              </button>
           </div>
@@ -362,7 +362,7 @@ export default function CreateCVPage() {
                   onClick={() => setStep(s.id)}
                   className="flex flex-col items-center gap-3 group outline-none"
                 >
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 ${isCurrent ? "bg-[var(--accent-brand)] text-black shadow-[0_0_20px_rgba(223,231,216,0.3)] scale-110" : isCompleted ? "bg-[#111111] text-[var(--accent-brand)] border border-[var(--accent-brand)]/30" : "bg-[#0a0a0a] text-[var(--text-tertiary)] border border-[var(--glass-border)] group-hover:border-[var(--text-primary)]/30"}`}>
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-500 ${isCurrent ? "bg-[var(--accent-brand)] text-black shadow-[0_0_20px_rgba(223,231,216,0.3)] scale-110" : isCompleted ? "bg-[var(--d-surface-active)] text-[var(--accent-brand)] border border-[var(--accent-brand)]/30" : "bg-[var(--d-surface)] text-[var(--text-tertiary)] border border-[var(--glass-border)] group-hover:border-[var(--text-primary)]/30"}`}>
                     {isCompleted ? <Check size={16} strokeWidth={3} /> : <Icon size={16} />}
                   </div>
                   <span className={`text-[9px] font-bold uppercase tracking-[0.2em] transition-colors duration-300 ${isCurrent ? "text-[var(--text-primary)]" : "text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]"}`}>
@@ -414,7 +414,7 @@ export default function CreateCVPage() {
             ) : (
               <button 
                 onClick={() => setStage(3)}
-                className="group flex items-center gap-3 px-10 py-4 bg-[var(--text-primary)] text-black rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_20px_rgba(255,255,255,0.1)]"
+                className="group flex items-center gap-3 px-10 py-4 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[11px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_20px_rgba(255,255,255,0.1)]"
               >
                 Compile Architecture <Sparkles size={16} className="group-hover:rotate-12 transition-transform" />
               </button>
@@ -525,7 +525,7 @@ export default function CreateCVPage() {
             
             <div className="flex flex-col gap-8">
               {data.education.map((edu, idx) => (
-                <motion.div layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} key={idx} className="p-10 bg-[#080808] border border-[var(--glass-border)] rounded-[32px] relative group">
+                <motion.div layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} key={idx} className="p-10 bg-[var(--d-surface-active)] border border-[var(--glass-border)] rounded-[32px] relative group">
                    <button onClick={() => setData(prev => ({ ...prev, education: prev.education.filter((_, i) => i !== idx) }))} className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-red-500/5 text-red-500/40 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 shadow-xl">
                     <Trash2 size={16} />
                    </button>
@@ -556,7 +556,7 @@ export default function CreateCVPage() {
               
               <div className="grid grid-cols-1 gap-8">
                 {data.skills.map((cat, idx) => (
-                  <motion.div layout initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} key={idx} className="p-10 bg-[#080808] border border-[var(--glass-border)] rounded-[32px] flex flex-col gap-8 relative group">
+                  <motion.div layout initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} key={idx} className="p-10 bg-[var(--d-surface-active)] border border-[var(--glass-border)] rounded-[32px] flex flex-col gap-8 relative group">
                     <button onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== idx) }))} className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-red-500/5 text-red-500/40 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 shadow-xl">
                       <Trash2 size={16} />
                     </button>
@@ -613,7 +613,7 @@ export default function CreateCVPage() {
             
             <div className="flex flex-col gap-10">
               {(data.projects || []).map((proj, idx) => (
-                <motion.div layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={idx} className="p-10 bg-[#080808] border border-[var(--glass-border)] rounded-[32px] flex flex-col gap-10 relative group">
+                <motion.div layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} key={idx} className="p-10 bg-[var(--d-surface-active)] border border-[var(--glass-border)] rounded-[32px] flex flex-col gap-10 relative group">
                   <button onClick={() => setData(prev => ({ ...prev, projects: (prev.projects || []).filter((_, i) => i !== idx) }))} className="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-full bg-red-500/5 text-red-500/40 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 shadow-xl border border-red-500/10">
                     <Trash2 size={16} />
                   </button>
@@ -683,7 +683,7 @@ export default function CreateCVPage() {
              <div className="px-4 py-2 bg-[var(--accent-brand)]/5 border border-[var(--accent-brand)]/10 rounded-xl text-[10px] font-bold text-[var(--accent-brand)] uppercase tracking-[0.2em]">Validated</div>
           </div>
         </div>
-        <div className="p-2 bg-[#f0f0f0]"><PDFViewer className="w-full h-[120vh] border-none rounded-b-[40px]"><ActiveResume /></PDFViewer></div>
+        <div className="p-2 bg-[var(--bg-color)]"><PDFViewer className="w-full h-[120vh] border-none rounded-b-[40px]"><ActiveResume /></PDFViewer></div>
       </div>
     </div>
   );

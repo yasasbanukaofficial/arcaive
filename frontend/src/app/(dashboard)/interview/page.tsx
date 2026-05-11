@@ -56,7 +56,7 @@ export default function InterviewPage() {
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 relative bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] shadow-2xl overflow-hidden group">
+      <div className="flex-1 min-h-0 relative bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] shadow-[var(--shadow-premium)] overflow-hidden group">
           <InterviewSetupModal 
             isOpen={showSetup} 
             onStart={() => setShowSetup(false)} 
@@ -77,7 +77,7 @@ export default function InterviewPage() {
                   <p className="text-[15px] text-[var(--text-secondary)] max-w-md mb-10 leading-relaxed font-medium">{error}</p>
                   <button 
                     onClick={() => window.location.reload()}
-                    className="h-14 px-10 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[13px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl"
+                    className="h-14 px-10 bg-[var(--text-primary)] text-[var(--bg-color)] rounded-full font-bold text-[13px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[var(--shadow-premium)]"
                   >
                     Reinitialize Connection
                   </button>

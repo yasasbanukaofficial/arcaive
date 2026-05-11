@@ -40,24 +40,24 @@ export default function TextField({
   return (
     <div className={`flex flex-col ${className}`}>
       {label && (
-        <label className="font-sans text-[12px] font-medium text-white/60 mb-2.5 flex items-center gap-1.5">
+        <label className="font-sans text-[12px] font-medium text-[var(--text-secondary)] mb-2.5 flex items-center gap-1.5">
           {label}
-          {required && <span className="text-[#e6efdf]">*</span>}
+          {required && <span className="text-[var(--accent-brand)]">*</span>}
         </label>
       )}
       <div className="relative">
         <div className={`
-          flex items-center gap-3 px-4 py-3.5 rounded-[16px] bg-[#0d0d0d] border transition-all duration-200
+          flex items-center gap-3 px-4 py-3.5 rounded-[16px] bg-[var(--bg-color)] border transition-all duration-200
           ${error 
             ? "border-red-500/50 focus-within:border-red-500/70 focus-within:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]" 
             : isFocused 
-              ? "border-[#e6efdf]/50 shadow-[0_0_0_3px_rgba(230,239,223,0.1)]" 
-              : "border-[#2a2a2a] hover:border-[#3a3a3a]"
+              ? "border-[var(--accent-brand)]/50 shadow-[0_0_0_3px_var(--accent-brand)]" 
+              : "border-[var(--glass-border)] hover:border-[var(--text-secondary)]/30"
           }
           ${disabled ? "opacity-40 cursor-not-allowed" : ""}
         `}>
           {icon && (
-            <span className={`transition-colors ${error ? "text-red-400" : isFocused ? "text-[#e6efdf]" : "text-white/30"}`}>
+            <span className={`transition-colors ${error ? "text-red-400" : isFocused ? "text-[var(--accent-brand)]" : "text-[var(--text-tertiary)]"}`}>
               {icon}
             </span>
           )}
@@ -75,7 +75,7 @@ export default function TextField({
             required={required}
             disabled={disabled}
             className="
-              flex-1 bg-transparent font-sans text-[14px] text-white placeholder:text-white/20 outline-none
+              flex-1 bg-transparent font-sans text-[14px] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] outline-none
             "
           />
           {error && (
@@ -89,14 +89,14 @@ export default function TextField({
             initial={{ opacity: 0, y: -4, height: 0 }}
             animate={{ opacity: 1, y: 0, height: "auto" }}
             exit={{ opacity: 0, y: -4, height: 0 }}
-            className="font-sans text-[11px] text-red-400 mt-2 flex items-center gap-1"
+            className="font-sans text-[11px] text-red-500 mt-2 flex items-center gap-1"
           >
             {error}
           </motion.p>
         )}
       </AnimatePresence>
       {hint && !error && (
-        <p className="font-sans text-[11px] text-white/30 mt-2">
+        <p className="font-sans text-[11px] text-[var(--text-tertiary)] mt-2">
           {hint}
         </p>
       )}

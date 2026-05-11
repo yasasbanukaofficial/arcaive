@@ -12,10 +12,10 @@ export default function ActiveAgents() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-[var(--shadow-premium)] relative overflow-hidden"
     >
       {/* Background soft glow */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-green-100/10 rounded-full blur-[40px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-[40px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
@@ -38,7 +38,7 @@ export default function ActiveAgents() {
           <motion.div
             key={agent.name}
             variants={fadeUp}
-            className="flex items-center gap-5 p-5 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-xl hover:-translate-y-1 group cursor-pointer"
+            className="flex items-center gap-5 p-5 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-[var(--shadow-premium)] hover:-translate-y-1 group cursor-pointer"
           >
             <div className="w-12 h-12 rounded-full border border-[var(--glass-border)]/[0.05] flex items-center justify-center bg-[var(--glass-bg)] shrink-0 group-hover:border-[var(--glass-border)] transition-all duration-500 group-hover:scale-110">
               <span className="font-sans text-[16px] font-bold text-[var(--text-primary)] italic">

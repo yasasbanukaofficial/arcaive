@@ -22,7 +22,7 @@ export default function WorkflowPage() {
         </div>
       </div>
 
-      <div className="flex-1 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] shadow-2xl overflow-hidden relative">
+      <div className="flex-1 bg-[var(--d-surface)] border border-[var(--glass-border)] rounded-[40px] shadow-[var(--shadow-premium)] overflow-hidden relative">
         <ReactFlow
           colorMode={isDark ? "dark" : "light"}
           defaultNodes={[]}
@@ -36,7 +36,7 @@ export default function WorkflowPage() {
           />
           <Controls 
             showInteractive={false}
-            className="!bg-[var(--glass-bg)] !border-[var(--glass-border)] !rounded-[12px] !shadow-xl"
+            className="!bg-[var(--glass-bg)] !border-[var(--glass-border)] !rounded-[12px] !shadow-[var(--shadow-premium)]"
             style={{ 
               color: "var(--text-primary)",
               fill: "currentColor"

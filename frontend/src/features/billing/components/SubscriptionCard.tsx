@@ -51,22 +51,22 @@ export default function SubscriptionCard({
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className={`relative p-8 h-full flex flex-col rounded-[32px] border transition-all duration-300 ${
         plan.isPopular 
-          ? "border-[var(--accent-brand)] bg-[var(--d-surface)] shadow-2xl shadow-[var(--accent-brand)]/5" 
-          : "border-[var(--glass-border)] bg-[var(--glass-bg)] hover:border-[var(--text-primary)]/20"
+          ? "border-[var(--accent-brand)] bg-[var(--d-surface)] shadow-[var(--shadow-premium)]" 
+          : "border-[var(--glass-border)] bg-[var(--glass-bg)] hover:border-[var(--text-primary)]/20 shadow-[var(--shadow-premium)]"
       }`}
     >
       {plan.isPopular && (
-        <div className="absolute -top-3.5 left-8 px-4 py-1 rounded-full bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] text-[10px] font-bold uppercase tracking-widest shadow-lg">
+        <div className="absolute -top-3.5 left-8 px-4 py-1 rounded-full bg-[var(--accent-brand)] text-[var(--accent-brand-contrast)] text-[10px] font-bold uppercase tracking-widest shadow-[var(--shadow-premium)]">
           Peak Performance
         </div>
       )}
 
-      <div className="mb-8">
+      <div className="mb-6">
         <h3 className="text-[20px] font-bold text-[var(--text-primary)] tracking-tight mb-2 capitalize">
           {plan.name}
         </h3>
         <div className="flex items-baseline gap-1">
-          <span className="text-[44px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
+          <span className="text-[36px] font-bold text-[var(--text-primary)] tracking-tighter leading-none">
             ${plan.price}
           </span>
           <span className="text-[14px] font-bold text-[var(--text-tertiary)] uppercase tracking-widest">
@@ -75,9 +75,9 @@ export default function SubscriptionCard({
         </div>
       </div>
 
-      <div className="h-[1px] w-full bg-[var(--glass-border)] mb-8" />
+      <div className="h-[1px] w-full bg-[var(--glass-border)] mb-6" />
 
-      <ul className="space-y-4 mb-10 flex-1">
+      <ul className="space-y-3 mb-6 flex-1">
         {plan.features.map((feature, index) => (
           <li key={index} className="flex items-start gap-3">
             <div className="w-5 h-5 rounded-full bg-[var(--accent-brand)]/10 flex items-center justify-center shrink-0 mt-0.5">
@@ -98,7 +98,7 @@ export default function SubscriptionCard({
             ? "bg-[var(--text-primary)]/[0.05] text-[var(--text-tertiary)] cursor-default border border-[var(--glass-border)]"
             : isDowngrade()
               ? "bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white"
-              : "bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 shadow-xl"
+              : "bg-[var(--text-primary)] text-[var(--bg-color)] hover:opacity-90 shadow-[var(--shadow-premium)]"
         }`}
       >
         {getButtonText()}

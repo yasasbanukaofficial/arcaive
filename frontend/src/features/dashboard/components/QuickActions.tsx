@@ -13,10 +13,10 @@ export default function QuickActions() {
   return (
     <motion.div
       variants={fadeUp}
-      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-sm relative overflow-hidden"
+      className="p-10 bg-[var(--glass-bg)] border border-[var(--glass-border)]/[0.05] rounded-[32px] shadow-[var(--shadow-premium)] relative overflow-hidden"
     >
       {/* Background subtle mono glow */}
-      <div className="absolute top-0 left-0 w-48 h-48 bg-white/5 rounded-[var(--radius)] blur-[60px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-48 h-48 bg-[var(--text-primary)]/5 rounded-[var(--radius)] blur-[60px] pointer-events-none" />
 
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-center gap-4">
@@ -48,7 +48,7 @@ export default function QuickActions() {
           <motion.button
             key={template.title}
             variants={fadeUp}
-            className="group relative text-left p-6 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-2xl hover:-translate-y-1"
+            className="group relative text-left p-6 bg-[var(--bg-color)] border border-[var(--glass-border)]/[0.03] rounded-[24px] transition-all duration-500 hover:bg-[var(--glass-bg)] hover:shadow-[var(--shadow-premium)] hover:-translate-y-1"
           >
             <div className="flex items-start justify-between mb-6">
               <span className="font-sans text-[10px] font-bold tracking-[0.1em] text-[var(--text-secondary)] border border-[var(--glass-border)]/[0.05] px-3 py-1 rounded-full group-hover:bg-[var(--text-primary)] group-hover:text-[var(--bg-color)] transition-all capitalize">

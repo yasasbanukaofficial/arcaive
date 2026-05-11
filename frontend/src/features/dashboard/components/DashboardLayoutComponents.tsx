@@ -42,7 +42,7 @@ export function DashboardGrid({ children }: { children: React.ReactNode }) {
 
 export function DashboardCard({ children, className = "", title, action }: { children: React.ReactNode, className?: string, title?: React.ReactNode, action?: React.ReactNode }) {
   return (
-    <div className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] p-8 md:p-10 flex flex-col shadow-2xl relative overflow-hidden group transition-all duration-300 hover:border-[var(--text-primary)]/10 ${className}`}>
+    <div className={`bg-[var(--glass-bg)] border border-[var(--glass-border)] rounded-[32px] p-8 md:p-10 flex flex-col shadow-[var(--shadow-premium)] relative overflow-hidden group transition-all duration-300 hover:border-[var(--text-primary)]/10 ${className}`}>
       {title && (
         <div className="flex justify-between items-start mb-8 gap-6 relative z-10">
           {typeof title === 'string' ? (
@@ -63,7 +63,7 @@ export function DashboardCard({ children, className = "", title, action }: { chi
 
 export function DashboardLightCard({ children, className = "", title, action }: { children: React.ReactNode, className?: string, title?: React.ReactNode, action?: React.ReactNode }) {
   return (
-    <div className={`bg-[var(--accent-brand)] rounded-[32px] p-8 md:p-10 flex flex-col text-[var(--accent-brand-contrast)] shadow-2xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.01] ${className}`}>
+    <div className={`bg-[var(--accent-brand)] rounded-[32px] p-8 md:p-10 flex flex-col text-[var(--accent-brand-contrast)] shadow-[var(--shadow-premium)] relative overflow-hidden group transition-all duration-300 hover:scale-[1.01] ${className}`}>
       {title && (
         <div className="flex justify-between items-start mb-8 gap-6 relative z-10">
           {typeof title === 'string' ? (

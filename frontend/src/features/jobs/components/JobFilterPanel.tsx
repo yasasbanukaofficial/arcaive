@@ -95,7 +95,7 @@ export default function JobFilterPanel({
 }: JobFiltersProps) {
   return (
     <div
-      className="p-6 space-y-8 border border-[var(--d-border)] bg-[var(--d-surface)] rounded-[24px] sticky top-24 shadow-sm"
+      className="p-6 space-y-8 border border-[var(--d-border)] bg-[var(--d-surface)] rounded-[24px] sticky top-24 shadow-[var(--shadow-premium)]"
     >
       <div className="flex items-center justify-between pb-4 border-b border-[var(--d-border)]">
         <h3 className="font-sans text-[14px] font-semibold text-[var(--d-text-primary)]/80">

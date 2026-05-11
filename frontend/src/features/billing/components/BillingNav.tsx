@@ -76,7 +76,7 @@ export default function BillingNav({
             type="button"
             onClick={() => onSectionChange(item.id)}
             className={`relative flex items-center gap-4 w-full px-4 py-4 rounded-[20px] text-left transition-all duration-300 group ${
-              isActive ? "bg-[var(--accent-brand)] shadow-lg shadow-[var(--accent-brand)]/10" : "hover:bg-[var(--text-primary)]/[0.03]"
+              isActive ? "bg-[var(--accent-brand)] shadow-[var(--shadow-premium)]" : "hover:bg-[var(--text-primary)]/[0.03]"
             }`}
           >
             <div
