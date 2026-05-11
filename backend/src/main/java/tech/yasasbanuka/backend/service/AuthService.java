@@ -11,4 +11,5 @@ public interface AuthService {
     void register(MemberCreateRequestDTO dto);
     void verifyEmail(String email, String code);
     void resendVerificationCode(String email);
+    String createRefreshTokenByName(String username);
 }

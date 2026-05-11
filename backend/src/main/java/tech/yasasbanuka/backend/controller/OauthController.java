@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.OAuthService;
 import tech.yasasbanuka.backend.util.JwtUtil;
 
@@ -25,6 +26,7 @@ import java.util.Objects;
 @Slf4j
 public class OauthController implements AuthenticationSuccessHandler {
     private final OAuthService oAuthService;
+    private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final OAuth2AuthorizedClientService authorizedClientService;
 
@@ -73,16 +75,28 @@ public class OauthController implements AuthenticationSuccessHandler {
         log.info("Processing OAuth login for username: {} via provider: {}", username, provider);
         String memberUsername = oAuthService.processOAuthLogin(provider, email, fullName, username, socialUrl, oauthId);
 
-        log.info("Generating JWT for member: {}", memberUsername);
+        log.info("Generating tokens for member: {}", memberUsername);
         String jwtToken = jwtUtil.generateToken(memberUsername);
-        ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
+        String refreshToken = authService.createRefreshTokenByName(memberUsername);
+        
+        ResponseCookie accessCookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
                 .maxAge(3600)
-                .sameSite("Lax")
+                .sameSite("Strict")
                 .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+                
+        ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(604800)
+                .sameSite("Strict")
+                .build();
+        
+        response.addHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
         log.info("OAuth login successful, redirecting user: {}", memberUsername);
         response.sendRedirect("http://localhost:3000/overview");

@@ -45,13 +45,12 @@ apiInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const response = await apiInstance.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {}, { withCredentials: true });
-        const newAccessToken = response.data?.data?.accessToken;
-
-        if (newAccessToken && typeof document !== "undefined") {
-          const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-          document.cookie = `access_token=${newAccessToken}; expires=${expires.toUTCString()}; path=/; SameSite=Strict; Secure`;
-        }
+        // Correct the URL to use API_URL consistently
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api/v1';
+        await axios.post(`${apiUrl}/auth/refresh`, {}, { withCredentials: true });
+        
+        // Since we are using HttpOnly cookies, we don't need to manually update document.cookie.
+        // The browser handles the Set-Cookie headers from the /refresh response.
 
         isRefreshing = false;
         processQueue(null);
@@ -59,6 +58,10 @@ apiInstance.interceptors.response.use(
       } catch (refreshError) {
         isRefreshing = false;
         processQueue(refreshError, null);
+        
+        // Detailed logging for diagnostics
+        console.warn("Silent refresh failed - session likely expired. Redirecting to login.");
+        
         if (typeof window !== "undefined") {
           window.location.href = "/login";
         }

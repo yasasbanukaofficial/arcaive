@@ -358,7 +358,7 @@ export default function BillingPage() {
         </div>
       </motion.div>
 
-      <div className="flex flex-col lg:flex-row gap-10 mt-4">
+      <div className="flex flex-col lg:flex-row gap-6 mt-0">
         <div className="w-full lg:w-72 shrink-0">
           <div className="sticky top-28 space-y-6">
             <BillingNav
@@ -378,7 +378,7 @@ export default function BillingPage() {
               transition={{ duration: 0.3, ease: smoothEase }}
               className="mb-6"
             >
-              <div className="flex items-baseline gap-4 mb-2">
+              <div className="flex items-baseline gap-4 mb-1">
                 <h2 className="text-[32px] font-bold tracking-tight text-[var(--text-primary)] leading-none capitalize">
                   {title}
                 </h2>
@@ -386,7 +386,7 @@ export default function BillingPage() {
               <p className="text-[15px] text-[var(--text-secondary)] max-w-xl leading-relaxed font-medium">
                 {description}
               </p>
-              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-6" />
+              <div className="h-[1px] w-full bg-[var(--glass-border)] mt-4" />
             </motion.div>
           </AnimatePresence>
 

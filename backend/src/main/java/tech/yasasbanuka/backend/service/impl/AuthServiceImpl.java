@@ -15,6 +15,7 @@ import tech.yasasbanuka.backend.entity.constants.SubscriptionStatus;
 import tech.yasasbanuka.backend.entity.constants.Tier;
 import tech.yasasbanuka.backend.exception.AlreadyExistsException;
 import tech.yasasbanuka.backend.exception.EmailNotFoundException;
+import tech.yasasbanuka.backend.exception.ResourceNotFoundException;
 import tech.yasasbanuka.backend.repo.MemberRepo;
 import tech.yasasbanuka.backend.service.AuthService;
 import tech.yasasbanuka.backend.service.EmailService;
@@ -86,11 +87,11 @@ public class AuthServiceImpl implements AuthService {
         Member member = refreshToken.getMember();
         String accessToken = jwtUtil.generateToken(member.getUsername());
         
-        // Rotate token
+        // Rotate token: Delete the one that was just used and issue a brand new one
         refreshTokenRepository.delete(refreshToken);
         String newRefreshToken = createRefreshToken(member);
 
-        log.info("Session refreshed successfully for user: {}", member.getUsername());
+        log.info("Token rotation successful for user: {}. New session window initialized.", member.getUsername());
         return new AuthResponseDTO(accessToken, newRefreshToken);
     }
 
@@ -104,16 +105,24 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private String createRefreshToken(Member member) {
-        RefreshToken refreshToken = refreshTokenRepository.findByMember(member)
-                .orElseGet(() -> RefreshToken.builder().member(member).build());
+        log.debug("Creating/Updating refresh token for user: {}", member.getUsername());
         
-        String token = java.util.UUID.randomUUID().toString();
-        refreshToken.setToken(token);
-        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshExpiration));
-        refreshToken.setRevoked(false);
+        // Ensure we handle existing tokens by removing them first to avoid persistence conflicts
+        refreshTokenRepository.findByMember(member).ifPresent(token -> {
+            refreshTokenRepository.delete(token);
+            refreshTokenRepository.flush();
+        });
         
-        refreshTokenRepository.save(refreshToken);
-        return token;
+        RefreshToken refreshToken = RefreshToken.builder()
+                .member(member)
+                .token(java.util.UUID.randomUUID().toString())
+                .expiryDate(Instant.now().plusMillis(refreshExpiration))
+                .revoked(false)
+                .build();
+        
+        RefreshToken saved = refreshTokenRepository.saveAndFlush(refreshToken);
+        log.debug("Refresh token saved successfully in DB for user: {}", member.getUsername());
+        return saved.getToken();
     }
 
     @Override
@@ -146,6 +155,13 @@ public class AuthServiceImpl implements AuthService {
         saveUser(dto);
         verificationService.clearVerification(email);
         log.info("Email {} verified and user saved successfully", email);
+    }
+
+    @Override
+    public String createRefreshTokenByName(String username) {
+        Member member = memberRepo.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with username: " + username));
+        return createRefreshToken(member);
     }
 
     @Override
